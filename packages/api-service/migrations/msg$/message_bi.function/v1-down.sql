@@ -1,0 +1,1 @@
+DROP FUNCTION "msg$".message_bi();

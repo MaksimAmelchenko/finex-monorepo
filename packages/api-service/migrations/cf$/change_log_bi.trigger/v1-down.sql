@@ -1,0 +1,1 @@
+DROP TRIGGER change_log_bi ON cf$.change_log;

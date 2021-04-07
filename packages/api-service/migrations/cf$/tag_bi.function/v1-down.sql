@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".tag_bi();

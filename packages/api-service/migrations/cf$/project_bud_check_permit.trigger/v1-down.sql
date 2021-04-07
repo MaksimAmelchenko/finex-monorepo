@@ -1,0 +1,1 @@
+DROP TRIGGER project_bud_check_permit ON cf$.project;

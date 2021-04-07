@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_auth".password_recovery_confirm(jsonb);

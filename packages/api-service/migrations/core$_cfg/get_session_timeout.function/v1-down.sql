@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_cfg".get_session_timeout();

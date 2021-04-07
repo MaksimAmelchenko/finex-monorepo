@@ -1,0 +1,1 @@
+DROP TRIGGER project_permit_aiud_check_permit ON cf$.project_permit;

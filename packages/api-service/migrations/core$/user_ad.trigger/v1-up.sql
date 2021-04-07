@@ -1,0 +1,1 @@
+CREATE TRIGGER user_ad AFTER DELETE ON "core$"."user" FOR EACH ROW EXECUTE PROCEDURE "core$".user_ad()

@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_import".zenmoney(integer,integer,text,boolean,integer);

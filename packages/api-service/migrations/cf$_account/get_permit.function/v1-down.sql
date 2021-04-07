@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_account".get_permit(integer,integer);

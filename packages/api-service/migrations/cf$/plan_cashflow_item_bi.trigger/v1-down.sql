@@ -1,0 +1,1 @@
+DROP TRIGGER plan_cashflow_item_bi ON cf$.plan_cashflow_item;

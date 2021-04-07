@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".category_bi();

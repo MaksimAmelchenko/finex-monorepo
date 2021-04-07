@@ -1,0 +1,97 @@
+<% balance = @balance() %>
+<% moneys = @moneys() %>
+
+<td colspan="5">
+    Итого по выделенным операциям:
+</td>
+
+<td class="sum hidden-xs hidden-sm">
+    <% for own key, idMoney of moneys: %>
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            <% if not _.isUndefined(balance[idMoney]['income']): %>
+            <%- @numberToMoney(balance[idMoney]['income'], idMoney) %>
+            <% else: %>
+            <%- '&nbsp;' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</td>
+
+
+<td class="symbol hidden-xs hidden-sm">
+    <% for own key, idMoney of moneys: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <% if not _.isUndefined(balance[idMoney]['income']): %>
+            <%- CashFlow.entities.moneys.get(idMoney).get('symbol') %>
+            <% else: %>
+            <%- '&nbsp;' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</td>
+
+<td class="sum hidden-xs hidden-sm">
+    <% for own key, idMoney of moneys: %>
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            <% if not _.isUndefined(balance[idMoney]['expense']): %>
+            <%- @numberToMoney(-balance[idMoney]['expense'], idMoney) %>
+            <% else: %>
+            <%- '&nbsp;' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</td>
+
+<td class="symbol hidden-xs hidden-sm">
+    <% for own key, idMoney of moneys: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <% if not _.isUndefined(balance[idMoney]['expense']): %>
+            <%- CashFlow.entities.moneys.get(idMoney).get('symbol') %>
+            <% else: %>
+            <%- '&nbsp;' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</td>
+
+<td class="sum hidden-md hidden-lg">
+    <% for own key, idMoney of moneys: %>
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            <% if not _.isUndefined(balance[idMoney]['total']): %>
+            <%- @numberToMoney(balance[idMoney]['total'], idMoney) %>
+            <% else: %>
+            <%- '&nbsp;' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</td>
+
+<td class="symbol hidden-md hidden-lg">
+    <% for own key, idMoney of moneys: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <% if not _.isUndefined(balance[idMoney]['total']): %>
+            <%- CashFlow.entities.moneys.get(idMoney).get('symbol') %>
+            <% else: %>
+            <%- '&nbsp;' %>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</td>
+
+<td class="hidden-xs hidden-sm">
+</td>
+
+<td class="hidden-xs hidden-sm">
+</td>

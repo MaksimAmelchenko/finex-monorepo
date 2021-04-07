@@ -1,0 +1,1 @@
+CREATE TRIGGER "#account_balance_biud_check_permit" BEFORE INSERT OR DELETE OR UPDATE ON "cf$".account_balance FOR EACH ROW EXECUTE PROCEDURE "cf$"."#account_balance_biud_check_permit"()

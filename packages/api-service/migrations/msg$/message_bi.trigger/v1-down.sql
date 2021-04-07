@@ -1,0 +1,1 @@
+DROP TRIGGER message_bi ON msg$.message;

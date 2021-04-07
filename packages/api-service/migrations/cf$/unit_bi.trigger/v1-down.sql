@@ -1,0 +1,1 @@
+DROP TRIGGER unit_bi ON cf$.unit;

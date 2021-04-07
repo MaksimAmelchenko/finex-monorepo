@@ -1,0 +1,1 @@
+DROP TRIGGER invitation_bi ON cf$.invitation;

@@ -1,0 +1,1 @@
+DROP TRIGGER money_bi ON cf$.money;

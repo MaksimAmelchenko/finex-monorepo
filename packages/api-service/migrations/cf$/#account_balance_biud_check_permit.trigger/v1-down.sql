@@ -1,0 +1,1 @@
+DROP TRIGGER #account_balance_biud_check_permit ON cf$.account_balance;

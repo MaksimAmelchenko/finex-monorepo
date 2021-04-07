@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_account".account_balance_w_p(date);

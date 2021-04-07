@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".change_log_bi();

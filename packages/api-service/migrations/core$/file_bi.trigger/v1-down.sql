@@ -1,0 +1,1 @@
+DROP TRIGGER file_bi ON core$.file;

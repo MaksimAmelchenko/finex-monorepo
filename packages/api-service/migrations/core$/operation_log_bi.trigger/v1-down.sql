@@ -1,0 +1,1 @@
+DROP TRIGGER operation_log_bi ON core$.operation_log;

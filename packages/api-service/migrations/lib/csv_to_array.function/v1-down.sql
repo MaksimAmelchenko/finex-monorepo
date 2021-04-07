@@ -1,0 +1,1 @@
+DROP FUNCTION lib.csv_to_array(text,text);

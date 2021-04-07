@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_auth".hash_password(text);

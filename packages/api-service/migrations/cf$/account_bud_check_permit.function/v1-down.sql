@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".account_bud_check_permit();

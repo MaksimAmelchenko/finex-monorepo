@@ -1,0 +1,1 @@
+DROP FUNCTION bitwise.is_masked(integer,integer);

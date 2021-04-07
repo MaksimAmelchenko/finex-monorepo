@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".money_bi();

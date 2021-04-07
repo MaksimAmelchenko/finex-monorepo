@@ -1,0 +1,85 @@
+html {
+  background: none;
+}
+
+body {
+  background: none;
+  font-family: sans-serif;
+  &.fontOneLoad {
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+#ribbon {
+  background: white;
+  padding: 0;
+  min-height: 0;
+  border-bottom: 1px solid #CFCFCF;
+}
+
+#main {
+  padding-bottom: 0;
+}
+
+.text-muted {
+  color: #999999;
+}
+
+.page-title {
+  margin: 10px 0 10px;
+}
+
+.mobile-detected.fixed-navigation nav > ul {
+  padding-right: 0 !important;
+}
+
+.ajax-loading-animation {
+  padding: 14px;
+}
+
+.opacity {
+  opacity: 0.4
+}
+
+.mobile-detected #logout {
+  display: none;
+}
+
+//  Кнопка минимазации меню
+span.minifyme {
+  border-bottom: none;
+  background-color: #3F495F;
+}
+
+// Кнопки Меню и Выход
+.btn-header > :first-child > a {
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background: none;
+}
+
+// SmartAdmin меняет на 2px и ставит тени
+.btn {
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+//select color
+.btn-select-tick i {
+  display: none;
+}
+
+.btn-select-tick .btn:hover i {
+  opacity: .3;
+  display: block;
+}
+
+.btn-select-tick .active i {
+  display: block;
+  opacity: 1 !important;
+}

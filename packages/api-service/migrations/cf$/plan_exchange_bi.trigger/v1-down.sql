@@ -1,0 +1,1 @@
+DROP TRIGGER plan_exchange_bi ON cf$.plan_exchange;

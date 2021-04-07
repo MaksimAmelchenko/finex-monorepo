@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_report".dynamics_built_result(integer);

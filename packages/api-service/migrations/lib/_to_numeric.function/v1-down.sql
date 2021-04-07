@@ -1,0 +1,1 @@
+DROP FUNCTION lib."#to_numeric"(text);

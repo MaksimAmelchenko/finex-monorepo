@@ -1,0 +1,1 @@
+DROP FUNCTION "core$".server_init(integer);

@@ -1,0 +1,1 @@
+DROP TRIGGER plan_transfer_bi ON cf$.plan_transfer;

@@ -1,0 +1,12 @@
+<a href="<%= @url %>">
+    <i class="<%= @icon %>">
+        <% if @badge: %>
+        <em title="<%- @badgeTitle %>">
+            <%= @badge %>
+        </em>
+        <% end %>
+    </i>
+    <span class="menu-item-parent">
+        <%= @label%>
+    </span>
+</a>

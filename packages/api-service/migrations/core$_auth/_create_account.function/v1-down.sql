@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_auth"."#create_account"(json);

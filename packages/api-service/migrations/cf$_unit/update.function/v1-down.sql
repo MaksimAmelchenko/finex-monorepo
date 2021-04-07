@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_unit".update(jsonb);

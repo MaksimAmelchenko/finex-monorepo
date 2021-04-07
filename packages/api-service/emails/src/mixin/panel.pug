@@ -1,0 +1,9 @@
+mixin panel(marginTop, height, marginButton)
+  table(width="100%" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed;")
+    tr
+      td(height=marginTop)
+    tr
+      td.panel(height=height)&attributes(attributes)
+        block
+    tr
+      td(height=marginButton)

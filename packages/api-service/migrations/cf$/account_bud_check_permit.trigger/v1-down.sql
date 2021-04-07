@@ -1,0 +1,1 @@
+DROP TRIGGER account_bud_check_permit ON cf$.account;

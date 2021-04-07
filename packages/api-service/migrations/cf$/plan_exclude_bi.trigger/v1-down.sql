@@ -1,0 +1,1 @@
+DROP TRIGGER plan_exclude_bi ON cf$.plan_exclude;

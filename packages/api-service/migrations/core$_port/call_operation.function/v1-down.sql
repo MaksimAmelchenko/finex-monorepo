@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_port".call_operation(text,text);

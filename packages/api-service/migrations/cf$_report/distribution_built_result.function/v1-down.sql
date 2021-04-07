@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_report".distribution_built_result(integer);

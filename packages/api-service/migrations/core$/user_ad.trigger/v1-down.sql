@@ -1,0 +1,1 @@
+DROP TRIGGER user_ad ON core$.user;

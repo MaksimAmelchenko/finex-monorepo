@@ -1,0 +1,1 @@
+CREATE TRIGGER message_bi BEFORE INSERT ON "msg$".message FOR EACH ROW EXECUTE PROCEDURE "msg$".message_bi()

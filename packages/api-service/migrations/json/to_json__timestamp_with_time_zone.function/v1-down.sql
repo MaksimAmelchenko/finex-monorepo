@@ -1,0 +1,1 @@
+DROP FUNCTION json.to_json(timestamp with time zone);

@@ -1,0 +1,1 @@
+DROP TRIGGER plan_bi ON cf$.plan;

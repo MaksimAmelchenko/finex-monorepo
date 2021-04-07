@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_exchange"."create"(jsonb);

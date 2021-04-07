@@ -1,0 +1,1 @@
+DROP FUNCTION "sanitize$".to_date(text,text);

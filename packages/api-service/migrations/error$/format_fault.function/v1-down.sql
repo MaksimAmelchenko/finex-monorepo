@@ -1,0 +1,1 @@
+DROP FUNCTION "error$".format_fault(text,text,text,text,text,text);

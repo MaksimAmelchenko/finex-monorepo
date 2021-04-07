@@ -1,0 +1,1 @@
+DROP TRIGGER cashflow_detail_aiud ON cf$.cashflow_detail;

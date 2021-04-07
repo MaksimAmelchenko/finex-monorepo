@@ -1,0 +1,1 @@
+DROP FUNCTION "core$".operation_log_tr_bi();

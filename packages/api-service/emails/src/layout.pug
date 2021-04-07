@@ -1,0 +1,50 @@
+include ./mixin/space
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        link(rel="stylesheet" href="./styles/style.css" data-inline)
+
+    body
+        table(border="0" cellpadding="0" cellspacing="0" width="100%")
+            tr
+                td
+                    +space()
+                td.layoutWrapper(width="600")
+                    table.layout(width="600" border="0" cellpadding="0" cellspacing="0")
+                        //tr
+                        //    td.head(height=60 align="center")
+                        //        img(src="#" alt="FINEX.io logo" border="0" width=368 height=60)
+                        tr
+                            td.content
+                                table(width="100%" border="0" cellpadding="0" cellspacing="0")
+                                    tr
+                                        td
+                                            block content
+                        tr
+                            td.footer
+                                | С уважением,
+                                br
+                                | команда FINEX.io
+
+    //                table(width="100%" border="0" cellpadding="0" cellspacing="0")
+                //                    tr
+                //                    tr(height=25)
+                //                        td
+                //                            table
+                //                                tr
+                //                                    td(width="50")
+                //                                        +space()
+                //
+                //                                    td.buttons(width="90")
+                //                                        table(width="100%" border="0" cellpadding="0" cellspacing="0")
+                //                                            tr
+                //                                                td.vk(width="30")
+                //                                                    a.social(href="https://vk.com/finex")
+                //                                                td.twitter(width="30")
+                //                                                    a.social(href="https://twitter.com/finex.io")
+                //                                    td(width="50")
+                //                                        +space()
+                td
+                    +space()

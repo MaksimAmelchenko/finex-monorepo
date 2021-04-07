@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".project_permit_aiud_check_permit();

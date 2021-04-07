@@ -1,0 +1,1 @@
+CREATE TRIGGER invitation_bi BEFORE INSERT ON "cf$".invitation FOR EACH ROW EXECUTE PROCEDURE "cf$".invitation_bi()

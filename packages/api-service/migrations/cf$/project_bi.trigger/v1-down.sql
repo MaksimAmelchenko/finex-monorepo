@@ -1,0 +1,1 @@
+DROP TRIGGER project_bi ON cf$.project;

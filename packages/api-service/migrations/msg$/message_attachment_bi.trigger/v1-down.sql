@@ -1,0 +1,1 @@
+DROP TRIGGER message_attachment_bi ON msg$.message_attachment;

@@ -1,0 +1,1 @@
+CREATE TRIGGER unit_bi BEFORE INSERT ON "cf$".unit FOR EACH ROW EXECUTE PROCEDURE "cf$".unit_bi()

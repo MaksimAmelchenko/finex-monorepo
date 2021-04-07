@@ -1,0 +1,114 @@
+<% today = (new Date()).setHours(0,0,0,0) %>
+
+<td class="color-mark <%= @colorMark%>">
+</td>
+
+<td class="tickbox">
+    <i class="fa fa-fw"></i>
+</td>
+
+<td class="date" style="border-right: 1px solid #ddd;">
+    <% if @idPlan: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <%- @formatDate(@dIEDetail) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <% if moment(@dIEDetail, 'YYYY-MM-DD').toDate().getTime() < today: %>
+            <small class="txt-color-red">Просрочено</small>
+            <% else: %>
+            <small class="text-info">Запланировано</small>
+            <% end %>
+        </div>
+    </div>
+    <% else: %>
+    <% if @isNotConfirmed: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <%- @formatDate(@dIEDetail) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <small class="txt-color-red">Не подтверждено</small>
+            <br>
+            <% if moment(@dIEDetail, 'YYYY-MM-DD').toDate().getTime() < today: %>
+            <small class="txt-color-red">Просрочено</small>
+            <% end %>
+        </div>
+    </div>
+
+    <% else: %>
+    <%- @formatDate(@dIEDetail) %>
+    <% end %>
+    <% end %>
+</td>
+
+<!--<td style1="width: 200px">-->
+<td>
+    <div class="row">
+        <div class="col-xs-12">
+            <%= CashFlow.entities.accounts.get(@idAccount).get('name') %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <span class="text-muted">
+                <%= CashFlow.entities.contractors.get(@idContractor).get('name') if @idContractor%>
+            </span>
+        </div>
+    </div>
+</td>
+
+<!--<td style="width: 200px">-->
+<td>
+    <div class="row">
+        <div class="col-xs-12">
+            <%= CashFlow.entities.categories.get(@idCategory).get('name') %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <span class="text-muted">
+                <%- CashFlow.entities.categories.get(@idCategory).path() %>
+            </span>
+        </div>
+    </div>
+</td>
+
+<!--<td> <%= @quantity %> <%= CashFlow.entities.units.get(@idUnit).get('name') unless _.isNull(@idUnit) %></td>-->
+
+<td class="sum hidden-xs hidden-sm hidden-md">
+    <%- @numberToMoney(@sign * @sum, @idMoney) if @sign is 1 %>
+</td>
+<td class="symbol hidden-xs hidden-sm hidden-md">
+    <%- CashFlow.entities.moneys.get(@idMoney).get('symbol') if @sign is 1%>
+</td>
+
+<td class="sum hidden-xs hidden-sm hidden-md">
+    <%- @numberToMoney(@sign * @sum, @idMoney) if @sign is -1%>
+</td>
+<td class="symbol hidden-xs hidden-sm hidden-md">
+    <%- CashFlow.entities.moneys.get(@idMoney).get('symbol') if @sign is -1%>
+</td>
+
+<td class="sum hidden-lg">
+    <%- @numberToMoney(@sign * @sum, @idMoney) %>
+</td>
+<td class="symbol hidden-lg">
+    <%- CashFlow.entities.moneys.get(@idMoney).get('symbol')%>
+</td>
+
+<td class="hidden-xs hidden-sm">
+    <%= @note %>
+</td>
+
+<td class="hidden-xs hidden-sm">
+    <% for tag in @tags: %>
+    <span class="tag">
+        <%= tag %>
+    </span>
+    <% end %>
+</td>

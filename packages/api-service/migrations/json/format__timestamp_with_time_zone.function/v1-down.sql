@@ -1,0 +1,1 @@
+DROP FUNCTION json.format(timestamp with time zone);

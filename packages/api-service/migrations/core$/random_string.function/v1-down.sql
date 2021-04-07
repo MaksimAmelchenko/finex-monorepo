@@ -1,0 +1,1 @@
+DROP FUNCTION "core$".random_string(integer);

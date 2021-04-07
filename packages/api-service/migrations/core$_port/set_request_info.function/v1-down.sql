@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_port".set_request_info(character varying,character varying);

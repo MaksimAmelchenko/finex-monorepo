@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_money".exchange(numeric,integer,integer,date,boolean);

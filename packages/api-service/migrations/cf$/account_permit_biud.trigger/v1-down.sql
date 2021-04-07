@@ -1,0 +1,1 @@
+DROP TRIGGER account_permit_biud ON cf$.account_permit;

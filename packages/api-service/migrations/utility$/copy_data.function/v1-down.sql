@@ -1,0 +1,1 @@
+DROP FUNCTION "utility$".copy_data(integer,date,date);

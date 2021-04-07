@@ -1,0 +1,1 @@
+DROP TRIGGER tag_bi ON cf$.tag;

@@ -1,0 +1,1 @@
+DROP FUNCTION "msg$".get_message_content(integer,jsonb);

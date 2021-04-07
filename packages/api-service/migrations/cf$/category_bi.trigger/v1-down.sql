@@ -1,0 +1,1 @@
+DROP TRIGGER category_bi ON cf$.category;

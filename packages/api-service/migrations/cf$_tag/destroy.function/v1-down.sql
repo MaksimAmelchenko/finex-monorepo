@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_tag".destroy(jsonb);

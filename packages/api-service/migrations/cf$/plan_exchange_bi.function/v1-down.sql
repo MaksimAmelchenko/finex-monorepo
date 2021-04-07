@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$".plan_exchange_bi();

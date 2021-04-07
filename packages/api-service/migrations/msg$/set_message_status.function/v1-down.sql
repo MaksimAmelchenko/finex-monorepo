@@ -1,0 +1,1 @@
+DROP FUNCTION "msg$".set_message_status(integer,text,text);

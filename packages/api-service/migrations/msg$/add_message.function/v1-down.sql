@@ -1,0 +1,1 @@
+DROP FUNCTION "msg$".add_message(text,text,text,text,text,text,smallint);

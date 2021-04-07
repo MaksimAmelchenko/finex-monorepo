@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_category_prototype".get(jsonb);

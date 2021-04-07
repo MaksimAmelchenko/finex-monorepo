@@ -1,0 +1,1 @@
+DROP FUNCTION context.get(text);

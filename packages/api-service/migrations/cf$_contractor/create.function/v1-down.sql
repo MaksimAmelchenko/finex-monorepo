@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_contractor"."create"(jsonb);

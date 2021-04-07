@@ -1,0 +1,1 @@
+DROP FUNCTION "sanitize$".to_int_array(jsonb);

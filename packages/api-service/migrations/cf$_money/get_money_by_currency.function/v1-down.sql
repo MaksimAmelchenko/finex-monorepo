@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_money".get_money_by_currency(integer);

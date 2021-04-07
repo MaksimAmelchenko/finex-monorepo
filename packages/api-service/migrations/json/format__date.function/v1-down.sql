@@ -1,0 +1,1 @@
+DROP FUNCTION json.format(date);

@@ -1,0 +1,1 @@
+DROP FUNCTION "core$".file_tr_bi();

@@ -1,0 +1,1 @@
+DROP FUNCTION lib."#hstore_key"(text);

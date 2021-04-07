@@ -1,0 +1,1 @@
+DROP FUNCTION lib.console_log(text,timestamp with time zone);

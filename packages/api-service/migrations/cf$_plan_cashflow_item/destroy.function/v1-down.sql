@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_plan_cashflow_item".destroy(jsonb);

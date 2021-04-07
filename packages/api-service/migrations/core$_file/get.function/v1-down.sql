@@ -1,0 +1,1 @@
+DROP FUNCTION "core$_file".get(json);

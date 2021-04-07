@@ -1,0 +1,92 @@
+<% today = (new Date()).setHours(0,0,0,0) %>
+
+<td class="color-mark <%= @colorMark%>">
+</td>
+
+<td class="tickbox">
+    <i class="fa fa-fw"></i>
+</td>
+
+<td class="date" style="border-right: 1px solid #ddd;">
+    <% if @idPlan: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <%= @formatDate(@dExchange) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <% if moment(@dExchange, 'YYYY-MM-DD').toDate().getTime() < today: %>
+            <small class="txt-color-red">Просрочено</small>
+            <% else: %>
+            <small class="text-info">Запланировано</small>
+            <% end %>
+        </div>
+    </div>
+    <% else: %>
+    <% if @isNotConfirmed: %>
+    <div class="row">
+        <div class="col-xs-12">
+            <%= @formatDate(@dExchange) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <small class="txt-color-red">Не подтверждено</small>
+            <br>
+            <% if moment(@dExchange, 'YYYY-MM-DD').toDate().getTime() < today: %>
+            <small class="txt-color-red">Просрочено</small>
+            <% end %>
+        </div>
+    </div>
+
+    <% else: %>
+    <%= @formatDate(@dExchange) %>
+    <% end %>
+    <% end %>
+</td>
+
+<td>
+    <%= CashFlow.entities.accounts.get(@idAccountFrom).get('name')%>
+</td>
+<!--<td style="min-width: 100px">-->
+<td>
+    <%= CashFlow.entities.accounts.get(@idAccountTo).get('name') %>
+</td>
+<td class="sum">
+    <%- @numberToMoney(@sumFrom, @idMoneyFrom) %>
+</td>
+<td class="symbol">
+    <%- CashFlow.entities.moneys.get(@idMoneyFrom).get('symbol')  %>
+</td>
+<td class="sum">
+    <%- @numberToMoney(@sumTo, @idMoneyTo) %>
+</td>
+<td class="symbol">
+    <%- CashFlow.entities.moneys.get(@idMoneyTo).get('symbol')%>
+</td>
+
+<td class="sum">
+    <%- if @sumTo > @sumFrom then (@sumTo/@sumFrom).toFixed(2) else (@sumFrom/@sumTo).toFixed(2) %>
+</td>
+
+<td style="width: 100px" class="hidden-xs hidden-sm">
+    <%= CashFlow.entities.accounts.get(@idAccountFee).get('name') unless _.isNull @idAccountFee %>
+</td>
+<td class="sum hidden-xs hidden-sm">
+    <%- @numberToMoney(@fee, @idMoneyFee) unless _.isNull @fee %>
+</td>
+<td class="symbol hidden-xs hidden-sm">
+    <%- CashFlow.entities.moneys.get(@idMoneyFee).get('symbol') unless _.isNull @idMoneyFee %>
+</td>
+
+<td class="hidden-xs hidden-sm">
+    <%= @note %>
+</td>
+<td class="hidden-xs hidden-sm">
+    <% for tag in @tags: %>
+    <span class="tag">
+        <%= tag %>
+    </span>
+    <% end %>
+</td>

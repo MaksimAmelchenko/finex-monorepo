@@ -1,0 +1,1 @@
+DROP FUNCTION "core$".user_ad();

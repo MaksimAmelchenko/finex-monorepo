@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_project".merge(integer,integer);

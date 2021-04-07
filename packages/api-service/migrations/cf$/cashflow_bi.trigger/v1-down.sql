@@ -1,0 +1,1 @@
+DROP TRIGGER cashflow_bi ON cf$.cashflow;

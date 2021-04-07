@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "strict": true,
+    "outDir": "./dist",
+    "types": ["node", "mocha"],
+    "typeRoots": ["node_modules/@types", "types"]
+  },
+  "exclude": ["node_modules", "aws"]
+}

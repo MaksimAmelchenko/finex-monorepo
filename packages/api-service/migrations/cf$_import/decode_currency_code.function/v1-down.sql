@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_import".decode_currency_code(text);
