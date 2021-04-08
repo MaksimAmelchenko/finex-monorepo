@@ -1,0 +1,1 @@
+CREATE TRIGGER plan_bi BEFORE INSERT ON "cf$".plan FOR EACH ROW EXECUTE FUNCTION "cf$".plan_bi()

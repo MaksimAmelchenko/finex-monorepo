@@ -1,0 +1,1 @@
+CREATE TRIGGER money_bi BEFORE INSERT ON "cf$".money FOR EACH ROW EXECUTE FUNCTION "cf$".money_bi()
