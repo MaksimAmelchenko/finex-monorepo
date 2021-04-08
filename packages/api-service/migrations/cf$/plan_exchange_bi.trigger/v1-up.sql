@@ -1,1 +1,1 @@
-CREATE TRIGGER plan_exchange_bi BEFORE INSERT ON "cf$".plan_exchange FOR EACH ROW EXECUTE PROCEDURE "cf$".plan_exchange_bi()
+CREATE TRIGGER plan_exchange_bi BEFORE INSERT ON "cf$".plan_exchange FOR EACH ROW EXECUTE FUNCTION "cf$".plan_exchange_bi()

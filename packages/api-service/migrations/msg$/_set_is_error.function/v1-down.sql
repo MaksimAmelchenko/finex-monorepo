@@ -1,1 +1,0 @@
-DROP FUNCTION "msg$"."#set_is_error"(integer,text);

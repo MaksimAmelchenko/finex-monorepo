@@ -1,1 +1,0 @@
-DROP FUNCTION "core$".signup_request_bi();

@@ -28,10 +28,10 @@ CREATE OR REPLACE VIEW cf$."v_plan_transfer" AS
     p.note
    FROM ("cf$".plan_transfer pt
      JOIN "cf$".plan p USING (id_project, id_plan))
-  WHERE ((((pt.id_project, pt.id_account_from) IN ( SELECT ap.id_project,
+  WHERE (((pt.id_project, pt.id_account_from) IN ( SELECT ap.id_project,
             ap.id_account
            FROM ap)) AND ((pt.id_project, pt.id_account_to) IN ( SELECT ap.id_project,
             ap.id_account
-           FROM ap))) AND ((pt.id_account_fee IS NULL) OR ((pt.id_project, pt.id_account_fee) IN ( SELECT ap.id_project,
+           FROM ap)) AND ((pt.id_account_fee IS NULL) OR ((pt.id_project, pt.id_account_fee) IN ( SELECT ap.id_project,
             ap.id_account
            FROM ap))));

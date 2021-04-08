@@ -1,1 +1,0 @@
-DROP FUNCTION "core$".password_recovery_request_bi();

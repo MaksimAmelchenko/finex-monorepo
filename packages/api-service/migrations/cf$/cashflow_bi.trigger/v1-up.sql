@@ -1,1 +1,1 @@
-CREATE TRIGGER cashflow_bi BEFORE INSERT ON "cf$".cashflow FOR EACH ROW EXECUTE PROCEDURE "cf$".cashflow_bi()
+CREATE TRIGGER cashflow_bi BEFORE INSERT ON "cf$".cashflow FOR EACH ROW EXECUTE FUNCTION "cf$".cashflow_bi()

@@ -1,1 +1,0 @@
-DROP FUNCTION "core$_operation"."#get_result"(json);

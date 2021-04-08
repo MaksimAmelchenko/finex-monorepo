@@ -30,10 +30,10 @@ CREATE OR REPLACE VIEW cf$."v_plan_exchange" AS
     p.note
    FROM ("cf$".plan_exchange pe
      JOIN "cf$".plan p USING (id_project, id_plan))
-  WHERE ((((pe.id_project, pe.id_account_from) IN ( SELECT ap.id_project,
+  WHERE (((pe.id_project, pe.id_account_from) IN ( SELECT ap.id_project,
             ap.id_account
            FROM ap)) AND ((pe.id_project, pe.id_account_to) IN ( SELECT ap.id_project,
             ap.id_account
-           FROM ap))) AND ((pe.id_account_fee IS NULL) OR ((pe.id_project, pe.id_account_fee) IN ( SELECT ap.id_project,
+           FROM ap)) AND ((pe.id_account_fee IS NULL) OR ((pe.id_project, pe.id_account_fee) IN ( SELECT ap.id_project,
             ap.id_account
            FROM ap))));

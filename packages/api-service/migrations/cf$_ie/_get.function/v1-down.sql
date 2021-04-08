@@ -1,1 +1,0 @@
-DROP FUNCTION "cf$_ie"."#get"(jsonb);

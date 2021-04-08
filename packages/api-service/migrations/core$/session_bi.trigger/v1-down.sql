@@ -1,1 +1,0 @@
-DROP TRIGGER session_bi ON core$.session;

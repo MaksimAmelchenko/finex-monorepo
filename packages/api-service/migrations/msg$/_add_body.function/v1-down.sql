@@ -1,1 +1,0 @@
-DROP FUNCTION "msg$"."#add_body"(integer,text,text);

@@ -1,1 +1,0 @@
-CREATE TRIGGER password_recovery_request_bi BEFORE INSERT ON "core$".password_recovery_request FOR EACH ROW EXECUTE PROCEDURE "core$".password_recovery_request_bi()

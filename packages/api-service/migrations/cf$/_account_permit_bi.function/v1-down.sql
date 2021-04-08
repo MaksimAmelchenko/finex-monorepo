@@ -1,1 +1,0 @@
-DROP FUNCTION "cf$"."#account_permit_bi"();

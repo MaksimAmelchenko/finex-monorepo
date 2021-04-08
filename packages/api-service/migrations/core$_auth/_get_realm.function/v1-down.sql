@@ -1,1 +1,0 @@
-DROP FUNCTION "core$_auth"."#get_realm"();

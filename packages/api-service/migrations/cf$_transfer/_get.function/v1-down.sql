@@ -1,1 +1,0 @@
-DROP FUNCTION "cf$_transfer"."#get"(jsonb);

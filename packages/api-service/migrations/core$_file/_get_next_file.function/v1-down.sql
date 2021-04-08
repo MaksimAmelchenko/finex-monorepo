@@ -1,1 +1,0 @@
-DROP FUNCTION "core$_file"."#get_next_file"(json);
