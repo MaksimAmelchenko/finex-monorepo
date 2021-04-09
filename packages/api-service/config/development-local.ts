@@ -1,6 +1,6 @@
 export default {
   env: 'dev-local',
-  appDomain: 'localhost:3000',
+  appDomain: 'localhost:8080',
   log: {
     level: 'trace',
   },
@@ -20,6 +20,6 @@ export default {
       viewsPath: './emails/src/templates',
       resourcePath: './emails/src',
     },
-    transport: 'json',
+    transport: 'ses',
   },
 };
