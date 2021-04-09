@@ -68,6 +68,7 @@ export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
     },
     permit: {
       ...permit,
+      enum: [...permit.enum!, null],
       nullable: true,
     },
     nRepeat: {
