@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION "cf$_project"."create"(iparams jsonb, OUT oresult text)
- RETURNS text
- LANGUAGE plpgsql
- SECURITY DEFINER
+  RETURNS text
+  LANGUAGE plpgsql
+  SECURITY DEFINER
 AS $function$
 declare
   vProject  cf$.v_Project%rowtype;
@@ -44,13 +44,13 @@ begin
 
   begin
     insert into cf$.Project_Permit (Id_Project, Id_User, Permit)
-        (select distinct vProject.Id_Project, value::int, 3
-           from jsonb_array_elements_text (vWriters) 
-          where value::int != vId_User);
+      (select distinct vProject.Id_Project, value::int, 3
+         from jsonb_array_elements_text (vWriters)
+        where value::int != vId_User);
   exception
     when others then
       perform error$.raise ('no_data_found', iDev_Message := '"writers" contents unknown users''s  id', iDB_Message := SQLERRM);
-  end;          
+  end;
 
   oResult := cf$_project.get (('{"idProject": ' || vProject.Id_Project::text || '}')::jsonb);
 end;
