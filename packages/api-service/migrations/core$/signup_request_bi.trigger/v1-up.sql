@@ -1,0 +1,1 @@
+CREATE TRIGGER signup_request_bi BEFORE INSERT ON "core$".signup_request FOR EACH ROW EXECUTE PROCEDURE "core$".signup_request_bi()

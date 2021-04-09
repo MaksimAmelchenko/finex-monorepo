@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$"."#account_balance_biud_check_permit"();

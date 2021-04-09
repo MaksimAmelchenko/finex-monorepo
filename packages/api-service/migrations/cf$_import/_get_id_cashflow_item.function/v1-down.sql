@@ -1,0 +1,1 @@
+DROP FUNCTION "cf$_import"."#get_id_cashflow_item"(text,integer);

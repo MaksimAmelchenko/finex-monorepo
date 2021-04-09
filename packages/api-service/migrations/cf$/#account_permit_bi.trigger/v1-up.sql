@@ -1,0 +1,1 @@
+CREATE TRIGGER "#account_permit_bi" BEFORE INSERT ON "cf$".account_permit FOR EACH ROW EXECUTE PROCEDURE "cf$"."#account_permit_bi"()

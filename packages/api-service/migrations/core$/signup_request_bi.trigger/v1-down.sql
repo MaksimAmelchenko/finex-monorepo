@@ -1,0 +1,1 @@
+DROP TRIGGER signup_request_bi ON core$.signup_request;
