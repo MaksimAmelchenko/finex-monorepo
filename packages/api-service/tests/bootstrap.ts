@@ -1,7 +1,5 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/bootstrap.ts
 
-// tslint:disable:no-console
-
 import 'should';
 import * as supertest from 'supertest';
 import * as Http from 'http';

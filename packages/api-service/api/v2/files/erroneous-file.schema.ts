@@ -1,3 +1,3 @@
-import erroneousModel from '../../../common/schemas/erroneous-model.schema'; // tslint:disable-line:import-name
+import erroneousModel from '../../../common/schemas/erroneous-model.schema';
 
 export default erroneousModel;

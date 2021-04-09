@@ -15,7 +15,7 @@ import { CurrencyRateSource } from '../../../types/currency-rate-source';
 export async function confirmSignUpRequest(ctx: IRequestContext, token: string): Promise<void> {
   const signUpRequest: ISignUpRequest | undefined = await SignUpRequestGateway.getByToken(ctx, token);
   if (!signUpRequest) {
-    throw new NotFoundError();
+    throw new NotFoundError('Token not found');
   }
 
   if (signUpRequest.confirmedAt) {

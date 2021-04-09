@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import * as supertest from 'supertest';
 
 export function validateStatus(response: supertest.Response, status: number): void {

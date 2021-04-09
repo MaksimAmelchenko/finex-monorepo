@@ -6,8 +6,6 @@ import { cashflow_detail_biud_v1 } from './cf$/cashflow_detail_biud.function/v1'
 import { cashflow_detail_biud_trigger_v1 } from './cf$/cashflow_detail_biud.trigger/v1';
 import { v_cashflow_detail_v1 } from './cf$/v_cashflow_detail.view/v1';
 
-// tslint:disable:max-line-length
-
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.raw(cashflow_detail_aiud_v1.up);
   await knex.schema.raw(cashflow_detail_biud_v1.up);
@@ -82,27 +80,27 @@ export async function up(knex: Knex): Promise<void> {
       table.index(['id_project', 'id_money'], 'cashflow_detail_id_project_id_money');
     })
     .raw(
-      'CREATE INDEX cashflow_detail_id_project_id_account_is_not_confirmed ON cf$.cashflow_detail USING btree (id_project, id_account) WHERE is_not_confirmed;'
+      'create index cashflow_detail_id_project_id_account_is_not_confirmed on cf$.cashflow_detail using btree (id_project, id_account) where is_not_confirmed;'
     )
-    .raw('CREATE INDEX cashflow_detail_tags ON cf$.cashflow_detail  USING gin (tags);')
+    .raw('create index cashflow_detail_tags on cf$.cashflow_detail  using gin (tags);')
     .raw(
-      'alter table cf$.cashflow_detail add constraint cashflow_detail_quantity_check CHECK ((quantity > (0)::numeric));'
-    )
-    .raw(
-      'alter table cf$.cashflow_detail add constraint cashflow_detail_sign_check CHECK ((sign = ANY (ARRAY[(-1), 1])));'
-    )
-    .raw('alter table cf$.cashflow_detail add constraint cashflow_detail_sum_check CHECK ((sum > (0)::numeric));')
-    .raw(
-      'ALTER TABLE ONLY "cf$".cashflow_detail ADD CONSTRAINT cashflow_detail_2_account FOREIGN KEY (id_project, id_account) REFERENCES "cf$".account(id_project, id_account) MATCH FULL;'
+      'alter table cf$.cashflow_detail add constraint cashflow_detail_quantity_check check ((quantity > (0)::numeric));'
     )
     .raw(
-      'ALTER TABLE ONLY "cf$".cashflow_detail   ADD CONSTRAINT cashflow_detail_2_cashflow FOREIGN KEY (id_project, id_cashflow) REFERENCES "cf$".cashflow(id_project, id_cashflow) MATCH FULL'
+      'alter table cf$.cashflow_detail add constraint cashflow_detail_sign_check check ((sign = any (array[(-1), 1])));'
+    )
+    .raw('alter table cf$.cashflow_detail add constraint cashflow_detail_sum_check check ((sum > (0)::numeric));')
+    .raw(
+      'alter table only "cf$".cashflow_detail add constraint cashflow_detail_2_account foreign key (id_project, id_account) references "cf$".account(id_project, id_account) match full;'
     )
     .raw(
-      'ALTER TABLE ONLY "cf$".cashflow_detail ADD CONSTRAINT cashflow_detail_2_category FOREIGN KEY (id_project, id_category) REFERENCES "cf$".category(id_project, id_category) MATCH FULL'
+      'alter table only "cf$".cashflow_detail   add constraint cashflow_detail_2_cashflow foreign key (id_project, id_cashflow) references "cf$".cashflow(id_project, id_cashflow) match full'
     )
     .raw(
-      'ALTER TABLE ONLY "cf$".cashflow_detail ADD CONSTRAINT cashflow_detail_2_money FOREIGN KEY (id_project, id_money) REFERENCES "cf$".money(id_project, id_money) MATCH FULL'
+      'alter table only "cf$".cashflow_detail add constraint cashflow_detail_2_category foreign key (id_project, id_category) references "cf$".category(id_project, id_category) match full'
+    )
+    .raw(
+      'alter table only "cf$".cashflow_detail add constraint cashflow_detail_2_money foreign key (id_project, id_money) references "cf$".money(id_project, id_money) match full'
     )
     .raw(cashflow_detail_aiud_trigger_v1.up)
     .raw(cashflow_detail_biud_trigger_v1.up);

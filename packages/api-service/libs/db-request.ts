@@ -1,7 +1,12 @@
 import { InternalError, InvalidParametersError } from './errors';
 import { DB } from './db';
+import { IRequestContext } from '../types/app';
 
-export default async function dbRequest<T = Record<string, any>>(ctx, operationName: string, params): Promise<T> {
+export default async function dbRequest<T = Record<string, any>>(
+  ctx: IRequestContext,
+  operationName: string,
+  params: Record<string, any>
+): Promise<T> {
   const { sessionId = null } = ctx;
   const response: { result: string } = await DB.execute(
     ctx.log,

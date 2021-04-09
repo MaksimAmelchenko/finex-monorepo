@@ -1,8 +1,8 @@
 import { IRequestContext } from '../../../types/app';
 import { IFile } from '../../../types/file';
-import getFile from './get'; // tslint:disable-line:import-name
+import getFile from './get';
 import { FileGateway } from '../gateway';
-import { NotFoundError, AccessDeniedError } from '../../../libs/errors';
+import { NotFoundError } from '../../../libs/errors';
 import removeContent from './remove-content';
 
 export default async function remove(ctx: IRequestContext, projectId: number, fileId: number): Promise<IFile> {

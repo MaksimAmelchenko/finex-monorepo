@@ -4,8 +4,6 @@ import { plan_transfer_bi_v1 } from './cf$/plan_transfer_bi.function/v1';
 import { plan_transfer_bi_trigger_v1 } from './cf$/plan_transfer_bi.trigger/v1';
 import { v_plan_transfer_v1 } from './cf$/v_plan_transfer.view/v1';
 
-// tslint:disable:max-line-length
-
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.raw(plan_transfer_bi_v1.up);
 
@@ -68,13 +66,13 @@ export async function up(knex: Knex): Promise<void> {
       table.unique(['id_project', 'id_plan'], 'plan_transfer_id_project_id_plan');
     })
     .raw(
-      'alter table cf$.plan_transfer add constraint plan_transfer_account_check CHECK (id_account_from <> id_account_to);'
+      'alter table cf$.plan_transfer add constraint plan_transfer_account_check check (id_account_from <> id_account_to);'
     )
     .raw(
-      'alter table cf$.plan_transfer add constraint plan_transfer_fee_check CHECK ((((id_account_fee IS NULL) AND (fee IS NULL)) AND (id_money_fee IS NULL)) OR (((id_account_fee IS NOT NULL) AND (fee IS NOT NULL)) AND (id_money_fee IS NOT NULL)));'
+      'alter table cf$.plan_transfer add constraint plan_transfer_fee_check check ((((id_account_fee is null) and (fee is null)) and (id_money_fee is null)) or (((id_account_fee is not null) and (fee is not null)) and (id_money_fee is not null)));'
     )
     .raw(
-      'ALTER TABLE ONLY "cf$".plan_transfer ADD CONSTRAINT plan_transfer_2_plan FOREIGN KEY (id_project, id_plan) REFERENCES "cf$".plan(id_project, id_plan) MATCH FULL ON DELETE CASCADE;\n'
+      'alter table only "cf$".plan_transfer add constraint plan_transfer_2_plan foreign key (id_project, id_plan) references "cf$".plan(id_project, id_plan) match full on delete cascade;\n'
     )
     .raw(plan_transfer_bi_trigger_v1.up);
   await knex.schema.raw(v_plan_transfer_v1.up);

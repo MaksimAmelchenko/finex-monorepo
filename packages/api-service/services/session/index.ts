@@ -6,7 +6,6 @@ import { updateSessionAccessTime } from './methods/update-session-access-time';
 import { updateSession } from './methods/update-session';
 import { verifyJwt } from './methods/verify-jwt';
 
-// tslint:disable-next-line:variable-name
 export const Session = {
   close: closeSession,
   create: createSession,
