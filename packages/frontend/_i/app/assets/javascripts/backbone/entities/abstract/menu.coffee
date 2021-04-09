@@ -68,7 +68,7 @@
         {
           label: 'Данные', id: 'database', url: '#', icon: 'fa fa-lg fa-fw fa-database',
           items: [
-            {label: 'Импорт', id: 'import', url: '#import', icon: 'fa fa-lg fa-fw fa-cloud-upload'}
+#            {label: 'Импорт', id: 'import', url: '#import', icon: 'fa fa-lg fa-fw fa-cloud-upload'}
 #            {label: 'Экспорт', id: ' export', url: '#export', icon: 'fa fa-lg fa-fw fa-cloud-download'}
           ]
         }
