@@ -4,8 +4,8 @@
   "main": "server.js",
   "scripts": {
     "build": "echo $npm_package_version:$GIT_HASH && mkdir -p dist && printf $npm_package_version:$GIT_HASH > ./dist/version && cp package.json dist/ && cp package-lock.json dist/ && cp -a public dist/ && cp -a ./emails/src/ dist/emails && find ./migrations -name '*.sql' | cpio -pdm ./dist && ./node_modules/.bin/tsc",
-    "https-proxy": "./node_modules/.bin/local-ssl-proxy --source 3443 --target 3001",
     "migrate": "knex migrate:latest",
+    "migrate:dev": "NODE_ENV=development-local knex migrate:latest",
     "start": "npm run migrate && node server.js",
     "start:dev": "NODE_ENV=development-local ts-node-dev -r dotenv/config --respawn --transpile-only server.ts | bunyan",
     "test": "NODE_ENV=development-test-local mocha ./tests/*.ts --require ts-node/register"
