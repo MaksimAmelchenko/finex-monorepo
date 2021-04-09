@@ -1,7 +1,7 @@
 import * as Knex from 'knex';
 
-import { signup_request_bi_v1 } from '../core$/signup_request_bi.function/v1';
-import { signup_request_bi_trigger_v1 } from '../core$/signup_request_bi.trigger/v1';
+import { signup_request_bi_v1 } from './core$/signup_request_bi.function/v1';
+import { signup_request_bi_trigger_v1 } from './core$/signup_request_bi.trigger/v1';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.withSchema('core$').alterTable('signup_request', table => {

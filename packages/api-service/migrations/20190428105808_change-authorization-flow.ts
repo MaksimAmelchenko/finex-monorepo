@@ -1,18 +1,18 @@
 import * as Knex from 'knex';
 
-import { call_operation_v1 } from '../core$_port/call_operation.function/v1';
-import { call_operation__uuid_text_text_v1 } from '../core$_port/call_operation__uuid_text_text.function/v1';
+import { call_operation_v1 } from './core$_port/call_operation.function/v1';
+import { call_operation__uuid_text_text_v1 } from './core$_port/call_operation__uuid_text_text.function/v1';
 
-import { set__uuid_boolean_v1 } from '../context/set__uuid_boolean.function/v1';
-import { set__bigint_boolean_v1 } from '../context/set__bigint_boolean.function/v1';
+import { set__uuid_boolean_v1 } from './context/set__uuid_boolean.function/v1';
+import { set__bigint_boolean_v1 } from './context/set__bigint_boolean.function/v1';
 
-import { authorize_v1 } from '../core$_auth/authorize.function/v1';
-import { authenticate_v1 } from '../core$_auth/authenticate.function/v1';
-import { session_bi_trigger_v1 } from '../core$/session_bi.trigger/v1';
-import { session_tr_bi_v1 } from '../core$/session_tr_bi.function/v1';
-import { use_v2 } from '../cf$_project/use.function/v2';
-import { get_v2 } from '../core$_session/get.function/v2';
-import { get_dlast_signin_v2 } from '../core$_user/get_dlast_signin.function/v2';
+import { authorize_v1 } from './core$_auth/authorize.function/v1';
+import { authenticate_v1 } from './core$_auth/authenticate.function/v1';
+import { session_bi_trigger_v1 } from './core$/session_bi.trigger/v1';
+import { session_tr_bi_v1 } from './core$/session_tr_bi.function/v1';
+import { use_v2 } from './cf$_project/use.function/v2';
+import { get_v2 } from './core$_session/get.function/v2';
+import { get_dlast_signin_v2 } from './core$_user/get_dlast_signin.function/v2';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(call_operation_v1.down);

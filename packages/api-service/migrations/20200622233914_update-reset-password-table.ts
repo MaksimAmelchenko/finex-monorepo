@@ -1,6 +1,6 @@
 import * as Knex from 'knex';
-import { password_recovery_request_bi_trigger_v1 } from '../core$/password_recovery_request_bi.trigger/v1';
-import { password_recovery_request_bi_v1 } from '../core$/password_recovery_request_bi.function/v1';
+import { password_recovery_request_bi_trigger_v1 } from './core$/password_recovery_request_bi.trigger/v1';
+import { password_recovery_request_bi_v1 } from './core$/password_recovery_request_bi.function/v1';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.withSchema('core$').alterTable('password_recovery_request', table => {
