@@ -47,5 +47,8 @@ export async function send(ctx: IRequestContext, params: ISendParams): Promise<v
     ctx.log.error({ err });
   });
 
-  ctx.log.trace({ ses: { ...response, message: undefined } });
+  response.originalMessage.html = '<removed>';
+  response.message = '<removed>';
+  response.raw = '<removed>';
+  ctx.log.trace({ ses: response });
 }
