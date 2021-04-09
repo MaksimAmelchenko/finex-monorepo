@@ -26,8 +26,8 @@ const emailTemplates = new EmailTemplates({
     from,
   },
   htmlToText: false,
-  send: false,
-  preview: true,
+  // send: false,
+  // preview: true,
   transport,
 });
 
