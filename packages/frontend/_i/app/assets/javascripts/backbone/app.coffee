@@ -34,7 +34,7 @@
       #      message = (if message then message + '<br>' else '') + ('devMessage: ' + error.devMessage) if App.environment is 'development' and error.devMessage isnt ''
       message = (if message then message + '<br>' else '') + ('devMessage: ' + error.devMessage) if error.devMessage isnt '' and message is ''
       # coffeelint: enable=max_line_length
-      if error.code in ['sessionTimeout', 'jsonWebTokenError', 'sessionClosed']
+      if error.code in ['sessionTimeout', 'jsonWebTokenError', 'sessionClosed', 'unauthorized']
         callback = ->
           sessionStorage.clear()
           window.location.href = '/signin/'
