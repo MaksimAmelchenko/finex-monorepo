@@ -29,6 +29,7 @@ import { tagsApi } from './api/v1/tags';
 import { transfersApi } from './api/v1/transfers';
 import { usersApi } from './api/v1/users';
 import { unitsApi } from './api/v1/units';
+import { currencyRatesApi } from './api/v2/currency-rates';
 
 import { invitationsApi } from './api/v2/invitations';
 
@@ -75,6 +76,7 @@ app.use(usersApi);
 app.use(unitsApi);
 
 app.use(invitationsApi);
+app.use(currencyRatesApi);
 
 app.use(authApi);
 
