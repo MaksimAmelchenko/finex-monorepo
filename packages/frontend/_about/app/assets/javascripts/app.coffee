@@ -6,13 +6,13 @@ do ($) ->
 
     ui.btnDemoSignIn.amkDisable()
     $.ajax
-      url: '{server}/v1/signin'
+      url: '{server}/v2/sign-in'
       type: 'POST'
       contentType: 'application/json'
       dataType: 'json'
       timeout: 5000
       data: JSON.stringify
-        login: 'john@finex.io'
+        username: 'demo@finex.io'
         password: 'kd9T2QHjSb5Y'
       success: (res, textStatus, jqXHR)->
         sessionStorage.setItem('authorization', res.authorization)
