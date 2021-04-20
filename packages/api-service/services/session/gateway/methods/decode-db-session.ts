@@ -5,7 +5,7 @@ export function decodeDBSession(session: any): ISession {
     id: session.id,
     userId: session.id_user,
     projectId: session.id_project,
-    isActive: session.is_active || true,
+    isActive: session.is_active,
     requestCount: session.requests_count,
     lastAccessAt: session.last_access_time,
     ip: session.ip,

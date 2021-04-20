@@ -1,7 +1,6 @@
 {
   "name": "finex.io",
-  "_devServer": "http://localhost:3001",
-  "devServer": "https://api.finex.io",
+  "devServer": "http://localhost:3000",
   "version": "0.16.1",
   "productionServer": "https://api.finex.io",
   "description": "Frontend for a Personal Financial Management service FINEX.io",
@@ -12,7 +11,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development http-server -a localhost -p 8080 & gulp",
+    "start": "NODE_ENV=development http-server public -a localhost -p 8080 & gulp",
     "build": "gulp build --production"
   },
   "dependencies": {

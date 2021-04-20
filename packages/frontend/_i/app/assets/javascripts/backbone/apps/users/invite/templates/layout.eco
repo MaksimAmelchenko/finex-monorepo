@@ -15,7 +15,6 @@
         <label for="users__invite__message">Сообщение</label>
         <textarea class="form-control" name="message"
                   id="users__invite__message" rows="2">
-
         </textarea>
     </div>
 

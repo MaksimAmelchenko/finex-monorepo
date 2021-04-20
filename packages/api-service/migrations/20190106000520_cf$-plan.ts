@@ -6,8 +6,6 @@ import { plan_bi_v1 } from './cf$/plan_bi.function/v1';
 import { plan_bi_trigger_v1 } from './cf$/plan_bi.trigger/v1';
 import { v_plan_v1 } from './cf$/v_plan.view/v1';
 
-// tslint:disable:max-line-length
-
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.raw(plan_aiu_v1.up);
   await knex.schema.raw(plan_bi_v1.up);

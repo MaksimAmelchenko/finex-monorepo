@@ -2,7 +2,7 @@ export default {
   env: 'dev',
   db: {
     connection: {
-      host: 'cashflow-dev-db',
+      host: 'dev-db',
     },
     migrations: {
       user: 'cf',

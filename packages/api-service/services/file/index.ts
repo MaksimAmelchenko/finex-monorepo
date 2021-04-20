@@ -7,7 +7,6 @@ import remove from './methods/remove';
 import save from './methods/save';
 import uploadContent from './methods/upload-content';
 
-// tslint:disable-next-line:variable-name
 const File = {
   create,
   decodeFile,

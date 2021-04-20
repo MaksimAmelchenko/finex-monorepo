@@ -13,8 +13,8 @@
         sessionStorage.clear()
 
         App.xhrRequest
-          type: 'PUT'
-          url: 'logout'
+          type: 'POST'
+          url: 'sign-out'
 
         callback = ->
           window.location.href = '/'

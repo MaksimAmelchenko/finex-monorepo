@@ -1,21 +1,14 @@
 {
   "name": "api.finex.io",
-  "version": "1.0.0",
   "author": "Maksim Amelchenko <m.amelchenko@gmail.com>",
   "main": "server.js",
   "scripts": {
     "build": "echo $npm_package_version:$GIT_HASH && mkdir -p dist && printf $npm_package_version:$GIT_HASH > ./dist/version && cp package.json dist/ && cp package-lock.json dist/ && cp -a public dist/ && cp -a ./emails/src/ dist/emails && find ./migrations -name '*.sql' | cpio -pdm ./dist && ./node_modules/.bin/tsc",
-    "eslint": "eslint --ext .ts .",
-    "https-proxy": "./node_modules/.bin/local-ssl-proxy --source 3443 --target 3001",
     "migrate": "knex migrate:latest",
+    "migrate:dev": "NODE_ENV=development-local knex migrate:latest",
     "start": "npm run migrate && node server.js",
-    "start:dev": "NODE_ENV=development-local ts-node-dev --respawn --transpile-only server.ts | bunyan",
+    "start:dev": "NODE_ENV=development-local ts-node-dev -r dotenv/config --respawn --transpile-only server.ts | bunyan",
     "test": "NODE_ENV=development-test-local mocha ./tests/*.ts --require ts-node/register"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   },
   "dependencies": {
     "ajv": "^8.0.5",
@@ -23,6 +16,7 @@
     "aws-sdk": "^2.881.0",
     "bcryptjs": "^2.4.3",
     "bunyan": "^1.8.15",
+    "date-fns": "^2.20.1",
     "email-templates": "^8.0.4",
     "got": "^11.8.2",
     "jsonwebtoken": "^8.5.1",
@@ -49,7 +43,8 @@
     "stoppable": "^1.1.0",
     "swagger-ui-dist": "^3.46.0",
     "uuid": "^8.3.2",
-    "validator": "^13.5.2"
+    "validator": "^13.5.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -65,15 +60,8 @@
     "@types/supertest": "^2.0.11",
     "@types/ua-parser-js": "^0.7.35",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "@typescript-eslint/parser": "^4.21.0",
-    "eslint": "^7.23.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^4.3.8",
+    "dotenv": "^8.2.0",
     "mocha": "^8.3.2",
-    "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0",
     "should": "^13.2.3",
     "supertest": "^6.1.3",
     "ts-node": "^9.1.1",

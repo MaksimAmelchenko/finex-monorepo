@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import * as supertest from 'supertest';
 import { ajv } from '../../libs/ajv';
 import { OpenAPIV3 } from 'openapi-types';

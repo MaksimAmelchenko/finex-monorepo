@@ -63,8 +63,4 @@ try {
 
 nconf.set('version', ver);
 
-if (nconf.get('awsProfile')) {
-  process.env.AWS_PROFILE = nconf.get('awsProfile');
-}
-
 export default nconf;

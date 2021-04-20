@@ -1,8 +1,5 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/sign-up.ts
 
-// tslint:disable:no-console
-// tslint:disable:max-line-length
-
 import { it } from 'mocha';
 import * as should from 'should';
 import * as supertest from 'supertest';

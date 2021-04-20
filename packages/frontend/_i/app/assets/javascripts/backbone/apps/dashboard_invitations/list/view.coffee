@@ -24,7 +24,7 @@
 
     accept: ->
       App.xhrRequest
-        type: 'PUT'
+        type: 'POST'
         url: "invitations/#{@model.id}/accept"
         success: (res, textStatus, jqXHR) =>
           @model.collection.remove @model
@@ -33,7 +33,7 @@
 
     reject: ->
       App.xhrRequest
-        type: 'PUT'
+        type: 'POST'
         url: "invitations/#{@model.id}/reject"
         success: (res, textStatus, jqXHR) =>
           @model.collection.remove @model

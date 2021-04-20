@@ -26,8 +26,8 @@ const emailTemplates = new EmailTemplates({
     from,
   },
   htmlToText: false,
-  send: false,
-  preview: true,
+  // send: false,
+  // preview: true,
   transport,
 });
 
@@ -43,9 +43,12 @@ export async function send(ctx: IRequestContext, params: ISendParams): Promise<v
     locals,
   });
 
-  saveToLog(ctx, email, response).catch(err => {
-    ctx.log.error({ err });
-  });
+  // saveToLog(ctx, email, response).catch(err => {
+  //   ctx.log.error({ err });
+  // });
 
-  ctx.log.trace({ ses: { ...response, message: undefined } });
+  response.originalMessage.html = '<removed>';
+  response.message = '<removed>';
+  response.raw = '<removed>';
+  ctx.log.trace({ ses: response });
 }

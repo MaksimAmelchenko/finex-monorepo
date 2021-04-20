@@ -4,7 +4,6 @@ import move from './methods/move';
 import put from './methods/put';
 import remove from './methods/remove';
 
-// tslint:disable-next-line:variable-name
 const S3 = {
   get,
   move,
