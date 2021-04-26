@@ -1,6 +1,6 @@
 {
   "name": "finex-monorepo",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "author": "Maksim Amelchenko <m.amelchenko@gmail.com>",
   "description": "",
   "devDependencies": {
