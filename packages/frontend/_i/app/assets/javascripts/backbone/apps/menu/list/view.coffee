@@ -44,6 +44,13 @@
       'click': ->
         # TODO при частых кликах проблемы с отменой
         # App.xhrAbortAll()
+        if @model.id is 'export'
+          App.xhrRequest
+            type: 'POST'
+            url: "export-to-csv"
+            success: (res, textStatus, jqXHR) ->
+              App.request 'message:show', 'Экспорт данных запущен', '<p>В течение нескольких минут данные будут отправлены на ваш e-mail</p>'
+
         if App.MenuApp.prevMenuItem.id isnt @model.id
           App.MenuApp.prevMenuItem.unchoose()
           @model.choose()

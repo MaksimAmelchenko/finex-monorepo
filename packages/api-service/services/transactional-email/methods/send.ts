@@ -50,5 +50,6 @@ export async function send(ctx: IRequestContext, params: ISendParams): Promise<v
   response.originalMessage.html = '<removed>';
   response.message = '<removed>';
   response.raw = '<removed>';
+  response.originalMessage.attachments = response.originalMessage.attachments.map(({ filename }) => ({ filename }));
   ctx.log.trace({ ses: response });
 }

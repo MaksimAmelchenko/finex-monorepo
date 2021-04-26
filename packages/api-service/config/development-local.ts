@@ -12,7 +12,7 @@ export default {
     },
     migrations: {
       user: 'postgres',
-      password: 'rootpassword',
+      password: 'postgrespassword',
     },
   },
   mail: {

@@ -7,7 +7,7 @@
     "migrate": "knex migrate:latest",
     "migrate:dev": "NODE_ENV=development-local knex migrate:latest",
     "start": "npm run migrate && node server.js",
-    "start:dev": "NODE_ENV=development-local ts-node-dev -r dotenv/config --respawn --transpile-only server.ts | bunyan",
+    "start:dev": "NODE_ENV=development-local ts-node-dev -r dotenv/config --respawn --transpile-only server.ts dotenv_config_path=.env.dev | bunyan",
     "test": "NODE_ENV=development-test-local mocha ./tests/*.ts --require ts-node/register"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "aws-sdk": "^2.881.0",
     "bcryptjs": "^2.4.3",
     "bunyan": "^1.8.15",
+    "csv-writer": "^1.6.0",
     "date-fns": "^2.20.1",
     "email-templates": "^8.0.4",
     "got": "^11.8.2",
@@ -37,6 +38,7 @@
     "multer": "^1.4.2",
     "nconf": "^0.11.2",
     "nodemailer": "^6.5.0",
+    "numeral": "^2.0.6",
     "openapi-types": "^7.2.3",
     "pg": "^8.5.1",
     "source-map-support": "^0.5.19",
