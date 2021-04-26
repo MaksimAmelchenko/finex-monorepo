@@ -3,13 +3,12 @@ var runSequence = require('run-sequence');
 var argv = require('yargs').argv;
 var p = require('./package.json');
 
-var plugins = require('gulp-load-plugins')(
-  {
-    rename: {
-      'gulp-minify-css': 'minifyCSS',
-      'gulp-rev-replace': 'revReplace'
-    }
-  });
+var plugins = require('gulp-load-plugins')({
+  rename: {
+    'gulp-minify-css': 'minifyCSS',
+    'gulp-rev-replace': 'revReplace',
+  },
+});
 
 var apps = [
   {
@@ -22,32 +21,32 @@ var apps = [
           'bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
           'bower_components/social-likes/social-likes.min.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_/app/assets/javascripts/**/*.+(coffee|js)'
+          '_/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/assets'
+        dest: 'public/assets',
       },
       styles: {
         src: ['_/app/assets/stylesheets/app.scss'],
-        dest: 'public/assets'
+        dest: 'public/assets',
       },
       html: {
         src: ['_/app/index.html'],
-        dest: 'public'
+        dest: 'public',
       },
       fonts: {
         src: ['bower_components/font-awesome/fonts/fontawesome-webfont.*'],
-        dest: 'public/assets'
+        dest: 'public/assets',
       },
       cp: {
         src: ['_/cp/*'],
-        dest: 'public'
+        dest: 'public',
       },
       images: {
         src: ['_/app/assets/images/**/*'],
-        dest: 'public/assets'
-      }
+        dest: 'public/assets',
+      },
     },
-    build: ['scripts:', 'styles:', ['html:', 'fonts:', 'cp:', 'images:']]
+    build: ['scripts:', 'styles:', ['html:', 'fonts:', 'cp:', 'images:']],
   },
   {
     name: 'about',
@@ -58,24 +57,24 @@ var apps = [
           'bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
           'bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_about/app/assets/javascripts/**/*.+(coffee|js)'
+          '_about/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/about/assets'
+        dest: 'public/about/assets',
       },
       styles: {
         src: ['_about/app/assets/stylesheets/app.scss'],
-        dest: 'public/about/assets'
+        dest: 'public/about/assets',
       },
       html: {
         src: ['_about/app/index.html'],
-        dest: 'public/about'
+        dest: 'public/about',
       },
       fonts: {
         src: ['bower_components/font-awesome/fonts/fontawesome-webfont.*'],
-        dest: 'public/about/assets'
+        dest: 'public/about/assets',
       },
     },
-    build: ['scripts:about', 'styles:about', ['html:about', 'fonts:about']]
+    build: ['scripts:about', 'styles:about', ['html:about', 'fonts:about']],
   },
   {
     name: 'i',
@@ -138,24 +137,24 @@ var apps = [
 
           '_i/app/assets/javascripts/backbone/entities/**/*.coffee',
           '_i/app/assets/javascripts/backbone/apps/**/*.+(coffee|js|eco)',
-          '_i/app/assets/javascripts/app.coffee'
+          '_i/app/assets/javascripts/app.coffee',
         ],
-        dest: 'public/i/assets'
+        dest: 'public/i/assets',
       },
       styles: {
         src: ['_i/app/assets/stylesheets/app.scss'],
-        dest: 'public/i/assets'
+        dest: 'public/i/assets',
       },
       html: {
         src: ['_i/app/index.html'],
-        dest: 'public/i'
+        dest: 'public/i',
       },
       fonts: {
         src: ['bower_components/font-awesome/fonts/fontawesome-webfont.*'],
-        dest: 'public/i/assets'
-      }
+        dest: 'public/i/assets',
+      },
     },
-    build: ['scripts:i', 'styles:i', ['html:i', 'fonts:i']]
+    build: ['scripts:i', 'styles:i', ['html:i', 'fonts:i']],
   },
   {
     name: 'signin',
@@ -166,20 +165,20 @@ var apps = [
           'bower_components/jquery-validation/dist/jquery.validate.js',
           'bower_components/jquery-validation/src/localization/messages_ru.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_signin/app/assets/javascripts/**/*.+(coffee|js)'
+          '_signin/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/signin/assets'
+        dest: 'public/signin/assets',
       },
       styles: {
         src: ['_signin/app/assets/stylesheets/app.scss'],
-        dest: 'public/signin/assets'
+        dest: 'public/signin/assets',
       },
       html: {
         src: ['_signin/app/index.html'],
-        dest: 'public/signin'
-      }
+        dest: 'public/signin',
+      },
     },
-    build: ['scripts:signin', 'styles:signin', 'html:signin']
+    build: ['scripts:signin', 'styles:signin', 'html:signin'],
   },
   {
     name: 'signup',
@@ -191,20 +190,20 @@ var apps = [
           'bower_components/jquery-validation/src/localization/messages_ru.js',
           'bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_signup/app/assets/javascripts/**/*.+(coffee|js)'
+          '_signup/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/signup/assets'
+        dest: 'public/signup/assets',
       },
       styles: {
         src: ['_signup/app/assets/stylesheets/app.scss'],
-        dest: 'public/signup/assets'
+        dest: 'public/signup/assets',
       },
       html: {
         src: ['_signup/app/index.html'],
-        dest: 'public/signup'
-      }
+        dest: 'public/signup',
+      },
     },
-    build: ['scripts:signup', 'styles:signup', 'html:signup']
+    build: ['scripts:signup', 'styles:signup', 'html:signup'],
   },
   {
     name: 'signup_confirm',
@@ -213,20 +212,20 @@ var apps = [
         src: [
           'bower_components/jquery1x/dist/jquery.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_signup__confirm/app/assets/javascripts/**/*.+(coffee|js)'
+          '_signup__confirm/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/signup/confirm/assets'
+        dest: 'public/signup/confirm/assets',
       },
       styles: {
         src: ['_signup__confirm/app/assets/stylesheets/app.scss'],
-        dest: 'public/signup/confirm/assets'
+        dest: 'public/signup/confirm/assets',
       },
       html: {
         src: ['_signup__confirm/app/index.html'],
-        dest: 'public/signup/confirm'
-      }
+        dest: 'public/signup/confirm',
+      },
     },
-    build: ['scripts:signup_confirm', 'styles:signup_confirm', 'html:signup_confirm']
+    build: ['scripts:signup_confirm', 'styles:signup_confirm', 'html:signup_confirm'],
   },
   {
     name: 'password_recovery',
@@ -237,20 +236,20 @@ var apps = [
           'bower_components/jquery-validation/dist/jquery.validate.js',
           'bower_components/jquery-validation/src/localization/messages_ru.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_password_recovery/app/assets/javascripts/**/*.+(coffee|js)'
+          '_password_recovery/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/password_recovery/assets'
+        dest: 'public/password_recovery/assets',
       },
       styles: {
         src: ['_password_recovery/app/assets/stylesheets/app.scss'],
-        dest: 'public/password_recovery/assets'
+        dest: 'public/password_recovery/assets',
       },
       html: {
         src: ['_password_recovery/app/index.html'],
-        dest: 'public/password_recovery'
-      }
+        dest: 'public/password_recovery',
+      },
     },
-    build: ['scripts:password_recovery', 'styles:password_recovery', 'html:password_recovery']
+    build: ['scripts:password_recovery', 'styles:password_recovery', 'html:password_recovery'],
   },
   {
     name: 'password_recovery_confirm',
@@ -261,21 +260,21 @@ var apps = [
           'bower_components/jquery-validation/dist/jquery.validate.js',
           'bower_components/jquery-validation/src/localization/messages_ru.js',
           'lib/assets/javascripts/**/*.+(coffee|js)',
-          '_password_recovery__confirm/app/assets/javascripts/**/*.+(coffee|js)'
+          '_password_recovery__confirm/app/assets/javascripts/**/*.+(coffee|js)',
         ],
-        dest: 'public/password_recovery/confirm/assets'
+        dest: 'public/password_recovery/confirm/assets',
       },
       styles: {
         src: ['_password_recovery__confirm/app/assets/stylesheets/app.scss'],
-        dest: 'public/password_recovery/confirm/assets'
+        dest: 'public/password_recovery/confirm/assets',
       },
       html: {
         src: ['_password_recovery__confirm//app/index.html'],
-        dest: 'public/password_recovery/confirm'
-      }
+        dest: 'public/password_recovery/confirm',
+      },
     },
-    build: ['scripts:password_recovery_confirm', 'styles:password_recovery_confirm', 'html:password_recovery_confirm']
-  }
+    build: ['scripts:password_recovery_confirm', 'styles:password_recovery_confirm', 'html:password_recovery_confirm'],
+  },
 ];
 
 var onError = function (err) {
@@ -288,78 +287,89 @@ var onError = function (err) {
 function construct_scripts(app) {
   gulp.task('scripts:' + app.name, function () {
     //(app.js.src).forEach(fs.statSync);
-    return gulp.src(app.tasks.scripts.src)
-      .pipe(plugins.cached('scripts:' + app.name))
-      //.pipe(plugins.plumber({errorHandler: onError}))
-      .pipe(plugins.plumber({
-        errorHandler: plugins.notify.onError(
-          {
-            title: "<%= error.plugin %>",
-            subtitle: "<%= error.filename.split('/').slice(-3).join('/') %>",
-            message: " <%= error.location.first_line + ':'+ error.location.first_column + ' ' + error.message %>",
-            //message: "<%= error.message %>",
-            sound: 'Glass'
-          }
+    return (
+      gulp
+        .src(app.tasks.scripts.src)
+        .pipe(plugins.cached('scripts:' + app.name))
+        //.pipe(plugins.plumber({errorHandler: onError}))
+        .pipe(
+          plugins.plumber({
+            errorHandler: plugins.notify.onError({
+              title: '<%= error.plugin %>',
+              subtitle: "<%= error.filename.split('/').slice(-3).join('/') %>",
+              message: " <%= error.location.first_line + ':'+ error.location.first_column + ' ' + error.message %>",
+              //message: "<%= error.message %>",
+              sound: 'Glass',
+            }),
+          })
         )
-      }))
 
-      .pipe(plugins.if(argv.production, plugins.replace('{server}', p.productionServer)))
-      .pipe(plugins.if(!argv.production, plugins.replace('{server}', p.devServer)))
+        .pipe(plugins.if(argv.production, plugins.replace('{server}', p.productionServer)))
+        .pipe(plugins.if(!argv.production, plugins.replace('{server}', p.devServer)))
 
-      .pipe(plugins.if(/[.]coffee$/, plugins.coffeelint({max_line_length: {value: 200}})))
-      .pipe(plugins.if(/[.]coffee$/, plugins.coffeelint.reporter()))
-      .pipe(plugins.if(/[.]coffee$/, plugins.coffee({bare: true})/*.on('error', plugins.util.log)*/))
-      //.pipe(plugins.rename(function (path) {
-      //  // Убираем .js из названия. Так исходный файл называется filename.js.coffee
-      //  path.basename = path.basename.replace(/[.]js$/, '');
-      //}))
-      //.pipe(plugins.if(/[.]eco$/, plugins.rename(function (path) {
-      //  // Убираем .jst из названия. Так исходный файл называется filename.jst.eco
-      //  path.basename = path.basename.replace(/[.]jst$/, '');
-      //})))
-      .pipe(plugins.if(/[.]eco$/, plugins.eco({basePath: 'app/assets/javascripts'})))
+        .pipe(plugins.if(/[.]coffee$/, plugins.coffeelint({ max_line_length: { value: 200 } })))
+        .pipe(plugins.if(/[.]coffee$/, plugins.coffeelint.reporter()))
+        .pipe(plugins.if(/[.]coffee$/, plugins.coffee({ bare: true }) /*.on('error', plugins.util.log)*/))
+        //.pipe(plugins.rename(function (path) {
+        //  // Убираем .js из названия. Так исходный файл называется filename.js.coffee
+        //  path.basename = path.basename.replace(/[.]js$/, '');
+        //}))
+        //.pipe(plugins.if(/[.]eco$/, plugins.rename(function (path) {
+        //  // Убираем .jst из названия. Так исходный файл называется filename.jst.eco
+        //  path.basename = path.basename.replace(/[.]jst$/, '');
+        //})))
+        .pipe(plugins.if(/[.]eco$/, plugins.eco({ basePath: 'app/assets/javascripts' })))
 
-      // бОльшая часть кода написана на CoffeeScript, поэтому JavaScript не будем проверять
-      //.pipe(plugins.jshint({eqnull: true}))
-      //.pipe(plugins.jshint.reporter())
-      .pipe(plugins.remember('scripts:' + app.name))
-      .pipe(plugins.plumber.stop())
-      .pipe(plugins.if(!argv.production, plugins.sourcemaps.init()))
-      .pipe(plugins.if(argv.production, plugins.uglify()))
-      .pipe(plugins.concat('app.js'))
-      //.pipe(plugins.concat({path: 'app.js', cwd: ''}))
-      .pipe(plugins.if(argv.production, plugins.rev()))
-      .pipe(plugins.if(!argv.production, plugins.sourcemaps.write('./')))
-      .pipe(gulp.dest(app.tasks.scripts.dest))
-      .pipe(plugins.if(argv.production, plugins.rev.manifest(app.tasks.scripts.dest + '/rev-manifest.json', {merge: true})))
-      .pipe(plugins.if(argv.production, gulp.dest('')));
+        // бОльшая часть кода написана на CoffeeScript, поэтому JavaScript не будем проверять
+        //.pipe(plugins.jshint({eqnull: true}))
+        //.pipe(plugins.jshint.reporter())
+        .pipe(plugins.remember('scripts:' + app.name))
+        .pipe(plugins.plumber.stop())
+        .pipe(plugins.if(!argv.production, plugins.sourcemaps.init()))
+        .pipe(plugins.if(argv.production, plugins.uglify()))
+        .pipe(plugins.concat('app.js'))
+        //.pipe(plugins.concat({path: 'app.js', cwd: ''}))
+        .pipe(plugins.if(argv.production, plugins.rev()))
+        .pipe(plugins.if(!argv.production, plugins.sourcemaps.write('./')))
+        .pipe(gulp.dest(app.tasks.scripts.dest))
+        .pipe(
+          plugins.if(
+            argv.production,
+            plugins.rev.manifest(app.tasks.scripts.dest + '/rev-manifest.json', { merge: true })
+          )
+        )
+        .pipe(plugins.if(argv.production, gulp.dest('')))
+    );
     //.pipe(plugins.gzip())
     //.pipe(gulp.dest(app.tasks.scripts.dest));
-
   });
 }
 
 function construct_styles(app) {
   gulp.task('styles:' + app.name, function () {
-    return gulp.src(app.tasks.styles.src)
+    return gulp
+      .src(app.tasks.styles.src)
       .pipe(plugins.if(!argv.production, plugins.sourcemaps.init()))
       .pipe(plugins.sass().on('error', plugins.sass.logError))
-      .pipe(plugins.minifyCSS({processImport: true, advanced: false}))
+      .pipe(plugins.minifyCSS({ processImport: true, advanced: false }))
       .pipe(plugins.if(argv.production, plugins.rev()))
       .pipe(plugins.if(!argv.production, plugins.sourcemaps.write('./')))
       .pipe(gulp.dest(app.tasks.styles.dest))
-      .pipe(plugins.if(argv.production, plugins.rev.manifest(app.tasks.styles.dest + '/rev-manifest.json', {merge: true})))
+      .pipe(
+        plugins.if(argv.production, plugins.rev.manifest(app.tasks.styles.dest + '/rev-manifest.json', { merge: true }))
+      )
       .pipe(plugins.if(argv.production, gulp.dest('')));
   });
 }
 
 function construct_html(app) {
   gulp.task('html:' + app.name, function () {
-    var manifest = gulp.src("./" + app.tasks.html.dest + "/assets/rev-manifest.json");
-    return gulp.src(app.tasks.html.src)
+    var manifest = gulp.src('./' + app.tasks.html.dest + '/assets/rev-manifest.json');
+    return gulp
+      .src(app.tasks.html.src)
       .pipe(plugins.if(argv.production, plugins.rigger()))
-      .pipe(plugins.replace('{version}', p.version))
-      .pipe(plugins.if(argv.production, plugins.revReplace({manifest: manifest})))
+      .pipe(plugins.replace('{version}', require('../../package.json').version))
+      .pipe(plugins.if(argv.production, plugins.revReplace({ manifest: manifest })))
       .pipe(gulp.dest(app.tasks.html.dest));
   });
 }
@@ -367,8 +377,7 @@ function construct_html(app) {
 function construct_fonts(app) {
   if (!app.tasks.fonts) return;
   gulp.task('fonts:' + app.name, function () {
-    return gulp.src(app.tasks.fonts.src)
-      .pipe(gulp.dest(app.tasks.fonts.dest));
+    return gulp.src(app.tasks.fonts.src).pipe(gulp.dest(app.tasks.fonts.dest));
   });
 }
 
@@ -376,22 +385,19 @@ function construct_fonts(app) {
 function construct_cp(app) {
   if (!app.tasks.cp) return;
   gulp.task('cp:' + app.name, function () {
-    return gulp.src(app.tasks.cp.src)
-      .pipe(gulp.dest(app.tasks.cp.dest));
+    return gulp.src(app.tasks.cp.src).pipe(gulp.dest(app.tasks.cp.dest));
   });
 }
 
 function construct_images(app) {
   if (!app.tasks.images) return;
   gulp.task('images:' + app.name, function () {
-    return gulp.src(app.tasks.images.src)
-      .pipe(gulp.dest(app.tasks.images.dest));
+    return gulp.src(app.tasks.images.src).pipe(gulp.dest(app.tasks.images.dest));
   });
 }
 
 function construct_build(app) {
   gulp.task('build:' + app.name, function () {
-
     callback = function () {
       console.log('build:' + app.name + ' done');
     };
