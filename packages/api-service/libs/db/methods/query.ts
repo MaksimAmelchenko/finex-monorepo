@@ -1,7 +1,7 @@
 import { ILogger } from '../../../types/app';
 import { pool } from '../connection';
 
-export async function query<T>(log: ILogger, sqlText: string, params: readonly any[]): Promise<T[]> {
+export async function query<T = any>(log: ILogger, sqlText: string, params: readonly any[]): Promise<T[]> {
   const start: number = Date.now();
   try {
     const { rows } = await pool.query(sqlText, params as any[]);
