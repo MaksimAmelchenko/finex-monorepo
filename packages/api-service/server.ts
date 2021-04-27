@@ -37,6 +37,7 @@ import { invitationsApi } from './api/v2/invitations';
 import { authApi } from './api/v2/auth';
 
 import healthCheck from './api/v2/health-check';
+import { emailServiceApi } from './api/v2/email-service';
 
 import * as Koa from 'koa';
 
@@ -81,6 +82,7 @@ app.use(invitationsApi);
 app.use(currencyRatesApi);
 
 app.use(authApi);
+app.use(emailServiceApi);
 
 app.use(serve(`${__dirname}/public`));
 
