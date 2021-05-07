@@ -1,0 +1,31 @@
+.buttons {
+  display: flex;
+  justify-content: space-between;
+
+  & > * {
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-right: 14px;
+    }
+  }
+}
+
+.footer {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+
+  &.column {
+    .buttons {
+      flex-direction: column;
+
+      & > * {
+        &:not(:last-child) {
+          margin-right: 0;
+          margin-bottom: 14px;
+        }
+      }
+    }
+  }
+}
