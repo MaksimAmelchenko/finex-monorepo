@@ -116,13 +116,41 @@ module.exports = (env, argv) => ({
         ],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[path][name].[ext]',
               outputPath: 'images/',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              outputPath: 'images/',
+            },
+          },
+        ],
+        exclude: /Icon\.svg$/,
+      },
+      {
+        test: /Icon\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgoConfig: {
+                plugins: {
+                  removeViewBox: false,
+                },
+              },
             },
           },
         ],
@@ -143,6 +171,7 @@ module.exports = (env, argv) => ({
     new CleanWebpackPlugin(),
     new webpack.ProvidePlugin({
       h: ['preact', 'h'],
+      Fragment: ['preact', 'Fragment'],
     }),
     new webpack.DefinePlugin({
       __DEVELOPMENT__: devMode,

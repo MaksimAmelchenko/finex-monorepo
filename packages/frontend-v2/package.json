@@ -47,6 +47,7 @@
     "@storybook/addon-postcss": "^2.0.0",
     "@storybook/addons": "^6.2.9",
     "@storybook/preact": "^6.2.9",
+    "@svgr/webpack": "^5.5.0",
     "@types/i18n-js": "^3.8.1",
     "@types/lodash.get": "^4.4.6",
     "autoprefixer": "^10.2.6",
