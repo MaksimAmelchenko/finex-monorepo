@@ -11,5 +11,7 @@ export interface IDateRange {
 }
 
 export enum Permit {
+  Read = 1,
+  Write = 3,
   Owner = 7,
 }

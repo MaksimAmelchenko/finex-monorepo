@@ -34,7 +34,7 @@ export abstract class ApiRepository extends ManageableStore {
     const { url, method = 'GET', body, responseTypeCheck = null } = params;
     const data: FormData | string = isFormData(body) ? body : JSON.stringify(body);
     return window
-      .fetch(`https://api.finex.io${url}`, {
+      .fetch(`https://finex.io/api/${url}`, {
         headers: this.headers(isFormData(body)),
         method,
         body: data,

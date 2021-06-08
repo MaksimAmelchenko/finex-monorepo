@@ -17,6 +17,7 @@ export class AccountsRepository extends ManageableStore {
 
   constructor(mainStore: MainStore, private api: IAccountsApi) {
     super(mainStore);
+
     makeObservable(this, {
       accounts: observable.shallow,
       consume: action,
@@ -24,10 +25,21 @@ export class AccountsRepository extends ManageableStore {
     });
   }
 
+  private static sort(a: IAccountRaw, b: IAccountRaw): number {
+    if (a.isEnabled > b.isEnabled) {
+      return -1;
+    }
+    if (a.isEnabled < b.isEnabled) {
+      return 1;
+    }
+
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  }
+
   consume(accounts: IAccountRaw[]): void {
     const accountTypesStore = this.getStore(AccountTypesStore);
     const usersRepository = this.getStore(UsersRepository);
-    this.accounts = accounts.reduce((acc, accountRaw) => {
+    this.accounts = accounts.sort(AccountsRepository.sort).reduce((acc, accountRaw) => {
       const { idAccount, idAccountType, idUser, isEnabled, name, note, permit } = accountRaw;
       const accountType = accountTypesStore.get(String(idAccountType));
       if (!accountType) {
