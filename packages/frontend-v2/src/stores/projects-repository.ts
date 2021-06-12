@@ -4,10 +4,18 @@ import { ManageableStore } from '../core/manageable-store';
 import { MainStore } from '../core/main-store';
 import { UsersRepository } from './users-repository';
 import { IUser } from '../types/user';
-import { IProject, IProjectRaw } from '../types/project';
+import { IProject, IProjectRaw, IUseProjectResponse } from '../types/project';
 import { Project } from './models/project';
+import { AccountsRepository } from './accounts-repository';
+import { CategoriesRepository } from './categories-repository';
+import { ContractorsRepository } from './contractors-repository';
+import { MoneysRepository } from './moneys-repository';
+import { TagsRepository } from './tags-repository';
+import { UnitsRepository } from './units-repository';
 
-export interface IProjectsApi {}
+export interface IProjectsApi {
+  useProject: (projectId: string) => Promise<IUseProjectResponse>;
+}
 
 export class ProjectsRepository extends ManageableStore {
   static storeName = 'ProjectsRepository';
@@ -69,6 +77,29 @@ export class ProjectsRepository extends ManageableStore {
 
   get(projectId: string): IProject | undefined {
     return this.projects.find(({ id }) => id === projectId);
+  }
+
+  async useProject(projectId: string): Promise<void> {
+    const { accounts, categories, contractors, moneys, tags, units, params } = await this.api.useProject(projectId);
+    const accountsRepository = this.getStore(AccountsRepository);
+    accountsRepository.consume(accounts);
+
+    const categoriesRepository = this.getStore(CategoriesRepository);
+    categoriesRepository.consume(categories);
+
+    const contractorsRepository = this.getStore(ContractorsRepository);
+    contractorsRepository.consume(contractors);
+
+    const moneysRepository = this.getStore(MoneysRepository);
+    moneysRepository.consume(moneys);
+
+    const tagsRepository = this.getStore(TagsRepository);
+    tagsRepository.consume(tags);
+
+    const unitsRepository = this.getStore(UnitsRepository);
+    unitsRepository.consume(units);
+
+    this.setCurrentProject(this.get(projectId)!);
   }
 
   clear(): void {

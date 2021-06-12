@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound';
-import { Header } from './components/Header';
+import { Header } from './containers/Header';
 import { useStore } from './core/hooks/use-store';
 import { AuthRepository } from './core/other-stores/auth-repository';
 import { Auth } from './pages/Auth';
