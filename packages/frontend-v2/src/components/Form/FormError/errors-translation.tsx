@@ -15,7 +15,7 @@ export type CoreErrorConstructor = new (...args: any[]) => CoreError;
  * Fallback HR text for unknown or useless error for a user.
  * "Something went wrong, please try again."
  */
-const unknownErrorHr = 'Etwas ist schief gelaufen. Bitte versuche es erneut.';
+const unknownErrorHr = 'Something went wrong, please try again.';
 
 const t = getT('Error');
 /**
