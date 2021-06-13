@@ -14,6 +14,9 @@ export const Home = observer(() => {
       </div>
       <ul>
         <li>
+          <Link href={'/dashboard'}>Dashboard</Link>
+        </li>
+        <li>
           <Link href={'/cash-flows/income-expenses/transactions'}>Transactions</Link>
         </li>
         <li>

@@ -28,6 +28,8 @@ import { ProfileApi } from '../stores/api/profile-api';
 import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-store';
 import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
 import { IncomeExpenseTransactionsApi } from '../stores/api/income-expense-transaction-api';
+import { BalanceRepository } from '../stores/balance-repository';
+import { BalanceApi } from '../stores/api/balance-api';
 
 /**
  * Helper to initialize DI
@@ -58,6 +60,7 @@ export function initializeMainStore(): MainStore {
   new ProfileRepository(mainStore, new ProfileApi(mainStore));
 
   new IncomeExpenseTransactionsRepository(mainStore, new IncomeExpenseTransactionsApi(mainStore));
+  new BalanceRepository(mainStore, new BalanceApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;
