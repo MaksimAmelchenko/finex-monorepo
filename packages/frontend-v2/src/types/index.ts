@@ -15,3 +15,12 @@ export enum Permit {
   Write = 3,
   Owner = 7,
 }
+
+export type Sign = 1 | -1;
+
+export interface Metadata {
+  limit: number;
+  offset: number;
+  total: number;
+  totalPlanned: number;
+}

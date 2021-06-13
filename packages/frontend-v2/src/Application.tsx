@@ -10,6 +10,7 @@ import { useStore } from './core/hooks/use-store';
 import { AuthRepository } from './core/other-stores/auth-repository';
 import { Auth } from './pages/Auth';
 import { Accounts } from './containers/Accounts';
+import { IncomeExpenseTransactions } from './containers/IncomeExpenseTransactions';
 
 const Layout: FunctionComponent = ({ children }) => {
   return <main style={{ marginTop: '100px' }}>{children}</main>;
@@ -29,6 +30,7 @@ export const App = observer(() => {
         <Layout>
           <Router>
             <Route path="/" component={Home} />
+            <Route path="/cash-flows/income-expenses/transactions" component={IncomeExpenseTransactions} />
             <Route path="/settings/accounts" component={Accounts} />
             <NotFound default />
           </Router>

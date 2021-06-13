@@ -12,8 +12,14 @@ export const Home = observer(() => {
       <div>
         <LogoIcon />
       </div>
-
-      <Link href={'/settings/accounts'}>Accounts</Link>
+      <ul>
+        <li>
+          <Link href={'/cash-flows/income-expenses/transactions'}>Transactions</Link>
+        </li>
+        <li>
+          <Link href={'/settings/accounts'}>Accounts</Link>
+        </li>
+      </ul>
     </div>
   );
 });

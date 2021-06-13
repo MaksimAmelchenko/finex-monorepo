@@ -26,6 +26,8 @@ import { MoneysApi } from '../stores/api/moneys-api';
 import { ProfileRepository } from '../stores/profile-repository';
 import { ProfileApi } from '../stores/api/profile-api';
 import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-store';
+import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
+import { IncomeExpenseTransactionsApi } from '../stores/api/income-expense-transaction-api';
 
 /**
  * Helper to initialize DI
@@ -54,6 +56,8 @@ export function initializeMainStore(): MainStore {
   new CurrenciesRateSourceStore(mainStore);
   new MoneysRepository(mainStore, new MoneysApi(mainStore));
   new ProfileRepository(mainStore, new ProfileApi(mainStore));
+
+  new IncomeExpenseTransactionsRepository(mainStore, new IncomeExpenseTransactionsApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;
