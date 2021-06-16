@@ -9,10 +9,10 @@ const t = getT('Dashboard');
 
 export const Dashboard = observer(() => {
   return (
-    <div>
+    <article>
       <AccountBalances />
       <hr />
       <DebtBalances />
-    </div>
+    </article>
   );
 });

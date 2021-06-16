@@ -20,11 +20,13 @@
   },
   "dependencies": {
     "@reach/dialog": "^0.15.0",
+    "clsx": "^1.1.1",
     "date-fns": "^2.22.1",
     "formik": "^2.2.9",
     "lodash.get": "^4.4.2",
     "mobx": "^6.3.2",
     "mobx-react-lite": "^3.2.0",
+    "normalize.css": "^8.0.1",
     "preact": "^10.5.13",
     "preact-render-to-string": "^5.1.19",
     "preact-router": "^3.2.1",

@@ -23,30 +23,32 @@ export const IncomeExpenseTransactions = observer(() => {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Дата</th>
-          <th>
-            Счет
-            <br />
-            Контрагент
-          </th>
-          <th>Категория</th>
-          <th>Доход</th>
-          <th>Расход</th>
-          <th className="hidden-xs hidden-sm">Примечание</th>
-          <th className="hidden-xs hidden-sm">Теги</th>
-        </tr>
-      </thead>
-      <tbody>
-        {incomeExpenseTransactions.map(incomeExpenseTransaction => (
-          <IncomeExpenseTransaction
-            incomeExpenseTransaction={incomeExpenseTransaction}
-            key={incomeExpenseTransaction.id}
-          />
-        ))}
-      </tbody>
-    </table>
+    <article>
+      <table>
+        <thead>
+          <tr>
+            <th>Дата</th>
+            <th>
+              Счет
+              <br />
+              Контрагент
+            </th>
+            <th>Категория</th>
+            <th>Доход</th>
+            <th>Расход</th>
+            <th className="hidden-xs hidden-sm">Примечание</th>
+            <th className="hidden-xs hidden-sm">Теги</th>
+          </tr>
+        </thead>
+        <tbody>
+          {incomeExpenseTransactions.map(incomeExpenseTransaction => (
+            <IncomeExpenseTransaction
+              incomeExpenseTransaction={incomeExpenseTransaction}
+              key={incomeExpenseTransaction.id}
+            />
+          ))}
+        </tbody>
+      </table>
+    </article>
   );
 });

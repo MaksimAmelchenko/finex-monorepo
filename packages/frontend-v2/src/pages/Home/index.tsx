@@ -1,28 +1,13 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'preact-router';
 
 import style from './style.css';
-import LogoIcon from '../../icons/LogoIcon.svg';
+import clsx from 'clsx';
 
 export const Home = observer(() => {
   return (
-    <div class={style.home}>
+    <article class={clsx(style.home, 'scrollable')}>
       <h1>Home</h1>
-      <div>
-        <LogoIcon />
-      </div>
-      <ul>
-        <li>
-          <Link href={'/dashboard'}>Dashboard</Link>
-        </li>
-        <li>
-          <Link href={'/cash-flows/income-expenses/transactions'}>Transactions</Link>
-        </li>
-        <li>
-          <Link href={'/settings/accounts'}>Accounts</Link>
-        </li>
-      </ul>
-    </div>
+    </article>
   );
 });
