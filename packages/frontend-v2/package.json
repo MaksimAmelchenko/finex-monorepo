@@ -19,6 +19,8 @@
     ]
   },
   "dependencies": {
+    "@nivo/core": "^0.70.1",
+    "@nivo/line": "^0.70.1",
     "@reach/dialog": "^0.15.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.22.1",

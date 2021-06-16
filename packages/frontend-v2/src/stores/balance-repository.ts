@@ -1,5 +1,5 @@
-import { action, makeObservable, observable } from 'mobx';
-import { format } from 'date-fns';
+import { action, makeObservable, observable, runInAction } from 'mobx';
+import { addDays, format, subDays } from 'date-fns';
 
 import { ManageableStore } from '../core/manageable-store';
 import { MainStore } from '../core/main-store';
@@ -61,12 +61,16 @@ export class BalanceRepository extends ManageableStore {
         moneyId: undefined,
       });
       const { accountBalances, debtBalances } = response;
-      this.accountBalances = this.decodeAccountBalances(accountBalances);
-      this.debtBalances = this.decodeDebtBalances(debtBalances);
+      runInAction(() => {
+        this.accountBalances = this.decodeAccountBalances(accountBalances);
+        this.debtBalances = this.decodeDebtBalances(debtBalances);
+      });
     } catch (e) {
       console.error(e);
     } finally {
-      this.balancesLoadState = LoadState.done();
+      runInAction(() => {
+        this.balancesLoadState = LoadState.done();
+      });
     }
   }
 
@@ -74,16 +78,20 @@ export class BalanceRepository extends ManageableStore {
     try {
       this.dailyBalancesLoadState = LoadState.pending();
       const response = await this.api.getDailyBalance({
-        dBegin: format(new Date(), 'yyyy-MM-dd'),
-        dEnd: format(new Date(), 'yyyy-MM-dd'),
+        dBegin: format(subDays(new Date(), 180), 'yyyy-MM-dd'),
+        dEnd: format(addDays(new Date(), 180), 'yyyy-MM-dd'),
         moneyId: undefined,
       });
       const { balances } = response;
-      this.dailyBalances = this.decodeDailyBalances(balances);
+      runInAction(() => {
+        this.dailyBalances = this.decodeDailyBalances(balances);
+      });
     } catch (e) {
       console.error(e);
     } finally {
-      this.dailyBalancesLoadState = LoadState.done();
+      runInAction(() => {
+        this.dailyBalancesLoadState = LoadState.done();
+      });
     }
   }
 
