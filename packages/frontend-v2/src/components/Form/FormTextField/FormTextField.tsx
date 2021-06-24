@@ -2,10 +2,10 @@ import { h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { useField } from 'formik';
 
-import { IInputProps, Input } from '../../Input';
+import { ITextFieldProps, TextField } from '../../TextField/TextField';
 import { useEffect, useRef } from 'preact/hooks';
 
-export interface IFormInputProps extends IInputProps {
+export interface IFormTextFieldProps extends ITextFieldProps {
   name: string;
   label?: string;
   autoFocusOnEmpty?: boolean;
@@ -13,7 +13,7 @@ export interface IFormInputProps extends IInputProps {
   className?: string;
 }
 
-export const FormInput = forwardRef<HTMLInputElement, IFormInputProps>((props, ref) => {
+export const FormTextField = forwardRef<HTMLInputElement, IFormTextFieldProps>((props, ref) => {
   const [fieldProps, meta] = useField(props.name);
   const { onChange, ...rest } = props;
   const joinedProps = { ...rest, ...fieldProps };
@@ -30,7 +30,7 @@ export const FormInput = forwardRef<HTMLInputElement, IFormInputProps>((props, r
   }, [autoFocusOnEmpty, fieldProps.value]);
 
   return (
-    <Input
+    <TextField
       {...joinedProps}
       onInput={onChange}
       error={isError ? meta.error : ''}
@@ -40,4 +40,4 @@ export const FormInput = forwardRef<HTMLInputElement, IFormInputProps>((props, r
   );
 });
 
-FormInput.displayName = 'FormInput';
+FormTextField.displayName = 'FormTextField';

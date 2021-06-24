@@ -9,7 +9,7 @@ import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { Form } from '../../components/Form';
 import { FormButton } from '../../components/Form/FormButton';
 import { FormFooter } from '../../components/Form/FormFooter';
-import { FormInput } from '../../components/Form/FormInput';
+import { FormInput } from '../../components/Form/FormTextField/FormTextField';
 import { FormLayout } from '../../components/Form/FormLayout';
 import { ApiErrors } from '../../core/errors';
 import { CommonStorageStore } from '../../core/other-stores/common-storage-store';

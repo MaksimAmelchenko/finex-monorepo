@@ -1,13 +1,13 @@
 import { h, JSX } from 'preact';
 
-import style from './style.css';
+import style from './TextField.style.css';
 
-export interface IInputProps extends JSX.HTMLAttributes<HTMLInputElement> {
+export interface ITextFieldProps extends JSX.HTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
 }
 
-export function Input(props: IInputProps): JSX.Element {
+export function TextField(props: ITextFieldProps): JSX.Element {
   const { error, label, name, id = name, type = 'text', ...rest } = props;
 
   return (

@@ -2,19 +2,19 @@
 import { h } from 'preact';
 import { Meta, Story } from '@storybook/preact';
 
-import { Input, IInputProps } from './index';
+import { TextField, ITextFieldProps } from './TextField';
 // import { useState } from 'preact/hooks';
 
 export default {
-  title: 'Inputs/Input',
-  component: Input,
+  title: 'Inputs/TextField',
+  component: TextField,
   argTypes: { name: { control: false } },
 } as Meta;
 
-const Template: Story<IInputProps> = args => {
+const Template: Story<ITextFieldProps> = args => {
   // const [value, setValue] = useState<string>('');
   return (
-    <Input
+    <TextField
       {...args}
       // value={value}
       // onInput={e => {
