@@ -1,4 +1,133 @@
-.field {
-  input {
+.text-input {
+  width: 100%;
+  height: 42px;
+  background: var(--color-white);
+  border: 1px solid var(--color-grey5);
+  border-radius: 5px;
+  padding: 0 15px;
+  outline: none;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--color-main-dark);
+
+  transition: all 0.15s;
+
+  &--small {
+    height: 34px;
+  }
+
+  &:hover {
+    border-color: var(--color-grey6);
+  }
+
+  &:focus {
+    border-color: var(--color-link);
+
+    ~ .text-field-label {
+      font-size: 12px;
+      color: var(--color-link);
+      top: 0;
+      left: 12px;
+    }
+  }
+}
+
+.text-field-label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 4px;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--color-grey6);
+  transition: all 0.15s;
+
+  &:after {
+    background: var(--color-white);
+    width: 100%;
+    height: 4px;
+    left: 0;
+    bottom: 8px;
+    position: absolute;
+    content: '';
+    z-index: -1;
+  }
+}
+
+.text-field-error {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 24px;
+  padding: 0 16px;
+  color: var(--color-red);
+  display: none;
+}
+
+.text-field {
+  width: 100%;
+  position: relative;
+
+  &--error {
+    .text-field-error {
+      display: flex;
+    }
+
+    .text-input {
+      border: 1px solid var(--color-red);
+      box-shadow: var(--shadow);
+    }
+
+    .text-field-label {
+      color: var(--color-red) !important;
+    }
+  }
+
+  &--filled {
+    .text-field-label {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 24px;
+      color: var(--color-main-dark);
+      top: 0;
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+    cursor: default;
+
+    .text-input {
+      background: var(--color-grey2);
+      border-color: var(--color-grey5);
+      color: var(--color-grey6);
+    }
+
+    .text-field-label {
+      color: var(--color-grey6);
+
+      &:after {
+        background: var(--color-grey2);
+      }
+    }
+  }
+
+  &--search-entered {
+    .text-field--search__clear {
+      display: inline-flex;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    position: relative;
   }
 }

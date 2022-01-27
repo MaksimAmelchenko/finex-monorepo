@@ -9,7 +9,7 @@ import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { Form } from '../../components/Form';
 import { FormButton } from '../../components/Form/FormButton';
 import { FormFooter } from '../../components/Form/FormFooter';
-import { FormInput } from '../../components/Form/FormTextField/FormTextField';
+import { FormTextField } from '../../components/Form/FormTextField/FormTextField';
 import { FormLayout } from '../../components/Form/FormLayout';
 import { ApiErrors } from '../../core/errors';
 import { CommonStorageStore } from '../../core/other-stores/common-storage-store';
@@ -61,8 +61,8 @@ export const SignInForm = ({ afterSubmit }: ISignInFormProps): JSX.Element => {
       ]}
     >
       <FormLayout>
-        <FormInput name="username" type="text" label={t('Username')} autoFocusOnEmpty={true} />
-        <FormInput
+        <FormTextField name="username" type="text" label={t('Username')} autoFocusOnEmpty={true} />
+        <FormTextField
           name="password"
           type="password"
           label={t('Password')}
