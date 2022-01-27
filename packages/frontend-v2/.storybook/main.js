@@ -14,7 +14,7 @@ module.exports = {
   ],
   babel: async options => ({
     ...options,
-    presets: [['@babel/typescript', { jsxPragma: 'h' }]],
+    presets: ['@babel/typescript'],
   }),
 
   webpackFinal: async (config, { configType }) => {
