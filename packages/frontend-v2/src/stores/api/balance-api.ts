@@ -37,7 +37,7 @@ export class BalanceApi extends ApiRepository implements IBalanceApi {
     );
 
     return this.fetch<IGetDailyBalanceResponse>({
-      url: `v1/accounts/balances/daily?${queryString}`,
+      url: `/v1/accounts/balances/daily?${queryString}`,
     });
   }
 }

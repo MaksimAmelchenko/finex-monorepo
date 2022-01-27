@@ -34,7 +34,7 @@ export abstract class ApiRepository extends ManageableStore {
     const { url, method = 'GET', body, responseTypeCheck = null } = params;
     const data: FormData | string = isFormData(body) ? body : JSON.stringify(body);
     return window
-      .fetch(`https://finex.io/api/${url}`, {
+      .fetch(`https://finex.io/api${url}`, {
         headers: this.headers(isFormData(body)),
         method,
         body: data,
@@ -83,6 +83,9 @@ export abstract class ApiRepository extends ManageableStore {
         if (apiClass.status === response.status) {
           const apiErrorClass = (ApiErrors as any)[errorClass];
           return response.json().then(({ error }: { error: IAppError }) => {
+            if (error.status === 401 && error.code === 'sessionClosed') {
+              return this.getStore(AuthRepository).clearAuth();
+            }
             throw new apiErrorClass(error.message, error.code);
           });
         }
