@@ -1,11 +1,11 @@
-FROM node:14-alpine as build
+FROM node:16-alpine as build
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 # https://github.com/nodejs/docker-node/issues/282#issuecomment-358907790
 RUN apk --no-cache --virtual build-dependencies add \
-    python \
+    python3 \
     make \
     g++ \
     && npm ci \
@@ -16,14 +16,14 @@ RUN npm run build
 
 #
 
-FROM node:14-alpine
+FROM node:16-alpine
 
 WORKDIR /usr/src/app
 
 COPY --from=build /usr/src/app/dist/package*.json ./
 
 RUN apk --no-cache --virtual build-dependencies add \
-    python \
+    python3 \
     make \
     g++ \
     && npm ci --production \
