@@ -1,0 +1,19 @@
+[data-reach-dialog-overlay] {
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  background: hsla(0, 0%, 0%, 0.33);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+[data-reach-dialog-content] {
+  background: white;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
