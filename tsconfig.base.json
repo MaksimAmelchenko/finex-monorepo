@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@fnx/theme": ["packages/theme/src/index.ts"],
+      "@fnx/ui-kit": ["packages/ui-kit/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

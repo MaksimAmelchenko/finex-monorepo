@@ -2,6 +2,9 @@
   "version": 2,
   "projects": {
     "frontend": "packages/frontend",
-    "frontend-e2e": "packages/frontend-e2e"
+    "frontend-e2e": "packages/frontend-e2e",
+    "theme": "packages/theme",
+    "ui-kit": "packages/ui-kit",
+    "ui-kit-e2e": "packages/ui-kit-e2e"
   }
 }

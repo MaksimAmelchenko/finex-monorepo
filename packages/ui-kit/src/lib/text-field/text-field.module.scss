@@ -1,0 +1,121 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+%transition-styles {
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
+
+.root {
+  position: relative;
+
+  &__label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(36px, 16px) scale(1);
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    z-index: 2;
+    font-size: 1.6rem;
+    color: colors.$black;
+    padding: 0 5px;
+
+    .input:focus-within + & {
+      color: colors.$blue;
+    }
+
+    .root_filled &,
+    .input:focus-within + & {
+      transform: translate(6px, -9px) scale(1);
+    }
+
+    .root_error &,
+    .root_error .input:focus-within + & {
+      color: colors.$red;
+    }
+
+    &:after {
+      background: colors.$white;
+      width: 100%;
+      height: 4px;
+      left: 0;
+      bottom: 7px;
+      position: absolute;
+      content: '';
+      z-index: -1;
+    }
+  }
+
+  &__input {
+  }
+
+  &__helperText {
+    margin: 3px 16px 0;
+    font-size: 1.2rem;
+  }
+
+  &_error &__helperText {
+    @extend %transition-styles;
+    transition-property: color;
+    color: colors.$red;
+  }
+}
+
+.input {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  @extend %transition-styles;
+  transition-property: border-color;
+
+  border: 1px solid colors.$gray1;
+  border-radius: 5px;
+  width: 100%;
+  height: 50px;
+  cursor: text;
+  padding-left: 10px;
+
+  &__startAdornment {
+    flex-shrink: 0;
+  }
+
+  &__endAdornment {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    border: 1px solid colors.$grayDark;
+  }
+
+  &:focus-within {
+    border: 1px solid colors.$blue;
+  }
+
+  &_error,
+  &_error:focus-within,
+  &_error:hover {
+    border: 1px solid colors.$red;
+  }
+
+  &_size_small {
+    height: 34px;
+
+    .input__field {
+      font-size: 1.4rem;
+    }
+  }
+
+  &__field {
+    outline: none;
+    flex-grow: 1;
+    border: none;
+    width: 100%;
+    height: 48px;
+    padding: 0 6px;
+    font-size: 1.6rem;
+    color: colors.$black;
+  }
+}

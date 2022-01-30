@@ -1,0 +1,82 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  //width: auto;
+  //font-weight: 400;
+  user-select: none;
+  border-radius: 5px;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &_size_large {
+    min-width: 240px;
+    height: 50px;
+    padding: 0 32px;
+    @include typography.button;
+  }
+
+  &_size_medium {
+    min-width: 200px;
+    height: 44px;
+    padding: 0 56px;
+    //@include bodyBold;
+  }
+
+  &_color_orange {
+    background: colors.$orange;
+    color: colors.$white;
+
+    &:active {
+      background: colors.$orange;
+    }
+
+    &:hover {
+      background: colors.$orangeLight;
+    }
+
+    &.button_disabled,
+    &[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  &_color_blue {
+    color: colors.$white;
+    background: colors.$blue;
+
+    &:active {
+      //box-shadow: inset 0 0 4px green;
+    }
+
+    &:hover {
+      background: colors.$blueLight;
+    }
+
+    &.button_disabled,
+    &[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  &_variant_contained {
+    border: none;
+  }
+
+  &_fullSize {
+    width: 100%;
+    min-width: auto;
+    padding: 0 20px;
+  }
+}
