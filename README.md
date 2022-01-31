@@ -25,6 +25,10 @@ Run `nx g @nrwl/react:component my-component --project=frontend` to generate a n
 
 Run `nx g @nrwl/react:component button --project=ui-kit --export` to generate a new UI component.
 
+## Translations
+
+Run `nx workspace-generator i18n frontend` to generate a translations for application `frontend`.
+
 ```bash
 nx run ui-kit:storybook
 ```
