@@ -1,15 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~normalize.css';
-
-body {
-  height: 100vh;
-  width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-}
+@import 'packages/theme/src/lib/styles/global';
 
 aside {
   grid-area: sidebar;
@@ -38,34 +28,4 @@ article {
     color: var(--color-grey6);
     opacity: 1;
   }
-}
-
-:root {
-  --shadow: 0 1px 3px 1px rgba(0, 102, 191, 0.15);
-
-  --color-main-dark: #29344a;
-  --color-link: #0066bf;
-  --color-blue: #3585cc;
-  --color-orange: #eb7517;
-  --color-white: #ffffff;
-  --color-green: #5bc439;
-  --color-green-text: #439d27;
-  --color-menu-background: #1d273c;
-  --color-grey: #798398;
-  --color-grey2: #eaeef3;
-  --color-grey3: #f7f9fb;
-  --color-grey4: #fbfcfe;
-  --color-grey5: #dbe1ed;
-  --color-grey6: #949db1;
-  --color-red: #ec5858;
-}
-
-/* temporary */
-
-table {
-  border-collapse: collapse;
-}
-
-td {
-  border-top: 1px solid #ddd;
 }
