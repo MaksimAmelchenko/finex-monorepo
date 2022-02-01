@@ -6,14 +6,14 @@ import styles from './text-field.module.scss';
 
 export interface ITextFieldProps extends Omit<MaskedInputProps, 'css' | 'mask' | 'size'> {
   className?: string;
-  endAdornment?: any;
+  endAdornment?: React.FC<{ className?: string }>;
   error?: string;
   fullWidth?: boolean;
   helperText?: string;
   mask?: Mask | ((value: string) => Mask);
   size?: 'small' | 'medium'; // The size of the component.
-  startAdornment?: any;
-  label: string;
+  startAdornment?: React.FC<{ className?: string }>;
+  label?: string;
 }
 
 export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((props, ref) => {
@@ -70,18 +70,14 @@ export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((pr
             {...inputProps}
             type={type}
             id={id}
-            className={clsx(
-              //
-              styles.input__field
-              // endAdornment && styles.inputStyled_rightOffset
-            )}
+            className={clsx(styles.input__field)}
             autoComplete={autoComplete}
             ref={ref}
           />
         )}
         {EndAdornment && <EndAdornment className={styles.input__endAdornment} />}
       </div>
-      <label className={styles.root__label} htmlFor={id}>
+      <label className={clsx(styles.root__label, StartAdornment && styles.root__label_withStartAdornment)} htmlFor={id}>
         {label}
       </label>
       {message && <p className={styles.root__helperText}>{message}</p>}

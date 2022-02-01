@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Meta, Story } from '@storybook/react';
 
-// import SearchIcon from '../Icons/SearchIcon.inline.svg';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ReactComponent as SearchIcon } from '../../../../frontend/src/app/icons/SearchIcon.svg';
+
 import { ITextFieldProps, TextField } from './text-field';
 
-const icons = {
-  empty: '',
-  // searchIcon: SearchIcon,
+console.log(SearchIcon);
+const icons: Record<string, FC<any>> = {
+  searchIcon: SearchIcon,
 };
 
 export default {
@@ -32,7 +34,7 @@ const Template: Story<ITextFieldProps> = args => {
       value={value}
       error={value.length > 5 ? 'Error' : ''}
       onChange={handleOnChange}
-      // startAdornment={icons[args.startAdornment]}
+      startAdornment={icons[args.startAdornment as any]}
     />
   );
 };
@@ -41,8 +43,8 @@ export const Default = Template.bind({});
 Default.args = {
   size: 'medium',
   label: 'Label',
-  placeholder: 'Placeholder',
-  startAdornment: 'searchIcon',
+  // placeholder: 'Placeholder',
+  startAdornment: 'searchIcon' as any,
   error: 'Error',
   helperText: 'Helper Text',
 };
