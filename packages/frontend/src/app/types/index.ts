@@ -24,3 +24,10 @@ export interface Metadata {
   total: number;
   totalPlanned: number;
 }
+
+export interface GAOptions {
+  'data-ga-category'?: string;
+  'data-ga-action'?: string;
+  'data-ga-label'?: string;
+  'data-ga-value'?: number;
+}

@@ -1,0 +1,6 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.link {
+  color: colors.$blue;
+  text-decoration: none;
+}
