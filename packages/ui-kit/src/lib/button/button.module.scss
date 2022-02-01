@@ -11,6 +11,7 @@
   user-select: none;
   border-radius: 5px;
   text-decoration: none;
+  @include typography.button;
 
   &:hover {
     cursor: pointer;
@@ -20,7 +21,6 @@
     min-width: 240px;
     height: 50px;
     padding: 0 32px;
-    @include typography.button;
   }
 
   &_size_medium {
