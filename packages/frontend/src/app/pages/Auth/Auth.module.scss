@@ -1,0 +1,59 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/media';
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: colors.$grayLight;
+
+  @include media.phone {
+    justify-content: flex-start;
+    padding: 1rem;
+  }
+
+  &__header {
+    margin-bottom: 11rem;
+  }
+
+  &__footer {
+    padding: 2rem 0;
+
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  padding: 7rem 11rem 5.5rem;
+  max-width: 54rem;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
+  border-radius: 5px;
+  background-color: colors.$white;
+  @include media.phone {
+    padding: 7rem 2rem 5.5rem;
+  }
+
+  &__logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5rem;
+  }
+}
+
+.footer {
+  color: colors.$blue;
+
+  &__link {
+    margin: 0 1rem;
+  }
+}

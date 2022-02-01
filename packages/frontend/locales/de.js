@@ -1,4 +1,9 @@
 module.exports = {
+  Auth: {
+    Авторизация: 'Авторизация',
+    'На главную': 'На главную',
+    Поддержка: 'Поддержка',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',
@@ -8,12 +13,14 @@ module.exports = {
     'Something went wrong, please try again': 'Something went wrong, please try again',
   },
   SignInForm: {
-    'Enter username / e-mail address': 'Enter username / e-mail address',
-    'Invalid e-amil address': 'Invalid e-amil address',
-    'Enter a password': 'Enter a password',
-    'Invalid username or password': 'Invalid username or password',
-    Username: 'Username',
-    Password: 'Password',
-    'Sign In': 'Sign In',
+    'Укажите email': 'Укажите email',
+    'Проверьте, правильно ли введён email': 'Проверьте, правильно ли введён email',
+    'Укажите пароль': 'Укажите пароль',
+    'Неверный логин или пароль_ Для быстрого восстановления пароля нажмите на ссылку «Забыли пароль?»':
+      'Неверный логин или пароль. Для быстрого восстановления пароля нажмите на ссылку «Забыли пароль?»',
+    Email: 'Email',
+    Пароль: 'Пароль',
+    Войти: 'Войти',
+    'Забыли пароль?': 'Забыли пароль?',
   },
 };

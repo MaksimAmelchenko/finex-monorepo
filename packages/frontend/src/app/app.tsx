@@ -3,7 +3,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsLazy } from './containers/Accounts/AccountsLazy';
-import { Auth } from './pages/Auth';
+import { Auth } from './pages/Auth/Auth';
 import { AuthRepository } from './core/other-stores/auth-repository';
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Home } from './pages/Home/Home';
