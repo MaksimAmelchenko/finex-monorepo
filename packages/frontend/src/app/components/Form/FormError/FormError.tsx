@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 
 import { CoreError } from '../../../core/errors';
 
-import './FormError.module.scss';
+import styles from './FormError.module.scss';
 
 export type ErrorContextValue = { hr: string | JSX.Element; error: CoreError } | {};
 
@@ -21,5 +21,7 @@ export const FormErrorConsumer = formErrorContext.Consumer;
  */
 export const FormError = (): JSX.Element | null => {
   const errorContextValue = useContext<ErrorContextValue>(formErrorContext);
-  return hasError(errorContextValue) ? <div className={'error'}>{errorContextValue.hr}</div> : null;
+  return hasError(errorContextValue) ? (
+    <div className={styles.error} dangerouslySetInnerHTML={{ __html: errorContextValue.hr }} />
+  ) : null;
 };
