@@ -71,7 +71,7 @@ export function SignUp(): JSX.Element {
               type="password"
               label={t('Password')}
               autoFocusOnEmpty={true}
-              autoComplete="current-password"
+              autoComplete="new-password"
               helperText={t('Use 8 or more characters with a mix of letters, numbers & symbols')}
             />
             <FormError />

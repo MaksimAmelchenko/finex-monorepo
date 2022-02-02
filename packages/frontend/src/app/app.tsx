@@ -44,6 +44,7 @@ export const App = observer(() => {
         <Route path="/sign-in" element={<SignInLazy />} />
         <Route path="/sign-up" element={<SignUpLazy />} />
         <Route path="/sign-up/confirmation" element={<SignUpConfirmationLazy />} />
+        <Route path="/signup/confirm" element={<SignUpConfirmationLazy />} />
         <Route path="/reset-password" element={<ResetPasswordLazy />} />
         <Route path="/reset-password/confirmation" element={<ResetPasswordConfirmationLazy />} />
         <Route path="/password_recovery/confirm" element={<ResetPasswordConfirmationLazy />} />

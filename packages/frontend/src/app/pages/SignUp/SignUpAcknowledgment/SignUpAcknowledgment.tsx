@@ -1,7 +1,7 @@
-import './SignUpAcknowledgment.module.scss';
 import { Layout } from '../../../containers/Layout/Layout';
-import styles from './SignUpAcknowledgment.module.scss';
 import { getT } from '../../../lib/core/i18n';
+
+import styles from './SignUpAcknowledgment.module.scss';
 
 export interface SignUpAcknowledgmentProps {
   email: string;
