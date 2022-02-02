@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable } from 'mobx';
 
 import { BootstrapStore } from '../../stores/bootstrap-store';
 import { CommonStorageStore } from './common-storage-store';
-import { ISessionResponse, ISignUpRequestResponse } from '../../types/auth';
+import { IResetPasswordRequestResponse, ISessionResponse, ISignUpRequestResponse } from '../../types/auth';
 import { MainStore } from '../main-store';
 import { ManageableStore } from '../manageable-store';
 
@@ -10,6 +10,8 @@ export interface IAuthApi {
   signIn: (username: string, password: string) => Promise<ISessionResponse>;
   signUp: (name: string, username: string, password: string) => Promise<ISignUpRequestResponse>;
   signUpConfirmation: (token: string) => Promise<unknown>;
+  resetPassword: (username: string) => Promise<IResetPasswordRequestResponse>;
+  resetPasswordConfirmation: (token: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -69,6 +71,14 @@ export class AuthRepository extends ManageableStore {
 
   signUpConfirmation = (token: string) => {
     return this.api.signUpConfirmation(token);
+  };
+
+  resetPassword = (username: string): Promise<IResetPasswordRequestResponse> => {
+    return this.api.resetPassword(username);
+  };
+
+  resetPasswordConfirmation = (token: string, password: string): Promise<void> => {
+    return this.api.resetPasswordConfirmation(token, password);
   };
 
   /**

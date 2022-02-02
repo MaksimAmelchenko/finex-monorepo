@@ -89,7 +89,7 @@ export function SignIn(): JSX.Element {
             <FormButton type="submit" color="blue" fullSize isIgnoreValidation={true}>
               {t('SignIn')}
             </FormButton>
-            <Link href="/">{t('Forgot your Password?')}</Link>
+            <Link href="/reset-password">{t('Forgot your Password?')}</Link>
             <div>
               <span>{t('New to FINEX?')}</span> <Link href="/sign-up">{t('Create an account')}</Link>
             </div>

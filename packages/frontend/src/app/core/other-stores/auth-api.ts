@@ -1,6 +1,6 @@
 import { ApiRepository } from './api-repository';
 import { IAuthApi } from './auth-repository';
-import { ISessionResponse, ISignUpRequestResponse } from '../../types/auth';
+import { IResetPasswordRequestResponse, ISessionResponse, ISignUpRequestResponse } from '../../types/auth';
 
 export class AuthApi extends ApiRepository implements IAuthApi {
   static override storeName = 'AuthApi';
@@ -35,6 +35,27 @@ export class AuthApi extends ApiRepository implements IAuthApi {
       method: 'POST',
       body: {
         token,
+      },
+    });
+  }
+
+  resetPassword(username: string): Promise<IResetPasswordRequestResponse> {
+    return this.fetch<IResetPasswordRequestResponse>({
+      url: '/v2/reset-password',
+      method: 'POST',
+      body: {
+        email: username,
+      },
+    });
+  }
+
+  resetPasswordConfirmation(token: string, password: string): Promise<void> {
+    return this.fetch({
+      url: '/v2/reset-password/confirm',
+      method: 'POST',
+      body: {
+        token,
+        password,
       },
     });
   }

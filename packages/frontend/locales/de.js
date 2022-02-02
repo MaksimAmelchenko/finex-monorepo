@@ -11,6 +11,35 @@ module.exports = {
     Home: 'Home',
     Support: 'Support',
   },
+  ResetPassword: {
+    'Please enter email address': 'Please enter email address',
+    'Please enter a valid email address': 'Please enter a valid email address',
+    'Forgot your Password?': 'Forgot your Password?',
+    'User not found': 'User not found',
+    'To reset you password enter your email': 'To reset you password enter your email',
+    Email: 'Email',
+    Next: 'Next',
+  },
+  ResetPasswordAcknowledgment: {
+    'Reset password': 'Reset password',
+    'An email has been sent to the specified email address_ Please open it and click on the link inside it to reset your password':
+      'An email has been sent to the specified email address. Please open it and click on the link inside it to reset your password',
+  },
+  ResetPasswordConfirmation: {
+    'Please enter password': 'Please enter password',
+    'Use 8 characters or more for your password': 'Use 8 characters or more for your password',
+    'Reset Password': 'Reset Password',
+    'The password has already been reset': 'The password has already been reset',
+    'Password reset request not found': 'Password reset request not found',
+    'New password': 'New password',
+    'Use 8 or more characters with a mix of letters, numbers & symbols':
+      'Use 8 or more characters with a mix of letters, numbers & symbols',
+    Reset: 'Reset',
+  },
+  ResetPasswordConfirmationAcknowledgment: {
+    'The password has been reset': 'The password has been reset',
+    'Sign In': 'Sign In',
+  },
   SignIn: {
     'Please enter email address': 'Please enter email address',
     'Please enter a valid email address': 'Please enter a valid email address',

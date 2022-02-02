@@ -11,6 +11,34 @@ module.exports = {
     Home: 'На главную',
     Support: 'Поддержка',
   },
+  ResetPassword: {
+    'Please enter email address': 'Укажите email',
+    'Please enter a valid email address': 'Проверьте, правильно ли введён email',
+    'Forgot your Password?': 'Забыли пароль?',
+    'User not found': 'Пользователь не найден',
+    'To reset you password enter your email': 'Что бы сменить пароль, введите адрес электронной почты',
+    Email: 'Email',
+    Next: 'Продолжить',
+  },
+  ResetPasswordAcknowledgment: {
+    'Reset password': 'Смена пароля',
+    'An email has been sent to the specified email address_ Please open it and click on the link inside it to reset your password':
+      'На указанный электронный адрес было отправлено письмо. Пожалуйста, откройте его и нажмите на ссылку внутри его для смены пароля',
+  },
+  ResetPasswordConfirmation: {
+    'Please enter password': 'Укажите пароль',
+    'Use 8 characters or more for your password': 'Введите не менее 8 символов',
+    'Reset Password': 'Смена пароля',
+    'The password has already been reset': 'Пароль уже был изменен',
+    'Password reset request not found': 'Запрос на сброс пароля не найден',
+    'New password': 'Новый пароль',
+    'Use 8 or more characters with a mix of letters, numbers & symbols': 'Используйте 8 и более символом',
+    Reset: 'Сменить пароль',
+  },
+  ResetPasswordConfirmationAcknowledgment: {
+    'The password has been reset': 'Пароль был изменен',
+    'Sign In': 'Войти',
+  },
   SignIn: {
     'Please enter email address': 'Укажите email',
     'Please enter a valid email address': 'Проверьте, правильно ли введён email',

@@ -29,7 +29,7 @@ export async function confirmResetPasswordRequest(
   const user: IUser | undefined = await UserGateway.getByUsername(ctx, resetPasswordRequest.email);
 
   if (!user) {
-    throw new ConflictError('User not found');
+    throw new NotFoundError('User not found');
   }
 
   const hashedPassword = await hashPassword(password);

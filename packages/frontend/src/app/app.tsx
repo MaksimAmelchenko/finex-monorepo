@@ -9,9 +9,11 @@ import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/Inco
 import { IncomeExpenseTransactions } from './containers/IncomeExpenseTransactions/IncomeExpenseTransactions';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
+import { ResetPasswordConfirmationLazy } from "./pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy";
+import { ResetPasswordLazy } from "./pages/ResetPassword/ResetPasswordLazy";
 import { SignInLazy } from './pages/SignIn/SignInLazy';
-import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
+import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 
 const Main: FC = ({ children }) => {
   return <main>{children}</main>;
@@ -42,6 +44,9 @@ export const App = observer(() => {
         <Route path="/sign-in" element={<SignInLazy />} />
         <Route path="/sign-up" element={<SignUpLazy />} />
         <Route path="/sign-up/confirmation" element={<SignUpConfirmationLazy />} />
+        <Route path="/reset-password" element={<ResetPasswordLazy />} />
+        <Route path="/reset-password/confirmation" element={<ResetPasswordConfirmationLazy />} />
+        <Route path="/password_recovery/confirm" element={<ResetPasswordConfirmationLazy />} />
         <Route
           path="*"
           element={

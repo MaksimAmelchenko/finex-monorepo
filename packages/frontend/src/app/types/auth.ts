@@ -9,3 +9,9 @@ export interface ISignUpRequestResponse {
     id: string;
   };
 }
+
+export interface IResetPasswordRequestResponse {
+  resetPasswordRequest: {
+    id: string;
+  };
+}
