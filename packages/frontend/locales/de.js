@@ -47,4 +47,13 @@ module.exports = {
     'Thanks for signing up_ To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link_':
       'Thanks for signing up. To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link.',
   },
+  SignUpConfirmation: {
+    'The email has already been confirmed': 'The email has already been confirmed',
+    'Sign Up request not found': 'Sign Up request not found',
+    'This email already registered': 'This email already registered',
+    'Email confirmation': 'Email confirmation',
+    Processing___: 'Processing...',
+    'You email has been confirmed_': 'You email has been confirmed.',
+    'Start to use': 'Start to use',
+  },
 };

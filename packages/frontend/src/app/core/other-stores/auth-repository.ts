@@ -9,6 +9,7 @@ import { ManageableStore } from '../manageable-store';
 export interface IAuthApi {
   signIn: (username: string, password: string) => Promise<ISessionResponse>;
   signUp: (name: string, username: string, password: string) => Promise<ISignUpRequestResponse>;
+  signUpConfirmation: (token: string) => Promise<unknown>;
   signOut: () => Promise<void>;
 }
 
@@ -64,6 +65,10 @@ export class AuthRepository extends ManageableStore {
 
   signUp = ({ name, username, password }: SignUpParams): Promise<ISignUpRequestResponse> => {
     return this.api.signUp(name, username, password);
+  };
+
+  signUpConfirmation = (token: string) => {
+    return this.api.signUpConfirmation(token);
   };
 
   /**

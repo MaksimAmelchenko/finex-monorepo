@@ -1,0 +1,8 @@
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
+
+.container {
+  padding: 0 2rem 2rem;
+  text-align: center;
+  @include typography.body1;
+}

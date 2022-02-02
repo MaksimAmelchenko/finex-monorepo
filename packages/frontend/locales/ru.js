@@ -46,4 +46,13 @@ module.exports = {
     'Thanks for signing up_ To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link_':
       'Спасибо за регистрацию. На адрес {{email}} было отправлено электронное письмо. Пожалуйста, откройте его и нажмите на ссылку внутри его для подтверждения электронного адреса.',
   },
+  SignUpConfirmation: {
+    'The email has already been confirmed': 'Ваш электронный адрес уже подтвержден',
+    'Sign Up request not found': 'Запрос на регистрацию не найден',
+    'This email already registered': 'Этот электронный адрес уже зарегистрирован',
+    'Email confirmation': 'Подтверждение электронного адреса',
+    Processing___: 'Обработка...',
+    'You email has been confirmed_': 'Спасибо, Ваш электронный адрес подтверждён',
+    'Start to use': 'Начать пользоваться',
+  },
 };

@@ -29,6 +29,16 @@ export class AuthApi extends ApiRepository implements IAuthApi {
     });
   }
 
+  signUpConfirmation(token: string): Promise<unknown> {
+    return this.fetch<ISignUpRequestResponse>({
+      url: '/v2/sign-up/confirm',
+      method: 'POST',
+      body: {
+        token,
+      },
+    });
+  }
+
   signOut(): Promise<void> {
     return Promise.resolve(undefined);
   }

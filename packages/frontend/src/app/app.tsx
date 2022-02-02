@@ -11,6 +11,7 @@ import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
+import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 
 const Main: FC = ({ children }) => {
   return <main>{children}</main>;
@@ -40,6 +41,7 @@ export const App = observer(() => {
       <Routes>
         <Route path="/sign-in" element={<SignInLazy />} />
         <Route path="/sign-up" element={<SignUpLazy />} />
+        <Route path="/sign-up/confirmation" element={<SignUpConfirmationLazy />} />
         <Route
           path="*"
           element={
