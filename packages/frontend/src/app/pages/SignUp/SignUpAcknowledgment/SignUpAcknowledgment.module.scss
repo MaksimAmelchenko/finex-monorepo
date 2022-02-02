@@ -1,0 +1,18 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
+
+.container {
+  padding: 0 4rem 4rem;
+  @include media.phone {
+    padding: 0 2rem 2rem;
+  }
+
+  h1 {
+    @include typography.h3;
+  }
+
+  p {
+    @include typography.body2;
+  }
+}

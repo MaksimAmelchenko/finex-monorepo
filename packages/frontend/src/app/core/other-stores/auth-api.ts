@@ -1,6 +1,6 @@
 import { ApiRepository } from './api-repository';
 import { IAuthApi } from './auth-repository';
-import { ISessionResponse } from '../../types/auth';
+import { ISessionResponse, ISignUpRequestResponse } from '../../types/auth';
 
 export class AuthApi extends ApiRepository implements IAuthApi {
   static override storeName = 'AuthApi';
@@ -12,6 +12,19 @@ export class AuthApi extends ApiRepository implements IAuthApi {
       body: {
         username,
         password,
+      },
+    });
+  }
+
+  signUp(name: string, username: string, password: string): Promise<ISignUpRequestResponse> {
+    return this.fetch<ISignUpRequestResponse>({
+      url: '/v2/sign-up',
+      method: 'POST',
+      body: {
+        name,
+        email: username,
+        password,
+        isAcceptTerms: true,
       },
     });
   }

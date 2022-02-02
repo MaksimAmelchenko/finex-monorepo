@@ -33,6 +33,13 @@ export const ApiErrors = {
       super(0, `NetworkError: ${description}`, code);
     }
   },
+  InvalidRequest: class InvalidRequest extends ApiError {
+    static override readonly status = 400;
+
+    constructor(description: string, code?: string) {
+      super(InvalidRequest.status, description, code);
+    }
+  },
 
   Unauthorized: class Unauthorized extends ApiError {
     static override readonly status = 401;
@@ -55,14 +62,6 @@ export const ApiErrors = {
 
     constructor(description: string, code?: string) {
       super(NotFound.status, description, code);
-    }
-  },
-
-  InvalidRequest: class InvalidRequest extends ApiError {
-    static override readonly status = 400;
-
-    constructor(description: string, code?: string) {
-      super(InvalidRequest.status, description, code);
     }
   },
 

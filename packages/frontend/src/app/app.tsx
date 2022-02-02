@@ -3,14 +3,14 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsLazy } from './containers/Accounts/AccountsLazy';
-import { Auth } from './pages/Auth/Auth';
-import { AuthRepository } from './core/other-stores/auth-repository';
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
 import { IncomeExpenseTransactions } from './containers/IncomeExpenseTransactions/IncomeExpenseTransactions';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
-import { useStore } from './core/hooks/use-store';
+import { RequireAuth } from './components/RequireAuth/RequireAuth';
+import { SignInLazy } from './pages/Auth/SignInLazy';
+import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 
 const Main: FC = ({ children }) => {
   return <main>{children}</main>;
@@ -35,25 +35,33 @@ function Aside() {
 }
 
 export const App = observer(() => {
-  const authRepository = useStore(AuthRepository);
-
-  if (!authRepository.hasAuth) {
-    return <Auth />;
-  }
-
   return (
     <Suspense fallback={<div>loading...</div>}>
-      <Aside />
-      <Main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<DashboardLazy />} />
-          <Route path="/cash-flows/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
-          <Route path="/cash-flows/income-expenses" element={<IncomeExpenseCashFlows />} />
-          <Route path="/settings/accounts" element={<AccountsLazy />} />
-          <Route path="*" element={<NotFoundLazy />} />
-        </Routes>
-      </Main>
+      <Routes>
+        <Route path="/sign-in" element={<SignInLazy />} />
+        <Route path="/sign-up" element={<SignUpLazy />} />
+        <Route
+          path="*"
+          element={
+            <RequireAuth>
+              <>
+                <Aside />
+                <Main>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/dashboard" element={<DashboardLazy />} />
+                    <Route path="/cash-flows/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
+                    <Route path="/cash-flows/income-expenses" element={<IncomeExpenseCashFlows />} />
+                    <Route path="/settings/accounts" element={<AccountsLazy />} />
+
+                    <Route path="*" element={<NotFoundLazy />} />
+                  </Routes>
+                </Main>
+              </>
+            </RequireAuth>
+          }
+        />
+      </Routes>
     </Suspense>
   );
 });

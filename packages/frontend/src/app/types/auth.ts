@@ -3,3 +3,9 @@ export interface ISessionResponse {
   idUser: string;
   idProject: string;
 }
+
+export interface ISignUpRequestResponse {
+  signUpRequest: {
+    id: string;
+  };
+}
