@@ -54,14 +54,14 @@ export function SignIn(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        username: Yup.string().required(t('Укажите email')).email(t('Проверьте, правильно ли введён email')),
-        password: Yup.string().required(t('Укажите пароль')),
+        username: Yup.string().required(t('Please enter email address')).email(t('Please enter a valid email address')),
+        password: Yup.string().required(t('Please enter password')),
       }),
     []
   );
 
   return (
-    <Layout title={t('Авторизация')}>
+    <Layout title={t('Sign in')}>
       <div className={styles.container}>
         <Form<ISignInFormValues>
           onSubmit={onSubmit}
@@ -72,7 +72,7 @@ export function SignIn(): JSX.Element {
             //
             [
               ApiErrors.Unauthorized,
-              t('Неверный логин или пароль. Для быстрого восстановления пароля нажмите на ссылку «Забыли пароль?»'),
+              t('Invalid username or password. To reset your password click "Forgot your Password?"'),
             ],
           ]}
         >
@@ -81,17 +81,17 @@ export function SignIn(): JSX.Element {
             <FormTextField
               name="password"
               type="password"
-              label={t('Пароль')}
+              label={t('Password')}
               autoFocusOnEmpty={true}
               autoComplete="current-password"
             />
             <FormError />
             <FormButton type="submit" color="blue" fullSize isIgnoreValidation={true}>
-              {t('Войти')}
+              {t('SignIn')}
             </FormButton>
-            <Link href="/">{t('Забыли пароль?')}</Link>
+            <Link href="/">{t('Forgot your Password?')}</Link>
             <div>
-              <span>{t('Нет аккаунта?')}</span> <Link href="/sign-up">{t('Зарегистрироваться')}</Link>
+              <span>{t('New to FINEX?')}</span> <Link href="/sign-up">{t('Create an account')}</Link>
             </div>
           </FormLayout>
         </Form>

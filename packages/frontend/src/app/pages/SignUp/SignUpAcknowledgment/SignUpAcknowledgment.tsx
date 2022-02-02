@@ -13,10 +13,10 @@ export function SignUpAcknowledgment({ email }: SignUpAcknowledgmentProps) {
   return (
     <Layout>
       <div className={styles.container}>
-        <h1>{t('Пожалуйста, подтвердите свой электронный адрес')} </h1>
+        <h1>{t('Please confirm your email address')} </h1>
         <p>
           {t(
-            'Спасибо за регистрацию. На адрес {{email}} было отправлено электронное письмо. Пожалуйста, откройте его и нажмите на ссылку внутри его для подтверждения электронного адреса.',
+            'Thanks for signing up. To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link.',
             { email }
           )}
         </p>

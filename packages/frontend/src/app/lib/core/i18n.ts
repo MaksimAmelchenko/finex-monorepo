@@ -1,10 +1,13 @@
 import I18n, { ToCurrencyOptions } from 'i18n-js';
 import get from 'lodash.get';
-import dateFormat from 'date-fns/format';
-import dateParseISO from 'date-fns/parseISO';
 import deepmerge from 'deepmerge';
+
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
+
 import enLocale from 'date-fns/locale/en-US';
 import ruLocale from 'date-fns/locale/ru';
+import deLocale from 'date-fns/locale/de';
 
 import { TDate } from '../../types';
 
@@ -17,6 +20,7 @@ function normalizeKey(text: string): string {
 const locales = {
   en: enLocale,
   ru: ruLocale,
+  de: deLocale,
 };
 
 interface TParams {
@@ -52,13 +56,12 @@ export function toCurrency(num: number, options?: ToCurrencyOptions): string {
   return I18n.toCurrency(num, options);
 }
 
-export function formatDate(value: TDate, formatPath = 'date.formats.short'): string {
+export function formatDate(value: TDate, formatPath = 'date.formats.default'): string {
   if (!value) {
     return '';
   }
   const locale = currentLocale() as keyof typeof locales;
-  const format = get(I18n.translations[locale], formatPath);
-  return dateFormat(dateParseISO(value), format, { locale: locales[locale] });
+  return format(parseISO(value), get(I18n.translations[locale], formatPath), { locale: locales[locale] });
 }
 
 export function currentLocale(): string {
@@ -77,10 +80,6 @@ export function defaultLocale(): string {
   throw new Error('Please, initialize translator with initializeI18n before using');
 }
 
-export function getWeek(): string[] {
-  return get(I18n.translations[currentLocale()], 'date.week.short');
-}
-
 /**
  * Initialize with scope and get t() function
  * This function should be called in every file you need translator like this:
@@ -90,7 +89,7 @@ export function getWeek(): string[] {
 export function getT(scope: string): TFunction {
   return function (phrase: string, params?: TParams) {
     const translatorParams = {
-      defaultValue: (process.env as any).NODE_ENV === 'development' ? `{${phrase}}` : `${phrase}`,
+      defaultValue: process.env.NODE_ENV === 'development' ? `{${phrase}}` : `${phrase}`,
     };
 
     if (params) {

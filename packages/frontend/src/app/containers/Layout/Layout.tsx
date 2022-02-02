@@ -27,11 +27,11 @@ export const Layout: FC<LayoutProps> = ({ title, children }) => {
       </div>
       <footer className={clsx(styles.page__footer, styles.footer)}>
         <Link href="https://finex.io" className={styles.footer__link}>
-          {t('На главную')}
+          {t('Home')}
         </Link>
         |
         <Link href="mailto:support@finex.io" className={styles.footer__link}>
-          {t('Поддержка')}
+          {t('Support')}
         </Link>
       </footer>
     </div>

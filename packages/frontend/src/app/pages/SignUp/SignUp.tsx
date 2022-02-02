@@ -38,9 +38,11 @@ export function SignUp(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        name: Yup.string().required(t('Укажите ваше имя')),
-        username: Yup.string().required(t('Укажите email')).email(t('Проверьте, правильно ли введён email')),
-        password: Yup.string().required(t('Укажите пароль')).min(6, t('Введите не менее 8 символов')),
+        name: Yup.string().required(t('Please enter your name')),
+        username: Yup.string().required(t('Please enter email address')).email(t('Please enter a valid email address')),
+        password: Yup.string()
+          .required(t('Please enter password'))
+          .min(8, t('Use 8 characters or more for your password')),
       }),
     []
   );
@@ -50,7 +52,7 @@ export function SignUp(): JSX.Element {
   }
 
   return (
-    <Layout title={t('Регистрация')}>
+    <Layout title={t('Create an FINEX account')}>
       <div className={styles.container}>
         <Form<ISignUpFormValues>
           onSubmit={onSubmit}
@@ -58,32 +60,28 @@ export function SignUp(): JSX.Element {
           validationSchema={validationSchema}
           errorsHR={[
             //
-            [
-              ApiErrors.Unauthorized,
-              t('Неверный логин или пароль. Для быстрого восстановления пароля нажмите на ссылку «Забыли пароль?»'),
-            ],
-            [ApiErrors.ConflictError, t('Пользователь с таким email уже зарегистрирован')],
+            [ApiErrors.ConflictError, t('This email already registered')],
           ]}
         >
           <FormLayout className={styles.formLayout}>
-            <FormTextField name="name" type="text" label={t('Имя')} autoFocusOnEmpty={true} />
+            <FormTextField name="name" type="text" label={t('Name')} autoFocusOnEmpty={true} />
             <FormTextField name="username" type="text" label={t('Email')} autoFocusOnEmpty={true} />
             <FormTextField
               name="password"
               type="password"
-              label={t('Пароль')}
+              label={t('Password')}
               autoFocusOnEmpty={true}
               autoComplete="current-password"
-              helperText={t('Используйте 8 и более символом')}
+              helperText={t('Use 8 or more characters with a mix of letters, numbers & symbols')}
             />
             <FormError />
             <FormButton type="submit" color="blue" fullSize isIgnoreValidation={true}>
-              {t('Зарегистрироваться')}
+              {t('Sign Up')}
             </FormButton>
             <div>
-              <span>{t('Уже зарегистрировались?')}</span>{' '}
+              <span>{t('Already have an account?')}</span>{' '}
               <Link href="/sign-in" className={styles.footer__link}>
-                {t('Войти')}
+                {t('Sign In')}
               </Link>
             </div>
           </FormLayout>

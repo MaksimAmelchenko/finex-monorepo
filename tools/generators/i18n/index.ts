@@ -6,7 +6,7 @@ import { scanDir } from './internal/scan-dir';
 
 const fileExtensions = ['ts', 'tsx'];
 const outDir = 'locales';
-const locales = ['ru', 'en', 'de'];
+const locales = ['en', 'ru', 'de'];
 const defaultLocale = locales[0];
 
 export default async function (tree: Tree, schema: any) {
@@ -23,7 +23,7 @@ export default async function (tree: Tree, schema: any) {
   }
 
   // Merge results with existing translations
-  for (let locale of locales) {
+  for (const locale of locales) {
     let newPhrasesCount = 0;
     let previousResult = {};
     const localeResult = {};
@@ -32,10 +32,10 @@ export default async function (tree: Tree, schema: any) {
     }
 
     // 1. add new translations
-    for (let namespace in scanResult) {
+    for (const namespace in scanResult) {
       if (previousResult[namespace]) {
         localeResult[namespace] = {};
-        for (let scope in scanResult[namespace]) {
+        for (const scope in scanResult[namespace]) {
           if (!previousResult[namespace][scope]) {
             newPhrasesCount += 1;
           }

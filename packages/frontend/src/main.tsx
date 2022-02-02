@@ -6,10 +6,10 @@ import { App } from './app/app';
 import { createMainContext } from './app/core/main-context';
 import { initializeMainStore } from './app/core/initialize-stores';
 
-import * as ru from '../locales/ru.js';
+import * as en from '../locales/en.js';
 import { initializeI18n } from './app/lib/core/i18n';
 
-const languages = ['ru', 'en', 'de'];
+const languages = ['en', 'ru', 'de'];
 // const lang = window.location.pathname.split('/')[1];
 const lang = languages[0];
 const defaultLanguage = languages[0];
@@ -17,19 +17,21 @@ const currentLocale = languages.includes(lang) ? lang : defaultLanguage;
 
 async function initI18n(): Promise<void> {
   switch (currentLocale) {
-    case 'ru': {
+    case 'en': {
       initializeI18n(
         {
-          ru: {
-            ...ru,
+          en: {
+            ...en,
             date: {
-              week: { short: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'] },
               formats: {
-                short: 'd MMM yyyy',
+                default: 'MM-dd-yy',
+                short: 'MM-dd-yyyy',
               },
             },
             time: {
-              format: 'HH:mm',
+              formats: {
+                short: 'HH:mm',
+              },
             },
           },
         },
@@ -38,20 +40,22 @@ async function initI18n(): Promise<void> {
       );
       break;
     }
-    case 'en': {
-      const en = await import(/* webpackChunkName: "locale-en" */ '../locales/en.js');
+    case 'ru': {
+      const ru = await import(/* webpackChunkName: "locale-ru" */ '../locales/ru.js');
       initializeI18n(
         {
-          en: {
-            ...en,
+          ru: {
+            ...ru,
             date: {
-              week: { short: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
               formats: {
-                short: 'd MMM yyyy',
+                default: 'dd.MM.yy',
+                short: 'dd.MM.yyyy',
               },
             },
             time: {
-              format: 'HH:mm',
+              formats: {
+                short: 'HH:mm',
+              },
             },
           },
         },
@@ -67,13 +71,15 @@ async function initI18n(): Promise<void> {
           en: {
             ...de,
             date: {
-              week: { short: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
               formats: {
-                short: 'd MMM yyyy',
+                default: 'dd.MM.yy',
+                short: 'dd.MM.yyyy',
               },
             },
             time: {
-              format: 'HH:mm',
+              formats: {
+                short: 'HH:mm',
+              },
             },
           },
         },
