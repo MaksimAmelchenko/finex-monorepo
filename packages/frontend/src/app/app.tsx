@@ -9,7 +9,7 @@ import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/Inco
 import { IncomeExpenseTransactions } from './containers/IncomeExpenseTransactions/IncomeExpenseTransactions';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
-import { SignInLazy } from './pages/Auth/SignInLazy';
+import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 
 const Main: FC = ({ children }) => {
