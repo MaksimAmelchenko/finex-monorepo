@@ -11,15 +11,8 @@ import {
 } from 'formik';
 
 import { CoreError } from '../../core/errors';
-
-import { CoreErrorConstructor, translateErrorToHR } from './FormError/errors-translation';
+import { CoreErrorConstructor, ErrorTranslation, translateErrorToHR } from "../../core/errors-translation";
 import { ErrorContextValue, FormErrorProvider } from './FormError/FormError';
-
-/**
- * For each CoreError sub-class, you may pass a human readable (HR) string
- * or a function that takes the error in arguments and return HR string
- */
-export type ErrorTranslation = string | JSX.Element | ((error: CoreError) => string);
 
 export type IFormProps<Values> = FormikConfig<Values> & {
   /**

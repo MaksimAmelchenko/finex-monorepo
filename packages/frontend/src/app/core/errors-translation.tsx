@@ -1,8 +1,14 @@
 import React from 'react';
 
-import { ErrorTranslation } from '../index';
-import { getT } from '../../../lib/core/i18n';
-import { ApiErrors, CoreError } from '../../../core/errors';
+import { getT } from '../lib/core/i18n';
+import { ApiErrors, CoreError } from './errors';
+
+/**
+ * For each CoreError sub-class, you may pass a human readable (HR) string
+ * or a function that takes the error in arguments and return HR string
+ */
+export type ErrorTranslation = string | JSX.Element | ((error: CoreError) => string);
+
 
 /**
  * Type which determines CoreError class constructor,
