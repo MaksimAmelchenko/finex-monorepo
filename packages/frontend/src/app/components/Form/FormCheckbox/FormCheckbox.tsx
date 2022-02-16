@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useField, useFormikContext } from 'formik';
 
-import { Checkbox, ICheckboxProps } from '@fnx/ui-kit';
+import { Checkbox, ICheckboxProps } from '@finex/ui-kit';
 
 export interface IFormCheckboxProps extends ICheckboxProps {
   name: string;

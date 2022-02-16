@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 
-import { Button, IButtonProps } from '@fnx/ui-kit';
+import { Button, IButtonProps } from '@finex/ui-kit';
 
 interface IFormButton extends IButtonProps {
   isIgnoreValidation?: boolean;

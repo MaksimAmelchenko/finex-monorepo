@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@fnx/theme": ["packages/theme/src/index.ts"],
-      "@fnx/ui-kit": ["packages/ui-kit/src/index.ts"]
+      "@finex/theme": ["packages/theme/src/index.ts"],
+      "@finex/ui-kit": ["packages/ui-kit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from '@fnx/ui-kit';
+import { Button } from '@finex/ui-kit';
 import { Layout } from '../../../containers/Layout/Layout';
 import { getT } from '../../../lib/core/i18n';
 

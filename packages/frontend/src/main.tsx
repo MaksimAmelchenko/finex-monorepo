@@ -1,4 +1,4 @@
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { StrictMode } from 'react';
 
@@ -93,13 +93,14 @@ async function initI18n(): Promise<void> {
 
 initI18n().then(() => {
   createMainContext(initializeMainStore());
+  // @ts-ignore
+  const root = ReactDOM.createRoot(document.getElementById('root'));
 
-  render(
+  root.render(
     <StrictMode>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </StrictMode>,
-    document.getElementById('root')
+    </StrictMode>
   );
 });

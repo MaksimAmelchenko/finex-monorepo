@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 
 import { useField } from 'formik';
-import { ITextFieldProps, TextField } from '@fnx/ui-kit';
+import { ITextFieldProps, TextField } from '@finex/ui-kit';
 
 export interface IFormTextFieldProps extends ITextFieldProps {
   name: string;
