@@ -11,6 +11,14 @@ module.exports = {
     Home: 'Home',
     Support: 'Support',
   },
+  MainLayout: {
+    Dashboard: 'Dashboard',
+    Transactions: 'Transactions',
+    Planning: 'Planning',
+    Reports: 'Reports',
+    Settings: 'Settings',
+    Tools: 'Tools',
+  },
   ResetPassword: {
     'Please enter email address': 'Please enter email address',
     'Please enter a valid email address': 'Please enter a valid email address',

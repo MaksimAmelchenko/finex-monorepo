@@ -1,5 +1,6 @@
-import { FC, Suspense } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsLazy } from './containers/Accounts/AccountsLazy';
@@ -7,54 +8,33 @@ import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
 import { IncomeExpenseTransactions } from './containers/IncomeExpenseTransactions/IncomeExpenseTransactions';
+import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
-import { ResetPasswordConfirmationLazy } from "./pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy";
-import { ResetPasswordLazy } from "./pages/ResetPassword/ResetPasswordLazy";
+import { ResetPasswordConfirmationLazy } from './pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy';
+import { ResetPasswordLazy } from './pages/ResetPassword/ResetPasswordLazy';
 import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
-
-const Main: FC = ({ children }) => {
-  return <main>{children}</main>;
-};
-
-function Aside() {
-  return (
-    <aside className="scrollable">
-      <ul>
-        <li>
-          <Link to={'/dashboard'}>Dashboard</Link>
-        </li>
-        <li>
-          <Link to={'/cash-flows/income-expenses/transactions'}>Transactions</Link>
-        </li>
-        <li>
-          <Link to={'/settings/accounts'}>Accounts</Link>
-        </li>
-      </ul>
-    </aside>
-  );
-}
+import { theme } from '../theme';
 
 export const App = observer(() => {
   return (
     <Suspense fallback={<div>loading...</div>}>
-      <Routes>
-        <Route path="/sign-in" element={<SignInLazy />} />
-        <Route path="/sign-up" element={<SignUpLazy />} />
-        <Route path="/sign-up/confirmation" element={<SignUpConfirmationLazy />} />
-        <Route path="/signup/confirm" element={<SignUpConfirmationLazy />} />
-        <Route path="/reset-password" element={<ResetPasswordLazy />} />
-        <Route path="/reset-password/confirmation" element={<ResetPasswordConfirmationLazy />} />
-        <Route path="/password_recovery/confirm" element={<ResetPasswordConfirmationLazy />} />
-        <Route
-          path="*"
-          element={
-            <RequireAuth>
-              <>
-                <Aside />
-                <Main>
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path="/sign-in" element={<SignInLazy />} />
+          <Route path="/sign-up" element={<SignUpLazy />} />
+          <Route path="/sign-up/confirmation" element={<SignUpConfirmationLazy />} />
+          <Route path="/signup/confirm" element={<SignUpConfirmationLazy />} />
+          <Route path="/reset-password" element={<ResetPasswordLazy />} />
+          <Route path="/reset-password/confirmation" element={<ResetPasswordConfirmationLazy />} />
+          <Route path="/password_recovery/confirm" element={<ResetPasswordConfirmationLazy />} />
+          <Route
+            path="*"
+            element={
+              <RequireAuth>
+                <MainLayout>
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/dashboard" element={<DashboardLazy />} />
@@ -64,12 +44,12 @@ export const App = observer(() => {
 
                     <Route path="*" element={<NotFoundLazy />} />
                   </Routes>
-                </Main>
-              </>
-            </RequireAuth>
-          }
-        />
-      </Routes>
+                </MainLayout>
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </ThemeProvider>
     </Suspense>
   );
 });

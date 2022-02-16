@@ -54,6 +54,9 @@
     "url-loader": "^3.0.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.4.2",
     "@nivo/core": "^0.79.0",
     "@nivo/line": "^0.79.1",
     "@reach/dialog": "^0.16.2",

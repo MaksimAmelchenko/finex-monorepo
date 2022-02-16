@@ -1,0 +1,8 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/media';
+
+.header__logo {
+  height: 2rem;
+  width: auto;
+  margin: 18px 4px 18px 16px;
+}
