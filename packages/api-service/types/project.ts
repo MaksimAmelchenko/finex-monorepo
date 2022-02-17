@@ -1,12 +1,12 @@
 import { IModel, Permit } from './app';
 
 export interface IDBProject {
-  id_project: number;
+  idProject: number;
   name: string;
   note: string;
-  id_user: number;
-  created_at: string;
-  updated_at: string;
+  idUser: number;
+  // created_at: string;
+  // updated_at: string;
   permit: Permit;
 }
 

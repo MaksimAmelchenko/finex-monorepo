@@ -40,10 +40,9 @@ export async function confirmSignUpRequest(ctx: IRequestContext, token: string):
   });
 
   const project: IProject = await Project.create(ctx, { id_user: user.id, name: 'Моя бухгалтерия' });
-
   await User.update(ctx, user.id, { id_project: project.id });
 
   await SignUpRequestGateway.update(ctx, signUpRequest.id, {
-    confirmed_at: moment.utc().format(),
+    confirmed_at: new Date().toISOString(),
   });
 }
