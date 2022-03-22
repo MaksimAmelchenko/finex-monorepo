@@ -1,98 +1,97 @@
 @use './media';
 
 @mixin h1 {
-  margin: 0 0 0.35em;
-  font-size: 4rem;
-  //line-height: 4.6rem;
+  font-size: clamp(4.2rem, 2.05712rem + 3.5714vw, 6.4rem);
   font-weight: 300;
-  font-style: normal;
-  @include media.tablet {
-    font-size: 3rem;
-  }
-  @include media.phone {
-    font-size: 2rem;
-  }
+  line-height: 1.1;
+  //@include media.tablet {
+  //  font-size: 3rem;
+  //}
+  //@include media.phone {
+  //  font-size: 2rem;
+  //}
 }
 
 @mixin h2 {
-  margin: 0 0 0.35em;
-  font-size: 3rem;
+  font-size: clamp(2.4rem, 1.54288rem + 1.4286vw, 3.6rem);
   font-weight: 300;
-  font-style: normal;
-  @include media.tablet {
-    font-size: 2.4rem;
-  }
-  @include media.phone {
-    font-size: 1.8rem;
-  }
+  line-height: 1.2;
+  //font-style: normal;
+  //@include media.tablet {
+  //  font-size: 2.4rem;
+  //}
+  //@include media.phone {
+  //  font-size: 1.8rem;
+  //}
 }
 
 @mixin h3 {
-  margin: 0 0 0.35em;
-  font-size: 2rem;
+  font-size: 3.6rem;
+  font-weight: 400;
   line-height: 1.2;
-  font-weight: normal;
-  font-style: normal;
+  letter-spacing: 0.32rem;
+}
+
+@mixin h4 {
+  font-size: 2.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.32rem;
+}
+
+@mixin h5 {
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.16rem;
+}
+
+@mixin h6 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 @mixin subtitle1 {
-  font-size: 16px;
-  line-height: 1.5;
-  font-weight: normal;
-  font-style: normal;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.25;
 }
 
 @mixin subtitle2 {
-  font-size: 14px;
+  font-size: 1.4rem;
+  font-weight: 500;
   line-height: 1.5;
-  font-weight: 300;
-  font-style: normal;
 }
 
 @mixin body1 {
-  font-size: 2rem;
-  line-height: 1.4;
-  font-weight: normal;
-  font-style: normal;
-  @include media.phone {
-    font-size: 1.6rem;
-  }
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 @mixin body2 {
-  font-size: 14px;
+  font-size: 1.4rem;
+  font-weight: 400;
   line-height: 1.5;
-  font-weight: normal;
-  font-style: normal;
 }
-
-//@mixin bodyBold {
-//  font-weight: bold;
-//  font-style: normal;
-//  font-size: 14px;
-//  line-height: 16px;
-//}
 
 @mixin button {
   font-size: 1.6rem;
-  font-style: normal;
   font-weight: 500;
-  //line-height: 23px;
-  //text-transform: uppercase;
-  //letter-spacing: 1.25px;
+  line-height: 1.75;
+  text-transform: initial;
 }
 
 @mixin caption {
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.4px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 @mixin overline {
-  font-size: 10px;
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 1.5px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 2.5;
   text-transform: uppercase;
 }

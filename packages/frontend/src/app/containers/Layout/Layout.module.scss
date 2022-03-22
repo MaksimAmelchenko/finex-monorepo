@@ -1,5 +1,6 @@
 @use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
 
 .page {
   display: flex;
@@ -15,6 +16,7 @@
   }
 
   &__header {
+    @include typography.h2();
   }
 
   &__body {
