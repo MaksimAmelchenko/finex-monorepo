@@ -22,6 +22,8 @@ interface IAppError {
   data?: any;
 }
 
+const apiServer = process.env.NX_API_SERVER;
+
 export abstract class ApiRepository extends ManageableStore {
   static storeName = 'ApiRepository';
 
@@ -34,7 +36,7 @@ export abstract class ApiRepository extends ManageableStore {
     const { url, method = 'GET', body, responseTypeCheck = null } = params;
     const data: FormData | string = isFormData(body) ? body : JSON.stringify(body);
     return window
-      .fetch(`https://finex.io/api${url}`, {
+      .fetch(`${apiServer}${url}`, {
         headers: this.headers(isFormData(body)),
         method,
         body: data,
