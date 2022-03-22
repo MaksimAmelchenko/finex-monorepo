@@ -1,0 +1,32 @@
+.row {
+  display: none;
+
+  &_visible {
+    display: table-row;
+  }
+}
+
+.groupingCell {
+  display: flex;
+
+  &__content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.indent {
+  flex-shrink: 0;
+  margin-left: calc((var(--level, 1) - 1) * 24px);
+  width: 24px;
+  user-select: none;
+
+  &__icon {
+    display: block;
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    &_expanded {
+      transform: rotate(90deg);
+    }
+  }
+}
