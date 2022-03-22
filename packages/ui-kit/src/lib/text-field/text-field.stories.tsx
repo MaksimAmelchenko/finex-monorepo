@@ -1,12 +1,9 @@
 import React, { FC } from 'react';
 import { Meta, Story } from '@storybook/react';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { ReactComponent as SearchIcon } from '../../../../frontend/src/app/icons/SearchIcon.svg';
-
 import { ITextFieldProps, TextField } from './text-field';
+import { SearchIcon } from '../icons/';
 
-console.log(SearchIcon);
 const icons: Record<string, FC<any>> = {
   searchIcon: SearchIcon,
 };

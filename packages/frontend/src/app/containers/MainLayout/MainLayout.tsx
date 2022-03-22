@@ -17,14 +17,16 @@ import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
 import { Link } from '../../components/Link/Link';
 import { getT } from '../../lib/core/i18n';
 
-import cashFlowSvg from '../../components/Icons/cash-flow.svg';
-import dashboardSvg from '../../components/Icons/dashboard.svg';
-import hamburgerSvg from '../../components/Icons/hamburger.svg';
-import planningSvg from '../../components/Icons/planning.svg';
-import reportsSvg from '../../components/Icons/reports.svg';
-import settingsSvg from '../../components/Icons/settings.svg';
-import toolsSvg from '../../components/Icons/tools.svg';
-import { ReactComponent as Logo } from '../../components/Icons/Logo.svg';
+import {
+  CashFlowSvg,
+  DashboardSvg,
+  HamburgerSvg,
+  Logo,
+  PlanningSvg,
+  ReportsSvg,
+  SettingsSvg,
+  ToolsSvg
+} from "@finex/ui-kit";
 
 import styles from './MainLayout.module.scss';
 
@@ -102,37 +104,37 @@ export const MainLayout: FC = observer(({ children }) => {
         id: 'dashboard',
         link: '/dashboard',
         label: t('Dashboard'),
-        icon: <img src={dashboardSvg} alt="" />,
+        icon: <img src={DashboardSvg} alt="" />,
       },
       {
         id: 'transactions',
         link: '/cash-flows/income-expenses/transactions',
         label: t('Transactions'),
-        icon: <img src={cashFlowSvg} alt="" />,
+        icon: <img src={CashFlowSvg} alt="" />,
       },
       {
         id: 'planning',
         link: '#',
         label: t('Planning'),
-        icon: <img src={planningSvg} alt="" />,
+        icon: <img src={PlanningSvg} alt="" />,
       },
       {
         id: 'reports',
         link: '#',
         label: t('Reports'),
-        icon: <img src={reportsSvg} alt="" />,
+        icon: <img src={ReportsSvg} alt="" />,
       },
       {
         id: 'settings',
         link: '#',
         label: t('Settings'),
-        icon: <img src={settingsSvg} alt="" />,
+        icon: <img src={SettingsSvg} alt="" />,
       },
       {
         id: 'tools',
         link: '#',
         label: t('Tools'),
-        icon: <img src={toolsSvg} alt="" />,
+        icon: <img src={ToolsSvg} alt="" />,
       },
     ];
   }, []);
@@ -157,7 +159,7 @@ export const MainLayout: FC = observer(({ children }) => {
               marginLeft: '-8px',
             }}
           >
-            <img src={hamburgerSvg} alt="" />
+            <img src={HamburgerSvg} alt="" />
           </IconButton>
 
           <Logo className={styles.header__logo} />

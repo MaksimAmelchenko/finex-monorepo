@@ -1,0 +1,13 @@
+export { ReactComponent as ArrowForwardIcon, default as ArrowForwardSvg } from './arrow-forward.svg';
+export { ReactComponent as CashFlowIcon, default as CashFlowSvg } from './cash-flow.svg';
+export { ReactComponent as DashboardIcon, default as DashboardSvg } from './dashboard.svg';
+export { ReactComponent as DatabaseIcon, default as DatabaseSvg } from './database.svg';
+export { ReactComponent as HamburgerIcon, default as HamburgerSvg } from './hamburger.svg';
+export { ReactComponent as Logo, default as LogoSvg } from './logo.svg';
+export { ReactComponent as PlanningIcon, default as PlanningSvg } from './planning.svg';
+export { ReactComponent as ReferenceBooksSIcon, default as ReferenceBooksSvg } from './reference-books.svg';
+export { ReactComponent as ReportsIcon, default as ReportsSvg } from './reports.svg';
+export { ReactComponent as SearchIcon, default as SearchSvg } from './search.svg';
+export { ReactComponent as SettingsIcon, default as SettingsSvg } from './settings.svg';
+export { ReactComponent as ToolsIcon, default as ToolsSvg } from './tools.svg';
+export { ReactComponent as UsersIcon, default as UsersSvg } from './users.svg';

@@ -2,9 +2,8 @@ import React, { FC } from 'react';
 import clsx from 'clsx';
 
 import { Link } from '../../components/Link/Link';
+import { Logo } from '@finex/ui-kit';
 import { getT } from '../../lib/core/i18n';
-
-import { ReactComponent as Logo } from '../../components/Icons/Logo.svg';
 
 import styles from './Layout.module.scss';
 
