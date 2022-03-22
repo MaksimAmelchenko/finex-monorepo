@@ -22,6 +22,6 @@ export const Link = React.forwardRef<HTMLAnchorElement, ILinkProps>(function Lin
       className={clsx(className, styles.link)}
     />
   ) : (
-    <RouterLink to={href} {...rest} ref={ref} className={clsx(className, styles.link)} />
+    <RouterLink to={href} {...rest} ref={ref} className={clsx(styles.link, className)} />
   );
 });
