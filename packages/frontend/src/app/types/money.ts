@@ -9,7 +9,7 @@ export interface IMoneyRaw {
   name: string;
   precision: number;
   sorting: number;
-  symbol: number;
+  symbol: string;
 }
 
 export interface IMoney {
@@ -20,5 +20,5 @@ export interface IMoney {
   name: string;
   precision: number;
   sorting: number;
-  symbol: number;
+  symbol: string;
 }

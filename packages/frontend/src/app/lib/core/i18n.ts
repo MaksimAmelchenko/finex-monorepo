@@ -1,6 +1,6 @@
 import I18n, { ToCurrencyOptions } from 'i18n-js';
-import get from 'lodash.get';
 import deepmerge from 'deepmerge';
+import get from 'lodash.get';
 
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
@@ -52,8 +52,12 @@ export function injectTranslations(translations: Record<string, Record<string, s
   I18n.translations[I18n.locale] = deepmerge(I18n.translations[I18n.locale], translations);
 }
 
-export function toCurrency(num: number, options?: ToCurrencyOptions): string {
-  return I18n.toCurrency(num, options);
+export function toCurrency(num: number, precision = 2): string {
+  return I18n.toCurrency(num, {
+    precision,
+    delimiter: ' ',
+    unit: '',
+  });
 }
 
 export function formatDate(value: TDate, formatPath = 'date.formats.default'): string {

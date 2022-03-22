@@ -10,7 +10,7 @@ export class Money implements IMoney {
   isEnabled: boolean;
   precision: number;
   sorting: number;
-  symbol: number;
+  symbol: string;
 
   constructor({ id, user, name, currency, isEnabled, precision, sorting, symbol }: IMoney) {
     this.id = id;

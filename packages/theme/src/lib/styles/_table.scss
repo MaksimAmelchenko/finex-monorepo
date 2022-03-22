@@ -1,0 +1,32 @@
+.numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  td {
+    vertical-align: top;
+    //border: 1px solid rgb(224, 224, 224);
+
+    &.minWidth {
+      width: 0.1%;
+    }
+  }
+
+  &_condensed {
+    td {
+      padding: 5px;
+
+      &.numeric {
+        padding-right: 2px;
+      }
+
+      &.currency {
+        padding-left: 2px;
+      }
+    }
+  }
+}

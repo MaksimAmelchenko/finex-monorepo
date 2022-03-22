@@ -1,0 +1,48 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.accountBalances {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.row {
+  background-color: colors.$white;
+  @include typography.body2();
+
+  & td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  &_group {
+    @include typography.subtitle1();
+    background-color: colors.$grayLight;
+  }
+
+  &_delimiter {
+    height: 10px;
+  }
+
+  &_delimiter_with_border {
+    border-top: 1px solid colors.$gray;
+  }
+
+  &__amount {
+    .row_group & {
+    }
+  }
+
+  &_total {
+    @include typography.h6();
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  &__currency_symbol {
+    color: colors.$grayDark;
+
+    .row_group & {
+    }
+  }
+}

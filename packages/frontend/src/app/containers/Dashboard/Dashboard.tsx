@@ -6,16 +6,18 @@ import { AccountDailyBalances } from './AccountDailyBalances/AccountDailyBalance
 import { DebtBalances } from './DebtBalances/DebtBalances';
 import { getT } from '../../lib/core/i18n';
 
+import styles from './Dashboard.module.scss';
+
 const t = getT('Dashboard');
 
 export const Dashboard = observer(() => {
   return (
-    <article>
+    <article className={styles.dashboard}>
+      <div>
+        <AccountBalances />
+        <DebtBalances />
+      </div>
       <AccountDailyBalances />
-      <hr />
-      <AccountBalances />
-      <hr />
-      <DebtBalances />
     </article>
   );
 });

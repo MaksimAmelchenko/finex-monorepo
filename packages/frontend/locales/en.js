@@ -1,4 +1,7 @@
 module.exports = {
+  Dashboard: {
+    Total: 'Total',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',

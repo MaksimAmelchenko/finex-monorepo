@@ -9,22 +9,22 @@ export interface IGetBalanceParams {
 }
 
 export interface IGetBalanceResponse {
-  accountBalances: IAccountBalanceRow[];
-  debtBalances: IDebtBalanceRow[];
+  accountBalances: IAccountBalanceRaw[];
+  debtBalances: IDebtBalanceRaw[];
 }
 
-export interface IAccountBalanceRow {
+export interface IAccountBalanceRaw {
   idAccount: number;
-  balances: IBalanceRow[];
+  balances: IBalanceRaw[];
 }
 
-export interface IDebtBalanceRow {
+export interface IDebtBalanceRaw {
   debtType: number;
   idContractor: number;
-  balances: IBalanceRow[];
+  balances: IBalanceRaw[];
 }
 
-export interface IBalanceRow {
+export interface IBalanceRaw {
   idMoney: number;
   sum: number;
 }
@@ -36,10 +36,10 @@ export interface IGetDailyBalanceParams {
 }
 
 export interface IGetDailyBalanceResponse {
-  balances: IDailyBalanceRow[];
+  balances: IDailyBalanceRaw[];
 }
 
-export interface IDailyBalanceRow {
+export interface IDailyBalanceRaw {
   dBalance: TDate;
   idAccount: number;
   idMoney: number;
