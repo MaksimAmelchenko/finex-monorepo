@@ -1,22 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'packages/theme/src/lib/styles/global';
 
-aside {
-  grid-area: sidebar;
-  background: lightgray;
-  width: 200px;
-  overflow: auto;
-}
-
-main {
-  grid-area: main;
-  overflow: auto;
-}
-
-article {
-  overflow: auto;
-}
-
 :global {
   .scrollable {
     overflow-x: hidden;
