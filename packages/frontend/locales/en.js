@@ -1,6 +1,22 @@
 module.exports = {
-  Dashboard: {
+  AccountBalances: {
+    'in original currency': 'in original currency',
+    today: 'today',
+    Balance: 'Balance',
+    Today: 'Today',
+    'hide zero balance': 'hide zero balance',
+    'show zero balance': 'show zero balance',
     Total: 'Total',
+  },
+  AccountDailyBalances: {
+    'in original currency': 'in original currency',
+    Total: 'Total',
+    'Daily Balance': 'Daily Balance',
+    Today: 'Today',
+  },
+  BalanceRepository: {
+    'Owe me': 'Owe me',
+    'I owe': 'I owe',
   },
   Error: {
     'The requested resource is restricted and requires authentication_':

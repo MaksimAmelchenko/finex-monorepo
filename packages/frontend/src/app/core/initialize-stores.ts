@@ -1,35 +1,36 @@
-import { MainStore } from './main-store';
 import { AccountTypesStore } from '../stores/account-types-store';
-import { CommonStorageStore } from './other-stores/common-storage-store';
+import { AccountsApi } from '../stores/api/accounts-api';
+import { AccountsRepository } from '../stores/accounts-repository';
 import { AuthApi } from './other-stores/auth-api';
 import { AuthRepository } from './other-stores/auth-repository';
-import { BootstrapStore } from '../stores/bootstrap-store';
+import { BalanceApi } from '../stores/api/balance-api';
+import { BalanceRepository } from '../stores/balance-repository';
 import { BootstrapApi } from '../stores/api/bootstrap-api';
-import { AccountsRepository } from '../stores/accounts-repository';
-import { AccountsApi } from '../stores/api/accounts-api';
-import { UnitsRepository } from '../stores/units-repository';
-import { UnitsApi } from '../stores/api/units-api';
-import { UsersRepository } from '../stores/users-repository';
-import { UsersApi } from '../stores/api/users-api';
-import { ContractorsRepository } from '../stores/contractors-repository';
-import { ContractorsApi } from '../stores/api/contractors-api';
-import { CategoryPrototypesRepository } from '../stores/category-prototypes-repository';
+import { BootstrapStore } from '../stores/bootstrap-store';
 import { CategoriesApi } from '../stores/api/categories-api';
 import { CategoriesRepository } from '../stores/categories-repository';
-import { TagsRepository } from '../stores/tags-repository';
-import { TagsApi } from '../stores/api/tags-api';
-import { ProjectsRepository } from '../stores/projects-repository';
-import { ProjectsApi } from '../stores/api/projects-api';
-import { CurrenciesRepository } from '../stores/currency-repository';
-import { MoneysRepository } from '../stores/moneys-repository';
-import { MoneysApi } from '../stores/api/moneys-api';
-import { ProfileRepository } from '../stores/profile-repository';
-import { ProfileApi } from '../stores/api/profile-api';
+import { CategoryPrototypesRepository } from '../stores/category-prototypes-repository';
+import { CommonStorageStore } from './other-stores/common-storage-store';
+import { ContractorsApi } from '../stores/api/contractors-api';
+import { ContractorsRepository } from '../stores/contractors-repository';
 import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-store';
-import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
+import { CurrenciesRepository } from '../stores/currency-repository';
 import { IncomeExpenseTransactionsApi } from '../stores/api/income-expense-transaction-api';
-import { BalanceRepository } from '../stores/balance-repository';
-import { BalanceApi } from '../stores/api/balance-api';
+import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
+import { MainStore } from './main-store';
+import { MoneysApi } from '../stores/api/moneys-api';
+import { MoneysRepository } from '../stores/moneys-repository';
+import { ParamsStore } from '../stores/params-store';
+import { ProfileApi } from '../stores/api/profile-api';
+import { ProfileRepository } from '../stores/profile-repository';
+import { ProjectsApi } from '../stores/api/projects-api';
+import { ProjectsRepository } from '../stores/projects-repository';
+import { TagsApi } from '../stores/api/tags-api';
+import { TagsRepository } from '../stores/tags-repository';
+import { UnitsApi } from '../stores/api/units-api';
+import { UnitsRepository } from '../stores/units-repository';
+import { UsersApi } from '../stores/api/users-api';
+import { UsersRepository } from '../stores/users-repository';
 
 /**
  * Helper to initialize DI
@@ -61,6 +62,7 @@ export function initializeMainStore(): MainStore {
 
   new IncomeExpenseTransactionsRepository(mainStore, new IncomeExpenseTransactionsApi(mainStore));
   new BalanceRepository(mainStore, new BalanceApi(mainStore));
+  new ParamsStore(mainStore);
 
   (window as any).mainStore = mainStore;
   return mainStore;

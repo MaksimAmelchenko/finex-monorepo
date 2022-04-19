@@ -1,31 +1,49 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
+import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { isToday } from 'date-fns';
+import { observer } from 'mobx-react-lite';
 
 import { BalanceRepository } from '../../../stores/balance-repository';
-import { TreeTableGroupingCell, TreeTableRow, useTreeTable } from '@finex/ui-kit';
-import { getT, toCurrency } from '../../../lib/core/i18n';
+import { BalancesTable } from '../BalancesTable/BalancesTable';
+import { CircularIndeterminate, InlineDatePicker, InlineSelect, IOption, Option } from '@finex/ui-kit';
+import { IMoney } from '../../../types/money';
+import { MoneysRepository } from '../../../stores/moneys-repository';
+import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './AccountBalances.module.scss';
 
-const t = getT('Dashboard');
+const t = getT('AccountBalances');
 
 export const AccountBalances = observer(() => {
   const balanceRepository = useStore(BalanceRepository);
-  const { getRowProps, getGroupingCellToggleProps, childAmount } = useTreeTable();
+  const moneysRepository = useStore(MoneysRepository);
 
-  const { accountBalances, balancesLoadState } = balanceRepository;
+  const [date, setDate] = useState<Date>(new Date());
+  const [selectedMoney, setSelectedMoney] = useState<IMoney | null>(null);
+  const [isShowZeroBalance, setIsShowZeroBalance] = useState(false);
 
   useEffect(() => {
-    balanceRepository.fetchBalance().catch(console.error);
-  }, [balanceRepository]);
+    balanceRepository.fetchBalance({ moneyId: selectedMoney?.id, date }).catch(console.error);
+  }, [balanceRepository, date, selectedMoney?.id]);
 
-  if (!balancesLoadState.isDone()) {
-    return <div>Loading...</div>;
-  }
+  const handleClickOnShowZeroBalance = () => {
+    setIsShowZeroBalance(!isShowZeroBalance);
+  };
 
-  const treeBalance = true
+  const moneysOptions: IOption[] = useMemo(() => {
+    return [
+      { value: 'null', title: t('in original currency') },
+      ...moneysRepository.moneys.map(money => ({ value: money.id, title: money.symbol })),
+    ];
+  }, [moneysRepository.moneys]);
+
+  const handleSelectMoney = (moneyId: string) => {
+    const money = moneysRepository.get(moneyId) || null;
+    setSelectedMoney(money);
+  };
+
+  const treeBalance = isShowZeroBalance
     ? balanceRepository.treeBalance
     : balanceRepository.treeBalance
         .map(balance => ({
@@ -34,87 +52,64 @@ export const AccountBalances = observer(() => {
         }))
         .filter(({ balances }) => balances.length);
 
+  const balanceDate = isToday(date) ? t('today') : formatDate(date.toISOString());
+
   return (
     <div>
       <section className={clsx(styles.accountBalances)}>
-        <table className={clsx('table table_condensed')}>
-          <tbody>
-            {balanceRepository.totalBalance.map(({ money, amount }, index, array) => (
-              <tr className={clsx(styles.row, styles.row_total)} key={money.id}>
-                {index === 0 && <td rowSpan={array.length}>{t('Total')}</td>}
-                <td align="right" className="minWidth numeric">
-                  {toCurrency(amount, money.precision)}
-                </td>
-                <td
-                  align="left"
-                  className={clsx('minWidth', styles.row__currency_symbol)}
-                  dangerouslySetInnerHTML={{ __html: money.symbol }}
-                />
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <table className={clsx('table table_condensed')}>
-          <tbody>
-            {treeBalance.map(({ label, path, balances }, index) => {
-              const { isLeaf, isExpanded, level, isVisible } = getRowProps(path);
-              const { onClick } = getGroupingCellToggleProps(path);
-              const key = path.join(':');
-              return (
-                <>
-                  {!isLeaf && (
-                    <>
-                      <tr
-                        className={clsx(styles.row, styles.row_group, styles.row_delimiter)}
-                        key={`${key}:separator1`}
-                      >
-                        <td colSpan={3} />
-                      </tr>
-                      <tr
-                        className={clsx(
-                          styles.row,
-                          styles.row_group,
-                          styles.row_delimiter,
-                          styles.row_delimiter_with_border
-                        )}
-                        key={`${key}:separator2`}
-                      >
-                        <td colSpan={3} />
-                      </tr>
-                    </>
-                  )}
-                  {balances.map(({ money, amount }, index) => (
-                    <TreeTableRow
-                      isVisible={isVisible}
-                      className={clsx(styles.row, !isLeaf && styles.row_group)}
-                      key={`${key}:${money.id}`}
-                    >
-                      {index === 0 && (
-                        <TreeTableGroupingCell
-                          isLeaf={isLeaf}
-                          isExpanded={isExpanded}
-                          level={level}
-                          onClick={onClick}
-                          rowSpan={balances.length}
-                        >
-                          {label}
-                        </TreeTableGroupingCell>
-                      )}
-                      <td align="right" className={clsx('minWidth numeric', styles.row__amount)}>
-                        {toCurrency(amount, money.precision)}
+        <div className={clsx(styles.accountBalances__header, styles.header)}>
+          <h2 className={styles.header__title}>
+            {t('Balance')}
+            <div className={styles.header__date}>
+              <InlineDatePicker value={date} label={balanceDate} onChange={setDate} todayButton={t('Today')} />
+            </div>
+          </h2>
+
+          <div className={styles.header__options}>
+            <InlineSelect
+              label={moneysOptions.find(option => option.value === (selectedMoney?.id || 'null'))!.title}
+              options={moneysOptions}
+              onSelect={handleSelectMoney}
+            />
+
+            <Option
+              label={isShowZeroBalance ? t('hide zero balance') : t('show zero balance')}
+              onClick={handleClickOnShowZeroBalance}
+            />
+          </div>
+        </div>
+
+        {!balanceRepository.balancesLoadState.isDone() ? (
+          <div className={styles.loader}>
+            <CircularIndeterminate />
+          </div>
+        ) : (
+          <>
+            <table className={clsx('table table_condensed')}>
+              <tbody>
+                {balanceRepository.totalBalance.map(({ money, amount }, index, array) => (
+                  <tr className={clsx(styles.row)} key={money.id}>
+                    {index === 0 && (
+                      <td rowSpan={array.length} className={clsx(styles.row__firstCell)}>
+                        {t('Total')}
                       </td>
-                      <td
-                        align="left"
-                        className={clsx('minWidth currency', styles.row__currency_symbol)}
-                        dangerouslySetInnerHTML={{ __html: money.symbol }}
-                      />
-                    </TreeTableRow>
-                  ))}
-                </>
-              );
-            })}
-          </tbody>
-        </table>
+                    )}
+                    <td align="right" className="minWidth numeric">
+                      {toCurrency(amount, money.precision)}
+                    </td>
+                    <td
+                      align="left"
+                      className={clsx('minWidth', styles.row__currency_symbol, styles.row__lastCell)}
+                      dangerouslySetInnerHTML={{ __html: money.symbol }}
+                    />
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <BalancesTable treeBalance={[...treeBalance, ...balanceRepository.treeDebt]} />
+          </>
+        )}
       </section>
     </div>
   );

@@ -1,44 +1,26 @@
 import React, { useEffect } from 'react';
-
 import { observer } from 'mobx-react-lite';
 
-import { getT } from '../../../lib/core/i18n';
-import { useStore } from '../../../core/hooks/use-store';
 import { BalanceRepository } from '../../../stores/balance-repository';
-
-const t = getT('Dashboard');
+import { BalancesTable } from '../BalancesTable/BalancesTable';
+import { useStore } from '../../../core/hooks/use-store';
 
 export const DebtBalances = observer(() => {
   const balanceRepository = useStore(BalanceRepository);
 
-  const { debtBalances, balancesLoadState } = balanceRepository;
+  const { treeDebt, balancesLoadState } = balanceRepository;
 
   useEffect(() => {
-    balancesLoadState.isNone() && balanceRepository.fetchBalance().catch(console.error);
-  }, []);
+    balancesLoadState.isNone() && balanceRepository.fetchBalance({}).catch(console.error);
+  }, [balanceRepository, balancesLoadState]);
 
-  if (balancesLoadState.isPending() && !debtBalances.length) {
+  if (balancesLoadState.isPending()) {
     return <div>Loading...</div>;
   }
 
   return (
-    <ul>
-      {debtBalances.map(({ contractor, balances }) => {
-        return (
-          <li key={contractor.id}>
-            {contractor.name}
-            <ul>
-              {balances.map(({ money, sum }) => {
-                return (
-                  <li key={money.id}>
-                    {money.name} - {sum}
-                  </li>
-                );
-              })}
-            </ul>
-          </li>
-        );
-      })}
-    </ul>
+    <section>
+      <BalancesTable treeBalance={treeDebt} />
+    </section>
   );
 });

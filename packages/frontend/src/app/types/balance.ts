@@ -48,7 +48,7 @@ export interface IDailyBalanceRaw {
 
 export interface IDailyBalance {
   dBalance: TDate;
-  account: IAccount;
+  account: IAccount | null;
   money: IMoney;
   sum: number;
 }
@@ -65,13 +65,6 @@ export interface IDebtBalance {
 }
 
 export interface IBalance {
-  money: IMoney;
-  sum: number;
-}
-
-export interface IAccountDailyBalance {
-  dBalance: TDate;
-  account: IAccount;
   money: IMoney;
   sum: number;
 }

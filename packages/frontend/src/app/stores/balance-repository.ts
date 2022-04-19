@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
-import { addDays, format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 import { AccountsRepository } from './accounts-repository';
 import { ContractorsRepository } from './contractors-repository';
@@ -8,10 +8,10 @@ import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { getT } from '../lib/core/i18n';
 import {
   IAccountBalance,
   IAccountBalanceRaw,
-  IAccountDailyBalance,
   IBalance,
   IBalanceRaw,
   IDailyBalance,
@@ -34,7 +34,7 @@ type Balance = {
   amount: number;
 };
 
-type TreeBalance = {
+export type TreeBalance = {
   path: string[];
   label: string;
   balances: Balance[];
@@ -49,6 +49,8 @@ type TreeBalanceMap = Map<
   }
 >;
 
+const t = getT('BalanceRepository');
+
 export class BalanceRepository extends ManageableStore {
   static storeName = 'DashboardRepository';
 
@@ -56,7 +58,7 @@ export class BalanceRepository extends ManageableStore {
   debtBalances: IDebtBalance[] = [];
   balancesLoadState: LoadState = LoadState.none();
 
-  dailyBalances: IAccountDailyBalance[] = [];
+  dailyBalances: IDailyBalance[] = [];
   dailyBalancesLoadState: LoadState = LoadState.none();
 
   constructor(mainStore: MainStore, private api: IBalanceApi) {
@@ -76,12 +78,12 @@ export class BalanceRepository extends ManageableStore {
     });
   }
 
-  async fetchBalance(): Promise<void> {
+  async fetchBalance({ moneyId, date = new Date() }: { moneyId?: string; date?: Date }): Promise<void> {
     try {
       this.balancesLoadState = LoadState.pending();
       const response = await this.api.getBalance({
-        dBalance: format(new Date(), 'yyyy-MM-dd'),
-        moneyId: undefined,
+        dBalance: format(date, 'yyyy-MM-dd'),
+        moneyId,
       });
       const { accountBalances, debtBalances } = response;
       runInAction(() => {
@@ -97,13 +99,14 @@ export class BalanceRepository extends ManageableStore {
     }
   }
 
-  async fetchDailyBalance(): Promise<void> {
+  async fetchDailyBalance({ moneyId, range }: { moneyId?: string; range: [Date, Date] }): Promise<void> {
     try {
+      const [dBegin, dEnd] = range;
       this.dailyBalancesLoadState = LoadState.pending();
       const response = await this.api.getDailyBalance({
-        dBegin: format(subDays(new Date(), 180), 'yyyy-MM-dd'),
-        dEnd: format(addDays(new Date(), 180), 'yyyy-MM-dd'),
-        moneyId: undefined,
+        moneyId,
+        dBegin: format(dBegin, 'yyyy-MM-dd'),
+        dEnd: format(dEnd, 'yyyy-MM-dd'),
       });
       const { balances } = response;
       runInAction(() => {
@@ -148,8 +151,12 @@ export class BalanceRepository extends ManageableStore {
     const moneysRepository = this.getStore(MoneysRepository);
 
     return dailyBalances.map(({ dBalance, idAccount, idMoney, sum }) => {
-      const account = accountsRepository.get(String(idAccount))!;
-      const money = moneysRepository.get(String(idMoney))!;
+      const accountId = idAccount === 0 ? null : String(idAccount);
+      const moneyId = String(idMoney);
+
+      const account = accountId ? accountsRepository.get(accountId)! : null;
+      const money = moneysRepository.get(moneyId)!;
+
       return {
         dBalance,
         account,
@@ -240,6 +247,76 @@ export class BalanceRepository extends ManageableStore {
     });
 
     return Array.from(treeBalanceMap.values()).map(({ path, label, balanceMap }) => {
+      return {
+        path,
+        label,
+        balances: Array.from(balanceMap.values()),
+      };
+    });
+  }
+
+  private get debtMap(): { [debtType: string]: { id: string; name: string } } {
+    return {
+      1: { id: '121aae0f-0587-42da-967d-05cb3d4a5be1', name: t('Owe me') },
+      2: { id: '2c09e754-a02b-4518-8362-a954edba4d12', name: t('I owe') },
+    };
+  }
+
+  get treeDebt(): TreeBalance {
+    const treeDebtMap: TreeBalanceMap = new Map();
+    // sort by debtType, contractor.name
+    const debtBalances = this.debtBalances
+      .slice()
+      .sort(
+        (a, b) =>
+          a.debtType - b.debtType || a.contractor.name.localeCompare(b.contractor.name, 'en', { sensitivity: 'base' })
+      )
+      .map(({ contractor, debtType, balances }) => {
+        return {
+          contractor,
+          debtType,
+          balances: balances
+            .slice()
+            .sort((a, b) => a.money.sorting - b.money.sorting)
+            .map(({ money, sum: amount }) => ({ money, amount })),
+        };
+      });
+
+    debtBalances.forEach(({ contractor, debtType, balances }) => {
+      const debt = this.debtMap[debtType];
+      if (!treeDebtMap.has(debt.id)) {
+        treeDebtMap.set(debt.id, {
+          path: [debt.id],
+          label: debt.name,
+          balanceMap: new Map(),
+        });
+      }
+
+      balances.forEach(({ money, amount }) => {
+        if (!treeDebtMap.get(debt.id)!.balanceMap.has(money.id)) {
+          treeDebtMap.get(debt.id)!.balanceMap.set(money.id, {
+            money,
+            amount: 0,
+          });
+        }
+
+        treeDebtMap.get(debt.id)!.balanceMap.get(money.id)!.amount += amount;
+      });
+
+      treeDebtMap.set(`${debtType}:${contractor.id}`, {
+        path: [debt.id, contractor.id],
+        label: contractor.name,
+        balanceMap: balances.reduce<Map<string, Balance>>((acc, { money, amount }) => {
+          acc.set(money.id, {
+            money,
+            amount,
+          });
+          return acc;
+        }, new Map()),
+      });
+    });
+
+    return Array.from(treeDebtMap.values()).map(({ path, label, balanceMap }) => {
       return {
         path,
         label,

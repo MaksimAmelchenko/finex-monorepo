@@ -24,8 +24,8 @@ async function initI18n(): Promise<void> {
             ...en,
             date: {
               formats: {
-                default: 'MM-dd-yy',
-                short: 'MM-dd-yyyy',
+                default: 'dd.MM.yy',
+                short: 'dd.MM.yyyy',
               },
             },
             time: {

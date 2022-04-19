@@ -13,10 +13,8 @@ const t = getT('Dashboard');
 export const Dashboard = observer(() => {
   return (
     <article className={styles.dashboard}>
-      <div>
-        <AccountBalances />
-        <DebtBalances />
-      </div>
+      <AccountBalances />
+      {/*<div />*/}
       <AccountDailyBalances />
     </article>
   );
