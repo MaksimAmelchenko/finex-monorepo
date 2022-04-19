@@ -1,0 +1,90 @@
+.react-datepicker {
+  border: none;
+  box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
+  border-radius: 5px;
+  padding: 1.2rem 1.5rem;
+  font-size: 1.4rem;
+}
+
+.react-datepicker__header {
+  padding-top: 0;
+  background: none;
+  border-bottom: none;
+}
+
+.react-datepicker__current-month {
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.react-datepicker__month {
+  margin: 0;
+  padding: 0;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  margin: 0.2rem;
+  width: 3.5rem;
+  line-height: 3.5rem;
+}
+
+.react-datepicker__year-read-view--down-arrow,
+.react-datepicker__month-read-view--down-arrow,
+.react-datepicker__month-year-read-view--down-arrow,
+.react-datepicker__navigation-icon::before {
+  border-color: black;
+  border-width: 2px 2px 0 0;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range {
+  border-radius: 50%;
+  background-color: #0066bf;
+  color: #fff;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__month-text:hover,
+.react-datepicker__quarter-text:hover,
+.react-datepicker__year-text:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: #0066bf;
+}
+
+.react-datepicker__navigation {
+  top: 12px;
+  line-height: 2.4rem;
+  width: 24px;
+  height: 24px;
+}
+
+.react-datepicker__navigation--previous {
+  border-right-color: #ccc;
+  left: 15px;
+}
+
+.react-datepicker__navigation--next {
+  border-left-color: #ccc;
+  right: 15px;
+}
+
+.react-datepicker__today-button {
+  background: none;
+  border-top: none;
+  font-weight: normal;
+  padding: 10px 0 0;
+}
