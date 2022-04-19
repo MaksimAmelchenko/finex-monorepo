@@ -1,0 +1,11 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.option {
+  color: colors.$blue;
+  @include typography.body2;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px dashed;
+  cursor: pointer;
+}
