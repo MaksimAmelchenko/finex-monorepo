@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { format_fault_v1 } from './error$/format_fault.function/v1';
 import { raise_v1 } from './error$/raise.function/v1';

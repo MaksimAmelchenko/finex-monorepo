@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { account_permit_biud_check_permit_v1 } from './cf$/account_permit_biud_check_permit.function/v1';
 import { account_permit_biud_trigger_v1 } from './cf$/account_permit_biud.trigger/v1';

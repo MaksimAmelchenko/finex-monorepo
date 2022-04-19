@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { dir_name_v1 } from './core$_file/dir_name.function/v1';
 import { format_file_name_v1 } from './core$_file/format_file_name.function/v1';

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { do_v1 } from './cf$_export/do.function/v1';
 
 export async function up(knex: Knex): Promise<void> {

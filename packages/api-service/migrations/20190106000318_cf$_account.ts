@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { permit__integer_v1 } from './cf$_account/permit__integer.function/v1';
 

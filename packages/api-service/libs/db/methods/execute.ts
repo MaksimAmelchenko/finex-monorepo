@@ -1,8 +1,7 @@
 import { ILogger } from '../../../types/app';
 import { pool } from '../connection';
-import { Value } from 'knex';
 
-export async function execute<T>(log: ILogger, sqlText: string, params: readonly Value[]): Promise<T> {
+export async function execute<T>(log: ILogger, sqlText: string, params: readonly any[]): Promise<T> {
   const start: number = Date.now();
   try {
     const { rows } = await pool.query(sqlText, params as any[]);

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { copy__integer_integer_v1 } from './cf$_project/copy__integer_integer.function/v1';
 import { copy__jsonb_v1 } from './cf$_project/copy__jsonb.function/v1';

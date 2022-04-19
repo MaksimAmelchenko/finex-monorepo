@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { get_v1 } from './cf$_currency_rate_source/get.function/v1';
 

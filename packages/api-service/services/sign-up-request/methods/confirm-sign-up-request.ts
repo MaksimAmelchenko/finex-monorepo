@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { IRequestContext } from '../../../types/app';
 import { ISignUpRequest } from '../../../types/sign-up-request';
 import { SignUpRequestGateway } from '../gateway';

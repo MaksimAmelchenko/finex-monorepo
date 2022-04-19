@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { account_balance_w_p_v1 } from './cf$_account/account_balance_w_p.function/v1';
 import { balance__date_integer_v1 } from './cf$_account/balance__date_integer.function/v1';

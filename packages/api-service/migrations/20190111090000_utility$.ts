@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { copy_data_v1 } from './utility$/copy_data.function/v1';
 

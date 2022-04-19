@@ -1,5 +1,4 @@
 import { IRequestContext } from '../../../../types/app';
-// import * as knex from 'knex';
 import { DB, knex } from '../../../../libs/db';
 
 import { IFile } from '../../../../types/file';

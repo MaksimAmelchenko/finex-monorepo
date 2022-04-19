@@ -65,7 +65,7 @@ export class RestRoute implements IRestRoute {
       let params = {};
       try {
         params = await this.getParams(routerContext);
-      } catch (err) {
+      } catch (err: any) {
         throw new InvalidParametersError(err.message);
       }
 
@@ -99,7 +99,7 @@ export class RestRoute implements IRestRoute {
       }
 
       send(routerContext, response);
-    } catch (err) {
+    } catch (err: any) {
       routerContext.log.error({ err });
       sendError(routerContext, err);
     }

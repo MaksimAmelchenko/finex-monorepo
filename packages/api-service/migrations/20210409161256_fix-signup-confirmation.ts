@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { create__jsonb_v2 } from './cf$_project/create__jsonb.function/v2';
 
 export async function up(knex: Knex): Promise<void> {

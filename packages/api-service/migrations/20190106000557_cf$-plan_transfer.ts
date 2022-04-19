@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { plan_transfer_bi_v1 } from './cf$/plan_transfer_bi.function/v1';
 import { plan_transfer_bi_trigger_v1 } from './cf$/plan_transfer_bi.trigger/v1';

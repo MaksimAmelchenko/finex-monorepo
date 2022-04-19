@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { authenticate_v1 } from './core$_auth/authenticate.function/v1';
 import { authorize_v1 } from './core$_auth/authorize.function/v1';

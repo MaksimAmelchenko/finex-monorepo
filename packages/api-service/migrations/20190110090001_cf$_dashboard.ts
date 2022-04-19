@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { balances_v1 } from './cf$_dashboard/balances.function/v1';
 
 export async function up(knex: Knex): Promise<void> {

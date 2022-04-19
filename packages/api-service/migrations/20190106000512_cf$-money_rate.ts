@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { v_money_rate_v1 } from './cf$/v_money_rate.view/v1';
 

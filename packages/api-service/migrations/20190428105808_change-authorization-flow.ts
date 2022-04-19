@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { call_operation_v1 } from './core$_port/call_operation.function/v1';
 import { call_operation__uuid_text_text_v1 } from './core$_port/call_operation__uuid_text_text.function/v1';
@@ -30,11 +30,11 @@ export async function up(knex: Knex): Promise<void> {
   });
 
   await knex.raw(`
-    update core$.session 
+    update core$.session
        set id = uuid_generate_v4(),
            timeout = 'PT1H',
            is_active = false,
-           created_at = dSet, 
+           created_at = dSet,
            updated_at = last_access_time
   `);
 
@@ -68,7 +68,7 @@ export async function down(knex: Knex): Promise<void> {
   });
 
   await knex.raw(`
-    update core$.session 
+    update core$.session
        set id_session = nextval('core$.session_id_session_seq'),
            token = uuid_generate_v4()::text,
            dset = last_access_time

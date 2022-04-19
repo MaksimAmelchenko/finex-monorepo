@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { unit_bi_v1 } from './cf$/unit_bi.function/v1';
 import { unit_bi_trigger_v1 } from './cf$/unit_bi.trigger/v1';

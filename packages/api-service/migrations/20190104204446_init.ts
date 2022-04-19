@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import config from '../libs/config';
 
 export async function up(knex: Knex): Promise<void> {

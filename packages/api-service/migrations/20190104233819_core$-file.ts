@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { file_tr_bi_v1 } from './core$/file_tr_bi.function/v1';
 import { file_bi_trigger_v1 } from './core$/file_bi.trigger/v1';

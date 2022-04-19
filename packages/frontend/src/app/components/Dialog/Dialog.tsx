@@ -7,6 +7,7 @@ import './Dialog.module.scss';
 
 export interface IDialogProps {
   onDismiss?: () => unknown;
+  children: React.ReactNode;
 }
 
 export const Dialog: FC<IDialogProps> = ({ onDismiss, children }) => {

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { user_ad_v1 } from './core$/user_ad.function/v1';
 import { user_ad_trigger_v1 } from './core$/user_ad.trigger/v1';
 

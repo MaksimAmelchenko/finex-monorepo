@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { to_date_v1 } from './sanitize$/to_date.function/v1';
 import { to_int_array_v1 } from './sanitize$/to_int_array.function/v1';

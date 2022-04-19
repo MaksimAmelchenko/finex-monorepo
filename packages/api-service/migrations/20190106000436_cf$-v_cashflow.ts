@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { v_cashflow_v1 } from './cf$/v_cashflow.view/v1';
 

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { random_string_v1 } from './core$/random_string.function/v1';
 

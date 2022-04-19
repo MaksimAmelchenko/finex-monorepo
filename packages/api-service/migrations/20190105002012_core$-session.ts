@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { session_tr_bi_v1 } from './core$/session_tr_bi.function/v1';
 import { session_bi_trigger_v1 } from './core$/session_bi.trigger/v1';

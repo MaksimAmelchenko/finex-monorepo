@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { is_masked_v1 } from './bitwise/is_masked.function/v1';
 

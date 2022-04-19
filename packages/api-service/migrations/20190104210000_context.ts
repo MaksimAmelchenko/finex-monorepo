@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { _get_v1 } from './context/_get.function/v1';
 import { clear_v1 } from './context/clear.function/v1';
 import { get_v1 } from './context/get.function/v1';

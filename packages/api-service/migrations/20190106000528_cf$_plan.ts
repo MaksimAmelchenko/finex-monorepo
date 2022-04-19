@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { cancel_v1 } from './cf$_plan/cancel.function/v1';
 import { create_v1 } from './cf$_plan/create.function/v1';

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { distribution_v1 } from './cf$_report/distribution.function/v1';
 import { distribution_built_result_v1 } from './cf$_report/distribution_built_result.function/v1';

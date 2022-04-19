@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { create_v1 } from './cf$_money/create.function/v1';
 import { destroy_v1 } from './cf$_money/destroy.function/v1';

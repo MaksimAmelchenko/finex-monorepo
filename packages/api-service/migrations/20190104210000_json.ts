@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { csv_to_jsonb_v1 } from './json/csv_to_jsonb.function/v1';
 import { format__date_v1 } from './json/format__date.function/v1';

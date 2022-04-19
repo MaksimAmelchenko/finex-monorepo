@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { member_v1 } from './cf$_household/member.function/v1';
 

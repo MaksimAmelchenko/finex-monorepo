@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { signup_request_bi_v1 } from './core$/signup_request_bi.function/v1';
 import { signup_request_bi_trigger_v1 } from './core$/signup_request_bi.trigger/v1';
@@ -11,9 +11,9 @@ export async function up(knex: Knex): Promise<void> {
   });
 
   await knex.raw(`
-    update core$.signup_request 
-       set id = uuid_generate_v4(), 
-           created_at=dset, 
+    update core$.signup_request
+       set id = uuid_generate_v4(),
+           created_at=dset,
            updated_at = coalesce(dconfirm, dset);
   `);
 
@@ -46,7 +46,7 @@ export async function down(knex: Knex): Promise<void> {
   });
 
   await knex.raw(`
-    update core$.signup_request 
+    update core$.signup_request
        set id_signup_request = nextval('core$.signup_request_id_signup_request_seq'),
            dset = created_at
   `);

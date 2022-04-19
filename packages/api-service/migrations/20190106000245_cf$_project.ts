@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { destroy_v1 } from './cf$_project/destroy.function/v1';
 import { get_v1 } from './cf$_project/get.function/v1';

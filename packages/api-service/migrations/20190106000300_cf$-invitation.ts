@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { invitation_bi_v1 } from './cf$/invitation_bi.function/v1';
 import { invitation_bi_trigger_v1 } from './cf$/invitation_bi.trigger/v1';

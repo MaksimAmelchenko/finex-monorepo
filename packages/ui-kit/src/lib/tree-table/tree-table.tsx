@@ -108,6 +108,7 @@ export const TreeTableGroupingCell: FC<TreeTableGroupingCellProps> = ({
 export interface TreeTableRowProps {
   isVisible: boolean;
   className?: string;
+  children: React.ReactNode;
 }
 
 export const TreeTableRow: FC<TreeTableRowProps> = ({ isVisible, className, children }) => {

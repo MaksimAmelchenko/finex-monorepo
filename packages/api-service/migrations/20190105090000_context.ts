@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { set__bigint_boolean_v1 } from './context/set__bigint_boolean.function/v1';
 

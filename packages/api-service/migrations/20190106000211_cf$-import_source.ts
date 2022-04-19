@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { v_import_source_v1 } from './cf$/v_import_source.view/v1';
 

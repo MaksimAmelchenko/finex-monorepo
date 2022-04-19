@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { v_error_v1 } from './core$/v_error.view/v1';
 
 export async function up(knex: Knex): Promise<void> {

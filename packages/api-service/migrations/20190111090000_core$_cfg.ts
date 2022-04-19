@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { get_session_timeout_v1 } from './core$_cfg/get_session_timeout.function/v1';
 
 export async function up(knex: Knex): Promise<void> {

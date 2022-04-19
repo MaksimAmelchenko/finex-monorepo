@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { call_operation_v1 } from './core$_port/call_operation.function/v1';
 import { get_request_info_v1 } from './core$_port/get_request_info.function/v1';

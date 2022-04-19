@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { plan_cashflow_item_bi_v1 } from './cf$/plan_cashflow_item_bi.function/v1';
 import { plan_cashflow_item_bd_v1 } from './cf$/plan_cashflow_item_bd.function/v1';

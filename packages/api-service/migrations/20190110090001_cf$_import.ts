@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { decode_currency_code_v1 } from './cf$_import/decode_currency_code.function/v1';
 import { do_v1 } from './cf$_import/do.function/v1';

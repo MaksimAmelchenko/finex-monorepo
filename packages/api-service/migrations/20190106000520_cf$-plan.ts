@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { plan_aiu_v1 } from './cf$/plan_aiu.function/v1';
 import { plan_aiu_trigger_v1 } from './cf$/plan_aiu.trigger/v1';

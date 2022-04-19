@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 import { user_ad_v1 } from './core$/user_ad.function/v1';
 
 export async function up(knex: Knex): Promise<void> {

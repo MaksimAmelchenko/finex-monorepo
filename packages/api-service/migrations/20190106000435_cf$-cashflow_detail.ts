@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { cashflow_detail_aiud_v1 } from './cf$/cashflow_detail_aiud.function/v1';
 import { cashflow_detail_aiud_trigger_v1 } from './cf$/cashflow_detail_aiud.trigger/v1';

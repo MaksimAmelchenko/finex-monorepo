@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { get_v1 } from './core$_user/get.function/v1';
 import { get_dlast_signin_v1 } from './core$_user/get_dlast_signin.function/v1';

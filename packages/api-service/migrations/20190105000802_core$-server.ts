@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { server_init_v1 } from './core$/server_init.function/v1';
 

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { project_permit_aiud_check_permit_v1 } from './cf$/project_permit_aiud_check_permit.function/v1';
 import { project_permit_aiud_check_permit_trigger_v1 } from './cf$/project_permit_aiud_check_permit.trigger/v1';

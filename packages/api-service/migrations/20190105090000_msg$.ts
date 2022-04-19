@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { add_attachment_v1 } from './msg$/add_attachment.function/v1';
 import { add_message_v1 } from './msg$/add_message.function/v1';

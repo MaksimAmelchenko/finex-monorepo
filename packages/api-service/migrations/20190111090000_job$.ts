@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { currency_rate_pending_v1 } from './job$/currency_rate_pending.view/v1';
 

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { get_v1 } from './cf$_message/get.function/v1';
 

@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { get_v1 } from './cf$_profile/get.function/v1';
 import { update_v1 } from './cf$_profile/update.function/v1';

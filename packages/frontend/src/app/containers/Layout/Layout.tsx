@@ -9,6 +9,7 @@ import styles from './Layout.module.scss';
 
 export interface LayoutProps {
   title?: string;
+  children: React.ReactNode;
 }
 
 const t = getT('Layout');

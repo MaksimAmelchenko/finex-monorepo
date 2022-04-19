@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { permit_v1 } from './cf$_project/permit.function/v1';
 

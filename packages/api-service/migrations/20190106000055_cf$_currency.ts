@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { exchange_v1 } from './cf$_currency/exchange.function/v1';
 import { exchange_old_v1 } from './cf$_currency/exchange_old.function/v1';

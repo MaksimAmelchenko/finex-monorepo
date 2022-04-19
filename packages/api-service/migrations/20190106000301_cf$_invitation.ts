@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { accept_v1 } from './cf$_invitation/accept.function/v1';
 import { create_v1 } from './cf$_invitation/create.function/v1';

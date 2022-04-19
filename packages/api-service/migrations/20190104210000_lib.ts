@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import { Knex } from 'knex';
 
 import { base64_encode_v1 } from './lib/base64_encode.function/v1';
 import { console_log_v1 } from './lib/console_log.function/v1';
