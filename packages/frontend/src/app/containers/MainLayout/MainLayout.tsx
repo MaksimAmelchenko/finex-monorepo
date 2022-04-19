@@ -25,8 +25,8 @@ import {
   PlanningSvg,
   ReportsSvg,
   SettingsSvg,
-  ToolsSvg
-} from "@finex/ui-kit";
+  ToolsSvg,
+} from '@finex/ui-kit';
 
 import styles from './MainLayout.module.scss';
 
@@ -90,7 +90,7 @@ interface IMenuItem {
 
 const t = getT('MainLayout');
 
-export const MainLayout: FC = observer(({ children }) => {
+export const MainLayout: FC<{ children: React.ReactNode }> = observer(({ children }) => {
   const theme = useTheme();
   const [isOpened, setIsOpened] = React.useState(false);
 
@@ -126,7 +126,7 @@ export const MainLayout: FC = observer(({ children }) => {
       },
       {
         id: 'settings',
-        link: '#',
+        link: '/settings/accounts',
         label: t('Settings'),
         icon: <img src={SettingsSvg} alt="" />,
       },
@@ -199,7 +199,7 @@ export const MainLayout: FC = observer(({ children }) => {
         <Box
           sx={{
             flexGrow: 1,
-            p: '0 3rem 3rem',
+            p: '2rem 3rem',
             backgroundColor: '#f9f9f9',
           }}
         >

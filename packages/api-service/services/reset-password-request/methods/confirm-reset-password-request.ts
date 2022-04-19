@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { IRequestContext } from '../../../types/app';
 import { ResetPasswordRequestGateway } from '../gateway';
 import { UserGateway } from '../../user/gateway';
@@ -39,6 +38,6 @@ export async function confirmResetPasswordRequest(
   });
 
   await ResetPasswordRequestGateway.update(ctx, resetPasswordRequest.id, {
-    reset_at: moment.utc().format(),
+    reset_at: new Date().toISOString(),
   });
 }

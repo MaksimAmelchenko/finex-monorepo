@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { IRequestContext } from '../../../../types/app';
 import { DB, knex } from '../../../../libs/db';
 import { decodeDBSignUpRequest } from './decode-db-sign-up-request';
@@ -13,7 +12,7 @@ export async function updateSignUpRequest(
     .where(knex.raw('id = ?', [signUpRequestId]))
     .update({
       ...data,
-      updated_at: moment.utc().format(),
+      updated_at: new Date().toISOString(),
     })
     .returning('*')
     .toSQL()

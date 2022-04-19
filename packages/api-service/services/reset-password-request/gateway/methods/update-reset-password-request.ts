@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { IRequestContext } from '../../../../types/app';
 import { DB, knex } from '../../../../libs/db';
 import { decodeDBResetPasswordRequest } from './decode-db-reset-password-request';
@@ -17,7 +16,7 @@ export async function updateResetPasswordRequest(
     .where(knex.raw('id = ?', [resetPasswordRequestId]))
     .update({
       ...params,
-      updated_at: moment.utc().format(),
+      updated_at: new Date().toISOString(),
     })
     .returning('*')
     .toSQL()

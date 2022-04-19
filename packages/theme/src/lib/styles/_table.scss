@@ -1,5 +1,6 @@
 .numeric {
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .table {
@@ -18,7 +19,7 @@
 
   &_condensed {
     td {
-      padding: 5px;
+      padding: 4px;
 
       &.numeric {
         padding-right: 2px;
