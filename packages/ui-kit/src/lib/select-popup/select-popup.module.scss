@@ -1,0 +1,36 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.dropdown {
+  position: relative;
+}
+
+.backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.menu {
+  position: absolute;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
+  margin-top: 8px;
+  background-color: colors.$white;
+  z-index: 2;
+}
+
+.dropdownIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 10px;
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+  }
+}
