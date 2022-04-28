@@ -7,5 +7,6 @@ export * from './lib/inline-date-picker/inline-date-picker';
 export * from './lib/inline-date-range-picker/inline-date-range-picker';
 export * from './lib/inline-select/inline-select';
 export * from './lib/option/option';
+export * from './lib/tag/tag';
 export * from './lib/text-field/text-field';
 export * from './lib/tree-table/tree-table';

@@ -1,0 +1,52 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.tag {
+  display: inline-flex;
+  @include typography.body2();
+  line-height: 1.6rem;
+  background-color: colors.$blueLight;
+  border-radius: 0.3rem;
+  color: colors.$white;
+
+  &__label {
+    padding: 4px 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    cursor: pointer;
+    border-radius: 0.3rem;
+
+    &:hover {
+      background-color: colors.$blue;
+    }
+  }
+
+  &__closeIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &_size_small {
+    .tag__label {
+      padding: 2px 8px;
+    }
+
+    .tag__closeButton {
+      min-width: 20px;
+    }
+  }
+
+  &_withCloseButton {
+    .tag__label {
+      //padding-right: 0;
+    }
+  }
+}
