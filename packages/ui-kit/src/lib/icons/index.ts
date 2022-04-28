@@ -1,7 +1,11 @@
 export { ReactComponent as ArrowForwardIcon, default as ArrowForwardSvg } from './arrow-forward.svg';
 export { ReactComponent as CashFlowIcon, default as CashFlowSvg } from './cash-flow.svg';
+export { ReactComponent as CheckboxIcon, default as CheckboxSvg } from './checkbox.svg';
+export { ReactComponent as CheckboxUncheckedIcon, default as CheckboxUncheckedSvg } from './checkbox-unchecked.svg';
+export { ReactComponent as CloseIcon, default as CloseSvg } from './close.svg';
 export { ReactComponent as DashboardIcon, default as DashboardSvg } from './dashboard.svg';
 export { ReactComponent as DatabaseIcon, default as DatabaseSvg } from './database.svg';
+export { ReactComponent as FilterIcon, default as FilterSvg } from './filter.svg';
 export { ReactComponent as HamburgerIcon, default as HamburgerSvg } from './hamburger.svg';
 export { ReactComponent as Logo, default as LogoSvg } from './logo.svg';
 export { ReactComponent as PlanningIcon, default as PlanningSvg } from './planning.svg';

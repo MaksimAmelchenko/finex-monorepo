@@ -1,36 +1,42 @@
-import { IUser } from '../../types/user';
-import { Permit, Sign, TDate } from '../../types';
-import { IIncomeExpenseTransaction } from '../../types/income-expense-transaction';
+import { action, makeObservable, observable } from 'mobx';
+
 import { IAccount } from '../../types/account';
-import { ICategory } from '../../types/category';
 import { IContractor } from '../../types/contractor';
+import { IIncomeExpenseTransaction } from '../../types/income-expense-transaction';
 import { IMoney } from '../../types/money';
 import { IUnit } from '../../types/unit';
+import { IUser } from '../../types/user';
+import { Permit, Sign, TDate } from '../../types';
+import { Category } from "./category";
 
 export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
-  readonly id: string;
-  cashFlowId: string;
+  readonly id: string | null;
+  cashFlowId: string | null;
+  planId: string | null;
   account: IAccount;
-  category: ICategory;
-  contractor: IContractor | undefined;
+  category: Category;
+  contractor: IContractor | null;
   dTransaction: TDate;
   money: IMoney;
   quantity: number;
   reportPeriod: TDate;
   sign: Sign;
-  sum: number;
+  amount: number;
   note: string;
   tags: string[];
   permit: Permit;
-  unit: IUnit | undefined;
+  unit: IUnit | null;
   user: IUser;
   colorMark: string;
   isNotConfirmed: boolean;
   nRepeat: number | null;
 
+  isSelected: boolean;
+
   constructor({
     id,
     cashFlowId,
+    planId,
     user,
     contractor,
     category,
@@ -40,7 +46,7 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
     dTransaction,
     reportPeriod,
     sign,
-    sum,
+    amount,
     quantity,
     note,
     tags,
@@ -48,9 +54,11 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
     colorMark,
     isNotConfirmed,
     nRepeat,
+    isSelected,
   }: IIncomeExpenseTransaction) {
     this.id = id;
     this.cashFlowId = cashFlowId;
+    this.planId = planId;
     this.user = user;
     this.contractor = contractor;
     this.category = category;
@@ -60,7 +68,7 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
     this.dTransaction = dTransaction;
     this.reportPeriod = reportPeriod;
     this.sign = sign;
-    this.sum = sum;
+    this.amount = amount;
     this.quantity = quantity;
     this.note = note;
     this.tags = tags;
@@ -68,5 +76,15 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
     this.colorMark = colorMark;
     this.isNotConfirmed = isNotConfirmed;
     this.nRepeat = nRepeat;
+    this.isSelected = isSelected;
+
+    makeObservable(this, {
+      isSelected: observable,
+      toggleSelection: action,
+    });
+  }
+
+  toggleSelection() {
+    this.isSelected = !this.isSelected;
   }
 }

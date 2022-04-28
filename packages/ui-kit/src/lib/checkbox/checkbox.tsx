@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import styles from './checkbox.module.scss';
 
-export interface ICheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> {
+export interface ICheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
   value?: boolean;
-  label: string;
+  label?: string;
   error?: string;
 }
 
 export function Checkbox({ label, disabled, value = false, error }: ICheckboxProps): JSX.Element {
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   onChange && onChange(event.target.checked, event);
+  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   onChange(event.target.checked, event);
   // };
 
   return (

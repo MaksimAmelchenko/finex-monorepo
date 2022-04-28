@@ -18,6 +18,11 @@ module.exports = {
     'Owe me': 'Owe me',
     'I owe': 'I owe',
   },
+  CashFlow: {
+    Overdue: 'Overdue',
+    Planned: 'Planned',
+    'Not confirmed': 'Not confirmed',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',
@@ -26,17 +31,44 @@ module.exports = {
       'Something wrong happened with server, please try again.',
     'Something went wrong, please try again': 'Something went wrong, please try again',
   },
+  IncomeExpenseTransactions: {
+    New: 'New',
+    Delete: 'Delete',
+    Refresh: 'Refresh',
+    'Enter search request': 'Enter search request',
+    Accounts: 'Accounts',
+    Categories: 'Categories',
+    Counterparties: 'Counterparties',
+    Tags: 'Tags',
+    Date: 'Date',
+    Account: 'Account',
+    Counterparty: 'Counterparty',
+    Category: 'Category',
+    Income: 'Income',
+    Expense: 'Expense',
+    Note: 'Note',
+  },
   Layout: {
     Home: 'Home',
     Support: 'Support',
   },
   MainLayout: {
     Dashboard: 'Dashboard',
-    Transactions: 'Transactions',
+    'Income & Expenses': 'Income & Expenses',
+    Debts: 'Debts',
+    Transfers: 'Transfers',
+    Exchanges: 'Exchanges',
     Planning: 'Planning',
     Reports: 'Reports',
     Settings: 'Settings',
     Tools: 'Tools',
+  },
+  Pagination: {
+    of: 'of',
+  },
+  RangeSelect: {
+    From: 'From',
+    To: 'To',
   },
   ResetPassword: {
     'Please enter email address': 'Please enter email address',

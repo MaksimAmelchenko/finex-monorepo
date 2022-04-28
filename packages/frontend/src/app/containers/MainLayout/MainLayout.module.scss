@@ -1,6 +1,10 @@
 @use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/media';
 
+.header__hamburger {
+  margin-left: -8px
+}
+
 .header__logo {
   height: 2rem;
   width: auto;

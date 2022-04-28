@@ -30,18 +30,19 @@ export interface IIncomeExpenseTransactionRaw {
 }
 
 export interface IIncomeExpenseTransaction {
-  id: string;
-  cashFlowId: string;
+  id: string | null;
+  cashFlowId: string | null;
+  planId: string | null;
   user: IUser;
-  contractor: IContractor | undefined;
+  contractor: IContractor | null;
   category: ICategory;
   account: IAccount;
   money: IMoney;
-  unit: IUnit | undefined;
+  unit: IUnit | null;
   dTransaction: TDate;
   reportPeriod: TDate;
   sign: Sign;
-  sum: number;
+  amount: number;
   quantity: number;
   note: string;
   tags: string[];
@@ -49,6 +50,9 @@ export interface IIncomeExpenseTransaction {
   colorMark: string;
   isNotConfirmed: boolean;
   nRepeat: number | null;
+
+  //
+  isSelected: boolean;
 }
 
 export interface IGetIncomeExpenseTransactionsParams {

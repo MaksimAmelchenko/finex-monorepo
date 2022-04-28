@@ -11,7 +11,7 @@ import { initializeI18n } from './app/lib/core/i18n';
 
 const languages = ['en', 'ru', 'de'];
 // const lang = window.location.pathname.split('/')[1];
-const lang = languages[0];
+const lang = languages[1];
 const defaultLanguage = languages[0];
 const currentLocale = languages.includes(lang) ? lang : defaultLanguage;
 
@@ -24,8 +24,8 @@ async function initI18n(): Promise<void> {
             ...en,
             date: {
               formats: {
-                default: 'dd.MM.yy',
-                short: 'dd.MM.yyyy',
+                default: 'dd.MM.yyyy',
+                short: 'dd.MM.yy',
               },
             },
             time: {
@@ -48,8 +48,8 @@ async function initI18n(): Promise<void> {
             ...ru,
             date: {
               formats: {
-                default: 'dd.MM.yy',
-                short: 'dd.MM.yyyy',
+                default: 'dd.MM.yyyy',
+                short: 'dd.MM.yy',
               },
             },
             time: {
@@ -72,8 +72,8 @@ async function initI18n(): Promise<void> {
             ...de,
             date: {
               formats: {
-                default: 'dd.MM.yy',
-                short: 'dd.MM.yyyy',
+                default: 'dd.MM.yyyy',
+                short: 'dd.MM.yy',
               },
             },
             time: {

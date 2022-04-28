@@ -18,6 +18,11 @@ module.exports = {
     'Owe me': 'Должны мне',
     'I owe': 'Я должен',
   },
+  CashFlow: {
+    Overdue: 'Просрочено',
+    Planned: 'Запланировано',
+    'Not confirmed': 'Не подтверждено',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',
@@ -26,17 +31,44 @@ module.exports = {
       'Something wrong happened with server, please try again.',
     'Something went wrong, please try again': 'Something went wrong, please try again',
   },
+  IncomeExpenseTransactions: {
+    New: 'Добавить',
+    Delete: 'Удалить',
+    Refresh: 'Обновить',
+    'Enter search request': 'Поиск',
+    Accounts: 'Счета',
+    Categories: 'Категории',
+    Counterparties: 'Контрагенты',
+    Tags: 'Теги',
+    Date: 'Дата',
+    Account: 'Счет',
+    Counterparty: 'Контрагент',
+    Category: 'Категория',
+    Income: 'Доход',
+    Expense: 'Расход',
+    Note: 'Примечание',
+  },
   Layout: {
     Home: 'На главную',
     Support: 'Поддержка',
   },
   MainLayout: {
     Dashboard: 'Итоги',
-    Transactions: 'Операции',
+    'Income & Expenses': 'Приходы и расходы',
+    Debts: 'Долги',
+    Transfers: 'Переводы',
+    Exchanges: 'Обмен валюты',
     Planning: 'Планирование',
     Reports: 'Отчеты',
     Settings: 'Настройки',
     Tools: 'Инструменты',
+  },
+  Pagination: {
+    of: 'из',
+  },
+  RangeSelect: {
+    From: 'С',
+    To: 'По',
   },
   ResetPassword: {
     'Please enter email address': 'Укажите email',

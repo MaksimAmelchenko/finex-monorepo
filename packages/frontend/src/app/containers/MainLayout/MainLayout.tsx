@@ -5,7 +5,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 // import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -14,13 +13,15 @@ import MuiDrawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
+
 import { Link } from '../../components/Link/Link';
 import { getT } from '../../lib/core/i18n';
 
 import {
   CashFlowSvg,
   DashboardSvg,
-  HamburgerSvg,
+  HamburgerIcon,
+  IconButton,
   Logo,
   PlanningSvg,
   ReportsSvg,
@@ -109,7 +110,25 @@ export const MainLayout: FC<{ children: React.ReactNode }> = observer(({ childre
       {
         id: 'transactions',
         link: '/cash-flows/income-expenses/transactions',
-        label: t('Transactions'),
+        label: t('Income & Expenses'),
+        icon: <img src={CashFlowSvg} alt="" />,
+      },
+      {
+        id: 'debts',
+        link: '/cash-flows/debts',
+        label: t('Debts'),
+        icon: <img src={CashFlowSvg} alt="" />,
+      },
+      {
+        id: 'transfers',
+        link: '/cash-flows/transfers',
+        label: t('Transfers'),
+        icon: <img src={CashFlowSvg} alt="" />,
+      },
+      {
+        id: 'exchanges',
+        link: '/cash-flows/exchanges',
+        label: t('Exchanges'),
         icon: <img src={CashFlowSvg} alt="" />,
       },
       {
@@ -151,15 +170,8 @@ export const MainLayout: FC<{ children: React.ReactNode }> = observer(({ childre
         }}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerToggle}
-            sx={{
-              marginLeft: '-8px',
-            }}
-          >
-            <img src={HamburgerSvg} alt="" />
+          <IconButton aria-label="open drawer" className={styles.header__hamburger} onClick={handleDrawerToggle}>
+            <HamburgerIcon />
           </IconButton>
 
           <Logo className={styles.header__logo} />

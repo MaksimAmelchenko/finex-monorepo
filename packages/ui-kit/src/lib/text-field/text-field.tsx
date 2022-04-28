@@ -4,7 +4,8 @@ import clsx from 'clsx';
 
 import styles from './text-field.module.scss';
 
-export interface ITextFieldProps extends Omit<MaskedInputProps, 'css' | 'mask' | 'size'> {
+export interface ITextFieldProps extends Omit<MaskedInputProps, 'css' | 'mask' | 'size' | 'value'> {
+  value: string;
   className?: string;
   endAdornment?: React.FC<{ className?: string }>;
   error?: string;
@@ -30,6 +31,7 @@ export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((pr
     label,
     id = name,
     type = 'text',
+    value,
     ...inputProps
   } = props;
 
@@ -37,14 +39,7 @@ export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((pr
 
   const message = isError ? error : helperText;
   return (
-    <div
-      className={clsx(
-        styles.root,
-        error && styles.root_error,
-        (inputProps.value as string).length > 0 && styles.root_filled,
-        className
-      )}
-    >
+    <div className={clsx(styles.root, error && styles.root_error, value.length > 0 && styles.root_filled, className)}>
       <div
         className={clsx(styles.root__input, styles.input, styles[`input_size_${size}`], error && styles.input_error)}
       >
@@ -52,6 +47,7 @@ export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((pr
         {mask ? (
           <MaskedInput
             {...inputProps}
+            value={value}
             type={type}
             id={id}
             className={clsx(
@@ -70,6 +66,7 @@ export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((pr
             {...inputProps}
             type={type}
             id={id}
+            value={value}
             className={clsx(styles.input__field)}
             autoComplete={autoComplete}
             ref={ref}

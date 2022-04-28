@@ -22,9 +22,13 @@ export class TagsRepository extends ManageableStore {
     });
   }
 
+  private static sort(a: ITagRaw, b: ITagRaw): number {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  }
+
   consume(tags: ITagRaw[]): void {
     const usersRepository = this.getStore(UsersRepository);
-    this.tags = tags.reduce((acc, tagRow) => {
+    this.tags = tags.sort(TagsRepository.sort).reduce((acc, tagRow) => {
       const { idTag, idUser, name } = tagRow;
       const user = usersRepository.get(String(idUser));
       if (!user) {

@@ -38,8 +38,12 @@ export const App = observer(() => {
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/dashboard" element={<DashboardLazy />} />
-                    <Route path="/cash-flows/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
                     <Route path="/cash-flows/income-expenses" element={<IncomeExpenseCashFlows />} />
+                    <Route path="/cash-flows/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
+                    <Route path="/cash-flows/debts" element={<div>Debts</div>} />
+                    <Route path="/cash-flows/transfers" element={<div>Transfers</div>} />
+                    <Route path="/cash-flows/exchanges" element={<div>Exchanges</div>} />
+
                     <Route path="/settings/accounts" element={<AccountsLazy />} />
 
                     <Route path="*" element={<NotFoundLazy />} />

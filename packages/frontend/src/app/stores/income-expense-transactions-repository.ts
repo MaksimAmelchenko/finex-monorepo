@@ -1,24 +1,34 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
+import { format } from 'date-fns';
 
-import { ManageableStore } from '../core/manageable-store';
-import { MainStore } from '../core/main-store';
-import { UsersRepository } from './users-repository';
+import { AccountsRepository } from './accounts-repository';
+import { CategoriesRepository } from './categories-repository';
+import { ContractorsRepository } from './contractors-repository';
 import {
   IGetIncomeExpenseTransactionsParams,
   IGetIncomeExpenseTransactionsResponse,
-  IIncomeExpenseTransaction,
   IIncomeExpenseTransactionRaw,
 } from '../types/income-expense-transaction';
 import { IncomeExpenseTransaction } from './models/income-expense-transaction';
-import { ContractorsRepository } from './contractors-repository';
-import { CategoriesRepository } from './categories-repository';
-import { AccountsRepository } from './accounts-repository';
+import { LoadState } from '../core/load-state';
+import { MainStore } from '../core/main-store';
+import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
 import { UnitsRepository } from './units-repository';
-import { LoadState } from '../core/load-state';
+import { UsersRepository } from './users-repository';
 
 export interface IIncomeExpenseTransactionsApi {
   get: (params: IGetIncomeExpenseTransactionsParams) => Promise<IGetIncomeExpenseTransactionsResponse>;
+}
+
+interface IFilter {
+  isFilter: boolean;
+  range: [Date | null, Date | null];
+  searchText: string;
+  accounts: string[];
+  categories: string[];
+  contractors: string[];
+  tags: string[];
 }
 
 export class IncomeExpenseTransactionsRepository extends ManageableStore {
@@ -27,7 +37,17 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
   offset: number;
   total: number;
 
-  incomeExpenseTransactions: IIncomeExpenseTransaction[] = [];
+  filter: IFilter = {
+    range: [null, null],
+    isFilter: false,
+    searchText: '',
+    accounts: [],
+    categories: [],
+    contractors: [],
+    tags: [],
+  };
+
+  incomeExpenseTransactions: IncomeExpenseTransaction[];
   loadState: LoadState;
 
   constructor(mainStore: MainStore, private api: IIncomeExpenseTransactionsApi) {
@@ -35,60 +55,108 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     this.limit = 50;
     this.offset = 0;
     this.total = 0;
+
     this.loadState = LoadState.none();
     this.incomeExpenseTransactions = [];
 
     makeObservable(this, {
       incomeExpenseTransactions: observable,
       loadState: observable,
-      fetch: action,
-      fetchNextPage: action,
+      filter: observable,
       clear: action,
+      fetch: action,
+      setFilter: action,
     });
+
+    reaction(
+      () => this.filter,
+      () => {
+        this.refresh();
+      }
+    );
   }
 
   async fetch(): Promise<void> {
-    try {
-      this.loadState = LoadState.pending();
-      const response = await this.api.get({ offset: 0, limit: this.limit });
-      const { ieDetails: incomeExpenseTransactions, metadata } = response;
-      this.limit = metadata.limit;
-      this.offset = metadata.offset;
-      this.total = metadata.total;
-      this.incomeExpenseTransactions = this.decode(incomeExpenseTransactions);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      this.loadState = LoadState.done();
+    this.loadState = LoadState.pending();
+    const {
+      isFilter,
+      range: [dBegin, dEnd],
+      searchText,
+      accounts,
+      categories,
+      contractors,
+      tags,
+    } = this.filter;
+    let params = {};
+    if (isFilter) {
+      params = {
+        dBegin: dBegin ? format(dBegin, 'yyyy-MM-dd') : null,
+        dEnd: dEnd ? format(dEnd, 'yyyy-MM-dd') : null,
+        accounts: accounts.join(','),
+        categories: categories.join(','),
+        contractors: contractors.join(','),
+        tags: tags.join(','),
+      };
     }
+
+    return await this.api
+      .get({
+        offset: this.offset,
+        limit: this.limit,
+        searchText,
+        ...params,
+      })
+      .then(
+        action(({ ieDetails: incomeExpenseTransactions, metadata }) => {
+          this.limit = metadata.limit;
+          this.offset = metadata.offset;
+          this.total = metadata.total;
+          this.incomeExpenseTransactions = this.decode(incomeExpenseTransactions);
+        })
+      )
+      .then(
+        action(() => {
+          this.loadState = LoadState.done();
+        })
+      )
+      .catch(
+        action(err => {
+          this.loadState = LoadState.error(err);
+        })
+      );
   }
 
   async fetchNextPage(): Promise<void> {
-    try {
-      const offset = this.offset ? this.offset + this.limit : 0;
-      const response = await this.api.get({ offset, limit: this.limit });
-
-      const { ieDetails: incomeExpenseTransactions, metadata } = response;
-      this.limit = metadata.limit;
-      this.offset = metadata.offset;
-      this.total = metadata.total;
-      this.incomeExpenseTransactions.push(...this.decode(incomeExpenseTransactions));
-    } catch (e) {
-      console.error(e);
-    } finally {
-      this.loadState = LoadState.done();
-    }
+    this.offset = this.offset + this.limit;
+    return this.fetch();
   }
 
-  private decode(incomeExpenseTransactions: IIncomeExpenseTransactionRaw[]): IIncomeExpenseTransaction[] {
-    const usersRepository = this.getStore(UsersRepository);
-    const contractorsRepository = this.getStore(ContractorsRepository);
-    const categoriesRepository = this.getStore(CategoriesRepository);
+  async fetchPreviousPage(): Promise<void> {
+    this.offset = Math.max(this.offset - this.limit, 0);
+    return this.fetch();
+  }
+
+  async refresh(): Promise<void> {
+    this.offset = 0;
+    return this.fetch();
+  }
+
+  setFilter(filter: Partial<IFilter>) {
+    this.filter = {
+      ...this.filter,
+      ...filter,
+    };
+  }
+
+  private decode(incomeExpenseTransactions: IIncomeExpenseTransactionRaw[]): IncomeExpenseTransaction[] {
     const accountsRepository = this.getStore(AccountsRepository);
+    const categoriesRepository = this.getStore(CategoriesRepository);
+    const contractorsRepository = this.getStore(ContractorsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
     const unitsRepository = this.getStore(UnitsRepository);
+    const usersRepository = this.getStore(UsersRepository);
 
-    return incomeExpenseTransactions.reduce<IIncomeExpenseTransaction[]>((acc, transactionRow) => {
+    return incomeExpenseTransactions.reduce<IncomeExpenseTransaction[]>((acc, transactionRow) => {
       const {
         idIEDetail,
         idIE,
@@ -102,7 +170,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         dIEDetail,
         reportPeriod,
         sign,
-        sum,
+        sum: amount,
         quantity,
         note,
         tags,
@@ -112,37 +180,49 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         permit,
       } = transactionRow;
 
-      const user = usersRepository.get(String(idUser));
+      const userId = String(idUser);
+      const user = usersRepository.get(userId);
       if (!user) {
         console.warn('User is not found', { transactionRow });
         return acc;
       }
 
-      const contractor = contractorsRepository.get(String(idContractor));
-      const category = categoriesRepository.get(String(idCategory));
+      const contractorId = idContractor ? String(idContractor) : null;
+      const contractor = contractorId ? contractorsRepository.get(contractorId) ?? null : null;
+
+      const categoryId = String(idCategory);
+      const category = categoriesRepository.get(categoryId);
       if (!category) {
         console.warn('Category not found', { transactionRow });
         return acc;
       }
 
-      const account = accountsRepository.get(String(idAccount));
+      const accountId = String(idAccount);
+      const account = accountsRepository.get(accountId);
       if (!account) {
         console.warn('Account not found', { transactionRow });
         return acc;
       }
 
-      const money = moneysRepository.get(String(idMoney));
+      const moneyId = String(idMoney);
+      const money = moneysRepository.get(moneyId);
       if (!money) {
         console.warn('Money not found', { transactionRow });
         return acc;
       }
 
-      const unit = unitsRepository.get(String(idUnit));
+      const unitId = idUnit ? String(idUnit) : null;
+      const unit = unitId ? unitsRepository.get(unitId) ?? null : null;
+
+      const planId = idPlan ? String(idPlan) : null;
+      const id = idIEDetail ? String(idIEDetail) : null;
+      const cashFlowId = idIE ? String(idIE) : null;
 
       const incomeExpenseTransaction = new IncomeExpenseTransaction({
-        id: String(idIEDetail),
-        cashFlowId: String(idIE),
+        id,
+        cashFlowId,
         user,
+        planId,
         contractor,
         category,
         account,
@@ -151,7 +231,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         dTransaction: dIEDetail,
         reportPeriod,
         sign,
-        sum,
+        amount,
         quantity,
         note,
         tags,
@@ -159,6 +239,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         colorMark,
         isNotConfirmed,
         nRepeat,
+        isSelected: false,
       });
 
       acc.push(incomeExpenseTransaction);

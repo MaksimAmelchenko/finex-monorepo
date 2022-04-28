@@ -101,6 +101,24 @@ export class CategoriesRepository extends ManageableStore {
     return this.categoryMap.get(categoryId);
   }
 
+  path(categoryId: string, isFull = false): string {
+    let category: ICategory | null | undefined = this.get(categoryId);
+    if (!category) {
+      return '';
+    }
+    const path: string[] = [];
+    if (isFull) {
+      path.push(category.name);
+    }
+
+    category = category.parent;
+    while (category) {
+      path.push(category.name);
+      category = category.parent;
+    }
+    return path.reverse().join(' → ');
+  }
+
   clear(): void {
     this.categories = [];
   }

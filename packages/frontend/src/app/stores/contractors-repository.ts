@@ -1,10 +1,10 @@
 import { action, makeObservable, observable } from 'mobx';
 
-import { ManageableStore } from '../core/manageable-store';
-import { MainStore } from '../core/main-store';
-import { UsersRepository } from './users-repository';
 import { Contractor } from './models/contractor';
 import { IContractor, IContractorRaw } from '../types/contractor';
+import { MainStore } from '../core/main-store';
+import { ManageableStore } from '../core/manageable-store';
+import { UsersRepository } from './users-repository';
 
 export interface IContractorsApi {}
 
@@ -22,9 +22,13 @@ export class ContractorsRepository extends ManageableStore {
     });
   }
 
+  private static sort(a: IContractorRaw, b: IContractorRaw): number {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  }
+
   consume(contractors: IContractorRaw[]): void {
     const usersRepository = this.getStore(UsersRepository);
-    this.contractors = contractors.reduce((acc, contractorRaw) => {
+    this.contractors = contractors.sort(ContractorsRepository.sort).reduce((acc, contractorRaw) => {
       const { idContractor, idUser, name, note } = contractorRaw;
       const user = usersRepository.get(String(idUser));
       if (!user) {

@@ -60,6 +60,13 @@ export function toCurrency(num: number, precision = 2): string {
   });
 }
 
+export function toNumber(num: number): string {
+  return I18n.toNumber(num, {
+    delimiter: ' ',
+    precision: 0,
+  });
+}
+
 export function formatDate(value: TDate, formatPath = 'date.formats.default'): string {
   if (!value) {
     return '';

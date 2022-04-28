@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 import { ApiRepository } from '../../core/other-stores/api-repository';
 import { IIncomeExpenseTransactionsApi } from '../income-expense-transactions-repository';
 import {
@@ -10,7 +12,7 @@ export class IncomeExpenseTransactionsApi extends ApiRepository implements IInco
 
   get(params: IGetIncomeExpenseTransactionsParams): Promise<IGetIncomeExpenseTransactionsResponse> {
     return this.fetch<IGetIncomeExpenseTransactionsResponse>({
-      url: '/v1/cashflows/ie_details',
+      url: `/v1/cashflows/ie_details?${queryString.stringify(params, { skipNull: true, skipEmptyString: true })}`,
     });
   }
 }

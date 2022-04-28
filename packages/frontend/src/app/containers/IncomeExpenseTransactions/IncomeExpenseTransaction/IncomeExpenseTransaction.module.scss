@@ -1,0 +1,61 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+td.firstColumn {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.dateColumn {
+  display: flex;
+  align-items: center;
+  border-radius: 0 8px 8px 0;
+  height: 100%;
+  background-color: colors.$grayLight;
+  cursor: pointer;
+
+  &__colorMark {
+    margin-right: 1rem;
+    width: 0.8rem;
+    height: 100%;
+  }
+
+  &__checkbox {
+    img {
+      display: block;
+    }
+  }
+
+  &__dateContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 1.8rem 0.6rem 1.4rem;
+  }
+
+  &__date {
+    line-height: 1.4rem;
+  }
+
+  &__label {
+    font-size: 1.2rem;
+  }
+
+  &_planned {
+    background-color: rgba(red(colors.$green), green(colors.$green), blue(colors.$green), 0.1);
+
+    .dateColumn__label {
+      color: colors.$green;
+    }
+  }
+
+  &_overdue {
+    background-color: rgba(red(colors.$orangeDark), green(colors.$orangeDark), blue(colors.$orangeDark), 0.05);
+
+    .dateColumn__label {
+      color: colors.$red;
+    }
+  }
+}
+
+.categoryPath {
+  color: colors.$grayDarkest;
+}

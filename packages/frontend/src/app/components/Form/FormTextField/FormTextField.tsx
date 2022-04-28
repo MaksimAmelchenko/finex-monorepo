@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { useField } from 'formik';
 import { ITextFieldProps, TextField } from '@finex/ui-kit';
 
-export interface IFormTextFieldProps extends ITextFieldProps {
+export interface IFormTextFieldProps extends Omit<ITextFieldProps, 'value'> {
   name: string;
   autoFocusOnEmpty?: boolean;
   onBlur?: (e: any) => void;

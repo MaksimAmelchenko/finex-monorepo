@@ -20,6 +20,6 @@ export class Money implements IMoney {
     this.isEnabled = isEnabled;
     this.precision = precision;
     this.sorting = sorting;
-    this.symbol = symbol;
+    this.symbol = symbol === 'руб' ? '₽' : symbol;
   }
 }
