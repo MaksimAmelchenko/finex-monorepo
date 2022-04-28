@@ -1,0 +1,8 @@
+.container {
+  display: flex;
+  gap: 0.8rem;
+
+  &__dateControl {
+    display: flex;
+  }
+}

@@ -9,5 +9,13 @@ export { ReactDatePickerProps as DatePickerProps };
 export function DatePicker<WithRange extends boolean | undefined = undefined>(
   props: ReactDatePickerProps<never, WithRange>
 ): JSX.Element {
-  return <ReactDatePicker<never, WithRange> {...props} showPopperArrow={false}  />;
+  return (
+    <ReactDatePicker<never, WithRange>
+      {...props}
+      showPopperArrow={false}
+      showMonthDropdown
+      showYearDropdown
+      dropdownMode="select"
+    />
+  );
 }
