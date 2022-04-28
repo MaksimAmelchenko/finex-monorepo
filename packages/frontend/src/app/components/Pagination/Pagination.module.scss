@@ -1,0 +1,21 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.pagination {
+  display: flex;
+  align-items: center;
+  @include typography.body2;
+
+  &__label {
+    padding: 0 0.8rem;
+    //letter-spacing: 0.4px;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+  }
+
+  &__previousIcon {
+    transform: rotate(180deg);
+  }
+}
