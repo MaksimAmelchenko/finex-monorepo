@@ -104,7 +104,6 @@ export const IncomeExpenseTransactions = observer(() => {
   const handleToggleFilter = () => {
     incomeExpenseTransactionsRepository.setFilter({ isFilter: !filter.isFilter });
   };
-console.log(filter.isFilter);
 
   return (
     <article>
@@ -152,7 +151,7 @@ console.log(filter.isFilter);
 
         {filter.isFilter && (
           <div className={styles.panel__filter}>
-            <RangeSelect values={a} onChange={noop} />
+            <RangeSelect values={filter.range} onChange={setRange} />
 
             <MultiSelect
               label={t('Accounts')}
