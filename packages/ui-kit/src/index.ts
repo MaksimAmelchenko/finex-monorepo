@@ -2,6 +2,7 @@ export * from './lib/button/button';
 export * from './lib/checkbox/checkbox';
 export * from './lib/circular-indeterminate/circular-indeterminate';
 export * from './lib/date-picker/date-picker';
+export * from './lib/icon-button/icon-button';
 export * from './lib/icons';
 export * from './lib/inline-date-picker/inline-date-picker';
 export * from './lib/inline-date-range-picker/inline-date-range-picker';
