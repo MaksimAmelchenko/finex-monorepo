@@ -13,7 +13,7 @@ export function ResetPasswordConfirmationAcknowledgment(): JSX.Element {
     <Layout>
       <div className={styles.container}>
         <div className={styles.container__text}>{t('The password has been reset')}</div>
-        <Button color="blue" href="/sign-in" className={styles.container__signInBtn}>
+        <Button color="primary" href="/sign-in" className={styles.container__signInBtn}>
           {t('Sign In')}
         </Button>
       </div>

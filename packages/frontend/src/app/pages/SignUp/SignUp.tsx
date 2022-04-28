@@ -75,7 +75,7 @@ export function SignUp(): JSX.Element {
               helperText={t('Use 8 or more characters with a mix of letters, numbers & symbols')}
             />
             <FormError />
-            <FormButton type="submit" color="blue" fullSize isIgnoreValidation={true}>
+            <FormButton type="submit" size="large" color="primary" fullSize isIgnoreValidation={true}>
               {t('Sign Up')}
             </FormButton>
             <div>

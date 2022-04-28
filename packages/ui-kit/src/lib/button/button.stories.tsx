@@ -7,8 +7,8 @@ export default {
   title: 'Components/Button',
   component: Button,
   argTypes: {
-    color: { control: { type: 'select', options: ['blue', 'orange'] } },
-    size: { control: { type: 'select', options: ['large', 'medium'] } },
+    color: { control: { type: 'select', options: ['primary', 'secondary'] } },
+    size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
     disabled: { control: { type: 'radio', options: [false, true] } },
     loading: { control: { type: 'radio', options: [false, true] } },
     href: { control: { type: 'text' } },
@@ -20,7 +20,7 @@ const Template: Story<IButtonProps> = args => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  color: 'blue',
+  color: 'primary',
   size: 'medium',
   disabled: false,
   loading: false,

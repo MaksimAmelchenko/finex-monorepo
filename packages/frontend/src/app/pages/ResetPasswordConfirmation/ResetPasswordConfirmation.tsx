@@ -80,7 +80,7 @@ export function ResetPasswordConfirmation(): JSX.Element {
             />
 
             <FormError />
-            <FormButton type="submit" color="blue" fullSize>
+            <FormButton type="submit" size="large" color="primary" fullSize>
               {t('Reset')}
             </FormButton>
           </FormLayout>
