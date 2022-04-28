@@ -85,7 +85,7 @@ export const AccountBalances = observer(() => {
           </div>
         ) : (
           <>
-            <table className={clsx('table table_condensed')}>
+            <table className="table table-borderless table-sm">
               <tbody>
                 {balanceRepository.totalBalance.map(({ money, amount }, index, array) => (
                   <tr className={clsx(styles.row)} key={money.id}>
@@ -94,12 +94,12 @@ export const AccountBalances = observer(() => {
                         {t('Total')}
                       </td>
                     )}
-                    <td align="right" className="minWidth numeric">
+                    <td align="right" className="min-width numeric">
                       {toCurrency(amount, money.precision)}
                     </td>
                     <td
                       align="left"
-                      className={clsx('minWidth', styles.row__currency_symbol, styles.row__lastCell)}
+                      className={clsx('min-width currency', styles.row__currency_symbol, styles.row__lastCell)}
                       dangerouslySetInnerHTML={{ __html: money.symbol }}
                     />
                   </tr>

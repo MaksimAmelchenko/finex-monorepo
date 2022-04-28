@@ -1,3 +1,5 @@
+@use 'packages/theme/src/lib/styles/colors';
+
 .numeric {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -5,29 +7,43 @@
 
 .table {
   width: 100%;
+  max-width: 100%;
+
   border-collapse: collapse;
   border-spacing: 0;
 
-  td {
-    vertical-align: top;
-    //border: 1px solid rgb(224, 224, 224);
+  th {
+    text-align: -webkit-match-parent;
+    font-weight: normal;
+  }
 
-    &.minWidth {
+  td {
+    border-top: 1px solid colors.$gray;
+
+    &.min-width {
       width: 0.1%;
     }
   }
 
-  &_condensed {
+  &-sm {
     td {
       padding: 4px;
 
       &.numeric {
-        padding-right: 2px;
+        padding-right: 1px;
       }
 
       &.currency {
-        padding-left: 2px;
+        padding-left: 1px;
       }
     }
+  }
+
+  &-hover > tbody > tr:hover {
+    background-color: colors.$grayLightest;
+  }
+
+  &-borderless > tbody > tr > td {
+    border-top: none;
   }
 }

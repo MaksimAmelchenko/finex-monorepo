@@ -7,7 +7,7 @@
   //@include media.tablet {
   //  font-size: 3rem;
   //}
-  //@include media.phone {
+  //@include media.sm {
   //  font-size: 2rem;
   //}
 }
@@ -20,7 +20,7 @@
   //@include media.tablet {
   //  font-size: 2.4rem;
   //}
-  //@include media.phone {
+  //@include media.sm {
   //  font-size: 1.8rem;
   //}
 }
@@ -77,9 +77,9 @@
 }
 
 @mixin button {
-  font-size: 1.6rem;
-  font-weight: 500;
-  line-height: 1.75;
+  font-size: 1.4rem;
+  font-weight: 700;
+  //line-height: 1.75;
   text-transform: initial;
 }
 

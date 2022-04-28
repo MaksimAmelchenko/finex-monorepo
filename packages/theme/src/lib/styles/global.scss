@@ -1,3 +1,5 @@
+@use './media';
+@use './colors';
 @import '~normalize.css';
 @import './table';
 
@@ -11,8 +13,115 @@ body {
   height: 100%;
   width: 100%;
   font-size: 1.4rem;
+  color: colors.$black;
 }
 
 * {
   box-sizing: border-box;
 }
+
+.hidden-sm {
+  @include media.sm {
+    display: none;
+  }
+}
+
+.hidden-md {
+  @include media.md {
+    display: none;
+  }
+}
+
+.text-end {
+  text-align: right;
+}
+
+
+.align-top {
+  vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+
+.bg-color-blue {
+  background-color: colors.$blue;
+}
+
+.bg-color-blueLight {
+  background-color: colors.$blueLight;
+}
+
+//.bg-color-blueDark {
+//  background-color: colors.$blueDark;
+//}
+
+.bg-color-green {
+  background-color: colors.$green;
+}
+
+.bg-color-greenLight {
+  background-color: colors.$greenLight;
+}
+
+//.bg-color-greenDark {
+//  background-color: colors.$greenDark;
+//}
+
+.bg-color-red {
+  background-color: colors.$red;
+}
+
+//.bg-color-yellow {
+//  background-color: colors.$yellow;
+//}
+
+.bg-color-orange {
+  background-color: colors.$orange;
+}
+
+//.bg-color-orangeDark {
+//  background-color: colors.$orangeDark;
+//}
+
+//.bg-color-pink {
+//  background-color: colors.$pink;
+//}
+
+//.bg-color-pinkDark {
+//  background-color: colors.$pinkDark;
+//}
+
+//.bg-color-purple {
+//  background-color: colors.$purple;
+//}
+
+//.bg-color-darken {
+//  background-color: colors.$darken;
+//}
+
+//.bg-color-lighten {
+//  background-color: colors.$lighten;
+//}
+
+//.bg-color-white {
+//  background-color: colors.$white;
+//}
+
+//.bg-color-grayDark {
+//  background-color: colors.$greyDark;
+//}
+
+//.bg-color-magenta {
+//  background-color: colors.$magenta;
+//}
+
+//.bg-color-teal {
+//  background-color: colors.$teal;
+//}
+
+//.bg-color-redLight {
+//  background-color: colors.$redLight;
+//}

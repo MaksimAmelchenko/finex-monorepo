@@ -16,7 +16,7 @@ export const BalancesTable = observer(({ treeBalance }: IBalancesTableProps) => 
   const { getRowProps, getGroupingCellToggleProps } = useTreeTable();
 
   return (
-    <table className={clsx('table table_condensed')}>
+    <table className="table table-borderless table-sm">
       <tbody>
         {treeBalance.map(({ label, path, balances }, index) => {
           const { isLeaf, isExpanded, level, isVisible } = getRowProps(path);
@@ -59,12 +59,12 @@ export const BalancesTable = observer(({ treeBalance }: IBalancesTableProps) => 
                       {label}
                     </TreeTableGroupingCell>
                   )}
-                  <td align="right" className={clsx('minWidth numeric', styles.row__amount)}>
+                  <td align="right" className={clsx('min-width numeric', styles.row__amount)}>
                     {toCurrency(amount, money.precision)}
                   </td>
                   <td
                     align="left"
-                    className={clsx('minWidth currency', styles.row__currency_symbol, styles.row__lastCell)}
+                    className={clsx('min-width currency', styles.row__currency_symbol, styles.row__lastCell)}
                     dangerouslySetInnerHTML={{ __html: money.symbol }}
                   />
                 </TreeTableRow>

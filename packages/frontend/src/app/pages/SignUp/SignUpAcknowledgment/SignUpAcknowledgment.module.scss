@@ -4,7 +4,7 @@
 
 .container {
   padding: 0 4rem 4rem;
-  @include media.phone {
+  @include media.sm {
     padding: 0 2rem 2rem;
   }
 

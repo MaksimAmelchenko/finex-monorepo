@@ -10,7 +10,7 @@
   height: 100vh;
   background-color: colors.$grayLight;
 
-  @include media.phone {
+  @include media.sm {
     justify-content: flex-start;
     padding: 1rem;
   }
@@ -30,7 +30,7 @@
     box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
     border-radius: 5px;
     background-color: colors.$white;
-    @include media.phone {
+    @include media.sm {
       margin-top: 8rem;
       padding-top: 5rem;
     }

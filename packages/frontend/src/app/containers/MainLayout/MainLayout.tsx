@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
+// import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -141,7 +141,7 @@ export const MainLayout: FC<{ children: React.ReactNode }> = observer(({ childre
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+      {/*<CssBaseline />*/}
       <AppBar
         position="fixed"
         sx={{

@@ -1,6 +1,6 @@
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsLazy } from './containers/Accounts/AccountsLazy';
@@ -16,7 +16,7 @@ import { ResetPasswordLazy } from './pages/ResetPassword/ResetPasswordLazy';
 import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
-import { theme } from '../theme';
+import { theme } from '@finex/theme';
 
 export const App = observer(() => {
   return (
