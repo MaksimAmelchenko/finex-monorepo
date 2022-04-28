@@ -89,20 +89,19 @@ app.use(serve(`${__dirname}/public`));
 // serve swagger API docs
 // TODO koa-static-cache or nginx
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
+app.use(serve(`${__dirname}/public`));
 app.use(mount('/docs', serve(pathToSwaggerUi)));
 
 app.use(async (ctx, next) => {
-  if (ctx.path === '/docs/swagger.json') {
-    ctx.body = require('./docs/swagger').swagger({
-      serverUrl: `${ctx.secure ? 'https://' : 'http://'}${ctx.request.host}`,
-    });
+  if (ctx.path.endsWith('swagger.json')) {
+    ctx.body = require(`.${ctx.path.replace('.json', '')}`).default;
   } else {
     await next();
   }
 });
 //
 
-if (!module.parent) {
+if (require.main === module) {
   const port: number = config.get('port');
   const http = require('http');
   const server = http.createServer(app.callback());
