@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+
+  &__tags {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__tag {
+    max-width: 30rem;
+  }
+}

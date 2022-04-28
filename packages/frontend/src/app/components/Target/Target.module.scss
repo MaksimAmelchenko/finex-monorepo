@@ -1,0 +1,10 @@
+.target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &__icon {
+    transform: rotate(90deg);
+  }
+}
