@@ -1,0 +1,98 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+%transition-styles {
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
+
+.root {
+  position: relative;
+  width: 100%;
+
+  &__label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(16px, 17px);
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+      max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    font-size: 1.6rem;
+    color: colors.$black;
+
+    .textarea:focus-within + & {
+      color: colors.$blue;
+    }
+
+    .root_filled &,
+    .textarea:focus-within + & {
+      padding: 0 5px;
+      transform: translate(12px, -6px);
+      font-size: 1.2rem;
+    }
+
+    .root_error &,
+    .root_error .textarea:focus-within + & {
+      color: colors.$red;
+    }
+
+    &:after {
+      background: colors.$white;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      content: '';
+      z-index: -1;
+    }
+  }
+
+  &__textarea {
+  }
+
+  &__helperText {
+    margin: 3px 16px 0;
+    font-size: 1.2rem;
+  }
+
+  &_error &__helperText {
+    @extend %transition-styles;
+    transition-property: color;
+    color: colors.$red;
+  }
+}
+
+.textarea {
+  @extend %transition-styles;
+  transition-property: border-color;
+  overflow: hidden;
+
+  border: 1px solid colors.$gray1;
+  border-radius: 5px;
+  width: 100%;
+
+  &:hover {
+    border: 1px solid colors.$grayDark;
+  }
+
+  &:focus-within {
+    border: 1px solid colors.$blue;
+  }
+
+  &_error,
+  &_error:focus-within,
+  &_error:hover {
+    border: 1px solid colors.$red;
+  }
+
+  &__field {
+    outline: none;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    color: colors.$black;
+    resize: vertical;
+  }
+}

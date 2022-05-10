@@ -10,5 +10,6 @@ export * from './lib/inline-select/inline-select';
 export * from './lib/option/option';
 export * from './lib/select-popup/select-popup';
 export * from './lib/tag/tag';
+export * from './lib/text-area-field/text-area-field';
 export * from './lib/text-field/text-field';
 export * from './lib/tree-table/tree-table';
