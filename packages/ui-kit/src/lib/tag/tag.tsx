@@ -19,9 +19,9 @@ export function Tag({ size = 'medium', children, className, onClose }: TagProps)
         {children}
       </div>
       {onClose && (
-        <div className={styles.tag__closeButton} role="button" onClick={onClose}>
+        <button className={styles.tag__closeButton} role="button" onClick={onClose}>
           <CloseIcon className={styles.tag__closeIcon} />
-        </div>
+        </button>
       )}
     </div>
   );
