@@ -26,10 +26,10 @@ export function Pagination({ count, offset, total, onPreviousPage, onNextPage }:
         {toNumber(offset + 1)}–{toNumber(offset + count)} {t('of')} {toNumber(total)}
       </span>
       <div className={styles.pagination__buttons}>
-        <IconButton onClick={onPreviousPage} disabled={offset === 0}>
+        <IconButton onClick={onPreviousPage} size="small" disabled={offset === 0}>
           <ArrowForwardIcon className={styles.pagination__previousIcon} />
         </IconButton>
-        <IconButton onClick={onNextPage} disabled={offset + count === total}>
+        <IconButton onClick={onNextPage} size="small" disabled={offset + count === total}>
           <ArrowForwardIcon />
         </IconButton>
       </div>

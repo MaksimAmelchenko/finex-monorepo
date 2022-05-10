@@ -7,7 +7,6 @@
   justify-content: center;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin: 0;
-  outline: 0;
   border: 0;
   border-radius: 50%;
   background-color: transparent;
@@ -28,20 +27,20 @@
   }
 
   &_size_small {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 3.2rem;
+    height: 3.2rem;
     padding: 0.4rem;
   }
 
   &_size_medium {
-    width: 3.4rem;
-    height: 3.4rem;
-    padding: 0.4rem;
+    width: 4rem;
+    height: 4rem;
+    padding: 0.8rem;
   }
 
   &_size_large {
-    width: 4rem;
-    height: 4rem;
+    width: 4.8rem;
+    height: 4.8rem;
     padding: 0.8rem;
   }
 

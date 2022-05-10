@@ -12,7 +12,7 @@ export interface IconButtonProps extends Omit<HTMLAttributes<HTMLButtonElement |
   disabled?: boolean; // If true, the component is disabled.
   loading?: boolean; // If true, the component is disabled.
   href?: string; // The URL to link to when the button is clicked. If defined, an a element will be used as the root node.
-  size?: 'medium' | 'large'; // The size of the component.
+  size?: 'small' | 'medium' | 'large'; // The size of the component.
   // variant?: 'contained';
   // type?: 'button' | 'submit';
 }

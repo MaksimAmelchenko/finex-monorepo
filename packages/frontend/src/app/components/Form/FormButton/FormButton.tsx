@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik';
 
 import { Button, IButtonProps } from '@finex/ui-kit';
 
-interface IFormButton extends IButtonProps {
+export interface IFormButton extends IButtonProps {
   isIgnoreValidation?: boolean;
 }
 

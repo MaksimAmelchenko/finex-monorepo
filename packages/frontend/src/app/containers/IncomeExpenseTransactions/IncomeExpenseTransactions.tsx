@@ -124,7 +124,11 @@ export const IncomeExpenseTransactions = observer(() => {
           </div>
 
           <div className={styles.toolbar__rightColumn}>
-            <IconButton onClick={handleToggleFilter} className={clsx(filter.isFilter && styles.filterButton_active)}>
+            <IconButton
+              onClick={handleToggleFilter}
+              size="small"
+              className={clsx(filter.isFilter && styles.filterButton_active)}
+            >
               <FilterIcon />
             </IconButton>
             <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>

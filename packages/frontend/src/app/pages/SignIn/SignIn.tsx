@@ -86,7 +86,7 @@ export function SignIn(): JSX.Element {
               autoComplete="current-password"
             />
             <FormError />
-            <FormButton type="submit" size="large" color="primary" fullSize isIgnoreValidation={true}>
+            <FormButton type="submit" size="medium" color="primary" fullSize>
               {t('SignIn')}
             </FormButton>
             <Link href="/reset-password">{t('Forgot your Password?')}</Link>
