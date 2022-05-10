@@ -30,7 +30,7 @@ export interface RestRouteOptions {
   uploader?: RequestHandler;
   onEnter?: (routerContext: IRouterContext, requestContext: IRequestContext) => Promise<void>;
   schemas?: Schemas;
-  handler: (ctx: IRequestContext) => Promise<IResponse>;
+  handler: (ctx: IRequestContext<any>) => Promise<IResponse>;
   isNeedAuthorization?: boolean;
   // permissions?: App.Permissions;
 }

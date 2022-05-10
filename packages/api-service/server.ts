@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import 'source-map-support/register';
 import config from './libs/config';
-
+import * as Koa from 'koa';
 import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
 import * as helmet from 'koa-helmet';
@@ -38,8 +38,7 @@ import { authApi } from './api/v2/auth';
 
 import healthCheck from './api/v2/health-check';
 import { emailServiceApi } from './api/v2/email-service';
-
-import * as Koa from 'koa';
+import { transactionApi } from './api/v2/transaction';
 
 const app: Koa = new Koa();
 
@@ -77,6 +76,8 @@ app.use(transfersApi);
 app.use(usersApi);
 app.use(unitsApi);
 app.use(exportApi);
+
+app.use(transactionApi);
 
 app.use(invitationsApi);
 app.use(currencyRatesApi);

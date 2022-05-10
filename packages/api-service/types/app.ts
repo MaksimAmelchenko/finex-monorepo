@@ -17,11 +17,13 @@ export interface IModel {
 
 export type IRouterContext = Router.RouterContext<any, ContextCustomT>;
 
-export interface IRequestContext extends ContextCustomT {
-  params: {
+export interface IRequestContext<
+  P = {
     [key: string]: any;
     files?: IUploadedFile[];
-  };
+  }
+> extends ContextCustomT {
+  params: P;
   sessionId?: string;
   userId?: string;
   userAgent?: string;
@@ -54,6 +56,8 @@ export enum Permit {
   Update = 3,
   Owner = 7,
 }
+
+export type Sign = 1 | -1;
 
 export type TDate = string;
 export type TDateTime = string;
