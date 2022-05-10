@@ -1,4 +1,5 @@
 export { ReactComponent as ArrowForwardIcon, default as ArrowForwardSvg } from './arrow-forward.svg';
+export { ReactComponent as CalendarIcon, default as CalendarSvg } from './calendar.svg';
 export { ReactComponent as CashFlowIcon, default as CashFlowSvg } from './cash-flow.svg';
 export { ReactComponent as CheckboxIcon, default as CheckboxSvg } from './checkbox.svg';
 export { ReactComponent as CheckboxUncheckedIcon, default as CheckboxUncheckedSvg } from './checkbox-unchecked.svg';
