@@ -3,7 +3,7 @@ import { useField, useFormikContext } from 'formik';
 
 import { Checkbox, ICheckboxProps } from '@finex/ui-kit';
 
-export interface IFormCheckboxProps extends ICheckboxProps {
+export interface IFormCheckboxProps extends Omit<ICheckboxProps, 'value' | 'onChange'> {
   name: string;
   disabled?: boolean;
   className?: string;
@@ -17,12 +17,12 @@ export const FormCheckbox = (props: IFormCheckboxProps): JSX.Element => {
   const { setFieldValue, setFieldTouched } = useFormikContext<any>();
 
   const handleChange = useCallback(
-    (target: any) => {
-      setFieldValue(props.name, target.checked);
+    (value: boolean) => {
+      setFieldValue(props.name, value);
       setFieldTouched(props.name);
     },
     [props.name, setFieldValue, setFieldTouched]
   );
 
-  return <Checkbox {...joinedProps} onClick={handleChange} error={isError ? meta.error : ''} />;
+  return <Checkbox {...joinedProps} onChange={handleChange} error={isError ? meta.error : ''} />;
 };
