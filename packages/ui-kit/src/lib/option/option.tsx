@@ -8,5 +8,9 @@ export interface IOptionProps {
 }
 
 export function Option({ label, onClick }: IOptionProps): JSX.Element {
-  return <span className={styles.option} onClick={onClick} dangerouslySetInnerHTML={{ __html: label }} />;
+  return (
+    <div className={styles.option}>
+      <div className={styles.option__label} onClick={onClick} dangerouslySetInnerHTML={{ __html: label }} />
+    </div>
+  );
 }
