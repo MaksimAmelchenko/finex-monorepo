@@ -1,10 +1,11 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { categoryId } from '../../../../common/schemas/fields/category-id';
+
+import { idCategory } from '../../../../common/schemas/fields/id-category';
 
 export const getCategoryParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idCategory: categoryId,
+    idCategory,
   },
   additionalProperties: false,
   required: ['idCategory'],

@@ -1,20 +1,20 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-import { userId } from './fields/user-id';
+import { idUser } from './fields/id-user';
 import { email } from './fields/email';
-import { projectId } from './fields/project-id';
+import { idProject } from './fields/id-project';
 
 export const profileSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idUser: userId,
+    idUser,
     name: {
       type: 'string',
       example: 'John Doe',
       minLength: 1,
     },
     email,
-    idProject: projectId,
+    idProject,
     idCurrencyRateSource: {
       type: 'integer',
     },

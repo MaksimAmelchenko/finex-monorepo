@@ -1,13 +1,14 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { userId } from './fields/user-id';
-import { accountId } from './fields/account-id';
+
+import { idUser } from './fields/id-user';
+import { idAccount } from './fields/id-account';
 import { permit } from './fields/permit';
 
 export const accountSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idUser: userId,
-    idAccount: accountId,
+    idUser,
+    idAccount,
     idAccountType: {
       type: 'integer',
     },

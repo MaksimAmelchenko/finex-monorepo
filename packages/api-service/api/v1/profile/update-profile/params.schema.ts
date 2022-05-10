@@ -1,15 +1,15 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 import { email } from '../../../../common/schemas/fields/email';
-import { projectId } from '../../../../common/schemas/fields/project-id';
+import { idProject } from '../../../../common/schemas/fields/id-project';
 import { password } from '../../../../common/schemas/fields/password';
-import { userId } from '../../../../common/schemas/fields/user-id';
+import { idUser } from '../../../../common/schemas/fields/id-user';
 
 export const updateProfileParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     password,
-    idUser: userId,
+    idUser,
     email,
     isChangePassword: {
       type: 'boolean',
@@ -18,7 +18,7 @@ export const updateProfileParamsSchema: OpenAPIV3.SchemaObject = {
       type: 'string',
       minLength: 1,
     },
-    idProject: projectId,
+    idProject,
     idCurrencyRateSource: {
       type: 'integer',
     },

@@ -1,22 +1,23 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { accountId } from '../../../../common/schemas/fields/account-id';
-import { categoryId } from '../../../../common/schemas/fields/category-id';
-import { moneyId } from '../../../../common/schemas/fields/money-id';
+
+import { idAccount } from '../../../../common/schemas/fields/id-account';
+import { idCategory } from '../../../../common/schemas/fields/id-category';
+import { idMoney } from '../../../../common/schemas/fields/id-money';
 import { date } from '../../../../common/schemas/fields/date';
-import { unitId } from '../../../../common/schemas/fields/unit-id';
-import { ieDetailId } from '../../../../common/schemas/fields/ie-detail-id';
+import { idUnit } from '../../../../common/schemas/fields/id-unit';
+import { idIEDetail } from '../../../../common/schemas/fields/id-ie-detail';
 import { sign } from '../../../../common/schemas/fields/sign';
 import { permit } from '../../../../common/schemas/fields/permit';
 
 export const updateIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idIEDetail: ieDetailId,
-    idAccount: accountId,
-    idCategory: categoryId,
-    idMoney: moneyId,
+    idIEDetail,
+    idAccount,
+    idCategory,
+    idMoney,
     idUnit: {
-      ...unitId,
+      ...idUnit,
       nullable: true,
     },
     sign,

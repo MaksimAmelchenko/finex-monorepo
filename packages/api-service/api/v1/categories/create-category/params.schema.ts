@@ -1,6 +1,8 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { unitId } from '../../../../common/schemas/fields/unit-id';
-import { categoryId } from '../../../../common/schemas/fields/category-id';
+
+import { idUnit } from '../../../../common/schemas/fields/id-unit';
+import { idCategory } from '../../../../common/schemas/fields/id-category';
+import { idUser } from '../../../../common/schemas/fields/id-user';
 
 export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
@@ -9,9 +11,7 @@ export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
       type: 'integer',
       nullable: true,
     },
-    idUnit: {
-      ...unitId,
-    },
+    idUnit,
     isEnabled: {
       type: 'boolean',
     },
@@ -22,7 +22,7 @@ export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
       type: 'string',
     },
     parent: {
-      ...categoryId,
+      ...idCategory,
       nullable: true,
     },
     // frontend sends this
@@ -31,11 +31,11 @@ export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
     },
 
     idCategory: {
-      type: 'integer',
+      ...idCategory,
       nullable: true,
     },
     idUser: {
-      type: 'integer',
+      ...idUser,
       nullable: true,
     },
     //

@@ -1,10 +1,11 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { accountId } from '../../../../common/schemas/fields/account-id';
+
+import { idAccount } from '../../../../common/schemas/fields/id-account';
 
 export const updateAccountParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idAccount: accountId,
+    idAccount,
     idAccountType: {
       type: 'integer',
     },

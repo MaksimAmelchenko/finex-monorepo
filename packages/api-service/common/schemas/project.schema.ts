@@ -1,13 +1,14 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { projectId } from './fields/project-id';
-import { userId } from './fields/user-id';
+
+import { idProject } from './fields/id-project';
+import { idUser } from './fields/id-user';
 import { permit } from './fields/permit';
 
 export const projectSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idUser: userId,
-    idProject: projectId,
+    idUser,
+    idProject,
     name: {
       type: 'string',
       example: 'Моя бухгалтерия',

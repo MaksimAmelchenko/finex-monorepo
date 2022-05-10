@@ -1,12 +1,13 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { moneyId } from '../../../../common/schemas/fields/money-id';
+
+import { idMoney } from '../../../../common/schemas/fields/id-money';
 
 export const sortMoneysParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     moneys: {
       type: 'array',
-      items: moneyId,
+      items: idMoney,
     },
   },
   additionalProperties: false,

@@ -1,44 +1,45 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { accountId } from '../../../common/schemas/fields/account-id';
-import { moneyId } from '../../../common/schemas/fields/money-id';
+
+import { idAccount } from '../../../common/schemas/fields/id-account';
+import { idMoney } from '../../../common/schemas/fields/id-money';
 import { date } from '../../../common/schemas/fields/date';
-import { contractorId } from '../../../common/schemas/fields/contractor-id';
-import { categoryId } from '../../../common/schemas/fields/category-id';
-import { unitId } from '../../../common/schemas/fields/unit-id';
-import { planId } from '../../../common/schemas/fields/plan-id';
-import { userId } from '../../../common/schemas/fields/user-id';
-import { ieDetailId } from '../../../common/schemas/fields/ie-detail-id';
-import { ieId } from '../../../common/schemas/fields/ie-id';
+import { idContractor } from '../../../common/schemas/fields/id-contractor';
+import { idCategory } from '../../../common/schemas/fields/id-category';
+import { idUnit } from '../../../common/schemas/fields/id-unit';
+import { idPlan } from '../../../common/schemas/fields/id-plan';
+import { idUser } from '../../../common/schemas/fields/id-user';
+import { idIEDetail } from '../../../common/schemas/fields/id-ie-detail';
+import { idIE } from '../../../common/schemas/fields/id-ie';
 import { permit } from '../../../common/schemas/fields/permit';
 import { sign } from '../../../common/schemas/fields/sign';
 
 export const ieDetailSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idUser: userId,
-    idIEDetail: ieDetailId,
-    idIE: ieId,
+    idUser,
+    idIEDetail,
+    idIE,
     idContractor: {
-      ...contractorId,
+      ...idContractor,
       nullable: true,
     },
     sign,
     dIEDetail: date,
     reportPeriod: date,
-    idAccount: accountId,
-    idCategory: categoryId,
+    idAccount,
+    idCategory,
     quantity: {
       type: 'number',
       nullable: true,
     },
     idUnit: {
-      ...unitId,
+      ...idUnit,
       nullable: true,
     },
     sum: {
       type: 'number',
     },
-    idMoney: moneyId,
+    idMoney,
     isNotConfirmed: {
       type: 'boolean',
     },
@@ -53,7 +54,7 @@ export const ieDetailSchema: OpenAPIV3.SchemaObject = {
     },
     permit,
     idPlan: {
-      ...planId,
+      ...idPlan,
       nullable: true,
     },
     nRepeat: {

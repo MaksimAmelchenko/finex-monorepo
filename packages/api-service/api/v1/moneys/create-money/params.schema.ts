@@ -1,11 +1,12 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { categoryId } from '../../../../common/schemas/fields/category-id';
+
+import { id } from '../../../../common/schemas/fields/id';
 
 export const createMoneyParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     idCurrency: {
-      ...categoryId,
+      ...id,
       nullable: true,
     },
     isEnabled: {

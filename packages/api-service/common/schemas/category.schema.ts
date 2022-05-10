@@ -1,15 +1,16 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { userId } from './fields/user-id';
-import { categoryId } from './fields/category-id';
-import { unitId } from './fields/unit-id';
+
+import { idUser } from './fields/id-user';
+import { idCategory } from './fields/id-category';
+import { idUnit } from './fields/id-unit';
 
 export const categorySchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idUser: userId,
-    idCategory: categoryId,
+    idUser,
+    idCategory,
     parent: {
-      ...categoryId,
+      ...idCategory,
       nullable: true,
     },
     idCategoryPrototype: {
@@ -17,7 +18,7 @@ export const categorySchema: OpenAPIV3.SchemaObject = {
       nullable: true,
     },
     idUnit: {
-      ...unitId,
+      ...idUnit,
       nullable: true,
     },
     isEnabled: {

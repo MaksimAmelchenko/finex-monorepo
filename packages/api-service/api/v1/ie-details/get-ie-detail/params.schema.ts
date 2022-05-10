@@ -1,10 +1,11 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { ieDetailId } from '../../../../common/schemas/fields/ie-detail-id';
+
+import { idIEDetail } from '../../../../common/schemas/fields/id-ie-detail';
 
 export const getIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idIEDetail: ieDetailId,
+    idIEDetail,
   },
   additionalProperties: false,
   required: ['idIEDetail'],

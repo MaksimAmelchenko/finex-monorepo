@@ -1,19 +1,20 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { accountId } from '../../../../common/schemas/fields/account-id';
-import { categoryId } from '../../../../common/schemas/fields/category-id';
-import { moneyId } from '../../../../common/schemas/fields/money-id';
+
+import { idAccount } from '../../../../common/schemas/fields/id-account';
+import { idCategory } from '../../../../common/schemas/fields/id-category';
+import { idMoney } from '../../../../common/schemas/fields/id-money';
 import { date } from '../../../../common/schemas/fields/date';
-import { contractorId } from '../../../../common/schemas/fields/contractor-id';
-import { unitId } from '../../../../common/schemas/fields/unit-id';
-import { planId } from '../../../../common/schemas/fields/plan-id';
+import { idContractor } from '../../../../common/schemas/fields/id-contractor';
+import { idUnit } from '../../../../common/schemas/fields/id-unit';
+import { idPlan } from '../../../../common/schemas/fields/id-plan';
 import { permit } from '../../../../common/schemas/fields/permit';
 
 export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idAccount: accountId,
-    idCategory: categoryId,
-    idMoney: moneyId,
+    idAccount,
+    idCategory,
+    idMoney,
     sign: {
       type: 'integer',
       enum: [1, -1],
@@ -25,11 +26,11 @@ export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
       nullable: true,
     },
     idContractor: {
-      ...contractorId,
+      ...idContractor,
       nullable: true,
     },
     idUnit: {
-      ...unitId,
+      ...idUnit,
       nullable: true,
     },
     sum: {
@@ -50,7 +51,7 @@ export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
       },
     },
     idPlan: {
-      ...planId,
+      ...idPlan,
       nullable: true,
     },
     // frontend sends these fields

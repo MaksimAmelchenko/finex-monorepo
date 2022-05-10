@@ -1,12 +1,13 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { userId } from './fields/user-id';
-import { moneyId } from './fields/money-id';
+
+import { idUser } from './fields/id-user';
+import { idMoney } from './fields/id-money';
 
 export const moneySchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idUser: userId,
-    idMoney: moneyId,
+    idUser,
+    idMoney,
     idCurrency: {
       type: 'integer',
       nullable: true,
