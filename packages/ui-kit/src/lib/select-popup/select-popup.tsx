@@ -1,67 +1,23 @@
 import React, { FunctionComponent, ReactNode, useCallback, useState } from 'react';
-import Select, { StylesConfig } from 'react-select';
-import { FilterOptionOption } from 'react-select/dist/declarations/src/filters';
+import { PropsValue } from 'react-select';
+import { ActionMeta, OnChangeValue } from 'react-select/dist/declarations/src/types';
 
 import { SearchIcon } from '../icons';
+import { Select, ISelectOption, SelectProps } from '../select/select';
 
 import styles from './select-popup.module.scss';
 
-const selectStyles: StylesConfig<ISelectPopupOption, false> = {
-  control: (provided, state) => {
-    return {
-      ...provided,
-      borderRadius: 3,
-      boxShadow: 'none',
-      margin: 8,
-      minWidth: 240,
-      '&:hover': {
-        borderColor: '#0066bf',
-      },
-    };
-  },
-  menu: () => ({
-    boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)',
-  }),
-};
+const components = { DropdownIndicator };
 
-export interface ISelectPopupOption {
-  value: string;
-  label: string;
-
-  [key: string]: any;
+export interface SelectPopupProps<IsMulti extends boolean> extends Omit<SelectProps<IsMulti>, 'isPopup'> {
+  target: FunctionComponent<{ value?: PropsValue<ISelectOption>; onClick: () => void }>;
 }
 
-const components = { DropdownIndicator, IndicatorSeparator: null };
-
-function defaultMatcher(option: FilterOptionOption<ISelectPopupOption>, input: string): boolean {
-  // s = option.label.replace(/&rarr;/g, '').replace(/\s{2,}/g, ' ')
-  // _.trim(s).toUpperCase().indexOf(input.toUpperCase()) >= 0
-  return option.label.trim().toLowerCase().indexOf(input.trim().toLowerCase()) > -1;
-}
-
-export interface SelectPopupProps {
-  target: FunctionComponent<{ value?: ISelectPopupOption | ISelectPopupOption[] | null; onClick: () => void }>;
-  value?: ISelectPopupOption | ISelectPopupOption[] | null;
-  options: ISelectPopupOption[];
-  onChange: (value: ISelectPopupOption) => void;
-  noFoundMessage?: string;
-  smallInputMessage?: string;
-  placeholder?: string;
-  minimumInputLength?: number;
-  matcher?: (option: FilterOptionOption<ISelectPopupOption>, input: string) => boolean;
-}
-
-export function SelectPopup({
-  value,
+export function SelectPopup<IsMulti extends boolean = false>({
   target: Target,
-  options,
   onChange,
-  minimumInputLength = 2,
-  noFoundMessage = 'No options',
-  smallInputMessage = `Search input must be at least ${minimumInputLength} characters`,
-  placeholder,
-  matcher = defaultMatcher,
-}: SelectPopupProps) {
+  ...rest
+}: SelectPopupProps<IsMulti>) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleToggleOpen = useCallback(() => {
@@ -69,47 +25,30 @@ export function SelectPopup({
   }, []);
 
   const handleChange = useCallback(
-    (value: ISelectPopupOption | null) => {
+    (value: OnChangeValue<ISelectOption, IsMulti>, actionMeta: ActionMeta<ISelectOption>) => {
       setIsOpen(false);
-      onChange(value!);
+      onChange && onChange(value, actionMeta);
     },
     [onChange]
   );
 
-  const isShowAllOptions = options.length < 300;
-
-  const filterOption = useCallback(
-    (option: FilterOptionOption<ISelectPopupOption>, input: string): boolean => {
-      return Boolean(
-        (isShowAllOptions || (!isShowAllOptions && input.trim().length >= minimumInputLength)) && matcher(option, input)
-      );
-    },
-    [isShowAllOptions, matcher, minimumInputLength]
-  );
-
-  const noOptionsMessage = useCallback(
-    (input: any) => (input.inputValue.length >= minimumInputLength ? noFoundMessage : smallInputMessage),
-    [minimumInputLength, noFoundMessage, smallInputMessage]
-  );
-
   return (
-    <Dropdown isOpen={isOpen} onClose={handleToggleOpen} target={<Target value={value} onClick={handleToggleOpen} />}>
-      <Select
+    <Dropdown
+      isOpen={isOpen}
+      onClose={handleToggleOpen}
+      target={<Target value={rest.value} onClick={handleToggleOpen} />}
+    >
+      <Select<IsMulti>
         autoFocus
-        filterOption={filterOption}
-        // backspaceRemovesValue={false}
         components={components}
         controlShouldRenderValue={false}
         hideSelectedOptions={true}
         isClearable={false}
         menuIsOpen
         onChange={handleChange}
-        options={options}
-        placeholder={placeholder}
-        styles={selectStyles}
         tabSelectsValue={false}
-        noOptionsMessage={noOptionsMessage}
-        value={value}
+        isPopup
+        {...rest}
       />
     </Dropdown>
   );

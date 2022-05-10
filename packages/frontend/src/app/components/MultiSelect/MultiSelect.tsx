@@ -1,23 +1,25 @@
 import React from 'react';
+import { OnChangeValue } from 'react-select/dist/declarations/src/types';
 
-import { ArrowForwardIcon, ISelectPopupOption, Option, SelectPopup, Tag } from '@finex/ui-kit';
+import { ISelectOption, SelectPopup, Tag, Target } from '@finex/ui-kit';
 
 import styles from './MultiSelect.module.scss';
-import { Target } from '../Target/Target';
 
 interface MultiSelectProps {
   label: string;
-  values: ISelectPopupOption[];
-  options: ISelectPopupOption[];
-  onChange: (values: ISelectPopupOption[]) => void;
+  values: ISelectOption[];
+  options: ISelectOption[];
+  onChange: (values: ISelectOption[]) => void;
   noFoundMessage?: string;
   smallInputMessage?: string;
   minimumInputLength?: number;
 }
 
 export function MultiSelect({ label, values, options, onChange, ...rest }: MultiSelectProps) {
-  const handleChange = (option: ISelectPopupOption) => {
-    onChange([...values, option]);
+  const handleChange = (option: OnChangeValue<ISelectOption, false>) => {
+    if (option) {
+      onChange([...values, option]);
+    }
   };
 
   const handleDelete = (id: string) => () => {

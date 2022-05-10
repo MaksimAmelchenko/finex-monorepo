@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectPopupOption, SearchIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Form, FormTextField } from '../../components/Form';
@@ -38,11 +38,11 @@ export const IncomeExpenseTransactions = observer(() => {
 
   const { incomeExpenseTransactions, loadState, offset, total } = incomeExpenseTransactionsRepository;
 
-  const selectAccountsOptions = useMemo<ISelectPopupOption[]>(() => {
+  const selectAccountsOptions = useMemo<ISelectOption[]>(() => {
     return accountsRepository.accounts.map(({ id: value, name: label }) => ({ value, label }));
   }, [accountsRepository.accounts]);
 
-  const selectCategoriesOptions = useMemo<ISelectPopupOption[]>(
+  const selectCategoriesOptions = useMemo<ISelectOption[]>(
     () =>
       categoriesRepository.categories.map(({ id: value }) => {
         const label = categoriesRepository.path(value, true);
@@ -51,12 +51,12 @@ export const IncomeExpenseTransactions = observer(() => {
     [categoriesRepository.categories]
   );
 
-  const selectContractorsOptions = useMemo<ISelectPopupOption[]>(
+  const selectContractorsOptions = useMemo<ISelectOption[]>(
     () => contractorsRepository.contractors.map(({ id: value, name: label }) => ({ value, label })),
     [contractorsRepository.contractors]
   );
 
-  const selectTagsOptions = useMemo<ISelectPopupOption[]>(() => {
+  const selectTagsOptions = useMemo<ISelectOption[]>(() => {
     return tagsRepository.tags.map(({ id: value, name: label }) => ({ value, label }));
   }, [tagsRepository.tags]);
 
@@ -68,19 +68,19 @@ export const IncomeExpenseTransactions = observer(() => {
     incomeExpenseTransactionsRepository.setFilter({ range: values });
   }, []);
 
-  const setAccounts = (accounts: ISelectPopupOption[]) => {
+  const setAccounts = (accounts: ISelectOption[]) => {
     incomeExpenseTransactionsRepository.setFilter({ accounts: accounts.map(({ value }) => value) });
   };
 
-  const setCategories = (categories: ISelectPopupOption[]) => {
+  const setCategories = (categories: ISelectOption[]) => {
     incomeExpenseTransactionsRepository.setFilter({ categories: categories.map(({ value }) => value) });
   };
 
-  const setContractors = (contractors: ISelectPopupOption[]) => {
+  const setContractors = (contractors: ISelectOption[]) => {
     incomeExpenseTransactionsRepository.setFilter({ contractors: contractors.map(({ value }) => value) });
   };
 
-  const setTags = (tags: ISelectPopupOption[]) => {
+  const setTags = (tags: ISelectOption[]) => {
     incomeExpenseTransactionsRepository.setFilter({ tags: tags.map(({ value }) => value) });
   };
 

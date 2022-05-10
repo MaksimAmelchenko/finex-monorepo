@@ -1,0 +1,42 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+%transition-styles {
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
+
+.dropdownIndicator {
+  margin: 0 8px;
+  transform: rotate(90deg);
+}
+
+.root {
+  position: relative;
+  width: 100%;
+
+  &__label {
+    position: absolute;
+    top: -6px;
+    left: 10px;
+    padding: 0 5px;
+    background: colors.$white;
+    font-size: 1.2rem;
+
+    .root:focus-within > & {
+      color: colors.$blue;
+    }
+  }
+
+  &__helperText {
+    margin: 4px 16px 0;
+    font-size: 1.2rem;
+  }
+
+  &_error &__label,
+  &_error:focus-within &__label,
+  &_error &__helperText {
+    @extend %transition-styles;
+    transition-property: color;
+    color: colors.$red;
+  }
+}

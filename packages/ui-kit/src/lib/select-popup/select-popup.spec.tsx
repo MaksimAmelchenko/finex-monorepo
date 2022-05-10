@@ -5,7 +5,7 @@ import { SelectPopup } from './select-popup';
 describe('SelectPopup', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <SelectPopup label={''} options={[{ value: 'value', label: 'label' }]} onChange={() => {}} />
+      <SelectPopup target={() => <div></div>} options={[{ value: 'value', label: 'label' }]} onChange={() => {}} />
     );
     expect(baseElement).toBeTruthy();
   });
