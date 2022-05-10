@@ -9,21 +9,30 @@
 .root {
   position: relative;
   width: 100%;
+  background-color: colors.$white;
 
   &__label {
     position: absolute;
     left: 0;
     top: 0;
-    transform: translate(16px, 16px) scale(1);
+    transform: translate(12px, 12px) scale(1);
     transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
       max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-    z-index: 2;
     font-size: 1.6rem;
     color: colors.$black;
     padding: 0 5px;
 
+    .root_size_small & {
+      transform: translate(12px, 8px) scale(1);
+      font-size: 1.4rem;
+    }
+
     &_withStartAdornment {
-      transform: translate(36px, 16px) scale(1);
+      transform: translate(36px, 12px) scale(1);
+
+      .root_size_small & {
+        transform: translate(36px, 8px) scale(1);
+      }
     }
 
     .input:focus-within + & {
@@ -32,7 +41,7 @@
 
     .root_filled &,
     .input:focus-within + & {
-      transform: translate(11px, -6px) scale(1);
+      transform: translate(12px, -6px) scale(1);
       font-size: 1.2rem;
     }
 
@@ -41,12 +50,12 @@
       color: colors.$red;
     }
 
+    /* background for label */
     &:after {
       background: colors.$white;
       width: 100%;
       height: 100%;
       left: 0;
-      //bottom: 5px;
       position: absolute;
       content: '';
       z-index: -1;
@@ -57,7 +66,7 @@
   }
 
   &__helperText {
-    margin: 3px 16px 0;
+    margin: 4px 16px 0;
     font-size: 1.2rem;
   }
 
@@ -80,12 +89,16 @@
   border: 1px solid colors.$gray1;
   border-radius: 5px;
   width: 100%;
-  height: 50px;
+  height: 40px;
   cursor: text;
   padding-left: 10px;
 
   &__startAdornment {
     flex-shrink: 0;
+
+    .input_size_small & {
+      margin-top: 4px;
+    }
   }
 
   &__endAdornment {
@@ -107,7 +120,7 @@
   }
 
   &_size_small {
-    height: 34px;
+    height: 32px;
 
     .input__field {
       font-size: 1.4rem;
@@ -120,7 +133,6 @@
     border: none;
     width: 100%;
     height: 100%;
-    //height: 48px;
     padding: 0 6px;
     font-size: 1.6rem;
     color: colors.$black;

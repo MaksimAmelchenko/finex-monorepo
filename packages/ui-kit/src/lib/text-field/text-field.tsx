@@ -1,4 +1,4 @@
-import React, { LegacyRef } from 'react';
+import React, { LegacyRef, forwardRef } from 'react';
 import MaskedInput, { Mask, MaskedInputProps } from 'react-text-mask';
 import clsx from 'clsx';
 
@@ -17,7 +17,7 @@ export interface ITextFieldProps extends Omit<MaskedInputProps, 'css' | 'mask' |
   label?: string;
 }
 
-export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((props, ref) => {
+export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, ref) => {
   const {
     autoComplete = 'off',
     className,
@@ -39,7 +39,15 @@ export const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>((pr
 
   const message = isError ? error : helperText;
   return (
-    <div className={clsx(styles.root, error && styles.root_error, value.length > 0 && styles.root_filled, className)}>
+    <div
+      className={clsx(
+        styles.root,
+        styles[`root_size_${size}`],
+        error && styles.root_error,
+        value.length > 0 && styles.root_filled,
+        className
+      )}
+    >
       <div
         className={clsx(styles.root__input, styles.input, styles[`input_size_${size}`], error && styles.input_error)}
       >
