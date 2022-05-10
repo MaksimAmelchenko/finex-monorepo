@@ -2,37 +2,37 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItemBase from '@mui/material/MenuItem';
 
-import { Option } from '../option/option';
+import { Target } from '../target/target';
 
 export interface IOption {
   value: string;
-  title: string;
+  label: string;
 }
 
 export interface InlineSelectProps {
   label: string;
   options: IOption[];
-  onSelect: (value: string) => void;
+  onChange: (option: IOption) => void;
+  className?: string;
 }
 
 interface OptionProps {
-  value: string;
-  title: string;
-  onSelect: (value: string) => void;
+  option: IOption;
+  onSelect: (option: IOption) => void;
 }
 
-function MenuItem({ value, title, onSelect }: OptionProps): JSX.Element {
+function MenuItem({ option, onSelect }: OptionProps): JSX.Element {
   const handleClick = () => {
-    onSelect(value);
+    onSelect(option);
   };
   return (
     <MenuItemBase onClick={handleClick}>
-      <span dangerouslySetInnerHTML={{ __html: title }} />
+      <span dangerouslySetInnerHTML={{ __html: option.label }} />
     </MenuItemBase>
   );
 }
 
-export function InlineSelect({ label, options, onSelect }: InlineSelectProps) {
+export function InlineSelect({ label, options, onChange, className }: InlineSelectProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
@@ -44,14 +44,14 @@ export function InlineSelect({ label, options, onSelect }: InlineSelectProps) {
     setAnchorEl(null);
   };
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (option: IOption) => {
     setAnchorEl(null);
-    onSelect(value);
+    onChange(option);
   };
 
   return (
     <>
-      <Option label={label} onClick={handleClick} />
+      <Target label={label} onClick={handleClick} className={className} />
 
       <Menu
         anchorEl={anchorEl}
@@ -61,8 +61,8 @@ export function InlineSelect({ label, options, onSelect }: InlineSelectProps) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {options.map(({ value, title }) => (
-          <MenuItem value={value} title={title} onSelect={handleSelect} key={value} />
+        {options.map(option => (
+          <MenuItem option={option} onSelect={handleSelect} key={option.value} />
         ))}
       </Menu>
     </>

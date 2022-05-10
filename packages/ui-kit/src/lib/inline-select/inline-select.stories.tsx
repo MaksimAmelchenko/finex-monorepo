@@ -1,30 +1,29 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 
-import { InlineSelect, InlineSelectProps, IOption } from './inline-select';
+import { InlineSelect, IOption } from './inline-select';
 
 export default {
   title: 'Components/InlineSelect',
   component: InlineSelect,
 } as Meta;
 
+const options: IOption[] = [
+  { value: 'null', label: '' },
+  { value: '1', label: 'Title1' },
+  { value: '2', label: 'Title2' },
+  { value: '3', label: 'Title3' },
+  { value: '4', label: 'Title4' },
+];
+
 const Template: Story = () => {
-  const [value, setValue] = useState<string>('1');
+  const [option, setOption] = useState<IOption>(options[0]);
 
-  const options: IOption[] = [
-    { value: '1', title: 'Title1' },
-    { value: '2', title: 'Title2' },
-    { value: '3', title: 'Title3' },
-    { value: '4', title: 'Title4' },
-  ];
-
-  const option = options.find(option => option.value === value);
-
-  const handleOnSelect = (value: string) => {
-    setValue(value);
+  const handleChange = (option: IOption) => {
+    setOption(option);
   };
 
-  return <InlineSelect label={option!.title} options={options} onSelect={handleOnSelect} />;
+  return <InlineSelect label={option.label} options={options} onChange={handleChange} />;
 };
 
 export const Default = Template.bind({});

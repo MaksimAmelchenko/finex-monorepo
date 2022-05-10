@@ -49,8 +49,8 @@ export const AccountDailyBalances = observer(() => {
 
   const { dailyBalances, dailyBalancesLoadState } = balanceRepository;
 
-  const handleSelectMoney = (moneyId: string) => {
-    const money = moneysRepository.get(moneyId) || null;
+  const handleSelectMoney = (option: IOption) => {
+    const money = moneysRepository.get(option.value) || null;
     setSelectedMoney(money);
   };
 
@@ -65,8 +65,8 @@ export const AccountDailyBalances = observer(() => {
 
   const moneysOptions: IOption[] = useMemo(() => {
     return [
-      { value: 'null', title: t('in original currency') },
-      ...moneysRepository.moneys.map(money => ({ value: money.id, title: money.symbol })),
+      { value: 'null', label: t('in original currency') },
+      ...moneysRepository.moneys.map(money => ({ value: money.id, label: money.symbol })),
     ];
   }, [moneysRepository.moneys]);
 
@@ -134,9 +134,9 @@ export const AccountDailyBalances = observer(() => {
 
         <div className={styles.header__options}>
           <InlineSelect
-            label={moneysOptions.find(option => option.value === (selectedMoney?.id || 'null'))!.title}
+            label={moneysOptions.find(option => option.value === (selectedMoney ? selectedMoney.id : 'null'))!.label}
             options={moneysOptions}
-            onSelect={handleSelectMoney}
+            onChange={handleSelectMoney}
           />
         </div>
       </div>
