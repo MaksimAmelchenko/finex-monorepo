@@ -1,8 +1,7 @@
 import { forwardRef, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 
-import { InlineDatePicker, Tag, TargetProps } from '@finex/ui-kit';
-import { Target } from '../Target/Target';
+import { InlineDatePicker, Tag, Target, TargetProps } from '@finex/ui-kit';
 import { formatDate, getT } from '../../lib/core/i18n';
 
 import styles from './RangeSelect.module.scss';

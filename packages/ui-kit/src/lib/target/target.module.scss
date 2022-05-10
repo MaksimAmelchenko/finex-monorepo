@@ -1,8 +1,12 @@
 .target {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border: none;
+  text-decoration: none;
+  background-color: inherit;
+  padding: 0;
 
   &__icon {
     transform: rotate(90deg);
