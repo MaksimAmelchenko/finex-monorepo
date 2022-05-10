@@ -11,7 +11,7 @@ import {
 } from 'formik';
 
 import { CoreError } from '../../core/errors';
-import { CoreErrorConstructor, ErrorTranslation, translateErrorToHR } from "../../core/errors-translation";
+import { CoreErrorConstructor, ErrorTranslation, translateErrorToHR } from '../../core/errors-translation';
 import { ErrorContextValue, FormErrorProvider } from './FormError/FormError';
 
 export type IFormProps<Values> = FormikConfig<Values> & {
@@ -54,6 +54,7 @@ export type IFormProps<Values> = FormikConfig<Values> & {
    * @param result
    */
   afterSubmit?: (result: any) => unknown;
+  className?: string;
 };
 
 /**
@@ -61,7 +62,7 @@ export type IFormProps<Values> = FormikConfig<Values> & {
  */
 export function Form<Values>(props: IFormProps<Values>): JSX.Element {
   const { children, component, render } = props;
-  const { onChange, onSubmit, onError, errorsHR, afterSubmit, ...rest } = props;
+  const { onChange, onSubmit, onError, errorsHR, afterSubmit, className, ...rest } = props;
 
   // Prepare everything for errors translation to HumanReadable form
   const [errorContextValue, setErrorContextState] = useState<ErrorContextValue>({});
@@ -103,7 +104,7 @@ export function Form<Values>(props: IFormProps<Values>): JSX.Element {
   return (
     <FormikProvider value={formikbag}>
       <FormErrorProvider value={errorContextValue}>
-        <form onSubmit={formikbag.handleSubmit as any} onReset={formikbag.handleReset}>
+        <form onSubmit={formikbag.handleSubmit as any} onReset={formikbag.handleReset} className={className}>
           {component
             ? React.createElement(component as any, formikbag)
             : render
