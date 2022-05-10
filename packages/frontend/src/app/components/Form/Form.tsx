@@ -95,7 +95,7 @@ export function Form<Values>(props: IFormProps<Values>): JSX.Element {
     [afterSubmit, onError, errorsHR, onSubmit]
   );
 
-  const formikbag = useFormik({ ...rest, onSubmit: onSubmitCallback, validateOnMount: true });
+  const formikbag = useFormik({ ...rest, onSubmit: onSubmitCallback });
 
   useEffect(() => {
     onChange && onChange(formikbag.values);

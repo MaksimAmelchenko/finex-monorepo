@@ -14,25 +14,9 @@ export const FormTextField = forwardRef<HTMLInputElement, IFormTextFieldProps>((
   const [formikProps, meta] = useField(props.name);
   const { autoFocusOnEmpty, ...rest } = props;
   const joinedProps = { ...rest, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
 
-  // const inputRef = useRef<HTMLInputElement | null>(null);
-
-  // useEffect(() => {
-  //   // TODO leave focused the only first field
-  //   // if (autoFocusOnEmpty && inputRef.current && !fieldProps.value) {
-  //   //   inputRef.current.focus();
-  //   // }
-  // }, [autoFocusOnEmpty, fieldProps.value]);
-
-  return (
-    <TextField
-      {...joinedProps}
-      // onChange={onChange}
-      error={isError ? meta.error : ''}
-      // ref={ref || inputRef}
-    />
-  );
+  return <TextField {...joinedProps} error={isError ? meta.error : ''} ref={ref} />;
 });
 
 FormTextField.displayName = 'FormTextField';

@@ -13,7 +13,7 @@ export function FormSelectPopup<IsMulti extends boolean = false>(props: FormSele
   const { setFieldValue, setFieldTouched } = useFormikContext();
 
   const joinedProps = { ...props, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
 
   const { options, name } = props;
 

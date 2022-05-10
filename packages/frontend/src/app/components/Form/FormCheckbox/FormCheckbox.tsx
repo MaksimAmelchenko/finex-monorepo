@@ -12,7 +12,7 @@ export interface IFormCheckboxProps extends Omit<ICheckboxProps, 'value' | 'onCh
 export const FormCheckbox = (props: IFormCheckboxProps): JSX.Element => {
   const [formikProps, meta] = useField<boolean>(props.name);
   const joinedProps = { ...props, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
 
   const { setFieldValue, setFieldTouched } = useFormikContext<any>();
 

@@ -10,10 +10,10 @@ export interface FormSelectProps<IsMulti extends boolean> extends Omit<SelectPro
 
 export function FormSelect<IsMulti extends boolean = false>(props: FormSelectProps<IsMulti>): JSX.Element {
   const [formikProps, meta] = useField<IsMulti extends true ? string[] : string | null>(props.name);
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, setFieldTouched } = useFormikContext();
 
   const joinedProps = { ...props, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
   const error = isError ? meta.error : '';
 
   const { options, name } = props;
@@ -31,5 +31,9 @@ export function FormSelect<IsMulti extends boolean = false>(props: FormSelectPro
     [name, setFieldValue]
   );
 
-  return <Select<IsMulti> {...joinedProps} value={value} onChange={handleChange} error={error} />;
+  const handleBlur = useCallback(() => {
+    setFieldTouched(name, true);
+  }, [name, setFieldTouched]);
+
+  return <Select<IsMulti> {...joinedProps} value={value} onChange={handleChange} error={error} onBlur={handleBlur} />;
 }

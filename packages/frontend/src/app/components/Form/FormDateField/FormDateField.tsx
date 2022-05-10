@@ -12,7 +12,7 @@ export function FormDateField(props: FormDateFieldProps): JSX.Element {
   const { setFieldValue } = useFormikContext();
 
   const joinedProps = { ...props, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
   const { name } = props;
   const handleChange = useCallback(
     (value: Date | null) => {

@@ -11,7 +11,7 @@ export interface FormAreaFieldProps extends Omit<TextAreaFieldProps, 'value'> {
 export const FormTextAreaField = forwardRef<HTMLTextAreaElement, FormAreaFieldProps>((props, ref) => {
   const [formikProps, meta] = useField(props.name);
   const joinedProps = { ...props, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
 
   return <TextAreaField {...joinedProps} error={isError ? meta.error : ''} />;
 });

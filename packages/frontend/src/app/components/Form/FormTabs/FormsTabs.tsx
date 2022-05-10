@@ -12,7 +12,7 @@ export function FormTabs(props: FormTabsProps): JSX.Element {
   const { setFieldValue, setFieldTouched } = useFormikContext();
 
   const joinedProps = { ...props, ...formikProps };
-  const isError = Boolean(meta.error) && meta.touched;
+  const isError = Boolean(meta.error);
   const { name } = props;
 
   const handleChange = useCallback(
