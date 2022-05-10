@@ -1,3 +1,7 @@
+// import { ObjectShape } from 'yup';
+
+import { ObjectShape } from 'yup/lib/object';
+
 export type TUrl = string;
 export type TDate = string;
 export type TDateTime = string;
@@ -32,3 +36,7 @@ export interface GAOptions {
   'data-ga-label'?: string;
   'data-ga-value'?: number;
 }
+
+type ObjectShapeValues = ObjectShape extends Record<string, infer V> ? V : never;
+
+export type Shape<T extends Record<any, any>> = Partial<Record<keyof T, ObjectShapeValues>>;

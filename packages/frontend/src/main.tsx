@@ -26,6 +26,7 @@ async function initI18n(): Promise<void> {
               formats: {
                 default: 'dd.MM.yyyy',
                 short: 'dd.MM.yy',
+                month: 'MMM YYYY',
               },
             },
             time: {
@@ -50,6 +51,7 @@ async function initI18n(): Promise<void> {
               formats: {
                 default: 'dd.MM.yyyy',
                 short: 'dd.MM.yy',
+                month: 'MMM yyyy',
               },
             },
             time: {
@@ -74,6 +76,7 @@ async function initI18n(): Promise<void> {
               formats: {
                 default: 'dd.MM.yyyy',
                 short: 'dd.MM.yy',
+                month: 'MMM yyyy',
               },
             },
             time: {

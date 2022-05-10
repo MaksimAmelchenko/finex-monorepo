@@ -10,6 +10,8 @@ export { ReactComponent as FilterIcon, default as FilterSvg } from './filter.svg
 export { ReactComponent as HamburgerIcon, default as HamburgerSvg } from './hamburger.svg';
 export { ReactComponent as Logo, default as LogoSvg } from './logo.svg';
 export { ReactComponent as PlanningIcon, default as PlanningSvg } from './planning.svg';
+export { ReactComponent as PlusIcon, default as PlusSvg } from './plus.svg';
+export { ReactComponent as QuestionIcon, default as QuestionSvg } from './question.svg';
 export { ReactComponent as ReferenceBooksSIcon, default as ReferenceBooksSvg } from './reference-books.svg';
 export { ReactComponent as ReportsIcon, default as ReportsSvg } from './reports.svg';
 export { ReactComponent as SearchIcon, default as SearchSvg } from './search.svg';

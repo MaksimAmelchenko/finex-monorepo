@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
+import { AddCashFlowTransaction } from '../AddCashFlowTransaction/AddCashFlowTransaction';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
@@ -18,9 +19,6 @@ import { useStore } from '../../core/hooks/use-store';
 
 import styles from './IncomeExpenseTransactions.module.scss';
 
-const noop = () => {};
-const a: [Date | null, Date | null] = [null, null];
-
 interface ISearchFormValues {
   searchText: string;
 }
@@ -33,6 +31,15 @@ export const IncomeExpenseTransactions = observer(() => {
   const contractorsRepository = useStore(ContractorsRepository);
   const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
   const tagsRepository = useStore(TagsRepository);
+
+  const [isOpenedAddCashFlowTransaction, setIsOpenedAddCashFlowTransaction] = useState<boolean>(false);
+
+  const handleOpenAddCashFlowTransaction = () => {
+    setIsOpenedAddCashFlowTransaction(true);
+  };
+  const handleCloseAddCashFlowTransaction = () => {
+    setIsOpenedAddCashFlowTransaction(false);
+  };
 
   const { filter } = incomeExpenseTransactionsRepository;
 
@@ -48,7 +55,7 @@ export const IncomeExpenseTransactions = observer(() => {
         const label = categoriesRepository.path(value, true);
         return { value, label };
       }),
-    [categoriesRepository.categories]
+    [categoriesRepository]
   );
 
   const selectContractorsOptions = useMemo<ISelectOption[]>(
@@ -106,120 +113,124 @@ export const IncomeExpenseTransactions = observer(() => {
   };
 
   return (
-    <article>
-      {/*<div className={styles.search}>*/}
-      {/*</div>*/}
-      <div className={styles.panel}>
-        <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
-          <div className={styles.toolbar__buttons}>
-            <Button variant="contained" size="small" color="secondary" onClick={handleRefreshClick}>
-              {t('New')}
-            </Button>
-            <Button variant="outlined" size="small" onClick={handleRefreshClick}>
-              {t('Delete')}
-            </Button>
-            <Button variant="outlined" size="small" onClick={handleRefreshClick}>
-              {t('Refresh')}
-            </Button>
-          </div>
+    <>
+      <article>
+        {/*<div className={styles.search}>*/}
+        {/*</div>*/}
+        <div className={styles.panel}>
+          <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
+            <div className={styles.toolbar__buttons}>
+              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddCashFlowTransaction}>
+                {t('New')}
+              </Button>
+              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+                {t('Delete')}
+              </Button>
+              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+                {t('Refresh')}
+              </Button>
+            </div>
 
-          <div className={styles.toolbar__rightColumn}>
-            <IconButton
-              onClick={handleToggleFilter}
-              size="small"
-              className={clsx(filter.isFilter && styles.filterButton_active)}
-            >
-              <FilterIcon />
-            </IconButton>
-            <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
-              <FormTextField
-                name="searchText"
+            <div className={styles.toolbar__rightColumn}>
+              <IconButton
+                onClick={handleToggleFilter}
                 size="small"
-                placeholder={t('Enter search request')}
-                className={styles.toolbar__search}
-                startAdornment={SearchIcon}
+                className={clsx(filter.isFilter && styles.filterButton_active)}
+              >
+                <FilterIcon />
+              </IconButton>
+              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+                <FormTextField
+                  name="searchText"
+                  size="small"
+                  placeholder={t('Enter search request')}
+                  className={styles.toolbar__search}
+                  startAdornment={SearchIcon}
+                />
+              </Form>
+            </div>
+          </div>
+
+          <div className={styles.panel__pagination}>
+            <Pagination
+              count={incomeExpenseTransactions.length}
+              offset={offset}
+              total={total}
+              onPreviousPage={handlePreviousPageClick}
+              onNextPage={handleNextPageClick}
+            />
+          </div>
+
+          {filter.isFilter && (
+            <div className={styles.panel__filter}>
+              <RangeSelect values={filter.range} onChange={setRange} />
+
+              <MultiSelect
+                label={t('Accounts')}
+                options={selectAccountsOptions}
+                values={selectAccountsOptions.filter(({ value }) => filter.accounts.includes(value))}
+                onChange={setAccounts}
               />
-            </Form>
-          </div>
+
+              <MultiSelect
+                label={t('Categories')}
+                options={selectCategoriesOptions}
+                values={selectCategoriesOptions.filter(({ value }) => filter.categories.includes(value))}
+                onChange={setCategories}
+                // minimumInputLength={2}
+              />
+
+              <MultiSelect
+                label={t('Counterparties')}
+                options={selectContractorsOptions}
+                values={selectContractorsOptions.filter(({ value }) => filter.contractors.includes(value))}
+                onChange={setContractors}
+              />
+              <MultiSelect
+                label={t('Tags')}
+                options={selectTagsOptions}
+                values={selectTagsOptions.filter(({ value }) => filter.tags.includes(value))}
+                onChange={setTags}
+              />
+            </div>
+          )}
         </div>
+        <table className={clsx('table table-hover table-sm', styles.table)}>
+          <thead>
+            <tr>
+              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
+              <th>
+                {t('Account')}
+                <br />
+                {t('Counterparty')}
+              </th>
+              <th>{t('Category')}</th>
+              <th className="hidden-sm hidden-md" colSpan={2}>
+                {t('Income')}
+              </th>
+              <th className="hidden-sm hidden-md" colSpan={2}>
+                {t('Expense')}
+              </th>
+              {/*<th className="hidden-lg" colSpan={2}>*/}
+              {/*  {t('Amount')}*/}
+              {/*</th>*/}
+              <th className="hidden-sm">{t('Note')}</th>
+              <th className="hidden-sm">{t('Tags')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {incomeExpenseTransactions.map((incomeExpenseTransaction, index) => (
+              <IncomeExpenseTransaction
+                incomeExpenseTransaction={incomeExpenseTransaction}
+                key={incomeExpenseTransaction.id ?? index}
+              />
+            ))}
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+      </article>
 
-        <div className={styles.panel__pagination}>
-          <Pagination
-            count={incomeExpenseTransactions.length}
-            offset={offset}
-            total={total}
-            onPreviousPage={handlePreviousPageClick}
-            onNextPage={handleNextPageClick}
-          />
-        </div>
-
-        {filter.isFilter && (
-          <div className={styles.panel__filter}>
-            <RangeSelect values={filter.range} onChange={setRange} />
-
-            <MultiSelect
-              label={t('Accounts')}
-              options={selectAccountsOptions}
-              values={selectAccountsOptions.filter(({ value }) => filter.accounts.includes(value))}
-              onChange={setAccounts}
-            />
-
-            <MultiSelect
-              label={t('Categories')}
-              options={selectCategoriesOptions}
-              values={selectCategoriesOptions.filter(({ value }) => filter.categories.includes(value))}
-              onChange={setCategories}
-              // minimumInputLength={2}
-            />
-
-            <MultiSelect
-              label={t('Counterparties')}
-              options={selectContractorsOptions}
-              values={selectContractorsOptions.filter(({ value }) => filter.contractors.includes(value))}
-              onChange={setContractors}
-            />
-            <MultiSelect
-              label={t('Tags')}
-              options={selectTagsOptions}
-              values={selectTagsOptions.filter(({ value }) => filter.tags.includes(value))}
-              onChange={setTags}
-            />
-          </div>
-        )}
-      </div>
-      <table className={clsx('table table-hover table-sm', styles.table)}>
-        <thead>
-          <tr>
-            <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
-            <th>
-              {t('Account')}
-              <br />
-              {t('Counterparty')}
-            </th>
-            <th>{t('Category')}</th>
-            <th className="hidden-sm hidden-md" colSpan={2}>
-              {t('Income')}
-            </th>
-            <th className="hidden-sm hidden-md" colSpan={2}>
-              {t('Expense')}
-            </th>
-            {/*<th className="hidden-lg" colSpan={2}>*/}
-            {/*  {t('Amount')}*/}
-            {/*</th>*/}
-            <th className="hidden-sm">{t('Note')}</th>
-            <th className="hidden-sm">{t('Tags')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {incomeExpenseTransactions.map((incomeExpenseTransaction, index) => (
-            <IncomeExpenseTransaction
-              incomeExpenseTransaction={incomeExpenseTransaction}
-              key={incomeExpenseTransaction.id ?? index}
-            />
-          ))}
-        </tbody>
-        <tfoot></tfoot>
-      </table>
-    </article>
+      <AddCashFlowTransaction isOpened={isOpenedAddCashFlowTransaction} onClose={handleCloseAddCashFlowTransaction} />
+    </>
   );
 });

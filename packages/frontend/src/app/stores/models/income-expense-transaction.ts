@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 
+import { Category } from './category';
 import { IAccount } from '../../types/account';
 import { IContractor } from '../../types/contractor';
 import { IIncomeExpenseTransaction } from '../../types/income-expense-transaction';
@@ -7,7 +8,6 @@ import { IMoney } from '../../types/money';
 import { IUnit } from '../../types/unit';
 import { IUser } from '../../types/user';
 import { Permit, Sign, TDate } from '../../types';
-import { Category } from "./category";
 
 export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
   readonly id: string | null;
@@ -16,9 +16,9 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
   account: IAccount;
   category: Category;
   contractor: IContractor | null;
-  dTransaction: TDate;
+  transactionDate: TDate;
   money: IMoney;
-  quantity: number;
+  quantity: number | null;
   reportPeriod: TDate;
   sign: Sign;
   amount: number;
@@ -43,7 +43,7 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
     account,
     money,
     unit,
-    dTransaction,
+    transactionDate,
     reportPeriod,
     sign,
     amount,
@@ -65,7 +65,7 @@ export class IncomeExpenseTransaction implements IIncomeExpenseTransaction {
     this.account = account;
     this.money = money;
     this.unit = unit;
-    this.dTransaction = dTransaction;
+    this.transactionDate = transactionDate;
     this.reportPeriod = reportPeriod;
     this.sign = sign;
     this.amount = amount;

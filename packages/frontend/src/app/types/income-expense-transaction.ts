@@ -1,66 +1,67 @@
-import { Metadata, Permit, Sign, TDate } from './index';
-import { IUser } from './user';
-import { IContractor } from './contractor';
-import { ICategory } from './category';
 import { IAccount } from './account';
+import { ICategory } from './category';
+import { IContractor } from './contractor';
 import { IMoney } from './money';
 import { IUnit } from './unit';
+import { IUser } from './user';
+import { Metadata, Permit, Sign, TDate } from './index';
 
-export interface IIncomeExpenseTransactionRaw {
-  idIEDetail: number;
-  idIE: number;
-  idUser: number;
-  idContractor: number | null;
-  idCategory: number;
-  idAccount: number;
-  idMoney: number;
-  idPlan: number | null;
-  idUnit: number | null;
-  dIEDetail: TDate;
-  reportPeriod: TDate;
+export interface IAPIIncomeExpenseTransaction {
+  id: string | null;
+  cashFlowId: string | null;
+  userId: string;
   sign: Sign;
-  sum: number;
-  quantity: number;
-  note: string;
+  amount: number;
+  moneyId: string;
+  accountId: string;
+  categoryId: string;
+  contractorId: string | null;
+  transactionDate: TDate;
+  reportPeriod: TDate;
+  quantity: number | null;
+  unitId: string | null;
+  isNotConfirmed: boolean;
+  note: string | null;
   tags: string[];
   permit: Permit;
-  colorMark: string;
-  isNotConfirmed: boolean;
+  planId: string | null;
   nRepeat: number | null;
+  colorMark: string | null;
 }
 
 export interface IIncomeExpenseTransaction {
   id: string | null;
   cashFlowId: string | null;
-  planId: string | null;
   user: IUser;
-  contractor: IContractor | null;
-  category: ICategory;
-  account: IAccount;
-  money: IMoney;
-  unit: IUnit | null;
-  dTransaction: TDate;
-  reportPeriod: TDate;
   sign: Sign;
   amount: number;
-  quantity: number;
+  money: IMoney;
+  category: ICategory;
+  account: IAccount;
+  contractor: IContractor | null;
+  transactionDate: TDate;
+  reportPeriod: TDate;
+  quantity: number | null;
+  unit: IUnit | null;
+  isNotConfirmed: boolean;
   note: string;
   tags: string[];
+
   permit: Permit;
-  colorMark: string;
-  isNotConfirmed: boolean;
+  planId: string | null;
   nRepeat: number | null;
+  colorMark: string;
 
   //
   isSelected: boolean;
 }
 
-export interface IGetIncomeExpenseTransactionsParams {
+export interface GetIncomeExpenseTransactionsQuery {
   limit: number;
   offset: number;
   searchText?: string;
-  dBegin?: TDate;
-  dEnd?: TDate;
+  startDate?: TDate;
+  endDate?: TDate;
   sign?: Sign;
   contractors?: string;
   accounts?: string;
@@ -68,7 +69,28 @@ export interface IGetIncomeExpenseTransactionsParams {
   tags?: string;
 }
 
-export interface IGetIncomeExpenseTransactionsResponse {
-  ieDetails: IIncomeExpenseTransactionRaw[];
+export interface GetIncomeExpenseTransactionsResponse {
+  transactions: IAPIIncomeExpenseTransaction[];
   metadata: Metadata;
+}
+
+export interface CreateIncomeExpenseTransactionData {
+  sign: Sign;
+  amount: number;
+  moneyId: string;
+  accountId: string;
+  categoryId: string;
+  contractorId: string | null;
+  transactionDate: TDate;
+  reportPeriod: TDate;
+  quantity: number | null;
+  unitId: string | null;
+  isNotConfirmed: boolean;
+  note: string;
+  tags: string[];
+  planId: string | null;
+}
+
+export interface CreateIncomeExpenseTransactionResponse {
+  transaction: IAPIIncomeExpenseTransaction;
 }

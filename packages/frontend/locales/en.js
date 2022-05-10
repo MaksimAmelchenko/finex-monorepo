@@ -14,6 +14,31 @@ module.exports = {
     'Daily Balance': 'Daily Balance',
     Today: 'Today',
   },
+  AddCashFlowTransaction: {
+    Income: 'Income',
+    Expense: 'Expense',
+    'Please fill amount': 'Please fill amount',
+    'Please enter a number': 'Please enter a number',
+    'Please select category': 'Please select category',
+    'Add new transaction': 'Add new transaction',
+    'Check data and try again': 'Check data and try again',
+    Category: 'Category',
+    Account: 'Account',
+    Date: 'Date',
+    Period: 'Period',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
+    'Not confirmed operation': 'Not confirmed operation',
+    Note: 'Note',
+    Tags: 'Tags',
+    Cancel: 'Cancel',
+    Save: 'Save',
+    'Save and Create New': 'Save and Create New',
+  },
+  AmountField: {
+    Amount: 'Amount',
+  },
   BalanceRepository: {
     'Owe me': 'Owe me',
     'I owe': 'I owe',
@@ -65,6 +90,9 @@ module.exports = {
   },
   Pagination: {
     of: 'of',
+  },
+  QuantityField: {
+    Quantity: 'Quantity',
   },
   RangeSelect: {
     From: 'From',

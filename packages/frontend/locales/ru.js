@@ -14,6 +14,31 @@ module.exports = {
     'Daily Balance': 'Дневной остаток',
     Today: 'Сегодня',
   },
+  AddCashFlowTransaction: {
+    Income: 'Доход',
+    Expense: 'Расход',
+    'Please fill amount': 'Пожалуйста, укажите сумму',
+    'Please enter a number': 'Пожалуйста, введите число',
+    'Please select category': 'Пожалуйста, выберите категорию',
+    'Add new transaction': 'Добавление операции',
+    'Check data and try again': 'Проверти данные и попробуйте еще раз',
+    Category: 'Категория',
+    Account: 'Счет',
+    Date: 'Дата',
+    Period: 'Период',
+    'Hide additional fields': 'Скрыть дополнительные поля',
+    'Show additional fields': 'Показать дополнительные поля',
+    'Quantity, Not confirmed, Note, Tags': 'Количество, Неподтвержденная операция, Примечание, Теги',
+    'Not confirmed operation': 'Неподтвержденная операция',
+    Note: 'Примечание',
+    Tags: 'Теги',
+    Cancel: 'Отмена',
+    Save: 'Сохранить',
+    'Save and Create New': 'Сохранить и создать еще',
+  },
+  AmountField: {
+    Amount: 'Сумма',
+  },
   BalanceRepository: {
     'Owe me': 'Должны мне',
     'I owe': 'Я должен',
@@ -65,6 +90,9 @@ module.exports = {
   },
   Pagination: {
     of: 'из',
+  },
+  QuantityField: {
+    Quantity: 'Количество',
   },
   RangeSelect: {
     From: 'С',

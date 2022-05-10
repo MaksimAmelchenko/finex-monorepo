@@ -67,6 +67,11 @@ export function toNumber(num: number): string {
   });
 }
 
+export function getFormat(formatPath: string): string {
+  const locale = currentLocale() as keyof typeof locales;
+  return get(I18n.translations[locale], formatPath);
+}
+
 export function formatDate(value: TDate, formatPath = 'date.formats.default'): string {
   if (!value) {
     return '';

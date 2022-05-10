@@ -1,0 +1,16 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.select {
+  display: flex;
+  height: 100%;
+
+  &__delimiter {
+    align-self: stretch;
+    width: 1px;
+    background-color: colors.$gray;
+  }
+
+  &__target {
+    padding: 0 8px;
+  }
+}

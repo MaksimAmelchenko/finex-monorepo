@@ -30,7 +30,7 @@ export abstract class ApiRepository extends ManageableStore {
   fetch<T>(params: {
     url: string;
     method?: string;
-    body?: Record<string, unknown> | FormData;
+    body?: object | FormData;
     responseTypeCheck?: ((a: any) => boolean)[];
   }): Promise<T> {
     const { url, method = 'GET', body, responseTypeCheck = null } = params;

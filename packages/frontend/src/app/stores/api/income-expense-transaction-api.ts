@@ -3,16 +3,26 @@ import queryString from 'query-string';
 import { ApiRepository } from '../../core/other-stores/api-repository';
 import { IIncomeExpenseTransactionsApi } from '../income-expense-transactions-repository';
 import {
-  IGetIncomeExpenseTransactionsParams,
-  IGetIncomeExpenseTransactionsResponse,
+  CreateIncomeExpenseTransactionData,
+  CreateIncomeExpenseTransactionResponse,
+  GetIncomeExpenseTransactionsQuery,
+  GetIncomeExpenseTransactionsResponse,
 } from '../../types/income-expense-transaction';
 
 export class IncomeExpenseTransactionsApi extends ApiRepository implements IIncomeExpenseTransactionsApi {
   static override storeName = 'IncomeExpenseTransactionsApi';
 
-  get(params: IGetIncomeExpenseTransactionsParams): Promise<IGetIncomeExpenseTransactionsResponse> {
-    return this.fetch<IGetIncomeExpenseTransactionsResponse>({
-      url: `/v1/cashflows/ie_details?${queryString.stringify(params, { skipNull: true, skipEmptyString: true })}`,
+  get(query: GetIncomeExpenseTransactionsQuery): Promise<GetIncomeExpenseTransactionsResponse> {
+    return this.fetch<GetIncomeExpenseTransactionsResponse>({
+      url: `/v2/transactions?${queryString.stringify(query, { skipNull: true, skipEmptyString: true })}`,
+    });
+  }
+
+  create(data: CreateIncomeExpenseTransactionData): Promise<CreateIncomeExpenseTransactionResponse> {
+    return this.fetch<CreateIncomeExpenseTransactionResponse>({
+      method: 'POST',
+      url: '/v2/transactions',
+      body: data,
     });
   }
 }

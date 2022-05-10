@@ -21,7 +21,7 @@ export const IncomeExpenseTransaction = observer(({ incomeExpenseTransaction }: 
   const categoriesRepository = useStore(CategoriesRepository);
   const {
     id,
-    dTransaction,
+    transactionDate,
     account,
     contractor,
     category,
@@ -41,7 +41,7 @@ export const IncomeExpenseTransaction = observer(({ incomeExpenseTransaction }: 
   };
 
   const isPlanned = Boolean(planId);
-  const isOverdue = (isPlanned || isNotConfirmed) && isBefore(parseISO(dTransaction), new Date().setHours(0, 0, 0));
+  const isOverdue = (isPlanned || isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
     <tr>
@@ -61,14 +61,14 @@ export const IncomeExpenseTransaction = observer(({ incomeExpenseTransaction }: 
           <div className={styles.dateColumn__dateContainer}>
             {isPlanned ? (
               <>
-                <div className={styles.dateColumn__date}>{formatDate(dTransaction)}</div>
+                <div className={styles.dateColumn__date}>{formatDate(transactionDate)}</div>
                 <div className={styles.dateColumn__label}>
                   {isOverdue ? <span>{t('Overdue')}</span> : <span>{t('Planned')}</span>}
                 </div>
               </>
             ) : isNotConfirmed ? (
               <>
-                <div className={styles.dateColumn__date}>{formatDate(dTransaction)}</div>
+                <div className={styles.dateColumn__date}>{formatDate(transactionDate)}</div>
                 <div className={styles.dateColumn__label}>
                   <span className="txt-color-red">{t('Not confirmed')}</span>
                   <br />
@@ -76,7 +76,7 @@ export const IncomeExpenseTransaction = observer(({ incomeExpenseTransaction }: 
                 </div>
               </>
             ) : (
-              <div className={styles.dateColumn__date}>{formatDate(dTransaction)}</div>
+              <div className={styles.dateColumn__date}>{formatDate(transactionDate)}</div>
             )}
           </div>
         </div>

@@ -1,0 +1,90 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.amountField {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.categoryField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.dateFields {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+
+  &__dTransaction {
+    width: 15rem;
+  }
+}
+
+.reportPeriod {
+  display: flex;
+  gap: 8px;
+
+  &__input {
+    width: 15rem;
+  }
+}
+
+.notConfirmedField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  //justify-content: center;
+}
+
+.additional {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+
+  &__description {
+    color: colors.$grayDarkest;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.4rem;
+  }
+
+  &__fields_hidden {
+    display: none;
+  }
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form__bodyWrapper {
+  position: relative;
+  flex: 1;
+  overflow: auto;
+}
+
+.form__body {
+  height: 100%;
+  padding: 0 3.2rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  &__rightButtons {
+    display: flex;
+    gap: 16px;
+  }
+}
+
+

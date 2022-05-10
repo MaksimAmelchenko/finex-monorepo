@@ -5,9 +5,11 @@ import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import {
-  IGetIncomeExpenseTransactionsParams,
-  IGetIncomeExpenseTransactionsResponse,
-  IIncomeExpenseTransactionRaw,
+  GetIncomeExpenseTransactionsQuery,
+  GetIncomeExpenseTransactionsResponse,
+  IAPIIncomeExpenseTransaction,
+  CreateIncomeExpenseTransactionData,
+  CreateIncomeExpenseTransactionResponse,
 } from '../types/income-expense-transaction';
 import { IncomeExpenseTransaction } from './models/income-expense-transaction';
 import { LoadState } from '../core/load-state';
@@ -18,7 +20,8 @@ import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
 
 export interface IIncomeExpenseTransactionsApi {
-  get: (params: IGetIncomeExpenseTransactionsParams) => Promise<IGetIncomeExpenseTransactionsResponse>;
+  get: (query: GetIncomeExpenseTransactionsQuery) => Promise<GetIncomeExpenseTransactionsResponse>;
+  create: (data: CreateIncomeExpenseTransactionData) => Promise<CreateIncomeExpenseTransactionResponse>;
 }
 
 interface IFilter {
@@ -80,7 +83,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     this.loadState = LoadState.pending();
     const {
       isFilter,
-      range: [dBegin, dEnd],
+      range: [startDate, endDate],
       searchText,
       accounts,
       categories,
@@ -90,8 +93,8 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     let params = {};
     if (isFilter) {
       params = {
-        dBegin: dBegin ? format(dBegin, 'yyyy-MM-dd') : null,
-        dEnd: dEnd ? format(dEnd, 'yyyy-MM-dd') : null,
+        dBegin: startDate ? format(startDate, 'yyyy-MM-dd') : null,
+        dEnd: endDate ? format(endDate, 'yyyy-MM-dd') : null,
         accounts: accounts.join(','),
         categories: categories.join(','),
         contractors: contractors.join(','),
@@ -99,7 +102,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
       };
     }
 
-    return await this.api
+    return this.api
       .get({
         offset: this.offset,
         limit: this.limit,
@@ -107,11 +110,11 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         ...params,
       })
       .then(
-        action(({ ieDetails: incomeExpenseTransactions, metadata }) => {
+        action(({ transactions, metadata }) => {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
-          this.incomeExpenseTransactions = this.decode(incomeExpenseTransactions);
+          this.incomeExpenseTransactions = this.decode(transactions);
         })
       )
       .then(
@@ -148,7 +151,24 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     };
   }
 
-  private decode(incomeExpenseTransactions: IIncomeExpenseTransactionRaw[]): IncomeExpenseTransaction[] {
+  addTransaction(data: CreateIncomeExpenseTransactionData): Promise<unknown> {
+    console.log({ data });
+
+    return this.api
+      .create(data)
+      .then(
+        action(({ transaction }) => {
+          this.incomeExpenseTransactions.push(...this.decode([transaction]));
+        })
+      )
+      .then(
+        action(() => {
+          this.loadState = LoadState.done();
+        })
+      );
+  }
+
+  private decode(incomeExpenseTransactions: IAPIIncomeExpenseTransaction[]): IncomeExpenseTransaction[] {
     const accountsRepository = this.getStore(AccountsRepository);
     const categoriesRepository = this.getStore(CategoriesRepository);
     const contractorsRepository = this.getStore(ContractorsRepository);
@@ -156,21 +176,21 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     const unitsRepository = this.getStore(UnitsRepository);
     const usersRepository = this.getStore(UsersRepository);
 
-    return incomeExpenseTransactions.reduce<IncomeExpenseTransaction[]>((acc, transactionRow) => {
+    return incomeExpenseTransactions.reduce<IncomeExpenseTransaction[]>((acc, transaction) => {
       const {
-        idIEDetail,
-        idIE,
-        idUser,
-        idContractor,
-        idCategory,
-        idAccount,
-        idMoney,
-        idPlan,
-        idUnit,
-        dIEDetail,
+        cashFlowId,
+        id,
+        userId,
+        contractorId,
+        categoryId,
+        accountId,
+        moneyId,
+        planId,
+        unitId,
+        transactionDate,
         reportPeriod,
         sign,
-        sum: amount,
+        amount,
         quantity,
         note,
         tags,
@@ -178,45 +198,35 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         isNotConfirmed,
         nRepeat,
         permit,
-      } = transactionRow;
+      } = transaction;
 
-      const userId = String(idUser);
       const user = usersRepository.get(userId);
       if (!user) {
-        console.warn('User is not found', { transactionRow });
+        console.warn('User is not found', { transaction });
         return acc;
       }
 
-      const contractorId = idContractor ? String(idContractor) : null;
       const contractor = contractorId ? contractorsRepository.get(contractorId) ?? null : null;
 
-      const categoryId = String(idCategory);
       const category = categoriesRepository.get(categoryId);
       if (!category) {
-        console.warn('Category not found', { transactionRow });
+        console.warn('Category not found', { transaction });
         return acc;
       }
 
-      const accountId = String(idAccount);
       const account = accountsRepository.get(accountId);
       if (!account) {
-        console.warn('Account not found', { transactionRow });
+        console.warn('Account not found', { transaction });
         return acc;
       }
 
-      const moneyId = String(idMoney);
       const money = moneysRepository.get(moneyId);
       if (!money) {
-        console.warn('Money not found', { transactionRow });
+        console.warn('Money not found', { transaction });
         return acc;
       }
 
-      const unitId = idUnit ? String(idUnit) : null;
       const unit = unitId ? unitsRepository.get(unitId) ?? null : null;
-
-      const planId = idPlan ? String(idPlan) : null;
-      const id = idIEDetail ? String(idIEDetail) : null;
-      const cashFlowId = idIE ? String(idIE) : null;
 
       const incomeExpenseTransaction = new IncomeExpenseTransaction({
         id,
@@ -228,15 +238,15 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         account,
         money,
         unit,
-        dTransaction: dIEDetail,
+        transactionDate,
         reportPeriod,
         sign,
         amount,
         quantity,
-        note,
+        note: note ?? '',
         tags,
         permit,
-        colorMark,
+        colorMark: colorMark ?? '',
         isNotConfirmed,
         nRepeat,
         isSelected: false,
