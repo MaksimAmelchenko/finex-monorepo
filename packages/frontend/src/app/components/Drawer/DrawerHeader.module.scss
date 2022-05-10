@@ -1,0 +1,18 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.header {
+  padding: 2.4rem 3.2rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px colors.$grayLight;
+  z-index: 1;
+
+  &__title {
+    @include typography.h5();
+  }
+
+  &__closeButton {
+  }
+}
