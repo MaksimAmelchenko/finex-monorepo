@@ -14,12 +14,28 @@ module.exports = {
     'Daily Balance': 'Дневной остаток',
     Today: 'Сегодня',
   },
-  AddCashFlowTransaction: {
+  AmountField: {
+    Amount: 'Сумма',
+  },
+  BalanceRepository: {
+    'Owe me': 'Должны мне',
+    'I owe': 'Я должен',
+  },
+  CashFlow: {
+    Overdue: 'Просрочено',
+    Planned: 'Запланировано',
+    'Not confirmed': 'Не подтверждено',
+  },
+  CashFlowTransaction: {
     Income: 'Доход',
     Expense: 'Расход',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select category': 'Пожалуйста, выберите категорию',
+    'At first,': 'At first,',
+    create: 'create',
+    'at least one account_': 'at least one account.',
+    'Edit transaction': 'Edit transaction',
     'Add new transaction': 'Добавление операции',
     'Check data and try again': 'Проверти данные и попробуйте еще раз',
     Category: 'Категория',
@@ -35,18 +51,6 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
     'Save and Create New': 'Сохранить и создать еще',
-  },
-  AmountField: {
-    Amount: 'Сумма',
-  },
-  BalanceRepository: {
-    'Owe me': 'Должны мне',
-    'I owe': 'Я должен',
-  },
-  CashFlow: {
-    Overdue: 'Просрочено',
-    Planned: 'Запланировано',
-    'Not confirmed': 'Не подтверждено',
   },
   Error: {
     'The requested resource is restricted and requires authentication_':

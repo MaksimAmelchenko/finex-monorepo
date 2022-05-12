@@ -15,10 +15,7 @@ function UnitSelect(): JSX.Element {
   const unitsRepository = useStore(UnitsRepository);
 
   const selectUnitsOptions = useMemo<IOption[]>(() => {
-    return [
-      { value: 'null', label: '' },
-      ...unitsRepository.units.map(({ id: value, name: label }) => ({ value, label })),
-    ];
+    return [{ value: '', label: '' }, ...unitsRepository.units.map(({ id: value, name: label }) => ({ value, label }))];
   }, [unitsRepository.units]);
 
   return (

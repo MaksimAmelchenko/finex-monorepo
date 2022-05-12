@@ -91,6 +91,25 @@ export interface CreateIncomeExpenseTransactionData {
   planId: string | null;
 }
 
+export type UpdateIncomeExpenseTransactionChanges = Partial<{
+  sign: Sign;
+  amount: number;
+  moneyId: string;
+  accountId: string;
+  categoryId: string;
+  transactionDate: TDate;
+  reportPeriod: TDate;
+  quantity: number | null;
+  unitId: string | null;
+  isNotConfirmed: boolean;
+  note: string;
+  tags: string[];
+}>;
+
 export interface CreateIncomeExpenseTransactionResponse {
+  transaction: IAPIIncomeExpenseTransaction;
+}
+
+export interface UpdateIncomeExpenseTransactionResponse {
   transaction: IAPIIncomeExpenseTransaction;
 }

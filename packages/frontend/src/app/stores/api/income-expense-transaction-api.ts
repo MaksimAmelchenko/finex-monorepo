@@ -7,6 +7,8 @@ import {
   CreateIncomeExpenseTransactionResponse,
   GetIncomeExpenseTransactionsQuery,
   GetIncomeExpenseTransactionsResponse,
+  UpdateIncomeExpenseTransactionChanges,
+  UpdateIncomeExpenseTransactionResponse,
 } from '../../types/income-expense-transaction';
 
 export class IncomeExpenseTransactionsApi extends ApiRepository implements IIncomeExpenseTransactionsApi {
@@ -23,6 +25,17 @@ export class IncomeExpenseTransactionsApi extends ApiRepository implements IInco
       method: 'POST',
       url: '/v2/transactions',
       body: data,
+    });
+  }
+
+  update(
+    transactionId: string,
+    changes: UpdateIncomeExpenseTransactionChanges
+  ): Promise<UpdateIncomeExpenseTransactionResponse> {
+    return this.fetch<CreateIncomeExpenseTransactionResponse>({
+      method: 'PATCH',
+      url: `/v2/transactions/${transactionId}`,
+      body: changes,
     });
   }
 }

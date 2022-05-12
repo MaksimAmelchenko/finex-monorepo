@@ -3,11 +3,12 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { AddCashFlowTransaction } from '../AddCashFlowTransaction/AddCashFlowTransaction';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
+import { CashFlowTransactionWindow } from '../CashFlowTransactionWindow/CashFlowTransactionWindow';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Form, FormTextField } from '../../components/Form';
+import { IIncomeExpenseTransaction } from '../../types/income-expense-transaction';
 import { IncomeExpenseTransaction } from './IncomeExpenseTransaction/IncomeExpenseTransaction';
 import { IncomeExpenseTransactionsRepository } from '../../stores/income-expense-transactions-repository';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
@@ -32,13 +33,25 @@ export const IncomeExpenseTransactions = observer(() => {
   const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
   const tagsRepository = useStore(TagsRepository);
 
-  const [isOpenedAddCashFlowTransaction, setIsOpenedAddCashFlowTransaction] = useState<boolean>(false);
+  const [isOpenedCashFlowTransactionWindow, setIsOpenedCashFlowTransactionWindow] = useState<boolean>(false);
+
+  const [transaction, setTransaction] = useState<Partial<IIncomeExpenseTransaction> | null>(null);
 
   const handleOpenAddCashFlowTransaction = () => {
-    setIsOpenedAddCashFlowTransaction(true);
+    setTransaction({
+      sign: -1,
+      isNotConfirmed: false,
+    });
+    setIsOpenedCashFlowTransactionWindow(true);
   };
-  const handleCloseAddCashFlowTransaction = () => {
-    setIsOpenedAddCashFlowTransaction(false);
+
+  const handleClickOnTransaction = (transaction: IIncomeExpenseTransaction) => {
+    setTransaction(transaction);
+    setIsOpenedCashFlowTransactionWindow(true);
+  };
+
+  const handleCloseCashFlowTransactionWindow = () => {
+    setIsOpenedCashFlowTransactionWindow(false);
   };
 
   const { filter } = incomeExpenseTransactionsRepository;
@@ -221,7 +234,8 @@ export const IncomeExpenseTransactions = observer(() => {
           <tbody>
             {incomeExpenseTransactions.map((incomeExpenseTransaction, index) => (
               <IncomeExpenseTransaction
-                incomeExpenseTransaction={incomeExpenseTransaction}
+                transaction={incomeExpenseTransaction}
+                onClick={handleClickOnTransaction}
                 key={incomeExpenseTransaction.id ?? index}
               />
             ))}
@@ -230,7 +244,13 @@ export const IncomeExpenseTransactions = observer(() => {
         </table>
       </article>
 
-      <AddCashFlowTransaction isOpened={isOpenedAddCashFlowTransaction} onClose={handleCloseAddCashFlowTransaction} />
+      {transaction && (
+        <CashFlowTransactionWindow
+          isOpened={isOpenedCashFlowTransactionWindow}
+          transaction={transaction}
+          onClose={handleCloseCashFlowTransactionWindow}
+        />
+      )}
     </>
   );
 });

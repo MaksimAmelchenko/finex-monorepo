@@ -21,6 +21,6 @@ export function decodeTransaction(transaction: any): ITransaction {
     permit: transaction.permit,
     nRepeat: transaction.nRepeat,
     colorMark: transaction.colorMark || null,
-    planId: transaction.planId ? String(transaction.planId) : null,
+    planId: transaction.idPlan ? String(transaction.idPlan) : null,
   };
 }

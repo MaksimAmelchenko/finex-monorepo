@@ -68,3 +68,22 @@ export type CreateTransactionServiceData = CreateTransactionGatewayData;
 
 export type CreateTransactionGatewayResponse = ITransaction;
 export type CreateTransactionServiceResponse = CreateTransactionGatewayResponse;
+
+export type UpdateTransactionGatewayChanges = Partial<{
+  sign: Sign;
+  amount: number;
+  moneyId: string;
+  accountId: string;
+  categoryId: string;
+  transactionDate: TDate;
+  reportPeriod: TDate;
+  quantity: number | null;
+  unitId: string | null;
+  note: string;
+  tags: string[];
+  isNotConfirmed: boolean;
+}>;
+export type UpdateTransactionServiceChanges = UpdateTransactionGatewayChanges;
+
+export type UpdateTransactionGatewayResponse = ITransaction;
+export type UpdateTransactionServiceResponse = UpdateTransactionGatewayResponse;

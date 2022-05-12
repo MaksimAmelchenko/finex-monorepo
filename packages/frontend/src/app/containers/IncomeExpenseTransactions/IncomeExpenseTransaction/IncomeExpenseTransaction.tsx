@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import { CategoriesRepository } from '../../../stores/categories-repository';
 import { CheckboxSvg, CheckboxUncheckedSvg, Tag } from '@finex/ui-kit';
+import { IIncomeExpenseTransaction } from '../../../types/income-expense-transaction';
 import { IncomeExpenseTransaction as IncomeExpenseTransactionModel } from '../../../stores/models/income-expense-transaction';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
@@ -13,14 +14,14 @@ import styles from './IncomeExpenseTransaction.module.scss';
 
 const t = getT('CashFlow');
 
-interface IIncomeExpenseTransactionProps {
-  incomeExpenseTransaction: IncomeExpenseTransactionModel;
+interface IncomeExpenseTransactionProps {
+  transaction: IncomeExpenseTransactionModel;
+  onClick: (transaction: IIncomeExpenseTransaction) => void;
 }
 
-export const IncomeExpenseTransaction = observer(({ incomeExpenseTransaction }: IIncomeExpenseTransactionProps) => {
+export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(({ transaction, onClick }) => {
   const categoriesRepository = useStore(CategoriesRepository);
   const {
-    id,
     transactionDate,
     account,
     contractor,
@@ -34,17 +35,22 @@ export const IncomeExpenseTransaction = observer(({ incomeExpenseTransaction }: 
     colorMark,
     isNotConfirmed,
     isSelected,
-  } = incomeExpenseTransaction;
+  } = transaction;
 
-  const handleOnSelect = () => {
-    incomeExpenseTransaction.toggleSelection();
+  const handleOnSelect = (event: React.SyntheticEvent) => {
+    event.stopPropagation();
+    transaction.toggleSelection();
+  };
+
+  const handleOnClick = (event: React.SyntheticEvent) => {
+    onClick(transaction);
   };
 
   const isPlanned = Boolean(planId);
   const isOverdue = (isPlanned || isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
-    <tr>
+    <tr onClick={handleOnClick}>
       <td className={clsx(styles.firstColumn, 'min-width')}>
         <div
           className={clsx(

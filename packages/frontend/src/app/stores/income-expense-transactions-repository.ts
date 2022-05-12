@@ -1,15 +1,17 @@
-import { action, makeObservable, observable, reaction } from 'mobx';
-import { format } from 'date-fns';
+import { action, makeObservable, observable, reaction, computed } from 'mobx';
+import { format, parseISO } from 'date-fns';
 
 import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import {
+  CreateIncomeExpenseTransactionData,
+  CreateIncomeExpenseTransactionResponse,
   GetIncomeExpenseTransactionsQuery,
   GetIncomeExpenseTransactionsResponse,
   IAPIIncomeExpenseTransaction,
-  CreateIncomeExpenseTransactionData,
-  CreateIncomeExpenseTransactionResponse,
+  UpdateIncomeExpenseTransactionChanges,
+  UpdateIncomeExpenseTransactionResponse,
 } from '../types/income-expense-transaction';
 import { IncomeExpenseTransaction } from './models/income-expense-transaction';
 import { LoadState } from '../core/load-state';
@@ -22,6 +24,10 @@ import { UsersRepository } from './users-repository';
 export interface IIncomeExpenseTransactionsApi {
   get: (query: GetIncomeExpenseTransactionsQuery) => Promise<GetIncomeExpenseTransactionsResponse>;
   create: (data: CreateIncomeExpenseTransactionData) => Promise<CreateIncomeExpenseTransactionResponse>;
+  update: (
+    transactionId: string,
+    changes: UpdateIncomeExpenseTransactionChanges
+  ) => Promise<UpdateIncomeExpenseTransactionResponse>;
 }
 
 interface IFilter {
@@ -50,7 +56,8 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     tags: [],
   };
 
-  incomeExpenseTransactions: IncomeExpenseTransaction[];
+  private _incomeExpenseTransactions: IncomeExpenseTransaction[];
+
   loadState: LoadState;
 
   constructor(mainStore: MainStore, private api: IIncomeExpenseTransactionsApi) {
@@ -60,12 +67,13 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     this.total = 0;
 
     this.loadState = LoadState.none();
-    this.incomeExpenseTransactions = [];
+    this._incomeExpenseTransactions = [];
 
-    makeObservable(this, {
-      incomeExpenseTransactions: observable,
+    makeObservable<IncomeExpenseTransactionsRepository, '_incomeExpenseTransactions'>(this, {
+      _incomeExpenseTransactions: observable,
       loadState: observable,
       filter: observable,
+      incomeExpenseTransactions: computed,
       clear: action,
       fetch: action,
       setFilter: action,
@@ -114,7 +122,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
-          this.incomeExpenseTransactions = this.decode(transactions);
+          this._incomeExpenseTransactions = this.decode(transactions);
         })
       )
       .then(
@@ -151,21 +159,28 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     };
   }
 
-  addTransaction(data: CreateIncomeExpenseTransactionData): Promise<unknown> {
-    console.log({ data });
+  createTransaction(data: CreateIncomeExpenseTransactionData): Promise<unknown> {
+    return this.api.create(data).then(
+      action(({ transaction }) => {
+        this._incomeExpenseTransactions.push(...this.decode([transaction]));
+      })
+    );
+  }
 
-    return this.api
-      .create(data)
-      .then(
-        action(({ transaction }) => {
-          this.incomeExpenseTransactions.push(...this.decode([transaction]));
-        })
-      )
-      .then(
-        action(() => {
-          this.loadState = LoadState.done();
-        })
-      );
+  updateTransaction(transactionId: string, changes: UpdateIncomeExpenseTransactionChanges): Promise<unknown> {
+    return this.api.update(transactionId, changes).then(
+      action(({ transaction }) => {
+        const incomeExpenseTransaction = this.decode([transaction])[0];
+        if (incomeExpenseTransaction) {
+          const indexOf = this._incomeExpenseTransactions.findIndex(({ id }) => id === transactionId);
+          if (indexOf !== -1) {
+            this._incomeExpenseTransactions[indexOf] = incomeExpenseTransaction;
+          } else {
+            this._incomeExpenseTransactions.push(incomeExpenseTransaction);
+          }
+        }
+      })
+    );
   }
 
   private decode(incomeExpenseTransactions: IAPIIncomeExpenseTransaction[]): IncomeExpenseTransaction[] {
@@ -257,7 +272,18 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     }, []);
   }
 
+  get incomeExpenseTransactions(): IncomeExpenseTransaction[] {
+    return this._incomeExpenseTransactions
+      .slice()
+      .sort(
+        (a, b) =>
+          Number(Boolean(b.planId)) - Number(Boolean(a.planId)) ||
+          parseISO(b.transactionDate).getTime() - parseISO(a.transactionDate).getTime() ||
+          Number(b.id) - Number(a.id)
+      );
+  }
+
   clear(): void {
-    this.incomeExpenseTransactions = [];
+    this._incomeExpenseTransactions = [];
   }
 }

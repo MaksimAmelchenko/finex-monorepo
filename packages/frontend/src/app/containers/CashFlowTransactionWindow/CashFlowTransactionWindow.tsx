@@ -1,14 +1,18 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import format from 'date-fns/format';
 import { FormikHelpers, useFormikContext } from 'formik';
+import { format, parseISO } from 'date-fns';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
 import { ApiErrors } from '../../core/errors';
 import { CategoriesRepository } from '../../stores/categories-repository';
-import { CreateIncomeExpenseTransactionData } from '../../types/income-expense-transaction';
+import {
+  CreateIncomeExpenseTransactionData,
+  IIncomeExpenseTransaction,
+  UpdateIncomeExpenseTransactionChanges,
+} from '../../types/income-expense-transaction';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
 import { Form, FormButton, FormCheckbox, FormError, FormLayout, IFormButton } from '../../components/Form';
@@ -18,20 +22,22 @@ import { FormTabs } from '../../components/Form/FormTabs/FormsTabs';
 import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, PlusIcon, QuestionIcon, Target } from '@finex/ui-kit';
+import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
 import { IncomeExpenseTransactionsRepository } from '../../stores/income-expense-transactions-repository';
+import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { QuantityField } from '../QuantityField/QuantityField';
 import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
+import { getPatch } from '../../lib/core/get-path';
 import { noop } from '../../lib/noop';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './AddCashFlowTransaction.module.scss';
+import styles from './CashFlowTransactionWindow.module.scss';
 
-interface AddCashFlowTransactionFormValues {
-  operationType: '1' | '2';
+interface CashFlowTransactionFormValues {
+  sign: '1' | '-1';
   amount: string;
   moneyId: string;
   categoryId: string | null;
@@ -43,25 +49,89 @@ interface AddCashFlowTransactionFormValues {
   isNotConfirmed: boolean;
   note: string;
   tagIds: string[];
+  planId: string | null;
   isOnlySave: boolean;
 }
 
-interface AddCashFlowTransactionProps {
+interface CashFlowTransactionWindowProps {
   isOpened: boolean;
+  transaction: Partial<IIncomeExpenseTransaction>;
   onClose: () => unknown;
 }
 
-const t = getT('AddCashFlowTransaction');
+const t = getT('CashFlowTransaction');
 
-export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransactionProps): JSX.Element {
-  const operationType: ITabOption[] = useMemo(
+function mapValuesToCreatePayload({
+  sign,
+  amount,
+  moneyId,
+  categoryId,
+  accountId,
+  quantity,
+  unitId,
+  transactionDate,
+  reportPeriod,
+  note,
+  tagIds,
+  isNotConfirmed,
+  planId,
+}: CashFlowTransactionFormValues): CreateIncomeExpenseTransactionData {
+  return {
+    sign: Number(sign) as Sign,
+    amount: Number(amount),
+    moneyId,
+    categoryId: categoryId!,
+    accountId,
+    contractorId: null,
+    quantity: quantity ? Number(quantity) : null,
+    unitId: unitId || null,
+    transactionDate: format(transactionDate, 'yyyy-MM-dd'),
+    reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
+    note,
+    tags: tagIds,
+    isNotConfirmed,
+    planId,
+  };
+}
+
+function mapValuesToUpdatePayload({
+  sign,
+  amount,
+  moneyId,
+  categoryId,
+  accountId,
+  quantity,
+  unitId,
+  transactionDate,
+  reportPeriod,
+  note,
+  tagIds,
+  isNotConfirmed,
+}: CashFlowTransactionFormValues): UpdateIncomeExpenseTransactionChanges {
+  return {
+    sign: Number(sign) as Sign,
+    amount: Number(amount),
+    moneyId,
+    categoryId: categoryId!,
+    accountId,
+    quantity: quantity ? Number(quantity) : null,
+    unitId: unitId || null,
+    transactionDate: format(transactionDate, 'yyyy-MM-dd'),
+    reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
+    note,
+    tags: tagIds,
+    isNotConfirmed,
+  };
+}
+
+export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: CashFlowTransactionWindowProps): JSX.Element {
+  const signOptions: ITabOption[] = useMemo(
     () => [
       { value: '1', label: t('Income') },
-      { value: '2', label: t('Expense') },
+      { value: '-1', label: t('Expense') },
     ],
     []
   );
-
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
   const moneysRepository = useStore(MoneysRepository);
@@ -77,47 +147,31 @@ export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransac
 
   const onSubmit = useCallback(
     (
-      {
-        categoryId,
-        accountId,
-        moneyId,
-        unitId,
-        transactionDate,
-        reportPeriod,
-        operationType,
-        amount,
-        quantity,
-        note,
-        tagIds,
-        isNotConfirmed,
-        isOnlySave,
-      }: AddCashFlowTransactionFormValues,
-      { resetForm, setFieldValue, setFieldTouched }: FormikHelpers<AddCashFlowTransactionFormValues>
+      values: CashFlowTransactionFormValues,
+      { resetForm }: FormikHelpers<CashFlowTransactionFormValues>,
+      initialValues: CashFlowTransactionFormValues
     ) => {
-      const data: CreateIncomeExpenseTransactionData = {
-        sign: { '1': 1 as Sign, '2': -1 as Sign }[operationType],
-        amount: Number(amount),
-        moneyId,
-        categoryId: categoryId!,
-        accountId,
-        contractorId: null,
-        quantity: quantity ? Number(quantity) : null,
-        unitId,
-        transactionDate: format(transactionDate, 'yyyy-MM-dd'),
-        reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
-        note,
-        tags: tagIds,
-        isNotConfirmed,
-        planId: null,
-      };
+      let result: Promise<unknown>;
+      if (transaction.id) {
+        const changes: UpdateIncomeExpenseTransactionChanges = getPatch(
+          mapValuesToUpdatePayload(initialValues),
+          mapValuesToUpdatePayload(values)
+        );
+        result = incomeExpenseTransactionsRepository.updateTransaction(transaction.id, changes);
+      } else {
+        // create transaction
+        const data: CreateIncomeExpenseTransactionData = mapValuesToCreatePayload(values);
+        result = incomeExpenseTransactionsRepository.createTransaction(data);
+      }
 
-      return incomeExpenseTransactionsRepository.addTransaction(data).then(() => {
-        if (isOnlySave) {
+      return result.then(() => {
+        if (values.isOnlySave) {
           onClose();
         } else {
+          const { sign, moneyId, categoryId, accountId, transactionDate, reportPeriod, isNotConfirmed } = values;
           resetForm({
             values: {
-              operationType,
+              sign,
               amount: '',
               moneyId,
               categoryId,
@@ -130,6 +184,7 @@ export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransac
               tagIds: [],
               isNotConfirmed,
               isOnlySave: false,
+              planId: null,
             },
           });
 
@@ -137,12 +192,12 @@ export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransac
         }
       });
     },
-    [incomeExpenseTransactionsRepository]
+    [incomeExpenseTransactionsRepository, onClose, transaction.id]
   );
 
   const validationSchema = useMemo(
     () =>
-      Yup.object<Shape<AddCashFlowTransactionFormValues>>({
+      Yup.object<Shape<CashFlowTransactionFormValues>>({
         transactionDate: Yup.date().required('Please select date'),
         reportPeriod: Yup.date().required('Please select date'),
         amount: Yup.mixed()
@@ -179,23 +234,57 @@ export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransac
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
+  if (!accountsRepository.accounts.length) {
+    return (
+      <Drawer isOpened={isOpened} title="" onClose={onClose} onOpen={handleOnOpen}>
+        <div>
+          {t('At first,')} <Link href="/accounts">{t('create')}</Link> {t('at least one account.')}
+        </div>
+      </Drawer>
+    );
+  }
+
+  const {
+    id,
+    sign,
+    amount,
+    money,
+    category,
+    account,
+    transactionDate,
+    reportPeriod,
+    quantity,
+    unit,
+    isNotConfirmed,
+    note,
+    tags,
+    planId,
+  } = transaction;
+
   return (
-    <Drawer isOpened={isOpened} title={t('Add new transaction')} onClose={onClose} onOpen={handleOnOpen}>
-      <Form<AddCashFlowTransactionFormValues>
+    <Drawer
+      isOpened={isOpened}
+      title={id ? t('Edit transaction') : t('Add new transaction')}
+      onClose={onClose}
+      onOpen={handleOnOpen}
+    >
+      <Form<CashFlowTransactionFormValues>
         onSubmit={onSubmit}
         initialValues={{
-          operationType: '2',
-          amount: '',
-          moneyId: moneysRepository.moneys[0].id,
-          categoryId: null,
-          accountId: accountsRepository.accounts[0].id,
-          transactionDate: new Date(),
-          reportPeriod: new Date(),
-          quantity: '',
-          unitId: null,
-          isNotConfirmed: false,
-          note: '',
-          tagIds: [],
+          sign: String(sign) as any,
+          amount: amount ? String(amount) : '',
+          moneyId: money?.id ?? moneysRepository.moneys[0].id,
+          categoryId: category?.id ?? null,
+          accountId: account?.id ?? accountsRepository.accounts[0].id,
+          transactionDate: transactionDate ? parseISO(transactionDate) : new Date(),
+          reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
+          quantity: quantity ? String(quantity) : '',
+          unitId: unit?.id ?? null,
+          isNotConfirmed: isNotConfirmed ?? false,
+          note: note ?? '',
+          tagIds: tags ?? [],
+          planId: planId ?? null,
+
           isOnlySave: false,
         }}
         validationSchema={validationSchema}
@@ -207,7 +296,7 @@ export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransac
       >
         <div className={styles.form__bodyWrapper}>
           <FormLayout className={styles.form__body}>
-            <FormTabs name="operationType" options={operationType} />
+            <FormTabs name="sign" options={signOptions} />
             <AmountField ref={amountFieldRef} tabIndex={1} />
             <div className={styles.categoryField}>
               <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
@@ -272,7 +361,7 @@ export function AddCashFlowTransaction({ isOpened, onClose }: AddCashFlowTransac
                       </div>
                     }
                   >
-                    <IconButton onClick={() => {}} size="medium">
+                    <IconButton onClick={noop} size="medium">
                       <QuestionIcon />
                     </IconButton>
                   </HtmlTooltip>

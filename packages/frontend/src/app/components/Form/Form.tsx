@@ -14,7 +14,7 @@ import { CoreError } from '../../core/errors';
 import { CoreErrorConstructor, ErrorTranslation, translateErrorToHR } from '../../core/errors-translation';
 import { ErrorContextValue, FormErrorProvider } from './FormError/FormError';
 
-export type IFormProps<Values> = FormikConfig<Values> & {
+export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
   /**
    * Used for resetting a form state (saved -> not saved)
    */
@@ -26,7 +26,7 @@ export type IFormProps<Values> = FormikConfig<Values> & {
    * @param {FormikHelpers<Values>} formikHelpers
    * @return {void | Promise<any>}
    */
-  onSubmit?: (values: Values, formikHelpers: FormikHelpers<Values>) => void | Promise<any>;
+  onSubmit?: (values: Values, formikHelpers: FormikHelpers<Values>, initialValues: Values) => void | Promise<any>;
 
   /**
    * Callback which provide access to errors
@@ -61,7 +61,7 @@ export type IFormProps<Values> = FormikConfig<Values> & {
  * Use this component to render a form and handle it with repositories
  */
 export function Form<Values>(props: IFormProps<Values>): JSX.Element {
-  const { children, component, render } = props;
+  const { children, component, render, initialValues } = props;
   const { onChange, onSubmit, onError, errorsHR, afterSubmit, className, ...rest } = props;
 
   // Prepare everything for errors translation to HumanReadable form
@@ -72,7 +72,7 @@ export function Form<Values>(props: IFormProps<Values>): JSX.Element {
     (values: Values, formikHelpers: FormikHelpers<Values>) => {
       if (onSubmit) {
         setErrorContextState({});
-        let result = onSubmit(values, formikHelpers);
+        let result = onSubmit(values, formikHelpers, initialValues);
         // If onSubmit returned Promise, we try to process it's error
         if (result instanceof Promise) {
           // On successful submission call afterSubmit
@@ -92,7 +92,7 @@ export function Form<Values>(props: IFormProps<Values>): JSX.Element {
         return result;
       }
     },
-    [afterSubmit, onError, errorsHR, onSubmit]
+    [afterSubmit, onError, errorsHR, onSubmit, initialValues]
   );
 
   const formikbag = useFormik({ ...rest, onSubmit: onSubmitCallback });
