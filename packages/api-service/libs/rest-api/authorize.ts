@@ -4,17 +4,16 @@ import { IJwtPayload, ISession } from '../../types/session';
 import { Session } from '../../services/session';
 import { UnauthorizedError } from '../errors';
 import { signOutRouteOptions } from '../../api/v2/auth/sign-out';
+import { resolveAuthorizationHeader } from "./resolve-authorization-header";
 
 const notUpdateAccessTimeRoutes: string[] = [signOutRouteOptions.uri];
 
-export async function authorize(ctx: IRequestContext, authorization: string | undefined, url: string): Promise<void> {
-  if (!authorization) {
-    throw new UnauthorizedError('Authorization header not present');
-  }
+export async function authorize(ctx: IRequestContext, authorizationHeader: string, url: string): Promise<void> {
+  const token = resolveAuthorizationHeader(authorizationHeader);
 
   let sessionId: string;
   try {
-    const payload: IJwtPayload = Session.verifyJwt(authorization);
+    const payload: IJwtPayload = Session.verifyJwt(token);
     sessionId = payload.sessionId;
   } catch (err) {
     throw new UnauthorizedError({ code: 'jsonWebTokenError' });
@@ -36,6 +35,7 @@ export async function authorize(ctx: IRequestContext, authorization: string | un
 
   ctx.sessionId = session.id;
   ctx.userId = session.userId;
+  ctx.authorization = token;
 
   ctx.log = ctx.log.child(
     {

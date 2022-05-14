@@ -1,9 +1,10 @@
 import * as Router from 'koa-router';
+import { StatusCodes } from 'http-status-codes';
 
-const router: Router = new Router();
+const healthCheck: Router = new Router();
 
-router.get('/v2/health-check', ctx => {
-  ctx.body = {};
+healthCheck.get('/v2/health-check', ctx => {
+  ctx.status = StatusCodes.NO_CONTENT;
 });
 
-export default router;
+export { healthCheck };

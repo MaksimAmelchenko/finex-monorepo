@@ -1,6 +1,6 @@
-import { IRequestContext } from '../../../../types/app';
-import { GetTransactionsGatewayQuery, GetTransactionsGatewayResponse } from '../../types';
 import dbRequest from '../../../../libs/db-request';
+import { GetTransactionsGatewayQuery, GetTransactionsGatewayResponse } from '../../types';
+import { IRequestContext } from '../../../../types/app';
 import { decodeTransaction } from './decode-transaction';
 
 export async function getTransactions(

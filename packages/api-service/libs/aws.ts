@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk';
-import https = require('https');
+import * as https from 'https';
 
 // AWS.config.update({ region: process.env.AWS_REGION, logger: console });
 AWS.config.update({

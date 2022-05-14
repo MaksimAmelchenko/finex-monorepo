@@ -29,15 +29,13 @@ import { tagsApi } from './api/v1/tags';
 import { transfersApi } from './api/v1/transfers';
 import { usersApi } from './api/v1/users';
 import { unitsApi } from './api/v1/units';
-import { currencyRatesApi } from './api/v2/currency-rates';
-import { exportApi } from './api/v2/export';
-
-import { invitationsApi } from './api/v2/invitations';
 
 import { authApi } from './api/v2/auth';
-
-import healthCheck from './api/v2/health-check';
+import { currencyRatesApi } from './api/v2/currency-rates';
 import { emailServiceApi } from './api/v2/email-service';
+import { exportApi } from './api/v2/export';
+import { healthCheck } from './api/v2/health-check';
+import { invitationsApi } from './api/v2/invitations';
 import { transactionApi } from './api/v2/transaction';
 
 const app: Koa = new Koa();

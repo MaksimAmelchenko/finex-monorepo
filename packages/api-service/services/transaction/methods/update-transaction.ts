@@ -2,10 +2,10 @@ import { CreateTransactionServiceResponse, UpdateTransactionServiceChanges } fro
 import { IRequestContext } from '../../../types/app';
 import { TransactionGateway } from '../gateway';
 
-export async function updateTransactions(
+export async function updateTransaction(
   ctx: IRequestContext,
   transactionId: string,
   changes: UpdateTransactionServiceChanges
 ): Promise<CreateTransactionServiceResponse> {
-  return TransactionGateway.updateTransactions(ctx, transactionId, changes);
+  return TransactionGateway.updateTransaction(ctx, transactionId, changes);
 }

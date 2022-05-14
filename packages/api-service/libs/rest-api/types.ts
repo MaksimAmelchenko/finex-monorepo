@@ -1,6 +1,7 @@
-import { ValidateFunction } from 'ajv';
-import { RequestHandler } from 'express';
+import * as HttpStatus from 'http-status-codes';
 import { OpenAPIV3 } from 'openapi-types';
+import { RequestHandler } from 'express';
+import { ValidateFunction } from 'ajv';
 
 import { IRequestContext, IRouterContext } from '../../types/app';
 import { IDownloadFile } from '../../types/file';
@@ -30,13 +31,13 @@ export interface RestRouteOptions {
   uploader?: RequestHandler;
   onEnter?: (routerContext: IRouterContext, requestContext: IRequestContext) => Promise<void>;
   schemas?: Schemas;
-  handler: (ctx: IRequestContext<any>) => Promise<IResponse>;
+  handler: (ctx: IRequestContext<any>, routeCtx: IRouterContext, next: () => any) => Promise<IResponse>;
   isNeedAuthorization?: boolean;
   // permissions?: App.Permissions;
 }
 
 export interface IRestRoute {
-  handler(ctx: IRouterContext): Promise<void>;
+  handler(ctx: IRouterContext, next?: () => any): Promise<any>;
 }
 
 export interface ICommonResponse {
@@ -49,8 +50,21 @@ export interface IContent<T> extends ICommonResponse {
   contentType?: string;
 }
 
-export interface INotModified {
-  status: 304;
+export interface IAccepted {
+  status: HttpStatus.StatusCodes.ACCEPTED;
 }
 
-export type IResponse<T = Record<string, any> | string> = IContent<T> | IDownloadFile | INotModified;
+export interface INoContent {
+  status: HttpStatus.StatusCodes.NO_CONTENT;
+}
+
+export interface INotModified {
+  status: HttpStatus.StatusCodes.NOT_MODIFIED;
+}
+
+export type IResponse<T = Record<string, any> | string> =
+  | IContent<T>
+  | IDownloadFile
+  | IAccepted
+  | INoContent
+  | INotModified;

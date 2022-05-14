@@ -5,14 +5,14 @@ import { RestRoute } from './route';
 import { IRouterContext } from '../../types/app';
 
 function restRouteHandler(route: RestRoute) {
-  return async (ctx: IRouterContext) => {
+  return async (ctx: IRouterContext, next) => {
     // try {
     //   await route.checkAccess(ctx);
     // } catch (error) {
     //   return sendError(ctx, { code: 403, error });
     // }
 
-    return route.handler(ctx);
+    return route.handler(ctx, next);
   };
 }
 

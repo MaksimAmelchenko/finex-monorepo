@@ -7,7 +7,7 @@ export async function handler(
   ctx: IRequestContext<CreateTransactionServiceData>
 ): Promise<IResponse<{ transaction: IPublicTransaction }>> {
   const { params } = ctx;
-  const transaction = await TransactionService.createTransactions(ctx, params);
+  const transaction = await TransactionService.createTransaction(ctx, params);
 
   return {
     body: {

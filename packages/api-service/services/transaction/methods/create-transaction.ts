@@ -2,9 +2,9 @@ import { CreateTransactionServiceResponse, CreateTransactionServiceData } from '
 import { IRequestContext } from '../../../types/app';
 import { TransactionGateway } from '../gateway';
 
-export async function createTransactions(
+export async function createTransaction(
   ctx: IRequestContext,
   data: CreateTransactionServiceData
 ): Promise<CreateTransactionServiceResponse> {
-  return TransactionGateway.createTransactions(ctx, data);
+  return TransactionGateway.createTransaction(ctx, data);
 }

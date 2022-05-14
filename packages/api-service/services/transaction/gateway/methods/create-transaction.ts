@@ -3,7 +3,7 @@ import { CreateTransactionGatewayData, CreateTransactionGatewayResponse } from '
 import { IRequestContext } from '../../../../types/app';
 import { decodeTransaction } from './decode-transaction';
 
-export async function createTransactions(
+export async function createTransaction(
   ctx: IRequestContext,
   data: CreateTransactionGatewayData
 ): Promise<CreateTransactionGatewayResponse> {

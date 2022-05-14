@@ -4,7 +4,7 @@ import { UpdateTransactionGatewayChanges, UpdateTransactionGatewayResponse } fro
 import { decodeTransaction } from './decode-transaction';
 import { skipUndefined } from '../../../../libs/skip-undefined';
 
-export async function updateTransactions(
+export async function updateTransaction(
   ctx: IRequestContext,
   transactionId: string,
   changes: UpdateTransactionGatewayChanges
@@ -28,18 +28,15 @@ export async function updateTransactions(
 
   const params: any = {
     idIEDetail: Number(transactionId),
+    sign,
+    sum: amount,
     dIEDetail: transactionDate,
     reportPeriod,
     quantity,
-    sum: amount,
     isNotConfirmed,
     note,
     tags,
   };
-
-  if (accountId !== undefined) {
-    params.idAccount = Number(accountId);
-  }
 
   if (moneyId !== undefined) {
     params.idMoney = Number(moneyId);
@@ -47,6 +44,10 @@ export async function updateTransactions(
 
   if (categoryId !== undefined) {
     params.idCategory = Number(categoryId);
+  }
+
+  if (accountId !== undefined) {
+    params.idAccount = Number(accountId);
   }
 
   if (unitId !== undefined) {

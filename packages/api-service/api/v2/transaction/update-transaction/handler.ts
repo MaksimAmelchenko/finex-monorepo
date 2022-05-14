@@ -7,7 +7,7 @@ export async function handler(
   ctx: IRequestContext<UpdateTransactionServiceChanges & { transactionId: string }>
 ): Promise<IResponse<{ transaction: IPublicTransaction }>> {
   const { transactionId, ...changes } = ctx.params;
-  const transaction = await TransactionService.updateTransactions(ctx, transactionId, changes);
+  const transaction = await TransactionService.updateTransaction(ctx, transactionId, changes);
 
   return {
     body: {

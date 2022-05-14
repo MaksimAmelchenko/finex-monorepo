@@ -7,7 +7,7 @@ import getValidators from './get-validators';
 import getParams from './get-params';
 import getMultipartParams from './get-multipart-params';
 import { authorize } from './authorize';
-import { InvalidParametersError, InvalidResponseError } from '../errors';
+import { InvalidParametersError, InvalidResponseError, UnauthorizedError } from '../errors';
 import { log } from '../log';
 
 import { IRequestContext, IRouterContext } from '../../types/app';
@@ -38,7 +38,7 @@ export class RestRoute implements IRestRoute {
     this.getParams = routeOptions.uploader ? getMultipartParams(routeOptions.uploader) : getParams;
   }
 
-  async handler(routerContext: IRouterContext): Promise<void> {
+  async handler(routerContext: IRouterContext, next): Promise<any> {
     const { options } = this;
     try {
       const {
@@ -55,9 +55,12 @@ export class RestRoute implements IRestRoute {
 
       if (options.isNeedAuthorization) {
         const { url } = routerContext;
-        const authorization: string | undefined = routerContext.headers['authorization'];
-        await authorize(ctx, authorization, url);
-        ctx.authorization = authorization;
+        const authorizationHeader = routerContext.headers['authorization'];
+        if (!authorizationHeader) {
+          throw new UnauthorizedError('Authorization header not present');
+        }
+
+        await authorize(ctx, authorizationHeader, url);
         // in authorize a logger has been extended (added sessionId, userId/serviceId)
         routerContext.log = ctx.log;
       }
@@ -81,8 +84,9 @@ export class RestRoute implements IRestRoute {
         await options.onEnter(routerContext, ctx);
       }
 
-      // const payload = await routeHandler(ctx);
-      const response: IResponse = await options.handler(ctx);
+      const response: IResponse = await options.handler(ctx, routerContext, next);
+      // a logger may been extended into handler
+      routerContext.log = ctx.log;
 
       if (isContent(response)) {
         if (!this.validators.response(JSON.parse(JSON.stringify(response.body)))) {
