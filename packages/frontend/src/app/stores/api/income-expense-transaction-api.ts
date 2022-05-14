@@ -3,12 +3,12 @@ import queryString from 'query-string';
 import { ApiRepository } from '../../core/other-stores/api-repository';
 import { IIncomeExpenseTransactionsApi } from '../income-expense-transactions-repository';
 import {
-  CreateIncomeExpenseTransactionData,
-  CreateIncomeExpenseTransactionResponse,
+  CreateTransactionData,
+  CreateTransactionResponse,
   GetIncomeExpenseTransactionsQuery,
   GetIncomeExpenseTransactionsResponse,
-  UpdateIncomeExpenseTransactionChanges,
-  UpdateIncomeExpenseTransactionResponse,
+  UpdateTransactionChanges,
+  UpdateTransactionResponse,
 } from '../../types/income-expense-transaction';
 
 export class IncomeExpenseTransactionsApi extends ApiRepository implements IIncomeExpenseTransactionsApi {
@@ -20,22 +20,26 @@ export class IncomeExpenseTransactionsApi extends ApiRepository implements IInco
     });
   }
 
-  create(data: CreateIncomeExpenseTransactionData): Promise<CreateIncomeExpenseTransactionResponse> {
-    return this.fetch<CreateIncomeExpenseTransactionResponse>({
+  create(data: CreateTransactionData): Promise<CreateTransactionResponse> {
+    return this.fetch<CreateTransactionResponse>({
       method: 'POST',
       url: '/v2/transactions',
       body: data,
     });
   }
 
-  update(
-    transactionId: string,
-    changes: UpdateIncomeExpenseTransactionChanges
-  ): Promise<UpdateIncomeExpenseTransactionResponse> {
-    return this.fetch<CreateIncomeExpenseTransactionResponse>({
+  update(transactionId: string, changes: UpdateTransactionChanges): Promise<UpdateTransactionResponse> {
+    return this.fetch<CreateTransactionResponse>({
       method: 'PATCH',
       url: `/v2/transactions/${transactionId}`,
       body: changes,
+    });
+  }
+
+  remove(transactionId: string): Promise<void> {
+    return this.fetch<void>({
+      method: 'DELETE',
+      url: `/v2/transactions/${transactionId}`,
     });
   }
 }

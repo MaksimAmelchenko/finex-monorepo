@@ -8,11 +8,7 @@ import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
 import { ApiErrors } from '../../core/errors';
 import { CategoriesRepository } from '../../stores/categories-repository';
-import {
-  CreateIncomeExpenseTransactionData,
-  IIncomeExpenseTransaction,
-  UpdateIncomeExpenseTransactionChanges,
-} from '../../types/income-expense-transaction';
+import { CreateTransactionData, UpdateTransactionChanges } from '../../types/income-expense-transaction';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
 import { Form, FormButton, FormCheckbox, FormError, FormLayout, IFormButton } from '../../components/Form';
@@ -22,13 +18,19 @@ import { FormTabs } from '../../components/Form/FormTabs/FormsTabs';
 import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
+import { ITransaction } from '../../types/transaction';
 import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
-import { IncomeExpenseTransactionsRepository } from '../../stores/income-expense-transactions-repository';
+import {
+  IncomeExpenseTransaction,
+  IncomeExpenseTransactionsRepository,
+} from '../../stores/income-expense-transactions-repository';
 import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { PlannedTransaction } from '../../stores/models/planned-transaction';
 import { QuantityField } from '../QuantityField/QuantityField';
 import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { Transaction } from '../../stores/models/transaction';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-path';
 import { noop } from '../../lib/noop';
@@ -55,7 +57,7 @@ interface CashFlowTransactionFormValues {
 
 interface CashFlowTransactionWindowProps {
   isOpened: boolean;
-  transaction: Partial<IIncomeExpenseTransaction>;
+  transaction: Partial<ITransaction> | IncomeExpenseTransaction;
   onClose: () => unknown;
 }
 
@@ -75,7 +77,7 @@ function mapValuesToCreatePayload({
   tagIds,
   isNotConfirmed,
   planId,
-}: CashFlowTransactionFormValues): CreateIncomeExpenseTransactionData {
+}: CashFlowTransactionFormValues): CreateTransactionData {
   return {
     sign: Number(sign) as Sign,
     amount: Number(amount),
@@ -107,7 +109,7 @@ function mapValuesToUpdatePayload({
   note,
   tagIds,
   isNotConfirmed,
-}: CashFlowTransactionFormValues): UpdateIncomeExpenseTransactionChanges {
+}: CashFlowTransactionFormValues): UpdateTransactionChanges {
   return {
     sign: Number(sign) as Sign,
     amount: Number(amount),
@@ -124,7 +126,11 @@ function mapValuesToUpdatePayload({
   };
 }
 
-export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: CashFlowTransactionWindowProps): JSX.Element {
+export function CashFlowTransactionWindow({
+  isOpened,
+  transaction,
+  onClose,
+}: CashFlowTransactionWindowProps): JSX.Element {
   const signOptions: ITabOption[] = useMemo(
     () => [
       { value: '1', label: t('Income') },
@@ -132,11 +138,13 @@ export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: Ca
     ],
     []
   );
+
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
+  const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
-  const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
+
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
@@ -152,16 +160,16 @@ export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: Ca
       initialValues: CashFlowTransactionFormValues
     ) => {
       let result: Promise<unknown>;
-      if (transaction.id) {
-        const changes: UpdateIncomeExpenseTransactionChanges = getPatch(
+      if (transaction instanceof Transaction) {
+        const changes: UpdateTransactionChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = incomeExpenseTransactionsRepository.updateTransaction(transaction.id, changes);
+        result = incomeExpenseTransactionsRepository.updateTransaction(transaction, changes);
       } else {
         // create transaction
-        const data: CreateIncomeExpenseTransactionData = mapValuesToCreatePayload(values);
-        result = incomeExpenseTransactionsRepository.createTransaction(data);
+        const data: CreateTransactionData = mapValuesToCreatePayload(values);
+        result = incomeExpenseTransactionsRepository.createTransaction(transaction, data);
       }
 
       return result.then(() => {
@@ -192,7 +200,7 @@ export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: Ca
         }
       });
     },
-    [incomeExpenseTransactionsRepository, onClose, transaction.id]
+    [incomeExpenseTransactionsRepository, onClose, transaction]
   );
 
   const validationSchema = useMemo(
@@ -245,7 +253,6 @@ export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: Ca
   }
 
   const {
-    id,
     sign,
     amount,
     money,
@@ -258,13 +265,12 @@ export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: Ca
     isNotConfirmed,
     note,
     tags,
-    planId,
   } = transaction;
 
   return (
     <Drawer
       isOpened={isOpened}
-      title={id ? t('Edit transaction') : t('Add new transaction')}
+      title={transaction instanceof Transaction ? t('Edit transaction') : t('Add new transaction')}
       onClose={onClose}
       onOpen={handleOnOpen}
     >
@@ -283,7 +289,7 @@ export function CashFlowTransactionWindow({ isOpened, transaction, onClose }: Ca
           isNotConfirmed: isNotConfirmed ?? false,
           note: note ?? '',
           tagIds: tags ?? [],
-          planId: planId ?? null,
+          planId: transaction instanceof PlannedTransaction ? transaction.planId : null,
 
           isOnlySave: false,
         }}

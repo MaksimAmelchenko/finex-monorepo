@@ -21,6 +21,8 @@ import { MainStore } from './main-store';
 import { MoneysApi } from '../stores/api/moneys-api';
 import { MoneysRepository } from '../stores/moneys-repository';
 import { ParamsStore } from '../stores/params-store';
+import { PlansApi } from '../stores/api/plans-api';
+import { PlansRepository } from '../stores/plans-repository';
 import { ProfileApi } from '../stores/api/profile-api';
 import { ProfileRepository } from '../stores/profile-repository';
 import { ProjectsApi } from '../stores/api/projects-api';
@@ -61,6 +63,7 @@ export function initializeMainStore(): MainStore {
   new ProfileRepository(mainStore, new ProfileApi(mainStore));
 
   new IncomeExpenseTransactionsRepository(mainStore, new IncomeExpenseTransactionsApi(mainStore));
+  new PlansRepository(mainStore, new PlansApi(mainStore));
   new BalanceRepository(mainStore, new BalanceApi(mainStore));
   new ParamsStore(mainStore);
 

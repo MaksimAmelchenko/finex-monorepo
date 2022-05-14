@@ -1,5 +1,9 @@
 @use 'packages/theme/src/lib/styles/colors';
 
+.row_is_deleting {
+  background-color: colors.$orangeLight;
+}
+
 td.firstColumn {
   padding-left: 0;
   padding-right: 0;

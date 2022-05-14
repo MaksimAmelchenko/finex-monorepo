@@ -5,29 +5,30 @@ import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import {
-  CreateIncomeExpenseTransactionData,
-  CreateIncomeExpenseTransactionResponse,
+  CreateTransactionData,
+  CreateTransactionResponse,
   GetIncomeExpenseTransactionsQuery,
   GetIncomeExpenseTransactionsResponse,
   IAPIIncomeExpenseTransaction,
-  UpdateIncomeExpenseTransactionChanges,
-  UpdateIncomeExpenseTransactionResponse,
+  UpdateTransactionChanges,
+  UpdateTransactionResponse,
 } from '../types/income-expense-transaction';
-import { IncomeExpenseTransaction } from './models/income-expense-transaction';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { PlannedTransaction } from './models/planned-transaction';
+import { Transaction } from './models/transaction';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
+import { ITransaction } from '../types/transaction';
+import { PlansRepository } from './plans-repository';
 
 export interface IIncomeExpenseTransactionsApi {
   get: (query: GetIncomeExpenseTransactionsQuery) => Promise<GetIncomeExpenseTransactionsResponse>;
-  create: (data: CreateIncomeExpenseTransactionData) => Promise<CreateIncomeExpenseTransactionResponse>;
-  update: (
-    transactionId: string,
-    changes: UpdateIncomeExpenseTransactionChanges
-  ) => Promise<UpdateIncomeExpenseTransactionResponse>;
+  create: (data: CreateTransactionData) => Promise<CreateTransactionResponse>;
+  update: (transactionId: string, changes: UpdateTransactionChanges) => Promise<UpdateTransactionResponse>;
+  remove: (transactionId: string) => Promise<void>;
 }
 
 interface IFilter {
@@ -39,6 +40,8 @@ interface IFilter {
   contractors: string[];
   tags: string[];
 }
+
+export type IncomeExpenseTransaction = Transaction | PlannedTransaction;
 
 export class IncomeExpenseTransactionsRepository extends ManageableStore {
   static storeName = 'IncomeExpenseTransactionsRepository';
@@ -77,6 +80,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
       clear: action,
       fetch: action,
       setFilter: action,
+      removeTransaction: action,
     });
 
     reaction(
@@ -159,26 +163,63 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     };
   }
 
-  createTransaction(data: CreateIncomeExpenseTransactionData): Promise<unknown> {
+  createTransaction(
+    transaction: Partial<ITransaction> | PlannedTransaction,
+    data: CreateTransactionData
+  ): Promise<unknown> {
     return this.api.create(data).then(
-      action(({ transaction }) => {
-        this._incomeExpenseTransactions.push(...this.decode([transaction]));
+      action(response => {
+        const newTransaction = this.decode([response.transaction])[0];
+        if (!newTransaction) {
+          return;
+        }
+
+        if (transaction instanceof PlannedTransaction) {
+          // need to replace planned transaction
+          const indexOf = this._incomeExpenseTransactions.indexOf(transaction);
+          if (indexOf !== -1) {
+            this._incomeExpenseTransactions[indexOf] = newTransaction;
+          } else {
+            this._incomeExpenseTransactions.push(newTransaction);
+          }
+        } else {
+          // just add new transaction
+          this._incomeExpenseTransactions.push(newTransaction);
+        }
       })
     );
   }
 
-  updateTransaction(transactionId: string, changes: UpdateIncomeExpenseTransactionChanges): Promise<unknown> {
-    return this.api.update(transactionId, changes).then(
-      action(({ transaction }) => {
-        const incomeExpenseTransaction = this.decode([transaction])[0];
-        if (incomeExpenseTransaction) {
-          const indexOf = this._incomeExpenseTransactions.findIndex(({ id }) => id === transactionId);
+  updateTransaction(transaction: Transaction, changes: UpdateTransactionChanges): Promise<unknown> {
+    return this.api.update(transaction.id, changes).then(
+      action(response => {
+        const updatedTransaction = this.decode([response.transaction])[0];
+        if (updatedTransaction) {
+          const indexOf = this._incomeExpenseTransactions.indexOf(transaction);
           if (indexOf !== -1) {
-            this._incomeExpenseTransactions[indexOf] = incomeExpenseTransaction;
+            this._incomeExpenseTransactions[indexOf] = updatedTransaction;
           } else {
-            this._incomeExpenseTransactions.push(incomeExpenseTransaction);
+            this._incomeExpenseTransactions.push(updatedTransaction);
           }
         }
+      })
+    );
+  }
+
+  removeTransaction(transaction: IncomeExpenseTransaction): Promise<unknown> {
+    transaction.isDeleting = true;
+    let operation: Promise<void>;
+    if (transaction instanceof PlannedTransaction) {
+      operation = this._mainStore
+        .get(PlansRepository)
+        .cancelPlan(transaction.planId, { excludedDate: transaction.transactionDate });
+    } else {
+      operation = this.api.remove(transaction.id);
+    }
+
+    return operation.then(
+      action(() => {
+        this._incomeExpenseTransactions = this._incomeExpenseTransactions.filter(t => t !== transaction);
       })
     );
   }
@@ -193,26 +234,26 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
 
     return incomeExpenseTransactions.reduce<IncomeExpenseTransaction[]>((acc, transaction) => {
       const {
-        cashFlowId,
         id,
-        userId,
-        contractorId,
-        categoryId,
-        accountId,
-        moneyId,
-        planId,
-        unitId,
-        transactionDate,
-        reportPeriod,
+        cashFlowId,
         sign,
         amount,
+        moneyId,
+        categoryId,
+        accountId,
+        contractorId,
+        transactionDate,
+        reportPeriod,
         quantity,
+        unitId,
+        isNotConfirmed,
         note,
         tags,
-        colorMark,
-        isNotConfirmed,
+        planId,
         nRepeat,
+        colorMark,
         permit,
+        userId,
       } = transaction;
 
       const user = usersRepository.get(userId);
@@ -221,7 +262,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         return acc;
       }
 
-      const contractor = contractorId ? contractorsRepository.get(contractorId) ?? null : null;
+      const contractor = (contractorId && contractorsRepository.get(contractorId)) || null;
 
       const category = categoriesRepository.get(categoryId);
       if (!category) {
@@ -241,31 +282,49 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         return acc;
       }
 
-      const unit = unitId ? unitsRepository.get(unitId) ?? null : null;
+      const unit = (unitId && unitsRepository.get(unitId)) || null;
 
-      const incomeExpenseTransaction = new IncomeExpenseTransaction({
-        id,
-        cashFlowId,
-        user,
-        planId,
-        contractor,
-        category,
-        account,
-        money,
-        unit,
-        transactionDate,
-        reportPeriod,
-        sign,
-        amount,
-        quantity,
-        note: note ?? '',
-        tags,
-        permit,
-        colorMark: colorMark ?? '',
-        isNotConfirmed,
-        nRepeat,
-        isSelected: false,
-      });
+      const incomeExpenseTransaction =
+        id && cashFlowId
+          ? new Transaction({
+              id,
+              cashFlowId,
+              sign,
+              amount,
+              money,
+              category,
+              account,
+              contractor,
+              transactionDate,
+              reportPeriod,
+              unit,
+              quantity,
+              isNotConfirmed,
+              note: note ?? '',
+              tags,
+              permit,
+              user,
+            })
+          : new PlannedTransaction({
+              planId: planId!,
+              sign,
+              amount,
+              money,
+              category,
+              account,
+              contractor,
+              transactionDate,
+              reportPeriod,
+              unit,
+              quantity,
+              isNotConfirmed,
+              note: note ?? '',
+              tags,
+              permit,
+              user,
+              nRepeat: nRepeat!,
+              colorMark: colorMark!,
+            });
 
       acc.push(incomeExpenseTransaction);
       return acc;
@@ -277,9 +336,9 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
       .slice()
       .sort(
         (a, b) =>
-          Number(Boolean(b.planId)) - Number(Boolean(a.planId)) ||
+          Number(Boolean((b as any).planId)) - Number(Boolean((a as any).planId)) ||
           parseISO(b.transactionDate).getTime() - parseISO(a.transactionDate).getTime() ||
-          Number(b.id) - Number(a.id)
+          Number((b as any).id) - Number((a as any).id)
       );
   }
 

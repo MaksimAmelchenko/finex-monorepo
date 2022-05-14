@@ -5,8 +5,8 @@ import { observer } from 'mobx-react-lite';
 
 import { CategoriesRepository } from '../../../stores/categories-repository';
 import { CheckboxSvg, CheckboxUncheckedSvg, Tag } from '@finex/ui-kit';
-import { IIncomeExpenseTransaction } from '../../../types/income-expense-transaction';
-import { IncomeExpenseTransaction as IncomeExpenseTransactionModel } from '../../../stores/models/income-expense-transaction';
+import { IncomeExpenseTransaction as IncomeExpenseTransactionModel } from '../../../stores/income-expense-transactions-repository';
+import { PlannedTransaction } from '../../../stores/models/planned-transaction';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -16,7 +16,7 @@ const t = getT('CashFlow');
 
 interface IncomeExpenseTransactionProps {
   transaction: IncomeExpenseTransactionModel;
-  onClick: (transaction: IIncomeExpenseTransaction) => void;
+  onClick: (transaction: IncomeExpenseTransactionModel) => void;
 }
 
 export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(({ transaction, onClick }) => {
@@ -29,12 +29,11 @@ export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(
     sign,
     amount,
     money,
-    planId,
     note,
     tags,
-    colorMark,
     isNotConfirmed,
     isSelected,
+    isDeleting,
   } = transaction;
 
   const handleOnSelect = (event: React.SyntheticEvent) => {
@@ -46,11 +45,11 @@ export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(
     onClick(transaction);
   };
 
-  const isPlanned = Boolean(planId);
+  const isPlanned = transaction instanceof PlannedTransaction;
   const isOverdue = (isPlanned || isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
-    <tr onClick={handleOnClick}>
+    <tr onClick={handleOnClick} className={clsx(isDeleting && styles.row_is_deleting)}>
       <td className={clsx(styles.firstColumn, 'min-width')}>
         <div
           className={clsx(
@@ -60,7 +59,7 @@ export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(
           )}
           onClick={handleOnSelect}
         >
-          <div className={clsx(styles.dateColumn__colorMark, colorMark)} />
+          <div className={clsx(styles.dateColumn__colorMark, isPlanned && transaction.colorMark)} />
           <div className={styles.dateColumn__checkbox}>
             <img src={isSelected ? CheckboxSvg : CheckboxUncheckedSvg} alt="" />
           </div>

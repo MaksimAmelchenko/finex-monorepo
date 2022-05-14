@@ -36,6 +36,7 @@ import { emailServiceApi } from './api/v2/email-service';
 import { exportApi } from './api/v2/export';
 import { healthCheck } from './api/v2/health-check';
 import { invitationsApi } from './api/v2/invitations';
+import { planApi } from './api/v2/plan';
 import { transactionApi } from './api/v2/transaction';
 
 const app: Koa = new Koa();
@@ -76,6 +77,7 @@ app.use(unitsApi);
 app.use(exportApi);
 
 app.use(transactionApi);
+app.use(planApi);
 
 app.use(invitationsApi);
 app.use(currencyRatesApi);

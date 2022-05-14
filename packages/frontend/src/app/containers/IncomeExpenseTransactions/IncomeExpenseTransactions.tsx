@@ -8,13 +8,17 @@ import { CashFlowTransactionWindow } from '../CashFlowTransactionWindow/CashFlow
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Form, FormTextField } from '../../components/Form';
-import { IIncomeExpenseTransaction } from '../../types/income-expense-transaction';
+import { ITransaction } from '../../types/transaction';
 import { IncomeExpenseTransaction } from './IncomeExpenseTransaction/IncomeExpenseTransaction';
-import { IncomeExpenseTransactionsRepository } from '../../stores/income-expense-transactions-repository';
+import {
+  IncomeExpenseTransactionsRepository,
+  IncomeExpenseTransaction as IncomeExpenseTransactionModel,
+} from '../../stores/income-expense-transactions-repository';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
+import { Transaction } from '../../stores/models/transaction';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -35,7 +39,7 @@ export const IncomeExpenseTransactions = observer(() => {
 
   const [isOpenedCashFlowTransactionWindow, setIsOpenedCashFlowTransactionWindow] = useState<boolean>(false);
 
-  const [transaction, setTransaction] = useState<Partial<IIncomeExpenseTransaction> | null>(null);
+  const [transaction, setTransaction] = useState<Partial<ITransaction> | IncomeExpenseTransactionModel | null>(null);
 
   const handleOpenAddCashFlowTransaction = () => {
     setTransaction({
@@ -45,7 +49,7 @@ export const IncomeExpenseTransactions = observer(() => {
     setIsOpenedCashFlowTransactionWindow(true);
   };
 
-  const handleClickOnTransaction = (transaction: IIncomeExpenseTransaction) => {
+  const handleClickOnTransaction = (transaction: IncomeExpenseTransactionModel) => {
     setTransaction(transaction);
     setIsOpenedCashFlowTransactionWindow(true);
   };
@@ -116,6 +120,20 @@ export const IncomeExpenseTransactions = observer(() => {
     incomeExpenseTransactionsRepository.refresh();
   };
 
+  const handleDeleteClick = () => {
+    if (incomeExpenseTransactions.filter(({ isSelected }) => isSelected).length > 1) {
+      if (!confirm(t('Are you sure you what to delete several transactions?'))) {
+        return;
+      }
+    }
+
+    incomeExpenseTransactions
+      .filter(({ isSelected }) => isSelected)
+      .forEach(transaction => {
+        incomeExpenseTransactionsRepository.removeTransaction(transaction).catch(err => console.error({ err }));
+      });
+  };
+
   const handleSearchSubmit = ({ searchText }: ISearchFormValues): Promise<unknown> => {
     filter.searchText = searchText;
     return incomeExpenseTransactionsRepository.refresh();
@@ -136,7 +154,7 @@ export const IncomeExpenseTransactions = observer(() => {
               <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddCashFlowTransaction}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="outlined" size="small" onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
               <Button variant="outlined" size="small" onClick={handleRefreshClick}>
@@ -232,11 +250,11 @@ export const IncomeExpenseTransactions = observer(() => {
             </tr>
           </thead>
           <tbody>
-            {incomeExpenseTransactions.map((incomeExpenseTransaction, index) => (
+            {incomeExpenseTransactions.map((transaction, index) => (
               <IncomeExpenseTransaction
-                transaction={incomeExpenseTransaction}
+                transaction={transaction}
                 onClick={handleClickOnTransaction}
-                key={incomeExpenseTransaction.id ?? index}
+                key={transaction instanceof Transaction ? transaction.id : index}
               />
             ))}
           </tbody>
