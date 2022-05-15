@@ -1,6 +1,5 @@
 import { ManageableStore } from '../manageable-store';
 import { MainStore } from '../main-store';
-import { useStore } from '../hooks/use-store';
 
 /**
  * Use this object to store and get persistent data commonly for all users
@@ -8,10 +7,6 @@ import { useStore } from '../hooks/use-store';
  */
 export class CommonStorageStore<StoredData extends Record<string, string>> extends ManageableStore {
   static storeName = 'CommonStorageStore';
-
-  constructor(mainStore: MainStore) {
-    super(mainStore);
-  }
 
   /**
    * This function persistently sets some data for usage between sessions
@@ -37,9 +32,9 @@ export class CommonStorageStore<StoredData extends Record<string, string>> exten
     const item = localStorage.getItem(`${key}`);
     try {
       return item ? JSON.parse(item) : undefined;
-    } finally {
+    } catch (err) {
+      return undefined;
     }
-    return undefined;
   }
 
   /**

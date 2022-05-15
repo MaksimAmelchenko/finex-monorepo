@@ -86,11 +86,11 @@ export const IncomeExpenseTransactions = observer(() => {
 
   useEffect(() => {
     incomeExpenseTransactionsRepository.fetch().catch(console.error);
-  }, []);
+  }, [incomeExpenseTransactionsRepository]);
 
   const setRange = useCallback((values: [Date | null, Date | null]) => {
     incomeExpenseTransactionsRepository.setFilter({ range: values });
-  }, []);
+  }, [incomeExpenseTransactionsRepository]);
 
   const setAccounts = (accounts: ISelectOption[]) => {
     incomeExpenseTransactionsRepository.setFilter({ accounts: accounts.map(({ value }) => value) });
@@ -122,7 +122,7 @@ export const IncomeExpenseTransactions = observer(() => {
 
   const handleDeleteClick = () => {
     if (incomeExpenseTransactions.filter(({ isSelected }) => isSelected).length > 1) {
-      if (!confirm(t('Are you sure you what to delete several transactions?'))) {
+      if (!window.confirm(t('Are you sure you what to delete several transactions?'))) {
         return;
       }
     }

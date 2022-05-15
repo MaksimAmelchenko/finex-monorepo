@@ -11,7 +11,7 @@ export interface ILinkProps extends GAOptions, Omit<AnchorHTMLAttributes<HTMLAnc
 }
 
 export const Link = React.forwardRef<HTMLAnchorElement, ILinkProps>(function Link(props, ref) {
-  const { href, className, ...rest } = props;
+  const { href, className, children, ...rest } = props;
 
   return /^(https?:\/\/|tel:|mailto:)/.test(href) ? (
     <a
@@ -20,8 +20,12 @@ export const Link = React.forwardRef<HTMLAnchorElement, ILinkProps>(function Lin
       target="_blank"
       rel="nofollow noopener noreferrer"
       className={clsx(className, styles.link)}
-    />
+    >
+      {children}
+    </a>
   ) : (
-    <RouterLink to={href} {...rest} ref={ref} className={clsx(styles.link, className)} />
+    <RouterLink to={href} {...rest} ref={ref} className={clsx(styles.link, className)}>
+      {children}
+    </RouterLink>
   );
 });

@@ -4,7 +4,7 @@ import { CoreError } from '../../../core/errors';
 
 import styles from './FormError.module.scss';
 
-export type ErrorContextValue = { hr: string | JSX.Element; error: CoreError } | {};
+export type ErrorContextValue = { hr: string | JSX.Element; error: CoreError } | Record<string, unknown>;
 
 export function hasError(a: ErrorContextValue): a is { hr: string; error: CoreError } {
   return a && (a as any).hr !== undefined && (a as any).error;

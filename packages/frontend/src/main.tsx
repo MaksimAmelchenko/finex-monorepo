@@ -1,6 +1,6 @@
-import ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { StrictMode } from 'react';
 
 import { App } from './app/app';
 import { createMainContext } from './app/core/main-context';
@@ -96,14 +96,11 @@ async function initI18n(): Promise<void> {
 
 initI18n().then(() => {
   createMainContext(initializeMainStore());
-  // @ts-ignore
-  const root = ReactDOM.createRoot(document.getElementById('root'));
+  const root = ReactDOM.createRoot(document.getElementById('root')!);
 
   root.render(
-    <StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   );
 });

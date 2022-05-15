@@ -48,7 +48,7 @@ export function SignIn(): JSX.Element {
           throw error;
         });
     },
-    [authStore]
+    [authStore, from, navigate]
   );
 
   const validationSchema = useMemo(
