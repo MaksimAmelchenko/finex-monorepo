@@ -1,10 +1,15 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { useStore } from '../../core/hooks/use-store';
 
-export function RequireAuth({ children }: { children: JSX.Element }) {
+interface RequireAuthProps {
+  children: JSX.Element;
+}
+
+export const RequireAuth = observer<RequireAuthProps>(({ children }) => {
   const authRepository = useStore(AuthRepository);
   const location = useLocation();
 
@@ -16,4 +21,4 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
   }
   return children;
-}
+});

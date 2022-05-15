@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useMemo } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +15,9 @@ import Typography from '@mui/material/Typography';
 import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
 
 import { Link } from '../../components/Link/Link';
+import { ProfileRepository } from '../../stores/profile-repository';
 import { getT } from '../../lib/core/i18n';
+import { useStore } from '../../core/hooks/use-store';
 
 import {
   CashFlowSvg,
@@ -91,9 +93,10 @@ interface IMenuItem {
 
 const t = getT('MainLayout');
 
-export const MainLayout: FC<{ children: React.ReactNode }> = observer(({ children }) => {
+export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ children }) => {
   const theme = useTheme();
-  const [isOpened, setIsOpened] = React.useState(false);
+  const [isOpened, setIsOpened] = useState(false);
+  const profileRepository = useStore(ProfileRepository);
 
   const handleDrawerToggle = () => {
     setIsOpened(isOpened => !isOpened);
@@ -215,7 +218,11 @@ export const MainLayout: FC<{ children: React.ReactNode }> = observer(({ childre
             backgroundColor: '#f9f9f9',
           }}
         >
-          <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
+          {!profileRepository.profile ? (
+            <div>loading...</div>
+          ) : (
+            <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
+          )}
         </Box>
       </Box>
     </Box>
