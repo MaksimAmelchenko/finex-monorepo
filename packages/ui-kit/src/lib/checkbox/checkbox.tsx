@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useId } from 'react';
+import clsx from 'clsx';
 
 import styles from './checkbox.module.scss';
 
@@ -6,18 +7,30 @@ export interface ICheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInput
   value?: boolean;
   label?: string;
   error?: string;
+  helperText?: string;
   onChange: (value: boolean, event: ChangeEvent<HTMLInputElement>) => unknown;
 }
 
-export function Checkbox({ label, disabled, value = false, onChange, error, ...rest }: ICheckboxProps): JSX.Element {
+export function Checkbox({
+  label,
+  disabled,
+  value = false,
+  onChange,
+  error,
+  helperText,
+  ...rest
+}: ICheckboxProps): JSX.Element {
   const id = useId();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked, event);
   };
+  const isError = Boolean(error);
+
+  const message = isError ? error : helperText;
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, isError && styles.container_error)}>
       <input
         type="checkbox"
         {...rest}
@@ -28,7 +41,7 @@ export function Checkbox({ label, disabled, value = false, onChange, error, ...r
         className={styles.checkbox}
       />
       <label htmlFor={id}>{label}</label>
-      {error && <div className={styles.error}>{error}</div>}
+      {message && <p className={styles.container__helperText}>{message}</p>}
     </div>
   );
 }

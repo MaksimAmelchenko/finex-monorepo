@@ -68,6 +68,7 @@
   &__helperText {
     margin: 4px 16px 0;
     font-size: 1.2rem;
+    color: colors.$grayDarkest;
   }
 
   &_error &__helperText {

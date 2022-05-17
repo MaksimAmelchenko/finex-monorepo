@@ -1,8 +1,25 @@
 @use 'packages/theme/src/lib/styles/colors';
 
+%transition-styles {
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
+
 .container {
   display: flex;
   flex-direction: column;
+
+  &__helperText {
+    margin-top: 4px;
+    font-size: 1.2rem;
+    color: colors.$grayDarkest;
+  }
+
+  &_error &__helperText {
+    @extend %transition-styles;
+    transition-property: color;
+    color: colors.$red;
+  }
 }
 
 .checkbox {
@@ -29,9 +46,9 @@
     box-sizing: border-box;
   }
 
-  // Box hover
-  &:hover + label:before {
-    border: 1px solid colors.$blue;
+  // Box checked
+  &:checked + label:before {
+    border: 1px solid colors.$blueLight;
     background: colors.$blueLight;
   }
 
@@ -40,10 +57,14 @@
     border: 1px solid colors.$blue;
   }
 
-  // Box checked
-  &:checked + label:before {
+  // Box hover
+  &:hover + label:before {
     border: 1px solid colors.$blue;
     background: colors.$blueLight;
+  }
+
+  .container_error & + label:before {
+    border: 1px solid colors.$red;
   }
 
   // Disabled state label.
@@ -71,10 +92,4 @@
     box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
     transform: rotate(45deg);
   }
-}
-
-.error {
-  font-size: 1.2rem;
-  color: colors.$red;
-  padding-top: 4px;
 }
