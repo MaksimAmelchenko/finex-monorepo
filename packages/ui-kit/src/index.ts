@@ -5,6 +5,7 @@ export * from './lib/date-field/date-field';
 export * from './lib/date-picker/date-picker';
 export * from './lib/icon-button/icon-button';
 export * from './lib/icons';
+export * from './lib/image/image';
 export * from './lib/inline-date-picker/inline-date-picker';
 export * from './lib/inline-date-range-picker/inline-date-range-picker';
 export * from './lib/inline-select/inline-select';
