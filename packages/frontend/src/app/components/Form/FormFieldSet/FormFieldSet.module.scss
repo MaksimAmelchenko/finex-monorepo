@@ -1,0 +1,19 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.legend {
+  @include typography.subtitle1;
+  border-bottom: 1px dashed colors.$grayDark;
+  margin: 0 0 2.4rem;
+  padding: 0.8rem 0;
+  width: 100%;
+}
