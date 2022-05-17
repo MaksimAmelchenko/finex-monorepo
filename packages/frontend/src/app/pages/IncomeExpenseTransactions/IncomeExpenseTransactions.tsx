@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
-import { CashFlowTransactionWindow } from '../CashFlowTransactionWindow/CashFlowTransactionWindow';
+import { CashFlowTransactionWindow } from '../../containers/CashFlowTransactionWindow/CashFlowTransactionWindow';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Form, FormTextField } from '../../components/Form';

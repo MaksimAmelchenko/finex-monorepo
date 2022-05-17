@@ -7,7 +7,7 @@ import { AccountsLazy } from './containers/Accounts/AccountsLazy';
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
-import { IncomeExpenseTransactions } from './containers/IncomeExpenseTransactions/IncomeExpenseTransactions';
+import { IncomeExpenseTransactions } from './pages/IncomeExpenseTransactions/IncomeExpenseTransactions';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
