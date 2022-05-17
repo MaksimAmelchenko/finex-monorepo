@@ -3,7 +3,6 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
-import { AccountsLazy } from './containers/Accounts/AccountsLazy';
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
@@ -13,6 +12,7 @@ import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { ResetPasswordConfirmationLazy } from './pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy';
 import { ResetPasswordLazy } from './pages/ResetPassword/ResetPasswordLazy';
+import { SettingsLazy } from './pages/Settings/SettingsLazy';
 import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
@@ -44,7 +44,8 @@ export const App = observer(() => {
                     <Route path="/cash-flows/transfers" element={<div>Transfers</div>} />
                     <Route path="/cash-flows/exchanges" element={<div>Exchanges</div>} />
 
-                    <Route path="/settings/accounts" element={<AccountsLazy />} />
+                    <Route path="/settings" element={<SettingsLazy />} />
+                    <Route path="/settings/:tab" element={<SettingsLazy />} />
 
                     <Route path="*" element={<NotFoundLazy />} />
                   </Routes>

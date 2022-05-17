@@ -1,5 +1,5 @@
 import { TDate } from './index';
-import { IAccountRaw } from './account';
+import { IAPIAccount } from './account';
 import { IContractorRaw } from './contractor';
 import { IUnitRaw } from './unit';
 import { IUserRaw } from './user';
@@ -15,7 +15,7 @@ import { IProfileRaw } from './profile';
 
 export interface IBootstrapRaw {
   accountTypes: IAccountTypeRaw[];
-  accounts: IAccountRaw[];
+  accounts: IAPIAccount[];
   badges: IBadgeRaw[];
   categories: ICategoryRaw[];
   categoryPrototypes: ICategoryPrototypeRaw[];

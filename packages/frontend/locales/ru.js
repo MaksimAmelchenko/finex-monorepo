@@ -14,6 +14,40 @@ module.exports = {
     'Daily Balance': 'Дневной остаток',
     Today: 'Сегодня',
   },
+  Accounts: {
+    Me: 'Я',
+    New: 'Добавить',
+    Delete: 'Удалить',
+    Refresh: 'Обновит',
+    Name: 'Название',
+    Active: 'Активный',
+    Owner: 'Владелец',
+    Permit: 'Права доступа',
+    Type: 'Тип счета',
+    Note: 'Примечание',
+    Read: 'Просмотр',
+    Edit: 'Изменение',
+  },
+  AccountWindow: {
+    'Edit account': 'Редактировать',
+    'Add new account': 'Add new account',
+    'Check data and try again': 'Check data and try again',
+    Name: 'Наименование',
+    'Account type': 'Тип счета',
+    Active: 'Активный',
+    'Inactive accounts are hidden when creating or editing a transaction':
+      'Неактивные счета скрыты при создании или редактировании операции',
+    Note: 'Примечание',
+    'Access rights': 'Права доступа',
+    Read: 'Просмотр',
+    'List of users who have the right to view transactions on this account':
+      'Список пользователей, у которых есть право на просмотр операций по данному счету',
+    Write: 'Изменение',
+    'List of users who have the right to add, edit and delete transactions on this account':
+      'Список пользователей, у которых есть право на добавление, редактирование и удаления операций по данному счету',
+    Cancel: 'Отмена',
+    Save: 'Сохранить',
+  },
   AmountField: {
     Amount: 'Сумма',
   },
@@ -129,6 +163,10 @@ module.exports = {
   ResetPasswordConfirmationAcknowledgment: {
     'The password has been reset': 'Пароль был изменен',
     'Sign In': 'Войти',
+  },
+  Settings: {
+    Accounts: 'Accounts',
+    Categories: 'Categories',
   },
   SignIn: {
     'Please enter email address': 'Укажите email',

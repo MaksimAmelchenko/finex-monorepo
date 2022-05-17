@@ -1,31 +1,50 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { ManageableStore } from '../core/manageable-store';
-import { MainStore } from '../core/main-store';
-import { AccountTypesStore } from './account-types-store';
 import { Account } from './models/account';
-import { UsersRepository } from './users-repository';
-import { IAccount, IAccountRaw } from '../types/account';
+import { AccountTypesStore } from './account-types-store';
 import { IUser } from '../types/user';
+import { MainStore } from '../core/main-store';
+import { ManageableStore } from '../core/manageable-store';
+import { UsersRepository } from './users-repository';
+import {
+  CreateAccountData,
+  CreateAccountResponse,
+  GetAccountsResponse,
+  IAccount,
+  IAPIAccount,
+  UpdateAccountChanges,
+  UpdateAccountResponse,
+} from '../types/account';
 
-export interface IAccountsApi {}
+export interface IAccountsApi {
+  getAccounts: () => Promise<GetAccountsResponse>;
+  createAccount: (data: CreateAccountData) => Promise<CreateAccountResponse>;
+  updateAccount: (accountId: string, changes: UpdateAccountChanges) => Promise<UpdateAccountResponse>;
+  deleteAccount: (accountId: string) => Promise<void>;
+}
 
 export class AccountsRepository extends ManageableStore {
   static storeName = 'AccountsRepository';
 
-  accounts: IAccount[] = [];
+  private _accounts: Account[] = [];
 
   constructor(mainStore: MainStore, private api: IAccountsApi) {
     super(mainStore);
 
-    makeObservable(this, {
-      accounts: observable.shallow,
+    makeObservable<AccountsRepository, '_accounts'>(this, {
+      _accounts: observable.shallow,
+      accounts: computed,
       consume: action,
       clear: action,
+      deleteAccount: action,
     });
   }
 
-  private static sort(a: IAccountRaw, b: IAccountRaw): number {
+  get accounts(): Account[] {
+    return this._accounts.slice().sort(AccountsRepository.sort);
+  }
+
+  private static sort(a: Account, b: Account): number {
     if (a.isEnabled > b.isEnabled) {
       return -1;
     }
@@ -36,67 +55,107 @@ export class AccountsRepository extends ManageableStore {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
 
-  consume(accounts: IAccountRaw[]): void {
-    const accountTypesStore = this.getStore(AccountTypesStore);
-    const usersRepository = this.getStore(UsersRepository);
-    this.accounts = accounts.sort(AccountsRepository.sort).reduce((acc, accountRaw) => {
-      const { idAccount, idAccountType, idUser, isEnabled, name, note, permit } = accountRaw;
-      const accountType = accountTypesStore.get(String(idAccountType));
-      if (!accountType) {
-        console.warn('AccountType is not found', { accountRaw });
-        return acc;
-      }
-
-      const user = usersRepository.get(String(idUser));
-      if (!user) {
-        console.warn('User is not found', { accountRaw });
-        return acc;
-      }
-
-      const readers: IUser[] = accountRaw.readers.reduce((acc, idUser) => {
-        const user = usersRepository.get(String(idUser));
-        if (!user) {
-          console.warn('Reader is not found', { accountRaw });
-          return acc;
-        }
-        acc.push(user);
-
-        return acc;
-      }, [] as IUser[]);
-
-      const writers: IUser[] = accountRaw.writers.reduce((acc, idUser) => {
-        const user = usersRepository.get(String(idUser));
-        if (!user) {
-          console.warn('Writer is not found', { accountRaw });
-          return acc;
-        }
-        acc.push(user);
-
-        return acc;
-      }, [] as IUser[]);
-
-      const account = new Account({
-        id: String(idAccount),
-        accountType,
-        user,
-        isEnabled,
-        name,
-        note,
-        permit,
-        readers,
-        writers,
-      });
-
-      acc.push(account);
-      return acc;
-    }, [] as Account[]);
+  get(accountId: string): Account | undefined {
+    return this._accounts.find(({ id }) => id === accountId);
   }
 
-  get(accountId: string): IAccount | undefined {
-    return this.accounts.find(({ id }) => id === accountId);
+  consume(accounts: IAPIAccount[]): void {
+    this._accounts = accounts.map(account => this.decode(account));
+  }
+
+  getAccounts(): Promise<void> {
+    return this.api.getAccounts().then(({ accounts }) => {
+      this.consume(accounts);
+    });
+  }
+
+  createAccount(account: Partial<IAccount> | Account, data: CreateAccountData): Promise<void> {
+    return this.api.createAccount(data).then(
+      action(response => {
+        const account = this.decode(response.account);
+        this._accounts.push(account);
+      })
+    );
+  }
+
+  updateAccount(account: Account, changes: UpdateAccountChanges): Promise<void> {
+    return this.api.updateAccount(account.id, changes).then(
+      action(response => {
+        const updatedAccount = this.decode(response.account);
+        const indexOf = this._accounts.indexOf(account);
+        if (indexOf !== -1) {
+          this._accounts[indexOf] = updatedAccount;
+        } else {
+          this._accounts.push(updatedAccount);
+        }
+      })
+    );
+  }
+
+  deleteAccount(account: Account): Promise<void> {
+    account.isDeleting = true;
+    return this.api.deleteAccount(account.id).then(
+      action(() => {
+        const indexOf = this._accounts.indexOf(account);
+        if (indexOf !== -1) {
+          this._accounts.splice(indexOf, 1);
+        }
+        // this._accounts = this._accounts.filter(a => a !== account);
+      })
+    );
+  }
+
+  private decode(account: IAPIAccount): Account {
+    const { id, name, isEnabled, accountTypeId, note = '', permit, userId } = account;
+    const accountTypesStore = this.getStore(AccountTypesStore);
+    const usersRepository = this.getStore(UsersRepository);
+
+    const accountType = accountTypesStore.get(accountTypeId);
+    if (!accountType) {
+      throw new Error('Account type is not found');
+    }
+
+    const user = usersRepository.get(userId);
+    if (!user) {
+      throw new Error('User is not found');
+    }
+
+    const readers = account.readers.reduce<IUser[]>((acc, userId) => {
+      const user = usersRepository.get(userId);
+      if (!user) {
+        console.warn('Reader is not found', { account });
+        return acc;
+      }
+      acc.push(user);
+
+      return acc;
+    }, []);
+
+    const writers = account.writers.reduce<IUser[]>((acc, userId) => {
+      const user = usersRepository.get(userId);
+      if (!user) {
+        console.warn('Writer is not found', { account });
+        return acc;
+      }
+      acc.push(user);
+
+      return acc;
+    }, []);
+
+    return new Account({
+      id,
+      name,
+      isEnabled,
+      accountType,
+      note,
+      readers,
+      writers,
+      permit,
+      user,
+    });
   }
 
   clear(): void {
-    this.accounts = [];
+    this._accounts = [];
   }
 }

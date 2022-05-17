@@ -2,16 +2,16 @@ import { IAccountType } from './account-type';
 import { IUser } from './user';
 import { Permit } from './index';
 
-export interface IAccountRaw {
-  idAccount: number;
-  idAccountType: number;
-  idUser: number;
-  isEnabled: boolean;
+export interface IAPIAccount {
+  id: string;
   name: string;
+  accountTypeId: string;
+  isEnabled: boolean;
   note: string;
+  readers: string[];
+  writers: string[];
   permit: Permit;
-  readers: number[];
-  writers: number[];
+  userId: string;
 }
 
 export interface IAccount {
@@ -24,4 +24,43 @@ export interface IAccount {
   permit: Permit;
   readers: IUser[];
   writers: IUser[];
+}
+
+export interface CreateAccountData {
+  name: string;
+  accountTypeId: string;
+  isEnabled: boolean;
+  note?: string;
+  readers?: string[];
+  writers?: string[];
+}
+
+export interface CreateAccountData {
+  name: string;
+  accountTypeId: string;
+  isEnabled: boolean;
+  note?: string;
+  readers?: string[];
+  writers?: string[];
+}
+
+export interface CreateAccountResponse {
+  account: IAPIAccount;
+}
+
+export type UpdateAccountChanges = Partial<{
+  name: string;
+  accountTypeId: string;
+  isEnabled: boolean;
+  note: string;
+  readers: string[];
+  writers: string[];
+}>;
+
+export interface UpdateAccountResponse {
+  account: IAPIAccount;
+}
+
+export interface GetAccountsResponse {
+  accounts: IAPIAccount[];
 }

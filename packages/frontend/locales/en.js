@@ -14,6 +14,40 @@ module.exports = {
     'Daily Balance': 'Daily Balance',
     Today: 'Today',
   },
+  Accounts: {
+    Me: 'Me',
+    New: 'New',
+    Delete: 'Delete',
+    Refresh: 'Refresh',
+    Name: 'Name',
+    Active: 'Active',
+    Owner: 'Owner',
+    Permit: 'Permit',
+    Type: 'Type',
+    Note: 'Note',
+    Read: 'Read',
+    Edit: 'Edit',
+  },
+  AccountWindow: {
+    'Edit account': 'Edit account',
+    'Add new account': 'Add new account',
+    'Check data and try again': 'Check data and try again',
+    Name: 'Name',
+    'Account type': 'Account type',
+    Active: 'Active',
+    'Inactive accounts are hidden when creating or editing a transaction':
+      'Inactive accounts are hidden when creating or editing a transaction',
+    Note: 'Note',
+    'Access rights': 'Access rights',
+    Read: 'Read',
+    'List of users who have the right to view transactions on this account':
+      'List of users who have the right to view transactions on this account',
+    Write: 'Write',
+    'List of users who have the right to add, edit and delete transactions on this account':
+      'List of users who have the right to add, edit and delete transactions on this account',
+    Cancel: 'Cancel',
+    Save: 'Save',
+  },
   AmountField: {
     Amount: 'Amount',
   },
@@ -130,6 +164,10 @@ module.exports = {
   ResetPasswordConfirmationAcknowledgment: {
     'The password has been reset': 'The password has been reset',
     'Sign In': 'Sign In',
+  },
+  Settings: {
+    Accounts: 'Accounts',
+    Categories: 'Categories',
   },
   SignIn: {
     'Please enter email address': 'Please enter email address',

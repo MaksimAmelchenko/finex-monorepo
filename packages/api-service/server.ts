@@ -30,6 +30,8 @@ import { transfersApi } from './api/v1/transfers';
 import { usersApi } from './api/v1/users';
 import { unitsApi } from './api/v1/units';
 
+import { entitiesApi as entitiesApiv2 } from './api/v2/entities';
+import { accountApi } from './api/v2/account';
 import { authApi } from './api/v2/auth';
 import { currencyRatesApi } from './api/v2/currency-rates';
 import { emailServiceApi } from './api/v2/email-service';
@@ -54,6 +56,7 @@ app.use(require('./middlewares/errors').default);
 app.use(requestLogMiddleware());
 app.use(require('./middlewares/body-parser').default);
 
+app.use(entitiesApiv2);
 app.use(entitiesApi);
 app.use(accountsBalancesApi);
 app.use(accountsApi);
@@ -78,12 +81,11 @@ app.use(exportApi);
 
 app.use(transactionApi);
 app.use(planApi);
-
 app.use(invitationsApi);
 app.use(currencyRatesApi);
-
 app.use(authApi);
 app.use(emailServiceApi);
+app.use(accountApi);
 
 app.use(serve(`${__dirname}/public`));
 

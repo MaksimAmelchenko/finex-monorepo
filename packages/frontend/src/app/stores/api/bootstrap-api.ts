@@ -7,7 +7,7 @@ export class BootstrapApi extends ApiRepository implements IBootstrapApi {
 
   get(): Promise<IBootstrapRaw> {
     return this.fetch<IBootstrapRaw>({
-      url: '/v1/entities',
+      url: '/v2/entities',
     });
   }
 }

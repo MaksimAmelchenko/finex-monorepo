@@ -16,5 +16,6 @@ export { ReactComponent as ReferenceBooksSIcon, default as ReferenceBooksSvg } f
 export { ReactComponent as ReportsIcon, default as ReportsSvg } from './reports.svg';
 export { ReactComponent as SearchIcon, default as SearchSvg } from './search.svg';
 export { ReactComponent as SettingsIcon, default as SettingsSvg } from './settings.svg';
+export { ReactComponent as TickIcon, default as TickSvg } from './tick.svg';
 export { ReactComponent as ToolsIcon, default as ToolsSvg } from './tools.svg';
 export { ReactComponent as UsersIcon, default as UsersSvg } from './users.svg';

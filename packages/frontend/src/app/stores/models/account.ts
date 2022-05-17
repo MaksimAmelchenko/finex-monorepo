@@ -1,9 +1,11 @@
+import { action, makeObservable, observable } from 'mobx';
+
 import { IAccount } from '../../types/account';
 import { IAccountType } from '../../types/account-type';
+import { IDeletable, ISelectable, Permit } from '../../types';
 import { IUser } from '../../types/user';
-import { Permit } from '../../types';
 
-export class Account implements IAccount {
+export class Account implements IAccount, ISelectable, IDeletable {
   readonly id: string;
   accountType: IAccountType;
   readonly user: IUser;
@@ -13,6 +15,9 @@ export class Account implements IAccount {
   readonly permit: Permit;
   readers: IUser[];
   writers: IUser[];
+
+  isDeleting: boolean;
+  isSelected: boolean;
 
   constructor({ id, accountType, isEnabled, user, name, note, permit, readers, writers }: IAccount) {
     this.id = id;
@@ -24,5 +29,18 @@ export class Account implements IAccount {
     this.permit = permit;
     this.readers = readers;
     this.writers = writers;
+
+    this.isDeleting = false;
+    this.isSelected = false;
+
+    makeObservable(this, {
+      isDeleting: observable,
+      isSelected: observable,
+      toggleSelection: action,
+    });
+  }
+
+  toggleSelection() {
+    this.isSelected = !this.isSelected;
   }
 }

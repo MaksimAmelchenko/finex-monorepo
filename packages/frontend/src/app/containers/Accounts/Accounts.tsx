@@ -1,41 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
+import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
+import { Account as AccountModel } from '../../stores/models/account';
 import { Account } from './Account/Account';
+import { AccountWindow } from '../AccountWindow/AccountWindow';
 import { AccountsRepository } from '../../stores/accounts-repository';
+import { Button } from '@finex/ui-kit';
+import { IAccount } from '../../types/account';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
+
+import styles from './Accounts.module.scss';
 
 const t = getT('Accounts');
 
 export const Accounts = observer(() => {
   const accountsRepository = useStore(AccountsRepository);
   const { accounts } = accountsRepository;
+
+  const [isOpenedAccountWindow, setIsOpenedAccountWindow] = useState<boolean>(false);
+  const [account, setAccount] = useState<Partial<IAccount> | AccountModel | null>(null);
+
+  const handleAddClick = () => {
+    setAccount({});
+    setIsOpenedAccountWindow(true);
+  };
+
+  const selectedAccounts = accounts.filter(({ isSelected }) => isSelected);
+
+  const handleDeleteClick = () => {
+    if (selectedAccounts.length > 1) {
+      if (!window.confirm(t('Are you sure you what to delete several accounts?'))) {
+        return;
+      }
+    }
+    selectedAccounts.forEach(account => {
+      accountsRepository.deleteAccount(account).catch(err => console.error({ err }));
+    });
+  };
+
+  const handleRefreshClick = () => {
+    accountsRepository.getAccounts();
+  };
+
+  const handleClickOnAccount = (account: AccountModel) => {
+    setAccount(account);
+    setIsOpenedAccountWindow(true);
+  };
+
+  const handleCloseAccountWindow = () => {
+    setIsOpenedAccountWindow(false);
+  };
+
   return (
-    <article>
-      <table width="100%">
-        <thead>
-          <tr>
-            <th rowSpan={2} />
-            <th rowSpan={2}>Название</th>
-            <th rowSpan={2}>Активный</th>
-            <th rowSpan={2}>Владелец</th>
-            <th colSpan={2}>Права доступа</th>
-            <th rowSpan={2}>Тип счета</th>
-            <th rowSpan={2}>Примечание</th>
-          </tr>
-          <tr>
-            <th>Просмотр</th>
-            <th>Изменение</th>
-          </tr>
-        </thead>
-        <tbody>
-          {accounts.map(account => {
-            return <Account account={account} key={account.id} />;
-          })}
-        </tbody>
-      </table>
-    </article>
+    <>
+      <article>
+        <div className={styles.panel}>
+          <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
+            <div className={styles.toolbar__buttons}>
+              <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
+                {t('New')}
+              </Button>
+              <Button variant="outlined" size="small" disabled={!selectedAccounts.length} onClick={handleDeleteClick}>
+                {t('Delete')}
+              </Button>
+              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+                {t('Refresh')}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <table className={clsx('table table-hover table-sm', styles.table)}>
+          <thead>
+            <tr>
+              <th rowSpan={2} />
+              <th rowSpan={2}>{t('Name')}</th>
+              <th rowSpan={2}>{t('Active')}</th>
+              <th rowSpan={2}>{t('Owner')}</th>
+              <th colSpan={2}>{t('Permit')}</th>
+              <th rowSpan={2}>{t('Type')}</th>
+              <th rowSpan={2}>{t('Note')}</th>
+            </tr>
+            <tr>
+              <th>{t('Read')}</th>
+              <th>{t('Edit')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {accounts.map(account => (
+              <Account account={account} onClick={handleClickOnAccount} key={account.id} />
+            ))}
+          </tbody>
+        </table>
+      </article>
+
+      {account && (
+        <AccountWindow isOpened={isOpenedAccountWindow} account={account} onClose={handleCloseAccountWindow} />
+      )}
+    </>
   );
 });
 
