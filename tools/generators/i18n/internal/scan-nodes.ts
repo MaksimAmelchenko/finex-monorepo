@@ -19,6 +19,7 @@ const meaningfulKinds = {
   /*215*/ [SyntaxKind.TemplateExpression]: 'templateSpans',
   /*225*/ [SyntaxKind.TemplateSpan]: 'expression',
   /*227*/ [SyntaxKind.Block]: 'statements', // scan code-block statements (e.g. function body)
+  /*228*/ [SyntaxKind.AsExpression]: ['expression'],
   /*229*/ [SyntaxKind.VariableStatement]: 'declarationList', // scan const/let/var declaration
   /*230*/ [SyntaxKind.ExpressionStatement]: 'expression',
   /*231*/ [SyntaxKind.IfStatement]: ['thenStatement', 'elseStatement'],
@@ -43,7 +44,7 @@ const meaningfulKinds = {
   /*277*/ [SyntaxKind.JsxAttribute]: 'initializer',
   /*278*/ [SyntaxKind.JsxAttributes]: 'properties',
   /*280*/ [SyntaxKind.JsxExpression]: 'expression',
-  /*281*/ [SyntaxKind.CaseClause]: ['block'],
+  /*281*/ [SyntaxKind.CaseClause]: ['statements'],
   /*282*/ [SyntaxKind.DefaultClause]: ['statements'],
   /*284*/ [SyntaxKind.CatchClause]: ['block'],
   /*285*/ [SyntaxKind.PropertyAssignment]: 'initializer',
@@ -67,8 +68,8 @@ export function scanNodes(nodes: NodeArray<Statement>, path: string, content: st
             console.warn(
               `${path} Translator function first argument should always be string literal, but found this: ${extractFirstArgument(
                 node,
-                content
-              )}`
+                content,
+              )}`,
             );
           }
         } else if (meaningfulKinds[node.kind]) {
@@ -82,7 +83,7 @@ export function scanNodes(nodes: NodeArray<Statement>, path: string, content: st
               ...scanNodes(
                 Array.isArray(node[attributeName]) ? node[attributeName] : [node[attributeName]],
                 path,
-                content
+                content,
               ),
             };
           }, prev);
