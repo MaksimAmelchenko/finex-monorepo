@@ -1,32 +1,32 @@
 import { action, makeObservable, observable } from 'mobx';
 
+import { Account } from './account';
 import { Category } from './category';
-import { IAccount } from '../../types/account';
-import { IContractor } from '../../types/contractor';
+import { Contractor } from './contractor';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
-import { IMoney } from '../../types/money';
 import { ITransaction } from '../../types/transaction';
-import { IUnit } from '../../types/unit';
-import { IUser } from '../../types/user';
+import { Money } from './money';
+import { Unit } from './unit';
+import { User } from './user';
 
 export class Transaction implements ITransaction, ISelectable, IDeletable {
   readonly id: string;
   readonly cashFlowId: string;
   sign: Sign;
   amount: number;
-  money: IMoney;
-  account: IAccount;
+  money: Money;
+  account: Account;
   category: Category;
-  contractor: IContractor | null;
+  contractor: Contractor | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
-  unit: IUnit | null;
+  unit: Unit | null;
   isNotConfirmed: boolean;
   note: string;
   tags: string[];
   permit: Permit;
-  user: IUser;
+  user: User;
 
   isDeleting: boolean;
   isSelected: boolean;

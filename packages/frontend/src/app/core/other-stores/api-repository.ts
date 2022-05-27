@@ -88,17 +88,17 @@ export abstract class ApiRepository extends ManageableStore {
             if (error.status === 401 && ['sessionClosed', 'sessionTimeout'].includes(error.code)) {
               return this.getStore(AuthRepository).clearAuth();
             }
-            throw new apiErrorClass(error.message, error.code);
+            throw new apiErrorClass(error.message, error.code, error.data);
           });
         }
       }
 
       if (response instanceof TypeError && response.message === 'Network request failed') {
-        throw new ApiErrors.NetworkError(response.message);
+        throw new ApiErrors.NetworkError(response.message, '0');
       }
 
       return response.json().then((error: IAppError) => {
-        throw new ApiError(error.status, error.message);
+        throw new ApiError(error.status, error.message, error.data);
       });
     }
 

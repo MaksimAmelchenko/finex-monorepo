@@ -94,7 +94,7 @@ export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(
 
       <td>
         <div>{category.name}</div>
-        <div className={styles.categoryPath}>{categoriesRepository.path(category.id)}</div>
+        <div className={styles.categoryPath}>{category.fullPath()}</div>
       </td>
 
       {sign === 1 ? (

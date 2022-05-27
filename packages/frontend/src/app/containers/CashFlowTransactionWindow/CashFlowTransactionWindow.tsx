@@ -227,9 +227,9 @@ export function CashFlowTransactionWindow({
     () =>
       categoriesRepository.categories
         .filter(({ isEnabled, isSystem }) => isEnabled && !isSystem)
-        .map(({ id: value }) => {
-          const label = categoriesRepository.path(value, true);
-          return { value, label };
+        .map(category => {
+          const label = category.fullPath(true);
+          return { value: category.id, label };
         }),
     [categoriesRepository]
   );

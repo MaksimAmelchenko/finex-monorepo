@@ -9,8 +9,8 @@ begin
   if (iParams \? 'name') then
     vCategory.Name := sanitize$.to_String (iParams->>'name');
   end if;
-  
-  if vCategory.Name is null then 
+
+  if vCategory.Name is null then
     perform error$.raise ('invalid_parameters', iDev_Message := '"name" is required');
   end if;
 
@@ -35,7 +35,7 @@ begin
     end;
   end if;
 
-  if (iParams \? 'idCaregoryPrototype') then
+  if (iParams \? 'idCategoryPrototype') then
     begin
 	    vCategory.Id_Category_Prototype = (iParams->>'idCategoryPrototype')::int;
     exception
@@ -49,14 +49,14 @@ begin
   end if;
 
   -----
-  
+
   begin
     insert into cf$.Category
                 (name, Is_Enabled, parent, Id_Category_Prototype, note)
-         values (vCategory.name, 
-                 vCategory.Is_Enabled, 
-                 vCategory.parent, 
-                 vCategory.Id_Category_Prototype, 
+         values (vCategory.name,
+                 vCategory.Is_Enabled,
+                 vCategory.parent,
+                 vCategory.Id_Category_Prototype,
                  vCategory.Note)
       returning Id_Category
            into vCategory.Id_Category;
@@ -64,14 +64,14 @@ begin
     when unique_violation then
       declare
         vConstraint_Name text;
-      begin    
+      begin
         get stacked diagnostics vConstraint_Name = CONSTRAINT_NAME;
         perform error$.raise ('unique_violation.' || vConstraint_Name, idb_message := SQLERRM);
       end;
     when check_violation then
       declare
         vConstraint_Name text;
-      begin    
+      begin
         get stacked diagnostics vConstraint_Name = CONSTRAINT_NAME;
         perform error$.raise ('check_violation.' || vConstraint_Name, idb_message := SQLERRM);
       end;

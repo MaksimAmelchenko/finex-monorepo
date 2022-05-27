@@ -1,30 +1,30 @@
 import { action, makeObservable, observable } from 'mobx';
 
+import { Account } from './account';
 import { Category } from './category';
-import { IAccount } from '../../types/account';
-import { IContractor } from '../../types/contractor';
+import { Contractor } from './contractor';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
-import { IMoney } from '../../types/money';
 import { IPlannedTransaction } from '../../types/income-expense-transaction';
-import { IUnit } from '../../types/unit';
-import { IUser } from '../../types/user';
+import { Money } from './money';
+import { Unit } from './unit';
+import { User } from './user';
 
 export class PlannedTransaction implements IPlannedTransaction, ISelectable, IDeletable {
   sign: Sign;
   amount: number;
-  money: IMoney;
+  money: Money;
   category: Category;
-  account: IAccount;
-  contractor: IContractor | null;
+  account: Account;
+  contractor: Contractor | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
-  unit: IUnit | null;
+  unit: Unit | null;
   isNotConfirmed: boolean;
   note: string;
   tags: string[];
   permit: Permit;
-  user: IUser;
+  user: User;
   planId: string;
   nRepeat: number;
   colorMark: string;

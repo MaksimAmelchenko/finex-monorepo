@@ -26,13 +26,8 @@ export interface IAccount {
   writers: IUser[];
 }
 
-export interface CreateAccountData {
-  name: string;
-  accountTypeId: string;
-  isEnabled: boolean;
-  note?: string;
-  readers?: string[];
-  writers?: string[];
+export interface GetAccountsResponse {
+  accounts: IAPIAccount[];
 }
 
 export interface CreateAccountData {
@@ -59,8 +54,4 @@ export type UpdateAccountChanges = Partial<{
 
 export interface UpdateAccountResponse {
   account: IAPIAccount;
-}
-
-export interface GetAccountsResponse {
-  accounts: IAPIAccount[];
 }

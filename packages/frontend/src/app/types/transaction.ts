@@ -1,27 +1,27 @@
-import { IAccount } from './account';
-import { ICategory } from './category';
-import { IContractor } from './contractor';
-import { IMoney } from './money';
-import { IUnit } from './unit';
-import { IUser } from './user';
+import { Account } from '../stores/models/account';
+import { Category } from '../stores/models/category';
+import { Contractor } from '../stores/models/contractor';
+import { Money } from '../stores/models/money';
 import { Permit, Sign, TDate } from './index';
+import { Unit } from '../stores/models/unit';
+import { User } from '../stores/models/user';
 
 export interface ITransaction {
   id: string;
   cashFlowId: string;
   sign: Sign;
   amount: number;
-  money: IMoney;
-  category: ICategory;
-  account: IAccount;
-  contractor: IContractor | null;
+  money: Money;
+  category: Category;
+  account: Account;
+  contractor: Contractor | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
-  unit: IUnit | null;
+  unit: Unit | null;
   isNotConfirmed: boolean;
   note: string;
   tags: string[];
   permit: Permit;
-  user: IUser;
+  user: User;
 }

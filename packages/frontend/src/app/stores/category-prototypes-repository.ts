@@ -1,28 +1,27 @@
 import { ManageableStore } from '../core/manageable-store';
-import { ICategoryPrototype, ICategoryPrototypeRaw } from '../types/category';
+import { IAPICategoryPrototype, ICategoryPrototype } from '../types/category';
 import { CategoryPrototype } from './models/category-prototype';
 
 export class CategoryPrototypesRepository extends ManageableStore {
   static storeName = 'CategoryPrototypesRepository';
 
-  categoryPrototypes: ICategoryPrototype[] = [];
+  categoryPrototypes: CategoryPrototype[] = [];
 
-  consume(categoryPrototypes: ICategoryPrototypeRaw[]): void {
-    this.categoryPrototypes = categoryPrototypes.reduce((acc, categoryPrototypeRaw) => {
-      const { idCategoryPrototype, name, parent } = categoryPrototypeRaw;
-      let parentCategoryPrototype: ICategoryPrototype | null = null;
+  consume(categoryPrototypes: IAPICategoryPrototype[]): void {
+    this.categoryPrototypes = categoryPrototypes.reduce<CategoryPrototype[]>((acc, { id, name, parent }) => {
+      let parentCategoryPrototype: CategoryPrototype | null = null;
 
       if (parent) {
-        parentCategoryPrototype = acc.find(categoryPrototype => categoryPrototype.id === String(parent)) || null;
+        parentCategoryPrototype = acc.find(categoryPrototype => categoryPrototype.id === parent) || null;
         if (!parentCategoryPrototype) {
           console.warn('Parent category prototype is not found', {});
           return acc;
         }
       }
-      acc.push(new CategoryPrototype({ id: String(idCategoryPrototype), name, parent: parentCategoryPrototype }));
+      acc.push(new CategoryPrototype({ id, name, parent: parentCategoryPrototype }));
 
       return acc;
-    }, [] as ICategoryPrototype[]);
+    }, []);
   }
 
   get(categoryPrototypeId: string): ICategoryPrototype | undefined {

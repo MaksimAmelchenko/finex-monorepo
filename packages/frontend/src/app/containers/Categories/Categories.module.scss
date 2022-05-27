@@ -1,0 +1,52 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.panel {
+  position: sticky;
+  top: 5.6rem;
+  padding: 6px 0;
+  background-color: colors.$grayLight;
+
+  &__toolbar {
+  }
+}
+
+.toolbar {
+  &__buttons {
+    display: flex;
+    gap: 1.2rem;
+  }
+}
+
+.table {
+  @include typography.body2;
+  background-color: colors.$white;
+
+  & > tbody > tr.row_selected:hover {
+    background-color: transparentize(colors.$blueLight, 0.7);
+  }
+}
+
+.tick {
+  img {
+    display: block;
+    width: 24px;
+  }
+}
+
+.row {
+  cursor: pointer;
+
+  &__name {
+    cursor: pointer;
+    color: colors.$blueLight;
+
+    &:hover {
+      color: colors.$blue;
+    }
+  }
+
+  &_selected {
+    background-color: transparentize(colors.$blueLight, 0.8);
+  }
+}

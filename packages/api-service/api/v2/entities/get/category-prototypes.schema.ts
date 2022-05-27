@@ -1,5 +1,6 @@
 import { OpenAPIV3 } from 'openapi-types';
-import { categoryPrototypeSchema } from '../../../../common/schemas/category-prototype.schema';
+
+import { categoryPrototypeSchema } from './category-prototype.schema';
 
 export const categoryPrototypesSchema: OpenAPIV3.SchemaObject = {
   type: 'array',

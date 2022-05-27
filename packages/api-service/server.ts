@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import 'source-map-support/register';
-import config from './libs/config';
 import * as Koa from 'koa';
+import { Model } from 'objection';
 import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
 import * as helmet from 'koa-helmet';
+
+import config from './libs/config';
+import { knex } from './knex';
 
 import { log, logMiddleware, requestLogMiddleware } from './libs/log';
 import { gracefulShutdown } from './libs/graceful-shutdown';
@@ -30,11 +33,12 @@ import { transfersApi } from './api/v1/transfers';
 import { usersApi } from './api/v1/users';
 import { unitsApi } from './api/v1/units';
 
-import { entitiesApi as entitiesApiv2 } from './api/v2/entities';
 import { accountApi } from './api/v2/account';
 import { authApi } from './api/v2/auth';
+import { categoryApi } from './api/v2/category';
 import { currencyRatesApi } from './api/v2/currency-rates';
 import { emailServiceApi } from './api/v2/email-service';
+import { entitiesApi as entitiesApiv2 } from './api/v2/entities';
 import { exportApi } from './api/v2/export';
 import { healthCheck } from './api/v2/health-check';
 import { invitationsApi } from './api/v2/invitations';
@@ -44,6 +48,7 @@ import { transactionApi } from './api/v2/transaction';
 const app: Koa = new Koa();
 
 app.proxy = true;
+Model.knex(knex);
 
 app.use(helmet());
 app.use(healthCheck.routes());
@@ -86,6 +91,7 @@ app.use(currencyRatesApi);
 app.use(authApi);
 app.use(emailServiceApi);
 app.use(accountApi);
+app.use(categoryApi);
 
 app.use(serve(`${__dirname}/public`));
 

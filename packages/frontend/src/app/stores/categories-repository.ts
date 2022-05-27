@@ -1,125 +1,188 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { ManageableStore } from '../core/manageable-store';
-import { MainStore } from '../core/main-store';
-import { ICategory, ICategoryPrototype, ICategoryRaw } from '../types/category';
-import { UsersRepository } from './users-repository';
-import { CategoryPrototypesRepository } from './category-prototypes-repository';
-import { UnitsRepository } from './units-repository';
-import { IUnit } from '../types/unit';
 import { Category } from './models/category';
+import { CategoryPrototypesRepository } from './category-prototypes-repository';
+import {
+  CreateCategoryData,
+  CreateCategoryResponse,
+  GetCategoriesResponse,
+  IAPICategory,
+  ICategory,
+  ICategoryPrototype,
+  UpdateCategoryChanges,
+  UpdateCategoryResponse,
+} from '../types/category';
+import { IUnit } from '../types/unit';
+import { MainStore } from '../core/main-store';
+import { ManageableStore } from '../core/manageable-store';
+import { UnitsRepository } from './units-repository';
+import { UsersRepository } from './users-repository';
 
-export interface ICategoriesApi {}
+export interface ICategoriesApi {
+  getCategories: () => Promise<GetCategoriesResponse>;
+  createCategory: (data: CreateCategoryData) => Promise<CreateCategoryResponse>;
+  updateCategory: (categoryId: string, changes: UpdateCategoryChanges) => Promise<UpdateCategoryResponse>;
+  deleteCategory: (categoryId: string) => Promise<void>;
+  moveTransactions: (categoryIdFrom: string, categoryIdTo: string, isRecursive: boolean) => Promise<{ count: number }>;
+}
 
 export class CategoriesRepository extends ManageableStore {
   static storeName = 'CategoriesRepository';
 
-  categories: ICategory[] = [];
-  private categoryMap: Map<string, ICategory> = new Map();
+  private _categories: Category[] = [];
+  private categoryMap: Map<string, Category> = new Map();
 
   constructor(mainStore: MainStore, private api: ICategoriesApi) {
     super(mainStore);
-    makeObservable(this, {
-      categories: observable.shallow,
+    makeObservable<CategoriesRepository, '_categories'>(this, {
+      _categories: observable,
+      categories: computed,
       consume: action,
       clear: action,
+      deleteCategory: action,
     });
   }
 
-  consume(categories: ICategoryRaw[]): void {
-    const categoryPrototypesRepository = this.getStore(CategoryPrototypesRepository);
-    const usersRepository = this.getStore(UsersRepository);
-    const unitsRepository = this.getStore(UnitsRepository);
+  get categories(): Category[] {
+    return this._categories
+      .slice()
+      .sort((a, b) => a.fullPath(true).localeCompare(b.fullPath(true), 'en', { sensitivity: 'base' }));
+  }
 
-    this.categories = categories.reduce((acc, categoryRaw) => {
-      const { idCategory, idCategoryPrototype, name, note, idUnit, idUser, isEnabled, isSystem } = categoryRaw;
+  get(categoryId: string): Category | undefined {
+    return this.categoryMap.get(categoryId);
+  }
 
-      const user = usersRepository.get(String(idUser));
-      if (!user) {
-        console.warn('User is not found', { categoryRaw });
-        return acc;
-      }
+  consume(categories: IAPICategory[]): void {
+    this._categories = categories.map(category => this.decode(category));
 
-      // the order of the categories is not guaranteed
-      // set the parent on the second step
-      const parentCategory: ICategory | null = null;
-
-      let categoryPrototype: ICategoryPrototype | null = null;
-      if (idCategoryPrototype) {
-        categoryPrototype = categoryPrototypesRepository.get(String(idCategoryPrototype)) || null;
-        if (!categoryPrototype) {
-          console.warn('CategoryPrototype is not found', { categoryRaw });
-          return acc;
-        }
-      }
-
-      let unit: IUnit | null = null;
-      if (idUnit) {
-        unit = unitsRepository.get(String(idUnit)) || null;
-        if (!unit) {
-          console.warn('Unit is not found', { categoryRaw });
-          return acc;
-        }
-      }
-
-      const category = new Category({
-        id: String(idCategory),
-        parent: parentCategory,
-        categoryPrototype,
-        user,
-        unit,
-        name,
-        isEnabled,
-        isSystem,
-        note,
-      });
-      this.categoryMap.set(category.id, category);
-
-      acc.push(category);
-
-      return acc;
-    }, [] as ICategory[]);
-
-    // set the parent categories
-    categories.forEach(categoryRaw => {
-      const { idCategory, parent } = categoryRaw;
+    categories.forEach(({ id, parent }) => {
       if (parent) {
-        const category = this.categoryMap.get(String(idCategory));
+        const category = this.categoryMap.get(id);
         if (category) {
-          const parentCategory = this.categoryMap.get(String(parent)) || null;
+          const parentCategory = this.get(parent) ?? null;
           if (parentCategory) {
             category.parent = parentCategory;
           } else {
-            console.warn('Parent category is not found', { categoryRaw });
+            console.warn('Parent category is not found', { category });
           }
         }
       }
     });
   }
 
-  get(categoryId: string): ICategory | undefined {
-    return this.categoryMap.get(categoryId);
+  getCategories(): Promise<void> {
+    return this.api.getCategories().then(({ categories }) => {
+      this.consume(categories);
+    });
   }
 
-  path(categoryId: string, isFull = false): string {
-    let category: ICategory | null | undefined = this.get(categoryId);
-    if (!category) {
-      return '';
-    }
-    const path: string[] = [];
-    if (isFull) {
-      path.push(category.name);
+  createCategory(category: Partial<ICategory> | Category, data: CreateCategoryData): Promise<void> {
+    return this.api.createCategory(data).then(
+      action(response => {
+        const category = this.decode(response.category);
+        this._categories.push(category);
+      }),
+    );
+  }
+
+  updateCategory(category: Category, changes: UpdateCategoryChanges): Promise<void> {
+    return this.api.updateCategory(category.id, changes).then(
+      action(response => {
+        const updatedCategory = this.decode(response.category);
+        const indexOf = this._categories.indexOf(category);
+        if (indexOf !== -1) {
+          const { name, categoryPrototype, parent, isEnabled, note } = updatedCategory;
+          const category = this._categories[indexOf];
+          category.name = name;
+          category.categoryPrototype = categoryPrototype;
+          category.parent = parent;
+          category.isEnabled = isEnabled;
+          category.note = note;
+        } else {
+          this._categories.push(updatedCategory);
+        }
+      }),
+    );
+  }
+
+  deleteCategory(category: Category): Promise<void> {
+    category.isDeleting = true;
+    return this.api.deleteCategory(category.id).then(
+      action(() => {
+        const indexOf = this._categories.indexOf(category);
+        if (indexOf !== -1) {
+          this._categories.splice(indexOf, 1);
+        }
+      }),
+    );
+  }
+
+  moveTransactions(categoryIdFrom: string, categoryIdTo: string, isRecursive: boolean): Promise<{ count: number }> {
+    return this.api.moveTransactions(categoryIdFrom, categoryIdTo, isRecursive);
+  }
+
+  private decode({
+    id,
+    name,
+    parent,
+    categoryPrototypeId,
+    isEnabled,
+    note,
+    unitId,
+    userId,
+    isSystem,
+  }: IAPICategory): Category {
+    const categoryPrototypesRepository = this.getStore(CategoryPrototypesRepository);
+    const unitsRepository = this.getStore(UnitsRepository);
+    const usersRepository = this.getStore(UsersRepository);
+
+    const user = usersRepository.get(userId);
+    if (!user) {
+      throw new Error('User is not found');
     }
 
-    category = category.parent;
-    while (category) {
-      path.push(category.name);
-      category = category.parent;
+    let parentCategory: ICategory | null = null;
+    if (parent) {
+      // the order of the categories is not guaranteed
+      // it is possible that the parent is not set
+      // need to set the parent later
+      parentCategory = this.get(parent) ?? null;
     }
-    return path.reverse().join(' → ');
+
+    let categoryPrototype: ICategoryPrototype | null = null;
+    if (categoryPrototypeId) {
+      categoryPrototype = categoryPrototypesRepository.get(categoryPrototypeId) ?? null;
+      if (!categoryPrototype) {
+        throw new Error('Category prototype is not found');
+      }
+    }
+
+    let unit: IUnit | null = null;
+    if (unitId) {
+      unit = unitsRepository.get(unitId) ?? null;
+      if (!unit) {
+        throw new Error('Unit is not found');
+      }
+    }
+
+    const category = new Category({
+      id,
+      parent: parentCategory,
+      categoryPrototype,
+      user,
+      unit,
+      name,
+      isEnabled,
+      isSystem,
+      note,
+    });
+
+    this.categoryMap.set(category.id, category);
+    return category;
   }
 
   clear(): void {
-    this.categories = [];
+    this._categories = [];
   }
 }

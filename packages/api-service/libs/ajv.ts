@@ -1,13 +1,16 @@
 import Ajv from 'ajv';
 import ajvFormats from 'ajv-formats';
+import { AjvValidator } from 'objection';
 
 const ajv: Ajv = new Ajv({
   allErrors: true,
   coerceTypes: true,
+  useDefaults: true,
 });
 
-ajvFormats(ajv);
 ajv.addKeyword('example');
+
+ajvFormats(ajv);
 
 ajv.addFormat('json', (str: string): boolean => {
   try {
@@ -18,4 +21,21 @@ ajv.addFormat('json', (str: string): boolean => {
   }
 });
 
-export { ajv };
+// for objections model validations
+// static createValidator(): Validator {
+//   return ajvValidator;
+// }
+
+const ajvValidator: AjvValidator = new AjvValidator({
+  onCreateAjv: ajv => {
+    ajv.addKeyword('example');
+    ajvFormats(ajv);
+  },
+  options: {
+    allErrors: true,
+    validateSchema: false,
+    ownProperties: true,
+  },
+});
+
+export { ajv, ajvValidator };

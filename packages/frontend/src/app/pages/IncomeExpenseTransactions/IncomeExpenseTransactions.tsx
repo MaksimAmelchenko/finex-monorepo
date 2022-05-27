@@ -68,9 +68,9 @@ export const IncomeExpenseTransactions = observer(() => {
 
   const selectCategoriesOptions = useMemo<ISelectOption[]>(
     () =>
-      categoriesRepository.categories.map(({ id: value }) => {
-        const label = categoriesRepository.path(value, true);
-        return { value, label };
+      categoriesRepository.categories.map(category => {
+        const label = category.fullPath(true);
+        return { value: category.id, label };
       }),
     [categoriesRepository]
   );
@@ -88,9 +88,12 @@ export const IncomeExpenseTransactions = observer(() => {
     incomeExpenseTransactionsRepository.fetch().catch(console.error);
   }, [incomeExpenseTransactionsRepository]);
 
-  const setRange = useCallback((values: [Date | null, Date | null]) => {
-    incomeExpenseTransactionsRepository.setFilter({ range: values });
-  }, [incomeExpenseTransactionsRepository]);
+  const setRange = useCallback(
+    (values: [Date | null, Date | null]) => {
+      incomeExpenseTransactionsRepository.setFilter({ range: values });
+    },
+    [incomeExpenseTransactionsRepository]
+  );
 
   const setAccounts = (accounts: ISelectOption[]) => {
     incomeExpenseTransactionsRepository.setFilter({ accounts: accounts.map(({ value }) => value) });
