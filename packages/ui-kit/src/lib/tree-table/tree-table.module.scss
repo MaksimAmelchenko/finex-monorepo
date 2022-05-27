@@ -10,6 +10,8 @@
   display: flex;
 
   &__content {
+    display: flex;
+    align-items: center;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -20,6 +22,7 @@
   margin-left: calc((var(--level, 1) - 1) * 24px);
   width: 24px;
   user-select: none;
+  cursor: pointer;
 
   &__icon {
     display: block;

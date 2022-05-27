@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, HTMLAttributes, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import { ArrowForwardSvg } from '../icons';
@@ -12,13 +12,13 @@ function makeKey(path: string[]): string {
 export function useTreeTable() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const amountChildren = useRef<{ isInitMap: Record<string, boolean> }>({ isInitMap: {} });
-  // const [childAmount, setChildAmount] = useState<Record<string, number>>({});
-  const childAmount = useRef<Record<string, number>>({});
+  const [childAmount, setChildAmount] = useState<Record<string, number>>({});
+  // const childAmount = useRef<Record<string, number>>({});
 
   const onClick = (path: string[]) => () => {
     const key = makeKey(path);
 
-    if ((childAmount.current[key] ?? 0) !== 0) {
+    if ((childAmount[key] ?? 0) !== 0) {
       setExpanded(prevState => ({
         ...prevState,
         [key]: !prevState[key],
@@ -44,17 +44,17 @@ export function useTreeTable() {
       amountChildren.current.isInitMap[key] = true;
       for (let i = 0; i < path.length - 1; i++) {
         const key = makeKey(path.slice(0, i + 1));
-        // setChildAmount(prevState => ({
-        //   ...prevState,
-        //   [key]: (prevState[key] ?? 0) + 1,
-        // }));
-        childAmount.current[key] = key in childAmount.current ? childAmount.current[key] + 1 : 1;
+        setChildAmount(prevState => ({
+          ...prevState,
+          [key]: (prevState[key] ?? 0) + 1,
+        }));
+        // childAmount.current[key] = key in childAmount.current ? childAmount.current[key] + 1 : 1;
       }
     }
 
     return {
       isVisible: isVisible(path),
-      isLeaf: (childAmount.current[key] ?? 0) === 0,
+      isLeaf: (childAmount[key] ?? 0) === 0,
       isExpanded: expanded[key] ?? false,
       level: path.length,
     };
@@ -105,12 +105,16 @@ export const TreeTableGroupingCell: FC<TreeTableGroupingCellProps> = ({
   );
 };
 
-export interface TreeTableRowProps {
+export interface TreeTableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   isVisible: boolean;
   className?: string;
   children: React.ReactNode;
 }
 
-export const TreeTableRow: FC<TreeTableRowProps> = ({ isVisible, className, children }) => {
-  return <tr className={clsx(styles.row, isVisible && styles.row_visible, className)}>{children}</tr>;
+export const TreeTableRow: FC<TreeTableRowProps> = ({ isVisible, className, children, ...rest }) => {
+  return (
+    <tr className={clsx(styles.row, isVisible && styles.row_visible, className)} {...rest}>
+      {children}
+    </tr>
+  );
 };
