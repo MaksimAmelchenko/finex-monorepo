@@ -1,15 +1,15 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
+import { useSnackbar } from 'notistack';
 
 import { Account } from '../../stores/models/account';
 import { AccountTypesStore } from '../../stores/account-types-store';
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { ApiErrors } from '../../core/errors';
 import { CreateAccountData, IAccount, UpdateAccountChanges } from '../../types/account';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
-import { Form, FormButton, FormCheckbox, FormError, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormCheckbox, FormLayout, FormTextField } from '../../components/Form';
 import { FormFieldSet } from '../../components/Form/FormFieldSet/FormFieldSet';
 import { FormSelect } from '../../components/Form/FormSelect/FormSelect';
 import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
@@ -81,6 +81,7 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
   const accountsRepository = useStore(AccountsRepository);
   const profileRepository = useStore(ProfileRepository);
   const usersRepository = useStore(UsersRepository);
+  const { enqueueSnackbar } = useSnackbar();
 
   const nameFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -102,9 +103,18 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
         result = accountsRepository.createAccount(account, data);
       }
 
-      return result.then(() => {
-        onClose();
-      });
+      return result
+        .then(() => {
+          onClose();
+        })
+        .catch(err => {
+          let message: string = '';
+          switch (err.code) {
+            default:
+              message = err.data.message;
+          }
+          enqueueSnackbar(message, { variant: 'error' });
+        });
     },
     [accountsRepository, onClose, account]
   );
@@ -147,10 +157,6 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
           writers: writers?.map(({ id }) => id) ?? [],
         }}
         validationSchema={validationSchema}
-        errorsHR={[
-          //
-          [ApiErrors.InvalidRequest, t('Check data and try again')],
-        ]}
         className={styles.form}
       >
         <div className={styles.form__bodyWrapper}>
@@ -185,7 +191,6 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
                 helperText={t('List of users who have the right to add, edit and delete transactions on this account')}
               />
             </FormFieldSet>
-            <FormError />
           </FormLayout>
         </div>
         <DrawerFooter className={styles.footer}>

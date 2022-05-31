@@ -31,7 +31,6 @@ module.exports = {
   AccountWindow: {
     'Edit account': 'Edit account',
     'Add new account': 'Add new account',
-    'Check data and try again': 'Check data and try again',
     Name: 'Name',
     'Account type': 'Account type',
     Active: 'Active',
@@ -105,6 +104,23 @@ module.exports = {
     Prototype: 'Prototype',
     Active: 'Active',
     'Show category when adding or editing an operation': 'Show category when adding or editing an operation',
+    Note: 'Note',
+    Cancel: 'Cancel',
+    Save: 'Save',
+  },
+  Contractors: {
+    "You can't delete contractor with transaction": "You can't delete contractor with transaction",
+    New: 'New',
+    Delete: 'Delete',
+    Refresh: 'Refresh',
+    Name: 'Name',
+    Note: 'Note',
+  },
+  ContractorWindow: {
+    'Contractor already exists': 'Contractor already exists',
+    'Edit contractor': 'Edit contractor',
+    'Add new contractor': 'Add new contractor',
+    Name: 'Name',
     Note: 'Note',
     Cancel: 'Cancel',
     Save: 'Save',
@@ -204,6 +220,7 @@ module.exports = {
   Settings: {
     Accounts: 'Accounts',
     Categories: 'Categories',
+    Contractors: 'Contractors',
   },
   SignIn: {
     'Please enter email address': 'Please enter email address',

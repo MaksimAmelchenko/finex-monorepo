@@ -44,6 +44,7 @@ export class AuthRepository extends ManageableStore {
     const username = commonStorageStore.get('username');
     const token = commonStorageStore.get('token');
     if (token && username) {
+      // TODO handle the error
       this.processLogin(token, username);
     }
   }

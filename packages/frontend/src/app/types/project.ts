@@ -1,7 +1,7 @@
 import { Permit, TDate } from './index';
 import { IUser } from './user';
 import { IAPIAccount } from './account';
-import { IContractorRaw } from './contractor';
+import { IAPIContractor } from './contractor';
 import { IAPICategory } from './category';
 import { IUnitRaw } from './unit';
 import { ITagRaw } from './tag';
@@ -27,7 +27,7 @@ export interface IProject {
 
 export interface IUseProjectResponse {
   accounts: IAPIAccount[];
-  contractors: IContractorRaw[];
+  contractors: IAPIContractor[];
   categories: IAPICategory[];
   units: IUnitRaw[];
   tags: ITagRaw[];

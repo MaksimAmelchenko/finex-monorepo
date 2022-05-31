@@ -6,7 +6,7 @@ export interface ICategoryPrototype {
   isSystem: boolean;
 }
 
-export type IPublicICategoryPrototype = {
+export type IPublicCategoryPrototype = {
   id: string;
   name: string;
   parent: string | null;

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { AccountsLazy } from '../../containers/Accounts/AccountsLazy';
 import { CategoriesLazy } from '../../containers/Categories/CategoriesLazy';
+import { ContractorsLazy } from '../../containers/Contractors/ContractorsLazy';
 import { ITabOption, Tabs } from '../../components/Tabs/Tabs';
 import { getT } from '../../lib/core/i18n';
 
@@ -15,6 +16,7 @@ export const Settings = observer(() => {
       //
       { value: 'accounts', label: t('Accounts') },
       { value: 'categories', label: t('Categories') },
+      { value: 'contractors', label: t('Contractors') },
     ],
     []
   );
@@ -36,6 +38,7 @@ export const Settings = observer(() => {
 
       {tab === 'accounts' && <AccountsLazy />}
       {tab === 'categories' && <CategoriesLazy />}
+      {tab === 'contractors' && <ContractorsLazy />}
     </article>
   );
 });

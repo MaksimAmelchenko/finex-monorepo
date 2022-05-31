@@ -1,6 +1,6 @@
 import { JSONSchema, Model, Validator } from 'objection';
 
-import { ICategoryPrototype, IPublicICategoryPrototype } from '../types';
+import { ICategoryPrototype, IPublicCategoryPrototype } from '../types';
 import { ajvValidator } from '../../../libs/ajv';
 import { categoryPrototypeSchema } from './category-prototype.schema';
 
@@ -18,7 +18,7 @@ export class CategoryPrototype extends Model implements ICategoryPrototype {
     return ajvValidator;
   }
 
-  toPublicModel(): IPublicICategoryPrototype {
+  toPublicModel(): IPublicCategoryPrototype {
     return {
       id: String(this.idCategoryPrototype),
       name: this.name,

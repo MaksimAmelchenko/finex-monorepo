@@ -1,6 +1,6 @@
 import { TDate } from './index';
 import { IAPIAccount } from './account';
-import { IContractorRaw } from './contractor';
+import { IAPIContractor } from './contractor';
 import { IUnitRaw } from './unit';
 import { IUserRaw } from './user';
 import { IAPICategoryPrototype, IAPICategory } from './category';
@@ -19,7 +19,7 @@ export interface IBootstrapRaw {
   badges: IBadgeRaw[];
   categories: IAPICategory[];
   categoryPrototypes: IAPICategoryPrototype[];
-  contractors: IContractorRaw[];
+  contractors: IAPIContractor[];
   currencies: ICurrencyRaw[];
   currencyRateSources: ICurrencyRateSourceRaw[];
   invitations: IInvitationRaw[];

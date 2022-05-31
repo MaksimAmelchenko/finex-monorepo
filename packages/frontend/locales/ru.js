@@ -30,8 +30,7 @@ module.exports = {
   },
   AccountWindow: {
     'Edit account': 'Редактировать',
-    'Add new account': 'Add new account',
-    'Check data and try again': 'Check data and try again',
+    'Add new account': 'Новый счет',
     Name: 'Наименование',
     'Account type': 'Тип счета',
     Active: 'Активный',
@@ -110,6 +109,23 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
   },
+  Contractors: {
+    "You can't delete contractor with transaction": "Вы не можете удалить контрагента с операциями",
+    New: 'Добавить',
+    Delete: 'Удалить',
+    Refresh: 'Обновить',
+    Name: 'Наименование',
+    Note: 'Примечание',
+  },
+  ContractorWindow: {
+    'Contractor already exists': 'Контрагент уже существует',
+    'Edit contractor': 'Редактирование контрагента',
+    'Add new contractor': 'Добавить контрагента',
+    Name: 'Наименование',
+    Note: 'Примечание',
+    Cancel: 'Отмена',
+    Save: 'Сохранить',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',
@@ -152,7 +168,7 @@ module.exports = {
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Перенесено {{count}} операций',
-    "You can't delete a category with subcategories": "Вы не можете удалить категорию с подкатегориями",
+    "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
     'Please select a category to move transaction to': 'Пожалуйста, выберите категорию, в которую переносить данные',
     'You cannot move transaction to the same category without using the option "Move operations from subcategories"':
       'Нельзя переносить данные в ту же самую категорию без использования опции "Переносить операции из подкатегорий"',
@@ -202,8 +218,9 @@ module.exports = {
     'Sign In': 'Войти',
   },
   Settings: {
-    Accounts: 'Accounts',
-    Categories: 'Categories',
+    Accounts: 'Счета',
+    Categories: 'Категории',
+    Contractors: 'Контагенты',
   },
   SignIn: {
     'Please enter email address': 'Укажите email',

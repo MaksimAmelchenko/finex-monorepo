@@ -44,6 +44,7 @@ import { healthCheck } from './api/v2/health-check';
 import { invitationsApi } from './api/v2/invitations';
 import { planApi } from './api/v2/plan';
 import { transactionApi } from './api/v2/transaction';
+import { contractorApi } from './api/v2/contractor';
 
 const app: Koa = new Koa();
 
@@ -92,6 +93,7 @@ app.use(authApi);
 app.use(emailServiceApi);
 app.use(accountApi);
 app.use(categoryApi);
+app.use(contractorApi);
 
 app.use(serve(`${__dirname}/public`));
 
