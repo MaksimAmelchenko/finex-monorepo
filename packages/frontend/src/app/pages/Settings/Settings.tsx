@@ -6,6 +6,7 @@ import { AccountsLazy } from '../../containers/Accounts/AccountsLazy';
 import { CategoriesLazy } from '../../containers/Categories/CategoriesLazy';
 import { ContractorsLazy } from '../../containers/Contractors/ContractorsLazy';
 import { ITabOption, Tabs } from '../../components/Tabs/Tabs';
+import { UnitsLazy } from '../../containers/Units/UnitsLazy';
 import { getT } from '../../lib/core/i18n';
 
 const t = getT('Settings');
@@ -17,6 +18,7 @@ export const Settings = observer(() => {
       { value: 'accounts', label: t('Accounts') },
       { value: 'categories', label: t('Categories') },
       { value: 'contractors', label: t('Contractors') },
+      { value: 'units', label: t('Units') },
     ],
     []
   );
@@ -39,6 +41,7 @@ export const Settings = observer(() => {
       {tab === 'accounts' && <AccountsLazy />}
       {tab === 'categories' && <CategoriesLazy />}
       {tab === 'contractors' && <ContractorsLazy />}
+      {tab === 'units' && <UnitsLazy />}
     </article>
   );
 });

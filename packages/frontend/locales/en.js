@@ -221,6 +221,7 @@ module.exports = {
     Accounts: 'Accounts',
     Categories: 'Categories',
     Contractors: 'Contractors',
+    Units: 'Units',
   },
   SignIn: {
     'Please enter email address': 'Please enter email address',
@@ -266,5 +267,21 @@ module.exports = {
     Processing___: 'Processing...',
     'You email has been confirmed_': 'You email has been confirmed.',
     'Start to use': 'Start to use',
+  },
+  Units: {
+    "You can't delete unit with transaction": "You can't delete unit with transaction",
+    New: 'New',
+    Delete: 'Delete',
+    Refresh: 'Refresh',
+    Name: 'Name',
+    Note: 'Note',
+  },
+  UnitWindow: {
+    'Unit already exists': 'Unit already exists',
+    'Edit unit': 'Edit unit',
+    'Add new unit': 'Add new unit',
+    Name: 'Name',
+    Cancel: 'Cancel',
+    Save: 'Save',
   },
 };

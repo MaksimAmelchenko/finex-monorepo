@@ -13,12 +13,6 @@ export type IPublicContractor = {
   note: string;
 };
 
-export interface GetContractorGatewayResponse {
-  contractor: IContractor[];
-}
-
-export type GetContractorServiceResponse = GetContractorGatewayResponse;
-
 export type CreateContractorGatewayData = {
   name: string;
   note?: string;

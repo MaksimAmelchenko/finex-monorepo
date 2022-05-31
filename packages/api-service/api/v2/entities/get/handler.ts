@@ -5,16 +5,18 @@ import { CategoryService } from '../../../../services/category';
 import { ContractorService } from '../../../../services/contractor';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
+import { UnitService } from '../../../../services/unit';
 
 export async function handler(ctx: IRequestContext): Promise<IResponse> {
   const { projectId } = ctx;
-  const [response, accounts, categories, categoryPrototypes, contactors] = await Promise.all([
+  const [response, accounts, categories, categoryPrototypes, contactors, units] = await Promise.all([
     //
     dbRequest(ctx, 'cf.entity.get', {}),
     AccountService.getAccounts(ctx),
     CategoryService.getCategories(ctx),
     CategoryPrototypeService.getCategoryPrototypes(ctx),
     ContractorService.getContractors(ctx, projectId),
+    UnitService.getUnits(ctx, projectId),
   ]);
 
   return {
@@ -26,6 +28,7 @@ export async function handler(ctx: IRequestContext): Promise<IResponse> {
         // .filter(({ isSystem }) => !isSystem)
         .map(categoryPrototype => categoryPrototype.toPublicModel()),
       contractors: contactors.map(contactor => contactor.toPublicModel()),
+      units: units.map(unit => unit.toPublicModel()),
     },
   };
 }

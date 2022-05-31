@@ -1,0 +1,16 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.row {
+  &_is_deleting {
+    background-color: colors.$orangeLight;
+  }
+}
+
+.name {
+  cursor: pointer;
+  color: colors.$blueLight;
+
+  &:hover {
+    color: colors.$blue;
+  }
+}

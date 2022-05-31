@@ -3,7 +3,7 @@ import { IUser } from './user';
 import { IAPIAccount } from './account';
 import { IAPIContractor } from './contractor';
 import { IAPICategory } from './category';
-import { IUnitRaw } from './unit';
+import { IAPIUnit } from './unit';
 import { ITagRaw } from './tag';
 import { IMoneyRaw } from './money';
 
@@ -29,7 +29,7 @@ export interface IUseProjectResponse {
   accounts: IAPIAccount[];
   contractors: IAPIContractor[];
   categories: IAPICategory[];
-  units: IUnitRaw[];
+  units: IAPIUnit[];
   tags: ITagRaw[];
   moneys: IMoneyRaw[];
   params: {

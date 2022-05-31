@@ -110,7 +110,7 @@ module.exports = {
     Save: 'Сохранить',
   },
   Contractors: {
-    "You can't delete contractor with transaction": "Вы не можете удалить контрагента с операциями",
+    "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
@@ -221,6 +221,7 @@ module.exports = {
     Accounts: 'Счета',
     Categories: 'Категории',
     Contractors: 'Контагенты',
+    Units: 'Единицы измерения',
   },
   SignIn: {
     'Please enter email address': 'Укажите email',
@@ -265,5 +266,20 @@ module.exports = {
     Processing___: 'Обработка...',
     'You email has been confirmed_': 'Спасибо, Ваш электронный адрес подтверждён',
     'Start to use': 'Начать пользоваться',
+  },
+  Units: {
+    "You can't delete unit with transaction": "Нельзя удалить ед.измерения с операциями",
+    New: 'Добавить',
+    Delete: 'Удалить',
+    Refresh: 'Обновить',
+    Name: 'Наименование',
+  },
+  UnitWindow: {
+    'Unit already exists': 'Ед.измерения уже существует',
+    'Edit unit': 'Редактирование',
+    'Add new unit': 'Добавление',
+    Name: 'Наименование',
+    Cancel: 'Отмена',
+    Save: 'Сохранить',
   },
 };

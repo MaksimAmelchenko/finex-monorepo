@@ -1,7 +1,7 @@
 import { TDate } from './index';
 import { IAPIAccount } from './account';
 import { IAPIContractor } from './contractor';
-import { IUnitRaw } from './unit';
+import { IAPIUnit } from './unit';
 import { IUserRaw } from './user';
 import { IAPICategoryPrototype, IAPICategory } from './category';
 import { IAccountTypeRaw } from './account-type';
@@ -37,7 +37,7 @@ export interface IBootstrapRaw {
     idProject: number;
   };
   tags: ITagRaw[];
-  units: IUnitRaw[];
+  units: IAPIUnit[];
   users: IUserRaw[];
 }
 
