@@ -8,11 +8,11 @@ export class CategoryPrototype extends Model implements ICategoryPrototype {
   static tableName = 'cf$.category_prototype';
   static jsonSchema = categoryPrototypeSchema as JSONSchema;
 
-  readonly idCategoryPrototype!: number;
-  name!: string;
-  parent!: number | null;
-  isEnabled!: boolean;
-  isSystem!: boolean;
+  readonly idCategoryPrototype: number;
+  name: string;
+  parent: number | null;
+  isEnabled: boolean;
+  isSystem: boolean;
 
   static createValidator(): Validator {
     return ajvValidator;
