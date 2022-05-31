@@ -82,7 +82,7 @@ export class CategoriesRepository extends ManageableStore {
       action(response => {
         const category = this.decode(response.category);
         this._categories.push(category);
-      }),
+      })
     );
   }
 
@@ -102,7 +102,7 @@ export class CategoriesRepository extends ManageableStore {
         } else {
           this._categories.push(updatedCategory);
         }
-      }),
+      })
     );
   }
 
@@ -114,7 +114,7 @@ export class CategoriesRepository extends ManageableStore {
         if (indexOf !== -1) {
           this._categories.splice(indexOf, 1);
         }
-      }),
+      })
     );
   }
 

@@ -1,4 +1,4 @@
-import { ICategory, ICategoryPrototype } from "../../types/category";
+import { ICategory, ICategoryPrototype } from '../../types/category';
 
 export class CategoryPrototype implements ICategoryPrototype {
   readonly id: string;
@@ -30,5 +30,4 @@ export class CategoryPrototype implements ICategoryPrototype {
     names.pop();
     return names.join(' → ');
   }
-
 }

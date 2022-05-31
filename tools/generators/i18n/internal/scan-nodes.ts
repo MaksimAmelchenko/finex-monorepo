@@ -68,8 +68,8 @@ export function scanNodes(nodes: NodeArray<Statement>, path: string, content: st
             console.warn(
               `${path} Translator function first argument should always be string literal, but found this: ${extractFirstArgument(
                 node,
-                content,
-              )}`,
+                content
+              )}`
             );
           }
         } else if (meaningfulKinds[node.kind]) {
@@ -83,7 +83,7 @@ export function scanNodes(nodes: NodeArray<Statement>, path: string, content: st
               ...scanNodes(
                 Array.isArray(node[attributeName]) ? node[attributeName] : [node[attributeName]],
                 path,
-                content,
+                content
               ),
             };
           }, prev);

@@ -4,7 +4,7 @@ import { MoveCategoryGatewayParams, MoveCategoryGatewayResponse } from '../../ty
 
 export async function moveCategory(
   ctx: IRequestContext,
-  params: MoveCategoryGatewayParams,
+  params: MoveCategoryGatewayParams
 ): Promise<MoveCategoryGatewayResponse> {
   ctx.log.trace({ params }, 'try to move transactions');
   const { categoryId, categoryIdTo, isRecursive } = params;
