@@ -4,13 +4,13 @@ import config from '../config';
 
 const isDevelopment = config.get('nodeEnv').startsWith('development');
 
-export default function sendError(ctx: IRouterContext, error: IError): void {
-  const { status = 500, code = 'error', message = 'Error', stack, data } = error;
+export default function sendError(ctx: IRouterContext, error: any): void {
+  const { status = 500, code, message = 'Error', stack, data, constraint } = error;
 
   const body = {
     error: {
       status,
-      code,
+      code: code || constraint || 'error',
       message,
       stack: isDevelopment ? stack : undefined,
       data,
