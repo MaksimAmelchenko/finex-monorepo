@@ -3,8 +3,6 @@ import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import * as Cookies from 'cookies';
 
-import { IUploadedFile } from './file';
-
 export type ILogger = Bunyan;
 
 export interface IModel {
@@ -17,25 +15,26 @@ export interface IModel {
 
 export type IRouterContext = Router.RouterContext<any, ContextCustomT>;
 
-export interface IRequestContext<
-  P = {
-    [key: string]: any;
-    files?: IUploadedFile[];
-  }
-> extends ContextCustomT {
+export type IRequestContext<P = any, isAuthorized extends boolean = true> = {
   params: P;
-  sessionId?: string;
-  userId?: string;
-  userAgent?: string;
   additionalParams?: any;
-  cookies?: Cookies;
-  authorization?: string;
-  projects?: string[];
-}
+  cookies: Cookies;
+} & ContextCustomT &
+  (isAuthorized extends true ? IAuthorizedRequestContext : INotAuthorizedRequestContext);
 
 export interface ContextCustomT {
   requestId: string;
   log: ILogger;
+}
+
+interface INotAuthorizedRequestContext {}
+
+interface IAuthorizedRequestContext {
+  sessionId: string;
+  projectId: string;
+  userId: string;
+  // for DB port
+  authorization: string;
 }
 
 export type Middleware = Koa.Middleware<any, ContextCustomT>;

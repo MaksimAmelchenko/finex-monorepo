@@ -3,7 +3,7 @@ import { DB } from '../../../../libs/db';
 import { decodeDBProject } from './decode-db-project';
 import { IDBProject, IProject } from '../../../../types/project';
 
-export async function getAllByUserId(ctx: IRequestContext, userId: number): Promise<IProject[]> {
+export async function getAllByUserId(ctx: IRequestContext<any, false>, userId: number): Promise<IProject[]> {
   const sqlText = `
     select p.id_project as "idProject",
            p.id_user as "idUser",

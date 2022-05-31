@@ -12,7 +12,7 @@ export async function handler(ctx: IRequestContext): Promise<IResponse<Record<st
     // await Session.closeAllUserSessions(ctx, userId);
   } else {
     if (sessionId) {
-      await Session.close(ctx, sessionId);
+      await Session.closeSession(ctx, sessionId);
     }
   }
 

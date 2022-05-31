@@ -4,10 +4,10 @@ import { NotFoundError } from '../../libs/errors';
 export default function checkProject(ctx: IRequestContext): void {
   const {
     params: { projectId },
-    projects,
+    // projects,
   } = ctx;
 
-  if (projects && !projects.includes(projectId)) {
-    throw new NotFoundError('Project not found');
-  }
+  // if (projects && !projects.includes(projectId)) {
+  //   throw new NotFoundError('Project not found');
+  // }
 }

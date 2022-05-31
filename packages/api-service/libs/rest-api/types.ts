@@ -24,14 +24,14 @@ export enum RestMethod {
   Delete = 'DELETE',
 }
 
-export interface RestRouteOptions {
+export interface RestRouteOptions<P = any, IsAuthorized extends boolean = true> {
   method?: RestMethod;
   methods?: RestMethod[];
   uri: string;
   uploader?: RequestHandler;
-  onEnter?: (routerContext: IRouterContext, requestContext: IRequestContext) => Promise<void>;
+  onEnter?: (routerContext: IRouterContext, requestContext: IRequestContext<P, IsAuthorized>) => Promise<void>;
   schemas?: Schemas;
-  handler: (ctx: IRequestContext<any>, routeCtx: IRouterContext, next: () => any) => Promise<IResponse>;
+  handler: (ctx: IRequestContext<P, IsAuthorized>, routeCtx: IRouterContext, next: () => any) => Promise<IResponse>;
   isNeedAuthorization?: boolean;
   // permissions?: App.Permissions;
 }

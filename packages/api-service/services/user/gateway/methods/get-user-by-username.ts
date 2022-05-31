@@ -3,7 +3,10 @@ import { IDBUser, IUser } from '../../../../types/user';
 import { DB, knex } from '../../../../libs/db';
 import { decodeDBUser } from './decode-db-user';
 
-export async function getUserByUsername(ctx: IRequestContext, username: string): Promise<IUser | undefined> {
+export async function getUserByUsername(
+  ctx: IRequestContext<any, false>,
+  username: string
+): Promise<IUser | undefined> {
   const query = knex
     .select('*')
     .from('core$.user')

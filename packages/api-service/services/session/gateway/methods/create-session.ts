@@ -5,7 +5,7 @@ import { DB, knex } from '../../../../libs/db';
 import { decodeDBSession } from './decode-db-session';
 
 export async function createSession(
-  ctx: IRequestContext,
+  ctx: IRequestContext<any, false>,
   userId: number,
   params: IGatewayCreateParams
 ): Promise<ISession> {

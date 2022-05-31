@@ -5,7 +5,7 @@ import onEnter from './on-enter';
 import { signInParamsSchema } from './params.schema';
 import { signInResponseSchema } from './response.schema';
 
-export const signInRouteOptions: RestRouteOptions = {
+export const signInRouteOptions: RestRouteOptions<any, false> = {
   method: RestMethod.Post,
   uri: '/v2/sign-in',
   handler,

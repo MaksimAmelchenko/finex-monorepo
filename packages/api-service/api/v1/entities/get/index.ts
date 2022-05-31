@@ -11,5 +11,4 @@ export const getEntities: RestRouteOptions = {
     params: getEntitiesParamsSchema,
     response: getEntitiesResponseSchema,
   },
-  isNeedAuthorization: true,
 };

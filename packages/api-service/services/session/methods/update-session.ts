@@ -3,5 +3,5 @@ import { ISession } from '../../../types/session';
 import { SessionGateway } from '../gateway';
 
 export async function updateSession(ctx: IRequestContext, sessionId: string, data: any): Promise<ISession> {
-  return SessionGateway.update(ctx, sessionId, data);
+  return SessionGateway.updateSession(ctx, sessionId, data);
 }

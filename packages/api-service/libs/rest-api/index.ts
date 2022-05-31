@@ -4,7 +4,7 @@ import { RestRouteOptions } from './types';
 import { RestRoute } from './route';
 import { IRouterContext } from '../../types/app';
 
-function restRouteHandler(route: RestRoute) {
+function restRouteHandler<P, IsAuthorized extends boolean>(route: RestRoute<P, IsAuthorized>) {
   return async (ctx: IRouterContext, next) => {
     // try {
     //   await route.checkAccess(ctx);
@@ -16,8 +16,10 @@ function restRouteHandler(route: RestRoute) {
   };
 }
 
-export function getRestApi(restRouteOptions: RestRouteOptions[]): Router.IMiddleware {
-  const restRouter: Router = restRouteOptions.reduce((router: Router, routeOptions: RestRouteOptions) => {
+export function getRestApi(
+  restRouteOptions: (RestRouteOptions<any, true> | RestRouteOptions<any, false>)[]
+): Router.IMiddleware {
+  const restRouter = restRouteOptions.reduce<Router>((router, routeOptions) => {
     const routeUri: string = routeOptions.uri.startsWith('/') ? routeOptions.uri : `/${routeOptions.uri}`;
     const { method, methods } = routeOptions;
     const handler = restRouteHandler(new RestRoute(routeOptions));

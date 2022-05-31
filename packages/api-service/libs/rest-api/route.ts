@@ -13,12 +13,12 @@ import { log } from '../log';
 import { IRequestContext, IRouterContext } from '../../types/app';
 import { IResponse, IRestRoute, RestMethod, RestRouteOptions, SchemasValidators } from './types';
 
-export class RestRoute implements IRestRoute {
-  options: RestRouteOptions;
+export class RestRoute<P extends Record<string, any>, IsAuthorized extends boolean> implements IRestRoute {
+  options: RestRouteOptions<P, IsAuthorized>;
   validators: SchemasValidators;
   getParams: (routerContext: IRouterContext) => Promise<Record<string, unknown>>;
 
-  constructor(routeOptions: RestRouteOptions) {
+  constructor(routeOptions: RestRouteOptions<P, IsAuthorized>) {
     this.options = defaults(routeOptions, {
       method: RestMethod.Get,
       isNeedAuthorization: true,
@@ -41,16 +41,12 @@ export class RestRoute implements IRestRoute {
   async handler(routerContext: IRouterContext, next): Promise<any> {
     const { options } = this;
     try {
-      const {
-        headers: { 'user-agent': userAgent },
-      } = routerContext.request;
 
-      const ctx: IRequestContext = {
-        params: {},
+      // @ts-ignore
+      const ctx: IRequestContext<any, IsAuthorized> = {
         log: routerContext.log,
         requestId: routerContext.requestId,
         cookies: routerContext.cookies,
-        userAgent,
       };
 
       if (options.isNeedAuthorization) {
@@ -60,7 +56,7 @@ export class RestRoute implements IRestRoute {
           throw new UnauthorizedError('Authorization header not present');
         }
 
-        await authorize(ctx, authorizationHeader, url);
+        await authorize(ctx as IRequestContext<never>, authorizationHeader, url);
         // in authorize a logger has been extended (added sessionId, userId/serviceId)
         routerContext.log = ctx.log;
       }
@@ -81,10 +77,10 @@ export class RestRoute implements IRestRoute {
       ctx.params = params;
 
       if (options.onEnter) {
-        await options.onEnter(routerContext, ctx);
+        await options.onEnter(routerContext, ctx as any);
       }
 
-      const response: IResponse = await options.handler(ctx, routerContext, next);
+      const response: IResponse = await options.handler(ctx as any, routerContext, next);
       // a logger may been extended into handler
       routerContext.log = ctx.log;
 

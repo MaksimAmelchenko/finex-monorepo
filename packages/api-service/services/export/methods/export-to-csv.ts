@@ -31,7 +31,7 @@ export async function exportToCsv(ctx: IRequestContext): Promise<void> {
   }
   const [session, user] = await Promise.all([
     //
-    Session.get(ctx, sessionId),
+    Session.getSession(ctx, sessionId),
     UserGateway.getById(ctx, userId!),
   ]);
 
