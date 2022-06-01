@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import { ApiErrors } from '../../core/errors';
 import { AuthRepository } from '../../core/other-stores/auth-repository';
@@ -26,6 +27,7 @@ export function SignIn(): JSX.Element {
   const location = useLocation();
   const authStore = useStore(AuthRepository);
   const username = useStore(CommonStorageStore).get('username') ?? '';
+  const { enqueueSnackbar } = useSnackbar();
 
   const from = (location.state as any)?.from?.pathname || '/';
 
@@ -42,10 +44,21 @@ export function SignIn(): JSX.Element {
           // user experience.
           navigate(from, { replace: true });
         })
-        .catch(error => {
+        .catch(err => {
+          let message: string = '';
+          switch (err.code) {
+            case 'unauthorized': {
+              message = t('Invalid username or password');
+              break;
+            }
+            default:
+              message = err.message;
+          }
+          enqueueSnackbar(message, { variant: 'error' });
+
           // On error from backend we clear-up password field without validation
           formHelpers.setFieldValue('password', '', false);
-          throw error;
+          throw err;
         });
     },
     [authStore, from, navigate]
@@ -68,13 +81,6 @@ export function SignIn(): JSX.Element {
           // afterSubmit={afterSubmit}
           initialValues={{ username, password: '' }}
           validationSchema={validationSchema}
-          errorsHR={[
-            //
-            [
-              ApiErrors.Unauthorized,
-              t('Invalid username or password. To reset your password click "Forgot your Password?"'),
-            ],
-          ]}
         >
           <FormLayout className={styles.formLayout}>
             <FormTextField name="username" type="text" label={t('Email')} autoFocusOnEmpty={true} />
@@ -85,7 +91,6 @@ export function SignIn(): JSX.Element {
               autoFocusOnEmpty={true}
               autoComplete="current-password"
             />
-            <FormError />
             <FormButton type="submit" size="medium" color="primary" fullSize>
               {t('SignIn')}
             </FormButton>

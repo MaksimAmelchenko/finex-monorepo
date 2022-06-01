@@ -94,15 +94,22 @@ export class AccountsRepository extends ManageableStore {
 
   deleteAccount(account: Account): Promise<void> {
     account.isDeleting = true;
-    return this.api.deleteAccount(account.id).then(
-      action(() => {
-        const indexOf = this._accounts.indexOf(account);
-        if (indexOf !== -1) {
-          this._accounts.splice(indexOf, 1);
-        }
-        // this._accounts = this._accounts.filter(a => a !== account);
-      })
-    );
+    return this.api
+      .deleteAccount(account.id)
+      .then(
+        action(() => {
+          const indexOf = this._accounts.indexOf(account);
+          if (indexOf !== -1) {
+            this._accounts.splice(indexOf, 1);
+          }
+          // this._accounts = this._accounts.filter(a => a !== account);
+        })
+      )
+      .finally(
+        action(() => {
+          account.isDeleting = false;
+        })
+      );
   }
 
   private decode(account: IAPIAccount): Account {

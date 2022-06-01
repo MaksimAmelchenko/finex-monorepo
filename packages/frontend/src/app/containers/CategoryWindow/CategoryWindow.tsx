@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
+import { useSnackbar } from 'notistack';
 
 import { ApiErrors } from '../../core/errors';
 import { CategoriesRepository } from '../../stores/categories-repository';
@@ -9,7 +10,7 @@ import { CategoryPrototypesRepository } from '../../stores/category-prototypes-r
 import { CreateCategoryData, ICategory, UpdateCategoryChanges } from '../../types/category';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
-import { Form, FormButton, FormCheckbox, FormError, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormCheckbox, FormLayout, FormTextField } from '../../components/Form';
 import { FormSelect } from '../../components/Form/FormSelect/FormSelect';
 import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
 import { ISelectOption } from '@finex/ui-kit';
@@ -71,6 +72,7 @@ function mapValuesToUpdatePayload({
 export function CategoryWindow({ isOpened, category, onClose }: CategoryWindowProps): JSX.Element {
   const categoriesRepository = useStore(CategoriesRepository);
   const categoryPrototypesRepository = useStore(CategoryPrototypesRepository);
+  const { enqueueSnackbar } = useSnackbar();
 
   const nameFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -92,9 +94,18 @@ export function CategoryWindow({ isOpened, category, onClose }: CategoryWindowPr
         result = categoriesRepository.createCategory(category, data);
       }
 
-      return result.then(() => {
-        onClose();
-      });
+      return result
+        .then(() => {
+          onClose();
+        })
+        .catch(err => {
+          let message: string = '';
+          switch (err.code) {
+            default:
+              message = err.message;
+          }
+          enqueueSnackbar(message, { variant: 'error' });
+        });
     },
     [categoriesRepository, onClose, category]
   );
@@ -161,7 +172,6 @@ export function CategoryWindow({ isOpened, category, onClose }: CategoryWindowPr
               helperText={t('Show category when adding or editing an operation')}
             />
             <FormTextAreaField name="note" label={t('Note')} />
-            <FormError />
           </FormLayout>
         </div>
         <DrawerFooter className={styles.footer}>

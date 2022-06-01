@@ -46,7 +46,7 @@ export const Contractors = observer(() => {
             break;
           }
           default:
-            message = err.data.message;
+            message = err.message;
         }
         enqueueSnackbar(message, { variant: 'error' });
       });

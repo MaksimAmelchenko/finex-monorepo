@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
 import { format, parseISO } from 'date-fns';
+import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
@@ -146,6 +147,7 @@ export function CashFlowTransactionWindow({
   const tagsRepository = useStore(TagsRepository);
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -172,33 +174,42 @@ export function CashFlowTransactionWindow({
         result = incomeExpenseTransactionsRepository.createTransaction(transaction, data);
       }
 
-      return result.then(() => {
-        if (values.isOnlySave) {
-          onClose();
-        } else {
-          const { sign, moneyId, categoryId, accountId, transactionDate, reportPeriod, isNotConfirmed } = values;
-          resetForm({
-            values: {
-              sign,
-              amount: '',
-              moneyId,
-              categoryId,
-              accountId,
-              transactionDate,
-              reportPeriod,
-              unitId: null,
-              quantity: '',
-              note: '',
-              tagIds: [],
-              isNotConfirmed,
-              isOnlySave: false,
-              planId: null,
-            },
-          });
+      return result
+        .then(() => {
+          if (values.isOnlySave) {
+            onClose();
+          } else {
+            const { sign, moneyId, categoryId, accountId, transactionDate, reportPeriod, isNotConfirmed } = values;
+            resetForm({
+              values: {
+                sign,
+                amount: '',
+                moneyId,
+                categoryId,
+                accountId,
+                transactionDate,
+                reportPeriod,
+                unitId: null,
+                quantity: '',
+                note: '',
+                tagIds: [],
+                isNotConfirmed,
+                isOnlySave: false,
+                planId: null,
+              },
+            });
 
-          amountFieldRef.current?.focus();
-        }
-      });
+            amountFieldRef.current?.focus();
+          }
+        })
+        .catch(err => {
+          let message: string = '';
+          switch (err.code) {
+            default:
+              message = err.message;
+          }
+          enqueueSnackbar(message, { variant: 'error' });
+        });
     },
     [incomeExpenseTransactionsRepository, onClose, transaction]
   );
@@ -294,10 +305,6 @@ export function CashFlowTransactionWindow({
           isOnlySave: false,
         }}
         validationSchema={validationSchema}
-        errorsHR={[
-          //
-          [ApiErrors.InvalidRequest, t('Check data and try again')],
-        ]}
         className={styles.form}
       >
         <div className={styles.form__bodyWrapper}>
@@ -376,8 +383,6 @@ export function CashFlowTransactionWindow({
                 <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
               </div>
             </div>
-
-            <FormError />
           </FormLayout>
         </div>
         <DrawerFooter className={styles.footer}>

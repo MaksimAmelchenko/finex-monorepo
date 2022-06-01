@@ -70,7 +70,6 @@ module.exports = {
     'at least one account_': 'at least one account.',
     'Edit transaction': 'Edit transaction',
     'Add new transaction': 'Добавление операции',
-    'Check data and try again': 'Проверти данные и попробуйте еще раз',
     Category: 'Категория',
     Account: 'Счет',
     Date: 'Дата',
@@ -224,12 +223,11 @@ module.exports = {
     Units: 'Единицы измерения',
   },
   SignIn: {
+    'Invalid username or password': 'Неверный логин или пароль',
     'Please enter email address': 'Укажите email',
     'Please enter a valid email address': 'Проверьте, правильно ли введён email',
     'Please enter password': 'Укажите пароль',
     'Sign in': 'Авторизация',
-    'Invalid username or password_ To reset your password click "Forgot your Password?"':
-      'Неверный логин или пароль. Для быстрого восстановления пароля нажмите на ссылку «Забыли пароль?»',
     Email: 'Email',
     Password: 'Пароль',
     SignIn: 'Войти',

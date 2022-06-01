@@ -66,6 +66,7 @@
     "@types/uuid": "^8.3.4",
     "dotenv": "^16.0.0",
     "mocha": "^9.2.2",
+    "pg-error-constants": "^1.0.0",
     "should": "^13.2.3",
     "supertest": "^6.2.2",
     "ts-node": "^10.7.0",

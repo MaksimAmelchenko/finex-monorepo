@@ -70,7 +70,6 @@ module.exports = {
     'at least one account_': 'at least one account.',
     'Edit transaction': 'Edit transaction',
     'Add new transaction': 'Add new transaction',
-    'Check data and try again': 'Check data and try again',
     Category: 'Category',
     Account: 'Account',
     Date: 'Date',
@@ -224,12 +223,11 @@ module.exports = {
     Units: 'Units',
   },
   SignIn: {
+    'Invalid username or password': 'Invalid username or password',
     'Please enter email address': 'Please enter email address',
     'Please enter a valid email address': 'Please enter a valid email address',
     'Please enter password': 'Please enter password',
     'Sign in': 'Sign in',
-    'Invalid username or password_ To reset your password click "Forgot your Password?"':
-      'Invalid username or password. To reset your password click "Forgot your Password?"',
     Email: 'Email',
     Password: 'Password',
     SignIn: 'SignIn',

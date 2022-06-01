@@ -111,7 +111,7 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
           let message: string = '';
           switch (err.code) {
             default:
-              message = err.data.message;
+              message = err.message;
           }
           enqueueSnackbar(message, { variant: 'error' });
         });

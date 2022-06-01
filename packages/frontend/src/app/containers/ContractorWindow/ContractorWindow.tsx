@@ -71,7 +71,7 @@ export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWi
               message = t('Contractor already exists');
               break;
             default:
-              message = err.data.message || err.message;
+              message = err.message;
           }
           enqueueSnackbar(message, { variant: 'error' });
         });

@@ -88,7 +88,7 @@ export abstract class ApiRepository extends ManageableStore {
             if (error.status === 401 && ['sessionClosed', 'sessionTimeout'].includes(error.code)) {
               return this.getStore(AuthRepository).clearAuth();
             }
-            throw new apiErrorClass(error.message, error.code, error.data);
+            throw new apiErrorClass(error.message, error.code);
           });
         }
       }
@@ -98,7 +98,7 @@ export abstract class ApiRepository extends ManageableStore {
       }
 
       return response.json().then((error: IAppError) => {
-        throw new ApiError(error.status, error.message, error.data);
+        throw new ApiError(error.status, error.message);
       });
     }
 

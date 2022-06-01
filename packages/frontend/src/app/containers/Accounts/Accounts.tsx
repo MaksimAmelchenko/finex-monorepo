@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
 
 import { Account as AccountModel } from '../../stores/models/account';
 import { Account } from './Account/Account';
@@ -21,6 +22,7 @@ export const Accounts = observer(() => {
 
   const [isOpenedAccountWindow, setIsOpenedAccountWindow] = useState<boolean>(false);
   const [account, setAccount] = useState<Partial<IAccount> | AccountModel | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleAddClick = () => {
     setAccount({});
@@ -36,7 +38,18 @@ export const Accounts = observer(() => {
       }
     }
     selectedAccounts.forEach(account => {
-      accountsRepository.deleteAccount(account).catch(err => console.error({ err }));
+      accountsRepository.deleteAccount(account).catch(err => {
+        let message: string = '';
+        switch (err.code) {
+          case 'foreign_key_violation.cashflow_detail_2_account': {
+            message = t('There are transactions on this account');
+            break;
+          }
+          default:
+            message = err.message;
+        }
+        enqueueSnackbar(message, { variant: 'error' });
+      });
     });
   };
 
