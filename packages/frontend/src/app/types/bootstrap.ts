@@ -5,7 +5,7 @@ import { IAPIUnit } from './unit';
 import { IUserRaw } from './user';
 import { IAPICategoryPrototype, IAPICategory } from './category';
 import { IAccountTypeRaw } from './account-type';
-import { ITagRaw } from './tag';
+import { IAPITag } from './tag';
 import { IProjectRaw } from './project';
 import { ICurrencyRaw } from './currency';
 import { ICurrencyRateSourceRaw } from './currencies-rate-source';
@@ -36,7 +36,7 @@ export interface IBootstrapRaw {
   session: {
     idProject: number;
   };
-  tags: ITagRaw[];
+  tags: IAPITag[];
   units: IAPIUnit[];
   users: IUserRaw[];
 }

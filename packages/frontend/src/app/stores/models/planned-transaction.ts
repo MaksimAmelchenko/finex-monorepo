@@ -6,6 +6,7 @@ import { Contractor } from './contractor';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { IPlannedTransaction } from '../../types/income-expense-transaction';
 import { Money } from './money';
+import { Tag } from './tag';
 import { Unit } from './unit';
 import { User } from './user';
 
@@ -22,7 +23,7 @@ export class PlannedTransaction implements IPlannedTransaction, ISelectable, IDe
   unit: Unit | null;
   isNotConfirmed: boolean;
   note: string;
-  tags: string[];
+  tags: Tag[];
   permit: Permit;
   user: User;
   planId: string;

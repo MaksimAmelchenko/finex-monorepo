@@ -299,7 +299,7 @@ export function CashFlowTransactionWindow({
           unitId: unit?.id ?? null,
           isNotConfirmed: isNotConfirmed ?? false,
           note: note ?? '',
-          tagIds: tags ?? [],
+          tagIds: tags ? tags.map(tag => tag.id) : [],
           planId: transaction instanceof PlannedTransaction ? transaction.planId : null,
 
           isOnlySave: false,

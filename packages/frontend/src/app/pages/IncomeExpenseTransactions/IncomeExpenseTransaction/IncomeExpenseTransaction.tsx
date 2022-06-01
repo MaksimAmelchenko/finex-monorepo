@@ -118,11 +118,13 @@ export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(
       {/*<td className="text-end hidden-lg numeric">{toCurrency(sign * amount, money.precision)}</td>*/}
       {/*<td className="hidden-lg currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />*/}
 
-      <td className="hidden-sm">{note}</td>
-      <td className="hidden-sm">
-        {tags.map(tag => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
+      <td className="hidden-sm min-width">{note}</td>
+      <td className="hidden-sm min-width">
+        <div className={styles.tags}>
+          {tags.map(tag => (
+            <Tag key={tag.id}>{tag.name}</Tag>
+          ))}
+        </div>
       </td>
     </tr>
   );

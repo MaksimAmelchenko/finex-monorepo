@@ -8,6 +8,14 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.raw('GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.unit TO web');
   await knex.schema.raw('GRANT USAGE, SELECT ON SEQUENCE cf$.unit_id_unit_seq TO web');
+
+  await knex.schema.raw('GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.tag TO web');
+  await knex.schema.raw('GRANT USAGE, SELECT ON SEQUENCE cf$.tag_id_tag_seq TO web');
+
+  await knex.schema.raw('GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.cashFlow TO web');
+  await knex.schema.raw('GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.cashFlow_detail TO web');
+  await knex.schema.raw('GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.account_balance TO web');
+
   await knex.schema.raw('GRANT USAGE ON SCHEMA "context" TO web');
   await knex.schema.raw('GRANT ALL ON FUNCTION "context".set(uuid, boolean) TO web');
 
@@ -23,6 +31,14 @@ export async function down(knex: Knex): Promise<void> {
 
   await knex.schema.raw('REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.unit from web');
   await knex.schema.raw('REVOKE USAGE, SELECT ON SEQUENCE cf$.unit_id_unit_seq FROM web');
+
+  await knex.schema.raw('REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.tag from web');
+  await knex.schema.raw('REVOKE USAGE, SELECT ON SEQUENCE cf$.tag_id_tag_seq FROM web');
+
+  await knex.schema.raw('REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.cashFlow from web');
+  await knex.schema.raw('REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.cashFlow_detail from web');
+  await knex.schema.raw('REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.account_balance from web');
+
   await knex.schema.raw('REVOKE ALL ON FUNCTION "context".set(uuid, boolean) FROM web');
   await knex.schema.raw('REVOKE USAGE ON SCHEMA "context" FROM web');
 

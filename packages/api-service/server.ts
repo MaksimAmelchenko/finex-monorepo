@@ -46,6 +46,7 @@ import { planApi } from './api/v2/plan';
 import { transactionApi } from './api/v2/transaction';
 import { contractorApi } from './api/v2/contractor';
 import { unitApi } from './api/v2/unit';
+import { tagApi } from './api/v2/tag';
 
 const app: Koa = new Koa();
 
@@ -96,6 +97,7 @@ app.use(accountApi);
 app.use(categoryApi);
 app.use(contractorApi);
 app.use(unitApi);
+app.use(tagApi);
 
 app.use(serve(`${__dirname}/public`));
 

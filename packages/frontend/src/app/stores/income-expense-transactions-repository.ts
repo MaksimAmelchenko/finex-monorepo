@@ -13,16 +13,18 @@ import {
   UpdateTransactionChanges,
   UpdateTransactionResponse,
 } from '../types/income-expense-transaction';
+import { ITransaction } from '../types/transaction';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
 import { PlannedTransaction } from './models/planned-transaction';
+import { PlansRepository } from './plans-repository';
+import { Tag } from './models/tag';
+import { TagsRepository } from './tags-repository';
 import { Transaction } from './models/transaction';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
-import { ITransaction } from '../types/transaction';
-import { PlansRepository } from './plans-repository';
 
 export interface IIncomeExpenseTransactionsApi {
   get: (query: GetIncomeExpenseTransactionsQuery) => Promise<GetIncomeExpenseTransactionsResponse>;
@@ -229,6 +231,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     const categoriesRepository = this.getStore(CategoriesRepository);
     const contractorsRepository = this.getStore(ContractorsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
+    const tagsRepository = this.getStore(TagsRepository);
     const unitsRepository = this.getStore(UnitsRepository);
     const usersRepository = this.getStore(UsersRepository);
 
@@ -248,7 +251,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         unitId,
         isNotConfirmed,
         note,
-        tags,
+        tags: tagIds,
         planId,
         nRepeat,
         colorMark,
@@ -283,6 +286,14 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
       }
 
       const unit = (unitId && unitsRepository.get(unitId)) || null;
+
+      const tags = tagIds.reduce<Tag[]>((acc, tagId) => {
+        const tag = tagsRepository.get(tagId);
+        if (tag) {
+          acc.push(tag);
+        }
+        return acc;
+      }, []);
 
       const incomeExpenseTransaction =
         id && cashFlowId

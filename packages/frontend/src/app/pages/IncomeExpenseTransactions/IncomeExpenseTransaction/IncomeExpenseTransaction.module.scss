@@ -59,6 +59,10 @@ td.firstColumn {
     }
   }
 }
+.tags {
+  display: inline-flex;
+  gap: 8px;
+}
 
 .categoryPath {
   color: colors.$grayDarkest;

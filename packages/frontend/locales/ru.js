@@ -221,6 +221,7 @@ module.exports = {
     Categories: 'Категории',
     Contractors: 'Контагенты',
     Units: 'Единицы измерения',
+    Tags: 'Теги',
   },
   SignIn: {
     'Invalid username or password': 'Неверный логин или пароль',
@@ -265,8 +266,22 @@ module.exports = {
     'You email has been confirmed_': 'Спасибо, Ваш электронный адрес подтверждён',
     'Start to use': 'Начать пользоваться',
   },
+  Tags: {
+    New: 'Добавить',
+    Delete: 'Удалить',
+    Refresh: 'Обновить',
+    Name: 'Наименование',
+  },
+  TagWindow: {
+    'Tag already exists': 'Тег уже существует',
+    'Edit tag': 'Редактирование',
+    'Add new tag': 'Добавление',
+    Name: 'Наименование',
+    Cancel: 'Отмена',
+    Save: 'Сохранить',
+  },
   Units: {
-    "You can't delete unit with transaction": "Нельзя удалить ед.измерения с операциями",
+    "You can't delete unit with transaction": 'Нельзя удалить ед.измерения с операциями',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',

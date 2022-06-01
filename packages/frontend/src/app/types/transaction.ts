@@ -3,6 +3,7 @@ import { Category } from '../stores/models/category';
 import { Contractor } from '../stores/models/contractor';
 import { Money } from '../stores/models/money';
 import { Permit, Sign, TDate } from './index';
+import { Tag } from '../stores/models/tag';
 import { Unit } from '../stores/models/unit';
 import { User } from '../stores/models/user';
 
@@ -21,7 +22,7 @@ export interface ITransaction {
   unit: Unit | null;
   isNotConfirmed: boolean;
   note: string;
-  tags: string[];
+  tags: Tag[];
   permit: Permit;
   user: User;
 }

@@ -1,14 +1,33 @@
-import { IUser } from '../../types/user';
-import { ITag } from '../../types/tag';
+import { action, makeObservable, observable } from 'mobx';
 
-export class Tag implements ITag {
+import { ITag } from '../../types/tag';
+import { IDeletable, ISelectable } from '../../types';
+import { IUser } from '../../types/user';
+
+export class Tag implements ITag, ISelectable, IDeletable {
   readonly id: string;
   readonly user: IUser;
   name: string;
+
+  isDeleting: boolean;
+  isSelected: boolean;
 
   constructor({ id, user, name }: ITag) {
     this.id = id;
     this.user = user;
     this.name = name;
+
+    this.isDeleting = false;
+    this.isSelected = false;
+
+    makeObservable(this, {
+      isDeleting: observable,
+      isSelected: observable,
+      toggleSelection: action,
+    });
+  }
+
+  toggleSelection() {
+    this.isSelected = !this.isSelected;
   }
 }

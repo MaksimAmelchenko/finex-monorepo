@@ -221,6 +221,7 @@ module.exports = {
     Categories: 'Categories',
     Contractors: 'Contractors',
     Units: 'Units',
+    Tags: 'Tags',
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',
@@ -266,13 +267,26 @@ module.exports = {
     'You email has been confirmed_': 'You email has been confirmed.',
     'Start to use': 'Start to use',
   },
+  Tags: {
+    New: 'New',
+    Delete: 'Delete',
+    Refresh: 'Refresh',
+    Name: 'Name',
+  },
+  TagWindow: {
+    'Tag already exists': 'Tag already exists',
+    'Edit tag': 'Edit tag',
+    'Add new tag': 'Add new tag',
+    Name: 'Name',
+    Cancel: 'Cancel',
+    Save: 'Save',
+  },
   Units: {
     "You can't delete unit with transaction": "You can't delete unit with transaction",
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
     Name: 'Name',
-    Note: 'Note',
   },
   UnitWindow: {
     'Unit already exists': 'Unit already exists',

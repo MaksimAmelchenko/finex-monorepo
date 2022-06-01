@@ -6,6 +6,7 @@ import { Contractor } from './contractor';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { ITransaction } from '../../types/transaction';
 import { Money } from './money';
+import { Tag } from './tag';
 import { Unit } from './unit';
 import { User } from './user';
 
@@ -24,7 +25,7 @@ export class Transaction implements ITransaction, ISelectable, IDeletable {
   unit: Unit | null;
   isNotConfirmed: boolean;
   note: string;
-  tags: string[];
+  tags: Tag[];
   permit: Permit;
   user: User;
 
