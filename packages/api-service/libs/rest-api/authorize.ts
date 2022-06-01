@@ -42,6 +42,7 @@ export async function authorize(ctx: IRequestContext<never>, authorizationHeader
   ctx.log = ctx.log.child(
     {
       sessionId: ctx.sessionId,
+      projectId: ctx.projectId,
       userId: ctx.userId,
     },
     true
