@@ -75,12 +75,7 @@ export const Units = observer(() => {
               <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                disabled={!selectedUnits.length}
-                onClick={handleDeleteClick}
-              >
+              <Button variant="outlined" size="small" disabled={!selectedUnits.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
               <Button variant="outlined" size="small" onClick={handleRefreshClick}>
@@ -104,13 +99,7 @@ export const Units = observer(() => {
         </table>
       </article>
 
-      {unit && (
-        <UnitWindow
-          isOpened={isOpenedUnitWindow}
-          unit={unit}
-          onClose={handleCloseUnitWindow}
-        />
-      )}
+      {unit && <UnitWindow isOpened={isOpenedUnitWindow} unit={unit} onClose={handleCloseUnitWindow} />}
     </>
   );
 });
