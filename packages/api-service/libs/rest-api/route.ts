@@ -1,17 +1,17 @@
 import * as defaults from 'lodash.defaults';
 
-import { ajv } from '../ajv';
+import getMultipartParams from './get-multipart-params';
+import getParams from './get-params';
+import getValidators from './get-validators';
 import send, { isContent } from './send';
 import sendError from './send-error';
-import getValidators from './get-validators';
-import getParams from './get-params';
-import getMultipartParams from './get-multipart-params';
-import { authorize } from './authorize';
-import { InvalidParametersError, InvalidResponseError, UnauthorizedError } from '../errors';
-import { log } from '../log';
-
 import { IRequestContext, IRouterContext } from '../../types/app';
 import { IResponse, IRestRoute, RestMethod, RestRouteOptions, SchemasValidators } from './types';
+import { InvalidParametersError, InvalidResponseError, UnauthorizedError } from '../errors';
+import { ajv } from '../ajv';
+import { authorize } from './authorize';
+import { knex } from '../../knex';
+import { log } from '../log';
 
 export class RestRoute<P extends Record<string, any>, IsAuthorized extends boolean> implements IRestRoute {
   options: RestRouteOptions<P, IsAuthorized>;
@@ -40,15 +40,17 @@ export class RestRoute<P extends Record<string, any>, IsAuthorized extends boole
 
   async handler(routerContext: IRouterContext, next): Promise<any> {
     const { options } = this;
+
+    // @ts-ignore
+    const ctx: IRequestContext<any, IsAuthorized> = {
+      log: routerContext.log,
+      requestId: routerContext.requestId,
+      cookies: routerContext.cookies,
+    };
+    // Using trx as a transaction object:
+    ctx.trx = await knex.transaction();
+
     try {
-
-      // @ts-ignore
-      const ctx: IRequestContext<any, IsAuthorized> = {
-        log: routerContext.log,
-        requestId: routerContext.requestId,
-        cookies: routerContext.cookies,
-      };
-
       if (options.isNeedAuthorization) {
         const { url } = routerContext;
         const authorizationHeader = routerContext.headers['authorization'];
@@ -59,6 +61,7 @@ export class RestRoute<P extends Record<string, any>, IsAuthorized extends boole
         await authorize(ctx as IRequestContext<never>, authorizationHeader, url);
         // in authorize a logger has been extended (added sessionId, userId/serviceId)
         routerContext.log = ctx.log;
+        await knex.raw('select context.set(?)', [(ctx as IRequestContext<never>).sessionId]).transacting(ctx.trx);
       }
 
       let params = {};
@@ -97,9 +100,10 @@ export class RestRoute<P extends Record<string, any>, IsAuthorized extends boole
           ctx.log.fatal({ err });
         }
       }
-
+      await ctx.trx.commit();
       send(routerContext, response);
     } catch (err: any) {
+      await ctx.trx.rollback();
       routerContext.log.error({ err });
       sendError(routerContext, err);
     }

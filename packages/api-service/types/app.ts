@@ -1,7 +1,8 @@
 import * as Bunyan from 'bunyan';
+import * as Cookies from 'cookies';
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
-import * as Cookies from 'cookies';
+import { Knex } from 'knex';
 
 export type ILogger = Bunyan;
 
@@ -19,6 +20,7 @@ export type IRequestContext<P = any, isAuthorized extends boolean = true> = {
   params: P;
   additionalParams?: any;
   cookies: Cookies;
+  trx: Knex.Transaction;
 } & ContextCustomT &
   (isAuthorized extends true ? IAuthorizedRequestContext : INotAuthorizedRequestContext);
 
