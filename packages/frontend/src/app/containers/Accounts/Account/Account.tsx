@@ -39,9 +39,9 @@ export const Account = observer<AccountProps>(({ account, onClick }: AccountProp
       </td>
       <td>
         {isOwner ? (
-          <div className={styles.name} onClick={handleClick}>
+          <span className={styles.name} onClick={handleClick}>
             {name}
-          </div>
+          </span>
         ) : (
           name
         )}
