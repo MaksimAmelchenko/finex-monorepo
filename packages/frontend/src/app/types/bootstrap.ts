@@ -7,10 +7,10 @@ import { IAPICategoryPrototype, IAPICategory } from './category';
 import { IAccountTypeRaw } from './account-type';
 import { IAPITag } from './tag';
 import { IProjectRaw } from './project';
-import { ICurrencyRaw } from './currency';
+import { IApiCurrency } from './currency';
 import { ICurrencyRateSourceRaw } from './currencies-rate-source';
 import { IInvitationRaw } from './invitation';
-import { IMoneyRaw } from './money';
+import { IApiMoney } from './money';
 import { IProfileRaw } from './profile';
 
 export interface IBootstrapRaw {
@@ -20,11 +20,11 @@ export interface IBootstrapRaw {
   categories: IAPICategory[];
   categoryPrototypes: IAPICategoryPrototype[];
   contractors: IAPIContractor[];
-  currencies: ICurrencyRaw[];
+  currencies: IApiCurrency[];
   currencyRateSources: ICurrencyRateSourceRaw[];
   invitations: IInvitationRaw[];
   messages: Record<string, any>;
-  moneys: IMoneyRaw[];
+  moneys: IApiMoney[];
   params: {
     dashboard: {
       dBegin: TDate;

@@ -5,7 +5,7 @@ import { IAPIContractor } from './contractor';
 import { IAPICategory } from './category';
 import { IAPIUnit } from './unit';
 import { IAPITag } from './tag';
-import { IMoneyRaw } from './money';
+import { IApiMoney } from './money';
 
 export interface IProjectRaw {
   idProject: number;
@@ -31,7 +31,7 @@ export interface IUseProjectResponse {
   categories: IAPICategory[];
   units: IAPIUnit[];
   tags: IAPITag[];
-  moneys: IMoneyRaw[];
+  moneys: IApiMoney[];
   params: {
     dashboard: {
       dBegin: TDate;

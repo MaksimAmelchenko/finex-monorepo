@@ -84,7 +84,8 @@ export const AccountDailyBalances = observer(() => {
 
     dailyBalances
       .slice()
-      .sort((a, b) => a.money.sorting - b.money.sorting)
+      .sort((a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money))
+
       .forEach(({ money, account, dBalance, sum }) => {
         if (!obj.has(money)) {
           obj.set(money, {
@@ -114,7 +115,7 @@ export const AccountDailyBalances = observer(() => {
           })),
       };
     });
-  }, [dailyBalances]);
+  }, [dailyBalances, moneysRepository.moneys]);
 
   return (
     <section className={styles.container}>

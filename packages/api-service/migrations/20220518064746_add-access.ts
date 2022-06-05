@@ -21,6 +21,9 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.raw('GRANT USAGE ON SCHEMA "error$" TO web');
   await knex.schema.raw('GRANT ALL ON FUNCTION "error$".raise(text, text, text, text, text) TO web');
+
+  await knex.schema.raw('GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.money TO web');
+  await knex.schema.raw('GRANT USAGE, SELECT ON SEQUENCE cf$.money_id_money_seq TO web');
 }
 
 export async function down(knex: Knex): Promise<void> {
@@ -44,4 +47,7 @@ export async function down(knex: Knex): Promise<void> {
 
   await knex.schema.raw('REVOKE ALL ON FUNCTION "error$".raise(text, text, text, text, text) FROM web');
   await knex.schema.raw('REVOKE USAGE ON SCHEMA "error$" FROM web');
+
+  await knex.schema.raw('REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE cf$.money from web');
+  await knex.schema.raw('REVOKE USAGE, SELECT ON SEQUENCE cf$.money_id_money_seq FROM web');
 }

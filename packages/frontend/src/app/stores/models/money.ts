@@ -1,16 +1,22 @@
-import { IUser } from '../../types/user';
-import { IMoney } from '../../types/money';
-import { ICurrency } from '../../types/currency';
+import { action, makeObservable, observable } from 'mobx';
 
-export class Money implements IMoney {
+import { Currency } from './currency';
+import { IDeletable, ISelectable } from '../../types';
+import { IMoney } from '../../types/money';
+import { User } from './user';
+
+export class Money implements IMoney, ISelectable, IDeletable {
   readonly id: string;
-  readonly user: IUser;
+  readonly user: User;
+  currency: Currency | null;
   name: string;
-  currency: ICurrency | null;
-  isEnabled: boolean;
-  precision: number;
-  sorting: number;
   symbol: string;
+  precision?: number;
+  isEnabled: boolean;
+  sorting: number | null;
+
+  isDeleting: boolean;
+  isSelected: boolean;
 
   constructor({ id, user, name, currency, isEnabled, precision, sorting, symbol }: IMoney) {
     this.id = id;
@@ -21,5 +27,18 @@ export class Money implements IMoney {
     this.precision = precision;
     this.sorting = sorting;
     this.symbol = symbol === 'руб' ? '₽' : symbol;
+
+    this.isDeleting = false;
+    this.isSelected = false;
+
+    makeObservable(this, {
+      isDeleting: observable,
+      isSelected: observable,
+      toggleSelection: action,
+    });
+  }
+
+  toggleSelection() {
+    this.isSelected = !this.isSelected;
   }
 }

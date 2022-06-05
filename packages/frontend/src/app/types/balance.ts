@@ -1,7 +1,7 @@
 import { TDate } from './index';
-import { IAccount } from './account';
-import { IMoney } from './money';
-import { IContractor } from './contractor';
+import { Account } from '../stores/models/account';
+import { Contractor } from '../stores/models/contractor';
+import { Money } from '../stores/models/money';
 
 export interface IGetBalanceParams {
   dBalance: TDate;
@@ -9,22 +9,22 @@ export interface IGetBalanceParams {
 }
 
 export interface IGetBalanceResponse {
-  accountBalances: IAccountBalanceRaw[];
-  debtBalances: IDebtBalanceRaw[];
+  accountBalances: IApiAccountBalance[];
+  debtBalances: IApiDebtBalance[];
 }
 
-export interface IAccountBalanceRaw {
+export interface IApiAccountBalance {
   idAccount: number;
-  balances: IBalanceRaw[];
+  balances: IApiBalance[];
 }
 
-export interface IDebtBalanceRaw {
+export interface IApiDebtBalance {
   debtType: number;
   idContractor: number;
-  balances: IBalanceRaw[];
+  balances: IApiBalance[];
 }
 
-export interface IBalanceRaw {
+export interface IApiBalance {
   idMoney: number;
   sum: number;
 }
@@ -36,10 +36,10 @@ export interface IGetDailyBalanceParams {
 }
 
 export interface IGetDailyBalanceResponse {
-  balances: IDailyBalanceRaw[];
+  balances: IApiDailyBalance[];
 }
 
-export interface IDailyBalanceRaw {
+export interface IApiDailyBalance {
   dBalance: TDate;
   idAccount: number;
   idMoney: number;
@@ -48,23 +48,23 @@ export interface IDailyBalanceRaw {
 
 export interface IDailyBalance {
   dBalance: TDate;
-  account: IAccount | null;
-  money: IMoney;
+  account: Account | null;
+  money: Money;
   sum: number;
 }
 
 export interface IAccountBalance {
-  account: IAccount;
+  account: Account;
   balances: IBalance[];
 }
 
 export interface IDebtBalance {
   debtType: number;
-  contractor: IContractor;
+  contractor: Contractor;
   balances: IBalance[];
 }
 
 export interface IBalance {
-  money: IMoney;
+  money: Money;
   sum: number;
 }

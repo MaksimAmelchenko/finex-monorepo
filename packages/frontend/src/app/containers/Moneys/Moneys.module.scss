@@ -1,0 +1,24 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.panel {
+  position: sticky;
+  top: 5.6rem;
+  padding: 6px 0;
+  background-color: colors.$grayLight;
+
+  &__toolbar {
+  }
+}
+
+.toolbar {
+  &__buttons {
+    display: flex;
+    gap: 1.2rem;
+  }
+}
+
+.table {
+  @include typography.body2;
+  background-color: colors.$white;
+}

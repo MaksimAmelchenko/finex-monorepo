@@ -3,21 +3,21 @@ import { format } from 'date-fns';
 
 import { AccountsRepository } from './accounts-repository';
 import { ContractorsRepository } from './contractors-repository';
-import { IMoney } from '../types/money';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
+import { Money } from './models/money';
 import { MoneysRepository } from './moneys-repository';
 import { getT } from '../lib/core/i18n';
 import {
   IAccountBalance,
-  IAccountBalanceRaw,
+  IApiAccountBalance,
+  IApiBalance,
+  IApiDailyBalance,
+  IApiDebtBalance,
   IBalance,
-  IBalanceRaw,
   IDailyBalance,
-  IDailyBalanceRaw,
   IDebtBalance,
-  IDebtBalanceRaw,
   IGetBalanceParams,
   IGetBalanceResponse,
   IGetDailyBalanceParams,
@@ -30,7 +30,7 @@ export interface IBalanceApi {
 }
 
 type Balance = {
-  money: IMoney;
+  money: Money;
   amount: number;
 };
 
@@ -121,7 +121,7 @@ export class BalanceRepository extends ManageableStore {
     }
   }
 
-  private decodeAccountBalances(accountBalances: IAccountBalanceRaw[]): IAccountBalance[] {
+  private decodeAccountBalances(accountBalances: IApiAccountBalance[]): IAccountBalance[] {
     const accountsRepository = this.getStore(AccountsRepository);
 
     return accountBalances.map(({ idAccount, balances }) => {
@@ -133,7 +133,7 @@ export class BalanceRepository extends ManageableStore {
     });
   }
 
-  private decodeDebtBalances(debtBalances: IDebtBalanceRaw[]): IDebtBalance[] {
+  private decodeDebtBalances(debtBalances: IApiDebtBalance[]): IDebtBalance[] {
     const contractorsRepository = this.getStore(ContractorsRepository);
 
     return debtBalances.map(({ debtType, idContractor, balances }) => {
@@ -146,7 +146,7 @@ export class BalanceRepository extends ManageableStore {
     });
   }
 
-  private decodeDailyBalances(dailyBalances: IDailyBalanceRaw[]): IDailyBalance[] {
+  private decodeDailyBalances(dailyBalances: IApiDailyBalance[]): IDailyBalance[] {
     const accountsRepository = this.getStore(AccountsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
 
@@ -166,7 +166,7 @@ export class BalanceRepository extends ManageableStore {
     });
   }
 
-  private decodeBalances(balances: IBalanceRaw[]): IBalance[] {
+  private decodeBalances(balances: IApiBalance[]): IBalance[] {
     const moneysRepository = this.getStore(MoneysRepository);
     return balances.map(({ idMoney, sum }) => {
       const money = moneysRepository.get(String(idMoney))!;
@@ -178,6 +178,8 @@ export class BalanceRepository extends ManageableStore {
   }
 
   get totalBalance(): Balance[] {
+    const moneysRepository = this.getStore(MoneysRepository);
+
     const total: Map<string, Balance> = this.accountBalances.reduce<Map<string, Balance>>((acc, { balances }) => {
       balances.forEach(({ money, sum: amount }) => {
         if (!acc.has(money.id)) {
@@ -189,11 +191,14 @@ export class BalanceRepository extends ManageableStore {
       return acc;
     }, new Map());
 
-    return Array.from(total.values()).sort((a, b) => a.money.sorting - b.money.sorting);
+    return Array.from(total.values()).sort(
+      (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
+    );
   }
 
   get treeBalance(): TreeBalance {
     const treeBalanceMap: TreeBalanceMap = new Map();
+    const moneysRepository = this.getStore(MoneysRepository);
     // sort by accountType.name, account.name
     const accountBalances = this.accountBalances
       .slice()
@@ -207,7 +212,7 @@ export class BalanceRepository extends ManageableStore {
           account,
           balances: balances
             .slice()
-            .sort((a, b) => a.money.sorting - b.money.sorting)
+            .sort((a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money))
             .map(({ money, sum: amount }) => ({ money, amount })),
         };
       });
@@ -264,6 +269,8 @@ export class BalanceRepository extends ManageableStore {
 
   get treeDebt(): TreeBalance {
     const treeDebtMap: TreeBalanceMap = new Map();
+    const moneysRepository = this.getStore(MoneysRepository);
+
     // sort by debtType, contractor.name
     const debtBalances = this.debtBalances
       .slice()
@@ -277,7 +284,7 @@ export class BalanceRepository extends ManageableStore {
           debtType,
           balances: balances
             .slice()
-            .sort((a, b) => a.money.sorting - b.money.sorting)
+            .sort((a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money))
             .map(({ money, sum: amount }) => ({ money, amount })),
         };
       });

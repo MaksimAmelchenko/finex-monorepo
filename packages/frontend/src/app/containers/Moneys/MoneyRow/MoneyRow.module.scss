@@ -1,0 +1,23 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.row {
+  &_is_deleting {
+    background-color: colors.$orangeLight;
+  }
+}
+
+.tick {
+  img {
+    display: block;
+    width: 24px;
+  }
+}
+
+.name {
+  cursor: pointer;
+  color: colors.$blueLight;
+
+  &:hover {
+    color: colors.$blue;
+  }
+}

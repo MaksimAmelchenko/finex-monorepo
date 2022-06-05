@@ -1,5 +1,5 @@
-export interface ICurrencyRaw {
-  idCurrency: number;
+export interface IApiCurrency {
+  id: string;
   code: string;
   name: string;
   shortName: string;

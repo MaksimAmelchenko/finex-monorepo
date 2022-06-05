@@ -1,4 +1,4 @@
-import { ICurrency, ICurrencyRaw } from '../types/currency';
+import { IApiCurrency, ICurrency } from '../types/currency';
 import { Currency } from './models/currency';
 import { ManageableStore } from '../core/manageable-store';
 
@@ -9,11 +9,11 @@ export class CurrenciesRepository extends ManageableStore {
 
   currencies: ICurrency[] = [];
 
-  consume(currencies: ICurrencyRaw[]): void {
+  consume(currencies: IApiCurrency[]): void {
     this.currencies = currencies.map(
-      ({ idCurrency, code, name, shortName, symbol }) =>
+      ({ id, code, name, shortName, symbol }) =>
         new Currency({
-          id: String(idCurrency),
+          id,
           code,
           name,
           shortName,
