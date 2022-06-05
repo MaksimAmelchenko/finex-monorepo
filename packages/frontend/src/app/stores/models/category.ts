@@ -42,6 +42,7 @@ export class Category implements ICategory, IDeletable {
   }
 
   get path(): string[] {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let category: ICategory | null = this;
     const path: string[] = [];
     while (category) {
@@ -52,6 +53,7 @@ export class Category implements ICategory, IDeletable {
   }
 
   get namePath(): string[] {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let category: ICategory | null = this;
     const path: string[] = [];
     while (category) {

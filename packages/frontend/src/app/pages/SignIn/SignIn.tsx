@@ -45,7 +45,7 @@ export function SignIn(): JSX.Element {
           navigate(from, { replace: true });
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             case 'unauthorized': {
               message = t('Invalid username or password');
@@ -61,7 +61,7 @@ export function SignIn(): JSX.Element {
           throw err;
         });
     },
-    [authStore, from, navigate]
+    [authStore, enqueueSnackbar, from, navigate]
   );
 
   const validationSchema = useMemo(

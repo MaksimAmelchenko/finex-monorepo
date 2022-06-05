@@ -103,7 +103,7 @@ export function MoneyWindow({ isOpened, money, onClose }: MoneyWindowProps): JSX
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             case 'money_id_project_name_u':
               message = t('Money already exists');
@@ -117,7 +117,7 @@ export function MoneyWindow({ isOpened, money, onClose }: MoneyWindowProps): JSX
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [moneysRepository, onClose, money]
+    [enqueueSnackbar, money, moneysRepository, onClose]
   );
 
   const validationSchema = useMemo(

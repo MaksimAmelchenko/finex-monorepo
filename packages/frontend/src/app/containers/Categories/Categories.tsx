@@ -40,7 +40,7 @@ export const Categories = observer(() => {
   const handleDeleteClick = () => {
     if (selectedCategory) {
       categoriesRepository.deleteCategory(selectedCategory).catch(err => {
-        let message: string = '';
+        let message = '';
         switch (err.code) {
           case 'foreign_key_violation.category_2_category_parent': {
             message = t("You can't delete a category with subcategories");

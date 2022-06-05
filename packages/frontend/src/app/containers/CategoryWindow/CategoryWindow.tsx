@@ -99,7 +99,7 @@ export function CategoryWindow({ isOpened, category, onClose }: CategoryWindowPr
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             default:
               message = err.message;
@@ -107,7 +107,7 @@ export function CategoryWindow({ isOpened, category, onClose }: CategoryWindowPr
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [categoriesRepository, onClose, category]
+    [categoriesRepository, category, enqueueSnackbar, onClose]
   );
 
   const validationSchema = useMemo(

@@ -39,7 +39,7 @@ export const Moneys = observer(() => {
     }
     selectedMoneys.forEach(money => {
       moneysRepository.deleteMoney(money).catch(err => {
-        let message: string = '';
+        let message = '';
         switch (err.code) {
           case 'cashflow_detail_2_money': {
             message = t('There are transactions with this money');

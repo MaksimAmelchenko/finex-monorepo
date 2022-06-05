@@ -203,7 +203,7 @@ export function CashFlowTransactionWindow({
           }
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             default:
               message = err.message;
@@ -211,7 +211,7 @@ export function CashFlowTransactionWindow({
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [incomeExpenseTransactionsRepository, onClose, transaction]
+    [enqueueSnackbar, incomeExpenseTransactionsRepository, onClose, transaction]
   );
 
   const validationSchema = useMemo(

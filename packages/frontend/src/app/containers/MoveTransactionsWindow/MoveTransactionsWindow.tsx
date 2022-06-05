@@ -49,7 +49,7 @@ export function MoveTransactionsWindow({ isOpened, category, onClose }: Category
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             case 'foreign_key_violation.category_2_category_parent': {
               message = t("You can't delete a category with subcategories");
@@ -61,7 +61,7 @@ export function MoveTransactionsWindow({ isOpened, category, onClose }: Category
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [categoriesRepository, onClose, category],
+    [categoriesRepository, enqueueSnackbar, onClose]
   );
 
   const validationSchema = useMemo(
@@ -72,14 +72,14 @@ export function MoveTransactionsWindow({ isOpened, category, onClose }: Category
           .test(
             'categoryIdTo',
             t(
-              'You cannot move transaction to the same category without using the option "Move operations from subcategories"',
+              'You cannot move transaction to the same category without using the option "Move operations from subcategories"'
             ),
             function (value) {
               return !(this.parent.categoryId === value && !this.parent.isRecursive);
-            },
+            }
           ),
       }),
-    [],
+    []
   );
 
   const selectCategoriesOptions = useMemo<ISelectOption[]>(() => {

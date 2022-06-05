@@ -39,7 +39,7 @@ export const Tags = observer(() => {
     }
     selectedTags.forEach(tag => {
       tagsRepository.deleteTag(tag).catch(err => {
-        let message: string = '';
+        let message = '';
         switch (err.code) {
           default:
             message = err.message;

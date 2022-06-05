@@ -52,7 +52,7 @@ export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWi
       if (contractor instanceof Contractor) {
         const changes: UpdateContractorChanges = getPatch(
           mapValuesToPayload(initialValues),
-          mapValuesToPayload(values),
+          mapValuesToPayload(values)
         );
         result = contractorsRepository.updateContractor(contractor, changes);
       } else {
@@ -65,7 +65,7 @@ export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWi
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             case 'contractor_id_project_name_u':
               message = t('Contractor already exists');
@@ -76,7 +76,7 @@ export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWi
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [contractorsRepository, onClose, contractor],
+    [contractor, contractorsRepository, enqueueSnackbar, onClose]
   );
 
   const validationSchema = useMemo(
@@ -84,7 +84,7 @@ export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWi
       Yup.object<Shape<ContractorFormValues>>({
         name: Yup.string().required('Please fill name'),
       }),
-    [],
+    []
   );
 
   const { name, note } = contractor;

@@ -12,6 +12,7 @@ export class CategoryPrototype implements ICategoryPrototype {
   }
 
   get namePath(): string[] {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let categoryPrototype: CategoryPrototype | null = this;
     const path: string[] = [];
     while (categoryPrototype) {

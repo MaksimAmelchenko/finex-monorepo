@@ -108,7 +108,7 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             default:
               message = err.message;
@@ -116,7 +116,7 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [accountsRepository, onClose, account]
+    [account, accountsRepository, enqueueSnackbar, onClose]
   );
 
   const validationSchema = useMemo(
@@ -135,7 +135,7 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
     return usersRepository.users
       .filter(({ id }) => id !== profileRepository.profile!.user.id)
       .map(({ id: value, name: label }) => ({ value, label }));
-  }, [usersRepository.users]);
+  }, [profileRepository.profile, usersRepository.users]);
 
   const { name, accountType, isEnabled, note, readers, writers } = account;
 

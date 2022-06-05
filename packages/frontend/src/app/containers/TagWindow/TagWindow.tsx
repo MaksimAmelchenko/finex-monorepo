@@ -59,7 +59,7 @@ export function TagWindow({ isOpened, tag, onClose }: TagWindowProps): JSX.Eleme
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             case 'tag_id_project_name_u':
               message = t('Tag already exists');
@@ -70,7 +70,7 @@ export function TagWindow({ isOpened, tag, onClose }: TagWindowProps): JSX.Eleme
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [tagsRepository, onClose, tag]
+    [enqueueSnackbar, onClose, tag, tagsRepository]
   );
 
   const validationSchema = useMemo(

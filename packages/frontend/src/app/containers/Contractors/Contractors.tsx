@@ -39,7 +39,7 @@ export const Contractors = observer(() => {
     }
     selectedContractors.forEach(contractor => {
       contractorsRepository.deleteContractor(contractor).catch(err => {
-        let message: string = '';
+        let message = '';
         switch (err.code) {
           case 'cashflow_2_contractor': {
             message = t("You can't delete contractor with transaction");

@@ -39,7 +39,7 @@ export const Units = observer(() => {
     }
     selectedUnits.forEach(unit => {
       unitsRepository.deleteUnit(unit).catch(err => {
-        let message: string = '';
+        let message = '';
         switch (err.code) {
           case 'cashflow_detail_2_unit': {
             message = t("You can't delete unit with transaction");

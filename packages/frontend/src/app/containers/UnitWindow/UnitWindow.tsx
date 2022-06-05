@@ -59,7 +59,7 @@ export function UnitWindow({ isOpened, unit, onClose }: UnitWindowProps): JSX.El
           onClose();
         })
         .catch(err => {
-          let message: string = '';
+          let message = '';
           switch (err.code) {
             case 'unit_id_project_name_u':
               message = t('Unit already exists');
@@ -70,7 +70,7 @@ export function UnitWindow({ isOpened, unit, onClose }: UnitWindowProps): JSX.El
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [unitsRepository, onClose, unit]
+    [enqueueSnackbar, onClose, unit, unitsRepository]
   );
 
   const validationSchema = useMemo(
