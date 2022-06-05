@@ -1,5 +1,5 @@
 import { IRequestContext } from '../types/app';
-import uuid = require('uuid');
+import * as uuid from 'uuid';
 import { log } from './log';
 
 export default function createRequestContext(requestId: string = uuid.v4()): IRequestContext<never, false> {
@@ -13,5 +13,6 @@ export default function createRequestContext(requestId: string = uuid.v4()): IRe
       true
     ),
     requestId,
+    trx: {} as any,
   };
 }

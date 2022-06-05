@@ -85,7 +85,8 @@ export abstract class ApiRepository extends ManageableStore {
         if (apiClass.status === response.status) {
           const apiErrorClass = (ApiErrors as any)[errorClass];
           return response.json().then(({ error }: { error: IAppError }) => {
-            if (error.status === 401 && ['sessionClosed', 'sessionTimeout'].includes(error.code)) {
+            if (apiErrorClass.status === 401 && ['sessionClosed', 'sessionTimeout'].includes(error.code)) {
+              debugger
               return this.getStore(AuthRepository).clearAuth();
             }
             throw new apiErrorClass(error.message, error.code);

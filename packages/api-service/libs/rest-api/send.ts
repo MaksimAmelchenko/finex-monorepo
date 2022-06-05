@@ -10,7 +10,7 @@ export function isContent(response: IResponse): response is IContent<any> {
   return !isFile(response) && response['body'];
 }
 
-export default function send(routerContext: IRouterContext, response: IResponse): void {
+export function send(routerContext: IRouterContext, response: IResponse): void {
   if (isContent(response)) {
     const { body = {}, contentType = 'application/json; charset=utf-8', status = 200, ETag } = response;
 

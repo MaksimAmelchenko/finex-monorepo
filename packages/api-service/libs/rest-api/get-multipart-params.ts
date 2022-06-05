@@ -11,7 +11,7 @@ function decodeFileInfo(file): IUploadedFile {
   };
 }
 
-export default function getMultipartParams(
+export function getMultipartParams(
   uploader: RequestHandler
 ): (routerContext: IRouterContext) => Promise<Record<string, unknown>> {
   return async function (ctx: IRouterContext): Promise<Record<string, unknown>> {
