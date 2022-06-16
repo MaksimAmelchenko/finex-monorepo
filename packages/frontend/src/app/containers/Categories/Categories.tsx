@@ -8,11 +8,11 @@ import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category as CategoryModel } from '../../stores/models/category';
 import { CategoryWindow } from '../CategoryWindow/CategoryWindow';
 import { ICategory } from '../../types/category';
+import { MoveTransactionsWindow } from '../MoveTransactionsWindow/MoveTransactionsWindow';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './Categories.module.scss';
-import { MoveTransactionsWindow } from '../MoveTransactionsWindow/MoveTransactionsWindow';
 
 const t = getT('Categories');
 
@@ -38,20 +38,27 @@ export const Categories = observer(() => {
   };
 
   const handleDeleteClick = () => {
-    if (selectedCategory) {
-      categoriesRepository.deleteCategory(selectedCategory).catch(err => {
+    if (!selectedCategory) {
+      return;
+    }
+
+    categoriesRepository
+      .deleteCategory(selectedCategory)
+      .then(() => setSelectedCategory(null))
+      .catch(err => {
         let message = '';
         switch (err.code) {
-          case 'foreign_key_violation.category_2_category_parent': {
+          case 'category_2_category_parent':
             message = t("You can't delete a category with subcategories");
             break;
-          }
+          case 'cashflow_detail_2_category':
+            message = t("You can't delete a category with transaction. Move them to another category.");
+            break;
           default:
             message = err.message;
         }
         enqueueSnackbar(message, { variant: 'error' });
       });
-    }
   };
 
   const handleRefreshClick = () => {
@@ -59,7 +66,6 @@ export const Categories = observer(() => {
   };
 
   const handleRowClick = (category: CategoryModel) => (event: React.SyntheticEvent) => {
-    // debugger
     setSelectedCategory(category);
   };
 

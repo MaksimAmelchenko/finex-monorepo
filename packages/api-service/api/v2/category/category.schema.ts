@@ -29,10 +29,6 @@ export const categorySchema: OpenAPIV3.SchemaObject = {
     isSystem: {
       type: 'boolean',
     },
-    unitId: {
-      ...unitId,
-      nullable: true,
-    },
     userId,
   },
   additionalProperties: false,
@@ -45,7 +41,6 @@ export const categorySchema: OpenAPIV3.SchemaObject = {
     'isEnabled',
     'note',
     'isSystem',
-    'unitId',
     'userId',
   ],
 };

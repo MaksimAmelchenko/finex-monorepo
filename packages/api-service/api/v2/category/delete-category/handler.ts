@@ -5,8 +5,11 @@ import { INoContent } from '../../../../libs/rest-api/types';
 import { IRequestContext } from '../../../../types/app';
 
 export async function handler(ctx: IRequestContext<{ categoryId: string }>): Promise<INoContent> {
-  const { categoryId } = ctx.params;
-  await CategoryService.deleteCategory(ctx, categoryId);
+  const {
+    projectId,
+    params: { categoryId },
+  } = ctx;
+  await CategoryService.deleteCategory(ctx, projectId, categoryId);
 
   return {
     status: StatusCodes.NO_CONTENT,

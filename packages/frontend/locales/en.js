@@ -87,6 +87,8 @@ module.exports = {
   },
   Categories: {
     "You can't delete a category with subcategories": "You can't delete a category with subcategories",
+    "You can't delete a category with transaction_ Move them to another category_":
+      "You can't delete a category with transaction. Move them to another category.",
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
@@ -96,6 +98,7 @@ module.exports = {
     Note: 'Note',
   },
   CategoryWindow: {
+    'There is a cycle in the hierarchy': 'There is a cycle in the hierarchy',
     'Edit category': 'Edit category',
     'Add new category': 'Add new category',
     'Check data and try again': 'Check data and try again',

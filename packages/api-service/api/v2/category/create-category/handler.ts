@@ -6,12 +6,12 @@ import { IResponse } from '../../../../libs/rest-api/types';
 export async function handler(
   ctx: IRequestContext<CreateCategoryServiceData>
 ): Promise<IResponse<{ category: IPublicCategory }>> {
-  const { params } = ctx;
-  const category = await CategoryService.createCategory(ctx, params);
+  const { projectId, userId, params } = ctx;
+  const category = await CategoryService.createCategory(ctx, projectId, userId, params);
 
   return {
     body: {
-      category,
+      category: category.toPublicModel(),
     },
   };
 }

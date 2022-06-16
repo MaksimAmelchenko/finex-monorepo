@@ -51,8 +51,10 @@ export function MoveTransactionsWindow({ isOpened, category, onClose }: Category
         .catch(err => {
           let message = '';
           switch (err.code) {
-            case 'foreign_key_violation.category_2_category_parent': {
-              message = t("You can't delete a category with subcategories");
+            case 'sameCategory': {
+              message = t(
+                'You cannot move transaction to the same category without using the option "Move operations from subcategories"'
+              );
               break;
             }
             default:

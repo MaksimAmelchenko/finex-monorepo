@@ -1,7 +1,7 @@
+import { Category } from '../model/category';
 import { CategoryGateway } from '../gateway';
-import { ICategory } from '../types';
 import { IRequestContext } from '../../../types/app';
 
-export async function getCategories(ctx: IRequestContext): Promise<ICategory[]> {
-  return CategoryGateway.getCategories(ctx);
+export async function getCategories(ctx: IRequestContext, projectId: string): Promise<Category[]> {
+  return CategoryGateway.getCategories(ctx, projectId);
 }

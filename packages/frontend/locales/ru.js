@@ -87,6 +87,8 @@ module.exports = {
   },
   Categories: {
     "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
+    "You can't delete a category with transaction_ Move them to another category_":
+      'Вы не можите удалить категорию с транзакциями. Переместите их в другую категорию.',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
@@ -96,6 +98,7 @@ module.exports = {
     Note: 'Примечание',
   },
   CategoryWindow: {
+    'There is a cycle in the hierarchy': 'Есть зацикливание в иерархии',
     'Edit category': 'Редактировать',
     'Add new category': 'Добавить новую категнорию',
     'Check data and try again': 'Проверти форму и попробуйте еще раз',

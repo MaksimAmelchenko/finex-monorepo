@@ -1,8 +1,8 @@
-import { IUnit } from './unit';
-import { IUser } from './user';
+import { Category } from '../stores/models/category';
 import { CategoryPrototype } from '../stores/models/category-prototype';
+import { User } from '../stores/models/user';
 
-export interface IAPICategoryPrototype {
+export interface IApiCategoryPrototype {
   id: string;
   name: string;
   parent: string | null;
@@ -14,7 +14,7 @@ export interface ICategoryPrototype {
   parent: CategoryPrototype | null;
 }
 
-export interface IAPICategory {
+export interface IApiCategory {
   id: string;
   name: string;
   parent: string | null;
@@ -30,18 +30,16 @@ export interface IAPICategory {
 export interface ICategory {
   id: string;
   name: string;
-  parent: ICategory | null;
-  categoryPrototype: ICategoryPrototype | null;
+  parent: Category | null;
+  categoryPrototype: CategoryPrototype | null;
   isEnabled: boolean;
   note: string;
-
   isSystem: boolean;
-  unit: IUnit | null;
-  user: IUser;
+  user: User;
 }
 
 export interface GetCategoriesResponse {
-  categories: IAPICategory[];
+  categories: IApiCategory[];
 }
 
 export interface CreateCategoryData {
@@ -53,7 +51,7 @@ export interface CreateCategoryData {
 }
 
 export interface CreateCategoryResponse {
-  category: IAPICategory;
+  category: IApiCategory;
 }
 
 export type UpdateCategoryChanges = Partial<{
@@ -65,11 +63,5 @@ export type UpdateCategoryChanges = Partial<{
 }>;
 
 export interface UpdateCategoryResponse {
-  category: IAPICategory;
-}
-
-export interface MoveTransactionsData {
-  categoryIdFrom: string;
-  categoryIdTo: string;
-  isRecursive: boolean;
+  category: IApiCategory;
 }

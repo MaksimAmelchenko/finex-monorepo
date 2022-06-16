@@ -6,9 +6,8 @@ import {
   CreateCategoryData,
   CreateCategoryResponse,
   GetCategoriesResponse,
-  IAPICategory,
+  IApiCategory,
   ICategory,
-  ICategoryPrototype,
   UpdateCategoryChanges,
   UpdateCategoryResponse,
 } from '../types/category';
@@ -17,6 +16,7 @@ import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
+import { CategoryPrototype } from './models/category-prototype';
 
 export interface ICategoriesApi {
   getCategories: () => Promise<GetCategoriesResponse>;
@@ -53,7 +53,7 @@ export class CategoriesRepository extends ManageableStore {
     return this.categoryMap.get(categoryId);
   }
 
-  consume(categories: IAPICategory[]): void {
+  consume(categories: IApiCategory[]): void {
     this._categories = categories.map(category => this.decode(category));
 
     categories.forEach(({ id, parent }) => {
@@ -132,7 +132,7 @@ export class CategoriesRepository extends ManageableStore {
     unitId,
     userId,
     isSystem,
-  }: IAPICategory): Category {
+  }: IApiCategory): Category {
     const categoryPrototypesRepository = this.getStore(CategoryPrototypesRepository);
     const unitsRepository = this.getStore(UnitsRepository);
     const usersRepository = this.getStore(UsersRepository);
@@ -142,7 +142,7 @@ export class CategoriesRepository extends ManageableStore {
       throw new Error('User is not found');
     }
 
-    let parentCategory: ICategory | null = null;
+    let parentCategory: Category | null = null;
     if (parent) {
       // the order of the categories is not guaranteed
       // it is possible that the parent is not set
@@ -150,7 +150,7 @@ export class CategoriesRepository extends ManageableStore {
       parentCategory = this.get(parent) ?? null;
     }
 
-    let categoryPrototype: ICategoryPrototype | null = null;
+    let categoryPrototype: CategoryPrototype | null = null;
     if (categoryPrototypeId) {
       categoryPrototype = categoryPrototypesRepository.get(categoryPrototypeId) ?? null;
       if (!categoryPrototype) {
@@ -171,7 +171,6 @@ export class CategoriesRepository extends ManageableStore {
       parent: parentCategory,
       categoryPrototype,
       user,
-      unit,
       name,
       isEnabled,
       isSystem,

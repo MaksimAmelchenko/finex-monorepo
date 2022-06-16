@@ -1,12 +1,10 @@
-import dbRequest from '../../../../libs/db-request';
-import { ICategory } from '../../types';
 import { IRequestContext } from '../../../../types/app';
-import { decodeCategory } from './decode-category';
+import { Category } from '../../model/category';
 
-export async function getCategories(ctx: IRequestContext): Promise<ICategory[]> {
+export async function getCategories(ctx: IRequestContext, projectId: string): Promise<Category[]> {
   ctx.log.trace('try to get categories');
 
-  const { categories } = await dbRequest(ctx, 'cf.category.get', {});
-
-  return categories.map(decodeCategory);
+  return Category.query(ctx.trx).where({
+    idProject: Number(projectId),
+  });
 }

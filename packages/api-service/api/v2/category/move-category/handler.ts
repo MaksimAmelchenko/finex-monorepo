@@ -5,9 +5,9 @@ import { IResponse } from '../../../../libs/rest-api/types';
 export async function handler(
   ctx: IRequestContext<{ categoryId: string; categoryIdTo: string; isRecursive: boolean }>
 ): Promise<IResponse<{ count: number }>> {
-  const { categoryId, categoryIdTo, isRecursive } = ctx.params;
+  const { projectId, params } = ctx;
 
-  const { count } = await CategoryService.moveCategory(ctx, { categoryId, categoryIdTo, isRecursive });
+  const { count } = await CategoryService.moveCategory(ctx, projectId, params);
 
   return {
     body: {

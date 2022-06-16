@@ -1,4 +1,4 @@
-import { ICategory, ICategoryPrototype } from '../../types/category';
+import { ICategoryPrototype } from '../../types/category';
 
 export class CategoryPrototype implements ICategoryPrototype {
   readonly id: string;

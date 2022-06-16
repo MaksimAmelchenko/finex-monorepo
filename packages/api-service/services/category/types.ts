@@ -1,17 +1,27 @@
+import { Category } from './model/category';
+
 export interface ICategory {
+  idProject: number;
+  idCategory: number;
+  name: string;
+  parent: number | null;
+  idCategoryPrototype: number | null;
+  isEnabled: boolean;
+  note: string | null;
+  isSystem: boolean;
+  idUser: number;
+}
+
+export interface IPublicCategory {
   id: string;
   name: string;
   parent: string | null;
   categoryPrototypeId: string | null;
   isEnabled: boolean;
   note: string;
-
   isSystem: boolean;
-  unitId: string | null;
   userId: string;
 }
-
-export type IPublicCategory = ICategory;
 
 export interface GetCategoriesGatewayResponse {
   categories: ICategory[];
@@ -29,7 +39,7 @@ export interface CreateCategoryGatewayData {
 
 export type CreateCategoryServiceData = CreateCategoryGatewayData;
 
-export type CreateCategoryGatewayResponse = ICategory;
+export type CreateCategoryGatewayResponse = Category;
 export type CreateCategoryServiceResponse = CreateCategoryGatewayResponse;
 
 export type UpdateCategoryGatewayChanges = Partial<{
@@ -42,7 +52,7 @@ export type UpdateCategoryGatewayChanges = Partial<{
 
 export type UpdateCategoryServiceChanges = UpdateCategoryGatewayChanges;
 
-export type UpdateCategoryGatewayResponse = ICategory;
+export type UpdateCategoryGatewayResponse = Category;
 export type UpdateCategoryServiceResponse = UpdateCategoryGatewayResponse;
 
 export type MoveCategoryGatewayParams = {

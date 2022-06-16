@@ -1,5 +1,5 @@
 import { ManageableStore } from '../core/manageable-store';
-import { IAPICategoryPrototype, ICategoryPrototype } from '../types/category';
+import { IApiCategoryPrototype, ICategoryPrototype } from '../types/category';
 import { CategoryPrototype } from './models/category-prototype';
 
 export class CategoryPrototypesRepository extends ManageableStore {
@@ -7,7 +7,7 @@ export class CategoryPrototypesRepository extends ManageableStore {
 
   categoryPrototypes: CategoryPrototype[] = [];
 
-  consume(categoryPrototypes: IAPICategoryPrototype[]): void {
+  consume(categoryPrototypes: IApiCategoryPrototype[]): void {
     this.categoryPrototypes = categoryPrototypes.reduce<CategoryPrototype[]>((acc, { id, name, parent }) => {
       let parentCategoryPrototype: CategoryPrototype | null = null;
 
@@ -24,7 +24,7 @@ export class CategoryPrototypesRepository extends ManageableStore {
     }, []);
   }
 
-  get(categoryPrototypeId: string): ICategoryPrototype | undefined {
+  get(categoryPrototypeId: string): CategoryPrototype | undefined {
     return this.categoryPrototypes.find(({ id }) => id === categoryPrototypeId);
   }
 

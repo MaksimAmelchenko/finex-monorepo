@@ -1,25 +1,24 @@
-import { action, makeObservable, observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 
-import { ICategory, ICategoryPrototype } from '../../types/category';
-import { IDeletable, ISelectable } from '../../types';
-import { IUnit } from '../../types/unit';
+import { CategoryPrototype } from './category-prototype';
+import { ICategory } from '../../types/category';
+import { IDeletable } from '../../types';
 import { IUser } from '../../types/user';
 
 export class Category implements ICategory, IDeletable {
   readonly id: string;
   name: string;
-  parent: ICategory | null;
-  categoryPrototype: ICategoryPrototype | null;
+  parent: Category | null;
+  categoryPrototype: CategoryPrototype | null;
   isEnabled: boolean;
   isSystem: boolean;
   note: string;
-  unit: IUnit | null;
 
   readonly user: IUser;
 
   isDeleting: boolean;
 
-  constructor({ id, name, parent, categoryPrototype, isEnabled, isSystem, note, user, unit }: ICategory) {
+  constructor({ id, name, parent, categoryPrototype, isEnabled, isSystem, note, user }: ICategory) {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -29,7 +28,6 @@ export class Category implements ICategory, IDeletable {
     this.note = note;
     this.parent = parent;
     this.user = user;
-    this.unit = unit;
 
     this.isDeleting = false;
 
@@ -43,7 +41,7 @@ export class Category implements ICategory, IDeletable {
 
   get path(): string[] {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let category: ICategory | null = this;
+    let category: Category | null = this;
     const path: string[] = [];
     while (category) {
       path.push(category.id);

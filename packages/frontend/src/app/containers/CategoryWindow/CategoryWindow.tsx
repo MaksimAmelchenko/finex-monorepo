@@ -101,6 +101,9 @@ export function CategoryWindow({ isOpened, category, onClose }: CategoryWindowPr
         .catch(err => {
           let message = '';
           switch (err.code) {
+            case 'cycleInHierarchy':
+              message = t('There is a cycle in the hierarchy');
+              break;
             default:
               message = err.message;
           }

@@ -6,12 +6,15 @@ import { IResponse } from '../../../../libs/rest-api/types';
 export async function handler(
   ctx: IRequestContext<UpdateCategoryServiceChanges & { categoryId: string }>
 ): Promise<IResponse<{ category: IPublicCategory }>> {
-  const { categoryId, ...changes } = ctx.params;
-  const category = await CategoryService.updateCategory(ctx, categoryId, changes);
+  const {
+    projectId,
+    params: { categoryId, ...changes },
+  } = ctx;
+  const category = await CategoryService.updateCategory(ctx, projectId, categoryId, changes);
 
   return {
     body: {
-      category,
+      category: category.toPublicModel(),
     },
   };
 }
