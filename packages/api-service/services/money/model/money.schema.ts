@@ -24,14 +24,16 @@ export const moneySchema: OpenAPIV3.SchemaObject = {
     },
     precision: {
       type: 'number',
+      nullable: true,
     },
     isEnabled: {
       type: 'boolean',
     },
     sorting: {
       type: 'number',
+      nullable: true,
     },
   },
   additionalProperties: false,
-  required: ['idProject', 'idCurrency', 'name', 'symbol', 'precision', 'isEnabled'],
+  required: ['idProject', 'idCurrency', 'name', 'symbol', 'isEnabled'],
 };

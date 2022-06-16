@@ -1,12 +1,12 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-import { idProject } from '../../../../common/schemas/fields/id-project';
+import { projectId } from '../../../../common/schemas/fields/project-id';
 
 export const sessionSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    idProject,
+    projectId,
   },
-  required: ['idProject'],
   additionalProperties: false,
+  required: ['projectId'],
 };

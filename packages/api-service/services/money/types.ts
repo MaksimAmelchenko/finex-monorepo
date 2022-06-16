@@ -25,9 +25,9 @@ export type CreateMoneyGatewayData = {
   currencyId?: string | null;
   name: string;
   symbol: string;
-  precision: number;
+  precision?: number | null;
   isEnabled: boolean;
-  sorting?: number;
+  sorting?: number | null;
 };
 
 export type CreateMoneyServiceData = CreateMoneyGatewayData;

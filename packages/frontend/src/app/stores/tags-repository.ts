@@ -8,7 +8,7 @@ import {
   CreateTagData,
   CreateTagResponse,
   GetTagsResponse,
-  IAPITag,
+  IApiTag,
   ITag,
   UpdateTagChanges,
   UpdateTagResponse,
@@ -50,7 +50,7 @@ export class TagsRepository extends ManageableStore {
     return this._tags.find(({ id }) => id === tagId);
   }
 
-  consume(tags: IAPITag[]): void {
+  consume(tags: IApiTag[]): void {
     this._tags = tags.map(tag => this.decode(tag));
   }
 
@@ -60,7 +60,7 @@ export class TagsRepository extends ManageableStore {
     });
   }
 
-  createTag(tag: Partial<ITag> | Tag, data: CreateTagData): Promise<void> {
+  createTag(data: CreateTagData): Promise<void> {
     return this.api.createTag(data).then(
       action(response => {
         const tag = this.decode(response.tag);
@@ -102,7 +102,7 @@ export class TagsRepository extends ManageableStore {
       );
   }
 
-  private decode(tag: IAPITag): Tag {
+  private decode(tag: IApiTag): Tag {
     const { id, name, userId } = tag;
     const usersRepository = this.getStore(UsersRepository);
 

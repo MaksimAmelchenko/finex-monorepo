@@ -6,7 +6,7 @@ export const signOutParamsSchema: OpenAPIV3.SchemaObject = {
     isEverywhere: {
       type: 'boolean',
       default: false,
-      example: 'true',
+      example: true,
     },
   },
   additionalProperties: false,

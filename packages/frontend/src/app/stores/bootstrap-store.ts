@@ -5,7 +5,7 @@ import { CategoryPrototypesRepository } from './category-prototypes-repository';
 import { ContractorsRepository } from './contractors-repository';
 import { CurrenciesRateSourceStore } from './currencies-rate-source-store';
 import { CurrenciesRepository } from './currency-repository';
-import { IBootstrapRaw } from '../types/bootstrap';
+import { IApiBootstrap } from '../types/bootstrap';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
@@ -17,7 +17,7 @@ import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
 
 export interface IBootstrapApi {
-  get: () => Promise<IBootstrapRaw>;
+  get: () => Promise<IApiBootstrap>;
 }
 
 export class BootstrapStore extends ManageableStore {
@@ -28,6 +28,14 @@ export class BootstrapStore extends ManageableStore {
   }
 
   async get(): Promise<void> {
+    let bootstrap: IApiBootstrap;
+    try {
+      bootstrap = await this.api.get();
+    } catch (err) {
+      debugger
+      return;
+    }
+
     const {
       accountTypes,
       accounts,
@@ -36,9 +44,9 @@ export class BootstrapStore extends ManageableStore {
       categoryPrototypes,
       contractors,
       currencies,
-      currencyRateSources,
-      invitations,
-      messages,
+      // currencyRateSources,
+      // invitations,
+      // messages,
       moneys,
       params,
       profile,
@@ -47,9 +55,10 @@ export class BootstrapStore extends ManageableStore {
       tags,
       units,
       users,
-    } = await this.api.get();
+    } = bootstrap;
 
     console.time('consume bootstrap');
+
     this.getStore(UsersRepository).consume(users);
     this.getStore(AccountTypesStore).consume(accountTypes);
     this.getStore(AccountsRepository).consume(accounts);
@@ -61,11 +70,11 @@ export class BootstrapStore extends ManageableStore {
 
     const projectsRepository = this.getStore(ProjectsRepository);
     projectsRepository.consume(projects);
-    const project = projectsRepository.get(String(session.idProject));
-    this.getStore(ProjectsRepository).setCurrentProject(project || projectsRepository.projects[0]);
+    const project = projectsRepository.get(session.projectId)!;
+    this.getStore(ProjectsRepository).setCurrentProject(project);
 
     this.getStore(CurrenciesRepository).consume(currencies);
-    this.getStore(CurrenciesRateSourceStore).consume(currencyRateSources);
+    // this.getStore(CurrenciesRateSourceStore).consume(currencyRateSources);
     this.getStore(MoneysRepository).consume(moneys);
     this.getStore(ProfileRepository).consume(profile);
     this.getStore(ParamsStore).consume(params);

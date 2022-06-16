@@ -1,8 +1,8 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-import { token } from '../../../../common/schemas/fields/token';
 import { idProject } from '../../../../common/schemas/fields/id-project';
 import { idUser } from '../../../../common/schemas/fields/id-user';
+import { token } from '../../../../common/schemas/fields/token';
 
 export const sessionSchema: OpenAPIV3.SchemaObject = {
   type: 'object',

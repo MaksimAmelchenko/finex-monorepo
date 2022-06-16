@@ -11,14 +11,14 @@ export const Profile = observer(() => {
   if (!profile) {
     return null;
   }
-  const { user, currencyRateSource, project } = profile;
+  const { user, project } = profile;
   return (
     <div className="profile">
       <h1>Profile</h1>
       <p>{user.name}</p>
       <p>{user.email}</p>
-      <p>{currencyRateSource.name}</p>
-      <p>{project.name}</p>
+      {/*<p>{currencyRateSource.name}</p>*/}
+      <p>{project?.name}</p>
     </div>
   );
 });

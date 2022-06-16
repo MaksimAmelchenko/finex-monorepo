@@ -1,29 +1,29 @@
 import { TDate } from './index';
-import { IAPIAccount } from './account';
-import { IAPIContractor } from './contractor';
-import { IAPIUnit } from './unit';
-import { IUserRaw } from './user';
-import { IAPICategoryPrototype, IAPICategory } from './category';
-import { IAccountTypeRaw } from './account-type';
-import { IAPITag } from './tag';
-import { IProjectRaw } from './project';
+import { IApiAccount } from './account';
+import { IApiAccountType } from './account-type';
+import { IApiCategoryPrototype, IApiCategory } from './category';
+import { IApiContractor } from './contractor';
 import { IApiCurrency } from './currency';
+import { IApiMoney } from './money';
+import { IApiProject } from './project';
+import { IApiTag } from './tag';
+import { IApiUnit } from './unit';
+import { IApiUser } from './user';
 import { ICurrencyRateSourceRaw } from './currencies-rate-source';
 import { IInvitationRaw } from './invitation';
-import { IApiMoney } from './money';
-import { IProfileRaw } from './profile';
+import { IApiProfile } from './profile';
 
-export interface IBootstrapRaw {
-  accountTypes: IAccountTypeRaw[];
-  accounts: IAPIAccount[];
+export interface IApiBootstrap {
+  accountTypes: IApiAccountType[];
+  accounts: IApiAccount[];
   badges: IBadgeRaw[];
-  categories: IAPICategory[];
-  categoryPrototypes: IAPICategoryPrototype[];
-  contractors: IAPIContractor[];
+  categories: IApiCategory[];
+  categoryPrototypes: IApiCategoryPrototype[];
+  contractors: IApiContractor[];
   currencies: IApiCurrency[];
-  currencyRateSources: ICurrencyRateSourceRaw[];
-  invitations: IInvitationRaw[];
-  messages: Record<string, any>;
+  // currencyRateSources: ICurrencyRateSourceRaw[];
+  // invitations: IInvitationRaw[];
+  // messages: Record<string, any>;
   moneys: IApiMoney[];
   params: {
     dashboard: {
@@ -31,14 +31,14 @@ export interface IBootstrapRaw {
       dEnd: TDate;
     };
   };
-  profile: IProfileRaw;
-  projects: IProjectRaw[];
+  profile: IApiProfile;
+  projects: IApiProject[];
   session: {
-    idProject: number;
+    projectId: string;
   };
-  tags: IAPITag[];
-  units: IAPIUnit[];
-  users: IUserRaw[];
+  tags: IApiTag[];
+  units: IApiUnit[];
+  users: IApiUser[];
 }
 
 export interface IBadgeRaw {

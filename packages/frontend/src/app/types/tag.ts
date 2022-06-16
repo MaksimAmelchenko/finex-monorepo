@@ -1,6 +1,6 @@
 import { User } from '../stores/models/user';
 
-export interface IAPITag {
+export interface IApiTag {
   id: string;
   name: string;
   userId: string;
@@ -13,7 +13,7 @@ export interface ITag {
 }
 
 export interface GetTagsResponse {
-  tags: IAPITag[];
+  tags: IApiTag[];
 }
 
 export interface CreateTagData {
@@ -21,7 +21,7 @@ export interface CreateTagData {
 }
 
 export interface CreateTagResponse {
-  tag: IAPITag;
+  tag: IApiTag;
 }
 
 export type UpdateTagChanges = Partial<{
@@ -30,5 +30,5 @@ export type UpdateTagChanges = Partial<{
 }>;
 
 export interface UpdateTagResponse {
-  tag: IAPITag;
+  tag: IApiTag;
 }

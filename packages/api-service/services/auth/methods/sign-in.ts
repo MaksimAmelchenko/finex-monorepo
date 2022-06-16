@@ -38,7 +38,8 @@ export async function signIn(
 
   return {
     authorization: token,
-    userId,
-    projectId,
+    // for backward compatibility
+    idUser: Number(userId),
+    idProject: Number(projectId),
   };
 }

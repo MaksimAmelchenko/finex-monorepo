@@ -1,6 +1,6 @@
 import { User } from '../stores/models/user';
 
-export interface IAPIContractor {
+export interface IApiContractor {
   id: string;
   name: string;
   note: string;
@@ -15,7 +15,7 @@ export interface IContractor {
 }
 
 export interface GetContractorsResponse {
-  contractors: IAPIContractor[];
+  contractors: IApiContractor[];
 }
 
 export interface CreateContractorData {
@@ -24,7 +24,7 @@ export interface CreateContractorData {
 }
 
 export interface CreateContractorResponse {
-  contractor: IAPIContractor;
+  contractor: IApiContractor;
 }
 
 export type UpdateContractorChanges = Partial<{
@@ -33,5 +33,5 @@ export type UpdateContractorChanges = Partial<{
 }>;
 
 export interface UpdateContractorResponse {
-  contractor: IAPIContractor;
+  contractor: IApiContractor;
 }

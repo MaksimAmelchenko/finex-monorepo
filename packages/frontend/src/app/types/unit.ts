@@ -1,6 +1,6 @@
 import { User } from '../stores/models/user';
 
-export interface IAPIUnit {
+export interface IApiUnit {
   id: string;
   name: string;
   userId: string;
@@ -13,7 +13,7 @@ export interface IUnit {
 }
 
 export interface GetUnitsResponse {
-  units: IAPIUnit[];
+  units: IApiUnit[];
 }
 
 export interface CreateUnitData {
@@ -21,7 +21,7 @@ export interface CreateUnitData {
 }
 
 export interface CreateUnitResponse {
-  unit: IAPIUnit;
+  unit: IApiUnit;
 }
 
 export type UpdateUnitChanges = Partial<{
@@ -30,5 +30,5 @@ export type UpdateUnitChanges = Partial<{
 }>;
 
 export interface UpdateUnitResponse {
-  unit: IAPIUnit;
+  unit: IApiUnit;
 }

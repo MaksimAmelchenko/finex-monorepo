@@ -1,54 +1,46 @@
-import dbRequest from '../../../../libs/db-request';
-import { AccountService } from '../../../../services/account';
+import { AccountTypeService } from '../../../../services/account-type';
 import { CategoryPrototypeService } from '../../../../services/category-prototype';
-import { CategoryService } from '../../../../services/category';
-import { ContractorService } from '../../../../services/contractor';
 import { CurrencyService } from '../../../../services/currency';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
-import { MoneyService } from '../../../../services/money';
-import { TagService } from '../../../../services/tag';
-import { UnitService } from '../../../../services/unit';
+import { ProjectService } from '../../../../services/project';
+import { UserService } from '../../../../services/user';
 
 export async function handler(ctx: IRequestContext): Promise<IResponse> {
-  const { projectId } = ctx;
+  const { projectId, userId } = ctx;
+
+  const user = await UserService.getUser(ctx, userId);
+
   const [
     //
-    response,
-    accounts,
-    categories,
+    accountTypes,
     categoryPrototypes,
-    contactors,
-    units,
-    tags,
-    moneys,
     currencies,
+    dependencies,
+    projects,
+    users,
   ] = await Promise.all([
     //
-    dbRequest(ctx, 'cf.entity.get', {}),
-    AccountService.getAccounts(ctx),
-    CategoryService.getCategories(ctx),
+    AccountTypeService.getAccountTypes(ctx),
     CategoryPrototypeService.getCategoryPrototypes(ctx),
-    ContractorService.getContractors(ctx, projectId),
-    UnitService.getUnits(ctx, projectId),
-    TagService.getTags(ctx, projectId),
-    MoneyService.getMoneys(ctx, projectId),
     CurrencyService.getCurrencies(ctx),
+    ProjectService.getDependencies(ctx, projectId, userId),
+    ProjectService.getProjects(ctx, userId),
+    UserService.getUsers(ctx, String(user.idHousehold)),
   ]);
 
   return {
     body: {
-      ...response,
-      accounts,
-      categories,
-      categoryPrototypes: categoryPrototypes
-        // .filter(({ isSystem }) => !isSystem)
-        .map(categoryPrototype => categoryPrototype.toPublicModel()),
-      contractors: contactors.map(contactor => contactor.toPublicModel()),
-      units: units.map(unit => unit.toPublicModel()),
-      tags: tags.map(tag => tag.toPublicModel()),
-      moneys: moneys.map(tag => tag.toPublicModel()),
+      accountTypes: accountTypes.map(accountType => accountType.toPublicModel()),
+      categoryPrototypes: categoryPrototypes.map(categoryPrototype => categoryPrototype.toPublicModel()),
       currencies: currencies.map(currency => currency.toPublicModel()),
+      profile: user.toProfileModel(),
+      projects: projects.map(project => project.toPublicModel()),
+      users: users.map(user => user.toPublicModel()),
+      session: {
+        projectId,
+      },
+      ...dependencies,
     },
   };
 }

@@ -8,7 +8,7 @@ import {
   CreateContractorData,
   CreateContractorResponse,
   GetContractorsResponse,
-  IAPIContractor,
+  IApiContractor,
   IContractor,
   UpdateContractorChanges,
   UpdateContractorResponse,
@@ -50,7 +50,7 @@ export class ContractorsRepository extends ManageableStore {
     return this._contractors.find(({ id }) => id === contractorId);
   }
 
-  consume(contractors: IAPIContractor[]): void {
+  consume(contractors: IApiContractor[]): void {
     this._contractors = contractors.map(contractor => this.decode(contractor));
   }
 
@@ -103,7 +103,7 @@ export class ContractorsRepository extends ManageableStore {
       );
   }
 
-  private decode(contractor: IAPIContractor): Contractor {
+  private decode(contractor: IApiContractor): Contractor {
     const { id, name, note = '', userId } = contractor;
     const usersRepository = this.getStore(UsersRepository);
 

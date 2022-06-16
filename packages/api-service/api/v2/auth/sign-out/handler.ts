@@ -1,6 +1,6 @@
 import { IRequestContext } from '../../../../types/app';
-import { Session } from '../../../../services/session';
 import { IResponse } from '../../../../libs/rest-api/types';
+import { SessionService } from '../../../../services/session';
 
 export async function handler(ctx: IRequestContext): Promise<IResponse<Record<string, never>>> {
   const {
@@ -12,7 +12,7 @@ export async function handler(ctx: IRequestContext): Promise<IResponse<Record<st
     // await Session.closeAllUserSessions(ctx, userId);
   } else {
     if (sessionId) {
-      await Session.closeSession(ctx, sessionId);
+      await SessionService.closeSession(ctx, sessionId);
     }
   }
 

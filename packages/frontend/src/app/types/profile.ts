@@ -1,17 +1,18 @@
-import { IUser } from './user';
-import { ICurrencyRateSource } from './currencies-rate-source';
-import { IProject } from './project';
+import { Project } from '../stores/models/project';
+import { User } from '../stores/models/user';
 
-export interface IProfileRaw {
-  idUser: number;
-  idProject: number;
-  email: string;
+export interface IApiProfile {
+  id: string;
   name: string;
-  idCurrencyRateSource: number;
+  email: string;
+  projectId: string;
+  tz: string;
+  timeout: string;
+  currencyRateSourceId: string;
 }
 
 export interface IProfile {
-  user: IUser;
-  currencyRateSource: ICurrencyRateSource;
-  project: IProject;
+  user: User;
+  // currencyRateSource: CurrencyRateSource;
+  project: Project | null;
 }

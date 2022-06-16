@@ -51,7 +51,7 @@ export function TagWindow({ isOpened, tag, onClose }: TagWindowProps): JSX.Eleme
         result = tagsRepository.updateTag(tag, changes);
       } else {
         const data: CreateTagData = mapValuesToPayload(values);
-        result = tagsRepository.createTag(tag, data);
+        result = tagsRepository.createTag(data);
       }
 
       return result

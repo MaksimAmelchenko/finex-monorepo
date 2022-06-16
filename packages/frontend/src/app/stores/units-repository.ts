@@ -8,7 +8,7 @@ import {
   CreateUnitData,
   CreateUnitResponse,
   GetUnitsResponse,
-  IAPIUnit,
+  IApiUnit,
   IUnit,
   UpdateUnitChanges,
   UpdateUnitResponse,
@@ -50,7 +50,7 @@ export class UnitsRepository extends ManageableStore {
     return this._units.find(({ id }) => id === unitId);
   }
 
-  consume(units: IAPIUnit[]): void {
+  consume(units: IApiUnit[]): void {
     this._units = units.map(unit => this.decode(unit));
   }
 
@@ -103,7 +103,7 @@ export class UnitsRepository extends ManageableStore {
       );
   }
 
-  private decode(unit: IAPIUnit): Unit {
+  private decode(unit: IApiUnit): Unit {
     const { id, name, userId } = unit;
     const usersRepository = this.getStore(UsersRepository);
 

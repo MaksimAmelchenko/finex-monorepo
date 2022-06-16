@@ -1,5 +1,5 @@
-export interface IUserRaw {
-  idUser: string;
+export interface IApiUser {
+  id: string;
   email: string;
   name: string;
 }
