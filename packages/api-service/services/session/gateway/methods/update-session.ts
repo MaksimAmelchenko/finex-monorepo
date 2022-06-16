@@ -1,16 +1,17 @@
 import { IRequestContext } from '../../../../types/app';
-import { ISession } from '../../../../types/session';
-import { DB, knex } from '../../../../libs/db';
-import { decodeDBSession } from './decode-db-session';
+import { Session } from '../../model/session';
+import { UpdateSessionGatewayChanges } from '../../types';
 
-export async function updateSession(ctx: IRequestContext, sessionId: string, data: any): Promise<ISession> {
-  const query = knex('core$.session')
-    .where(knex.raw('id = ?', [sessionId]))
-    .update(data)
-    .returning('*')
-    .toSQL()
-    .toNative();
+export async function updateSession(
+  ctx: IRequestContext,
+  sessionId: string,
+  changes: UpdateSessionGatewayChanges
+): Promise<Session> {
+  ctx.log.trace({ changes }, 'try to update session');
+  const { projectId, ...rest } = changes;
 
-  const result: any = await DB.execute(ctx.log, query.sql, query.bindings);
-  return decodeDBSession(result);
+  return Session.query(ctx.trx).patchAndFetchById(sessionId, {
+    idProject: projectId ? Number(projectId) : undefined,
+    ...rest,
+  });
 }

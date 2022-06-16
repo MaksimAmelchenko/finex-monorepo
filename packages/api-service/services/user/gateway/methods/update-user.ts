@@ -1,18 +1,25 @@
 import { IRequestContext } from '../../../../types/app';
-import { DB, knex } from '../../../../libs/db';
-import { decodeDBUser } from './decode-db-user';
-import { IDBUser, IUpdateParams, IUser } from '../../../../types/user';
+import { UpdateUserGatewayChanges } from '../../types';
+import { User } from '../../model/user';
 
-export async function updateUser(ctx: IRequestContext, userId: number, params: IUpdateParams): Promise<IUser> {
-  const query = knex('core$.user')
-    .where(knex.raw('id_user = ?', [userId]))
-    .update({
-      ...params,
-      updated_at: new Date().toISOString(),
-    })
-    .returning('*')
-    .toSQL()
-    .toNative();
+export async function updateUser(
+  ctx: IRequestContext,
+  userId: string,
+  changes: UpdateUserGatewayChanges
+): Promise<User> {
+  ctx.log.trace({ changes }, 'try to update session');
+  const { currencyRateSourceId, projectId, ...rest } = changes;
 
-  return DB.execute<IDBUser>(ctx.log, query.sql, query.bindings).then(decodeDBUser);
+  const idCurrencyRateSource = currencyRateSourceId === undefined ? undefined : Number(currencyRateSourceId);
+
+  const idProject = projectId === undefined ? undefined : Number(projectId);
+
+  const user = await User.query(ctx.trx).patchAndFetchById(Number(userId), {
+    idCurrencyRateSource,
+    idProject,
+    ...rest,
+  });
+
+  ctx.log.trace({ userId: user.idUser }, 'updated user');
+  return user;
 }

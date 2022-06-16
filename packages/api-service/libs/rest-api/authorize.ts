@@ -1,11 +1,12 @@
 import * as moment from 'moment';
 
+import { IJwtPayload } from '../../services/session/types';
 import { IRequestContext } from '../../types/app';
-import { IJwtPayload, ISession } from '../../types/session';
-import { Session } from '../../services/session';
+import { Session } from '../../services/session/model/session';
+import { SessionService } from '../../services/session';
 import { UnauthorizedError } from '../errors';
-import { signOutRouteOptions } from '../../api/v2/auth/sign-out';
 import { resolveAuthorizationHeader } from './resolve-authorization-header';
+import { signOutRouteOptions } from '../../api/v2/auth/sign-out';
 
 const notUpdateAccessTimeRoutes: string[] = [signOutRouteOptions.uri];
 
@@ -14,29 +15,29 @@ export async function authorize(ctx: IRequestContext<never>, authorizationHeader
 
   let sessionId: string;
   try {
-    const payload: IJwtPayload = Session.verifyJwt(token);
+    const payload: IJwtPayload = SessionService.verifyJwt(token);
     sessionId = payload.sessionId;
   } catch (err) {
     throw new UnauthorizedError({ code: 'jsonWebTokenError' });
   }
-  const session: ISession = await Session.getSession(ctx, sessionId);
+  const session: Session = await SessionService.getSession(ctx, sessionId);
 
   if (signOutRouteOptions.uri !== url) {
     if (!session.isActive) {
       throw new UnauthorizedError('Session is closed', { code: 'sessionClosed' });
     }
-    if (moment.utc() > moment.utc(session.lastAccessAt).add(moment.duration(session.timeout))) {
-      await Session.closeSession(ctx, sessionId);
+    if (moment.utc() > moment.utc(session.lastAccessTime).add(moment.duration(session.timeout))) {
+      await SessionService.closeSession(ctx, sessionId);
       throw new UnauthorizedError('Session Timeout', { code: 'sessionTimeout' });
     }
   }
 
   const isUpdateAccessTime = !notUpdateAccessTimeRoutes.includes(url);
-  await Promise.all<any>([isUpdateAccessTime ? Session.updateSessionAccessTime(ctx, session.id) : null]);
+  await Promise.all<any>([isUpdateAccessTime ? SessionService.updateSessionAccessTime(ctx, session.id) : null]);
 
   ctx.sessionId = session.id;
-  ctx.userId = session.userId;
-  ctx.projectId = session.projectId;
+  ctx.userId = String(session.idUser);
+  ctx.projectId = String(session.idProject);
   ctx.authorization = token;
 
   ctx.log = ctx.log.child(

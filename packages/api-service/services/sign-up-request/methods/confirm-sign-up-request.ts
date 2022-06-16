@@ -5,11 +5,11 @@ import { UserGateway } from '../../user/gateway';
 import { ConflictError, GoneError, NotFoundError } from '../../../libs/errors';
 import { IHousehold } from '../../../types/household';
 import { Household } from '../../household';
-import { IUser } from '../../../types/user';
-import { User } from '../../user';
-import { Project } from '../../project';
-import { IProject } from '../../../types/project';
+import { UserService } from '../../user';
+import { ProjectService } from '../../project';
 import { CurrencyRateSource } from '../../../types/currency-rate-source';
+import { User } from '../../user/model/user';
+import { Project } from '../../project/model/project';
 
 export async function confirmSignUpRequest(ctx: IRequestContext, token: string): Promise<void> {
   const signUpRequest: ISignUpRequest | undefined = await SignUpRequestGateway.getByToken(ctx, token);
@@ -22,7 +22,7 @@ export async function confirmSignUpRequest(ctx: IRequestContext, token: string):
   }
 
   // checks
-  const userCheck = await UserGateway.getByUsername(ctx, signUpRequest.email);
+  const userCheck = await UserGateway.getUserByUsername(ctx, signUpRequest.email);
 
   if (userCheck) {
     throw new ConflictError('This email already registered');
@@ -30,16 +30,18 @@ export async function confirmSignUpRequest(ctx: IRequestContext, token: string):
 
   const household: IHousehold = await Household.create(ctx);
 
-  const user: IUser = await User.create(ctx, {
+  const user: User = await UserService.createUser(ctx, {
     name: signUpRequest.name,
     email: signUpRequest.email,
     password: signUpRequest.password,
-    id_household: household.id,
-    id_currency_rate_source: CurrencyRateSource.OpenExchangeRates,
+    householdId: String(household.id),
+    currencyRateSourceId: String(CurrencyRateSource.OpenExchangeRates),
   });
 
-  const project: IProject = await Project.create(ctx, { id_user: user.id, name: 'Моя бухгалтерия' });
-  await User.update(ctx, user.id, { id_project: project.id });
+  const userId: string = String(user.idUser);
+  const project: Project = await ProjectService.createProject(ctx, userId, { name: 'Моя бухгалтерия' });
+
+  await UserService.updateUser(ctx, userId, { projectId: String(project.idProject) });
 
   await SignUpRequestGateway.update(ctx, signUpRequest.id, {
     confirmed_at: new Date().toISOString(),

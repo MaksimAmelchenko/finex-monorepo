@@ -1,7 +1,12 @@
 import { IRequestContext } from '../../../types/app';
-import { ISession } from '../../../types/session';
+import { Session } from '../model/session';
 import { SessionGateway } from '../gateway';
+import { UpdateSessionServiceChanges } from '../types';
 
-export async function updateSession(ctx: IRequestContext, sessionId: string, data: any): Promise<ISession> {
-  return SessionGateway.updateSession(ctx, sessionId, data);
+export async function updateSession(
+  ctx: IRequestContext,
+  sessionId: string,
+  changes: UpdateSessionServiceChanges
+): Promise<Session> {
+  return SessionGateway.updateSession(ctx, sessionId, changes);
 }

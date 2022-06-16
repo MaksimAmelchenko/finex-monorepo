@@ -1,11 +1,11 @@
 import { IRequestContext } from '../../../types/app';
 import { ResetPasswordRequestGateway } from '../gateway';
 import { UserGateway } from '../../user/gateway';
-import { ConflictError, NotFoundError, GoneError } from '../../../libs/errors';
-import { IUser } from '../../../types/user';
-import { User } from '../../user';
+import { GoneError, NotFoundError } from '../../../libs/errors';
+import { UserService } from '../../user';
 import { IResetPasswordRequest } from '../../../types/reset-password-request';
 import { hashPassword } from '../../auth/methods/hash-password';
+import { User } from '../../user/model/user';
 
 export async function confirmResetPasswordRequest(
   ctx: IRequestContext,
@@ -25,7 +25,7 @@ export async function confirmResetPasswordRequest(
     throw new GoneError(`The password has already been reset`);
   }
 
-  const user: IUser | undefined = await UserGateway.getByUsername(ctx, resetPasswordRequest.email);
+  const user: User | undefined = await UserGateway.getUserByUsername(ctx, resetPasswordRequest.email);
 
   if (!user) {
     throw new NotFoundError('User not found');
@@ -33,7 +33,7 @@ export async function confirmResetPasswordRequest(
 
   const hashedPassword = await hashPassword(password);
 
-  await User.update(ctx, user.id, {
+  await UserService.updateUser(ctx, String(user.idUser), {
     password: hashedPassword,
   });
 

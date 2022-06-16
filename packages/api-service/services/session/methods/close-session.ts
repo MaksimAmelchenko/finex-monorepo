@@ -1,7 +1,9 @@
 import { IRequestContext } from '../../../types/app';
-import { ISession } from '../../../types/session';
+import { Session } from '../model/session';
 import { SessionGateway } from '../gateway';
 
-export async function closeSession(ctx: IRequestContext, sessionId: string): Promise<ISession> {
-  return SessionGateway.closeSession(ctx, sessionId);
+export async function closeSession(ctx: IRequestContext, sessionId: string): Promise<Session> {
+  return SessionGateway.updateSession(ctx, sessionId, {
+    isActive: false,
+  });
 }

@@ -28,8 +28,9 @@ export interface IPasswordResetRequestCreateParams {
 
 export interface ISessionResponse {
   authorization: string;
-  userId: number;
-  projectId: number;
+  // for backward compatibility
+  idUser: number;
+  idProject: number;
 }
 
 // export interface IServiceSessionResponse {

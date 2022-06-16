@@ -47,8 +47,8 @@ describe('Reset password', function (): void {
 
   after(async () => {
     try {
-      const user = await UserGateway.getByUsername(ctx, user1.username);
-      await UserGateway.update(ctx, user!.id, { password: await hashPassword(user1.password) });
+      const user = await UserGateway.getUserByUsername(ctx, user1.username);
+      await UserGateway.updateUser(ctx, String(user!.idUser), { password: await hashPassword(user1.password) });
     } finally {
       server.close();
     }

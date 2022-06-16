@@ -1,7 +1,8 @@
+import { CreateUserGatewayData } from '../types';
 import { IRequestContext } from '../../../types/app';
-import { IUser, ICreateParams } from '../../../types/user';
+import { User } from '../model/user';
 import { UserGateway } from '../gateway';
 
-export async function createUser(ctx: IRequestContext, params: ICreateParams): Promise<IUser> {
-  return UserGateway.create(ctx, params);
+export async function createUser(ctx: IRequestContext, data: CreateUserGatewayData): Promise<User> {
+  return UserGateway.createUser(ctx, data);
 }

@@ -12,7 +12,7 @@ import { Template } from '../../../types/transactional-email';
 export async function createSignUpRequest(ctx: IRequestContext, params: ICreateParams): Promise<ISignUpRequest> {
   const { name, email, password } = params;
 
-  const user = await UserGateway.getByUsername(ctx, email);
+  const user = await UserGateway.getUserByUsername(ctx, email);
 
   if (user) {
     throw new ConflictError('This email already registered');

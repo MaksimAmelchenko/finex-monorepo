@@ -14,7 +14,7 @@ export async function createResetPasswordRequest(
 ): Promise<IResetPasswordRequest> {
   const { email, ip } = params;
 
-  const user = await UserGateway.getByUsername(ctx, email);
+  const user = await UserGateway.getUserByUsername(ctx, email);
 
   if (!user) {
     throw new NotFoundError('Email not found');

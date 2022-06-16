@@ -9,7 +9,7 @@ import config from '../libs/config';
 import { app } from '../server';
 
 import { IRequestContext } from '../types/app';
-import { IUser } from '../types/user';
+import { User } from '../services/user/model/user';
 import { ISessionResponse } from '../types/auth';
 
 import { log } from '../libs/log';
@@ -33,7 +33,7 @@ let signInResponse: ISessionResponse;
 const ctx: IRequestContext = <IRequestContext>{ log };
 
 describe('Bootstrap', function (): void {
-  let user: IUser | undefined;
+  let user: User | undefined;
   //  tslint:disable-next-line:no-invalid-this
   this.timeout(30000);
 
@@ -41,7 +41,7 @@ describe('Bootstrap', function (): void {
     server = app.listen();
     request = supertest(server);
 
-    user = await UserGateway.getByUsername(ctx, user1.username);
+    user = await UserGateway.getUserByUsername(ctx, user1.username);
 
     signInResponse = await signIn(request, user1.username, user1.password);
   });

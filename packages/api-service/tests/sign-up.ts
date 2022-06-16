@@ -150,7 +150,7 @@ describe('SignUp', function (): void {
 
     // await sleep(5000);
 
-    const user = await UserGateway.getByUsername(ctx, signUpRequest.email);
+    const user = await UserGateway.getUserByUsername(ctx, signUpRequest.email);
     //
 
     // user.should.have.property('passwordHint').equal(signUpRequest.passwordHint);

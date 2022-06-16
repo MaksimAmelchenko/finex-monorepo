@@ -1,11 +1,11 @@
 import { IRequestContext } from '../../../types/app';
 import { TSignInResponse } from '../../../types/auth';
-import { Session } from '../../session';
+import { SessionService } from '../../session';
 import { authenticateUser } from './authenticate-user';
-import { IUser } from '../../../types/user';
-import { ISession } from '../../../types/session';
 import { ProjectGateway } from '../../project/gateway';
-import { IProject } from '../../../types/project';
+import { Project } from '../../project/model/project';
+import { User } from '../../user/model/user';
+import { Session } from '../../session/model/session';
 
 export async function signIn(
   ctx: IRequestContext<any, false>,
@@ -14,27 +14,31 @@ export async function signIn(
 ): Promise<TSignInResponse> {
   const { userAgent } = ctx.additionalParams;
 
-  const user: IUser = await authenticateUser(ctx, username, password);
-  const projects: IProject[] = await ProjectGateway.getAllByUserId(ctx, user.id);
-  const projectIds: number[] = projects.map(project => project.id);
+  const user: User = await authenticateUser(ctx, username, password);
+  const userId: string = String(user.idUser);
+  const projects: Project[] = await ProjectGateway.getProjects(ctx, userId);
 
-  let projectId: number | undefined = user.projectId;
-  if (!projectId || !projectIds.includes(projectId)) {
-    projectId = projectIds[0];
-    ctx.log.warn({ userId: user.id, projectId }, 'The default project is not set');
+  const idsProject: number[] = projects.map(project => project.idProject);
+
+  let projectId: string;
+  if (user.idProject && idsProject.includes(user.idProject)) {
+    projectId = String(user.idProject);
+  } else {
+    projectId = String(idsProject[0]);
+    ctx.log.warn({ userId, projectId }, 'The default project is not set');
   }
 
-  const session: ISession = await Session.createSession(ctx, user.id, {
+  const session: Session = await SessionService.createSession(ctx, userId, {
     projectId,
-    timeout: user.timeout,
+    timeout: user.timeout || 'PT20M',
     userAgent,
   });
 
-  const token = Session.getJwt(session.id);
+  const token = SessionService.getJwt(session.id);
 
   return {
     authorization: token,
-    userId: user.id,
+    userId,
     projectId,
   };
 }

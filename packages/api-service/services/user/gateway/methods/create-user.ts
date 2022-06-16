@@ -1,19 +1,19 @@
+import { CreateUserGatewayData } from '../../types';
 import { IRequestContext } from '../../../../types/app';
-import { DB, knex } from '../../../../libs/db';
-import { decodeDBUser } from './decode-db-user';
-import { ICreateParams, IDBUser, IUser } from '../../../../types/user';
+import { User } from '../../model/user';
 
-export async function createUser(ctx: IRequestContext, params: ICreateParams): Promise<IUser> {
-  const query = knex('core$.user')
-    .insert({
-      ...params,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    })
-    .returning('*')
-    .toSQL()
-    .toNative();
+export async function createUser(ctx: IRequestContext, data: CreateUserGatewayData): Promise<User> {
+  ctx.log.trace({ data }, 'try to create user');
 
-  const user: IDBUser = await DB.execute(ctx.log, query.sql, query.bindings);
-  return decodeDBUser(user);
+  const { currencyRateSourceId, householdId, ...rest } = data;
+
+  const user = await User.query(ctx.trx).insertAndFetch({
+    idCurrencyRateSource: Number(currencyRateSourceId),
+    idHousehold: Number(householdId),
+    timeout: 'PT20M',
+    ...rest,
+  });
+
+  ctx.log.info({ userId: user.idUser }, 'created user');
+  return user;
 }

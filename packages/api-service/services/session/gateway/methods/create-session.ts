@@ -1,35 +1,33 @@
 import * as uuid from 'uuid';
+import { CreateSessionGatewayData } from '../../types';
 import { IRequestContext } from '../../../../types/app';
-import { IGatewayCreateParams, ISession } from '../../../../types/session';
-import { DB, knex } from '../../../../libs/db';
-import { decodeDBSession } from './decode-db-session';
+import { Session } from '../../model/session';
 
 export async function createSession(
   ctx: IRequestContext<any, false>,
-  userId: number,
-  params: IGatewayCreateParams
-): Promise<ISession> {
+  userId: string,
+  data: CreateSessionGatewayData
+): Promise<Session> {
+  ctx.log.trace({ data }, 'try to create session');
   const {
     additionalParams: { ip },
   } = ctx;
 
-  const { timeout, userAgent, projectId } = params;
+  const { timeout, userAgent, projectId } = data;
   const sessionId: string = uuid.v4();
-  const query = knex('core$.session')
-    .insert({
-      id: sessionId,
-      id_user: userId,
-      ip,
-      id_project: projectId,
-      user_agent: userAgent,
-      timeout,
-      // is_active: true,
-      requests_count: 1,
-    })
-    .returning('*')
-    .toSQL()
-    .toNative();
 
-  const result: any = await DB.execute(ctx.log, query.sql, query.bindings);
-  return decodeDBSession(result);
+  const session = await Session.query(ctx.trx).insertAndFetch({
+    id: sessionId,
+    idUser: Number(userId),
+    idProject: Number(projectId),
+    isActive: true,
+    ip,
+    requestsCount: 1,
+    timeout,
+    userAgent,
+    lastAccessTime: new Date().toISOString(),
+  });
+
+  ctx.log.info({ sessionId }, 'created session');
+  return session;
 }

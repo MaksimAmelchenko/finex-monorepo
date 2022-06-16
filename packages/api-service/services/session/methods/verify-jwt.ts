@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
-import { IJwtPayload } from '../../../types/session';
 
 import config from '../../../libs/config';
+import { IJwtPayload } from '../types';
 
 const { jwtSecret } = config.get('auth');
 

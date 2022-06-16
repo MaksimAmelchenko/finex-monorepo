@@ -16,6 +16,7 @@ export function sendError(ctx: IRouterContext, error: any): void {
         code: 'modelValidation',
         message,
         stack: isDevelopment ? stack : undefined,
+        data,
       },
     };
 
@@ -50,18 +51,18 @@ export function sendError(ctx: IRouterContext, error: any): void {
         stack: isDevelopment ? stack : undefined,
       },
     };
-
     send(ctx, { body, status });
     return;
   }
 
-  let { message, stack, status, code } = error;
+  let { message, stack, status = 500, code, data } = error;
 
   const body = {
     error: {
       code,
       message,
       stack: isDevelopment ? stack : undefined,
+      data,
     },
   };
   send(ctx, { body, status });

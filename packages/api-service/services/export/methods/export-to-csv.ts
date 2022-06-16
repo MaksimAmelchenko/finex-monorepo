@@ -11,8 +11,8 @@ import { DB } from '../../../libs/db';
 import { TransactionalEmail } from '../../transactional-email';
 import { Template } from '../../../types/transactional-email';
 import { AccessDeniedError } from '../../../libs/errors';
-import { Session } from '../../session';
-import { UserGateway } from '../../user/gateway';
+import { SessionService } from '../../session';
+import { UserService } from '../../user';
 
 numeral.locale('ru');
 
@@ -31,8 +31,8 @@ export async function exportToCsv(ctx: IRequestContext): Promise<void> {
   }
   const [session, user] = await Promise.all([
     //
-    Session.getSession(ctx, sessionId),
-    UserGateway.getById(ctx, userId!),
+    SessionService.getSession(ctx, sessionId),
+    UserService.getUser(ctx, userId),
   ]);
 
   const csvStringifier = createObjectCsvStringifier({
@@ -54,42 +54,42 @@ export async function exportToCsv(ctx: IRequestContext): Promise<void> {
   });
 
   const sqlText = `
-        select cfd.dcashflow_detail as date,
-               a.name as account_name,
-               cf.id_cashflow_type,
-               cf$_category.full_name(cfd.id_category, '/', cfd.id_project) as category_full_name,
-               cfd.quantity,
-               u.name as unit_name,
-               cfd.sum * cfd.sign as sum,
-               coalesce(currency.code, m.symbol) as currency,
-               contractor.name as contractor_name,
-               cfd.note,
-               (select array(select t.name
-                               from unnest(cfd.tags) Id_Tag
-                                        join cf$.tag t
-                                             using (Id_Tag))
-               ) as tags
-          from cf$_account.permit($1, $2) p
-                   join cf$.cashflow_detail cfd
-                        on (cfd.id_project = p.id_project and cfd.id_account = p.id_account)
-                   join cf$.cashflow cf
-                        on (cf.id_project = cfd.id_project and cf.id_cashflow = cfd.id_cashflow)
-                   join cf$.account a
-                        on (a.id_project = cfd.id_project and a.id_account = cfd.id_account)
-                   join cf$.category c
-                        on (c.id_project = cfd.id_project and c.id_category = cfd.id_category)
-                   join cf$.money m
-                        on (m.id_project = cfd.id_project and m.id_money = cfd.id_money)
-                   left join cf$.currency
-                             on (currency.id_currency = m.id_currency)
-                   left join cf$.contractor
-                             on (contractor.id_project = cf.id_project and contractor.id_contractor = cf.id_contractor)
-                   left join cf$.unit u
-                             on (u.id_project = cfd.id_project and u.id_unit = cfd.id_unit)
-         order by date, cf.id_cashflow
-    `;
+    select cfd.dcashflow_detail as date,
+           a.name as account_name,
+           cf.id_cashflow_type,
+           cf$_category.full_name(cfd.id_category, '/', cfd.id_project) as category_full_name,
+           cfd.quantity,
+           u.name as unit_name,
+           cfd.sum * cfd.sign as sum,
+           coalesce(currency.code, m.symbol) as currency,
+           contractor.name as contractor_name,
+           cfd.note,
+           (select array(select t.name
+                           from unnest(cfd.tags) Id_Tag
+                                  join cf$.tag t
+                                       using (Id_Tag))
+           ) as tags
+      from cf$_account.permit($1, $2) p
+             join cf$.cashflow_detail cfd
+                  on (cfd.id_project = p.id_project and cfd.id_account = p.id_account)
+             join cf$.cashflow cf
+                  on (cf.id_project = cfd.id_project and cf.id_cashflow = cfd.id_cashflow)
+             join cf$.account a
+                  on (a.id_project = cfd.id_project and a.id_account = cfd.id_account)
+             join cf$.category c
+                  on (c.id_project = cfd.id_project and c.id_category = cfd.id_category)
+             join cf$.money m
+                  on (m.id_project = cfd.id_project and m.id_money = cfd.id_money)
+             left join cf$.currency
+                       on (currency.id_currency = m.id_currency)
+             left join cf$.contractor
+                       on (contractor.id_project = cf.id_project and contractor.id_contractor = cf.id_contractor)
+             left join cf$.unit u
+                       on (u.id_project = cfd.id_project and u.id_unit = cfd.id_unit)
+     order by date, cf.id_cashflow
+  `;
 
-  const table = await DB.query(ctx.log, sqlText, [session.projectId, userId]);
+  const table = await DB.query(ctx.log, sqlText, [session.idProject, Number(userId)]);
 
   const records = table.map(item => {
     const [categoryName1, categoryName2, categoryName3] = item.category_full_name.split('/');

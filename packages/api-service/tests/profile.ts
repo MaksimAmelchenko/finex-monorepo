@@ -24,6 +24,7 @@ import { updateProfileResponseSchema } from '../api/v1/profile/update-profile/re
 import { auth } from './libs/auth';
 import { UserGateway } from '../services/user/gateway';
 import { errorResponseSchema } from '../common/schemas/error.response.schema';
+import { User } from '../services/user/model/user';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
@@ -37,7 +38,7 @@ let signInResponse: ISessionResponse;
 const ctx: IRequestContext = <IRequestContext>{ log };
 
 describe('Profile', function (): void {
-  let user: IUser | undefined;
+  let user: User | undefined;
   //  tslint:disable-next-line:no-invalid-this
   this.timeout(30000);
 
@@ -45,7 +46,7 @@ describe('Profile', function (): void {
     server = app.listen();
     request = supertest(server);
 
-    user = await UserGateway.getByUsername(ctx, user1.username);
+    user = await UserGateway.getUserByUsername(ctx, user1.username);
 
     signInResponse = <ISessionResponse>await signIn(request, user1.username, user1.password);
   });
@@ -53,7 +54,7 @@ describe('Profile', function (): void {
   after(async () => {
     try {
       if (user) {
-        await UserGateway.update(ctx, user.id, {
+        await UserGateway.updateUser(ctx, String(user.idUser), {
           name: user.name,
         });
       }

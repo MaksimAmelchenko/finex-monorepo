@@ -6,7 +6,7 @@ import { updateSession } from './methods/update-session';
 import { updateSessionAccessTime } from './methods/update-session-access-time';
 import { verifyJwt } from './methods/verify-jwt';
 
-export const Session = {
+export const SessionService = {
   closeSession,
   createSession,
   getJwt,

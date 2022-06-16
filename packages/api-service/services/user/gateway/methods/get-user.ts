@@ -1,11 +1,7 @@
 import { IRequestContext } from '../../../../types/app';
-import { DB, knex } from '../../../../libs/db';
-import { decodeDBUser } from './decode-db-user';
-import { IDBUser, IUser } from '../../../../types/user';
+import { User } from '../../model/user';
 
-export async function getUser(ctx: IRequestContext, userId: string): Promise<IUser> {
-  const query = knex('core$.user').select().where({ id_user: userId }).toSQL().toNative();
-
-  const user = await DB.execute<IDBUser>(ctx.log, query.sql, query.bindings);
-  return decodeDBUser(user);
+export async function getUser(ctx: IRequestContext, userId: string): Promise<User | undefined> {
+  ctx.log.trace({ userId }, 'try to get user');
+  return User.query(ctx.trx).findById(Number(userId));
 }
