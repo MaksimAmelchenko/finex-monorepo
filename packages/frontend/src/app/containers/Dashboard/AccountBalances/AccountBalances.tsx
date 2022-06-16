@@ -8,6 +8,7 @@ import { BalancesTable } from '../BalancesTable/BalancesTable';
 import { CircularIndeterminate, InlineDatePicker, InlineSelect, IOption, Option } from '@finex/ui-kit';
 import { IMoney } from '../../../types/money';
 import { MoneysRepository } from '../../../stores/moneys-repository';
+import { ProjectsRepository } from '../../../stores/projects-repository';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -18,6 +19,7 @@ const t = getT('AccountBalances');
 export const AccountBalances = observer(() => {
   const balanceRepository = useStore(BalanceRepository);
   const moneysRepository = useStore(MoneysRepository);
+  const projectsRepository = useStore(ProjectsRepository);
 
   const [date, setDate] = useState<Date>(new Date());
   const [selectedMoney, setSelectedMoney] = useState<IMoney | null>(null);
@@ -25,7 +27,7 @@ export const AccountBalances = observer(() => {
 
   useEffect(() => {
     balanceRepository.fetchBalance({ moneyId: selectedMoney?.id, date }).catch(console.error);
-  }, [balanceRepository, date, selectedMoney?.id]);
+  }, [balanceRepository, date, selectedMoney?.id, projectsRepository.currentProject]);
 
   const handleClickOnShowZeroBalance = () => {
     setIsShowZeroBalance(!isShowZeroBalance);

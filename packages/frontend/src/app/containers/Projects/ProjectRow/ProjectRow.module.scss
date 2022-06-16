@@ -1,0 +1,24 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.row {
+  &__name {
+    cursor: pointer;
+    color: colors.$blueLight;
+
+    &:hover {
+      color: colors.$blue;
+    }
+  }
+
+  &_selected {
+    background-color: transparentize(colors.$blueLight, 0.8);
+  }
+
+  &:hover {
+    background-color: transparentize(colors.$blueLight, 0.7);
+  }
+
+  &_is_deleting {
+    background-color: colors.$orangeLight;
+  }
+}

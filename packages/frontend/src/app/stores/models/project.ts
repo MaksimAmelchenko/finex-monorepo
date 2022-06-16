@@ -1,21 +1,31 @@
-import { IUser } from '../../types/user';
-import { IProject } from '../../types/project';
-import { Permit } from '../../types';
+import { action, makeObservable, observable } from 'mobx';
 
-export class Project implements IProject {
+import { IDeletable, ISelectable, Permit } from '../../types';
+import { IProject } from '../../types/project';
+import { User } from './user';
+
+export class Project implements IProject, IDeletable {
   readonly id: string;
-  readonly user: IUser;
+  readonly user: User;
   name: string;
   note: string;
   readonly permit: Permit;
-  writers: IUser[];
+  editors: User[];
 
-  constructor({ id, user, name, note, permit, writers }: IProject) {
+  isDeleting: boolean;
+
+  constructor({ id, user, name, note, permit, editors }: IProject) {
     this.id = id;
     this.user = user;
     this.name = name;
     this.note = note;
     this.permit = permit;
-    this.writers = writers;
+    this.editors = editors;
+
+    this.isDeleting = false;
+
+    makeObservable(this, {
+      isDeleting: observable,
+    });
   }
 }

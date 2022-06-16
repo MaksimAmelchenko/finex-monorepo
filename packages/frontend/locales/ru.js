@@ -214,6 +214,50 @@ module.exports = {
   Pagination: {
     of: 'из',
   },
+  ProjectCopyWindow: {
+    'Copy project': 'Копировать',
+    'Project to be copied': 'Копируемый проект',
+    'Project name': 'Наименование проекта',
+    Cancel: 'Отмена',
+  },
+  ProjectMergeWindow: {
+    'Please select at least one project': 'Пожалуйста, выберети хотя бы один проект',
+    'You must accept this': 'Необходимо принять это условие',
+    'Merge projects': 'Объединить проект',
+    'Target project': 'Целевой проект',
+    'Merged projects': 'Проекты для объединение',
+    'I understand that the merged projects will be deleted after the data has been transferred to the target project':
+      'Я понимаю, что объединяемые проекты будут удалены после переноса данных в целевой проект',
+    Cancel: 'Отмена',
+    Merge: 'Объединить',
+  },
+  Projects: {
+    Me: 'Я',
+    'Something went wrong, please try again': 'Что-то пошло не так. Пожалуйста, попытайтесь еще раз',
+    'New project': 'Новый проект',
+    Delete: 'Удалить',
+    Refresh: 'Обновить',
+    Copy: 'Копировать',
+    Merge: 'Объеденить',
+    Name: 'Наименование',
+    Owner: 'Владелец',
+    Permit: 'Права доступа',
+    Note: 'Примечание',
+  },
+  ProjectWindow: {
+    'That name is taken_ Try another_': 'Это имя занято. Попробуй другое.',
+    'Edit project': 'Редактирование проекта',
+    'New project': 'Новый проект',
+    'Project name': 'Наименование проекта',
+    'Project description (optional)': 'Описание проекта (опционально)',
+    Permissions: 'Права доступа',
+    Editors: 'Редактирование',
+    'List of users who have the right to add, edit and delete transactions on this project':
+      'Список пользователей, которые имеют право добавлять, редактировать и удалять транзакции в этом проекте',
+    Cancel: 'Отмена',
+    Save: 'Сохранить',
+    'Create project': 'Создать',
+  },
   QuantityField: {
     Quantity: 'Количество',
   },
@@ -256,6 +300,7 @@ module.exports = {
     Units: 'Единицы измерения',
     Tags: 'Теги',
     Money: 'Валюты',
+    Projects: 'Проекты',
   },
   SignIn: {
     'Invalid username or password': 'Неверный логин или пароль',

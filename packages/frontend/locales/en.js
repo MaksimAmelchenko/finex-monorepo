@@ -213,6 +213,50 @@ module.exports = {
   Pagination: {
     of: 'of',
   },
+  ProjectCopyWindow: {
+    'Copy project': 'Copy project',
+    'Project to be copied': 'Project to be copied',
+    'Project name': 'Project name',
+    Cancel: 'Cancel',
+  },
+  ProjectMergeWindow: {
+    'Please select at least one project': 'Please select at least one project',
+    'You must accept this': 'You must accept this',
+    'Merge projects': 'Merge projects',
+    'Target project': 'Target project',
+    'Merged projects': 'Merged projects',
+    'I understand that the merged projects will be deleted after the data has been transferred to the target project':
+      'I understand that the merged projects will be deleted after the data has been transferred to the target project',
+    Cancel: 'Cancel',
+    Merge: 'Merge',
+  },
+  Projects: {
+    Me: 'Me',
+    'Something went wrong, please try again': 'Something went wrong, please try again',
+    'New project': 'New project',
+    Delete: 'Delete',
+    Refresh: 'Refresh',
+    Copy: 'Copy',
+    Merge: 'Merge',
+    Name: 'Name',
+    Owner: 'Owner',
+    Permit: 'Permit',
+    Note: 'Note',
+  },
+  ProjectWindow: {
+    'That name is taken_ Try another_': 'That name is taken. Try another.',
+    'Edit project': 'Edit project',
+    'New project': 'New project',
+    'Project name': 'Project name',
+    'Project description (optional)': 'Project description (optional)',
+    Permissions: 'Permissions',
+    Editors: 'Editors',
+    'List of users who have the right to add, edit and delete transactions on this project':
+      'List of users who have the right to add, edit and delete transactions on this project',
+    Cancel: 'Cancel',
+    Save: 'Save',
+    'Create project': 'Create project',
+  },
   QuantityField: {
     Quantity: 'Quantity',
   },
@@ -256,6 +300,7 @@ module.exports = {
     Units: 'Units',
     Tags: 'Tags',
     Money: 'Money',
+    Projects: 'Projects',
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',

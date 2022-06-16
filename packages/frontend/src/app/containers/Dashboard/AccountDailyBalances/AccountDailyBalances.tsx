@@ -6,15 +6,16 @@ import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 
 import { BalanceRepository } from '../../../stores/balance-repository';
+import { CircularIndeterminate } from '@finex/ui-kit';
 import { IAccount } from '../../../types/account';
 import { IMoney } from '../../../types/money';
 import { InlineSelect, IOption, InlineDateRangePicker } from '@finex/ui-kit';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { ParamsStore } from '../../../stores/params-store';
+import { ProjectsRepository } from '../../../stores/projects-repository';
 import { TDate, TDateTime } from '../../../types';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
-import { CircularIndeterminate } from '@finex/ui-kit';
 
 import styles from './AccountDailyBalances.module.scss';
 
@@ -41,6 +42,7 @@ export const AccountDailyBalances = observer(() => {
   const balanceRepository = useStore(BalanceRepository);
   const moneysRepository = useStore(MoneysRepository);
   const paramsStore = useStore(ParamsStore);
+  const projectsRepository = useStore(ProjectsRepository);
 
   const { dBegin, dEnd } = paramsStore.params!.dashboard;
   const [range, setRange] = useState<[Date, Date]>([new Date(parseISO(dBegin)), new Date(parseISO(dEnd))]);
@@ -61,7 +63,7 @@ export const AccountDailyBalances = observer(() => {
         range,
       })
       .catch(console.error);
-  }, [selectedMoney, range, balanceRepository]);
+  }, [selectedMoney, range, balanceRepository, projectsRepository.currentProject]);
 
   const moneysOptions: IOption[] = useMemo(() => {
     return [

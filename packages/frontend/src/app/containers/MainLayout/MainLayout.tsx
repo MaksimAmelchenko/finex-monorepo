@@ -1,8 +1,10 @@
 import React, { Suspense, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
 // import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -16,6 +18,8 @@ import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
 
 import { Link } from '../../components/Link/Link';
 import { ProfileRepository } from '../../stores/profile-repository';
+import { Project } from '../../stores/models/project';
+import { ProjectsRepository } from '../../stores/projects-repository';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -94,9 +98,11 @@ interface IMenuItem {
 const t = getT('MainLayout');
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ children }) => {
-  const theme = useTheme();
-  const [isOpened, setIsOpened] = useState(false);
   const profileRepository = useStore(ProfileRepository);
+
+  const [isOpened, setIsOpened] = useState(false);
+
+  const theme = useTheme();
 
   const handleDrawerToggle = () => {
     setIsOpened(isOpened => !isOpened);
@@ -188,7 +194,9 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       <Drawer variant="permanent" open={isOpened}>
         <Toolbar />
 
-        <List>
+        <List component="nav">
+          <ProjectMenu />
+
           {menu.map(({ link, label, icon: Icon, id }) => (
             <ListItemButton href={link} component={Link} key={id}>
               <ListItemIcon>{Icon}</ListItemIcon>
@@ -228,3 +236,60 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
     </Box>
   );
 });
+
+function ProjectMenu(): JSX.Element | null {
+  const projectsRepository = useStore(ProjectsRepository);
+  const { enqueueSnackbar } = useSnackbar();
+  const [isOpenedProjects, setIsOpenedProjects] = useState(false);
+
+  const handleCurrentProjectClick = () => {
+    setIsOpenedProjects(isOpenedProjects => !isOpenedProjects);
+  };
+
+  const handleProjectClick = (project: Project) => () => {
+    projectsRepository
+      .useProject(project.id)
+      .then(() => setIsOpenedProjects(false))
+      .catch(err => {
+        let message = '';
+        switch (err.code) {
+          default:
+            message = err.message;
+        }
+        enqueueSnackbar(message, { variant: 'error' });
+      });
+  };
+
+  const { currentProject, projects } = projectsRepository;
+  if (!currentProject) {
+    return null;
+  }
+
+  if (projects.length === 1) {
+    return (
+      <ListItemButton>
+        <ListItemText primary={currentProject.name} />
+      </ListItemButton>
+    );
+  }
+
+  return (
+    <>
+      <ListItemButton onClick={handleCurrentProjectClick}>
+        <ListItemText primary={currentProject.name} />
+      </ListItemButton>
+
+      <Collapse in={isOpenedProjects} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {projects
+            .filter(project => project !== currentProject)
+            .map(project => (
+              <ListItemButton onClick={handleProjectClick(project)} key={project.id}>
+                <ListItemText primary={project.name} />
+              </ListItemButton>
+            ))}
+        </List>
+      </Collapse>
+    </>
+  );
+}

@@ -1,7 +1,13 @@
 import { createProject } from './methods/create-project';
-import { getAllByUserId } from './methods/get-all-by-user-id';
+import { deleteProject } from './methods/delete-project';
+import { getProject } from './methods/get-project';
+import { getProjects } from './methods/get-projects';
+import { updateProject } from './methods/update-project';
 
 export const ProjectGateway = {
-  create: createProject,
-  getAllByUserId,
+  createProject,
+  deleteProject,
+  getProject,
+  getProjects,
+  updateProject,
 };

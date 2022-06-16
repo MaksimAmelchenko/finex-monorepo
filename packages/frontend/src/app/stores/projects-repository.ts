@@ -1,86 +1,160 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { ManageableStore } from '../core/manageable-store';
-import { MainStore } from '../core/main-store';
-import { UsersRepository } from './users-repository';
-import { IUser } from '../types/user';
-import { IProject, IProjectRaw, IUseProjectResponse } from '../types/project';
-import { Project } from './models/project';
 import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
+import {
+  CopyProjectParams,
+  CopyProjectResponse,
+  CreateProjectData,
+  CreateProjectResponse,
+  GetProjectsResponse,
+  IApiProject,
+  MergeProjectParams,
+  MergeProjectResponse,
+  UpdateProjectChanges,
+  UpdateProjectResponse,
+  UseProjectResponse,
+} from '../types/project';
+import { MainStore } from '../core/main-store';
+import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
-import { TagsRepository } from './tags-repository';
+import { Project } from './models/project';
 import { UnitsRepository } from './units-repository';
+import { User } from './models/user';
+import { UsersRepository } from './users-repository';
+import { TagsRepository } from './tags-repository';
 
 export interface IProjectsApi {
-  useProject: (projectId: string) => Promise<IUseProjectResponse>;
+  copyProject: (projectId: string, params: CopyProjectParams) => Promise<CopyProjectResponse>;
+  createProject: (data: CreateProjectData) => Promise<CreateProjectResponse>;
+  deleteProject: (projectId: string) => Promise<void>;
+  getProjects: () => Promise<GetProjectsResponse>;
+  mergeProject: (projectId: string, params: MergeProjectParams) => Promise<MergeProjectResponse>;
+  updateProject: (projectId: string, changes: UpdateProjectChanges) => Promise<UpdateProjectResponse>;
+  useProject: (projectId: string) => Promise<UseProjectResponse>;
 }
 
 export class ProjectsRepository extends ManageableStore {
   static storeName = 'ProjectsRepository';
 
-  projects: IProject[] = [];
+  private _projects: Project[] = [];
+
   currentProject: Project | null = null;
 
   constructor(mainStore: MainStore, private api: IProjectsApi) {
     super(mainStore);
-    makeObservable(this, {
-      projects: observable.shallow,
+    makeObservable<ProjectsRepository, '_projects'>(this, {
+      _projects: observable.shallow,
+      projects: computed,
       currentProject: observable,
       setCurrentProject: action,
       consume: action,
       clear: action,
+      deleteProject: action,
     });
   }
 
-  consume(projects: IProjectRaw[]): void {
-    const usersRepository = this.getStore(UsersRepository);
-
-    this.projects = projects.reduce((acc, projectRow) => {
-      const { idProject, idUser, name, note, permit } = projectRow;
-
-      const user = usersRepository.get(String(idUser));
-      if (!user) {
-        console.warn('User is not found', { projectRow });
-        return acc;
-      }
-
-      const writers: IUser[] = projectRow.writers.reduce((acc, idUser) => {
-        const user = usersRepository.get(String(idUser));
-        if (!user) {
-          console.warn('Writer is not found', { projectRow });
-          return acc;
-        }
-        acc.push(user);
-
-        return acc;
-      }, [] as IUser[]);
-
-      const project = new Project({
-        id: String(idProject),
-        user,
-        name,
-        note,
-        permit,
-        writers,
-      });
-
-      acc.push(project);
-      return acc;
-    }, [] as IProject[]);
+  get projects(): Project[] {
+    return this._projects.slice().sort(ProjectsRepository.sort);
   }
 
-  setCurrentProject(project: IProject): void {
+  private static sort(a: Project, b: Project): number {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  }
+
+  setCurrentProject(project: Project): void {
     this.currentProject = project;
   }
 
-  get(projectId: string): IProject | undefined {
+  get(projectId: string): Project | undefined {
     return this.projects.find(({ id }) => id === projectId);
   }
 
+  consume(projects: IApiProject[]): void {
+    this._projects = projects.map(project => this.decode(project));
+  }
+
+  getProjects(): Promise<void> {
+    return this.api.getProjects().then(({ projects }) => {
+      this.consume(projects);
+    });
+  }
+
+  createProject(data: CreateProjectData): Promise<void> {
+    return this.api.createProject(data).then(
+      action(response => {
+        const project = this.decode(response.project);
+        this._projects.push(project);
+      })
+    );
+  }
+
+  updateProject(project: Project, changes: UpdateProjectChanges): Promise<void> {
+    return this.api.updateProject(project.id, changes).then(
+      action(response => {
+        const updatedProject = this.decode(response.project);
+        const indexOf = this._projects.indexOf(project);
+        if (indexOf !== -1) {
+          this._projects[indexOf] = updatedProject;
+        } else {
+          this._projects.push(updatedProject);
+        }
+      })
+    );
+  }
+
+  deleteProject(project: Project): Promise<void> {
+    project.isDeleting = true;
+    return this.api
+      .deleteProject(project.id)
+      .then(
+        action(() => {
+          const indexOf = this._projects.indexOf(project);
+          if (indexOf !== -1) {
+            this._projects.splice(indexOf, 1);
+          }
+        })
+      )
+      .finally(
+        action(() => {
+          project.isDeleting = false;
+        })
+      );
+  }
+
+  decode(project: IApiProject): Project {
+    const usersRepository = this.getStore(UsersRepository);
+
+    const { id, userId, name, note, permit } = project;
+
+    const user = usersRepository.get(userId);
+    if (!user) {
+      throw new Error('User is not found');
+    }
+
+    const editors: User[] = project.editors.reduce<User[]>((acc, userId) => {
+      const user = usersRepository.get(userId);
+      if (!user) {
+        throw new Error('User is not found');
+      }
+      acc.push(user);
+
+      return acc;
+    }, []);
+
+    return new Project({
+      id,
+      user,
+      name,
+      note,
+      permit,
+      editors,
+    });
+  }
+
   async useProject(projectId: string): Promise<void> {
-    const { accounts, categories, contractors, moneys, tags, units, params } = await this.api.useProject(projectId);
+    const { accounts, categories, contractors, moneys, params, tags, units } = await this.api.useProject(projectId);
     const accountsRepository = this.getStore(AccountsRepository);
     accountsRepository.consume(accounts);
 
@@ -93,6 +167,9 @@ export class ProjectsRepository extends ManageableStore {
     const moneysRepository = this.getStore(MoneysRepository);
     moneysRepository.consume(moneys);
 
+    // const projectsRepository = this.getStore(ProjectsRepository);
+    // projectsRepository.consume(projects);
+
     const tagsRepository = this.getStore(TagsRepository);
     tagsRepository.consume(tags);
 
@@ -102,7 +179,20 @@ export class ProjectsRepository extends ManageableStore {
     this.setCurrentProject(this.get(projectId)!);
   }
 
+  async copyProject(projectId: string, params: CopyProjectParams): Promise<void> {
+    return this.api.copyProject(projectId, params).then(
+      action(response => {
+        const project = this.decode(response.project);
+        this._projects.push(project);
+      })
+    );
+  }
+
+  async mergeProject(projectId: string, params: MergeProjectParams): Promise<void> {
+    return this.api.mergeProject(projectId, params).then(action(response => {}));
+  }
+
   clear(): void {
-    this.projects = [];
+    this._projects = [];
   }
 }

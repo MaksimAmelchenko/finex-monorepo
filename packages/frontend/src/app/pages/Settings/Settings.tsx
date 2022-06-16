@@ -7,6 +7,7 @@ import { CategoriesLazy } from '../../containers/Categories/CategoriesLazy';
 import { ContractorsLazy } from '../../containers/Contractors/ContractorsLazy';
 import { ITabOption, Tabs } from '../../components/Tabs/Tabs';
 import { MoneysLazy } from '../../containers/Moneys/MoneysLazy';
+import { ProjectsLazy } from '../../containers/Projects/ProjectsLazy';
 import { TagsLazy } from '../../containers/Tags/TagsLazy';
 import { UnitsLazy } from '../../containers/Units/UnitsLazy';
 import { getT } from '../../lib/core/i18n';
@@ -23,6 +24,7 @@ export const Settings = observer(() => {
       { value: 'units', label: t('Units') },
       { value: 'tags', label: t('Tags') },
       { value: 'moneys', label: t('Money') },
+      { value: 'projects', label: t('Projects') },
     ],
     []
   );
@@ -48,6 +50,7 @@ export const Settings = observer(() => {
       {tab === 'units' && <UnitsLazy />}
       {tab === 'tags' && <TagsLazy />}
       {tab === 'moneys' && <MoneysLazy />}
+      {tab === 'projects' && <ProjectsLazy />}
     </article>
   );
 });

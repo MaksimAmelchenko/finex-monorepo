@@ -1,36 +1,74 @@
-import { Permit, TDate } from './index';
-import { IUser } from './user';
-import { IAPIAccount } from './account';
-import { IAPIContractor } from './contractor';
-import { IAPICategory } from './category';
-import { IAPIUnit } from './unit';
-import { IAPITag } from './tag';
+import { IApiAccount } from './account';
+import { IApiCategory } from './category';
+import { IApiContractor } from './contractor';
 import { IApiMoney } from './money';
+import { IApiTag } from './tag';
+import { Permit, TDate } from './index';
+import { User } from '../stores/models/user';
+import { IApiUnit } from './unit';
 
-export interface IProjectRaw {
-  idProject: number;
-  idUser: number;
+export interface IApiProject {
+  id: string;
   name: string;
   note: string;
   permit: Permit;
-  writers: number[];
+  editors: string[];
+  userId: string;
 }
 
 export interface IProject {
   id: string;
-  user: IUser;
+  user: User;
   name: string;
   note: string;
   permit: Permit;
-  writers: IUser[];
+  editors: User[];
 }
 
-export interface IUseProjectResponse {
-  accounts: IAPIAccount[];
-  contractors: IAPIContractor[];
-  categories: IAPICategory[];
-  units: IAPIUnit[];
-  tags: IAPITag[];
+export interface GetProjectsResponse {
+  projects: IApiProject[];
+}
+
+export interface CreateProjectData {
+  name: string;
+  note?: string;
+  editors?: string[];
+}
+
+export interface CreateProjectResponse {
+  project: IApiProject;
+}
+
+export type UpdateProjectChanges = Partial<{
+  name: string;
+  note: string;
+  editors?: string[];
+}>;
+
+export interface UpdateProjectResponse {
+  project: IApiProject;
+}
+
+export type CopyProjectParams = {
+  name: string;
+};
+
+export interface CopyProjectResponse {
+  project: IApiProject;
+}
+
+export type MergeProjectParams = {
+  projects: string[];
+};
+
+export interface MergeProjectResponse {}
+
+export interface UseProjectResponse {
+  accounts: IApiAccount[];
+  contractors: IApiContractor[];
+  categories: IApiCategory[];
+  tags: IApiTag[];
+  units: IApiUnit[];
   moneys: IApiMoney[];
   params: {
     dashboard: {

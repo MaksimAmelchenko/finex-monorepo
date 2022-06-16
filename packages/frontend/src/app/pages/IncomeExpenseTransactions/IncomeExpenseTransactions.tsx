@@ -16,6 +16,7 @@ import {
 } from '../../stores/income-expense-transactions-repository';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
+import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
@@ -35,6 +36,7 @@ export const IncomeExpenseTransactions = observer(() => {
   const categoriesRepository = useStore(CategoriesRepository);
   const contractorsRepository = useStore(ContractorsRepository);
   const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
+  const projectsRepository = useStore(ProjectsRepository);
   const tagsRepository = useStore(TagsRepository);
 
   const [isOpenedCashFlowTransactionWindow, setIsOpenedCashFlowTransactionWindow] = useState<boolean>(false);
@@ -86,7 +88,7 @@ export const IncomeExpenseTransactions = observer(() => {
 
   useEffect(() => {
     incomeExpenseTransactionsRepository.fetch().catch(console.error);
-  }, [incomeExpenseTransactionsRepository]);
+  }, [incomeExpenseTransactionsRepository, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {
