@@ -10,7 +10,7 @@ export async function createContractor(
 ): Promise<Contractor> {
   ctx.log.trace({ data }, 'try to create contractor');
 
-  const contractor = await Contractor.query().insertAndFetch({
+  const contractor = await Contractor.query(ctx.trx).insertAndFetch({
     idProject: Number(projectId),
     idUser: Number(userId),
     ...data,

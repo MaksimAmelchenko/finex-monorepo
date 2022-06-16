@@ -10,7 +10,7 @@ export async function updateUnit(
 ): Promise<Unit> {
   ctx.log.trace({ projectId, unitId, changes }, 'try to update unit');
 
-  const unit = await Unit.query().patchAndFetchById([Number(projectId), Number(unitId)], changes);
+  const unit = await Unit.query(ctx.trx).patchAndFetchById([Number(projectId), Number(unitId)], changes);
 
   ctx.log.info({ unitId }, 'updated unit');
   return unit;

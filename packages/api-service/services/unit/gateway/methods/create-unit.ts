@@ -10,7 +10,7 @@ export async function createUnit(
 ): Promise<Unit> {
   ctx.log.trace({ data }, 'try to create unit');
 
-  const unit = await Unit.query().insertAndFetch({
+  const unit = await Unit.query(ctx.trx).insertAndFetch({
     idProject: Number(projectId),
     idUser: Number(userId),
     ...data,

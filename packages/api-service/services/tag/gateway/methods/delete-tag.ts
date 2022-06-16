@@ -31,10 +31,7 @@ export async function deleteTag(ctx: IRequestContext, projectId: string, tagId: 
     )
     .transacting(ctx.trx);
 
-  await Tag.query(ctx.trx).delete().where({
-    idProject,
-    idTag,
-  });
+  await Tag.query(ctx.trx).deleteById([idProject, idTag]);
 
   ctx.log.info({ tagId }, 'deleted tag');
 }
