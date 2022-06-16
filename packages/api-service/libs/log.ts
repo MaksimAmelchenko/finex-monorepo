@@ -11,12 +11,12 @@ const excludeFields: string[] = ['apiKey', 'token', 'password', 'authorization']
 const HTTP_X_REQUEST_ID_HEADER = 'X-Request-Id';
 
 function maskValue(value: string): string {
-  return `${value.substr(0, 5)}***${value.substr(-3)}`;
+  return `${value.substring(0, 1)}***${value.substring(value.length - 1)}`;
 }
 
 const serializers: bunyan.Serializers = {
   req: (req: IncomingMessage) => {
-    if (!req || !req.connection) {
+    if (!req || !req.socket) {
       return req;
     }
     const headers: Record<string, string> = cloneDeep(req.headers);
@@ -31,8 +31,8 @@ const serializers: bunyan.Serializers = {
       method: req.method,
       url: req.url,
       headers,
-      remoteAddress: req.connection.remoteAddress,
-      remotePort: req.connection.remotePort,
+      remoteAddress: req.socket.remoteAddress,
+      remotePort: req.socket.remotePort,
     };
   },
   err: err => ({
