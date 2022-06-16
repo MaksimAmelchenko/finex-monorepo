@@ -1,12 +1,8 @@
-import dbRequest from '../../../../libs/db-request';
 import { IRequestContext } from '../../../../types/app';
+import { Account } from '../../model/account';
 
-export async function deleteAccount(ctx: IRequestContext, accountId: string): Promise<void> {
+export async function deleteAccount(ctx: IRequestContext, projectId: string, accountId: string): Promise<void> {
   ctx.log.trace({ accountId }, 'try to delete account');
-
-  await dbRequest(ctx, 'cf.account.destroy', {
-    idAccount: Number(accountId),
-  });
-
+  await Account.query(ctx.trx).deleteById([Number(projectId), Number(accountId)]);
   ctx.log.info({ accountId }, 'deleted account');
 }

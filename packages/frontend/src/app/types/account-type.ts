@@ -1,5 +1,5 @@
-export interface IAccountTypeRaw {
-  idAccountType: number;
+export interface IApiAccountType {
+  id: string;
   name: string;
   shortName: string;
 }

@@ -38,11 +38,11 @@ module.exports = {
     'Inactive accounts are hidden when creating or editing a transaction':
       'Неактивные счета скрыты при создании или редактировании операции',
     Note: 'Примечание',
-    'Access rights': 'Права доступа',
-    Read: 'Просмотр',
+    Permissions: 'Права доступа',
+    View: 'Просмотр',
     'List of users who have the right to view transactions on this account':
       'Список пользователей, у которых есть право на просмотр операций по данному счету',
-    Write: 'Изменение',
+    Edit: 'Редактирование',
     'List of users who have the right to add, edit and delete transactions on this account':
       'Список пользователей, у которых есть право на добавление, редактирование и удаления операций по данному счету',
     Cancel: 'Отмена',

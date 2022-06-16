@@ -1,49 +1,50 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-import { id } from '../../../common/schemas/fields/id';
-import { permit } from '../../../common/schemas/fields/permit';
-import { userId } from '../../../common/schemas/fields/user-id';
-
 export const accountSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
-    id,
+    idProject: {
+      type: 'number',
+    },
+    idUser: {
+      type: 'number',
+    },
+    idAccountType: {
+      type: 'number',
+    },
     name: {
       type: 'string',
     },
-    accountTypeId: id,
-    isEnabled: {
-      type: 'boolean',
-    },
     note: {
       type: 'string',
+      nullable: true,
+    },
+    permit: {
+      type: 'number',
+    },
+    isEnabled: {
+      type: 'boolean',
     },
     viewers: {
       type: 'array',
       items: {
-        type: 'string',
+        type: 'number',
       },
     },
     editors: {
       type: 'array',
       items: {
-        type: 'string',
+        type: 'number',
       },
     },
-    permit,
-    userId,
   },
   additionalProperties: false,
   required: [
     //
-    'id',
+    'idProject',
+    'idUser',
+    'idAccountType',
     'name',
-    'accountTypeId',
     'isEnabled',
-    'note',
-    'viewers',
-    'editors',
-    'permit',
-    'userId',
   ],
 };

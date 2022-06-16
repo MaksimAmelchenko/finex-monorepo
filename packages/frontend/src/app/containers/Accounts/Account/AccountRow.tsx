@@ -2,25 +2,25 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { Account as AccountModel } from '../../../stores/models/account';
+import { Account } from '../../../stores/models/account';
 import { Checkbox, Image, Tag, TickSvg } from '@finex/ui-kit';
 import { Permit } from '../../../types';
 import { getT } from '../../../lib/core/i18n';
 
-import styles from './Account.module.scss';
+import styles from './AccountRow.module.scss';
 
 const t = getT('Accounts');
 
 interface AccountProps {
-  account: AccountModel;
-  onClick: (account: AccountModel) => void;
+  account: Account;
+  onClick: (account: Account) => void;
 }
 
-export const Account = observer<AccountProps>(({ account, onClick }: AccountProps) => {
-  const { permit, name, user, isEnabled, readers, writers, accountType, note, isSelected, isDeleting } = account;
+export const AccountRow = observer<AccountProps>(({ account, onClick }: AccountProps) => {
+  const { permit, name, user, isEnabled, viewers, editors, accountType, note, isSelected, isDeleting } = account;
   const isOwner = permit === Permit.Owner;
-  const isRead = permit === Permit.Read;
-  const isWrite = permit === Permit.Write;
+  const isView = permit === Permit.View;
+  const isEdit = permit === Permit.Edit;
 
   const handleOnSelect = () => {
     account.toggleSelection();
@@ -49,12 +49,12 @@ export const Account = observer<AccountProps>(({ account, onClick }: AccountProp
       <td className={styles.tick}>{isEnabled && <Image src={TickSvg} alt="active" />}</td>
       <td>{isOwner ? t('Me') : user.name}</td>
       <td className={styles.tick}>
-        {isOwner && readers.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
-        {isRead ? <Image src={TickSvg} alt="read" /> : ''}
+        {isOwner && viewers.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
+        {isView ? <Image src={TickSvg} alt="view" /> : ''}
       </td>
       <td className={styles.tick}>
-        {isOwner && writers.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
-        {isWrite ? <Image src={TickSvg} alt="write" /> : ''}
+        {isOwner && editors.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
+        {isEdit ? <Image src={TickSvg} alt="edit" /> : ''}
       </td>
       <td>{accountType.name}</td>
       <td>{note}</td>

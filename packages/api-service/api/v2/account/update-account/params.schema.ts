@@ -17,13 +17,13 @@ export const updateAccountParamsSchema: OpenAPIV3.SchemaObject = {
     note: {
       type: 'string',
     },
-    readers: {
+    viewers: {
       type: 'array',
       items: {
         type: 'string',
       },
     },
-    writers: {
+    editors: {
       type: 'array',
       items: {
         type: 'string',

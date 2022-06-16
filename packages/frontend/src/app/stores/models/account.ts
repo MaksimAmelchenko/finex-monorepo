@@ -3,23 +3,23 @@ import { action, makeObservable, observable } from 'mobx';
 import { IAccount } from '../../types/account';
 import { IAccountType } from '../../types/account-type';
 import { IDeletable, ISelectable, Permit } from '../../types';
-import { IUser } from '../../types/user';
+import { User } from './user';
 
 export class Account implements IAccount, ISelectable, IDeletable {
   readonly id: string;
   accountType: IAccountType;
-  readonly user: IUser;
+  readonly user: User;
   isEnabled: boolean;
   name: string;
   note: string;
   readonly permit: Permit;
-  readers: IUser[];
-  writers: IUser[];
+  viewers: User[];
+  editors: User[];
 
   isDeleting: boolean;
   isSelected: boolean;
 
-  constructor({ id, accountType, isEnabled, user, name, note, permit, readers, writers }: IAccount) {
+  constructor({ id, accountType, isEnabled, user, name, note, permit, viewers, editors }: IAccount) {
     this.id = id;
     this.accountType = accountType;
     this.user = user;
@@ -27,8 +27,8 @@ export class Account implements IAccount, ISelectable, IDeletable {
     this.name = name;
     this.note = note;
     this.permit = permit;
-    this.readers = readers;
-    this.writers = writers;
+    this.viewers = viewers;
+    this.editors = editors;
 
     this.isDeleting = false;
     this.isSelected = false;

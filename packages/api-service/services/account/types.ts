@@ -1,49 +1,50 @@
 import { Permit } from '../../types/app';
 
 export interface IAccount {
-  id: string;
+  idAccount: number;
+  idAccountType: number;
   name: string;
-  accountTypeId: string;
   isEnabled: boolean;
   note: string | null;
-  readers: string[];
-  writers: string[];
+  viewers: number[];
+  editors: number[];
+  permit: Permit;
+  idUser: number;
+}
+
+export interface IPublicAccount {
+  id: string;
+  accountTypeId: string;
+  name: string;
+  isEnabled: boolean;
+  note: string | null;
+  viewers: string[];
+  editors: string[];
   permit: Permit;
   userId: string;
 }
-
-export type IPublicAccount = IAccount;
-
-export interface GetAccountsGatewayResponse {
-  accounts: IAccount[];
-}
-
-export type GetAccountsServiceResponse = GetAccountsGatewayResponse;
 
 export interface CreateAccountGatewayData {
   name: string;
   accountTypeId: string;
   isEnabled: boolean;
   note?: string;
-  readers?: string[];
-  writers?: string[];
 }
 
-export type CreateAccountServiceData = CreateAccountGatewayData;
-
-export type CreateAccountGatewayResponse = IAccount;
-export type CreateAccountServiceResponse = CreateAccountGatewayResponse;
+export type CreateAccountServiceData = CreateAccountGatewayData & {
+  viewers?: string[];
+  editors?: string[];
+};
 
 export type UpdateAccountGatewayChanges = Partial<{
   name: string;
   accountTypeId: string;
   isEnabled: boolean;
   note: string;
-  readers: string[];
-  writers: string[];
 }>;
 
-export type UpdateAccountServiceChanges = UpdateAccountGatewayChanges;
-
-export type UpdateAccountGatewayResponse = IAccount;
-export type UpdateAccountServiceResponse = UpdateAccountGatewayResponse;
+export type UpdateAccountServiceChanges = UpdateAccountGatewayChanges &
+  Partial<{
+    viewers: string[];
+    editors: string[];
+  }>;

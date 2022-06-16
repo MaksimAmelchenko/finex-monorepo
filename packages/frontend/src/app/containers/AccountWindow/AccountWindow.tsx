@@ -28,8 +28,8 @@ interface AccountFormValues {
   accountTypeId: string;
   isEnabled: boolean;
   note: string;
-  readers: string[];
-  writers: string[];
+  viewers: string[];
+  editors: string[];
 }
 
 interface AccountWindowProps {
@@ -45,16 +45,16 @@ function mapValuesToCreatePayload({
   accountTypeId,
   isEnabled,
   note,
-  readers,
-  writers,
+  viewers,
+  editors,
 }: AccountFormValues): CreateAccountData {
   return {
     name,
     accountTypeId,
     isEnabled,
     note,
-    readers,
-    writers,
+    viewers,
+    editors,
   };
 }
 
@@ -63,16 +63,16 @@ function mapValuesToUpdatePayload({
   accountTypeId,
   isEnabled,
   note,
-  readers,
-  writers,
-}: AccountFormValues): CreateAccountData {
+  viewers,
+  editors,
+}: AccountFormValues): UpdateAccountChanges {
   return {
     name,
     accountTypeId,
     isEnabled,
     note,
-    readers,
-    writers,
+    viewers,
+    editors,
   };
 }
 
@@ -137,7 +137,7 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
       .map(({ id: value, name: label }) => ({ value, label }));
   }, [profileRepository.profile, usersRepository.users]);
 
-  const { name, accountType, isEnabled, note, readers, writers } = account;
+  const { name, accountType, isEnabled, note, viewers, editors } = account;
 
   return (
     <Drawer
@@ -153,8 +153,8 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
           accountTypeId: accountType?.id ?? accountTypesStore.accountTypes[0].id,
           isEnabled: isEnabled ?? true,
           note: note ?? '',
-          readers: readers?.map(({ id }) => id) ?? [],
-          writers: writers?.map(({ id }) => id) ?? [],
+          viewers: viewers?.map(({ id }) => id) ?? [],
+          editors: editors?.map(({ id }) => id) ?? [],
         }}
         validationSchema={validationSchema}
         className={styles.form}
@@ -175,18 +175,18 @@ export function AccountWindow({ isOpened, account, onClose }: AccountWindowProps
             />
             <FormTextAreaField name="note" label={t('Note')} />
             {/*<FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />*/}
-            <FormFieldSet legend={t('Access rights')}>
+            <FormFieldSet legend={t('Permissions')}>
               <FormSelect
-                name="readers"
+                name="viewers"
                 isMulti
-                label={t('Read')}
+                label={t('View')}
                 options={selectUsersOptions}
                 helperText={t('List of users who have the right to view transactions on this account')}
               />
               <FormSelect
-                name="writers"
+                name="editors"
                 isMulti
-                label={t('Write')}
+                label={t('Edit')}
                 options={selectUsersOptions}
                 helperText={t('List of users who have the right to add, edit and delete transactions on this account')}
               />

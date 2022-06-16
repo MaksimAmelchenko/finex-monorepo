@@ -1,24 +1,24 @@
 import { AccountType } from './models/account-type';
 import { ManageableStore } from '../core/manageable-store';
-import { IAccountType, IAccountTypeRaw } from '../types/account-type';
+import { IApiAccountType } from '../types/account-type';
 
 export class AccountTypesStore extends ManageableStore {
   static storeName = 'AccountTypesStore';
 
-  accountTypes: IAccountType[] = [];
+  accountTypes: AccountType[] = [];
 
-  consume(accountTypes: IAccountTypeRaw[]): void {
+  consume(accountTypes: IApiAccountType[]): void {
     this.accountTypes = accountTypes.map(
-      ({ idAccountType, name, shortName }) =>
+      ({ id, name, shortName }) =>
         new AccountType({
-          id: String(idAccountType),
+          id,
           name,
           shortName,
         })
     );
   }
 
-  get(accountTypeId: string): IAccountType | undefined {
+  get(accountTypeId: string): AccountType | undefined {
     return this.accountTypes.find(({ id }) => id === accountTypeId);
   }
 

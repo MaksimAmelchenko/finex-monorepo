@@ -1,28 +1,27 @@
-import dbRequest from '../../../../libs/db-request';
-import { CreateAccountGatewayData, CreateAccountGatewayResponse } from '../../types';
+import { Account } from '../../model/account';
+import { CreateAccountGatewayData } from '../../types';
 import { IRequestContext } from '../../../../types/app';
-import { decodeAccount } from './decode-account';
 
 export async function createAccount(
   ctx: IRequestContext,
+  projectId: string,
+  userId: string,
   data: CreateAccountGatewayData
-): Promise<CreateAccountGatewayResponse> {
+): Promise<Account> {
   ctx.log.trace({ data }, 'try to create account');
 
-  const { name, accountTypeId, isEnabled, note, readers = [], writers = [] } = data;
+  const { name, accountTypeId, isEnabled, note } = data;
 
-  const response = await dbRequest(ctx, 'cf.account.create', {
-    name,
+  const account = await Account.query(ctx.trx).insertAndFetch({
+    idProject: Number(projectId),
+    idUser: Number(userId),
     idAccountType: Number(accountTypeId),
     isEnabled,
+    name,
     note,
-    readers: readers.map(Number),
-    writers: writers.map(Number),
   });
 
-  const account = decodeAccount(response.account);
-
-  ctx.log.info({ accountId: account.id }, 'created account');
+  ctx.log.info({ accountId: String(account.idAccount) }, 'created account');
 
   return account;
 }

@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Account as AccountModel } from '../../stores/models/account';
-import { Account } from './Account/Account';
+import { Account } from '../../stores/models/account';
+import { AccountRow } from './Account/AccountRow';
 import { AccountWindow } from '../AccountWindow/AccountWindow';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button } from '@finex/ui-kit';
@@ -21,7 +21,7 @@ export const Accounts = observer(() => {
   const { accounts } = accountsRepository;
 
   const [isOpenedAccountWindow, setIsOpenedAccountWindow] = useState<boolean>(false);
-  const [account, setAccount] = useState<Partial<IAccount> | AccountModel | null>(null);
+  const [account, setAccount] = useState<Partial<IAccount> | Account | null>(null);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAddClick = () => {
@@ -57,7 +57,7 @@ export const Accounts = observer(() => {
     accountsRepository.getAccounts();
   };
 
-  const handleClickOnAccount = (account: AccountModel) => {
+  const handleClickOnAccount = (account: Account) => {
     setAccount(account);
     setIsOpenedAccountWindow(true);
   };
@@ -102,7 +102,7 @@ export const Accounts = observer(() => {
           </thead>
           <tbody>
             {accounts.map(account => (
-              <Account account={account} onClick={handleClickOnAccount} key={account.id} />
+              <AccountRow account={account} onClick={handleClickOnAccount} key={account.id} />
             ))}
           </tbody>
         </table>

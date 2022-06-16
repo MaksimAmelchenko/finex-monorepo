@@ -1,33 +1,33 @@
-import { IAccountType } from './account-type';
-import { IUser } from './user';
+import { AccountType } from '../stores/models/account-type';
 import { Permit } from './index';
+import { User } from '../stores/models/user';
 
-export interface IAPIAccount {
+export interface IApiAccount {
   id: string;
   name: string;
   accountTypeId: string;
   isEnabled: boolean;
   note: string;
-  readers: string[];
-  writers: string[];
+  viewers: string[];
+  editors: string[];
   permit: Permit;
   userId: string;
 }
 
 export interface IAccount {
   id: string;
-  accountType: IAccountType;
-  user: IUser;
+  accountType: AccountType;
+  user: User;
   isEnabled: boolean;
   name: string;
   note: string;
   permit: Permit;
-  readers: IUser[];
-  writers: IUser[];
+  viewers: User[];
+  editors: User[];
 }
 
 export interface GetAccountsResponse {
-  accounts: IAPIAccount[];
+  accounts: IApiAccount[];
 }
 
 export interface CreateAccountData {
@@ -35,12 +35,12 @@ export interface CreateAccountData {
   accountTypeId: string;
   isEnabled: boolean;
   note?: string;
-  readers?: string[];
-  writers?: string[];
+  viewers?: string[];
+  editors?: string[];
 }
 
 export interface CreateAccountResponse {
-  account: IAPIAccount;
+  account: IApiAccount;
 }
 
 export type UpdateAccountChanges = Partial<{
@@ -48,10 +48,10 @@ export type UpdateAccountChanges = Partial<{
   accountTypeId: string;
   isEnabled: boolean;
   note: string;
-  readers: string[];
-  writers: string[];
+  viewers: string[];
+  editors: string[];
 }>;
 
 export interface UpdateAccountResponse {
-  account: IAPIAccount;
+  account: IApiAccount;
 }

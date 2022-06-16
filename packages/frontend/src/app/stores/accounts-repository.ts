@@ -11,7 +11,7 @@ import {
   CreateAccountResponse,
   GetAccountsResponse,
   IAccount,
-  IAPIAccount,
+  IApiAccount,
   UpdateAccountChanges,
   UpdateAccountResponse,
 } from '../types/account';
@@ -59,7 +59,7 @@ export class AccountsRepository extends ManageableStore {
     return this._accounts.find(({ id }) => id === accountId);
   }
 
-  consume(accounts: IAPIAccount[]): void {
+  consume(accounts: IApiAccount[]): void {
     this._accounts = accounts.map(account => this.decode(account));
   }
 
@@ -112,7 +112,7 @@ export class AccountsRepository extends ManageableStore {
       );
   }
 
-  private decode(account: IAPIAccount): Account {
+  private decode(account: IApiAccount): Account {
     const { id, name, isEnabled, accountTypeId, note = '', permit, userId } = account;
     const accountTypesStore = this.getStore(AccountTypesStore);
     const usersRepository = this.getStore(UsersRepository);
@@ -127,7 +127,7 @@ export class AccountsRepository extends ManageableStore {
       throw new Error('User is not found');
     }
 
-    const readers = account.readers.reduce<IUser[]>((acc, userId) => {
+    const viewers = account.viewers.reduce<IUser[]>((acc, userId) => {
       const user = usersRepository.get(userId);
       if (!user) {
         console.warn('Reader is not found', { account });
@@ -138,7 +138,7 @@ export class AccountsRepository extends ManageableStore {
       return acc;
     }, []);
 
-    const writers = account.writers.reduce<IUser[]>((acc, userId) => {
+    const editors = account.editors.reduce<IUser[]>((acc, userId) => {
       const user = usersRepository.get(userId);
       if (!user) {
         console.warn('Writer is not found', { account });
@@ -155,8 +155,8 @@ export class AccountsRepository extends ManageableStore {
       isEnabled,
       accountType,
       note,
-      readers,
-      writers,
+      viewers,
+      editors,
       permit,
       user,
     });

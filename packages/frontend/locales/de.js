@@ -38,11 +38,11 @@ module.exports = {
     'Inactive accounts are hidden when creating or editing a transaction':
       'Inactive accounts are hidden when creating or editing a transaction',
     Note: 'Note',
-    'Access rights': 'Access rights',
-    Read: 'Read',
+    Permissions: 'Permissions',
+    View: 'View',
     'List of users who have the right to view transactions on this account':
       'List of users who have the right to view transactions on this account',
-    Write: 'Write',
+    Edit: 'Edit',
     'List of users who have the right to add, edit and delete transactions on this account':
       'List of users who have the right to add, edit and delete transactions on this account',
     Cancel: 'Cancel',

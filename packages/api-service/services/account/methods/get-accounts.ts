@@ -1,7 +1,7 @@
+import { Account } from '../model/account';
 import { AccountGateway } from '../gateway';
-import { GetAccountsServiceResponse, IAccount } from '../types';
 import { IRequestContext } from '../../../types/app';
 
-export async function getAccounts(ctx: IRequestContext): Promise<IAccount[]> {
-  return AccountGateway.getAccounts(ctx);
+export async function getAccounts(ctx: IRequestContext, projectId: string, userId: string): Promise<Account[]> {
+  return AccountGateway.getAccounts(ctx, projectId, userId);
 }
