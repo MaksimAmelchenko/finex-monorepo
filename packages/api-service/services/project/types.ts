@@ -35,3 +35,8 @@ export type UpdateProjectGatewayChanges = Partial<{
 export type UpdateProjectServiceChanges = UpdateProjectGatewayChanges & {
   editors?: string[];
 };
+
+export interface ProjectPermit {
+  projectId: string;
+  permit: Permit;
+}

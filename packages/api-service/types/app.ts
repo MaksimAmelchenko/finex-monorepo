@@ -35,6 +35,7 @@ interface IAuthorizedRequestContext {
   sessionId: string;
   projectId: string;
   userId: string;
+  permissions: Permissions;
   // for DB port
   authorization: string;
 }
@@ -66,3 +67,8 @@ export type TUrl = string;
 export type THtml = string;
 export type TText = string;
 export type TJson = any;
+
+export type Permissions = {
+  accounts: Record<string, Permit>;
+  projects: Record<string, Permit>;
+};

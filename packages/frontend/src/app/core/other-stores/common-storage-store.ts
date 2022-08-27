@@ -17,7 +17,7 @@ export class CommonStorageStore<StoredData extends Record<string, string>> exten
    * @return {any}
    */
   set<T extends keyof StoredData>(key: T, value: StoredData[T]) {
-    return localStorage.setItem(`${key}`, JSON.stringify(value));
+    return localStorage.setItem(String(key), JSON.stringify(value));
   }
 
   /**
@@ -29,7 +29,7 @@ export class CommonStorageStore<StoredData extends Record<string, string>> exten
    * @return {T | undefined}
    */
   get<T extends keyof StoredData>(key: T): StoredData[T] | undefined {
-    const item = localStorage.getItem(`${key}`);
+    const item = localStorage.getItem(String(key));
     try {
       return item ? JSON.parse(item) : undefined;
     } catch (err) {
@@ -42,7 +42,7 @@ export class CommonStorageStore<StoredData extends Record<string, string>> exten
    * @param key
    */
   removeItem<T extends keyof StoredData>(key: T): void {
-    localStorage.removeItem(`${key}`);
+    localStorage.removeItem(String(key));
   }
 
   clear(): void {

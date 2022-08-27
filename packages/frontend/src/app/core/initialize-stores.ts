@@ -33,6 +33,8 @@ import { UnitsApi } from '../stores/api/units-api';
 import { UnitsRepository } from '../stores/units-repository';
 import { UsersApi } from '../stores/api/users-api';
 import { UsersRepository } from '../stores/users-repository';
+import { DebtsRepository } from '../stores/debts-repository';
+import { DebtsApi } from '../stores/api/debts-api';
 
 /**
  * Helper to initialize DI
@@ -66,6 +68,8 @@ export function initializeMainStore(): MainStore {
   new PlansRepository(mainStore, new PlansApi(mainStore));
   new BalanceRepository(mainStore, new BalanceApi(mainStore));
   new ParamsStore(mainStore);
+
+  new DebtsRepository(mainStore, new DebtsApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;

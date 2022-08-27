@@ -1,0 +1,54 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.row_is_deleting {
+  background-color: colors.$orangeLight;
+}
+
+td.firstColumn {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.dateColumn {
+  display: flex;
+  align-items: center;
+  border-radius: 0 8px 8px 0;
+  height: 100%;
+  background-color: colors.$grayLight;
+  cursor: pointer;
+
+  &__colorMark {
+    margin-right: 1rem;
+    width: 0.8rem;
+    height: 100%;
+  }
+
+  &__checkbox {
+    img {
+      display: block;
+    }
+  }
+
+  &__dateContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 1.8rem 0.6rem 1.4rem;
+  }
+
+  &__date {
+    line-height: 1.4rem;
+  }
+
+  &__label {
+    font-size: 1.2rem;
+  }
+}
+
+.tags {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.categoryPath {
+  color: colors.$grayDarkest;
+}

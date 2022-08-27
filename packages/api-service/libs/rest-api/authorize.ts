@@ -7,6 +7,8 @@ import { SessionService } from '../../services/session';
 import { UnauthorizedError } from '../errors';
 import { resolveAuthorizationHeader } from './resolve-authorization-header';
 import { signOutRouteOptions } from '../../api/v2/auth/sign-out';
+import { AccountGateway } from '../../services/account/gateway';
+import { ProjectGateway } from '../../services/project/gateway';
 
 const notUpdateAccessTimeRoutes: string[] = [signOutRouteOptions.uri];
 
@@ -38,6 +40,24 @@ export async function authorize(ctx: IRequestContext<never>, authorizationHeader
   ctx.sessionId = session.id;
   ctx.userId = String(session.idUser);
   ctx.projectId = String(session.idProject);
+
+  const [accountPermits, projectPermits] = await Promise.all([
+    //
+    AccountGateway.getAccountPermits(ctx, ctx.projectId, ctx.userId),
+    ProjectGateway.getProjectPermits(ctx, ctx.userId),
+  ]);
+
+  ctx.permissions = {
+    accounts: accountPermits.reduce((acc, { accountId, permit }) => {
+      acc[accountId] = permit;
+      return acc;
+    }, {}),
+    projects: projectPermits.reduce((acc, { projectId, permit }) => {
+      acc[projectId] = permit;
+      return acc;
+    }, {}),
+  };
+
   ctx.authorization = token;
 
   ctx.log = ctx.log.child(

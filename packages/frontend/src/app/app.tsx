@@ -6,6 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import { observer } from 'mobx-react-lite';
 
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
+import { Debts } from './pages/Debts/Debts';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
 import { IncomeExpenseTransactions } from './pages/IncomeExpenseTransactions/IncomeExpenseTransactions';
@@ -18,8 +19,8 @@ import { SettingsLazy } from './pages/Settings/SettingsLazy';
 import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
-import { theme } from '@finex/theme';
 import { SnackbarUtilsConfigurator } from './components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
+import { theme } from '@finex/theme';
 
 export const App = observer(() => {
   return (
@@ -50,11 +51,11 @@ export const App = observer(() => {
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/dashboard" element={<DashboardLazy />} />
-                      <Route path="/cash-flows/income-expenses" element={<IncomeExpenseCashFlows />} />
-                      <Route path="/cash-flows/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
-                      <Route path="/cash-flows/debts" element={<div>Debts</div>} />
-                      <Route path="/cash-flows/transfers" element={<div>Transfers</div>} />
-                      <Route path="/cash-flows/exchanges" element={<div>Exchanges</div>} />
+                      <Route path="/income-expenses" element={<IncomeExpenseCashFlows />} />
+                      <Route path="/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
+                      <Route path="/debts" element={<Debts />} />
+                      <Route path="/transfers" element={<div>Transfers</div>} />
+                      <Route path="/exchanges" element={<div>Exchanges</div>} />
 
                       <Route path="/settings" element={<SettingsLazy />} />
                       <Route path="/settings/:tab" element={<SettingsLazy />} />

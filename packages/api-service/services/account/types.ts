@@ -48,3 +48,8 @@ export type UpdateAccountServiceChanges = UpdateAccountGatewayChanges &
     viewers: string[];
     editors: string[];
   }>;
+
+export interface AccountPermit {
+  accountId: string;
+  permit: Permit;
+}

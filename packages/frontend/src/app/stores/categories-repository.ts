@@ -43,6 +43,14 @@ export class CategoriesRepository extends ManageableStore {
     });
   }
 
+  get debtCategory(): Category {
+    const debtCategory = this._categories.find(category => category.categoryPrototype?.id === '1');
+    if (!debtCategory) {
+      throw new Error('Debt category not found');
+    }
+    return debtCategory;
+  }
+
   get categories(): Category[] {
     return this._categories
       .slice()
