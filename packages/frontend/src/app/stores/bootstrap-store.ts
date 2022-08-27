@@ -12,6 +12,7 @@ import { MoneysRepository } from './moneys-repository';
 import { ParamsStore } from './params-store';
 import { ProfileRepository } from './profile-repository';
 import { ProjectsRepository } from './projects-repository';
+import { SnackbarUtils } from '../components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
 import { TagsRepository } from './tags-repository';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
@@ -31,8 +32,8 @@ export class BootstrapStore extends ManageableStore {
     let bootstrap: IApiBootstrap;
     try {
       bootstrap = await this.api.get();
-    } catch (err) {
-      debugger
+    } catch (err: any) {
+      SnackbarUtils.error(err.message);
       return;
     }
 

@@ -19,6 +19,7 @@ import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 import { theme } from '@finex/theme';
+import { SnackbarUtilsConfigurator } from './components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
 
 export const App = observer(() => {
   return (
@@ -32,6 +33,7 @@ export const App = observer(() => {
           autoHideDuration={3000}
           TransitionComponent={Slide}
         >
+          <SnackbarUtilsConfigurator />
           <Routes>
             <Route path="/sign-in" element={<SignInLazy />} />
             <Route path="/sign-up" element={<SignUpLazy />} />
