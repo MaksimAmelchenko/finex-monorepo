@@ -1,10 +1,12 @@
 import React, { FC, useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 
-import { SelectPopup, ISelectPopupOption, SelectPopupProps } from './select-popup';
+import { ISelectOption } from '../select/select';
+import { SelectPopup, SelectPopupProps } from './select-popup';
 
 import { Option } from '../option/option';
 import { Button } from '../button/button';
+import { OnChangeValue } from 'react-select/dist/declarations/src/types';
 
 export default {
   title: 'Components/SelectPopup',
@@ -14,18 +16,18 @@ export default {
   },
 } as Meta;
 
-const options: ISelectPopupOption[] = [
+const options: ISelectOption[] = [
   { value: '1', label: 'Title1' },
   { value: '2', label: 'Title2' },
   { value: '3', label: 'Title3' },
   { value: '4', label: 'Title4' },
 ];
 
-const Template: Story<SelectPopupProps> = props => {
-  const [value, setValue] = useState<ISelectPopupOption>(options[0]);
+const Template: Story<SelectPopupProps<false>> = props => {
+  const [value, setValue] = useState<ISelectOption>(options[0]);
 
-  const handleOnSelect = (value: ISelectPopupOption) => {
-    setValue(value);
+  const handleOnSelect = (value: OnChangeValue<ISelectOption, false>) => {
+    setValue(value!);
   };
 
   return <SelectPopup {...props} value={value} options={options} onChange={handleOnSelect} />;
@@ -33,10 +35,10 @@ const Template: Story<SelectPopupProps> = props => {
 
 export const Default = Template.bind({});
 Default.args = {
-  target: ({ value, onClick }) => <Option label={(value as ISelectPopupOption).label} onClick={onClick} />,
+  target: ({ value, onClick }) => <Option label={(value as ISelectOption).label} onClick={onClick} />,
 };
 
 export const ButtonTarget = Template.bind({});
 ButtonTarget.args = {
-  target: ({ value, onClick }) => <Button onClick={onClick}>{(value as ISelectPopupOption).label}</Button>,
+  target: ({ value, onClick }) => <Button onClick={onClick}>{(value as ISelectOption).label}</Button>,
 };

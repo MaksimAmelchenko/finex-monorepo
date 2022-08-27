@@ -19,7 +19,7 @@
     transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
       max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
     font-size: 1.6rem;
-    color: colors.$black;
+    color: colors.$grayDark;
     padding: 0 5px;
 
     .root_size_small & {
@@ -43,6 +43,7 @@
     .input:focus-within + & {
       transform: translate(12px, -6px) scale(1);
       font-size: 1.2rem;
+      color: colors.$black;
     }
 
     .root_error &,
@@ -85,7 +86,7 @@
   align-items: center;
 
   @extend %transition-styles;
-  transition-property: border-color;
+  transition-property: border-color ;
 
   border: 1px solid colors.$gray1;
   border-radius: 5px;
