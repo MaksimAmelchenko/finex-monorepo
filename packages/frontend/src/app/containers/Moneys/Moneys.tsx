@@ -3,12 +3,13 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
+import { Button } from '@finex/ui-kit';
+import { Drawer } from '../../components/Drawer/Drawer';
+import { IMoney } from '../../types/money';
 import { Money } from '../../stores/models/money';
 import { MoneyRow } from './MoneyRow/MoneyRow';
 import { MoneyWindow } from '../MoneyWindow/MoneyWindow';
 import { MoneysRepository } from '../../stores/moneys-repository';
-import { Button } from '@finex/ui-kit';
-import { IMoney } from '../../types/money';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -102,7 +103,9 @@ export const Moneys = observer(() => {
         </table>
       </article>
 
-      {money && <MoneyWindow isOpened={isOpenedMoneyWindow} money={money} onClose={handleCloseMoneyWindow} />}
+      <Drawer isOpened={isOpenedMoneyWindow}>
+        {money && <MoneyWindow money={money} onClose={handleCloseMoneyWindow} />}
+      </Drawer>
     </>
   );
 });

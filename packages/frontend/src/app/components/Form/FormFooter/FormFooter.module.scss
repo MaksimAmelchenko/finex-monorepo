@@ -1,31 +1,9 @@
-.buttons {
-  display: flex;
-  justify-content: space-between;
-
-  & > * {
-    width: 100%;
-
-    &:not(:last-child) {
-      margin-right: 14px;
-    }
-  }
-}
+@use 'packages/theme/src/lib/styles/colors';
 
 .footer {
-  margin-top: 40px;
   display: flex;
-  flex-direction: column;
-
-  &.column {
-    .buttons {
-      flex-direction: column;
-
-      & > * {
-        &:not(:last-child) {
-          margin-right: 0;
-          margin-bottom: 14px;
-        }
-      }
-    }
-  }
+  justify-content: space-between;
+  //z-index: 1;
+  box-shadow: 0 -2px 5px colors.$grayLight;
+  padding: 1.6rem 3.2rem 2.4rem;
 }

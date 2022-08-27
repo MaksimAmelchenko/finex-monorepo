@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import clsx from 'clsx';
 
 import {
   FormikConfig,
@@ -13,6 +14,8 @@ import {
 import { CoreError } from '../../core/errors';
 import { CoreErrorConstructor, ErrorTranslation, translateErrorToHR } from '../../core/errors-translation';
 import { ErrorContextValue, FormErrorProvider } from './FormError/FormError';
+
+import styles from './Form.module.scss';
 
 export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
   /**
@@ -95,23 +98,27 @@ export function Form<Values>(props: IFormProps<Values>): JSX.Element {
     [afterSubmit, onError, errorsHR, onSubmit, initialValues]
   );
 
-  const formikbag = useFormik({ ...rest, onSubmit: onSubmitCallback });
+  const formikBag = useFormik({ validateOnBlur: false, validateOnChange: false, ...rest, onSubmit: onSubmitCallback });
 
   useEffect(() => {
-    onChange && onChange(formikbag.values);
-  }, [formikbag.values, onChange]);
+    onChange && onChange(formikBag.values);
+  }, [formikBag.values, onChange]);
 
   return (
-    <FormikProvider value={formikbag}>
+    <FormikProvider value={formikBag}>
       <FormErrorProvider value={errorContextValue}>
-        <form onSubmit={formikbag.handleSubmit as any} onReset={formikbag.handleReset} className={className}>
+        <form
+          onSubmit={formikBag.handleSubmit as any}
+          onReset={formikBag.handleReset}
+          className={clsx(styles.form, className)}
+        >
           {component
-            ? React.createElement(component as any, formikbag)
+            ? React.createElement(component as any, formikBag)
             : render
-            ? render(formikbag)
+            ? render(formikBag)
             : children // children come last, always called
             ? isFunction(children)
-              ? (children as (bag: FormikProps<Values>) => JSX.Element)(formikbag as FormikProps<Values>)
+              ? (children as (bag: FormikProps<Values>) => JSX.Element)(formikBag as FormikProps<Values>)
               : !isEmptyChildren(children)
               ? children
               : null

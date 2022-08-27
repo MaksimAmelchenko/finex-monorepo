@@ -7,6 +7,7 @@ import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@fine
 import { CashFlowTransactionWindow } from '../../containers/CashFlowTransactionWindow/CashFlowTransactionWindow';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
 import { ITransaction } from '../../types/transaction';
 import { IncomeExpenseTransaction } from './IncomeExpenseTransaction/IncomeExpenseTransaction';
@@ -267,13 +268,11 @@ export const IncomeExpenseTransactions = observer(() => {
         </table>
       </article>
 
+      <Drawer isOpened={isOpenedCashFlowTransactionWindow}>
       {transaction && (
-        <CashFlowTransactionWindow
-          isOpened={isOpenedCashFlowTransactionWindow}
-          transaction={transaction}
-          onClose={handleCloseCashFlowTransactionWindow}
-        />
+          <CashFlowTransactionWindow transaction={transaction} onClose={handleCloseCashFlowTransactionWindow} />
       )}
+      </Drawer>
     </>
   );
 });

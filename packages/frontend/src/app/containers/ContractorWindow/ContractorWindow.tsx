@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -6,16 +6,19 @@ import { useSnackbar } from 'notistack';
 import { Contractor } from '../../stores/models/contractor';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CreateContractorData, IContractor, UpdateContractorChanges } from '../../types/contractor';
-import { Drawer } from '../../components/Drawer/Drawer';
-import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
-import { Form, FormButton, FormLayout, FormTextField } from '../../components/Form';
-import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
+import {
+  Form,
+  FormBody,
+  FormButton,
+  FormFooter,
+  FormHeader,
+  FormTextAreaField,
+  FormTextField,
+} from '../../components/Form';
 import { Shape } from '../../types';
 import { getPatch } from '../../lib/core/get-path';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
-
-import styles from './ContractorWindow.module.scss';
 
 interface ContractorFormValues {
   name: string;
@@ -23,7 +26,6 @@ interface ContractorFormValues {
 }
 
 interface ContractorWindowProps {
-  isOpened: boolean;
   contractor: Partial<IContractor> | Contractor;
   onClose: () => unknown;
 }
@@ -36,14 +38,14 @@ function mapValuesToPayload({ name, note }: ContractorFormValues): CreateContrac
     note,
   };
 }
-export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWindowProps): JSX.Element {
+export function ContractorWindow({ contractor, onClose }: ContractorWindowProps): JSX.Element {
   const contractorsRepository = useStore(ContractorsRepository);
   const { enqueueSnackbar } = useSnackbar();
 
-  const nameFieldRef = useRef<HTMLInputElement | null>(null);
-
-  const handleOnOpen = useCallback(() => {
-    nameFieldRef.current?.focus();
+  const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
+    if (node) {
+      node.focus();
+    }
   }, []);
 
   const onSubmit = useCallback(
@@ -90,36 +92,31 @@ export function ContractorWindow({ isOpened, contractor, onClose }: ContractorWi
   const { name, note } = contractor;
 
   return (
-    <Drawer
-      isOpened={isOpened}
-      title={contractor instanceof Contractor ? t('Edit contractor') : t('Add new contractor')}
-      onClose={onClose}
-      onOpen={handleOnOpen}
+    <Form<ContractorFormValues>
+      onSubmit={onSubmit}
+      initialValues={{
+        name: name ?? '',
+        note: note ?? '',
+      }}
+      validationSchema={validationSchema}
     >
-      <Form<ContractorFormValues>
-        onSubmit={onSubmit}
-        initialValues={{
-          name: name ?? '',
-          note: note ?? '',
-        }}
-        validationSchema={validationSchema}
-        className={styles.form}
-      >
-        <div className={styles.form__bodyWrapper}>
-          <FormLayout className={styles.form__body}>
-            <FormTextField name="name" label={t('Name')} ref={nameFieldRef} />
-            <FormTextAreaField name="note" label={t('Note')} />
-          </FormLayout>
-        </div>
-        <DrawerFooter className={styles.footer}>
-          <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
-            {t('Cancel')}
-          </FormButton>
-          <FormButton type="submit" color="secondary" isIgnoreValidation>
-            {t('Save')}
-          </FormButton>
-        </DrawerFooter>
-      </Form>
-    </Drawer>
+      <FormHeader
+        title={contractor instanceof Contractor ? t('Edit contractor') : t('Add new contractor')}
+        onClose={onClose}
+      />
+      <FormBody>
+        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormTextAreaField name="note" label={t('Note')} />
+      </FormBody>
+
+      <FormFooter>
+        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+          {t('Cancel')}
+        </FormButton>
+        <FormButton type="submit" color="secondary" isIgnoreValidation>
+          {t('Save')}
+        </FormButton>
+      </FormFooter>
+    </Form>
   );
 }

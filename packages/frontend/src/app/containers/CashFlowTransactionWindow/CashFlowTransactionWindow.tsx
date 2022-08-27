@@ -7,16 +7,21 @@ import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
-import { ApiErrors } from '../../core/errors';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { CreateTransactionData, UpdateTransactionChanges } from '../../types/income-expense-transaction';
-import { Drawer } from '../../components/Drawer/Drawer';
-import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
-import { Form, FormButton, FormCheckbox, FormError, FormLayout, IFormButton } from '../../components/Form';
-import { FormDateField } from '../../components/Form/FormDateField/FormDateField';
-import { FormSelect } from '../../components/Form/FormSelect/FormSelect';
-import { FormTabs } from '../../components/Form/FormTabs/FormsTabs';
-import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
+import {
+  Form,
+  FormBody,
+  FormButton,
+  FormCheckbox,
+  FormDateField,
+  FormFooter,
+  FormHeader,
+  FormSelect,
+  FormTabs,
+  FormTextAreaField,
+  IFormButton,
+} from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
 import { ITransaction } from '../../types/transaction';
@@ -57,7 +62,6 @@ interface CashFlowTransactionFormValues {
 }
 
 interface CashFlowTransactionWindowProps {
-  isOpened: boolean;
   transaction: Partial<ITransaction> | IncomeExpenseTransaction;
   onClose: () => unknown;
 }
@@ -127,11 +131,7 @@ function mapValuesToUpdatePayload({
   };
 }
 
-export function CashFlowTransactionWindow({
-  isOpened,
-  transaction,
-  onClose,
-}: CashFlowTransactionWindowProps): JSX.Element {
+export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTransactionWindowProps): JSX.Element {
   const signOptions: ITabOption[] = useMemo(
     () => [
       { value: '1', label: t('Income') },
@@ -150,9 +150,11 @@ export function CashFlowTransactionWindow({
   const { enqueueSnackbar } = useSnackbar();
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
-
-  const handleOnOpen = useCallback(() => {
-    amountFieldRef.current?.focus();
+  const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
+    if (node) {
+      amountFieldRef.current = node;
+      amountFieldRef.current.focus();
+    }
   }, []);
 
   const onSubmit = useCallback(
@@ -255,11 +257,13 @@ export function CashFlowTransactionWindow({
 
   if (!accountsRepository.accounts.length) {
     return (
-      <Drawer isOpened={isOpened} title="" onClose={onClose} onOpen={handleOnOpen}>
-        <div>
+      <>
+        <FormHeader title={''} onClose={onClose} />
+
+        <FormBody>
           {t('At first,')} <Link href="/accounts">{t('create')}</Link> {t('at least one account.')}
-        </div>
-      </Drawer>
+        </FormBody>
+      </>
     );
   }
 
@@ -279,127 +283,121 @@ export function CashFlowTransactionWindow({
   } = transaction;
 
   return (
-    <Drawer
-      isOpened={isOpened}
-      title={transaction instanceof Transaction ? t('Edit transaction') : t('Add new transaction')}
-      onClose={onClose}
-      onOpen={handleOnOpen}
+    <Form<CashFlowTransactionFormValues>
+      onSubmit={onSubmit}
+      initialValues={{
+        sign: String(sign) as any,
+        amount: amount ? String(amount) : '',
+        moneyId: money?.id ?? moneysRepository.moneys[0].id,
+        categoryId: category?.id ?? null,
+        accountId: account?.id ?? accountsRepository.accounts[0].id,
+        transactionDate: transactionDate ? parseISO(transactionDate) : new Date(),
+        reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
+        quantity: quantity ? String(quantity) : '',
+        unitId: unit?.id ?? null,
+        isNotConfirmed: isNotConfirmed ?? false,
+        note: note ?? '',
+        tagIds: tags ? tags.map(tag => tag.id) : [],
+        planId: transaction instanceof PlannedTransaction ? transaction.planId : null,
+
+        isOnlySave: false,
+      }}
+      validationSchema={validationSchema}
     >
-      <Form<CashFlowTransactionFormValues>
-        onSubmit={onSubmit}
-        initialValues={{
-          sign: String(sign) as any,
-          amount: amount ? String(amount) : '',
-          moneyId: money?.id ?? moneysRepository.moneys[0].id,
-          categoryId: category?.id ?? null,
-          accountId: account?.id ?? accountsRepository.accounts[0].id,
-          transactionDate: transactionDate ? parseISO(transactionDate) : new Date(),
-          reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
-          quantity: quantity ? String(quantity) : '',
-          unitId: unit?.id ?? null,
-          isNotConfirmed: isNotConfirmed ?? false,
-          note: note ?? '',
-          tagIds: tags ? tags.map(tag => tag.id) : [],
-          planId: transaction instanceof PlannedTransaction ? transaction.planId : null,
+      <FormHeader
+        title={transaction instanceof Transaction ? t('Edit transaction') : t('Add new transaction')}
+        onClose={onClose}
+      />
 
-          isOnlySave: false,
-        }}
-        validationSchema={validationSchema}
-        className={styles.form}
-      >
-        <div className={styles.form__bodyWrapper}>
-          <FormLayout className={styles.form__body}>
-            <FormTabs name="sign" options={signOptions} />
-            <AmountField ref={amountFieldRef} tabIndex={1} />
-            <div className={styles.categoryField}>
-              <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
-              {/*<IconButton onClick={noop} tabIndex={-1}>*/}
-              {/*  <PlusIcon />*/}
-              {/*</IconButton>*/}
-            </div>
-            <FormSelect name="accountId" label={t('Account')} options={selectAccountsOptions} />
-            <div className={styles.dateFields}>
-              <FormDateField
-                name="transactionDate"
-                label={t('Date')}
-                dateFormat={getFormat('date.formats.default')}
-                className={styles.dateFields__dTransaction}
-              />
-              <div className={styles.reportPeriod}>
-                <FormDateField
-                  name="reportPeriod"
-                  label={t('Period')}
-                  dateFormat={getFormat('date.formats.month')}
-                  showMonthYearPicker
-                  className={styles.reportPeriod__input}
-                />
-                <HtmlTooltip
-                  title={
-                    <p>
-                      The reporting month allows you to attribute income or expenses not to the actual date, but to the
-                      reporting month (used to build reports)
-                    </p>
-                  }
-                >
-                  <IconButton onClick={noop} size="medium">
-                    <QuestionIcon />
-                  </IconButton>
-                </HtmlTooltip>
-              </div>
-            </div>
-
-            <div className={styles.additional}>
-              <div>
-                <Target
-                  label={isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
-                  onClick={handleShowAdditionalFieldsClick}
-                />
-                <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
-              </div>
-
-              <div
-                className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}
-              >
-                <QuantityField />
-                <div className={styles.notConfirmedField}>
-                  <FormCheckbox name="isNotConfirmed" label={t('Not confirmed operation')} />
-                  <HtmlTooltip
-                    title={
-                      <div>
-                        <p>
-                          A not confirmed transaction will be marked in a journal yellow color. The overdue and not
-                          confirmed operation will be marked red.
-                        </p>
-                        <p>Otherwise, they are no different from ordinary operations.</p>
-                      </div>
-                    }
-                  >
-                    <IconButton onClick={noop} size="medium">
-                      <QuestionIcon />
-                    </IconButton>
-                  </HtmlTooltip>
-                </div>
-                <FormTextAreaField name="note" label={t('Note')} />
-                <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
-              </div>
-            </div>
-          </FormLayout>
+      <FormBody className={styles.form__body}>
+        <FormTabs name="sign" options={signOptions} />
+        <AmountField ref={amountFieldRefCallback} tabIndex={1} />
+        <div className={styles.categoryField}>
+          <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
+          {/*<IconButton onClick={noop} tabIndex={-1}>*/}
+          {/*  <PlusIcon />*/}
+          {/*</IconButton>*/}
         </div>
-        <DrawerFooter className={styles.footer}>
-          <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
-            {t('Cancel')}
-          </FormButton>
-          <div className={styles.footer__rightButtons}>
-            <SaveButton variant="outlined" isIgnoreValidation>
-              {t('Save')}
-            </SaveButton>
-            <FormButton type="submit" color="secondary" isIgnoreValidation>
-              {t('Save and Create New')}
-            </FormButton>
+        <FormSelect name="accountId" label={t('Account')} options={selectAccountsOptions} />
+        <div className={styles.dateFields}>
+          <FormDateField
+            name="transactionDate"
+            label={t('Date')}
+            dateFormat={getFormat('date.formats.default')}
+            className={styles.dateFields__dTransaction}
+          />
+          <div className={styles.reportPeriod}>
+            <FormDateField
+              name="reportPeriod"
+              label={t('Period')}
+              dateFormat={getFormat('date.formats.month')}
+              showMonthYearPicker
+              className={styles.reportPeriod__input}
+            />
+            <HtmlTooltip
+              title={
+                <p>
+                  The reporting month allows you to attribute income or expenses not to the actual date, but to the
+                  reporting month (used to build reports)
+                </p>
+              }
+            >
+              <IconButton onClick={noop} size="medium">
+                <QuestionIcon />
+              </IconButton>
+            </HtmlTooltip>
           </div>
-        </DrawerFooter>
-      </Form>
-    </Drawer>
+        </div>
+
+        <div className={styles.additional}>
+          <div>
+            <Target
+              label={isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
+              onClick={handleShowAdditionalFieldsClick}
+            />
+            <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
+          </div>
+
+          <div className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}>
+            <QuantityField />
+            <div className={styles.notConfirmedField}>
+              <FormCheckbox name="isNotConfirmed" label={t('Not confirmed operation')} />
+              <HtmlTooltip
+                title={
+                  <div>
+                    <p>
+                      A not confirmed transaction will be marked in a journal yellow color. The overdue and not
+                      confirmed operation will be marked red.
+                    </p>
+                    <p>Otherwise, they are no different from ordinary operations.</p>
+                  </div>
+                }
+              >
+                <IconButton onClick={noop} size="medium">
+                  <QuestionIcon />
+                </IconButton>
+              </HtmlTooltip>
+            </div>
+            <FormTextAreaField name="note" label={t('Note')} />
+            <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
+          </div>
+        </div>
+      </FormBody>
+
+      <FormFooter className={styles.footer}>
+        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+          {t('Cancel')}
+        </FormButton>
+        <div className={styles.footer__rightButtons}>
+          <SaveButton variant="outlined" isIgnoreValidation>
+            {t('Save')}
+          </SaveButton>
+          <FormButton type="submit" color="secondary" isIgnoreValidation>
+            {t('Save and Create New')}
+          </FormButton>
+        </div>
+      </FormFooter>
+    </Form>
   );
 }
 

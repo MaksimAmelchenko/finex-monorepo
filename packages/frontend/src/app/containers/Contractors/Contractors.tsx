@@ -3,11 +3,12 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
+import { Button } from '@finex/ui-kit';
 import { Contractor as ContractorModel } from '../../stores/models/contractor';
 import { Contractor } from './Contractor/Contractor';
 import { ContractorWindow } from '../ContractorWindow/ContractorWindow';
 import { ContractorsRepository } from '../../stores/contractors-repository';
-import { Button } from '@finex/ui-kit';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { IContractor } from '../../types/contractor';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -105,13 +106,9 @@ export const Contractors = observer(() => {
         </table>
       </article>
 
-      {contractor && (
-        <ContractorWindow
-          isOpened={isOpenedContractorWindow}
-          contractor={contractor}
-          onClose={handleCloseContractorWindow}
-        />
-      )}
+      <Drawer isOpened={isOpenedContractorWindow}>
+        {contractor && <ContractorWindow contractor={contractor} onClose={handleCloseContractorWindow} />}
+      </Drawer>
     </>
   );
 });

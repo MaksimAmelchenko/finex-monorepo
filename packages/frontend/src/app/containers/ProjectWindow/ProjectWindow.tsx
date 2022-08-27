@@ -1,15 +1,20 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
 
 import { CreateProjectData, IProject, UpdateProjectChanges } from '../../types/project';
-import { Drawer } from '../../components/Drawer/Drawer';
-import { DrawerFooter } from '../../components/Drawer/DrawerFooter';
-import { Form, FormButton, FormLayout, FormTextField } from '../../components/Form';
-import { FormFieldSet } from '../../components/Form/FormFieldSet/FormFieldSet';
-import { FormSelect } from '../../components/Form/FormSelect/FormSelect';
-import { FormTextAreaField } from '../../components/Form/FormTextArea/FormTextField';
+import {
+  Form,
+  FormBody,
+  FormButton,
+  FormFieldSet,
+  FormFooter,
+  FormHeader,
+  FormSelect,
+  FormTextAreaField,
+  FormTextField,
+} from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { Project } from '../../stores/models/project';
@@ -20,8 +25,6 @@ import { getPatch } from '../../lib/core/get-path';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './ProjectWindow.module.scss';
-
 interface ProjectFormValues {
   name: string;
   note: string;
@@ -29,7 +32,6 @@ interface ProjectFormValues {
 }
 
 interface ProjectWindowProps {
-  isOpened: boolean;
   project: Partial<IProject> | Project;
   onClose: () => unknown;
 }
@@ -52,16 +54,16 @@ function mapValuesToUpdatePayload({ name, note, editors }: ProjectFormValues): U
   };
 }
 
-export function ProjectWindow({ isOpened, project, onClose }: ProjectWindowProps): JSX.Element {
+export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Element {
   const projectsRepository = useStore(ProjectsRepository);
   const profileRepository = useStore(ProfileRepository);
   const usersRepository = useStore(UsersRepository);
   const { enqueueSnackbar } = useSnackbar();
 
-  const nameFieldRef = useRef<HTMLInputElement | null>(null);
-
-  const handleOnOpen = useCallback(() => {
-    nameFieldRef.current?.focus();
+  const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
+    if (node) {
+      node.focus();
+    }
   }, []);
 
   const onSubmit = useCallback(
@@ -115,47 +117,39 @@ export function ProjectWindow({ isOpened, project, onClose }: ProjectWindowProps
 
   const isEdit = project instanceof Project;
   return (
-    <Drawer
-      isOpened={isOpened}
-      title={isEdit ? t('Edit project') : t('New project')}
-      onClose={onClose}
-      onOpen={handleOnOpen}
+    <Form<ProjectFormValues>
+      onSubmit={onSubmit}
+      initialValues={{
+        name: name ?? '',
+        note: note ?? '',
+        editors: editors?.map(({ id }) => id) ?? [],
+      }}
+      validationSchema={validationSchema}
     >
-      <Form<ProjectFormValues>
-        onSubmit={onSubmit}
-        initialValues={{
-          name: name ?? '',
-          note: note ?? '',
-          editors: editors?.map(({ id }) => id) ?? [],
-        }}
-        validationSchema={validationSchema}
-        className={styles.form}
-      >
-        <div className={styles.form__bodyWrapper}>
-          <FormLayout className={styles.form__body}>
-            <FormTextField name="name" label={t('Project name')} ref={nameFieldRef} />
-            <FormTextAreaField name="note" label={t('Project description (optional)')} />
-            <FormFieldSet legend={t('Permissions')}>
-              <FormSelect
-                name="editors"
-                isMulti
-                label={t('Editors')}
-                options={selectUsersOptions}
-                helperText={t('List of users who have the right to add, edit and delete transactions on this project')}
-              />
-            </FormFieldSet>
-          </FormLayout>
-        </div>
+      <FormHeader title={isEdit ? t('Edit project') : t('New project')} onClose={onClose} />
 
-        <DrawerFooter className={styles.footer}>
-          <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
-            {t('Cancel')}
-          </FormButton>
-          <FormButton type="submit" color="secondary" isIgnoreValidation>
-            {isEdit ? t('Save') : t('Create project')}
-          </FormButton>
-        </DrawerFooter>
-      </Form>
-    </Drawer>
+      <FormBody>
+        <FormTextField name="name" label={t('Project name')} ref={nameFieldRefCallback} />
+        <FormTextAreaField name="note" label={t('Project description (optional)')} />
+        <FormFieldSet legend={t('Permissions')}>
+          <FormSelect
+            name="editors"
+            isMulti
+            label={t('Editors')}
+            options={selectUsersOptions}
+            helperText={t('List of users who have the right to add, edit and delete transactions on this project')}
+          />
+        </FormFieldSet>
+      </FormBody>
+
+      <FormFooter>
+        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+          {t('Cancel')}
+        </FormButton>
+        <FormButton type="submit" color="secondary" isIgnoreValidation>
+          {isEdit ? t('Save') : t('Create project')}
+        </FormButton>
+      </FormFooter>
+    </Form>
   );
 }

@@ -1,31 +1,18 @@
-import React, { ReactNode, useEffect } from 'react';
+import React from 'react';
 import MuiDrawer from '@mui/material/Drawer';
 import clsx from 'clsx';
 import { useTheme } from '@mui/material/styles';
 
-import { DrawerHeader } from './DrawerHeader';
-
 import styles from './Drawer.module.scss';
 
 interface IDrawerProps {
-  title: string;
   isOpened: boolean;
-  onClose: () => unknown;
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
-  onOpen?: () => void;
 }
 
-export function Drawer({ isOpened, title, onClose, children, onOpen, className }: IDrawerProps): JSX.Element {
+export function Drawer({ isOpened, children, className }: IDrawerProps): JSX.Element {
   const theme = useTheme();
-
-  useEffect(() => {
-    if (isOpened) {
-      window.setTimeout(() => {
-        onOpen && onOpen();
-      }, 100);
-    }
-  }, [isOpened, onOpen]);
 
   return (
     <MuiDrawer
@@ -36,10 +23,7 @@ export function Drawer({ isOpened, title, onClose, children, onOpen, className }
         zIndex: theme.zIndex.drawer + 2,
       }}
     >
-      <div className={clsx(styles.container, className)}>
-        <DrawerHeader title={title} onClose={onClose} />
-        <div className={styles.content}>{children}</div>
-      </div>
+      <div className={clsx(styles.container, className)}>{isOpened && <>{children}</>}</div>
     </MuiDrawer>
   );
 }

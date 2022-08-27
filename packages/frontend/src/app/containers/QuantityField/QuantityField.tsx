@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { FormInlineSelect } from '../../components/Form/FormInlineSelect/FormInlineSelect';
-import { FormTextField } from '../../components/Form';
+import { FormInlineSelect, FormTextField } from '../../components/Form';
 import { IOption } from '@finex/ui-kit';
 import { UnitsRepository } from '../../stores/units-repository';
 import { getT } from '../../lib/core/i18n';

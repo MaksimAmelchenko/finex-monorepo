@@ -1,7 +1,6 @@
 import React, { forwardRef, useMemo } from 'react';
 
-import { FormInlineSelect } from '../../components/Form/FormInlineSelect/FormInlineSelect';
-import { FormTextField, IFormTextFieldProps } from '../../components/Form';
+import { FormInlineSelect, FormTextField, IFormTextFieldProps } from '../../components/Form';
 import { IOption } from '@finex/ui-kit';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { getT } from '../../lib/core/i18n';

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { Button } from '@finex/ui-kit';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { IUnit } from '../../types/unit';
 import { Unit as UnitModel } from '../../stores/models/unit';
 import { UnitRow } from './UnitRow/UnitRow';
@@ -99,7 +100,9 @@ export const Units = observer(() => {
         </table>
       </article>
 
-      {unit && <UnitWindow isOpened={isOpenedUnitWindow} unit={unit} onClose={handleCloseUnitWindow} />}
+      <Drawer isOpened={isOpenedUnitWindow}>
+        {unit && <UnitWindow unit={unit} onClose={handleCloseUnitWindow} />}
+      </Drawer>
     </>
   );
 });

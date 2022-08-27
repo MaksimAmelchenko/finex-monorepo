@@ -100,7 +100,7 @@ module.exports = {
   CategoryWindow: {
     'There is a cycle in the hierarchy': 'Есть зацикливание в иерархии',
     'Edit category': 'Редактировать',
-    'Add new category': 'Добавить новую категнорию',
+    'Add new category': 'Добавить новую категорию',
     'Check data and try again': 'Проверти форму и попробуйте еще раз',
     Name: 'Наименование',
     'Parent category': 'Родительская категория',
@@ -200,10 +200,9 @@ module.exports = {
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Перенесено {{count}} операций',
-    "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
-    'Please select a category to move transaction to': 'Пожалуйста, выберите категорию, в которую переносить данные',
     'You cannot move transaction to the same category without using the option "Move operations from subcategories"':
       'Нельзя переносить данные в ту же самую категорию без использования опции "Переносить операции из подкатегорий"',
+    'Please select a category to move transaction to': 'Пожалуйста, выберите категорию, в которую переносить данные',
     'Move transactions from one category to another': 'Перенос операций из одной категории в другую',
     From: 'Из',
     To: 'В',
@@ -223,7 +222,7 @@ module.exports = {
   ProjectMergeWindow: {
     'Please select at least one project': 'Пожалуйста, выберети хотя бы один проект',
     'You must accept this': 'Необходимо принять это условие',
-    'Merge projects': 'Объединить проект',
+    'Merge projects': 'Объединить проекты',
     'Target project': 'Целевой проект',
     'Merged projects': 'Проекты для объединение',
     'I understand that the merged projects will be deleted after the data has been transferred to the target project':

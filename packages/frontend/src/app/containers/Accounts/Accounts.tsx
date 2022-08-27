@@ -8,6 +8,7 @@ import { AccountRow } from './Account/AccountRow';
 import { AccountWindow } from '../AccountWindow/AccountWindow';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button } from '@finex/ui-kit';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { IAccount } from '../../types/account';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -108,9 +109,9 @@ export const Accounts = observer(() => {
         </table>
       </article>
 
-      {account && (
-        <AccountWindow isOpened={isOpenedAccountWindow} account={account} onClose={handleCloseAccountWindow} />
-      )}
+      <Drawer isOpened={isOpenedAccountWindow}>
+        {account && <AccountWindow account={account} onClose={handleCloseAccountWindow} />}
+      </Drawer>
     </>
   );
 });

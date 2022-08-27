@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { Button } from '@finex/ui-kit';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { ITag } from '../../types/tag';
 import { Tag as TagModel } from '../../stores/models/tag';
 import { TagRow } from './TagRow/TagRow';
@@ -95,7 +96,7 @@ export const Tags = observer(() => {
         </table>
       </article>
 
-      {tag && <TagWindow isOpened={isOpenedTagWindow} tag={tag} onClose={handleCloseTagWindow} />}
+      <Drawer isOpened={isOpenedTagWindow}>{tag && <TagWindow tag={tag} onClose={handleCloseTagWindow} />}</Drawer>
     </>
   );
 });

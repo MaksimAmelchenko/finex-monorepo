@@ -199,10 +199,9 @@ module.exports = {
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Moved {{count}} transactions',
-    "You can't delete a category with subcategories": "You can't delete a category with subcategories",
-    'Please select a category to move transaction to': 'Please select a category to move transaction to',
     'You cannot move transaction to the same category without using the option "Move operations from subcategories"':
       'You cannot move transaction to the same category without using the option "Move operations from subcategories"',
+    'Please select a category to move transaction to': 'Please select a category to move transaction to',
     'Move transactions from one category to another': 'Move transactions from one category to another',
     From: 'From',
     To: 'To',

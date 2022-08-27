@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { Button } from '@finex/ui-kit';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { IProject } from '../../types/project';
 import { Project } from '../../stores/models/project';
 import { ProjectCopyWindow } from '../ProjectCopyWindow/ProjectCopyWindow';
@@ -158,21 +159,17 @@ export const Projects = observer(() => {
         </table>
       </article>
 
-      {project && (
-        <ProjectWindow isOpened={isOpenedProjectWindow} project={project} onClose={handleCloseProjectWindow} />
-      )}
+      <Drawer isOpened={isOpenedProjectWindow}>
+        {project && <ProjectWindow project={project} onClose={handleCloseProjectWindow} />}
+      </Drawer>
 
-      <ProjectCopyWindow
-        isOpened={isOpenedCopyProjectWindow}
-        project={selectedProject}
-        onClose={handleCloseCopyProjectWindow}
-      />
+      <Drawer isOpened={isOpenedCopyProjectWindow}>
+        <ProjectCopyWindow project={selectedProject} onClose={handleCloseCopyProjectWindow} />
+      </Drawer>
 
-      <ProjectMergeWindow
-        isOpened={isOpenedMergeProjectWindow}
-        project={selectedProject}
-        onClose={handleCloseMergeProjectWindow}
-      />
+      <Drawer isOpened={isOpenedMergeProjectWindow}>
+        <ProjectMergeWindow project={selectedProject} onClose={handleCloseMergeProjectWindow} />
+      </Drawer>
     </>
   );
 });

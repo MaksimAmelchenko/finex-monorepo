@@ -59,32 +59,13 @@
   }
 }
 
-.form {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.form__bodyWrapper {
-  position: relative;
-  flex: 1;
-  overflow: auto;
-}
-
 .form__body {
-  height: 100%;
-  padding: 0 3.2rem;
+  padding-top: 0;
 }
 
 .footer {
-  display: flex;
-  justify-content: space-between;
-
   &__rightButtons {
     display: flex;
     gap: 16px;
   }
 }
-
-

@@ -7,6 +7,7 @@ import { Button, Image, TickSvg, TreeTableGroupingCell, TreeTableRow, useTreeTab
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category as CategoryModel } from '../../stores/models/category';
 import { CategoryWindow } from '../CategoryWindow/CategoryWindow';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { ICategory } from '../../types/category';
 import { MoveTransactionsWindow } from '../MoveTransactionsWindow/MoveTransactionsWindow';
 import { getT } from '../../lib/core/i18n';
@@ -145,17 +146,15 @@ export const Categories = observer(() => {
         </table>
       </article>
 
-      {category && (
-        <CategoryWindow isOpened={isOpenedCategoryWindow} category={category} onClose={handleCloseCategoryWindow} />
-      )}
+      <Drawer isOpened={isOpenedCategoryWindow}>
+        {category && <CategoryWindow category={category} onClose={handleCloseCategoryWindow} />}
+      </Drawer>
 
-      {selectedCategory && (
-        <MoveTransactionsWindow
-          isOpened={isOpenedMoveTransactionsWindow}
-          category={selectedCategory}
-          onClose={handleCloseMoveTransactionsWindow}
-        />
-      )}
+      <Drawer isOpened={isOpenedMoveTransactionsWindow}>
+        {selectedCategory && (
+          <MoveTransactionsWindow category={selectedCategory} onClose={handleCloseMoveTransactionsWindow} />
+        )}
+      </Drawer>
     </>
   );
 });

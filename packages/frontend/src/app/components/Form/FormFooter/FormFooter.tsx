@@ -1,14 +1,13 @@
-import React, { FC } from 'react';
+import React from 'react';
+import clsx from 'clsx';
 
-import { FormError } from '../FormError/FormError';
-// <FormError / >
 import styles from './FormFooter.module.scss';
 
-export const FormFooter: FC<{ children: React.ReactNode }> = ({ children }): JSX.Element => {
-  return (
-    <footer className={styles.footer}>
-      <FormError />
-      <div className={styles.buttons}> {children} </div>
-    </footer>
-  );
+interface FormFooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const FormFooter: React.FC<FormFooterProps> = ({ children, className }): JSX.Element => {
+  return <footer className={clsx(styles.footer, className)}>{children}</footer>;
 };
