@@ -40,7 +40,7 @@
     "serve": {
       "executor": "@nrwl/web:dev-server",
       "options": {
-        "buildTarget": "frontend:build",
+        "buildTarget": "frontend:build:development",
         "hmr": true
       },
       "configurations": {

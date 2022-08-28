@@ -6,6 +6,7 @@ import {
   FormikHelpers,
   FormikProps,
   FormikProvider,
+  FormikValues,
   isEmptyChildren,
   isFunction,
   useFormik,
@@ -63,7 +64,7 @@ export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
 /**
  * Use this component to render a form and handle it with repositories
  */
-export function Form<Values>(props: IFormProps<Values>): JSX.Element {
+export function Form<Values extends FormikValues>(props: IFormProps<Values>): JSX.Element {
   const { children, component, render, initialValues } = props;
   const { onChange, onSubmit, onError, errorsHR, afterSubmit, className, ...rest } = props;
 
@@ -98,7 +99,12 @@ export function Form<Values>(props: IFormProps<Values>): JSX.Element {
     [afterSubmit, onError, errorsHR, onSubmit, initialValues]
   );
 
-  const formikBag = useFormik({ validateOnBlur: false, validateOnChange: false, ...rest, onSubmit: onSubmitCallback });
+  const formikBag = useFormik<Values>({
+    validateOnBlur: false,
+    validateOnChange: false,
+    ...rest,
+    onSubmit: onSubmitCallback,
+  });
 
   useEffect(() => {
     onChange && onChange(formikBag.values);
