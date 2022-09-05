@@ -8,7 +8,7 @@ export const findDebtParamsSchema: OpenAPIV3_1.SchemaObject = {
     limit: {
       type: 'integer',
       minimum: 0,
-      maximum: 50
+      maximum: 50,
     },
     offset: {
       type: 'integer',

@@ -1,20 +1,5 @@
-import { Permit, Sign, TDate, Permissions, IRequestContext } from '../../types/app';
-
-export interface IDebtItemDAO {
-  projectId: number;
-  cashflowId: number;
-  id: number;
-  userId: number;
-  sign: Sign;
-  amount: number;
-  moneyId: number;
-  accountId: number;
-  categoryId: number;
-  cashflowItemDate: TDate;
-  reportPeriod: TDate;
-  note: string | null;
-  tags: number[] | null;
-}
+import { Permit, Sign, TDate, IRequestContext, Permissions } from '../../types/app';
+import { ICashFlowItem, ICashFlowItemDAO } from '../cahsflow-item/types';
 
 export interface IDebtItemEntity {
   id: string;
@@ -78,26 +63,6 @@ export type UpdateDebtItemRepositoryChanges = Partial<{
 
 export type UpdateDebtItemServiceChanges = UpdateDebtItemRepositoryChanges;
 
-export interface DebtItemRepository {
-  createDebtItem(
-    ctx: IRequestContext,
-    projectId: string,
-    userId: string,
-    debtId: string,
-    data: CreateDebtItemRepositoryData
-  ): Promise<IDebtItemDAO>;
-
-  getDebtItem(ctx: IRequestContext, projectId: string, debtItemId: string): Promise<IDebtItemDAO | undefined>;
-  getDebtItems(ctx: IRequestContext, projectId: string, debtIds: string[]): Promise<IDebtItemDAO[]>;
-  updateDebtItem(
-    ctx: IRequestContext,
-    projectId: string,
-    debtItemId: string,
-    changes: UpdateDebtItemRepositoryChanges
-  ): Promise<IDebtItemDAO>;
-  deleteDebtItem(ctx: IRequestContext, projectId: string, debtItemId: string): Promise<void>;
-}
-
 export interface DebtItemService {
   createDebtItem(
     ctx: IRequestContext,
@@ -108,17 +73,20 @@ export interface DebtItemService {
   ): Promise<IDebtItem>;
 
   getDebtItem(ctx: IRequestContext, projectId: string, debtItemId: string): Promise<IDebtItem>;
+
   getDebtItems(ctx: IRequestContext, projectId: string, userId: string, debtIds: string[]): Promise<IDebtItem[]>;
+
   updateDebtItem(
     ctx: IRequestContext,
     projectId: string,
     debtItemId: string,
     changes: UpdateDebtItemServiceChanges
   ): Promise<IDebtItem>;
+
   deleteDebtItem(ctx: IRequestContext, projectId: string, debtItemId: string): Promise<void>;
 }
 
 export interface DebtItemMapper {
   toDTO(debtItem: IDebtItem): IDebtItemDTO;
-  toDomain(debtItem: IDebtItemDAO, permission: Permissions): IDebtItem;
+  toDomain(cashFlowItem: ICashFlowItem): IDebtItem;
 }

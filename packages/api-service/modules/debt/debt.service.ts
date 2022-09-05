@@ -1,11 +1,5 @@
-import { DebtItemRepository, DebtItemService, IDebtItem } from '../debt-item/types';
-import { IRequestContext, Permit } from '../../types/app';
-import { NotFoundError } from '../../libs/errors';
-import { debtItemRepository } from '../debt-item/debt-item.repository';
-import { debtItemService } from '../debt-item/debt-item.service';
-import { debtMapper } from './debt.mapper';
-import { debtRepository } from './debt.repository';
-
+import { CashFlowItemRepository } from '../cahsflow-item/types';
+import { CashFlowRepository, CashFlowType } from '../cahsflow/types';
 import {
   CreateDebtServiceData,
   DebtRepository,
@@ -15,34 +9,49 @@ import {
   IDebt,
   UpdateDebtServiceChanges,
 } from './types';
+import { DebtItemService, IDebtItem } from '../debt-item/types';
+import { IRequestContext, Permit } from '../../types/app';
+import { NotFoundError } from '../../libs/errors';
+import { cashFlowItemRepository } from '../cahsflow-item/cashflow-item.repository';
+import { cashFlowRepository } from '../cahsflow/cashflow.repository';
+import { debtItemService } from '../debt-item/debt-item.service';
+import { debtMapper } from './debt.mapper';
+import { debtRepository } from './debt.repository';
 
 class DebtServiceImpl implements DebtService {
-  private debtRepository: DebtRepository;
-  private debtItemRepository: DebtItemRepository;
+  private cashFlowItemRepository: CashFlowItemRepository;
+  private cashFlowRepository: CashFlowRepository;
   private debtItemService: DebtItemService;
+  private debtRepository: DebtRepository;
 
   constructor({
-    debtRepository,
-    debtItemRepository,
+    cashFlowItemRepository,
+    cashFlowRepository,
     debtItemService,
+    debtRepository,
   }: {
-    debtRepository: DebtRepository;
-    debtItemRepository: DebtItemRepository;
+    cashFlowItemRepository: CashFlowItemRepository;
+    cashFlowRepository: CashFlowRepository;
     debtItemService: DebtItemService;
+    debtRepository: DebtRepository;
   }) {
-    this.debtRepository = debtRepository;
-    this.debtItemRepository = debtItemRepository;
+    this.cashFlowItemRepository = cashFlowItemRepository;
+    this.cashFlowRepository = cashFlowRepository;
     this.debtItemService = debtItemService;
+    this.debtRepository = debtRepository;
   }
 
   async createDebt(
-    ctx: IRequestContext,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     data: CreateDebtServiceData
   ): Promise<IDebt> {
     const { items = [], ...params } = data;
-    const debtDAO = await this.debtRepository.createDebt(ctx, projectId, userId, params);
+    const debtDAO = await this.cashFlowRepository.createCashFlow(ctx, projectId, userId, {
+      ...params,
+      cashFlowTypeId: CashFlowType.Debt,
+    });
 
     await Promise.all(
       items.map(item => this.debtItemService.createDebtItem(ctx, projectId, userId, String(debtDAO.id), item))
@@ -51,19 +60,24 @@ class DebtServiceImpl implements DebtService {
     return this.getDebt(ctx, projectId, userId, String(debtDAO.id));
   }
 
-  async getDebt(ctx: IRequestContext, projectId: string, userId: string, debtId: string): Promise<IDebt> {
-    const debtDAO = await this.debtRepository.getDebt(ctx, projectId, debtId);
-    if (!debtDAO) {
+  async getDebt(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    debtId: string
+  ): Promise<IDebt> {
+    const cashFlowDAO = await this.cashFlowRepository.getCashFlow(ctx, projectId, debtId, CashFlowType.Debt);
+    if (!cashFlowDAO) {
       throw new NotFoundError();
     }
     const debtItems = await this.debtItemService.getDebtItems(ctx, projectId, userId, [debtId]);
 
     // the current user is not owner and there are no items (no permissions)
-    if (String(debtDAO.userId) !== userId && !debtItems.length) {
+    if (String(cashFlowDAO.userId) !== userId && !debtItems.length) {
       throw new NotFoundError();
     }
 
-    return debtMapper.toDomain(debtDAO, debtItems, ctx.permissions);
+    return debtMapper.toDomain(cashFlowDAO, debtItems, ctx.permissions);
   }
 
   async findDebts(
@@ -94,7 +108,7 @@ class DebtServiceImpl implements DebtService {
   }
 
   async updateDebt(
-    ctx: IRequestContext,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     debtId: string,
@@ -104,7 +118,7 @@ class DebtServiceImpl implements DebtService {
 
     await this.getDebt(ctx, projectId, userId, debtId);
 
-    const debtDOA = await this.debtRepository.updateDebt(ctx, projectId, debtId, params);
+    const debtDOA = await this.cashFlowRepository.updateCashFlow(ctx, projectId, debtId, params);
 
     await Promise.all(
       items.map(({ id, ...changes }) => this.debtItemService.updateDebtItem(ctx, projectId, id, changes))
@@ -118,16 +132,21 @@ class DebtServiceImpl implements DebtService {
 
     for await (const debtItem of debtItems) {
       if ((debtItem.permit & Permit.Update) === Permit.Update) {
-        await this.debtItemRepository.deleteDebtItem(ctx, projectId, debtItem.id);
+        await this.cashFlowItemRepository.deleteCashFlowItem(ctx, projectId, debtItem.id);
       }
     }
 
-    const debtItemDOAs = await this.debtItemRepository.getDebtItems(ctx, projectId, [debtId]);
+    const cashFlowItemDOAs = await this.cashFlowItemRepository.getCashFlowItems(ctx, projectId, [debtId]);
 
-    if (!debtItemDOAs.length) {
-      await this.debtRepository.deleteDebt(ctx, projectId, debtId);
+    if (!cashFlowItemDOAs.length) {
+      await this.cashFlowRepository.deleteCashFlow(ctx, projectId, debtId);
     }
   }
 }
 
-export const debtService = new DebtServiceImpl({ debtRepository, debtItemRepository, debtItemService });
+export const debtService = new DebtServiceImpl({
+  cashFlowItemRepository,
+  cashFlowRepository,
+  debtItemService,
+  debtRepository,
+});

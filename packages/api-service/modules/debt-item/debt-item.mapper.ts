@@ -1,6 +1,6 @@
-import { DebtItemMapper, IDebtItem, IDebtItemDAO, IDebtItemDTO } from './types';
-import { Permissions } from '../../types/app';
 import { DebtItem } from './models/debt-item';
+import { DebtItemMapper, IDebtItem, IDebtItemDTO } from './types';
+import { ICashFlowItem } from '../cahsflow-item/types';
 
 class DebtItemMapperImpl implements DebtItemMapper {
   toDTO({
@@ -35,37 +35,35 @@ class DebtItemMapperImpl implements DebtItemMapper {
     };
   }
 
-  toDomain(
-    {
+  toDomain({
+    id,
+    cashFlowId,
+    sign,
+    amount,
+    moneyId,
+    categoryId,
+    accountId,
+    cashFlowItemDate,
+    reportPeriod,
+    note,
+    tags,
+    userId,
+    permit,
+  }: ICashFlowItem): IDebtItem {
+    return new DebtItem({
       id,
-      cashflowId,
+      debtId: cashFlowId,
       sign,
       amount,
       moneyId,
       categoryId,
       accountId,
-      cashflowItemDate,
+      debtItemDate: cashFlowItemDate,
       reportPeriod,
       note,
       tags,
+      permit,
       userId,
-    }: IDebtItemDAO,
-    { accounts }: Permissions
-  ): IDebtItem {
-    return new DebtItem({
-      id: String(id),
-      debtId: String(cashflowId),
-      sign,
-      amount,
-      moneyId: String(moneyId),
-      categoryId: String(categoryId),
-      accountId: String(accountId),
-      debtItemDate: cashflowItemDate,
-      reportPeriod,
-      note: note || '',
-      tags: tags ? tags.map(String) : [],
-      permit: accounts[String(accountId)] || 0,
-      userId: String(userId),
     });
   }
 }

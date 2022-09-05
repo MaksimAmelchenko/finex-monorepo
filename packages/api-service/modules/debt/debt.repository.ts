@@ -1,60 +1,19 @@
 import { snakeCaseMappers } from 'objection';
 
-import { DebtDAO } from './model/debt-dao';
+import { CashFlowDAO } from '../cahsflow/models/cahsflow-dao';
+import { DebtRepository, FindDebtsRepositoryResponse, FindDebtsServiceQuery } from './types';
 import { IRequestContext } from '../../types/app';
-import {
-  CreateDebtRepositoryData,
-  DebtRepository,
-  FindDebtsRepositoryResponse,
-  FindDebtsServiceQuery,
-  IDebtDAO,
-  UpdateDebtRepositoryChanges,
-} from './types';
 
 const { parse } = snakeCaseMappers();
 
 class DebtRepositoryImpl implements DebtRepository {
-  async createDebt(
-    ctx: IRequestContext,
-    projectId: string,
-    userId: string,
-    data: CreateDebtRepositoryData
-  ): Promise<IDebtDAO> {
-    ctx.log.trace({ data }, 'try to create debt');
-
-    const { contractorId, note, tags } = data;
-
-    const debtDAO = await DebtDAO.query(ctx.trx).insertAndFetch({
-      projectId: Number(projectId),
-      userId: Number(userId),
-      contractorId: Number(contractorId),
-      note,
-      tags: tags ? tags.map(Number) : undefined,
-      cashflowTypeId: 2,
-    });
-
-    ctx.log.info({ debtId: debtDAO.id }, 'created debt');
-
-    return (await this.getDebt(ctx, projectId, String(debtDAO.id))) as IDebtDAO;
-  }
-
-  async getDebt(ctx: IRequestContext, projectId: string, debtId: string): Promise<IDebtDAO | undefined> {
-    ctx.log.trace({ debtId }, 'try to get debt');
-
-    return DebtDAO.query(ctx.trx)
-      .findById([Number(projectId), Number(debtId)])
-      .where({
-        cashflowTypeId: 2,
-      });
-  }
-
   async findDebts(
     ctx: IRequestContext,
     projectId: string,
     userId: string,
-    query: FindDebtsServiceQuery
+    params: FindDebtsServiceQuery
   ): Promise<FindDebtsRepositoryResponse> {
-    ctx.log.trace({ query }, 'try to find debts');
+    ctx.log.trace({ params }, 'try to find debts');
 
     const {
       limit = 50,
@@ -65,9 +24,9 @@ class DebtRepositoryImpl implements DebtRepository {
       contractors = null,
       tags = null,
       isOnlyNotPaid = false,
-    } = query;
+    } = params;
 
-    const knex = DebtDAO.knex();
+    const knex = CashFlowDAO.knex();
 
     let query = knex.raw(
       `with permit as
@@ -189,7 +148,7 @@ class DebtRepositoryImpl implements DebtRepository {
     }
     const { total } = debtRows[0];
 
-    const debts: DebtDAO[] = debtRows.map(debt => DebtDAO.fromDatabaseJson(parse(debt)));
+    const debts: CashFlowDAO[] = debtRows.map(debt => CashFlowDAO.fromDatabaseJson(parse(debt)));
 
     return {
       metadata: {
@@ -199,42 +158,6 @@ class DebtRepositoryImpl implements DebtRepository {
       },
       debts,
     };
-  }
-
-  async updateDebt(
-    ctx: IRequestContext,
-    projectId: string,
-    debtId: string,
-    changes: UpdateDebtRepositoryChanges
-  ): Promise<IDebtDAO> {
-    ctx.log.trace({ debtId, changes }, 'try to update debt');
-    const { contractorId, tags, note } = changes;
-
-    await DebtDAO.query(ctx.trx)
-      .patch({
-        contractorId: contractorId ? Number(contractorId) : undefined,
-        tags: tags ? tags.map(Number) : undefined,
-        note,
-      })
-      .where({
-        projectId: Number(projectId),
-        id: Number(debtId),
-        cashflowTypeId: 2,
-      });
-
-    return (await this.getDebt(ctx, projectId, String(debtId))) as IDebtDAO;
-  }
-
-  async deleteDebt(ctx: IRequestContext, projectId: string, debtId: string): Promise<void> {
-    ctx.log.trace({ debtId }, 'try to delete debt');
-
-    await DebtDAO.query(ctx.trx)
-      .deleteById([Number(projectId), Number(debtId)])
-      .where({
-        cashflowTypeId: 2,
-      });
-
-    ctx.log.info({ debtId }, 'deleted debt');
   }
 }
 

@@ -1,21 +1,14 @@
-import { AccessDeniedError, NotFoundError } from '../../libs/errors';
-import { IRequestContext, Permit } from '../../types/app';
+import { CashFlowItemService } from '../cahsflow-item/types';
+import { CreateDebtItemServiceData, DebtItemService, IDebtItem, UpdateDebtItemServiceChanges } from './types';
+import { IRequestContext } from '../../types/app';
+import { cashFlowItemService } from '../cahsflow-item/cashflow-item.service';
 import { debtItemMapper } from './debt-item.mapper';
-import { debtItemRepository } from './debt-item.repository';
-
-import {
-  CreateDebtItemServiceData,
-  DebtItemRepository,
-  DebtItemService,
-  IDebtItem,
-  UpdateDebtItemServiceChanges,
-} from './types';
 
 class DebtItemServiceImpl implements DebtItemService {
-  private debtItemRepository: DebtItemRepository;
+  private cashFlowItemService: CashFlowItemService;
 
-  constructor({ debtItemRepository }: { debtItemRepository: DebtItemRepository }) {
-    this.debtItemRepository = debtItemRepository;
+  constructor({ cashFlowItemService }: { cashFlowItemService: CashFlowItemService }) {
+    this.cashFlowItemService = cashFlowItemService;
   }
 
   async createDebtItem(
@@ -25,34 +18,31 @@ class DebtItemServiceImpl implements DebtItemService {
     debtId: string,
     data: CreateDebtItemServiceData
   ): Promise<IDebtItem> {
-    if ((ctx.permissions.accounts[data.accountId] & Permit.Update) !== Permit.Update) {
-      throw new AccessDeniedError();
-    }
+    const { sign, amount, moneyId, accountId, categoryId, debtItemDate, reportPeriod, note, tags } = data;
 
-    const debtItem = await this.debtItemRepository.createDebtItem(ctx, projectId, userId, debtId, data);
+    const cashFlowItem = await this.cashFlowItemService.createCashFlowItem(ctx, projectId, userId, debtId, {
+      sign,
+      amount,
+      moneyId,
+      accountId,
+      categoryId,
+      cashFlowItemDate: debtItemDate,
+      reportPeriod,
+      note,
+      tags,
+    });
 
-    return this.getDebtItem(ctx, projectId, String(debtItem.id));
+    return this.getDebtItem(ctx, projectId, cashFlowItem.id);
   }
 
   async getDebtItem(ctx: IRequestContext, projectId: string, debtItemId: string): Promise<IDebtItem> {
-    const debtItemDAO = await this.debtItemRepository.getDebtItem(ctx, projectId, debtItemId);
-    if (!debtItemDAO) {
-      throw new NotFoundError();
-    }
-
-    if ((ctx.permissions.accounts[debtItemDAO.accountId] & Permit.Read) !== Permit.Read) {
-      throw new NotFoundError();
-    }
-
-    return debtItemMapper.toDomain(debtItemDAO, ctx.permissions);
+    const cashFlowItem = await this.cashFlowItemService.getCashFlowItem(ctx, projectId, debtItemId);
+    return debtItemMapper.toDomain(cashFlowItem);
   }
 
   async getDebtItems(ctx: IRequestContext, projectId: string, userId: string, debtIds: string[]): Promise<IDebtItem[]> {
-    const debtItemDOAs = await this.debtItemRepository.getDebtItems(ctx, projectId, debtIds);
-
-    return debtItemDOAs
-      .map(debtItem => debtItemMapper.toDomain(debtItem, ctx.permissions))
-      .filter(({ permit }) => (permit & Permit.Read) === Permit.Read);
+    const cashFlowItems = await this.cashFlowItemService.getCashFlowItems(ctx, projectId, userId, debtIds);
+    return cashFlowItems.map(cashFlowItem => debtItemMapper.toDomain(cashFlowItem));
   }
 
   async updateDebtItem(
@@ -61,26 +51,28 @@ class DebtItemServiceImpl implements DebtItemService {
     debtItemId: string,
     changes: UpdateDebtItemServiceChanges
   ): Promise<IDebtItem> {
-    const debtItem = await this.getDebtItem(ctx, projectId, debtItemId);
+    const { sign, amount, moneyId, accountId, categoryId, debtItemDate, reportPeriod, note, tags } = changes;
 
-    if ((debtItem.permit & Permit.Update) !== Permit.Update) {
-      throw new AccessDeniedError();
-    }
+    await this.cashFlowItemService.updateCashFlowItem(ctx, projectId, debtItemId, {
+      sign,
+      amount,
+      moneyId,
+      accountId,
+      categoryId,
+      cashFlowItemDate: debtItemDate,
+      reportPeriod,
+      note,
+      tags,
+    });
 
-    const debtItemDAO = await this.debtItemRepository.updateDebtItem(ctx, projectId, debtItemId, changes);
-
-    return this.getDebtItem(ctx, projectId, String(debtItemDAO.id));
+    return this.getDebtItem(ctx, projectId, debtItemId);
   }
 
   async deleteDebtItem(ctx: IRequestContext, projectId: string, debtItemId: string): Promise<void> {
-    const debtItem = await this.getDebtItem(ctx, projectId, debtItemId);
-
-    if ((debtItem.permit & Permit.Update) !== Permit.Update) {
-      throw new AccessDeniedError();
-    }
-
-    return this.debtItemRepository.deleteDebtItem(ctx, projectId, debtItemId);
+    return this.cashFlowItemService.deleteCashFlowItem(ctx, projectId, debtItemId);
   }
 }
 
-export const debtItemService = new DebtItemServiceImpl({ debtItemRepository });
+export const debtItemService = new DebtItemServiceImpl({
+  cashFlowItemService,
+});

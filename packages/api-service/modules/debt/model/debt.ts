@@ -1,5 +1,5 @@
 import { IDebt, IDebtEntity } from '../types';
-import { TDate, TDateTime } from '../../../types/app';
+import { TDateTime } from '../../../types/app';
 import { DebtItem } from '../../debt-item/models/debt-item';
 import { IDebtItem } from '../../debt-item/types';
 
@@ -21,8 +21,4 @@ export class Debt implements IDebt {
     this.items = items.map(item => new DebtItem(item));
     this.updatedAt = updatedAt;
   }
-
-  // get lastDebtItemDate(): TDate | null {
-  //   return this.items.length ? this.items[this.items.length - 1].debtItemDate : null;
-  // }
 }

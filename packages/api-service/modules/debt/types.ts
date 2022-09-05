@@ -1,3 +1,4 @@
+import { ICashFlowDAO } from '../cahsflow/types';
 import { IRequestContext, Permissions, TDate, TDateTime } from '../../types/app';
 
 import {
@@ -7,17 +8,6 @@ import {
   IDebtItemEntity,
   UpdateDebtItemServiceChanges,
 } from '../debt-item/types';
-
-export interface IDebtDAO {
-  projectId: number;
-  userId: number;
-  id: number;
-  contractorId: number;
-  note: string | null;
-  tags: number[] | null;
-  updatedAt: TDateTime;
-  cashflowTypeId: number;
-}
 
 export interface IDebtEntity {
   userId: string;
@@ -57,7 +47,7 @@ export interface FindDebtsRepositoryQuery {
 export type FindDebtsServiceQuery = FindDebtsRepositoryQuery;
 
 export interface FindDebtsRepositoryResponse {
-  debts: IDebtDAO[];
+  debts: ICashFlowDAO[];
   metadata: {
     offset: number;
     limit: number;
@@ -95,30 +85,12 @@ export type UpdateDebtServiceChanges = UpdateDebtRepositoryChanges & {
 };
 
 export interface DebtRepository {
-  createDebt(
-    ctx: IRequestContext,
-    projectId: string,
-    userId: string,
-    data: CreateDebtRepositoryData
-  ): Promise<IDebtDAO>;
-
-  getDebt(ctx: IRequestContext, projectId: string, debtId: string): Promise<IDebtDAO | undefined>;
-
   findDebts(
     ctx: IRequestContext,
     projectId: string,
     userId: string,
     query: FindDebtsServiceQuery
   ): Promise<FindDebtsRepositoryResponse>;
-
-  updateDebt(
-    ctx: IRequestContext,
-    projectId: string,
-    debtId: string,
-    changes: UpdateDebtRepositoryChanges
-  ): Promise<IDebtDAO>;
-
-  deleteDebt(ctx: IRequestContext, projectId: string, debtId: string): Promise<void>;
 }
 
 export interface DebtService {
@@ -146,5 +118,5 @@ export interface DebtService {
 
 export interface DebtMapper {
   toDTO(debt: IDebt): IDebtDTO;
-  toDomain(debt: IDebtDAO, debtItems: IDebtItem[], permission: Permissions): IDebt;
+  toDomain(cashFlow: ICashFlowDAO, debtItems: IDebtItem[], permission: Permissions): IDebt;
 }

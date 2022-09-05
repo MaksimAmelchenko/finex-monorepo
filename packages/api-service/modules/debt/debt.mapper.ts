@@ -1,5 +1,6 @@
 import { Debt } from './model/debt';
-import { DebtMapper, IDebt, IDebtDAO, IDebtDTO } from './types';
+import { DebtMapper, IDebt, IDebtDTO } from './types';
+import { ICashFlowDAO } from '../cahsflow/types';
 import { IDebtItem } from '../debt-item/types';
 import { Permissions } from '../../types/app';
 import { debtItemMapper } from '../debt-item/debt-item.mapper';
@@ -18,7 +19,7 @@ class DebtMapperImpl implements DebtMapper {
   }
 
   toDomain(
-    { projectId, userId, id, contractorId, note, tags, updatedAt }: IDebtDAO,
+    { projectId, userId, id, contractorId, note, tags, updatedAt }: ICashFlowDAO,
     debtItems: IDebtItem[],
     permissions: Permissions
   ): IDebt {
