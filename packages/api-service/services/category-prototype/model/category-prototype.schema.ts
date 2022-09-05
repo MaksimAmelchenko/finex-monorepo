@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const categoryPrototypeSchema: OpenAPIV3.SchemaObject = {
+export const categoryPrototypeSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: {
@@ -10,8 +10,7 @@ export const categoryPrototypeSchema: OpenAPIV3.SchemaObject = {
       type: 'string',
     },
     parent: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
   },
   // "true" for patching json via jsonb_set

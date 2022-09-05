@@ -1,7 +1,7 @@
 import { IRequestContext } from '../../types/app';
 import { NotFoundError } from '../../libs/errors';
 
-export default function checkProject(ctx: IRequestContext): void {
+export default function checkProject(ctx: IRequestContext<any>): void {
   const {
     params: { projectId },
     // projects,

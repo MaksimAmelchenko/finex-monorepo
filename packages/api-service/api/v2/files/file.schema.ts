@@ -1,9 +1,9 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { projectId } from '../../../common/schemas/fields/project-id';
 import { fileId } from '../../../common/schemas/fields/file-id';
 
-export const fileSchema: OpenAPIV3.SchemaObject = {
+export const fileSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     projectId,

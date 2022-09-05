@@ -1,15 +1,14 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { moneyId } from '../../../common/schemas/fields/money-id';
 import { userId } from '../../../common/schemas/fields/user-id';
 
-export const moneySchema: OpenAPIV3.SchemaObject = {
+export const moneySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: moneyId,
     currencyId: {
-      type: 'string',
-      nullable: true,
+      type: ['string', 'null'],
     },
     name: {
       type: 'string',
@@ -18,15 +17,13 @@ export const moneySchema: OpenAPIV3.SchemaObject = {
       type: 'string',
     },
     precision: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     isEnabled: {
       type: 'boolean',
     },
     sorting: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     userId,
   },

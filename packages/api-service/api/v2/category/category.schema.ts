@@ -1,11 +1,11 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { categoryId } from '../../../common/schemas/fields/category-id';
 import { id } from '../../../common/schemas/fields/id';
 import { unitId } from '../../../common/schemas/fields/unit-id';
 import { userId } from '../../../common/schemas/fields/user-id';
 
-export const categorySchema: OpenAPIV3.SchemaObject = {
+export const categorySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: categoryId,
@@ -14,11 +14,11 @@ export const categorySchema: OpenAPIV3.SchemaObject = {
     },
     parent: {
       ...id,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     categoryPrototypeId: {
       ...id,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     isEnabled: {
       type: 'boolean',

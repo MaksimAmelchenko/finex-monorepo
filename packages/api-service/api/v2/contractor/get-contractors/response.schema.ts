@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { contractorSchema } from '../contractor.schema';
 
-export const getContractorsResponseSchema: OpenAPIV3.SchemaObject = {
+export const getContractorsResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     contractors: {

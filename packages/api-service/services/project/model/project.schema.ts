@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const projectSchema: OpenAPIV3.SchemaObject = {
+export const projectSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idProject: {
@@ -13,8 +13,7 @@ export const projectSchema: OpenAPIV3.SchemaObject = {
       type: 'string',
     },
     note: {
-      type: 'string',
-      nullable: true,
+      type: ['string', 'null'],
     },
     permit: {
       type: 'number',

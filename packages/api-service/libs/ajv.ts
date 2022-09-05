@@ -1,11 +1,11 @@
-import Ajv from 'ajv';
+import Ajv from 'ajv-draft-04';
 import ajvFormats from 'ajv-formats';
 import { AjvValidator } from 'objection';
 
 const ajv: Ajv = new Ajv({
   allErrors: true,
-  coerceTypes: true,
-  useDefaults: true,
+  // coerceTypes: false,
+  // useDefaults: true,
 });
 
 ajv.addKeyword('example');

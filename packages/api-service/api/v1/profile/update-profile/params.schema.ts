@@ -1,11 +1,11 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { email } from '../../../../common/schemas/fields/email';
 import { idProject } from '../../../../common/schemas/fields/id-project';
 import { password } from '../../../../common/schemas/fields/password';
 import { idUser } from '../../../../common/schemas/fields/id-user';
 
-export const updateProfileParamsSchema: OpenAPIV3.SchemaObject = {
+export const updateProfileParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     password,

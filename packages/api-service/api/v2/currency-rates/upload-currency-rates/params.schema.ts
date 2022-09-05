@@ -1,7 +1,7 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { date } from '../../../../common/schemas/fields/date';
 
-export const uploadCurrencyRatesParamsSchema: OpenAPIV3.SchemaObject = {
+export const uploadCurrencyRatesParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     dateFrom: date,

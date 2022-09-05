@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const contractorSchema: OpenAPIV3.SchemaObject = {
+export const contractorSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idProject: {
@@ -16,8 +16,7 @@ export const contractorSchema: OpenAPIV3.SchemaObject = {
       type: 'string',
     },
     note: {
-      type: 'string',
-      nullable: true,
+      type: ['string', 'null'],
     },
   },
   additionalProperties: false,

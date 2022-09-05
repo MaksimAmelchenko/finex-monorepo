@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const createContractorParamsSchema: OpenAPIV3.SchemaObject = {
+export const createContractorParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     name: {

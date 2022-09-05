@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idAccount } from '../../../common/schemas/fields/id-account';
 import { idMoney } from '../../../common/schemas/fields/id-money';
@@ -13,7 +13,7 @@ import { idIE } from '../../../common/schemas/fields/id-ie';
 import { permit } from '../../../common/schemas/fields/permit';
 import { sign } from '../../../common/schemas/fields/sign';
 
-export const ieDetailSchema: OpenAPIV3.SchemaObject = {
+export const ieDetailSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idUser,
@@ -21,7 +21,7 @@ export const ieDetailSchema: OpenAPIV3.SchemaObject = {
     idIE,
     idContractor: {
       ...idContractor,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     sign,
     dIEDetail: date,
@@ -29,12 +29,11 @@ export const ieDetailSchema: OpenAPIV3.SchemaObject = {
     idAccount,
     idCategory,
     quantity: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
     idUnit: {
       ...idUnit,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     sum: {
       type: 'number',
@@ -55,11 +54,10 @@ export const ieDetailSchema: OpenAPIV3.SchemaObject = {
     permit,
     idPlan: {
       ...idPlan,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     nRepeat: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     colorMark: {
       type: 'string',

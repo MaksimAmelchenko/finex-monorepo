@@ -1,13 +1,13 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { id } from '../../../../common/schemas/fields/id';
 
-export const createMoneyParamsSchema: OpenAPIV3.SchemaObject = {
+export const createMoneyParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     currencyId: {
       ...id,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     name: {
       type: 'string',
@@ -19,8 +19,7 @@ export const createMoneyParamsSchema: OpenAPIV3.SchemaObject = {
       type: 'integer',
     },
     isEnabled: {
-      type: 'boolean',
-      nullable: true,
+      type: ['boolean', 'null'],
       default: true,
     },
     sorting: {

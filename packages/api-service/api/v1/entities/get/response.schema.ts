@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountsTypeSchema } from './account-types.schema';
 import { accountsSchema } from './accounts.schema';
@@ -21,7 +21,7 @@ import { usersSchema } from './users.schema';
 import { profileSchema } from '../../../../common/schemas/profile.schema';
 import { date } from '../../../../common/schemas/fields/date';
 
-export const getEntitiesResponseSchema: OpenAPIV3.SchemaObject = {
+export const getEntitiesResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     messages: messagesSchema,

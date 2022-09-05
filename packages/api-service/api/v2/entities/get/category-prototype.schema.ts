@@ -1,14 +1,14 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { id } from '../../../../common/schemas/fields/id';
 
-export const categoryPrototypeSchema: OpenAPIV3.SchemaObject = {
+export const categoryPrototypeSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id,
     parent: {
       ...id,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     name: {
       type: 'string',

@@ -1,9 +1,9 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { date } from '../../../../common/schemas/fields/date';
 import { emptyString } from '../../../../common/schemas/fields/empty-string';
 import { sign } from '../../../../common/schemas/fields/sign';
 
-export const getIeDetailsParamsSchema: OpenAPIV3.SchemaObject = {
+export const getIeDetailsParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     limit: {

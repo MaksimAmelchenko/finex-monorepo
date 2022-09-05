@@ -1,7 +1,7 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { profileSchema } from '../../../../common/schemas/profile.schema';
 
-export const updateProfileResponseSchema: OpenAPIV3.SchemaObject = {
+export const updateProfileResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     profile: profileSchema,

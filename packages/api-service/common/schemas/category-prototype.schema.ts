@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const categoryPrototypeSchema: OpenAPIV3.SchemaObject = {
+export const categoryPrototypeSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idCategoryPrototype: {
@@ -8,8 +8,7 @@ export const categoryPrototypeSchema: OpenAPIV3.SchemaObject = {
       example: 30,
     },
     parent: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     name: {
       type: 'string',

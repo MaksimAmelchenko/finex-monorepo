@@ -1,15 +1,14 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idUnit } from '../../../../common/schemas/fields/id-unit';
 import { idCategory } from '../../../../common/schemas/fields/id-category';
 import { idUser } from '../../../../common/schemas/fields/id-user';
 
-export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
+export const createCategoryParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idCategoryPrototype: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idUnit,
     isEnabled: {
@@ -23,7 +22,7 @@ export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
     },
     parent: {
       ...idCategory,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     // frontend sends this
     chosen: {
@@ -32,11 +31,11 @@ export const createCategoryParamsSchema: OpenAPIV3.SchemaObject = {
 
     idCategory: {
       ...idCategory,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idUser: {
       ...idUser,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     //
   },

@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { fileSchema } from '../file.schema';
 
-export const uploadFilesResponseSchema: OpenAPIV3.SchemaObject = {
+export const uploadFilesResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     files: {

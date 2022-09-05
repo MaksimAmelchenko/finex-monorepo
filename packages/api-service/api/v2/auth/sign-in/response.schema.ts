@@ -1,7 +1,7 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { sessionSchema } from './response.session.schema';
 
-export const signInResponseSchema: OpenAPIV3.SchemaObject = {
+export const signInResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   oneOf: [sessionSchema],
 };

@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idMoney } from '../../../../common/schemas/fields/id-money';
 
-export const sortMoneysParamsSchema: OpenAPIV3.SchemaObject = {
+export const sortMoneysParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     moneys: {

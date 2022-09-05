@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { tagSchema } from '../tag.schema';
 
-export const createTagResponseSchema: OpenAPIV3.SchemaObject = {
+export const createTagResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     tag: tagSchema,

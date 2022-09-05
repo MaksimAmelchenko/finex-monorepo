@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountSchema } from '../account.schema';
 
-export const createAccountResponseSchema: OpenAPIV3.SchemaObject = {
+export const createAccountResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     account: accountSchema,

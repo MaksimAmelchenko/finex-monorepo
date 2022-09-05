@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const sesNotificationParamsSchema: OpenAPIV3.SchemaObject = {
+export const sesNotificationParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {},
 };

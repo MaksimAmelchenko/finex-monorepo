@@ -1,10 +1,10 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { email } from '../../../common/schemas/fields/email';
 import { projectId } from '../../../common/schemas/fields/project-id';
 import { userId } from '../../../common/schemas/fields/user-id';
 
-export const profileSchema: OpenAPIV3.SchemaObject = {
+export const profileSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: userId,
@@ -16,7 +16,7 @@ export const profileSchema: OpenAPIV3.SchemaObject = {
     email,
     projectId: {
       ...projectId,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     currencyRateSourceId: {
       type: 'string',

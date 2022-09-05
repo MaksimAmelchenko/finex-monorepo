@@ -1,5 +1,5 @@
 import * as HttpStatus from 'http-status-codes';
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { RequestHandler } from 'express';
 import { ValidateFunction } from 'ajv';
 
@@ -7,8 +7,8 @@ import { IRequestContext, IRouterContext } from '../../types/app';
 import { IDownloadFile } from '../../types/file';
 
 export type Schemas = {
-  params?: OpenAPIV3.SchemaObject;
-  response?: OpenAPIV3.SchemaObject;
+  params?: OpenAPIV3_1.SchemaObject;
+  response?: OpenAPIV3_1.SchemaObject;
 };
 
 export type SchemasValidators = {

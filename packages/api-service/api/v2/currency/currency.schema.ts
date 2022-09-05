@@ -1,7 +1,7 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { currencyId } from '../../../common/schemas/fields/currency-id';
 
-export const currencySchema: OpenAPIV3.SchemaObject = {
+export const currencySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: currencyId,

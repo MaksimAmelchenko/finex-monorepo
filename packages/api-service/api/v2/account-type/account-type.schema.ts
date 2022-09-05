@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { id } from '../../../common/schemas/fields/id';
 
-export const accountTypeSchema: OpenAPIV3.SchemaObject = {
+export const accountTypeSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id,
@@ -19,7 +19,7 @@ export const accountTypeSchema: OpenAPIV3.SchemaObject = {
   required: ['id', 'name', 'shortName'],
 };
 
-export const accountsTypeSchema: OpenAPIV3.SchemaObject = {
+export const accountsTypeSchema: OpenAPIV3_1.SchemaObject = {
   type: 'array',
   items: accountTypeSchema,
 };

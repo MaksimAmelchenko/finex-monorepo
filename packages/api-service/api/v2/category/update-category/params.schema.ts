@@ -1,9 +1,9 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { categoryId } from '../../../../common/schemas/fields/category-id';
 import { unitId } from '../../../../common/schemas/fields/unit-id';
 
-export const updateCategoryParamsSchema: OpenAPIV3.SchemaObject = {
+export const updateCategoryParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     categoryId,
@@ -12,11 +12,10 @@ export const updateCategoryParamsSchema: OpenAPIV3.SchemaObject = {
     },
     parent: {
       ...categoryId,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     categoryPrototypeId: {
-      type: 'string',
-      nullable: true,
+      type: ['string', 'null'],
     },
     isEnabled: {
       type: 'boolean',
@@ -27,7 +26,7 @@ export const updateCategoryParamsSchema: OpenAPIV3.SchemaObject = {
     },
     unitId: {
       ...unitId,
-      nullable: true,
+      type: ['integer', 'null'],
     },
   },
   additionalProperties: false,

@@ -1,9 +1,9 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountId } from '../../../../common/schemas/fields/account-id';
 import { id } from '../../../../common/schemas/fields/id';
 
-export const updateAccountParamsSchema: OpenAPIV3.SchemaObject = {
+export const updateAccountParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     accountId,

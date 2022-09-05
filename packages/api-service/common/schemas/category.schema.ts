@@ -1,25 +1,24 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idUser } from './fields/id-user';
 import { idCategory } from './fields/id-category';
 import { idUnit } from './fields/id-unit';
 
-export const categorySchema: OpenAPIV3.SchemaObject = {
+export const categorySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idUser,
     idCategory,
     parent: {
       ...idCategory,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idCategoryPrototype: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idUnit: {
       ...idUnit,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     isEnabled: {
       type: 'boolean',

@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { categorySchema } from '../category.schema';
 
-export const updateCategoryResponseSchema: OpenAPIV3.SchemaObject = {
+export const updateCategoryResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     category: categorySchema,

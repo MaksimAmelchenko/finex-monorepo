@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idAccount } from '../../../../common/schemas/fields/id-account';
 import { idCategory } from '../../../../common/schemas/fields/id-category';
@@ -9,7 +9,7 @@ import { idUnit } from '../../../../common/schemas/fields/id-unit';
 import { idPlan } from '../../../../common/schemas/fields/id-plan';
 import { permit } from '../../../../common/schemas/fields/permit';
 
-export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
+export const createIeDetailParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idAccount,
@@ -22,23 +22,21 @@ export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
     dIEDetail: date,
     reportPeriod: date,
     quantity: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idContractor: {
       ...idContractor,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idUnit: {
       ...idUnit,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     sum: {
       type: 'number',
     },
     isNotConfirmed: {
-      type: 'boolean',
-      nullable: true,
+      type: ['boolean', 'null'],
       default: false,
     },
     note: {
@@ -52,29 +50,25 @@ export const createIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
     },
     idPlan: {
       ...idPlan,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     // frontend sends these fields
     idUser: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idIE: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idIEDetail: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     permit: {
       ...permit,
       enum: [...permit.enum!, null],
-      nullable: true,
+      type: ['integer', 'null'],
     },
     nRepeat: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     chosen: {
       type: 'boolean',

@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const importSourceSchema: OpenAPIV3.SchemaObject = {
+export const importSourceSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idImportSource: { type: 'integer' },

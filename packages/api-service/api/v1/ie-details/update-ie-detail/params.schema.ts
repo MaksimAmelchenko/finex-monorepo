@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idAccount } from '../../../../common/schemas/fields/id-account';
 import { idCategory } from '../../../../common/schemas/fields/id-category';
@@ -9,7 +9,7 @@ import { idIEDetail } from '../../../../common/schemas/fields/id-ie-detail';
 import { sign } from '../../../../common/schemas/fields/sign';
 import { permit } from '../../../../common/schemas/fields/permit';
 
-export const updateIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
+export const updateIeDetailParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idIEDetail,
@@ -18,14 +18,13 @@ export const updateIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
     idMoney,
     idUnit: {
       ...idUnit,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     sign,
     dIEDetail: date,
     reportPeriod: date,
     quantity: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     sum: {
       type: 'number',
@@ -47,13 +46,11 @@ export const updateIeDetailParamsSchema: OpenAPIV3.SchemaObject = {
       type: 'integer',
     },
     idIE: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     permit,
     nRepeat: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     chosen: {
       type: 'boolean',

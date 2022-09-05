@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const createAccountParamsSchema: OpenAPIV3.SchemaObject = {
+export const createAccountParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idAccountType: {
@@ -33,12 +33,10 @@ export const createAccountParamsSchema: OpenAPIV3.SchemaObject = {
       type: 'boolean',
     },
     idAccount: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     idUser: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     //
   },

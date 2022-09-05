@@ -1,6 +1,6 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
-export const moneySchema: OpenAPIV3.SchemaObject = {
+export const moneySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idProject: {
@@ -13,8 +13,7 @@ export const moneySchema: OpenAPIV3.SchemaObject = {
       type: 'number',
     },
     idCurrency: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
     name: {
       type: 'string',
@@ -23,15 +22,13 @@ export const moneySchema: OpenAPIV3.SchemaObject = {
       type: 'string',
     },
     precision: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
     isEnabled: {
       type: 'boolean',
     },
     sorting: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
   },
   additionalProperties: false,

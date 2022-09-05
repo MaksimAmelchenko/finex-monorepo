@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountId } from '../../../common/schemas/fields/account-id';
 import { cashFlowId } from '../../../common/schemas/fields/cash-flow-id';
@@ -13,17 +13,17 @@ import { sign } from '../../../common/schemas/fields/sign';
 import { unitId } from '../../../common/schemas/fields/unit-id';
 import { userId } from '../../../common/schemas/fields/user-id';
 
-export const transactionSchema: OpenAPIV3.SchemaObject = {
+export const transactionSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     userId,
     id: {
       ...id,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     cashFlowId: {
       ...id,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     accountId,
     categoryId,
@@ -36,15 +36,14 @@ export const transactionSchema: OpenAPIV3.SchemaObject = {
     moneyId,
     contractorId: {
       ...contractorId,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     quantity: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
     unitId: {
       ...unitId,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     isNotConfirmed: {
       type: 'boolean',
@@ -61,11 +60,10 @@ export const transactionSchema: OpenAPIV3.SchemaObject = {
     permit,
     planId: {
       ...planId,
-      nullable: true,
+      type: ['integer', 'null'],
     },
     nRepeat: {
-      type: 'integer',
-      nullable: true,
+      type: ['integer', 'null'],
     },
     colorMark: {
       type: 'string',

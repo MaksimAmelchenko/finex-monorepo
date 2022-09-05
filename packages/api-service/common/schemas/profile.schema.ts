@@ -1,10 +1,10 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { idUser } from './fields/id-user';
 import { email } from './fields/email';
 import { idProject } from './fields/id-project';
 
-export const profileSchema: OpenAPIV3.SchemaObject = {
+export const profileSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idUser,

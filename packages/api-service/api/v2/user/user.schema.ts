@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { userId } from '../../../common/schemas/fields/user-id';
 
-export const userSchema: OpenAPIV3.SchemaObject = {
+export const userSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: userId,

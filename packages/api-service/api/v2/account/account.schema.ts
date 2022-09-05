@@ -1,10 +1,10 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { id } from '../../../common/schemas/fields/id';
 import { permit } from '../../../common/schemas/fields/permit';
 import { userId } from '../../../common/schemas/fields/user-id';
 
-export const accountSchema: OpenAPIV3.SchemaObject = {
+export const accountSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id,

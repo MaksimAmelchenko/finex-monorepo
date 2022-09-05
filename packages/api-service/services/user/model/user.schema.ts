@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { email } from '../../../common/schemas/fields/email';
 import { dateTime } from '../../../common/schemas/fields/date-time';
 
-export const userSchema: OpenAPIV3.SchemaObject = {
+export const userSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idUser: {
@@ -25,8 +25,7 @@ export const userSchema: OpenAPIV3.SchemaObject = {
       type: 'number',
     },
     idProject: {
-      type: 'number',
-      nullable: true,
+      type: ['number', 'null'],
     },
     idCurrencyRateSource: {
       type: 'number',
@@ -41,9 +40,6 @@ export const userSchema: OpenAPIV3.SchemaObject = {
     'email',
     'password',
     'idHousehold',
-    'idProject',
     'idCurrencyRateSource',
-    'createdAt',
-    'updatedAt',
   ],
 };

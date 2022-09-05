@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { id } from '../../../common/schemas/fields/id';
 import { dateTime } from '../../../common/schemas/fields/date-time';
 
-export const sessionSchema: OpenAPIV3.SchemaObject = {
+export const sessionSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id,

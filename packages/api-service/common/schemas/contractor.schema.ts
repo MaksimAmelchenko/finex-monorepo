@@ -1,7 +1,7 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { userId } from './fields/user-id';
 
-export const contractorSchema: OpenAPIV3.SchemaObject = {
+export const contractorSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     idUser: userId,

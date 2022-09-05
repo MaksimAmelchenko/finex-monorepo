@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountId } from '../../../../common/schemas/fields/account-id';
 import { categoryId } from '../../../../common/schemas/fields/category-id';
@@ -9,35 +9,32 @@ import { planId } from '../../../../common/schemas/fields/plan-id';
 import { sign } from '../../../../common/schemas/fields/sign';
 import { unitId } from '../../../../common/schemas/fields/unit-id';
 
-export const createTransactionParamsSchema: OpenAPIV3.SchemaObject = {
+export const createTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     sign,
     amount: {
       type: 'number',
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      exclusiveMinimum: 0,
+      minimum: 0,
+      exclusiveMinimum: true,
     },
     moneyId,
     accountId,
     categoryId,
     contractorId: {
       ...contractorId,
-      nullable: true,
+      type: ['string', 'null'],
     },
     transactionDate: date,
     reportPeriod: date,
     quantity: {
-      type: 'number',
-      nullable: true,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      exclusiveMinimum: 0,
+      type: ['number', 'null'],
+      minimum: 0,
+      exclusiveMinimum: true,
     },
     unitId: {
       ...unitId,
-      nullable: true,
+      type: ['string', 'null'],
     },
     isNotConfirmed: {
       type: 'boolean',
@@ -54,7 +51,7 @@ export const createTransactionParamsSchema: OpenAPIV3.SchemaObject = {
     },
     planId: {
       ...planId,
-      nullable: true,
+      type: ['string', 'null'],
     },
   },
   additionalProperties: false,

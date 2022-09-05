@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 
 import { categoryId } from '../../../../common/schemas/fields/category-id';
 
-export const deleteCategoryParamsSchema: OpenAPIV3.SchemaObject = {
+export const deleteCategoryParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     categoryId,

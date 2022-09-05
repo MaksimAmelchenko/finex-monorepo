@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { OpenAPIV3_1 } from 'openapi-types';
 import { ValidateFunction } from 'ajv';
 import * as isPlainObject from 'lodash.isplainobject';
 
@@ -8,7 +8,7 @@ import { Schemas, SchemasValidators } from './types';
 
 export const emptyValidator: ValidateFunction = ajv.compile({});
 
-export const getValidator = (schema: OpenAPIV3.SchemaObject | undefined): ValidateFunction =>
+export const getValidator = (schema: OpenAPIV3_1.SchemaObject | undefined): ValidateFunction =>
   schema && isPlainObject(schema) ? ajv.compile(schema) : emptyValidator;
 
 export function getValidators(schemas: Schemas = {}): SchemasValidators {
