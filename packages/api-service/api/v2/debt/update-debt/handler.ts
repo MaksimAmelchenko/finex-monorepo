@@ -5,7 +5,7 @@ import { debtMapper } from '../../../../modules/debt/debt.mapper';
 import { debtService } from '../../../../modules/debt/debt.service';
 
 export async function handler(
-  ctx: IRequestContext<UpdateDebtServiceChanges & { debtId: string }>
+  ctx: IRequestContext<UpdateDebtServiceChanges & { debtId: string }, true>
 ): Promise<IResponse<{ debt: IDebtDTO }>> {
   const {
     projectId,

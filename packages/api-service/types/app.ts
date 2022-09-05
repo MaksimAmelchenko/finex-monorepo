@@ -16,7 +16,7 @@ export interface IModel {
 
 export type IRouterContext = Router.RouterContext<any, ContextCustomT>;
 
-export type IRequestContext<P = any, isAuthorized extends boolean = true> = {
+export type IRequestContext<P = unknown, isAuthorized extends boolean = false> = {
   params: P;
   additionalParams?: any;
   cookies: Cookies;

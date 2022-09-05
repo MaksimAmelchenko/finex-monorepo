@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<CreateContractorServiceData>
+  ctx: IRequestContext<CreateContractorServiceData, true>
 ): Promise<IResponse<{ contractor: IPublicContractor }>> {
   const { params, projectId, userId } = ctx;
   const contractor = await ContractorService.createContractor(ctx, projectId, userId, params);

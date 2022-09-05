@@ -5,7 +5,7 @@ import { NotFoundError } from '../../../../libs/errors';
 import { User } from '../../../../services/user/model/user';
 import { UserGateway } from '../../../../services/user/gateway';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<{ email: string }, true>): Promise<IResponse> {
   const { email: username } = ctx.params;
   const user: User | undefined = await UserGateway.getUserByUsername(ctx, username);
   if (!user) {

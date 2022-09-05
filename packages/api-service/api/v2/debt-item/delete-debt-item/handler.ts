@@ -4,7 +4,7 @@ import { INoContent } from '../../../../libs/rest-api/types';
 import { IRequestContext } from '../../../../types/app';
 import { debtItemService } from '../../../../modules/debt-item/debt-item.service';
 
-export async function handler(ctx: IRequestContext<{ debtItemId: string }>): Promise<INoContent> {
+export async function handler(ctx: IRequestContext<{ debtItemId: string }, true>): Promise<INoContent> {
   const {
     projectId,
     params: { debtItemId },

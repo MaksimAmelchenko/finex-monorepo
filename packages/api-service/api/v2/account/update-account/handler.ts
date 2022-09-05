@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<UpdateAccountServiceChanges & { accountId: string }>
+  ctx: IRequestContext<UpdateAccountServiceChanges & { accountId: string }, true>
 ): Promise<IResponse<{ account: IPublicAccount }>> {
   const {
     projectId,

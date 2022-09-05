@@ -6,7 +6,7 @@ import { Project } from '../../project/model/project';
 import { getAccount } from './get-account';
 
 export async function createAccount(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   projectId: string,
   userId: string,
   data: CreateAccountServiceData

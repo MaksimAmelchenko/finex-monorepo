@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<CreateAccountServiceData>
+  ctx: IRequestContext<CreateAccountServiceData, true>
 ): Promise<IResponse<{ account: IPublicAccount }>> {
   const { params, userId, projectId } = ctx;
   const account = await AccountService.createAccount(ctx, projectId, userId, params);

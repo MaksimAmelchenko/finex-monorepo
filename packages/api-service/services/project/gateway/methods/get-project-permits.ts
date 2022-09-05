@@ -2,7 +2,7 @@ import { ProjectPermit } from '../../types';
 import { IRequestContext } from '../../../../types/app';
 import { Project } from '../../model/project';
 
-export async function getProjectPermits(ctx: IRequestContext, userId: string): Promise<ProjectPermit[]> {
+export async function getProjectPermits(ctx: IRequestContext<unknown, true>, userId: string): Promise<ProjectPermit[]> {
   ctx.log.trace('try to get project permits');
   const knex = Project.knex();
 

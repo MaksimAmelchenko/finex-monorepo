@@ -3,7 +3,11 @@ import { ICreateParams, IFile } from '../../../../types/file';
 import { DB, knex } from '../../../../libs/db';
 import decodeDbFile from './decode-db-file';
 
-export default async function create(ctx: IRequestContext, projectId: number, params: ICreateParams): Promise<IFile> {
+export default async function create(
+  ctx: IRequestContext<any, true>,
+  projectId: number,
+  params: ICreateParams
+): Promise<IFile> {
   const { name, contentType, size } = params;
   const { userId } = ctx;
 

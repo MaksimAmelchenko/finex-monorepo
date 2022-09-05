@@ -3,14 +3,14 @@ import { IResponse } from '../../../../libs/rest-api/types';
 import { ProjectService } from '../../../../services/project';
 import { SessionService } from '../../../../services/session';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<any, true>): Promise<IResponse> {
   const {
     sessionId,
     userId,
     params: { projectId },
   } = ctx;
 
-  await ProjectService.getProject(ctx, projectId);
+  await ProjectService.getProject(ctx, projectId, userId);
 
   await SessionService.updateSession(ctx, sessionId, { projectId });
 

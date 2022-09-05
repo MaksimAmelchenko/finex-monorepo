@@ -4,7 +4,7 @@ import { CategoryService } from '../../../../services/category';
 import { INoContent } from '../../../../libs/rest-api/types';
 import { IRequestContext } from '../../../../types/app';
 
-export async function handler(ctx: IRequestContext<{ categoryId: string }>): Promise<INoContent> {
+export async function handler(ctx: IRequestContext<{ categoryId: string }, true>): Promise<INoContent> {
   const {
     projectId,
     params: { categoryId },

@@ -4,7 +4,7 @@ import { IResponse } from '../../../../libs/rest-api/types';
 import { TransactionService } from '../../../../services/transaction';
 
 export async function handler(
-  ctx: IRequestContext<UpdateTransactionServiceChanges & { transactionId: string }>
+  ctx: IRequestContext<UpdateTransactionServiceChanges & { transactionId: string }, true>
 ): Promise<IResponse<{ transaction: IPublicTransaction }>> {
   const { transactionId, ...changes } = ctx.params;
   const transaction = await TransactionService.updateTransaction(ctx, transactionId, changes);

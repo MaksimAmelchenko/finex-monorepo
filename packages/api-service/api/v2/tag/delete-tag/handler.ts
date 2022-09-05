@@ -4,7 +4,7 @@ import { TagService } from '../../../../services/tag';
 import { INoContent } from '../../../../libs/rest-api/types';
 import { IRequestContext } from '../../../../types/app';
 
-export async function handler(ctx: IRequestContext<{ tagId: string }>): Promise<INoContent> {
+export async function handler(ctx: IRequestContext<{ tagId: string }, true>): Promise<INoContent> {
   const {
     projectId,
     params: { tagId },

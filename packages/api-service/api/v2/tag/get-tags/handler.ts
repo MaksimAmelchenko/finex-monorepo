@@ -3,7 +3,7 @@ import { IPublicTag } from '../../../../services/tag/types';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse<{ tags: IPublicTag[] }>> {
+export async function handler(ctx: IRequestContext<unknown, true>): Promise<IResponse<{ tags: IPublicTag[] }>> {
   const { projectId } = ctx;
   const tags = await TagService.getTags(ctx, projectId);
 

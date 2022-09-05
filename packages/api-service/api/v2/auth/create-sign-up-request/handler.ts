@@ -15,7 +15,7 @@ interface IRecaptchaResponse {
   'error-codes': string[]; // optional
 }
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<any, false>): Promise<IResponse> {
   const { name, email, password, isAcceptTerms, recaptcha } = ctx.params;
   const { ip } = ctx.additionalParams;
 

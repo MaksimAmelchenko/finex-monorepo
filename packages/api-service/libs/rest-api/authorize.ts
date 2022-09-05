@@ -12,7 +12,11 @@ import { ProjectGateway } from '../../services/project/gateway';
 
 const notUpdateAccessTimeRoutes: string[] = [signOutRouteOptions.uri];
 
-export async function authorize(ctx: IRequestContext<never>, authorizationHeader: string, url: string): Promise<void> {
+export async function authorize(
+  ctx: IRequestContext<unknown, true>,
+  authorizationHeader: string,
+  url: string
+): Promise<void> {
   const token = resolveAuthorizationHeader(authorizationHeader);
 
   let sessionId: string;

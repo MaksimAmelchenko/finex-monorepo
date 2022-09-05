@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<CreateCategoryServiceData>
+  ctx: IRequestContext<CreateCategoryServiceData, true>
 ): Promise<IResponse<{ category: IPublicCategory }>> {
   const { projectId, userId, params } = ctx;
   const category = await CategoryService.createCategory(ctx, projectId, userId, params);

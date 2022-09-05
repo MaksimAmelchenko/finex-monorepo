@@ -4,7 +4,7 @@ import { IResponse } from '../../../../libs/rest-api/types';
 import { TransactionService } from '../../../../services/transaction';
 
 export async function handler(
-  ctx: IRequestContext<GetTransactionsServiceQuery>
+  ctx: IRequestContext<GetTransactionsServiceQuery, true>
 ): Promise<IResponse<GetTransactionsServiceResponse>> {
   const { params } = ctx;
   const response = await TransactionService.getTransactions(ctx, params);

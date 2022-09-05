@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { decodeTransaction } from './decode-transaction';
 
 export async function createTransaction(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   data: CreateTransactionGatewayData
 ): Promise<CreateTransactionGatewayResponse> {
   ctx.log.trace({ data }, 'try to create transaction');

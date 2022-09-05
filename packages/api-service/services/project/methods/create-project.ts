@@ -12,7 +12,7 @@ export async function createProject(
   data: CreateProjectServiceData
 ): Promise<Project> {
   const { name, note } = data;
-  const editors = data.editors ? data.editors.filter(userId => userId !== ctx.userId) : [];
+  const editors = data.editors ? data.editors.filter(id => id !== userId) : [];
 
   const project = await ProjectGateway.createProject(ctx, userId, { name, note });
 
@@ -109,5 +109,5 @@ export async function createProject(
     await query;
   }
 
-  return getProject(ctx, String(project.idProject));
+  return getProject(ctx, String(project.idProject), userId);
 }

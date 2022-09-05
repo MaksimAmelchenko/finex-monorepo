@@ -5,7 +5,7 @@ import { Project } from '../../model/project';
 
 const { parse } = snakeCaseMappers();
 
-export async function getProjects(ctx: IRequestContext<any, false>, userId: string): Promise<Project[]> {
+export async function getProjects(ctx: IRequestContext, userId: string): Promise<Project[]> {
   ctx.log.trace({ userId }, 'try to get projects');
   const knex = Project.knex();
   let query = knex.raw(

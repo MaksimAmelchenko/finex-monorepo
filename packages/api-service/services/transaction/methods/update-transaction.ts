@@ -3,7 +3,7 @@ import { IRequestContext } from '../../../types/app';
 import { TransactionGateway } from '../gateway';
 
 export async function updateTransaction(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   transactionId: string,
   changes: UpdateTransactionServiceChanges
 ): Promise<CreateTransactionServiceResponse> {

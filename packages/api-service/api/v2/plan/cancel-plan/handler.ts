@@ -6,7 +6,7 @@ import { IRequestContext } from '../../../../types/app';
 import { PlanService } from '../../../../services/plan';
 
 export async function handler(
-  ctx: IRequestContext<CancelPlanServiceParams & { planId: string }>
+  ctx: IRequestContext<CancelPlanServiceParams & { planId: string }, true>
 ): Promise<IResponse<INoContent>> {
   const { planId, ...params } = ctx.params;
   await PlanService.cancelPlan(ctx, planId, params);

@@ -3,7 +3,7 @@ import { IRequestContext } from '../../../../types/app';
 import { getAccounts } from './get-accounts';
 
 export async function getAccount(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   projectId: string,
   accountId: string
 ): Promise<Account | undefined> {

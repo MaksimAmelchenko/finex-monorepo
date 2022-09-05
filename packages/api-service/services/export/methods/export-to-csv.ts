@@ -24,7 +24,7 @@ function formatQuantity(value: string | number): string {
   return numeral(value).format('0.[0000000000]');
 }
 
-export async function exportToCsv(ctx: IRequestContext): Promise<void> {
+export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<void> {
   const { sessionId, userId } = ctx;
   if (!sessionId) {
     throw new AccessDeniedError('Unauthorized access');

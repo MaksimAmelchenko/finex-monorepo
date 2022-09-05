@@ -5,7 +5,7 @@ import { debtItemMapper } from '../../../../modules/debt-item/debt-item.mapper';
 import { debtItemService } from '../../../../modules/debt-item/debt-item.service';
 
 export async function handler(
-  ctx: IRequestContext<{ debtId: string } & CreateDebtItemServiceData>
+  ctx: IRequestContext<{ debtId: string } & CreateDebtItemServiceData, true>
 ): Promise<IResponse<{ debtItem: IDebtItemDTO }>> {
   const {
     params: { debtId, ...data },

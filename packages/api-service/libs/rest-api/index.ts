@@ -1,5 +1,5 @@
 import * as Router from 'koa-router';
-// import Router from 'koa-trie-router';
+
 import { RestRouteOptions } from './types';
 import { RestRoute } from './route';
 import { IRouterContext } from '../../types/app';
@@ -16,8 +16,8 @@ function restRouteHandler<P, IsAuthorized extends boolean>(route: RestRoute<P, I
   };
 }
 
-export function getRestApi(
-  restRouteOptions: (RestRouteOptions<any, true> | RestRouteOptions<any, false>)[]
+export function getRestApi<P = unknown>(
+  restRouteOptions: (RestRouteOptions<P, true> | RestRouteOptions<P, false>)[]
 ): Router.IMiddleware {
   const restRouter = restRouteOptions.reduce<Router>((router, routeOptions) => {
     const routeUri: string = routeOptions.uri.startsWith('/') ? routeOptions.uri : `/${routeOptions.uri}`;

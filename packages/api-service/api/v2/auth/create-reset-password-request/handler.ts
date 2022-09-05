@@ -3,7 +3,7 @@ import { ResetPasswordRequest } from '../../../../services/reset-password-reques
 import { IResetPasswordRequest } from '../../../../types/reset-password-request';
 import { IResponse } from '../../../../libs/rest-api/types';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<any, false>): Promise<IResponse> {
   const { email, ip } = ctx.params;
 
   const resetPasswordRequest: IResetPasswordRequest = await ResetPasswordRequest.create(ctx, {

@@ -3,7 +3,7 @@ import { IFile } from '../../../../types/file';
 import { File } from '../../../../services/file';
 import { IResponse } from '../../../../libs/rest-api/types';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<any, true>): Promise<IResponse> {
   const { projectId } = ctx.params;
   const { files: uploadedFiles = [] } = ctx.params;
 

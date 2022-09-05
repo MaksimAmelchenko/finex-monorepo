@@ -5,7 +5,7 @@ import { decodeTransaction } from './decode-transaction';
 import { skipUndefined } from '../../../../libs/skip-undefined';
 
 export async function updateTransaction(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   transactionId: string,
   changes: UpdateTransactionGatewayChanges
 ): Promise<UpdateTransactionGatewayResponse> {

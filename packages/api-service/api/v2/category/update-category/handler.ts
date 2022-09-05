@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<UpdateCategoryServiceChanges & { categoryId: string }>
+  ctx: IRequestContext<UpdateCategoryServiceChanges & { categoryId: string }, true>
 ): Promise<IResponse<{ category: IPublicCategory }>> {
   const {
     projectId,

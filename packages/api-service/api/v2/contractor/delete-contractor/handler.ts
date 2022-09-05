@@ -4,7 +4,7 @@ import { ContractorService } from '../../../../services/contractor';
 import { INoContent } from '../../../../libs/rest-api/types';
 import { IRequestContext } from '../../../../types/app';
 
-export async function handler(ctx: IRequestContext<{ contractorId: string }>): Promise<INoContent> {
+export async function handler(ctx: IRequestContext<{ contractorId: string }, true>): Promise<INoContent> {
   const {
     projectId,
     params: { contractorId },

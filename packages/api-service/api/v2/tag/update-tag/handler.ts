@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<UpdateTagServiceChanges & { tagId: string }>
+  ctx: IRequestContext<UpdateTagServiceChanges & { tagId: string }, true>
 ): Promise<IResponse<{ tag: IPublicTag }>> {
   const {
     projectId,

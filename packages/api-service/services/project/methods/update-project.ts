@@ -6,8 +6,9 @@ import { UpdateProjectServiceChanges } from '../types';
 import { getProject } from './get-project';
 
 export async function updateProject(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   projectId: string,
+  userId: string,
   changes: UpdateProjectServiceChanges
 ): Promise<Project> {
   const { name, note } = changes;
@@ -15,7 +16,7 @@ export async function updateProject(
   // remove the current user from list
   const editors = changes.editors ? changes.editors.filter(idUser => String(idUser) !== ctx.userId) : [];
 
-  const project = await getProject(ctx, projectId);
+  const project = await getProject(ctx, projectId, userId);
 
   if (project.permit !== 7) {
     throw new AccessDeniedError();
@@ -68,5 +69,5 @@ export async function updateProject(
     }
   }
 
-  return getProject(ctx, projectId);
+  return getProject(ctx, projectId, userId);
 }

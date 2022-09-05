@@ -13,7 +13,7 @@ import { authorize } from './authorize';
 import { knex } from '../../knex';
 import { log } from '../log';
 
-export class RestRoute<P extends Record<string, any>, IsAuthorized extends boolean> implements IRestRoute {
+export class RestRoute<P extends unknown, IsAuthorized extends boolean> implements IRestRoute {
   options: RestRouteOptions<P, IsAuthorized>;
   validators: SchemasValidators;
   getParams: (routerContext: IRouterContext) => Promise<Record<string, unknown>>;
@@ -41,8 +41,8 @@ export class RestRoute<P extends Record<string, any>, IsAuthorized extends boole
   async handler(routerContext: IRouterContext, next): Promise<any> {
     const { options } = this;
 
-    // @ts-ignore
-    const ctx: IRequestContext<any, IsAuthorized> = {
+    const ctx: IRequestContext<unknown, false> = {
+      params: {},
       log: routerContext.log,
       requestId: routerContext.requestId,
       cookies: routerContext.cookies,
@@ -58,10 +58,12 @@ export class RestRoute<P extends Record<string, any>, IsAuthorized extends boole
           throw new UnauthorizedError('Authorization header not present');
         }
 
-        await authorize(ctx as IRequestContext<never>, authorizationHeader, url);
+        await authorize(ctx as IRequestContext<unknown, true>, authorizationHeader, url);
         // in authorize a logger has been extended (added sessionId, userId/serviceId)
         routerContext.log = ctx.log;
-        await knex.raw('select context.set(?)', [(ctx as IRequestContext<never>).sessionId]).transacting(ctx.trx);
+        await knex
+          .raw('select context.set(?)', [(ctx as IRequestContext<unknown, true>).sessionId])
+          .transacting(ctx.trx);
       }
 
       let params = {};

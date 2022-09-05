@@ -6,7 +6,7 @@ import { UpdateAccountServiceChanges } from '../types';
 import { getAccount } from './get-account';
 
 export async function updateAccount(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   projectId: string,
   accountId: string,
   changes: UpdateAccountServiceChanges

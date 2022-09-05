@@ -3,7 +3,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IAccount, UpdateAccountGatewayChanges } from '../../types';
 
 export async function updateAccount(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   projectId: string,
   accountId: string,
   changes: UpdateAccountGatewayChanges

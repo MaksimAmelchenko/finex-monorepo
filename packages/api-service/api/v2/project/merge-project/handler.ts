@@ -3,7 +3,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 import { InvalidParametersError } from '../../../../libs/errors';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<any, true>): Promise<IResponse> {
   const { params } = ctx;
   const projects = params.projects.filter(projectId => projectId !== params.projectId);
   if (!projects.length) {

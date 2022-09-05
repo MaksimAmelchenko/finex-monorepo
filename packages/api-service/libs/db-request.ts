@@ -3,9 +3,9 @@ import { DB } from './db';
 import { IRequestContext } from '../types/app';
 
 export default async function dbRequest<T = Record<string, any>>(
-  ctx: IRequestContext,
+  ctx: IRequestContext<unknown, true>,
   operationName: string,
-  params: Record<string, any>
+  params: unknown
 ): Promise<T> {
   const { sessionId = null } = ctx;
   const response: { result: string } = await DB.execute(

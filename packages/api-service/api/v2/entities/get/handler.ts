@@ -6,7 +6,7 @@ import { IResponse } from '../../../../libs/rest-api/types';
 import { ProjectService } from '../../../../services/project';
 import { UserService } from '../../../../services/user';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse> {
+export async function handler(ctx: IRequestContext<unknown, true>): Promise<IResponse> {
   const { projectId, userId } = ctx;
 
   const user = await UserService.getUser(ctx, userId);

@@ -4,7 +4,7 @@ import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(
-  ctx: IRequestContext<UpdateContractorServiceChanges & { contractorId: string }>
+  ctx: IRequestContext<UpdateContractorServiceChanges & { contractorId: string }, true>
 ): Promise<IResponse<{ contractor: IPublicContractor }>> {
   const {
     projectId,

@@ -2,7 +2,11 @@ import dbRequest from '../../../../libs/db-request';
 import { IRequestContext } from '../../../../types/app';
 import { CancelPlanGatewayParams } from '../../types';
 
-export async function cancelPlan(ctx: IRequestContext, planId: string, params: CancelPlanGatewayParams): Promise<void> {
+export async function cancelPlan(
+  ctx: IRequestContext<unknown, true>,
+  planId: string,
+  params: CancelPlanGatewayParams
+): Promise<void> {
   ctx.log.trace({ planId, params }, 'try to cancel plan');
 
   await dbRequest(ctx, 'cf.plan.cancel', {

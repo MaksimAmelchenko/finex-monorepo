@@ -3,7 +3,9 @@ import { IPublicContractor } from '../../../../services/contractor/types';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 
-export async function handler(ctx: IRequestContext): Promise<IResponse<{ contractors: IPublicContractor[] }>> {
+export async function handler(
+  ctx: IRequestContext<unknown, true>
+): Promise<IResponse<{ contractors: IPublicContractor[] }>> {
   const { projectId } = ctx;
   const contractors = await ContractorService.getContractors(ctx, projectId);
 

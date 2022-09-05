@@ -11,7 +11,7 @@ import { CurrencyRateSource } from '../../../types/currency-rate-source';
 import { User } from '../../user/model/user';
 import { Project } from '../../project/model/project';
 
-export async function confirmSignUpRequest(ctx: IRequestContext, token: string): Promise<void> {
+export async function confirmSignUpRequest(ctx: IRequestContext<unknown, true>, token: string): Promise<void> {
   const signUpRequest: ISignUpRequest | undefined = await SignUpRequestGateway.getByToken(ctx, token);
   if (!signUpRequest) {
     throw new NotFoundError('Token not found');
