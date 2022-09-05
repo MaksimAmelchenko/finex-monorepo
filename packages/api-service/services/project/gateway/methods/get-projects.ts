@@ -8,9 +8,8 @@ const { parse } = snakeCaseMappers();
 export async function getProjects(ctx: IRequestContext<any, false>, userId: string): Promise<Project[]> {
   ctx.log.trace({ userId }, 'try to get projects');
   const knex = Project.knex();
-  const { rows: projects } = await knex
-    .raw(
-      `
+  let query = knex.raw(
+    `
         select p.id_project,
                p.id_user,
                p.name,
@@ -34,11 +33,14 @@ export async function getProjects(ctx: IRequestContext<any, false>, userId: stri
                       using (id_project)
          where pp.id_user = :id_user
       `,
-      {
-        id_user: Number(userId),
-      }
-    )
-    .transacting(ctx.trx);
+    {
+      id_user: Number(userId),
+    }
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
 
+  const { rows: projects } = await query;
   return projects.map(project => Project.fromDatabaseJson(parse(project)));
 }

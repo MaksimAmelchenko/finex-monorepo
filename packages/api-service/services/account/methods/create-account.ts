@@ -23,9 +23,8 @@ export async function createAccount(
 
   const knex = Project.knex();
   if (viewers.length) {
-    await knex
-      .raw(
-        `
+    let query = knex.raw(
+      `
           insert into cf$.account_permit ( id_project, id_account, id_user, permit )
             (select distinct
                     :id_project::int,
@@ -34,19 +33,21 @@ export async function createAccount(
                     1
                from jsonb_array_elements_text(:viewers));
         `,
-        {
-          id_project: Number(projectId),
-          id_account: account.idAccount,
-          viewers: JSON.stringify(viewers),
-        }
-      )
-      .transacting(ctx.trx);
+      {
+        id_project: Number(projectId),
+        id_account: account.idAccount,
+        viewers: JSON.stringify(viewers),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    await query;
   }
 
   if (editors.length) {
-    await knex
-      .raw(
-        `
+    let query = knex.raw(
+      `
           insert into cf$.account_permit ( id_project, id_account, id_user, permit )
             (select distinct
                     :id_project::int,
@@ -55,13 +56,16 @@ export async function createAccount(
                     3
                from jsonb_array_elements_text(:editors));
         `,
-        {
-          id_project: Number(projectId),
-          id_account: account.idAccount,
-          editors: JSON.stringify(editors),
-        }
-      )
-      .transacting(ctx.trx);
+      {
+        id_project: Number(projectId),
+        id_account: account.idAccount,
+        editors: JSON.stringify(editors),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    await query;
   }
 
   return getAccount(ctx, projectId, String(account.idAccount));

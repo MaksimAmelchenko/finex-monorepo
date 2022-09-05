@@ -34,9 +34,8 @@ export async function updateAccount(
   const knex = Account.knex();
 
   if (editors) {
-    await knex
-      .raw(
-        `
+    let query = knex.raw(
+      `
           delete
             from cf$.account_permit ap
            where ap.id_project = :id_project::int
@@ -44,18 +43,20 @@ export async function updateAccount(
              and ap.permit = 3
              and ap.id_user not in (select jsonb_array_elements_text(:editors)::int);
         `,
-        {
-          id_project: Number(projectId),
-          id_account: Number(accountId),
-          editors: JSON.stringify(editors),
-        }
-      )
-      .transacting(ctx.trx);
+      {
+        id_project: Number(projectId),
+        id_account: Number(accountId),
+        editors: JSON.stringify(editors),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    await query;
 
     if (editors.length) {
-      await knex
-        .raw(
-          `
+      let query = knex.raw(
+        `
             insert
               into cf$.account_permit ( id_project, id_account, id_user, permit )
                 (select :id_project::int,
@@ -66,20 +67,22 @@ export async function updateAccount(
                 on conflict (id_project, id_account, id_user)
                   do update set permit=3
           `,
-          {
-            id_project: Number(projectId),
-            id_account: Number(accountId),
-            editors: JSON.stringify(editors),
-          }
-        )
-        .transacting(ctx.trx);
+        {
+          id_project: Number(projectId),
+          id_account: Number(accountId),
+          editors: JSON.stringify(editors),
+        }
+      );
+      if (ctx.trx) {
+        query = query.transacting(ctx.trx);
+      }
+      await query;
     }
   }
 
   if (viewers) {
-    await knex
-      .raw(
-        `
+    let query = knex.raw(
+      `
           delete
             from cf$.account_permit ap
            where ap.id_project = :id_project::int
@@ -87,18 +90,20 @@ export async function updateAccount(
              and ap.permit = 1
              and ap.id_user not in (select jsonb_array_elements_text(:viewers)::int)
         `,
-        {
-          id_project: Number(projectId),
-          id_account: Number(accountId),
-          viewers: JSON.stringify(viewers),
-        }
-      )
-      .transacting(ctx.trx);
+      {
+        id_project: Number(projectId),
+        id_account: Number(accountId),
+        viewers: JSON.stringify(viewers),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    await query;
 
     if (viewers.length) {
-      await knex
-        .raw(
-          `
+      let query = knex.raw(
+        `
             insert
               into cf$.account_permit ( id_project, id_account, id_user, permit )
                 (select :id_project::int,
@@ -109,13 +114,16 @@ export async function updateAccount(
                 on conflict (id_project, id_account, id_user)
                   do nothing
           `,
-          {
-            id_project: Number(projectId),
-            id_account: Number(accountId),
-            viewers: JSON.stringify(viewers),
-          }
-        )
-        .transacting(ctx.trx);
+        {
+          id_project: Number(projectId),
+          id_account: Number(accountId),
+          viewers: JSON.stringify(viewers),
+        }
+      );
+      if (ctx.trx) {
+        query = query.transacting(ctx.trx);
+      }
+      await query;
     }
   }
 

@@ -7,29 +7,33 @@ export async function deleteTag(ctx: IRequestContext, projectId: string, tagId: 
   const idTag = Number(tagId);
 
   const knex = Tag.knex();
-  await knex
-    .raw(
-      `
+  let query = knex.raw(
+    `
         update cf$.cashFlow_detail cfd
            set tags = array_remove (tags, ?)
          where cfd.id_project = ?
            and cfd.tags && array[?]::int[];
     `,
-      [idTag, idProject, idTag]
-    )
-    .transacting(ctx.trx);
+    [idTag, idProject, idTag]
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
+  await query;
 
-  await knex
-    .raw(
-      `
+  query = knex.raw(
+    `
         update cf$.cashFlow cf
            set tags = array_remove (tags, ?)
          where cf.id_project = ?
            and cf.tags && array[?]::int[];
     `,
-      [idTag, idProject, idTag]
-    )
-    .transacting(ctx.trx);
+    [idTag, idProject, idTag]
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
+  await query;
 
   await Tag.query(ctx.trx).deleteById([idProject, idTag]);
 

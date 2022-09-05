@@ -6,16 +6,18 @@ export async function sortMoneys(ctx: IRequestContext, projectId: string, moneyI
   const idProject = Number(projectId);
 
   const knex = Money.knex();
-  await knex
-    .raw(
-      `
+  let query = knex.raw(
+    `
       update cf$.money m
          set sorting = array_position(?::int[], m.id_money)
        where m.id_project = ?
     `,
-      [moneyIds, idProject]
-    )
-    .transacting(ctx.trx);
+    [moneyIds, idProject]
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
+  await query;
 
   ctx.log.info('sorted money');
 }

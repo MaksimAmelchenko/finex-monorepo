@@ -9,9 +9,8 @@ export async function getAccountPermits(
 ): Promise<AccountPermit[]> {
   ctx.log.trace('try to get account permits');
   const knex = Project.knex();
-  const { rows: accountPermits } = await knex
-    .raw(
-      `
+  let query = knex.raw(
+    `
         select a.id_account as "accountId",
                7 as permit
           from cf$.account a
@@ -24,12 +23,15 @@ export async function getAccountPermits(
          where ap.id_project = :projectId::int
            and ap.id_user = :userId::int
       `,
-      {
-        projectId: Number(projectId),
-        userId: Number(userId),
-      }
-    )
-    .transacting(ctx.trx);
+    {
+      projectId: Number(projectId),
+      userId: Number(userId),
+    }
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
+  const { rows: accountPermits } = await query;
 
   return accountPermits;
 }

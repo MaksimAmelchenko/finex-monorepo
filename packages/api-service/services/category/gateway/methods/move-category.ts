@@ -11,11 +11,8 @@ export async function moveCategory(
   const { categoryId, categoryIdTo, isRecursive } = params;
 
   const knex = Category.knex();
-  const {
-    rows: [{ count }],
-  } = await knex
-    .raw(
-      `
+  let query = knex.raw(
+    `
           with recursive
             ct (id_category, parent) as (select c.id_category,
                                                 c.parent
@@ -40,14 +37,19 @@ export async function moveCategory(
         select count(*)
           from u;
       `,
-      {
-        id_project: Number(projectId),
-        id_category_from: Number(categoryId),
-        id_category_to: Number(categoryIdTo),
-        is_recursive: isRecursive,
-      }
-    )
-    .transacting(ctx.trx);
+    {
+      id_project: Number(projectId),
+      id_category_from: Number(categoryId),
+      id_category_to: Number(categoryIdTo),
+      is_recursive: isRecursive,
+    }
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
+  const {
+    rows: [{ count }],
+  } = await query;
 
   ctx.log.info({ count }, 'transaction are moved ');
 

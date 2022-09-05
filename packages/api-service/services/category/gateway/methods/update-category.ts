@@ -30,35 +30,37 @@ export async function updateCategory(
 
   const knex = Project.knex();
   if (parent) {
+    let query = knex.raw(
+      `
+          with
+            recursive ct (id_category, parent) as
+                        (select c.id_category, c.parent
+                           from cf$.category c
+                          where c.id_project = :id_project
+                            and c.id_category = :id_category
+                          union all
+                         select c.id_category, c.parent
+                           from ct,
+                                cf$.category c
+                          where c.id_project = :id_project
+                            and c.parent = ct.id_category
+                        )
+        select count(*)
+          from ct
+         where ct.id_category = :parent
+      `,
+      {
+        id_project: Number(projectId),
+        id_category: Number(categoryId),
+        parent: Number(parent),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
     const {
       rows: [{ count }],
-    } = await knex
-      .raw(
-        `
-            with
-              recursive ct (id_category, parent) as
-                          (select c.id_category, c.parent
-                             from cf$.category c
-                            where c.id_project = :id_project
-                              and c.id_category = :id_category
-                            union all
-                           select c.id_category, c.parent
-                             from ct,
-                                  cf$.category c
-                            where c.id_project = :id_project
-                              and c.parent = ct.id_category
-                            )
-          select count(*)
-            from ct
-           where ct.id_category = :parent
-        `,
-        {
-          id_project: Number(projectId),
-          id_category: Number(categoryId),
-          parent: Number(parent),
-        }
-      )
-      .transacting(ctx.trx);
+    } = await query;
 
     if (count) {
       throw new InvalidParametersError('There is a cycle in the hierarchy', { code: 'cycleInHierarchy' });

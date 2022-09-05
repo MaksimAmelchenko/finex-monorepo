@@ -20,7 +20,7 @@ export type IRequestContext<P = any, isAuthorized extends boolean = true> = {
   params: P;
   additionalParams?: any;
   cookies: Cookies;
-  trx: Knex.Transaction;
+  trx?: Knex.Transaction;
 } & ContextCustomT &
   (isAuthorized extends true ? IAuthorizedRequestContext : INotAuthorizedRequestContext);
 

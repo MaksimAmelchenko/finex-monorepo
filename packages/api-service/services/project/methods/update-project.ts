@@ -26,26 +26,27 @@ export async function updateProject(
   const knex = Project.knex();
 
   if (editors) {
-    await knex
-      .raw(
-        `
+    let query = knex.raw(
+      `
           delete
             from cf$.project_permit pp
            where pp.id_project = :id_project
              and pp.permit = 3
              and pp.id_user not in (select jsonb_array_elements_text(:editors)::int);
         `,
-        {
-          id_project: project.idProject,
-          editors: JSON.stringify(editors),
-        }
-      )
-      .transacting(ctx.trx);
+      {
+        id_project: project.idProject,
+        editors: JSON.stringify(editors),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    await query;
 
     if (editors.length) {
-      await knex
-        .raw(
-          `
+      let query = knex.raw(
+        `
             insert into cf$.project_permit ( id_project, id_user, permit )
               (select :id_project, value::int, 3
                  from jsonb_array_elements_text(:editors)
@@ -55,12 +56,15 @@ export async function updateProject(
                 where pp.id_project = :id_project
                   and pp.permit = 3);
           `,
-          {
-            id_project: project.idProject,
-            editors: JSON.stringify(editors),
-          }
-        )
-        .transacting(ctx.trx);
+        {
+          id_project: project.idProject,
+          editors: JSON.stringify(editors),
+        }
+      );
+      if (ctx.trx) {
+        query = query.transacting(ctx.trx);
+      }
+      await query;
     }
   }
 

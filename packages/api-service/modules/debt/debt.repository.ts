@@ -69,9 +69,8 @@ class DebtRepositoryImpl implements DebtRepository {
 
     const knex = DebtDAO.knex();
 
-    const { rows: debtRows } = await knex
-      .raw(
-        `with permit as
+    let query = knex.raw(
+      `with permit as
                 (select a.id_project as project_id,
                         a.id_account as account_id,
                         7 as permit
@@ -160,20 +159,23 @@ class DebtRepositoryImpl implements DebtRepository {
                  cf.id desc
         limit :limit::int offset :offset::int
         `,
-        {
-          projectId: Number(projectId),
-          userId: Number(userId),
-          searchText,
-          startDate,
-          endDate,
-          contractors: contractors ? contractors.split(',').map(Number) : null,
-          tags: tags ? tags.split(',').map(Number) : null,
-          limit,
-          offset,
-          isOnlyNotPaid,
-        }
-      )
-      .transacting(ctx.trx);
+      {
+        projectId: Number(projectId),
+        userId: Number(userId),
+        searchText,
+        startDate,
+        endDate,
+        contractors: contractors ? contractors.split(',').map(Number) : null,
+        tags: tags ? tags.split(',').map(Number) : null,
+        limit,
+        offset,
+        isOnlyNotPaid,
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    const { rows: debtRows } = await query;
 
     if (!debtRows.length) {
       return {

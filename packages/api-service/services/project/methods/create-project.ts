@@ -18,58 +18,60 @@ export async function createProject(
 
   // create category tree
   const knex = Project.knex();
-  await knex
-    .raw(
-      `
-        insert into cf$.category ( id_project,
-                                   id_category,
-                                   id_user,
-                                   parent,
-                                   id_unit,
-                                   name,
-                                   is_enabled,
-                                   is_system,
-                                   note,
-                                   id_category_prototype )
-          with recursive cpt as (select cp.id_category_prototype,
-                                        nextval('cf$.category_id_category_seq') as id_category,
-                                        cp.name,
-                                        cp.parent,
-                                        cp.is_system
-                                   from cf$.category_prototype cp
-                                  where cp.parent is null
-                                    and cp.is_enabled
-                                  union all
-                                 select cp.id_category_prototype,
-                                        nextval('cf$.category_id_category_seq') as id_category,
-                                        cp.name,
-                                        cp.parent,
-                                        cp.is_system
-                                   from cpt
-                                          join cf$.category_prototype cp
-                                               on (cp.parent = cpt.id_category_prototype)
-                                  where cp.is_enabled
-          )
-        select :id_project,
-               cpt1.id_category,
-               :id_user,
-               cpt2.id_category as parent,
-               null as id_unit,
-               cpt1.name,
-               true as is_enabled,
-               cpt1.is_system,
-               null as note,
-               cpt1.id_category_prototype
-          from cpt cpt1
-                 left join cpt cpt2
-                           on cpt1.parent = cpt2.id_category_prototype
-      `,
-      {
-        id_project: project.idProject,
-        id_user: Number(userId),
-      }
-    )
-    .transacting(ctx.trx);
+  let query = knex.raw(
+    `
+      insert into cf$.category ( id_project,
+                                 id_category,
+                                 id_user,
+                                 parent,
+                                 id_unit,
+                                 name,
+                                 is_enabled,
+                                 is_system,
+                                 note,
+                                 id_category_prototype )
+        with recursive cpt as (select cp.id_category_prototype,
+                                      nextval('cf$.category_id_category_seq') as id_category,
+                                      cp.name,
+                                      cp.parent,
+                                      cp.is_system
+                                 from cf$.category_prototype cp
+                                where cp.parent is null
+                                  and cp.is_enabled
+                                union all
+                               select cp.id_category_prototype,
+                                      nextval('cf$.category_id_category_seq') as id_category,
+                                      cp.name,
+                                      cp.parent,
+                                      cp.is_system
+                                 from cpt
+                                        join cf$.category_prototype cp
+                                             on (cp.parent = cpt.id_category_prototype)
+                                where cp.is_enabled
+        )
+      select :id_project,
+             cpt1.id_category,
+             :id_user,
+             cpt2.id_category as parent,
+             null as id_unit,
+             cpt1.name,
+             true as is_enabled,
+             cpt1.is_system,
+             null as note,
+             cpt1.id_category_prototype
+        from cpt cpt1
+               left join cpt cpt2
+                         on cpt1.parent = cpt2.id_category_prototype
+    `,
+    {
+      id_project: project.idProject,
+      id_user: Number(userId),
+    }
+  );
+  if (ctx.trx) {
+    query = query.transacting(ctx.trx);
+  }
+  await query;
 
   const currencies = await CurrencyGateway.getCurrencies(ctx);
   // TODO create money according to locale
@@ -87,22 +89,24 @@ export async function createProject(
   );
 
   if (editors.length) {
-    await knex
-      .raw(
-        `
-          insert into cf$.project_permit ( id_project, id_user, permit )
-            (select distinct
-                    :id_project::int,
-                    value::int,
-                    3
-               from jsonb_array_elements_text(:editors));
-        `,
-        {
-          id_project: project.idProject,
-          editors: JSON.stringify(editors),
-        }
-      )
-      .transacting(ctx.trx);
+    let query = knex.raw(
+      `
+        insert into cf$.project_permit ( id_project, id_user, permit )
+          (select distinct
+                  :id_project::int,
+                  value::int,
+                  3
+             from jsonb_array_elements_text(:editors));
+      `,
+      {
+        id_project: project.idProject,
+        editors: JSON.stringify(editors),
+      }
+    );
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    await query;
   }
 
   return getProject(ctx, String(project.idProject));
