@@ -1,1 +1,1 @@
-DROP VIEW job$."currency_rate_pending";
+DROP VIEW if exists job$."currency_rate_pending";

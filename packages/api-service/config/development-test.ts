@@ -9,6 +9,7 @@ export default {
     connection: {
       host: 'localhost',
     },
+    pool: { min: 2, max: 2 },
   },
 
   testAccounts: [

@@ -24,6 +24,7 @@ export class User extends Model implements IUser {
   static createValidator(): Validator {
     return ajvValidator;
   }
+
   $beforeInsert() {
     this.createdAt = new Date().toISOString();
     this.updatedAt = new Date().toISOString();
