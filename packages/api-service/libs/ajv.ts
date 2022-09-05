@@ -4,7 +4,7 @@ import { AjvValidator } from 'objection';
 
 const ajv: Ajv = new Ajv({
   allErrors: true,
-  // coerceTypes: false,
+  coerceTypes: true,
   // useDefaults: true,
 });
 
