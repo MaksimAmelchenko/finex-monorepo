@@ -111,8 +111,6 @@ app.use(transferApi);
 
 app.use(serve(`${__dirname}/public`));
 
-// serve swagger API docs
-// TODO koa-static-cache or nginx
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 app.use(serve(`${__dirname}/public`));
 app.use(mount('/docs', serve(pathToSwaggerUi)));
