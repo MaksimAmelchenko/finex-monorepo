@@ -48,9 +48,6 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
   },
-  AmountField: {
-    Amount: 'Сумма',
-  },
   BalanceRepository: {
     'Owe me': 'Должны мне',
     'I owe': 'Я должен',
@@ -71,6 +68,7 @@ module.exports = {
     'at least one account_': 'at least one account.',
     'Edit transaction': 'Edit transaction',
     'Add new transaction': 'Добавление операции',
+    Amount: 'Сумма',
     Category: 'Категория',
     Account: 'Счет',
     Date: 'Дата',
@@ -140,6 +138,7 @@ module.exports = {
     'at least one account_': 'at least one account.',
     'Add new debt record': 'Добавить запись',
     'Edit debt record': 'Редактировать запись',
+    Amount: 'Сумма',
     Category: 'Категория',
     Account: 'Счет',
     Date: 'Дата',

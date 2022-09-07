@@ -311,7 +311,13 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
 
       <FormBody className={styles.form__body}>
         <FormTabs name="sign" options={signOptions} />
-        <AmountField ref={amountFieldRefCallback} tabIndex={1} />
+        <AmountField
+          amountFieldName="amount"
+          moneyFieldName="moneyId"
+          label={t('Amount')}
+          ref={amountFieldRefCallback}
+          tabIndex={1}
+        />
         <div className={styles.categoryField}>
           <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
           {/*<IconButton onClick={noop} tabIndex={-1}>*/}
