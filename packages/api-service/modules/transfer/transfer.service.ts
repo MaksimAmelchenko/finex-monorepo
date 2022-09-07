@@ -58,6 +58,10 @@ class TransferServiceImpl implements TransferService {
       note,
     } = data;
 
+    if (accountFromId && accountToId && accountFromId === accountToId) {
+      throw new InvalidParametersError('The same accounts for transfer are used');
+    }
+
     if (
       (ctx.permissions.accounts[accountFromId] & Permit.Update) !== Permit.Update ||
       (ctx.permissions.accounts[accountToId] & Permit.Update) !== Permit.Update ||
@@ -218,6 +222,10 @@ class TransferServiceImpl implements TransferService {
       tags,
     } = changes;
 
+    if (accountFromId && accountToId && accountFromId === accountToId) {
+      throw new InvalidParametersError('The same accounts for transfer are used');
+    }
+
     const { accounts } = ctx.permissions;
     if (
       (accountFromId && (accounts[accountFromId] & Permit.Update) !== Permit.Update) ||
@@ -228,6 +236,10 @@ class TransferServiceImpl implements TransferService {
     }
 
     const transfer = await this.getTransfer(ctx, projectId, userId, transferId);
+
+    if ((accountFromId ?? transfer.accountFromId) === (accountToId ?? transfer.accountToId)) {
+      throw new InvalidParametersError('The same accounts for transfer are used');
+    }
 
     if (
       (accounts[transfer.accountFromId] & Permit.Update) !== Permit.Update ||

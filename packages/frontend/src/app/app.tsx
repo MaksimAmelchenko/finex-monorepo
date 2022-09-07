@@ -20,6 +20,7 @@ import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 import { SnackbarUtilsConfigurator } from './components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
+import { Transfers } from './pages/Transfers/Transfers';
 import { theme } from '@finex/theme';
 
 export const App = observer(() => {
@@ -54,7 +55,7 @@ export const App = observer(() => {
                       <Route path="/income-expenses" element={<IncomeExpenseCashFlows />} />
                       <Route path="/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
                       <Route path="/debts" element={<Debts />} />
-                      <Route path="/transfers" element={<div>Transfers</div>} />
+                      <Route path="/transfers" element={<Transfers />} />
                       <Route path="/exchanges" element={<div>Exchanges</div>} />
 
                       <Route path="/settings" element={<SettingsLazy />} />

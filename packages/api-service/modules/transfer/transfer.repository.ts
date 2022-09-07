@@ -61,7 +61,7 @@ class TransferRepositoryImpl implements TransferRepository {
                                     and t.id_project = :projectId::int
                                     and upper(t.name) like upper('%' || :searchText::text || '%')
                              ) as tags),
-                 cfi as
+                 t as
                    (select cf.user_id,
                            cf.id,
                            cfd_from.account_id account_from_id,
@@ -94,24 +94,25 @@ class TransferRepositoryImpl implements TransferRepository {
                        and (cfd_fee.account_id is null or
                             cfd_fee.account_id in (select permit.account_id from permit))
                    )
-          select cfi.user_id,
-                 cfi.id,
-                 cfi.note,
-                 cfi.tags,
+          select t.user_id,
+                 t.id,
+                 t.note,
+                 t.tags,
+                 t.updated_at,
                  count(*) over () as total
-            from cfi
-           where (:startDate::date is null or cfi.transfer_date >= :startDate::date)
-             and (:endDate::date is null or cfi.transfer_date <= :endDate::date)
-             and (:accountsFrom::int[] is null or cfi.account_from_id in (select unnest(:accountsFrom::int[])))
-             and (:accountsTo::int[] is null or cfi.account_to_id in (select unnest(:accountsTo::int[])))
-             and (:tags::int[] is null or cfi.tags && :tags::int[])
+            from t
+           where (:startDate::date is null or t.transfer_date >= :startDate::date)
+             and (:endDate::date is null or t.transfer_date <= :endDate::date)
+             and (:accountsFrom::int[] is null or t.account_from_id in (select unnest(:accountsFrom::int[])))
+             and (:accountsTo::int[] is null or t.account_to_id in (select unnest(:accountsTo::int[])))
+             and (:tags::int[] is null or t.tags && :tags::int[])
              and (
                :searchText::text is null
-               or upper(cfi.note) like upper('%' || :searchText::text || '%')
-               or cfi.tags && (select t_s.tags from t_s)
+               or upper(t.note) like upper('%' || :searchText::text || '%')
+               or t.tags && (select t_s.tags from t_s)
              )
-           order by cfi.transfer_date desc,
-                    cfi.id desc
+           order by t.transfer_date desc,
+                    t.id desc
            limit :limit::int offset :offset::int
         `,
       {
