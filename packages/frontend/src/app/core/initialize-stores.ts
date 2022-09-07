@@ -15,6 +15,8 @@ import { ContractorsApi } from '../stores/api/contractors-api';
 import { ContractorsRepository } from '../stores/contractors-repository';
 import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-store';
 import { CurrenciesRepository } from '../stores/currency-repository';
+import { DebtsApi } from '../stores/api/debts-api';
+import { DebtsRepository } from '../stores/debts-repository';
 import { IncomeExpenseTransactionsApi } from '../stores/api/income-expense-transaction-api';
 import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
 import { MainStore } from './main-store';
@@ -35,8 +37,6 @@ import { UnitsApi } from '../stores/api/units-api';
 import { UnitsRepository } from '../stores/units-repository';
 import { UsersApi } from '../stores/api/users-api';
 import { UsersRepository } from '../stores/users-repository';
-import { DebtsRepository } from '../stores/debts-repository';
-import { DebtsApi } from '../stores/api/debts-api';
 
 /**
  * Helper to initialize DI

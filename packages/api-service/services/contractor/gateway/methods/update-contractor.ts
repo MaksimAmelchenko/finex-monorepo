@@ -10,7 +10,10 @@ export async function updateContractor(
 ): Promise<Contractor> {
   ctx.log.trace({ projectId, contractorId, changes }, 'try to update contractor');
 
-  const contractor = await Contractor.query(ctx.trx).patchAndFetchById([Number(projectId), Number(contractorId)], changes);
+  const contractor = await Contractor.query(ctx.trx).patchAndFetchById(
+    [Number(projectId), Number(contractorId)],
+    changes
+  );
 
   ctx.log.info({ contractorId }, 'updated contractor');
   return contractor;

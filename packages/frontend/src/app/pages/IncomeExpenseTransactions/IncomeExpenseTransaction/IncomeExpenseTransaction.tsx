@@ -3,12 +3,10 @@ import clsx from 'clsx';
 import { isBefore, parseISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 
-import { CategoriesRepository } from '../../../stores/categories-repository';
 import { CheckboxSvg, CheckboxUncheckedSvg, Tag } from '@finex/ui-kit';
 import { IncomeExpenseTransaction as IncomeExpenseTransactionModel } from '../../../stores/income-expense-transactions-repository';
 import { PlannedTransaction } from '../../../stores/models/planned-transaction';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
-import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './IncomeExpenseTransaction.module.scss';
 
@@ -20,7 +18,6 @@ interface IncomeExpenseTransactionProps {
 }
 
 export const IncomeExpenseTransaction = observer<IncomeExpenseTransactionProps>(({ transaction, onClick }) => {
-  const categoriesRepository = useStore(CategoriesRepository);
   const {
     transactionDate,
     account,

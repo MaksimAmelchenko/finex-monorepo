@@ -7,7 +7,6 @@ import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { Money } from './money';
 import { Tag } from './tag';
 import { User } from './user';
-import { Debt } from './debt';
 
 export class DebtItem implements IDebtItem, ISelectable, IDeletable {
   readonly id: string;
@@ -26,7 +25,21 @@ export class DebtItem implements IDebtItem, ISelectable, IDeletable {
   isDeleting: boolean;
   isSelected: boolean;
 
-  constructor({ debtId, id, sign, amount, money, category, account, debtItemDate, reportPeriod, note, tags, user, permit }: IDebtItem) {
+  constructor({
+    debtId,
+    id,
+    sign,
+    amount,
+    money,
+    category,
+    account,
+    debtItemDate,
+    reportPeriod,
+    note,
+    tags,
+    user,
+    permit,
+  }: IDebtItem) {
     this.debtId = debtId;
     this.id = id;
     this.sign = sign;
