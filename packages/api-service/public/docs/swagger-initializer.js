@@ -1,3 +1,6 @@
+// override the original swagger-initializer (packages/api-service/node_modules/swagger-ui-dist/swagger-initializer.js)
+// to change url
+
 window.onload = function () {
   //<editor-fold desc="Changeable Configuration Block">
 

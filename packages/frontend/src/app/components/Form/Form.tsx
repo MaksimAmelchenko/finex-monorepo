@@ -114,7 +114,7 @@ export function Form<Values extends FormikValues>(props: IFormProps<Values>): JS
     <FormikProvider value={formikBag}>
       <FormErrorProvider value={errorContextValue}>
         <form
-          onSubmit={formikBag.handleSubmit as any}
+          onSubmit={formikBag.handleSubmit}
           onReset={formikBag.handleReset}
           className={clsx(styles.form, className)}
         >
