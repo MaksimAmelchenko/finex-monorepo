@@ -1,4 +1,5 @@
 import React, { forwardRef, useMemo } from 'react';
+import clsx from 'clsx';
 
 import { FormInlineSelect, FormTextField, IFormTextFieldProps } from '../../components/Form';
 import { IOption } from '@finex/ui-kit';
@@ -7,7 +8,12 @@ import { useStore } from '../../core/hooks/use-store';
 
 import styles from './AmountField.module.scss';
 
-function MoneySelect({ name }: { name: string }): JSX.Element {
+interface MoneySelectProps {
+  name: string;
+  className?: string;
+}
+
+function MoneySelect({ name, className }: MoneySelectProps): JSX.Element {
   const moneysRepository = useStore(MoneysRepository);
 
   const selectMoneysOptions = useMemo<IOption[]>(() => {
@@ -20,7 +26,7 @@ function MoneySelect({ name }: { name: string }): JSX.Element {
   }, [moneysRepository.moneys]);
 
   return (
-    <div className={styles.moneySelect}>
+    <div className={clsx(styles.moneySelect, className)}>
       <div className={styles.moneySelect__delimiter} />
       <FormInlineSelect name={name} options={selectMoneysOptions} className={styles.moneySelect__target} />
     </div>
@@ -34,13 +40,13 @@ interface AmountFieldProps extends IFormTextFieldProps {
 
 export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, 'name' | 'endAdornment'>>(
   ({ amountFieldName, moneyFieldName, ...props }, ref) => {
-    return (
-      <FormTextField
-        {...props}
-        name={amountFieldName}
-        endAdornment={() => <MoneySelect name={moneyFieldName} />}
-        ref={ref}
-      />
+    const moneySelect = useMemo(
+      () =>
+        ({ className }: { className?: string }) =>
+          <MoneySelect name={moneyFieldName} className={className} />,
+      [moneyFieldName]
     );
+
+    return <FormTextField {...props} name={amountFieldName} endAdornment={moneySelect} ref={ref} />;
   }
 );
