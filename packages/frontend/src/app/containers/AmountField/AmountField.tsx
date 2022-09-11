@@ -1,5 +1,6 @@
 import React, { forwardRef, useMemo } from 'react';
 import clsx from 'clsx';
+import { useField } from 'formik';
 
 import { FormInlineSelect, FormTextField, IFormTextFieldProps } from '../../components/Form';
 import { IOption } from '@finex/ui-kit';
@@ -15,10 +16,11 @@ interface MoneySelectProps {
 
 function MoneySelect({ name, className }: MoneySelectProps): JSX.Element {
   const moneysRepository = useStore(MoneysRepository);
+  const [{ value }] = useField(name);
 
   const selectMoneysOptions = useMemo<IOption[]>(() => {
     return moneysRepository.moneys
-      .filter(({ isEnabled }) => isEnabled)
+      .filter(({ id, isEnabled }) => isEnabled || id == value)
       .map(({ id: value, symbol: label }) => ({
         value,
         label,
