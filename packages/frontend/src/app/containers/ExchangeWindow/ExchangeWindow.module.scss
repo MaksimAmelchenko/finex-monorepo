@@ -1,0 +1,70 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.amountFields {
+  display: flex;
+
+  width: 100%;
+  gap: 24px;
+}
+
+.dateFields {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+
+  &__date {
+    width: 15rem;
+  }
+}
+
+.reportPeriod {
+  display: flex;
+  gap: 8px;
+
+  &__input {
+    width: 15rem;
+  }
+}
+
+.additional {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+
+  &__description {
+    color: colors.$grayDarkest;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.4rem;
+  }
+
+  &__fields_hidden {
+    display: none;
+  }
+}
+
+.fee {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.4rem;
+  }
+
+  &__fields_hidden {
+    display: none;
+  }
+}
+
+.footer {
+  &__rightButtons {
+    display: flex;
+    gap: 16px;
+  }
+}

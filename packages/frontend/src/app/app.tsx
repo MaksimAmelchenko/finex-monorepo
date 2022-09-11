@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Route, Routes } from 'react-router-dom';
 import { Slide } from '@mui/material';
@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
+import { Exchanges } from './pages/Exchanges/Exchanges';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
 import { IncomeExpenseTransactions } from './pages/IncomeExpenseTransactions/IncomeExpenseTransactions';
@@ -56,7 +57,7 @@ export const App = observer(() => {
                       <Route path="/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
                       <Route path="/debts" element={<Debts />} />
                       <Route path="/transfers" element={<Transfers />} />
-                      <Route path="/exchanges" element={<div>Exchanges</div>} />
+                      <Route path="/exchanges" element={<Exchanges />} />
 
                       <Route path="/settings" element={<SettingsLazy />} />
                       <Route path="/settings/:tab" element={<SettingsLazy />} />

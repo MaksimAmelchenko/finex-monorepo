@@ -52,6 +52,7 @@ import { projectApi } from './api/v2/project';
 import { debtApi } from './api/v2/debt';
 import { debtItemApi } from './api/v2/debt-item';
 import { transferApi } from './api/v2/transfer';
+import { exchangeApi } from './api/v2/exchange';
 
 const app: Koa = new Koa();
 
@@ -108,6 +109,7 @@ app.use(projectApi);
 app.use(debtApi);
 app.use(debtItemApi);
 app.use(transferApi);
+app.use(exchangeApi);
 
 app.use(serve(`${__dirname}/public`));
 

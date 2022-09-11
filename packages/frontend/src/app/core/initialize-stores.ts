@@ -17,6 +17,8 @@ import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-stor
 import { CurrenciesRepository } from '../stores/currency-repository';
 import { DebtsApi } from '../stores/api/debts-api';
 import { DebtsRepository } from '../stores/debts-repository';
+import { ExchangesApi } from '../stores/api/exchanges-api';
+import { ExchangesRepository } from '../stores/exchanges-repository';
 import { IncomeExpenseTransactionsApi } from '../stores/api/income-expense-transaction-api';
 import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
 import { MainStore } from './main-store';
@@ -73,6 +75,7 @@ export function initializeMainStore(): MainStore {
 
   new DebtsRepository(mainStore, new DebtsApi(mainStore));
   new TransfersRepository(mainStore, new TransfersApi(mainStore));
+  new ExchangesRepository(mainStore, new ExchangesApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;
