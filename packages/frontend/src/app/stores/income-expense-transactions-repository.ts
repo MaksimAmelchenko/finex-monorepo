@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, reaction, computed } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { format, parseISO } from 'date-fns';
 
 import { AccountsRepository } from './accounts-repository';
@@ -6,14 +6,13 @@ import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import {
   CreateTransactionData,
-  CreateTransactionResponse,
-  GetIncomeExpenseTransactionsQuery,
-  GetIncomeExpenseTransactionsResponse,
-  IAPIIncomeExpenseTransaction,
+  IPlannedTransactionDTO,
+  isPlannedTransactionDTO,
+  ITransaction,
+  ITransactionDTO,
+  ITransactionsApi,
   UpdateTransactionChanges,
-  UpdateTransactionResponse,
 } from '../types/income-expense-transaction';
-import { ITransaction } from '../types/transaction';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
@@ -26,13 +25,6 @@ import { Transaction } from './models/transaction';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
 
-export interface IIncomeExpenseTransactionsApi {
-  get: (query: GetIncomeExpenseTransactionsQuery) => Promise<GetIncomeExpenseTransactionsResponse>;
-  create: (data: CreateTransactionData) => Promise<CreateTransactionResponse>;
-  update: (transactionId: string, changes: UpdateTransactionChanges) => Promise<UpdateTransactionResponse>;
-  remove: (transactionId: string) => Promise<void>;
-}
-
 interface IFilter {
   isFilter: boolean;
   range: [Date | null, Date | null];
@@ -43,10 +35,8 @@ interface IFilter {
   tags: string[];
 }
 
-export type IncomeExpenseTransaction = Transaction | PlannedTransaction;
-
-export class IncomeExpenseTransactionsRepository extends ManageableStore {
-  static storeName = 'IncomeExpenseTransactionsRepository';
+export class TransactionsRepository extends ManageableStore {
+  static storeName = 'TransactionsRepository';
   limit: number;
   offset: number;
   total: number;
@@ -61,24 +51,24 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     tags: [],
   };
 
-  private _incomeExpenseTransactions: IncomeExpenseTransaction[];
+  private _transactions: (Transaction | PlannedTransaction)[];
 
   loadState: LoadState;
 
-  constructor(mainStore: MainStore, private api: IIncomeExpenseTransactionsApi) {
+  constructor(mainStore: MainStore, private api: ITransactionsApi) {
     super(mainStore);
     this.limit = 50;
     this.offset = 0;
     this.total = 0;
 
     this.loadState = LoadState.none();
-    this._incomeExpenseTransactions = [];
+    this._transactions = [];
 
-    makeObservable<IncomeExpenseTransactionsRepository, '_incomeExpenseTransactions'>(this, {
-      _incomeExpenseTransactions: observable,
+    makeObservable<TransactionsRepository, '_transactions'>(this, {
+      _transactions: observable,
       loadState: observable,
       filter: observable,
-      incomeExpenseTransactions: computed,
+      transactions: computed,
       clear: action,
       fetch: action,
       setFilter: action,
@@ -128,7 +118,7 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
-          this._incomeExpenseTransactions = this.decode(transactions);
+          this._transactions = this.decode(transactions);
         })
       )
       .then(
@@ -178,15 +168,15 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
 
         if (transaction instanceof PlannedTransaction) {
           // need to replace planned transaction
-          const indexOf = this._incomeExpenseTransactions.indexOf(transaction);
+          const indexOf = this._transactions.indexOf(transaction);
           if (indexOf !== -1) {
-            this._incomeExpenseTransactions[indexOf] = newTransaction;
+            this._transactions[indexOf] = newTransaction;
           } else {
-            this._incomeExpenseTransactions.push(newTransaction);
+            this._transactions.push(newTransaction);
           }
         } else {
           // just add new transaction
-          this._incomeExpenseTransactions.push(newTransaction);
+          this._transactions.push(newTransaction);
         }
       })
     );
@@ -197,18 +187,18 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
       action(response => {
         const updatedTransaction = this.decode([response.transaction])[0];
         if (updatedTransaction) {
-          const indexOf = this._incomeExpenseTransactions.indexOf(transaction);
+          const indexOf = this._transactions.indexOf(transaction);
           if (indexOf !== -1) {
-            this._incomeExpenseTransactions[indexOf] = updatedTransaction;
+            this._transactions[indexOf] = updatedTransaction;
           } else {
-            this._incomeExpenseTransactions.push(updatedTransaction);
+            this._transactions.push(updatedTransaction);
           }
         }
       })
     );
   }
 
-  removeTransaction(transaction: IncomeExpenseTransaction): Promise<unknown> {
+  removeTransaction(transaction: Transaction | PlannedTransaction): Promise<unknown> {
     transaction.isDeleting = true;
     let operation: Promise<void>;
     if (transaction instanceof PlannedTransaction) {
@@ -221,12 +211,14 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
 
     return operation.then(
       action(() => {
-        this._incomeExpenseTransactions = this._incomeExpenseTransactions.filter(t => t !== transaction);
+        this._transactions = this._transactions.filter(t => t !== transaction);
       })
     );
   }
 
-  private decode(incomeExpenseTransactions: IAPIIncomeExpenseTransaction[]): IncomeExpenseTransaction[] {
+  private decode(
+    transactions: Array<IPlannedTransactionDTO | ITransactionDTO>
+  ): Array<PlannedTransaction | Transaction> {
     const accountsRepository = this.getStore(AccountsRepository);
     const categoriesRepository = this.getStore(CategoriesRepository);
     const contractorsRepository = this.getStore(ContractorsRepository);
@@ -235,10 +227,8 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
     const unitsRepository = this.getStore(UnitsRepository);
     const usersRepository = this.getStore(UsersRepository);
 
-    return incomeExpenseTransactions.reduce<IncomeExpenseTransaction[]>((acc, transaction) => {
+    return transactions.reduce<Array<PlannedTransaction | Transaction>>((acc, transaction) => {
       const {
-        id,
-        cashFlowId,
         sign,
         amount,
         moneyId,
@@ -249,12 +239,8 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         reportPeriod,
         quantity,
         unitId,
-        isNotConfirmed,
         note,
         tags: tagIds,
-        planId,
-        nRepeat,
-        colorMark,
         permit,
         userId,
       } = transaction;
@@ -264,8 +250,6 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         console.warn('User is not found', { transaction });
         return acc;
       }
-
-      const contractor = (contractorId && contractorsRepository.get(contractorId)) || null;
 
       const category = categoriesRepository.get(categoryId);
       if (!category) {
@@ -278,6 +262,8 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         console.warn('Account not found', { transaction });
         return acc;
       }
+
+      const contractor = (contractorId && contractorsRepository.get(contractorId)) || null;
 
       const money = moneysRepository.get(moneyId);
       if (!money) {
@@ -295,55 +281,60 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
         return acc;
       }, []);
 
-      const incomeExpenseTransaction =
-        id && cashFlowId
-          ? new Transaction({
-              id,
-              cashFlowId,
-              sign,
-              amount,
-              money,
-              category,
-              account,
-              contractor,
-              transactionDate,
-              reportPeriod,
-              unit,
-              quantity,
-              isNotConfirmed,
-              note: note ?? '',
-              tags,
-              permit,
-              user,
-            })
-          : new PlannedTransaction({
-              planId: planId!,
-              sign,
-              amount,
-              money,
-              category,
-              account,
-              contractor,
-              transactionDate,
-              reportPeriod,
-              unit,
-              quantity,
-              isNotConfirmed,
-              note: note ?? '',
-              tags,
-              permit,
-              user,
-              nRepeat: nRepeat!,
-              colorMark: colorMark!,
-            });
+      if (isPlannedTransactionDTO(transaction)) {
+        const { planId, repetitionNumber, markerColor, contractorId } = transaction;
+        acc.push(
+          new PlannedTransaction({
+            planId,
+            contractor,
+            repetitionNumber,
+            markerColor,
+            sign,
+            amount,
+            money,
+            category,
+            account,
+            transactionDate,
+            reportPeriod,
+            unit,
+            quantity,
+            note: note ?? '',
+            tags,
+            permit,
+            user,
+          })
+        );
+      } else {
+        const { id, cashFlowId, isNotConfirmed } = transaction;
+        acc.push(
+          new Transaction({
+            id,
+            cashFlowId,
+            sign,
+            amount,
+            money,
+            category,
+            account,
+            contractor,
+            transactionDate,
+            reportPeriod,
+            unit,
+            quantity,
+            isNotConfirmed,
+            note: note ?? '',
+            tags,
+            permit,
+            user,
+          })
+        );
+      }
 
-      acc.push(incomeExpenseTransaction);
       return acc;
     }, []);
   }
 
-  get incomeExpenseTransactions(): IncomeExpenseTransaction[] {
-    return this._incomeExpenseTransactions
+  get transactions(): Array<PlannedTransaction | Transaction> {
+    return this._transactions
       .slice()
       .sort(
         (a, b) =>
@@ -354,6 +345,6 @@ export class IncomeExpenseTransactionsRepository extends ManageableStore {
   }
 
   clear(): void {
-    this._incomeExpenseTransactions = [];
+    this._transactions = [];
   }
 }

@@ -19,8 +19,8 @@ import { DebtsApi } from '../stores/api/debts-api';
 import { DebtsRepository } from '../stores/debts-repository';
 import { ExchangesApi } from '../stores/api/exchanges-api';
 import { ExchangesRepository } from '../stores/exchanges-repository';
-import { IncomeExpenseTransactionsApi } from '../stores/api/income-expense-transaction-api';
-import { IncomeExpenseTransactionsRepository } from '../stores/income-expense-transactions-repository';
+import { TransactionsApi } from '../stores/api/income-expense-transaction-api';
+import { TransactionsRepository } from '../stores/income-expense-transactions-repository';
 import { MainStore } from './main-store';
 import { MoneysApi } from '../stores/api/moneys-api';
 import { MoneysRepository } from '../stores/moneys-repository';
@@ -68,7 +68,7 @@ export function initializeMainStore(): MainStore {
   new MoneysRepository(mainStore, new MoneysApi(mainStore));
   new ProfileRepository(mainStore, new ProfileApi(mainStore));
 
-  new IncomeExpenseTransactionsRepository(mainStore, new IncomeExpenseTransactionsApi(mainStore));
+  new TransactionsRepository(mainStore, new TransactionsApi(mainStore));
   new PlansRepository(mainStore, new PlansApi(mainStore));
   new BalanceRepository(mainStore, new BalanceApi(mainStore));
   new ParamsStore(mainStore);

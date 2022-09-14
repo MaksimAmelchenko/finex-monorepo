@@ -9,18 +9,16 @@ import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
-import { ITransaction } from '../../types/transaction';
-import { IncomeExpenseTransaction } from './IncomeExpenseTransaction/IncomeExpenseTransaction';
-import {
-  IncomeExpenseTransactionsRepository,
-  IncomeExpenseTransaction as IncomeExpenseTransactionModel,
-} from '../../stores/income-expense-transactions-repository';
+import { ITransaction } from '../../types/income-expense-transaction';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
+import { PlannedTransaction } from '../../stores/models/planned-transaction';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
+import { TransactionRow } from './IncomeExpenseTransaction/IncomeExpenseTransaction';
+import { TransactionsRepository } from '../../stores/income-expense-transactions-repository';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -32,17 +30,17 @@ interface ISearchFormValues {
 
 const t = getT('IncomeExpenseTransactions');
 
-export const IncomeExpenseTransactions = observer(() => {
+export const Transactions = observer(() => {
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
   const contractorsRepository = useStore(ContractorsRepository);
-  const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
+  const transactionsRepository = useStore(TransactionsRepository);
   const projectsRepository = useStore(ProjectsRepository);
   const tagsRepository = useStore(TagsRepository);
 
   const [isOpenedCashFlowTransactionWindow, setIsOpenedCashFlowTransactionWindow] = useState<boolean>(false);
 
-  const [transaction, setTransaction] = useState<Partial<ITransaction> | IncomeExpenseTransactionModel | null>(null);
+  const [transaction, setTransaction] = useState<Partial<ITransaction> | Transaction | PlannedTransaction>({});
 
   const handleOpenAddCashFlowTransaction = () => {
     setTransaction({
@@ -52,7 +50,7 @@ export const IncomeExpenseTransactions = observer(() => {
     setIsOpenedCashFlowTransactionWindow(true);
   };
 
-  const handleClickOnTransaction = (transaction: IncomeExpenseTransactionModel) => {
+  const handleClickOnTransaction = (transaction: Transaction | PlannedTransaction) => {
     setTransaction(transaction);
     setIsOpenedCashFlowTransactionWindow(true);
   };
@@ -61,9 +59,9 @@ export const IncomeExpenseTransactions = observer(() => {
     setIsOpenedCashFlowTransactionWindow(false);
   };
 
-  const { filter } = incomeExpenseTransactionsRepository;
+  const { filter } = transactionsRepository;
 
-  const { incomeExpenseTransactions, loadState, offset, total } = incomeExpenseTransactionsRepository;
+  const { transactions, loadState, offset, total } = transactionsRepository;
 
   const selectAccountsOptions = useMemo<ISelectOption[]>(() => {
     return accountsRepository.accounts.map(({ id: value, name: label }) => ({ value, label }));
@@ -88,65 +86,69 @@ export const IncomeExpenseTransactions = observer(() => {
   }, [tagsRepository.tags]);
 
   useEffect(() => {
-    incomeExpenseTransactionsRepository.fetch().catch(console.error);
-  }, [incomeExpenseTransactionsRepository, projectsRepository.currentProject]);
+    transactionsRepository.fetch().catch(console.error);
+  }, [transactionsRepository, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {
-      incomeExpenseTransactionsRepository.setFilter({ range: values });
+      transactionsRepository.setFilter({ range: values });
     },
-    [incomeExpenseTransactionsRepository]
+    [transactionsRepository]
   );
 
   const setAccounts = (accounts: ISelectOption[]) => {
-    incomeExpenseTransactionsRepository.setFilter({ accounts: accounts.map(({ value }) => value) });
+    transactionsRepository.setFilter({ accounts: accounts.map(({ value }) => value) });
   };
 
   const setCategories = (categories: ISelectOption[]) => {
-    incomeExpenseTransactionsRepository.setFilter({ categories: categories.map(({ value }) => value) });
+    transactionsRepository.setFilter({ categories: categories.map(({ value }) => value) });
   };
 
   const setContractors = (contractors: ISelectOption[]) => {
-    incomeExpenseTransactionsRepository.setFilter({ contractors: contractors.map(({ value }) => value) });
+    transactionsRepository.setFilter({ contractors: contractors.map(({ value }) => value) });
   };
 
   const setTags = (tags: ISelectOption[]) => {
-    incomeExpenseTransactionsRepository.setFilter({ tags: tags.map(({ value }) => value) });
+    transactionsRepository.setFilter({ tags: tags.map(({ value }) => value) });
   };
 
   const handlePreviousPageClick = () => {
-    incomeExpenseTransactionsRepository.fetchPreviousPage();
+    transactionsRepository.fetchPreviousPage();
   };
 
   const handleNextPageClick = () => {
-    incomeExpenseTransactionsRepository.fetchNextPage();
+    transactionsRepository.fetchNextPage();
   };
 
   const handleRefreshClick = () => {
-    incomeExpenseTransactionsRepository.refresh();
+    transactionsRepository.refresh();
   };
 
   const handleDeleteClick = () => {
-    if (incomeExpenseTransactions.filter(({ isSelected }) => isSelected).length > 1) {
+    if (transactions.filter(({ isSelected }) => isSelected).length > 1) {
       if (!window.confirm(t('Are you sure you what to delete several transactions?'))) {
         return;
       }
     }
 
-    incomeExpenseTransactions
+    transactions
       .filter(({ isSelected }) => isSelected)
       .forEach(transaction => {
-        incomeExpenseTransactionsRepository.removeTransaction(transaction).catch(err => console.error({ err }));
+        transactionsRepository.removeTransaction(transaction).catch(err => console.error({ err }));
       });
   };
 
   const handleSearchSubmit = ({ searchText }: ISearchFormValues): Promise<unknown> => {
     filter.searchText = searchText;
-    return incomeExpenseTransactionsRepository.refresh();
+    return transactionsRepository.refresh();
   };
 
   const handleToggleFilter = () => {
-    incomeExpenseTransactionsRepository.setFilter({ isFilter: !filter.isFilter });
+    transactionsRepository.setFilter({ isFilter: !filter.isFilter });
+  };
+
+  const handleOnDateColumnHeaderClick = () => {
+    transactions.forEach(transaction => transaction.toggleSelection());
   };
 
   return (
@@ -190,7 +192,7 @@ export const IncomeExpenseTransactions = observer(() => {
 
           <div className={styles.panel__pagination}>
             <Pagination
-              count={incomeExpenseTransactions.length}
+              count={transactions.length}
               offset={offset}
               total={total}
               onPreviousPage={handlePreviousPageClick}
@@ -235,7 +237,9 @@ export const IncomeExpenseTransactions = observer(() => {
         <table className={clsx('table table-hover table-sm', styles.table)}>
           <thead>
             <tr>
-              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
+              <th style={{ paddingLeft: '8px' }} onClick={handleOnDateColumnHeaderClick}>
+                {t('Date')}
+              </th>
               <th>
                 {t('Account')}
                 <br />
@@ -256,11 +260,15 @@ export const IncomeExpenseTransactions = observer(() => {
             </tr>
           </thead>
           <tbody>
-            {incomeExpenseTransactions.map((transaction, index) => (
-              <IncomeExpenseTransaction
+            {transactions.map((transaction, index) => (
+              <TransactionRow
                 transaction={transaction}
                 onClick={handleClickOnTransaction}
-                key={transaction instanceof Transaction ? transaction.id : index}
+                key={
+                  transaction instanceof Transaction
+                    ? transaction.id
+                    : `${transaction.planId}-${transaction.repetitionNumber}`
+                }
               />
             ))}
           </tbody>
@@ -269,9 +277,9 @@ export const IncomeExpenseTransactions = observer(() => {
       </article>
 
       <Drawer isOpened={isOpenedCashFlowTransactionWindow}>
-      {transaction && (
+        {transaction && (
           <CashFlowTransactionWindow transaction={transaction} onClose={handleCloseCashFlowTransactionWindow} />
-      )}
+        )}
       </Drawer>
     </>
   );

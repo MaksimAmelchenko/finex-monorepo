@@ -1,17 +1,22 @@
-import { CreateTransactionServiceData, IPublicTransaction } from '../../../../services/transaction/types';
+import { CreateTransactionAPIData, ITransactionDTO } from '../../../../modules/transaction/types';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
-import { TransactionService } from '../../../../services/transaction';
+import { transactionMapper } from '../../../../modules/transaction/transaction.mapper';
+import { transactionService } from '../../../../modules/transaction/transaction.service';
 
 export async function handler(
-  ctx: IRequestContext<CreateTransactionServiceData, true>
-): Promise<IResponse<{ transaction: IPublicTransaction }>> {
-  const { params } = ctx;
-  const transaction = await TransactionService.createTransaction(ctx, params);
+  ctx: IRequestContext<CreateTransactionAPIData, true>
+): Promise<IResponse<{ transaction: ITransactionDTO }>> {
+  const {
+    projectId,
+    userId,
+    params: { cashFlowId = null, ...data },
+  } = ctx;
+  const transaction = await transactionService.createTransaction(ctx, projectId, userId, cashFlowId, data);
 
   return {
     body: {
-      transaction,
+      transaction: transactionMapper.toDTO(transaction),
     },
   };
 }

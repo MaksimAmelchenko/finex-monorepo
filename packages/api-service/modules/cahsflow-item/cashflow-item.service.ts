@@ -76,14 +76,9 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
       throw new AccessDeniedError();
     }
 
-    const cashFlowItemDAO = await this.cashFlowItemRepository.updateCashFlowItem(
-      ctx,
-      projectId,
-      cashFlowItemId,
-      changes
-    );
+    await this.cashFlowItemRepository.updateCashFlowItem(ctx, projectId, cashFlowItemId, changes);
 
-    return this.getCashFlowItem(ctx, projectId, String(cashFlowItemDAO.id));
+    return this.getCashFlowItem(ctx, projectId, cashFlowItemId);
   }
 
   async deleteCashFlowItem(

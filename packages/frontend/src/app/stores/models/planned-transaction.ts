@@ -11,67 +11,65 @@ import { Unit } from './unit';
 import { User } from './user';
 
 export class PlannedTransaction implements IPlannedTransaction, ISelectable, IDeletable {
+  planId: string;
+  contractor: Contractor | null;
+  repetitionNumber: number;
+  markerColor: string;
+
   sign: Sign;
   amount: number;
   money: Money;
   category: Category;
   account: Account;
-  contractor: Contractor | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
   unit: Unit | null;
-  isNotConfirmed: boolean;
   note: string;
   tags: Tag[];
   permit: Permit;
   user: User;
-  planId: string;
-  nRepeat: number;
-  colorMark: string;
 
   isDeleting: boolean;
   isSelected: boolean;
 
   constructor({
+    planId,
+    contractor,
+    repetitionNumber,
+    markerColor,
     sign,
     amount,
     money,
     category,
     account,
-    contractor,
     transactionDate,
     reportPeriod,
     unit,
     quantity,
-    isNotConfirmed,
     note,
     tags,
     permit,
     user,
-    planId,
-    nRepeat,
-    colorMark,
   }: IPlannedTransaction) {
+    this.planId = planId;
+    this.repetitionNumber = repetitionNumber;
+    this.markerColor = markerColor;
+    this.contractor = contractor;
+
     this.sign = sign;
     this.amount = amount;
     this.money = money;
     this.category = category;
     this.account = account;
-    this.contractor = contractor;
     this.transactionDate = transactionDate;
     this.reportPeriod = reportPeriod;
     this.quantity = quantity;
     this.unit = unit;
-    this.isNotConfirmed = isNotConfirmed;
     this.note = note;
     this.tags = tags;
     this.permit = permit;
     this.user = user;
-
-    this.planId = planId;
-    this.nRepeat = nRepeat;
-    this.colorMark = colorMark;
 
     this.isDeleting = false;
     this.isSelected = false;

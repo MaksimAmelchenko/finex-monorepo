@@ -1,13 +1,20 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
+import { plannedTransactionSchema } from '../planned-transaction.schema';
 import { transactionSchema } from '../transaction.schema';
 
-export const getTransactionsResponseSchema: OpenAPIV3_1.SchemaObject = {
+export const findTransactionsResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     transactions: {
       type: 'array',
-      items: transactionSchema,
+      items: {
+        oneOf: [
+          //
+          transactionSchema,
+          plannedTransactionSchema,
+        ],
+      },
     },
     metadata: {
       type: 'object',
@@ -19,9 +26,6 @@ export const getTransactionsResponseSchema: OpenAPIV3_1.SchemaObject = {
           type: 'integer',
         },
         total: {
-          type: 'integer',
-        },
-        totalPlanned: {
           type: 'integer',
         },
       },

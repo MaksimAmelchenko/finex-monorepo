@@ -22,7 +22,20 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
   ): Promise<ICashFlowItemDAO> {
     ctx.log.trace({ data }, 'try to create cashflow item');
 
-    const { sign, amount, moneyId, accountId, categoryId, cashFlowItemDate, reportPeriod, note, tags } = data;
+    const {
+      sign,
+      amount,
+      moneyId,
+      accountId,
+      categoryId,
+      cashFlowItemDate,
+      reportPeriod,
+      quantity,
+      unitId,
+      isNotConfirmed,
+      note,
+      tags,
+    } = data;
 
     const cashFlowItemDAO = await CashFlowItemDAO.query(ctx.trx).insertAndFetch({
       projectId: Number(projectId),
@@ -35,6 +48,9 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
       categoryId: Number(categoryId),
       cashflowItemDate: cashFlowItemDate,
       reportPeriod,
+      quantity,
+      unitId: unitId ? Number(unitId) : null,
+      isNotConfirmed,
       note,
       tags: tags ? tags.map(Number) : null,
     });
@@ -57,22 +73,25 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
 
     let query = knex.raw(
       `
-          select cfi.user_id,
-                 cfi.id,
-                 cfi.cashflow_id,
-                 cfi.sign,
-                 cfi.amount,
-                 cfi.money_id,
-                 cfi.account_id,
-                 cfi.category_id,
-                 to_char(cfi.cashflow_item_date, 'YYYY-MM-DD') as cashflow_item_date,
-                 to_char(cfi.report_period, 'YYYY-MM-01') as report_period,
-                 cfi.note,
-                 cfi.tags
-            from cf$.v_cashflow_item cfi
-           where cfi.project_id = :projectId::int
-             and cfi.id = :cashFlowItemId::int
-        `,
+        select cfi.user_id,
+               cfi.id,
+               cfi.cashflow_id,
+               cfi.sign,
+               cfi.amount,
+               cfi.money_id,
+               cfi.account_id,
+               cfi.category_id,
+               to_char(cfi.cashflow_item_date, 'YYYY-MM-DD') as cashflow_item_date,
+               to_char(cfi.report_period, 'YYYY-MM-01') as report_period,
+               cfi.quantity,
+               cfi.unit_id,
+               cfi.is_not_confirmed,
+               cfi.note,
+               cfi.tags
+          from cf$.v_cashflow_item cfi
+         where cfi.project_id = :projectId::int
+           and cfi.id = :cashFlowItemId::int
+      `,
       {
         projectId: String(projectId),
         cashFlowItemId: String(cashFlowItemId),
@@ -97,25 +116,28 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
 
     let query = knex.raw(
       `
-          select cfi.user_id,
-                 cfi.id,
-                 cfi.cashflow_id,
-                 cfi.sign,
-                 cfi.amount,
-                 cfi.money_id,
-                 cfi.account_id,
-                 cfi.category_id,
-                 to_char(cfi.cashflow_item_date, 'YYYY-MM-DD') as cashflow_item_date,
-                 to_char(cfi.report_period, 'YYYY-MM-01') as report_period,
-                 cfi.note,
-                 cfi.tags
-            from cf$.v_cashflow_item cfi
-           where cfi.project_id = :projectId::int
-             and cfi.cashflow_id in (select unnest(:cashFlowIds::int[]))
-           order by cfi.cashflow_id,
-                    cfi.cashflow_item_date desc,
-                    cfi.id desc
-        `,
+        select cfi.user_id,
+               cfi.id,
+               cfi.cashflow_id,
+               cfi.sign,
+               cfi.amount,
+               cfi.money_id,
+               cfi.account_id,
+               cfi.category_id,
+               to_char(cfi.cashflow_item_date, 'YYYY-MM-DD') as cashflow_item_date,
+               to_char(cfi.report_period, 'YYYY-MM-01') as report_period,
+               cfi.quantity,
+               cfi.unit_id,
+               cfi.is_not_confirmed,
+               cfi.note,
+               cfi.tags
+          from cf$.v_cashflow_item cfi
+         where cfi.project_id = :projectId::int
+           and cfi.cashflow_id in (select unnest(:cashFlowIds::int[]))
+         order by cfi.cashflow_id,
+                  cfi.cashflow_item_date desc,
+                  cfi.id desc
+      `,
       {
         projectId: Number(projectId),
         userId: Number(projectId),
@@ -137,7 +159,20 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
     changes: UpdateCashFlowItemRepositoryChanges
   ): Promise<ICashFlowItemDAO> {
     ctx.log.trace({ cashFlowItemId, changes }, 'try to update cashflow item');
-    const { sign, amount, moneyId, accountId, categoryId, cashFlowItemDate, reportPeriod, note, tags } = changes;
+    const {
+      sign,
+      amount,
+      moneyId,
+      accountId,
+      categoryId,
+      cashFlowItemDate,
+      reportPeriod,
+      quantity,
+      unitId,
+      isNotConfirmed,
+      note,
+      tags,
+    } = changes;
 
     await CashFlowItemDAO.query(ctx.trx)
       .patch({
@@ -148,6 +183,9 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
         reportPeriod,
         accountId: accountId ? Number(accountId) : undefined,
         categoryId: categoryId ? Number(categoryId) : undefined,
+        quantity,
+        unitId: unitId === null ? null : unitId !== undefined ? Number(unitId) : undefined,
+        isNotConfirmed,
         note,
         tags: tags ? tags.map(Number) : undefined,
       })

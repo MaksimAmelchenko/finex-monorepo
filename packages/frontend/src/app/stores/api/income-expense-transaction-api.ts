@@ -1,21 +1,22 @@
 import queryString from 'query-string';
 
 import { ApiRepository } from '../../core/other-stores/api-repository';
-import { IIncomeExpenseTransactionsApi } from '../income-expense-transactions-repository';
+
 import {
   CreateTransactionData,
   CreateTransactionResponse,
-  GetIncomeExpenseTransactionsQuery,
-  GetIncomeExpenseTransactionsResponse,
+  GetTransactionsQuery,
+  GetTransactionsResponse,
+  ITransactionsApi,
   UpdateTransactionChanges,
   UpdateTransactionResponse,
 } from '../../types/income-expense-transaction';
 
-export class IncomeExpenseTransactionsApi extends ApiRepository implements IIncomeExpenseTransactionsApi {
+export class TransactionsApi extends ApiRepository implements ITransactionsApi {
   static override storeName = 'IncomeExpenseTransactionsApi';
 
-  get(query: GetIncomeExpenseTransactionsQuery): Promise<GetIncomeExpenseTransactionsResponse> {
-    return this.fetch<GetIncomeExpenseTransactionsResponse>({
+  get(query: GetTransactionsQuery): Promise<GetTransactionsResponse> {
+    return this.fetch<GetTransactionsResponse>({
       url: `/v2/transactions?${queryString.stringify(query, { skipNull: true, skipEmptyString: true })}`,
     });
   }

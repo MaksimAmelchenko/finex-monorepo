@@ -12,6 +12,9 @@ export interface ICashFlowItemDAO {
   categoryId: number;
   cashflowItemDate: TDate;
   reportPeriod: TDate;
+  quantity: number | null;
+  unitId: number | null;
+  isNotConfirmed: boolean;
   note: string | null;
   tags: number[] | null;
 }
@@ -27,6 +30,9 @@ export interface ICashFlowItemEntity {
   categoryId: string;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
+  quantity: number | null;
+  unitId: string | null;
+  isNotConfirmed: boolean;
   note: string;
   tags: string[];
   permit: Permit;
@@ -42,6 +48,9 @@ export interface CreateCashFlowItemRepositoryData {
   categoryId: string;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
+  quantity?: number | null;
+  unitId?: string | null;
+  isNotConfirmed?: boolean;
   note?: string;
   tags?: string[];
 }
@@ -56,6 +65,9 @@ export type UpdateCashFlowItemRepositoryChanges = Partial<{
   categoryId: string;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
+  quantity: number | null;
+  unitId: string | null;
+  isNotConfirmed: boolean;
   note: string;
   tags: string[];
 }>;

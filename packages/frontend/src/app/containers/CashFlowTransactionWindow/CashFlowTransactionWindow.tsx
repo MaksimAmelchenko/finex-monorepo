@@ -8,7 +8,12 @@ import { useSnackbar } from 'notistack';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
 import { CategoriesRepository } from '../../stores/categories-repository';
-import { CreateTransactionData, UpdateTransactionChanges } from '../../types/income-expense-transaction';
+import {
+  CreateTransactionData,
+  isPlannedTransaction,
+  ITransaction,
+  UpdateTransactionChanges,
+} from '../../types/income-expense-transaction';
 import {
   Form,
   FormBody,
@@ -24,12 +29,7 @@ import {
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
-import { ITransaction } from '../../types/transaction';
 import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
-import {
-  IncomeExpenseTransaction,
-  IncomeExpenseTransactionsRepository,
-} from '../../stores/income-expense-transactions-repository';
 import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { PlannedTransaction } from '../../stores/models/planned-transaction';
@@ -37,6 +37,7 @@ import { QuantityField } from '../QuantityField/QuantityField';
 import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
+import { TransactionsRepository } from '../../stores/income-expense-transactions-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-path';
 import { noop } from '../../lib/noop';
@@ -62,7 +63,7 @@ interface CashFlowTransactionFormValues {
 }
 
 interface CashFlowTransactionWindowProps {
-  transaction: Partial<ITransaction> | IncomeExpenseTransaction;
+  transaction: Partial<ITransaction> | Transaction | PlannedTransaction;
   onClose: () => unknown;
 }
 
@@ -132,6 +133,21 @@ function mapValuesToUpdatePayload({
 }
 
 export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTransactionWindowProps): JSX.Element {
+  const {
+    sign,
+    amount,
+    money,
+    category,
+    account,
+    transactionDate,
+    reportPeriod,
+    quantity,
+    unit,
+    // isNotConfirmed,
+    note,
+    tags,
+  } = transaction;
+
   const signOptions: ITabOption[] = useMemo(
     () => [
       { value: '1', label: t('Income') },
@@ -142,11 +158,13 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
 
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
-  const incomeExpenseTransactionsRepository = useStore(IncomeExpenseTransactionsRepository);
+  const transactionsRepository = useStore(TransactionsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
 
-  const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
+  const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
+    Boolean(quantity || note || tags?.length)
+  );
   const { enqueueSnackbar } = useSnackbar();
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
@@ -169,11 +187,11 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = incomeExpenseTransactionsRepository.updateTransaction(transaction, changes);
+        result = transactionsRepository.updateTransaction(transaction, changes);
       } else {
         // create transaction
         const data: CreateTransactionData = mapValuesToCreatePayload(values);
-        result = incomeExpenseTransactionsRepository.createTransaction(transaction, data);
+        result = transactionsRepository.createTransaction(transaction, data);
       }
 
       return result
@@ -213,7 +231,7 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, incomeExpenseTransactionsRepository, onClose, transaction]
+    [enqueueSnackbar, transactionsRepository, onClose, transaction]
   );
 
   const validationSchema = useMemo(
@@ -267,21 +285,6 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
     );
   }
 
-  const {
-    sign,
-    amount,
-    money,
-    category,
-    account,
-    transactionDate,
-    reportPeriod,
-    quantity,
-    unit,
-    isNotConfirmed,
-    note,
-    tags,
-  } = transaction;
-
   return (
     <Form<CashFlowTransactionFormValues>
       onSubmit={onSubmit}
@@ -295,7 +298,7 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         quantity: quantity ? String(quantity) : '',
         unitId: unit?.id ?? null,
-        isNotConfirmed: isNotConfirmed ?? false,
+        isNotConfirmed: isPlannedTransaction(transaction) ? false : transaction?.isNotConfirmed ?? false,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
         planId: transaction instanceof PlannedTransaction ? transaction.planId : null,

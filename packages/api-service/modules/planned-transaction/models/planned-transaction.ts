@@ -1,57 +1,60 @@
-import { ICashFlowItem, ICashFlowItemEntity } from '../types';
+import { IPlannedTransaction, IPlannedTransactionEntity } from '../types';
 import { Permit, Sign, TDate } from '../../../types/app';
 
-export class CashFlowItem implements ICashFlowItem {
-  readonly id: string;
-  readonly cashFlowId: string;
-  readonly userId: string;
+export class PlannedTransaction implements IPlannedTransaction {
+  planId: string;
+  contractorId: string | null;
+  markerColor: string;
+  repetitionNumber: number;
   sign: Sign;
   amount: number;
   moneyId: string;
-  cashFlowItemDate: string;
-  reportPeriod: TDate;
   accountId: string;
   categoryId: string;
+  transactionDate: TDate;
+  reportPeriod: TDate;
   quantity: number | null;
   unitId: string | null;
-  isNotConfirmed: boolean;
   note: string;
   tags: string[];
+  userId: string;
   permit: Permit;
 
   constructor({
-    id,
-    cashFlowId,
-    userId,
+    planId,
+    contractorId,
+    markerColor,
+    repetitionNumber,
     sign,
     amount,
     moneyId,
-    cashFlowItemDate,
-    reportPeriod,
     accountId,
     categoryId,
+    transactionDate,
+    reportPeriod,
     quantity,
     unitId,
-    isNotConfirmed,
     note,
     tags,
+    userId,
     permit,
-  }: ICashFlowItemEntity) {
-    this.id = id;
-    this.cashFlowId = cashFlowId;
-    this.userId = userId;
+  }: IPlannedTransactionEntity) {
+    this.planId = planId;
+    this.contractorId = contractorId;
+    this.markerColor = markerColor;
+    this.repetitionNumber = repetitionNumber;
     this.sign = sign;
     this.amount = amount;
     this.moneyId = moneyId;
-    this.cashFlowItemDate = cashFlowItemDate;
+    this.transactionDate = transactionDate;
     this.reportPeriod = reportPeriod;
     this.accountId = accountId;
     this.categoryId = categoryId;
     this.quantity = quantity;
     this.unitId = unitId;
-    this.isNotConfirmed = isNotConfirmed;
     this.note = note;
     this.tags = tags;
+    this.userId = userId;
     this.permit = permit;
   }
 }

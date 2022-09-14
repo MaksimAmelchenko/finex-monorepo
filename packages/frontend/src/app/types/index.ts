@@ -24,10 +24,9 @@ export enum Permit {
 export type Sign = 1 | -1;
 
 export interface Metadata {
-  limit: number;
   offset: number;
+  limit: number;
   total: number;
-  totalPlanned: number;
 }
 
 export interface GAOptions {

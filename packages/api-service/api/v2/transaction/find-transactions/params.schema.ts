@@ -3,7 +3,7 @@ import { OpenAPIV3_1 } from 'openapi-types';
 import { date } from '../../../../common/schemas/fields/date';
 import { sign } from '../../../../common/schemas/fields/sign';
 
-export const getTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
+export const findTransactionsParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     limit: {

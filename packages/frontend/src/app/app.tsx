@@ -10,7 +10,7 @@ import { Debts } from './pages/Debts/Debts';
 import { Exchanges } from './pages/Exchanges/Exchanges';
 import { Home } from './pages/Home/Home';
 import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
-import { IncomeExpenseTransactions } from './pages/IncomeExpenseTransactions/IncomeExpenseTransactions';
+import { Transactions } from './pages/IncomeExpenseTransactions/IncomeExpenseTransactions';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -54,7 +54,7 @@ export const App = observer(() => {
                       <Route path="/" element={<Home />} />
                       <Route path="/dashboard" element={<DashboardLazy />} />
                       <Route path="/income-expenses" element={<IncomeExpenseCashFlows />} />
-                      <Route path="/income-expenses/transactions" element={<IncomeExpenseTransactions />} />
+                      <Route path="/income-expenses/transactions" element={<Transactions />} />
                       <Route path="/debts" element={<Debts />} />
                       <Route path="/transfers" element={<Transfers />} />
                       <Route path="/exchanges" element={<Exchanges />} />

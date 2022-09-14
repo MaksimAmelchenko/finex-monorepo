@@ -12,6 +12,9 @@ import { unitId } from '../../../../common/schemas/fields/unit-id';
 export const createTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
+    cashFlowId: {
+      type: ['string', 'null'],
+    },
     sign,
     amount: {
       type: 'number',

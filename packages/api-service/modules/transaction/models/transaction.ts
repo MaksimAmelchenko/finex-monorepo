@@ -1,16 +1,17 @@
-import { ICashFlowItem, ICashFlowItemEntity } from '../types';
+import { ITransaction, ITransactionEntity } from '../types';
 import { Permit, Sign, TDate } from '../../../types/app';
 
-export class CashFlowItem implements ICashFlowItem {
+export class Transaction implements ITransaction {
   readonly id: string;
   readonly cashFlowId: string;
   readonly userId: string;
   sign: Sign;
   amount: number;
   moneyId: string;
-  cashFlowItemDate: string;
+  transactionDate: TDate;
   reportPeriod: TDate;
   accountId: string;
+  contractorId: string | null;
   categoryId: string;
   quantity: number | null;
   unitId: string | null;
@@ -26,9 +27,10 @@ export class CashFlowItem implements ICashFlowItem {
     sign,
     amount,
     moneyId,
-    cashFlowItemDate,
+    transactionDate,
     reportPeriod,
     accountId,
+    contractorId,
     categoryId,
     quantity,
     unitId,
@@ -36,16 +38,17 @@ export class CashFlowItem implements ICashFlowItem {
     note,
     tags,
     permit,
-  }: ICashFlowItemEntity) {
+  }: ITransactionEntity) {
     this.id = id;
     this.cashFlowId = cashFlowId;
     this.userId = userId;
     this.sign = sign;
     this.amount = amount;
     this.moneyId = moneyId;
-    this.cashFlowItemDate = cashFlowItemDate;
+    this.transactionDate = transactionDate;
     this.reportPeriod = reportPeriod;
     this.accountId = accountId;
+    this.contractorId = contractorId;
     this.categoryId = categoryId;
     this.quantity = quantity;
     this.unitId = unitId;

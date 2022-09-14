@@ -24,7 +24,7 @@ export interface ICashFlowEntity {
 export interface ICashFlow extends ICashFlowEntity {}
 
 export interface CreateCashFlowRepositoryData {
-  contractorId?: string;
+  contractorId?: string | null;
   cashFlowTypeId: CashFlowType;
   note?: string;
   tags?: string[];
