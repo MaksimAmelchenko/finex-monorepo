@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Route, Routes } from 'react-router-dom';
 import { Slide } from '@mui/material';
@@ -9,8 +9,8 @@ import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
 import { Exchanges } from './pages/Exchanges/Exchanges';
 import { Home } from './pages/Home/Home';
-import { IncomeExpenseCashFlows } from './containers/IncomeExpenseCashFlows/IncomeExpenseCashFlows';
-import { Transactions } from './pages/IncomeExpenseTransactions/IncomeExpenseTransactions';
+import { CashFlows } from './containers/CashFlows/CashFlows';
+import { Transactions } from './pages/Transactions/Transactions';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -53,8 +53,8 @@ export const App = observer(() => {
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/dashboard" element={<DashboardLazy />} />
-                      <Route path="/income-expenses" element={<IncomeExpenseCashFlows />} />
-                      <Route path="/income-expenses/transactions" element={<Transactions />} />
+                      <Route path="/cash-flows" element={<CashFlows />} />
+                      <Route path="/transactions" element={<Transactions />} />
                       <Route path="/debts" element={<Debts />} />
                       <Route path="/transfers" element={<Transfers />} />
                       <Route path="/exchanges" element={<Exchanges />} />

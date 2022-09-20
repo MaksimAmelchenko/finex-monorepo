@@ -4,12 +4,12 @@ import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
-import { CashFlowTransactionWindow } from '../../containers/CashFlowTransactionWindow/CashFlowTransactionWindow';
+import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
-import { ITransaction } from '../../types/income-expense-transaction';
+import { ITransaction } from '../../types/transaction';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { PlannedTransaction } from '../../stores/models/planned-transaction';
@@ -17,18 +17,18 @@ import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
-import { TransactionRow } from './IncomeExpenseTransaction/IncomeExpenseTransaction';
-import { TransactionsRepository } from '../../stores/income-expense-transactions-repository';
+import { TransactionRow } from './Transaction/Transaction';
+import { TransactionsRepository } from '../../stores/transactions-repository';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './IncomeExpenseTransactions.module.scss';
+import styles from './Transactions.module.scss';
 
 interface ISearchFormValues {
   searchText: string;
 }
 
-const t = getT('IncomeExpenseTransactions');
+const t = getT('Transactions');
 
 export const Transactions = observer(() => {
   const accountsRepository = useStore(AccountsRepository);
@@ -38,25 +38,25 @@ export const Transactions = observer(() => {
   const projectsRepository = useStore(ProjectsRepository);
   const tagsRepository = useStore(TagsRepository);
 
-  const [isOpenedCashFlowTransactionWindow, setIsOpenedCashFlowTransactionWindow] = useState<boolean>(false);
+  const [isOpenedTransactionWindow, setIsOpenedTransactionWindow] = useState<boolean>(false);
 
   const [transaction, setTransaction] = useState<Partial<ITransaction> | Transaction | PlannedTransaction>({});
 
-  const handleOpenAddCashFlowTransaction = () => {
+  const handleOpenAddTransaction = () => {
     setTransaction({
       sign: -1,
       isNotConfirmed: false,
     });
-    setIsOpenedCashFlowTransactionWindow(true);
+    setIsOpenedTransactionWindow(true);
   };
 
   const handleClickOnTransaction = (transaction: Transaction | PlannedTransaction) => {
     setTransaction(transaction);
-    setIsOpenedCashFlowTransactionWindow(true);
+    setIsOpenedTransactionWindow(true);
   };
 
-  const handleCloseCashFlowTransactionWindow = () => {
-    setIsOpenedCashFlowTransactionWindow(false);
+  const handleCloseTransactionWindow = () => {
+    setIsOpenedTransactionWindow(false);
   };
 
   const { filter } = transactionsRepository;
@@ -159,7 +159,7 @@ export const Transactions = observer(() => {
         <div className={styles.panel}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddCashFlowTransaction}>
+              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddTransaction}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" onClick={handleDeleteClick}>
@@ -276,9 +276,9 @@ export const Transactions = observer(() => {
         </table>
       </article>
 
-      <Drawer isOpened={isOpenedCashFlowTransactionWindow}>
+      <Drawer isOpened={isOpenedTransactionWindow}>
         {transaction && (
-          <CashFlowTransactionWindow transaction={transaction} onClose={handleCloseCashFlowTransactionWindow} />
+          <TransactionWindow transaction={transaction} onClose={handleCloseTransactionWindow} />
         )}
       </Drawer>
     </>

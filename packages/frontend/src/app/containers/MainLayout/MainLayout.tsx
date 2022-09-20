@@ -118,7 +118,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       },
       {
         id: 'transactions',
-        link: '/income-expenses/transactions',
+        link: '/transactions',
         label: t('Income & Expenses'),
         icon: <img src={CashFlowSvg} alt="" />,
       },

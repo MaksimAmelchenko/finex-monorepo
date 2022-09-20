@@ -12,7 +12,7 @@ import {
   ITransactionDTO,
   ITransactionsApi,
   UpdateTransactionChanges,
-} from '../types/income-expense-transaction';
+} from '../types/transaction';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';

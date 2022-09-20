@@ -10,10 +10,10 @@ import {
   ITransactionsApi,
   UpdateTransactionChanges,
   UpdateTransactionResponse,
-} from '../../types/income-expense-transaction';
+} from '../../types/transaction';
 
 export class TransactionsApi extends ApiRepository implements ITransactionsApi {
-  static override storeName = 'IncomeExpenseTransactionsApi';
+  static override storeName = 'TransactionsApi';
 
   get(query: GetTransactionsQuery): Promise<GetTransactionsResponse> {
     return this.fetch<GetTransactionsResponse>({

@@ -8,7 +8,7 @@ import { PlannedTransaction } from '../../../stores/models/planned-transaction';
 import { Transaction } from '../../../stores/models/transaction';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 
-import styles from './IncomeExpenseTransaction.module.scss';
+import styles from './Transaction.module.scss';
 
 const t = getT('CashFlow');
 

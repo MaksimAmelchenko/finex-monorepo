@@ -10,12 +10,12 @@ import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './DebtRow.module.scss';
 
-interface IncomeExpenseTransactionProps {
+interface DebtRowProps {
   debt: Debt;
   onClick: (debt: Debt) => void;
 }
 
-export const DebtRow = observer<IncomeExpenseTransactionProps>(({ debt, onClick }) => {
+export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
   const { balance, contractor, debtDate, isDeleting, isSelected, note, tags } = debt;
   const moneysRepository = useStore(MoneysRepository);
 

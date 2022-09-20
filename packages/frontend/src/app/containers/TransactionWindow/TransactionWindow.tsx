@@ -13,7 +13,7 @@ import {
   isPlannedTransaction,
   ITransaction,
   UpdateTransactionChanges,
-} from '../../types/income-expense-transaction';
+} from '../../types/transaction';
 import {
   Form,
   FormBody,
@@ -37,15 +37,15 @@ import { QuantityField } from '../QuantityField/QuantityField';
 import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
-import { TransactionsRepository } from '../../stores/income-expense-transactions-repository';
+import { TransactionsRepository } from '../../stores/transactions-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-path';
 import { noop } from '../../lib/noop';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './CashFlowTransactionWindow.module.scss';
+import styles from './TransactionWindow.module.scss';
 
-interface CashFlowTransactionFormValues {
+interface TransactionFormValues {
   sign: '1' | '-1';
   amount: string;
   moneyId: string;
@@ -62,12 +62,12 @@ interface CashFlowTransactionFormValues {
   isOnlySave: boolean;
 }
 
-interface CashFlowTransactionWindowProps {
+interface TransactionWindowProps {
   transaction: Partial<ITransaction> | Transaction | PlannedTransaction;
   onClose: () => unknown;
 }
 
-const t = getT('CashFlowTransaction');
+const t = getT('TransactionWindow');
 
 function mapValuesToCreatePayload({
   sign,
@@ -83,7 +83,7 @@ function mapValuesToCreatePayload({
   tagIds,
   isNotConfirmed,
   planId,
-}: CashFlowTransactionFormValues): CreateTransactionData {
+}: TransactionFormValues): CreateTransactionData {
   return {
     sign: Number(sign) as Sign,
     amount: Number(amount),
@@ -115,7 +115,7 @@ function mapValuesToUpdatePayload({
   note,
   tagIds,
   isNotConfirmed,
-}: CashFlowTransactionFormValues): UpdateTransactionChanges {
+}: TransactionFormValues): UpdateTransactionChanges {
   return {
     sign: Number(sign) as Sign,
     amount: Number(amount),
@@ -132,7 +132,7 @@ function mapValuesToUpdatePayload({
   };
 }
 
-export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTransactionWindowProps): JSX.Element {
+export function TransactionWindow({ transaction, onClose }: TransactionWindowProps): JSX.Element {
   const {
     sign,
     amount,
@@ -177,9 +177,9 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
 
   const onSubmit = useCallback(
     (
-      values: CashFlowTransactionFormValues,
-      { resetForm }: FormikHelpers<CashFlowTransactionFormValues>,
-      initialValues: CashFlowTransactionFormValues
+      values: TransactionFormValues,
+      { resetForm }: FormikHelpers<TransactionFormValues>,
+      initialValues: TransactionFormValues
     ) => {
       let result: Promise<unknown>;
       if (transaction instanceof Transaction) {
@@ -236,7 +236,7 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
 
   const validationSchema = useMemo(
     () =>
-      Yup.object<Shape<CashFlowTransactionFormValues>>({
+      Yup.object<Shape<TransactionFormValues>>({
         transactionDate: Yup.date().required('Please select date'),
         reportPeriod: Yup.date().required('Please select date'),
         amount: Yup.mixed()
@@ -286,7 +286,7 @@ export function CashFlowTransactionWindow({ transaction, onClose }: CashFlowTran
   }
 
   return (
-    <Form<CashFlowTransactionFormValues>
+    <Form<TransactionFormValues>
       onSubmit={onSubmit}
       initialValues={{
         sign: String(sign) as any,

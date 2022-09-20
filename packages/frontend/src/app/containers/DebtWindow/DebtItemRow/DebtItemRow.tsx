@@ -8,12 +8,12 @@ import { formatDate, toCurrency } from '../../../lib/core/i18n';
 
 import styles from './DebtItemRow.module.scss';
 
-interface IncomeExpenseTransactionProps {
+interface DebtItemRowProps {
   debtItem: DebtItem;
   onClick: (debtItem: DebtItem) => void;
 }
 
-export const DebtItemRow = observer<IncomeExpenseTransactionProps>(({ debtItem, onClick }) => {
+export const DebtItemRow = observer<DebtItemRowProps>(({ debtItem, onClick }) => {
   const { debtItemDate, account, category, sign, amount, money, note, tags, isSelected, isDeleting } = debtItem;
 
   const handleOnSelect = (event: React.SyntheticEvent) => {

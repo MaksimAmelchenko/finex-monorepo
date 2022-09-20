@@ -4,7 +4,7 @@ import { Account } from './account';
 import { Category } from './category';
 import { Contractor } from './contractor';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
-import { IPlannedTransaction } from '../../types/income-expense-transaction';
+import { IPlannedTransaction } from '../../types/transaction';
 import { Money } from './money';
 import { Tag } from './tag';
 import { Unit } from './unit';
