@@ -11,14 +11,20 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
   container: provided => ({
     ...provided,
     width: '100%',
-    minWidth: '30rem',
   }),
+
+  multiValueLabel: provided => {
+    return {
+      ...provided,
+      fontSize: 'inherit',
+    };
+  },
 
   control: (provided, { isFocused, selectProps }) => {
     const isError = Boolean((selectProps as any)['data-is-error']);
     return {
       ...provided,
-      borderRadius: 3,
+      borderRadius: 4,
       paddingLeft: 4,
       height: 40,
       boxShadow: 'none',
@@ -95,6 +101,7 @@ export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
     isPopup = false,
     error,
     helperText,
+    className,
     ...rest
   } = props;
   const { options, components } = props;
@@ -118,7 +125,7 @@ export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
   );
 
   return (
-    <div className={clsx(styles.root, isError && styles.root_error)}>
+    <div className={clsx(styles.root, isError && styles.root_error, className)}>
       <ReactSelect
         {...rest}
         data-is-popup={isPopup}

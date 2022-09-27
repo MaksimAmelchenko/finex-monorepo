@@ -1,7 +1,7 @@
 .react-datepicker {
   border: none;
   box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
-  border-radius: 5px;
+  border-radius: 4px;
   padding: 1.2rem 1.5rem;
   font-size: 1.4rem;
 }
