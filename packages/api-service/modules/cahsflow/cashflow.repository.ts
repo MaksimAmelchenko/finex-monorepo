@@ -16,7 +16,7 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
     userId: string,
     data: CreateCashFlowRepositoryData
   ): Promise<ICashFlowDAO> {
-    ctx.log.trace({ data }, 'try to create cashflow item');
+    ctx.log.trace({ data }, 'try to create cashflow');
 
     const { cashFlowTypeId, contractorId, note, tags } = data;
 
@@ -78,11 +78,11 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
   }
 
   async deleteCashFlow(ctx: IRequestContext, projectId: string, cashFlowId: string): Promise<void> {
-    ctx.log.trace({ cashFlowId }, 'try to delete cashflow item');
+    ctx.log.trace({ cashFlowId }, 'try to delete cashflow');
 
     await CashFlowDAO.query(ctx.trx).deleteById([Number(projectId), Number(cashFlowId)]);
 
-    ctx.log.info({ cashFlowId }, 'deleted cashflow item');
+    ctx.log.info({ cashFlowId }, 'deleted cashflow');
   }
 }
 

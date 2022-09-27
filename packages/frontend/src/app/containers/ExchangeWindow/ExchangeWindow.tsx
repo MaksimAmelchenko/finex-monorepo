@@ -312,7 +312,6 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
     <Form<ExchangeFormValues>
       onSubmit={onSubmit}
       onError={(hr, error) => {
-        debugger;
         console.log(hr, error);
       }}
       initialValues={{

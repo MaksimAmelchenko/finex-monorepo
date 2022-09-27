@@ -30,7 +30,7 @@ export class TransactionsApi extends ApiRepository implements ITransactionsApi {
   }
 
   update(transactionId: string, changes: UpdateTransactionChanges): Promise<UpdateTransactionResponse> {
-    return this.fetch<CreateTransactionResponse>({
+    return this.fetch<UpdateTransactionResponse>({
       method: 'PATCH',
       url: `/v2/transactions/${transactionId}`,
       body: changes,

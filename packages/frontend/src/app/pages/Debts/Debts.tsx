@@ -77,7 +77,6 @@ export const Debts = observer(() => {
 
   useEffect(() => {
     debtsRepository.fetch().catch(err => {
-      debugger;
       let message = '';
       switch (err.code) {
         default:
