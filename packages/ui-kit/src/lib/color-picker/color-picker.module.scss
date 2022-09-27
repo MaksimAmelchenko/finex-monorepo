@@ -1,0 +1,24 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 40px;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  cursor: pointer;
+
+  &_empty {
+    border: 1px solid colors.$gray1;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

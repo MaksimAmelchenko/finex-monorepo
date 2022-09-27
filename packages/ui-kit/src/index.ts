@@ -1,6 +1,7 @@
 export * from './lib/button/button';
 export * from './lib/checkbox/checkbox';
 export * from './lib/circular-indeterminate/circular-indeterminate';
+export * from './lib/color-picker/color-picker';
 export * from './lib/date-field/date-field';
 export * from './lib/date-picker/date-picker';
 export * from './lib/icon-button/icon-button';
