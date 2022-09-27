@@ -36,7 +36,6 @@ body {
   text-align: right;
 }
 
-
 .align-top {
   vertical-align: top;
 }
@@ -45,83 +44,46 @@ body {
   vertical-align: middle;
 }
 
-
 .bg-color-blue {
-  background-color: colors.$blue;
+  background-color: #57889c;
 }
 
 .bg-color-blueLight {
-  background-color: colors.$blueLight;
+  background-color: #92a2a8;
 }
 
-//.bg-color-blueDark {
-//  background-color: colors.$blueDark;
-//}
-
 .bg-color-green {
-  background-color: colors.$green;
+  background-color: #356e35;
 }
 
 .bg-color-greenLight {
-  background-color: colors.$greenLight;
+  background-color: #71843f;
 }
 
-//.bg-color-greenDark {
-//  background-color: colors.$greenDark;
-//}
-
-.bg-color-red {
-  background-color: colors.$red;
+.bg-color-yellow {
+  background-color: #b09b5b;
 }
 
-//.bg-color-yellow {
-//  background-color: colors.$yellow;
-//}
-
-.bg-color-orange {
-  background-color: colors.$orange;
+.bg-color-orangeDark {
+  background-color: #a57225;
 }
 
-//.bg-color-orangeDark {
-//  background-color: colors.$orangeDark;
-//}
+.bg-color-pink {
+  background-color: #ac5287;
+}
 
-//.bg-color-pink {
-//  background-color: colors.$pink;
-//}
+.bg-color-pinkDark {
+  background-color: #a8829f;
+}
 
-//.bg-color-pinkDark {
-//  background-color: colors.$pinkDark;
-//}
+.bg-color-purple {
+  background-color: #6e587a;
+}
 
-//.bg-color-purple {
-//  background-color: colors.$purple;
-//}
+.bg-color-magenta {
+  background-color: #6e3671;
+}
 
-//.bg-color-darken {
-//  background-color: colors.$darken;
-//}
-
-//.bg-color-lighten {
-//  background-color: colors.$lighten;
-//}
-
-//.bg-color-white {
-//  background-color: colors.$white;
-//}
-
-//.bg-color-grayDark {
-//  background-color: colors.$greyDark;
-//}
-
-//.bg-color-magenta {
-//  background-color: colors.$magenta;
-//}
-
-//.bg-color-teal {
-//  background-color: colors.$teal;
-//}
-
-//.bg-color-redLight {
-//  background-color: colors.$redLight;
-//}
+.bg-color-redLight {
+  background-color: #a65858;
+}

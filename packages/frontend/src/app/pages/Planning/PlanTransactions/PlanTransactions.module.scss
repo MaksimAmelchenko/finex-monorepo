@@ -1,0 +1,79 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.header {
+  @include typography.h2;
+  .subHeader {
+    @include typography.h6;
+    display: inline-block;
+    vertical-align: 2px;
+  }
+}
+
+.panel {
+  position: sticky;
+  top: 5.6rem;
+  display: grid;
+  //grid-template-columns: 1fr minmax(20rem, auto);
+  grid-template-columns: 1fr 20rem;
+  grid-template-areas:
+    'toolbar pagination'
+    'filter filter';
+
+  padding: 6px 0;
+
+  background-color: colors.$grayLight;
+
+  &__toolbar {
+    margin-right: 1.2rem;
+    grid-area: toolbar;
+  }
+
+  &__pagination {
+    grid-area: pagination;
+    place-self: end;
+  }
+
+  &__filter {
+    display: flex;
+    gap: 24px;
+    grid-area: filter;
+    padding: 1rem 0;
+  }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+
+  &__buttons {
+    display: flex;
+    gap: 1.2rem;
+  }
+
+  &__rightColumn {
+    display: flex;
+    gap: 1.2rem;
+    margin-left: 1.2rem;
+  }
+
+  &__search {
+    min-width: 40rem;
+  }
+}
+
+.filterButton {
+  &_active {
+    color: colors.$blackDark;
+  }
+}
+
+.table {
+  @include typography.body2;
+  background-color: colors.$white;
+
+  td {
+    height: 1px;
+  }
+}

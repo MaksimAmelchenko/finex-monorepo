@@ -100,7 +100,7 @@ const t = getT('MainLayout');
 export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ children }) => {
   const profileRepository = useStore(ProfileRepository);
 
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
 
   const theme = useTheme();
 
@@ -142,7 +142,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       },
       {
         id: 'planning',
-        link: '#',
+        link: '/planning',
         label: t('Planning'),
         icon: <img src={PlanningSvg} alt="" />,
       },

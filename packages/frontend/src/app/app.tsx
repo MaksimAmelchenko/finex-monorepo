@@ -5,14 +5,14 @@ import { Slide } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { observer } from 'mobx-react-lite';
 
+import { CashFlows } from './containers/CashFlows/CashFlows';
 import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
 import { Exchanges } from './pages/Exchanges/Exchanges';
 import { Home } from './pages/Home/Home';
-import { CashFlows } from './containers/CashFlows/CashFlows';
-import { Transactions } from './pages/Transactions/Transactions';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
+import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { ResetPasswordConfirmationLazy } from './pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy';
 import { ResetPasswordLazy } from './pages/ResetPassword/ResetPasswordLazy';
@@ -21,6 +21,7 @@ import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 import { SnackbarUtilsConfigurator } from './components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
+import { Transactions } from './pages/Transactions/Transactions';
 import { Transfers } from './pages/Transfers/Transfers';
 import { theme } from '@finex/theme';
 
@@ -58,6 +59,7 @@ export const App = observer(() => {
                       <Route path="/debts" element={<Debts />} />
                       <Route path="/transfers" element={<Transfers />} />
                       <Route path="/exchanges" element={<Exchanges />} />
+                      <Route path="/planning" element={<PlanningLazy />} />
 
                       <Route path="/settings" element={<SettingsLazy />} />
                       <Route path="/settings/:tab" element={<SettingsLazy />} />

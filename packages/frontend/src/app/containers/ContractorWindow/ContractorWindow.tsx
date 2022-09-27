@@ -16,7 +16,7 @@ import {
   FormTextField,
 } from '../../components/Form';
 import { Shape } from '../../types';
-import { getPatch } from '../../lib/core/get-path';
+import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 

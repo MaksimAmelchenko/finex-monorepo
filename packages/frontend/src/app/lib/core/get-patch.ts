@@ -14,12 +14,16 @@ export function getPatch(
   return Object.keys(obj2)
     .filter(key => !excludedKeys.includes(key))
     .reduce<Record<string, any>>((acc, key) => {
-      if (Array.isArray(obj2[key]) && !arrayEquals(obj1[key], obj2[key])) {
-        acc[key] = obj2[key];
+      if (Array.isArray(obj2[key])) {
+        if (!arrayEquals(obj1[key], obj2[key])) {
+          acc[key] = obj2[key];
+        }
         return acc;
       }
-      if (!isObject(obj2[key]) && obj1[key] !== obj2[key]) {
-        acc[key] = obj2[key];
+      if (!isObject(obj2[key])) {
+        if (obj1[key] !== obj2[key]) {
+          acc[key] = obj2[key];
+        }
         return acc;
       }
       return acc;

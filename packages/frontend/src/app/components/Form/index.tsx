@@ -2,6 +2,7 @@ export * from './Form';
 export * from './FormBody/FormBody';
 export * from './FormButton/FormButton';
 export * from './FormCheckbox/FormCheckbox';
+export * from './FormColorPickerField/FormColorPickerField';
 export * from './FormDateField/FormDateField';
 export * from './FormError/FormError';
 export * from './FormFieldSet/FormFieldSet';

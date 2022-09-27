@@ -29,7 +29,7 @@ import { TagsRepository } from '../../stores/tags-repository';
 import { Transfer } from '../../stores/models/transfer';
 import { TransfersRepository } from '../../stores/transfers-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
-import { getPatch } from '../../lib/core/get-path';
+import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
 import { useStore } from '../../core/hooks/use-store';
 

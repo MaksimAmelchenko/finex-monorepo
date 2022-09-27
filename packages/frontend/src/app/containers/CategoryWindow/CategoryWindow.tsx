@@ -21,7 +21,7 @@ import {
 } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { Shape } from '../../types';
-import { getPatch } from '../../lib/core/get-path';
+import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 

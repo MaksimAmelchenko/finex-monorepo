@@ -1,0 +1,14 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.row_is_deleting {
+  background-color: colors.$orangeLight;
+}
+
+.tags {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.categoryPath {
+  color: colors.$grayDarkest;
+}

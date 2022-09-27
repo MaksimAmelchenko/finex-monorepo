@@ -5,6 +5,7 @@ import { AjvValidator } from 'objection';
 const ajv: Ajv = new Ajv({
   allErrors: true,
   coerceTypes: true,
+  $data: true,
   // useDefaults: true,
 });
 
@@ -35,6 +36,7 @@ const ajvValidator: AjvValidator = new AjvValidator({
     allErrors: true,
     validateSchema: false,
     ownProperties: true,
+    $data: true,
   },
 });
 

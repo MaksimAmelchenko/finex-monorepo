@@ -23,7 +23,7 @@ import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { Shape } from '../../types';
 import { UsersRepository } from '../../stores/users-repository';
-import { getPatch } from '../../lib/core/get-path';
+import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 

@@ -8,7 +8,7 @@ import { Form, FormBody, FormButton, FormFooter, FormHeader, FormTextField } fro
 import { Shape } from '../../types';
 import { Tag } from '../../stores/models/tag';
 import { TagsRepository } from '../../stores/tags-repository';
-import { getPatch } from '../../lib/core/get-path';
+import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
