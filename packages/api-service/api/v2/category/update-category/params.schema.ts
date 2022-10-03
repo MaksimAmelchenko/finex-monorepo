@@ -19,7 +19,6 @@ export const updateCategoryParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     isEnabled: {
       type: 'boolean',
-      default: true,
     },
     note: {
       type: 'string',

@@ -9,12 +9,10 @@ export const findTransactionsParamsSchema: OpenAPIV3_1.SchemaObject = {
     limit: {
       type: 'integer',
       minimum: 0,
-      default: 50,
     },
     offset: {
       type: 'integer',
       minimum: 0,
-      default: 0,
     },
     searchText: {
       type: 'string',

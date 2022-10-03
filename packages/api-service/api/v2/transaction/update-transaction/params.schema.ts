@@ -15,8 +15,7 @@ export const updateTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     sign,
     amount: {
       type: 'number',
-      minimum: 0,
-      exclusiveMinimum: true,
+      exclusiveMinimum: 0,
     },
     moneyId,
     accountId,
@@ -25,8 +24,7 @@ export const updateTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     reportPeriod: date,
     quantity: {
       type: ['number', 'null'],
-      minimum: 0,
-      exclusiveMinimum: true,
+      exclusiveMinimum: 0,
     },
     unitId: {
       ...unitId,
@@ -34,7 +32,6 @@ export const updateTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     isNotConfirmed: {
       type: 'boolean',
-      default: false,
     },
     note: {
       type: 'string',

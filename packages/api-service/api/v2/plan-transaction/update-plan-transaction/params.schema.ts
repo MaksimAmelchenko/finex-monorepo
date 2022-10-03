@@ -16,8 +16,7 @@ export const updatePlanTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     sign,
     amount: {
       type: 'number',
-      minimum: 0,
-      exclusiveMinimum: true,
+      exclusiveMinimum: 0,
     },
     moneyId,
     categoryId,
@@ -28,8 +27,7 @@ export const updatePlanTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     quantity: {
       type: ['number', 'null'],
-      minimum: 0,
-      exclusiveMinimum: true,
+      exclusiveMinimum: 0,
     },
     unitId: {
       ...unitId,

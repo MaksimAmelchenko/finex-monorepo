@@ -1,4 +1,4 @@
-import Ajv from 'ajv-draft-04';
+import Ajv from 'ajv';
 import ajvFormats from 'ajv-formats';
 import { AjvValidator } from 'objection';
 

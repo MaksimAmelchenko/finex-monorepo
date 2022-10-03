@@ -20,7 +20,6 @@ export const createMoneyParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     isEnabled: {
       type: ['boolean', 'null'],
-      default: true,
     },
     sorting: {
       type: 'integer',
