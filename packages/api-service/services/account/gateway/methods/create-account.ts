@@ -10,7 +10,7 @@ export async function createAccount(
 ): Promise<Account> {
   ctx.log.trace({ data }, 'try to create account');
 
-  const { name, accountTypeId, isEnabled, note } = data;
+  const { name, accountTypeId, isEnabled = true, note } = data;
 
   const account = await Account.query(ctx.trx).insertAndFetch({
     idProject: Number(projectId),

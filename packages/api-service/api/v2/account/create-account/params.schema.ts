@@ -11,7 +11,6 @@ export const createAccountParamsSchema: OpenAPIV3_1.SchemaObject = {
     accountTypeId: id,
     isEnabled: {
       type: 'boolean',
-      default: true,
     },
     note: {
       type: 'string',

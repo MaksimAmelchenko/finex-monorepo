@@ -27,7 +27,7 @@ export interface IPublicAccount {
 export interface CreateAccountGatewayData {
   name: string;
   accountTypeId: string;
-  isEnabled: boolean;
+  isEnabled?: boolean;
   note?: string;
 }
 
@@ -35,6 +35,9 @@ export type CreateAccountServiceData = CreateAccountGatewayData & {
   viewers?: string[];
   editors?: string[];
 };
+
+export type CreateAccountAPIData = Partial<CreateAccountServiceData> &
+  Pick<CreateAccountServiceData, 'name' | 'accountTypeId'>;
 
 export type UpdateAccountGatewayChanges = Partial<{
   name: string;
