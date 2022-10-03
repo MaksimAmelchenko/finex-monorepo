@@ -40,7 +40,7 @@ export const cashFlowItemDAOSchema: OpenAPIV3_1.SchemaObject = {
       type: ['number', 'null'],
     },
     isNotConfirmed: {
-      type: ['boolean'],
+      type: 'boolean',
     },
     note: {
       type: ['string', 'null'],

@@ -9,10 +9,6 @@ export const errorResponseSchema: OpenAPIV3_1.SchemaObject = {
         code: {
           type: 'string',
         },
-        status: {
-          type: 'integer',
-          enum: [400, 401, 403, 404, 409],
-        },
         message: {
           type: 'string',
           minLength: 1,
@@ -25,7 +21,7 @@ export const errorResponseSchema: OpenAPIV3_1.SchemaObject = {
           type: 'object',
         },
       },
-      required: ['code', 'status', 'message'],
+      required: ['code', 'message'],
       additionalProperties: false,
     },
   },

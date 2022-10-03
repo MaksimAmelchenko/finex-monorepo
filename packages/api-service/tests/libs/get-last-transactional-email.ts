@@ -1,26 +1,25 @@
 /**
  * Get the last email for recipient
- * @param {App.ILogger} log
+ * @param {IRequestContext} ctx
  * @param {string} recipient recipient email
  * @param {period} period in seconds for finding email
  */
-import createRequestContext from '../../libs/create-request-context';
-import { DB, knex } from '../../libs/db';
 import * as moment from 'moment';
 
-export async function getLastTransactionalEmail(log, recipient: string, period = 30): Promise<any> {
-  const ctx = createRequestContext();
+import { IRequestContext } from '../../types/app';
+import { knex } from '../../knex';
 
-  const query = knex
+export async function getLastTransactionalEmail(
+  ctx: IRequestContext<never, false>,
+  recipient: string,
+  period = 30
+): Promise<any> {
+  const emails = await knex
     .select('*')
     .from('core$.transactional_email')
     .where(knex.raw('email = ?', [recipient]))
     .orderBy('created_at', 'desc')
-    .limit(1)
-    .toSQL()
-    .toNative();
-
-  const emails: any[] = await DB.query(ctx.log, query.sql, query.bindings);
+    .limit(1);
 
   if (!emails.length) {
     throw new Error('There are no messages');

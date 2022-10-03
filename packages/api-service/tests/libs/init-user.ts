@@ -5,12 +5,16 @@ import { IRequestContext } from '../../types/app';
 import { Money } from '../../services/money/model/money';
 import { MoneyGateway } from '../../services/money/gateway';
 import { User } from '../../services/user/model/user';
+import { Category } from '../../services/category/model/category';
+import { CategoryService } from '../../services/category';
 
 export interface UserData {
   user: User;
   accounts: Account[];
   moneys: Money[];
+  categories: Category[];
 }
+
 export async function initUser(
   ctx: IRequestContext<never, false>,
   { username, password }: CreateUser
@@ -55,9 +59,12 @@ export async function initUser(
     moneyFixtures.map(moneyFixture => MoneyGateway.createMoney(ctx, projectId, userId, moneyFixture))
   );
 
+  const categories = await CategoryService.getCategories(ctx, projectId);
+
   return {
     user,
     accounts,
     moneys,
+    categories,
   };
 }

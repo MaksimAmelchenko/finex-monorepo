@@ -1,9 +1,9 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/exchanges.spec.ts
 
-import 'should';
 import * as Http from 'http';
 import * as supertest from 'supertest';
 import { StatusCodes } from 'http-status-codes';
+import { expect } from 'chai';
 
 import { CreateExchangeServiceData, IExchangeDTO, UpdateExchangeServiceChanges } from '../modules/exchange/types';
 import { IRequestContext } from '../types/app';
@@ -11,15 +11,14 @@ import { ISessionResponse } from '../types/auth';
 import { app } from '../server';
 import { auth } from './libs/auth';
 import { authorize } from '../libs/rest-api/authorize';
-import { createRequestContext } from './libs/create-request-context';
 import { createExchangeResponseSchema } from '../api/v2/exchange/create-exchange/response.schema';
+import { createRequestContext } from './libs/create-request-context';
 import { deleteUser } from './libs/delete-user';
 import { format } from 'date-fns';
 import { initUser, UserData } from './libs/init-user';
 import { signIn } from './libs/sign-in';
 import { updateExchangeResponseSchema } from '../api/v2/exchange/update-exchange/response.schema';
 import { validateResponse } from './libs/validate-response';
-import { validateStatus } from './libs/validate-status';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
@@ -83,13 +82,13 @@ describe('Exchanges', function (): void {
         .post(`/v2/exchanges`)
         .send(data)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, createExchangeResponseSchema);
 
       const exchange: IExchangeDTO = response.body.exchange;
-      exchange.should.containDeep(data);
+      expect(exchange).to.be.deep.contain(data);
     });
 
     it('should create exchange with fee', async () => {
@@ -112,13 +111,13 @@ describe('Exchanges', function (): void {
         .post(`/v2/exchanges`)
         .send(data)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, createExchangeResponseSchema);
 
       const exchange: IExchangeDTO = response.body.exchange;
-      exchange.should.containDeep(data);
+      expect(exchange).to.be.deep.contain(data);
     });
   });
 
@@ -157,13 +156,13 @@ describe('Exchanges', function (): void {
         .patch(`/v2/exchanges/${exchangeId}`)
         .send(changes)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, updateExchangeResponseSchema);
 
       const exchange: IExchangeDTO = response.body.exchange;
-      exchange.should.containDeep(changes);
+      expect(exchange).to.be.deep.contain(changes);
     });
   });
 
@@ -189,15 +188,16 @@ describe('Exchanges', function (): void {
 
       const exchange: IExchangeDTO = response.body.exchange;
 
-      response = await request.delete(`/v2/exchanges/${exchange.id}`).set(auth(signInResponse.authorization));
-      validateStatus(response, StatusCodes.NO_CONTENT);
+      await request
+        .delete(`/v2/exchanges/${exchange.id}`)
+        .set(auth(signInResponse.authorization))
+        .expect(StatusCodes.NO_CONTENT);
 
-      response = await request
+      await request
         .get(`/v2/exchanges/${exchange.id}`)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
-
-      validateStatus(response, StatusCodes.NOT_FOUND);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.NOT_FOUND);
     });
   });
 });

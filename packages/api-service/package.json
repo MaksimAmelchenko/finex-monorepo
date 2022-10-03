@@ -8,7 +8,7 @@
     "migrate:dev": "NODE_ENV=development-local knex migrate:latest",
     "start": "npm run migrate && node server.js",
     "start:dev": "NODE_ENV=development-local ts-node-dev -r dotenv/config --respawn --transpile-only server.ts dotenv_config_path=.env.dev | bunyan",
-    "test": "NODE_ENV=development-test-local mocha ./tests/*.ts --require ts-node/register"
+    "test": "NODE_ENV=development-test-local mocha ./tests/*.ts --require ts-node/register --exit"
   },
   "dependencies": {
     "ajv": "^8.11.0",
@@ -53,6 +53,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/bunyan": "^1.8.8",
+    "@types/chai": "^4.3.3",
     "@types/koa": "^2.13.5",
     "@types/koa-bodyparser": "^4.3.7",
     "@types/koa-router": "^7.4.4",
@@ -64,10 +65,10 @@
     "@types/supertest": "^2.0.12",
     "@types/ua-parser-js": "^0.7.36",
     "@types/uuid": "^8.3.4",
+    "chai": "^4.3.6",
     "dotenv": "^16.0.1",
     "mocha": "^10.0.0",
     "pg-error-constants": "^1.0.0",
-    "should": "^13.2.3",
     "supertest": "^6.2.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",

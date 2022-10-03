@@ -1,30 +1,42 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/auth.ts
 
-import 'should';
-import * as supertest from 'supertest';
 import * as Http from 'http';
+import * as supertest from 'supertest';
+import { StatusCodes } from 'http-status-codes';
 
-import config from '../libs/config';
-
+import { IRequestContext } from '../types/app';
+import { ISessionResponse } from '../types/auth';
 import { app } from '../server';
-import { signIn } from './libs/sign-in';
-import { validateStatus } from './libs/validate-status';
-import { validateResponse } from './libs/validate-response';
-import { signInResponseSchema } from '../api/v2/auth/sign-in/response.schema';
+import { authorize } from '../libs/rest-api/authorize';
+import { createRequestContext } from './libs/create-request-context';
+import { deleteUser } from './libs/delete-user';
 import { errorResponseSchema } from '../common/schemas/error.response.schema';
-
-const [testAccount] = config.get('testAccounts');
-const { user1 } = testAccount.users;
+import { initUser, UserData } from './libs/init-user';
+import { signIn } from './libs/sign-in';
+import { signInResponseSchema } from '../api/v2/auth/sign-in/response.schema';
+import { validateResponse } from './libs/validate-response';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
 
+const username = 'test@finex.io';
+const password = 'password';
+
+let signInResponse: ISessionResponse;
+let userData: UserData;
+let projectId: string;
+let userId: string;
+let ctx: IRequestContext<never, true>;
+
 describe('Auth', function (): void {
-  this.timeout(30000);
+  this.timeout(10000);
 
   before(async () => {
+    ctx = (await createRequestContext()) as IRequestContext<never, true>;
+
     server = app.listen();
     request = supertest(server);
+    await deleteUser(ctx, username);
   });
 
   after(async () => {
@@ -34,54 +46,54 @@ describe('Auth', function (): void {
     }
   });
 
+  beforeEach(async () => {
+    userData = await initUser(ctx, { username, password });
+
+    projectId = String(userData.user.idProject);
+    userId = String(userData.user.idUser);
+
+    signInResponse = <ISessionResponse>await signIn(request, username, password);
+    await authorize(ctx, signInResponse.authorization, '');
+  });
+
+  afterEach(async () => {
+    await deleteUser(ctx, username);
+  });
+
   describe('Username must be case insensitive and tolerant to trailing spaces', () => {
     it('should sign in by lower-cased username', async () => {
-      const response: supertest.Response = await request.post('/v2/sign-in').send({
-        username: user1.username.toLowerCase(),
-        password: user1.password,
-      });
+      const response: supertest.Response = await request
+        .post('/v2/sign-in')
+        .send({
+          username: ` ${username.toUpperCase()} `,
+          password,
+        })
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
-      validateResponse(response, signInResponseSchema);
-    });
-
-    it('should sign in by upper-cased username', async () => {
-      const response: supertest.Response = await request.post('/v2/sign-in').send({
-        username: user1.username.toUpperCase(),
-        password: user1.password,
-      });
-
-      validateStatus(response, 200);
-      validateResponse(response, signInResponseSchema);
-    });
-
-    it('should sign in by username with trailing spaces', async () => {
-      const response: supertest.Response = await request.post('/v2/sign-in').send({
-        username: ` ${user1.username}  `,
-        password: user1.password,
-      });
-
-      validateStatus(response, 200);
       validateResponse(response, signInResponseSchema);
     });
 
     it('should not sign in by wrong username', async () => {
-      const response: supertest.Response = await request.post('/v2/sign-in').send({
-        username: 'wrongUsername',
-        password: user1.password,
-      });
+      const response: supertest.Response = await request
+        .post('/v2/sign-in')
+        .send({
+          username: 'wrongUsername',
+          password,
+        })
+        .expect(StatusCodes.UNAUTHORIZED);
 
-      validateStatus(response, 401);
       validateResponse(response, errorResponseSchema);
     });
 
     it('should not sign in by wrong password', async () => {
-      const response: supertest.Response = await request.post('/v2/sign-in').send({
-        username: user1.username,
-        password: 'wrongPassword',
-      });
+      const response: supertest.Response = await request
+        .post('/v2/sign-in')
+        .send({
+          username,
+          password: 'wrongPassword',
+        })
+        .expect(StatusCodes.UNAUTHORIZED);
 
-      validateStatus(response, 401);
       validateResponse(response, errorResponseSchema);
     });
   });

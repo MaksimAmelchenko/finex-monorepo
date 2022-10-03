@@ -11,16 +11,4 @@ export default {
     },
     pool: { min: 2, max: 2 },
   },
-
-  testAccounts: [
-    {
-      users: {
-        user1: {
-          userId: '2',
-          username: 'test@finex.io',
-          password: '***',
-        },
-      },
-    },
-  ],
 };

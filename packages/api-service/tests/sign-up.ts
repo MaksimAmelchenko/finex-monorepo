@@ -1,43 +1,37 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/sign-up.ts
 
-import { it } from 'mocha';
-import * as should from 'should';
-import * as supertest from 'supertest';
 import * as Http from 'http';
-import * as path from 'path';
+import * as supertest from 'supertest';
+import { StatusCodes } from 'http-status-codes';
+import { expect } from 'chai';
+
 import { IRequestContext } from '../types/app';
 import { app } from '../server';
-import { log } from '../libs/log';
-import { sleep } from '../libs/utility';
-
-import { errorResponseSchema } from '../common/schemas/error.response.schema';
-
-import { validateResponse } from './libs/validate-response';
-import { validateStatus } from './libs/validate-status';
-import { getLastTransactionalEmail } from './libs/get-last-transactional-email';
-import { UserGateway } from '../services/user/gateway';
-import { createSignUpRequestResponseSchema } from '../api/v2/auth/create-sign-up-request/response.schema';
-import { resendSignUpConfirmationResponseSchema } from '../api/v2/auth/resend-sign-up-confirmation/response.schema';
 import { confirmSignUpRequestResponseSchema } from '../api/v2/auth/confirm-sign-up-request/response.schema';
+import { createRequestContext } from './libs/create-request-context';
+import { createSignUpRequestResponseSchema } from '../api/v2/auth/create-sign-up-request/response.schema';
+import { deleteUser } from './libs/delete-user';
+import { errorResponseSchema } from '../common/schemas/error.response.schema';
+import { getLastTransactionalEmail } from './libs/get-last-transactional-email';
+import { resendSignUpConfirmationResponseSchema } from '../api/v2/auth/resend-sign-up-confirmation/response.schema';
 import { sessionSchema } from '../api/v2/auth/sign-in/response.session.schema';
+import { sleep } from '../libs/utility';
+import { validateResponse } from './libs/validate-response';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
 
-const time: string = Date.now().toString();
-const label = `${time} ${path.basename(__filename)}`;
+const username = 'test@finex.io';
+const password = 'password';
 
-const ctx: IRequestContext = <IRequestContext>{ log };
+let ctx: IRequestContext<never, true>;
 
 describe('SignUp', function (): void {
-  this.timeout(20000);
-
-  const email = `test${time}@example.com`;
-  const password = 'password';
+  this.timeout(10000);
 
   const signUpRequest = {
-    name: `test ${label}`,
-    email,
+    name: 'Name',
+    email: username,
     password,
     isAcceptTerms: true,
   };
@@ -47,21 +41,15 @@ describe('SignUp', function (): void {
   let transactionalEmail: any;
 
   before(async () => {
+    ctx = (await createRequestContext()) as IRequestContext<never, true>;
     server = app.listen();
     request = supertest(server);
+    await deleteUser(ctx, username);
   });
 
   after(async () => {
-    try {
-      // const user = await UserGateway.getByUsername(ctx, username);
-
-      await Promise.all([
-        // SignUpRequestGateway.remove(ctx, signUpRequestId),
-        // UserGateway.remove(ctx, user.id),
-      ]);
-    } finally {
-      server.close();
-    }
+    await deleteUser(ctx, username);
+    server.close();
   });
 
   it('should check invalid params', async () => {
@@ -71,22 +59,19 @@ describe('SignUp', function (): void {
         ...signUpRequest,
         username: 'bad email',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.BAD_REQUEST);
 
-    validateStatus(response, 400);
     validateResponse(response, errorResponseSchema);
   });
 
   it('should create sign-up request', async () => {
     const response: supertest.Response = await request
       .post(`/v2/sign-up`)
-      .send({
-        ...signUpRequest,
-        email: signUpRequest.email.toUpperCase(),
-      })
-      .expect('Content-Type', /json/);
+      .send(signUpRequest)
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, createSignUpRequestResponseSchema);
 
     signUpRequestId = response.body.signUpRequest.id;
@@ -98,17 +83,18 @@ describe('SignUp', function (): void {
       .send({
         token: 'bad token',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.NOT_FOUND);
 
-    validateStatus(response, 404);
     validateResponse(response, errorResponseSchema);
   });
 
   it('should receive email with token', async () => {
     await sleep(1000);
-    transactionalEmail = await getLastTransactionalEmail(log, signUpRequest.email, 60);
+    transactionalEmail = await getLastTransactionalEmail(ctx, signUpRequest.email, 60);
 
-    token = transactionalEmail.originalMessage.html.match(/\/sign-up\/(.*)\/confirm"/)[1];
+    // token = transactionalEmail.originalMessage.html.match(/\/sign-up\/(.*)\/confirm"/)[1];
+    token = transactionalEmail.originalMessage.html.match(/\>https:\/\/finex.io\/signup\/confirm\?token=(.*)\<\/a>/)[1];
     if (!token) {
       throw new Error('Token is not found in email');
     }
@@ -119,21 +105,23 @@ describe('SignUp', function (): void {
 
     const response: supertest.Response = await request
       .post(`/v2/sign-up/${signUpRequestId}/resend-confirmation`)
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, resendSignUpConfirmationResponseSchema);
     await sleep(1000);
 
-    const transactionalEmailAgain = await getLastTransactionalEmail(log, signUpRequest.email, 60);
-    should.notEqual(transactionalEmailAgain.messageId, transactionalEmail.messageId);
+    const transactionalEmailAgain = await getLastTransactionalEmail(ctx, signUpRequest.email, 60);
+    expect(transactionalEmailAgain.messageId).be.not.equal(transactionalEmail.messageId);
 
-    const tokenAgain = transactionalEmailAgain.originalMessage.html.match(/\/sign-up\/(.*)\/confirm"/)[1];
+
+    // const tokenAgain = transactionalEmailAgain.originalMessage.html.match(/\/sign-up\/(.*)\/confirm"/)[1];
+    const tokenAgain = transactionalEmailAgain.originalMessage.html.match(/\>https:\/\/finex.io\/signup\/confirm\?token=(.*)\<\/a>/)[1];
 
     if (!tokenAgain) {
       throw new Error('Token is not found in email');
     }
-    should.equal(tokenAgain, token);
+    expect(tokenAgain).be.equal(token);
   });
 
   it('should confirm sign-up request and create user, account and userAccount', async () => {
@@ -142,15 +130,12 @@ describe('SignUp', function (): void {
       .send({
         token,
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, confirmSignUpRequestResponseSchema);
-    // response.body.should.have.property('fullName').equal(signUpRequest.userFullName);
 
-    // await sleep(5000);
-
-    const user = await UserGateway.getUserByUsername(ctx, signUpRequest.email);
+    // const user = await UserGateway.getUserByUsername(ctx, signUpRequest.email);
     //
 
     // user.should.have.property('passwordHint').equal(signUpRequest.passwordHint);
@@ -160,12 +145,12 @@ describe('SignUp', function (): void {
     const response: supertest.Response = await request
       .post(`/v2/sign-in`)
       .send({
-        username: email,
+        username,
         password,
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, sessionSchema);
   });
 
@@ -173,12 +158,12 @@ describe('SignUp', function (): void {
     const response: supertest.Response = await request
       .post(`/v2/sign-in`)
       .send({
-        username: email,
+        username,
         password: 'wrongPassword',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.UNAUTHORIZED);
 
-    validateStatus(response, 401);
     validateResponse(response, errorResponseSchema);
   });
 });

@@ -1,49 +1,42 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/bootstrap.ts
 
-import 'should';
-import * as supertest from 'supertest';
 import * as Http from 'http';
-
-import config from '../libs/config';
-
-import { app } from '../server';
+import * as supertest from 'supertest';
+import { StatusCodes } from 'http-status-codes';
 
 import { IRequestContext } from '../types/app';
-import { User } from '../services/user/model/user';
 import { ISessionResponse } from '../types/auth';
-
-import { log } from '../libs/log';
-import { signIn } from './libs/sign-in';
-import { validateStatus } from './libs/validate-status';
-import { validateResponse } from './libs/validate-response';
-
+import { app } from '../server';
 import { auth } from './libs/auth';
-import { UserGateway } from '../services/user/gateway';
-import { getEntitiesResponseSchema } from '../api/v1/entities/get/response.schema';
+import { authorize } from '../libs/rest-api/authorize';
+import { createRequestContext } from './libs/create-request-context';
+import { deleteUser } from './libs/delete-user';
+import { getEntitiesResponseSchema } from '../api/v2/entities/get/response.schema';
+import { initUser, UserData } from './libs/init-user';
+import { signIn } from './libs/sign-in';
+import { validateResponse } from './libs/validate-response';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
 
-const [testAccount] = config.get('testAccounts');
-
-const { user1 } = testAccount.users;
+const username = 'test@finex.io';
+const password = 'password';
 
 let signInResponse: ISessionResponse;
-
-const ctx: IRequestContext = <IRequestContext>{ log };
+let userData: UserData;
+let projectId: string;
+let userId: string;
+let ctx: IRequestContext<never, true>;
 
 describe('Bootstrap', function (): void {
-  let user: User | undefined;
-  //  tslint:disable-next-line:no-invalid-this
-  this.timeout(30000);
+  this.timeout(10000);
 
   before(async () => {
+    ctx = (await createRequestContext()) as IRequestContext<never, true>;
+
     server = app.listen();
     request = supertest(server);
-
-    user = await UserGateway.getUserByUsername(ctx, user1.username);
-
-    signInResponse = await signIn(request, user1.username, user1.password);
+    await deleteUser(ctx, username);
   });
 
   after(async () => {
@@ -53,14 +46,28 @@ describe('Bootstrap', function (): void {
     }
   });
 
+  beforeEach(async () => {
+    userData = await initUser(ctx, { username, password });
+
+    projectId = String(userData.user.idProject);
+    userId = String(userData.user.idUser);
+
+    signInResponse = <ISessionResponse>await signIn(request, username, password);
+    await authorize(ctx, signInResponse.authorization, '');
+  });
+
+  afterEach(async () => {
+    await deleteUser(ctx, username);
+  });
+
   describe('Get bootstrap', () => {
     it('should get bootstrap', async () => {
       const response: supertest.Response = await request
-        .get(`/v1/entities`)
+        .get('/v2/entities')
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, getEntitiesResponseSchema);
     });
   });

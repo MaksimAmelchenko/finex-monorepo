@@ -13,6 +13,8 @@ const {
   templates: { resourcePath, viewsPath },
 } = config.get('mail');
 
+const isTest = config.get('nodeEnv').includes('test');
+
 const emailTemplates = new EmailTemplates({
   juiceResources: {
     webResources: {
@@ -26,7 +28,7 @@ const emailTemplates = new EmailTemplates({
     from,
   },
   htmlToText: false,
-  // send: false,
+  send: !isTest,
   // preview: true,
   transport,
 });

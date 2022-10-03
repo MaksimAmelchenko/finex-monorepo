@@ -1,9 +1,9 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/transfers.spec.ts
 
-import 'should';
 import * as Http from 'http';
 import * as supertest from 'supertest';
 import { StatusCodes } from 'http-status-codes';
+import { expect } from 'chai';
 
 import { CreateTransferServiceData, ITransferDTO, UpdateTransferServiceChanges } from '../modules/transfer/types';
 import { IRequestContext } from '../types/app';
@@ -19,7 +19,6 @@ import { initUser, UserData } from './libs/init-user';
 import { signIn } from './libs/sign-in';
 import { updateTransferResponseSchema } from '../api/v2/transfer/update-transfer/response.schema';
 import { validateResponse } from './libs/validate-response';
-import { validateStatus } from './libs/validate-status';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
@@ -81,13 +80,13 @@ describe('Transfers', function (): void {
         .post(`/v2/transfers`)
         .send(data)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, createTransferResponseSchema);
 
       const transfer: ITransferDTO = response.body.transfer;
-      transfer.should.containDeep(data);
+      expect(transfer).to.be.deep.contain(data);
     });
 
     it('should create transfer with fee', async () => {
@@ -108,13 +107,13 @@ describe('Transfers', function (): void {
         .post(`/v2/transfers`)
         .send(data)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, createTransferResponseSchema);
 
       const transfer: ITransferDTO = response.body.transfer;
-      transfer.should.containDeep(data);
+      expect(transfer).to.be.deep.contain(data);
     });
   });
 
@@ -151,13 +150,13 @@ describe('Transfers', function (): void {
         .patch(`/v2/transfers/${transferId}`)
         .send(changes)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.OK);
 
-      validateStatus(response, 200);
       validateResponse(response, updateTransferResponseSchema);
 
       const transfer: ITransferDTO = response.body.transfer;
-      transfer.should.containDeep(changes);
+      expect(transfer).to.be.deep.contain(changes);
     });
   });
 
@@ -173,7 +172,7 @@ describe('Transfers', function (): void {
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };
 
-      let response: supertest.Response = await request
+      const response: supertest.Response = await request
         .post('/v2/transfers')
         .send(data)
         .set(auth(signInResponse.authorization))
@@ -181,15 +180,16 @@ describe('Transfers', function (): void {
 
       const transfer: ITransferDTO = response.body.transfer;
 
-      response = await request.delete(`/v2/transfers/${transfer.id}`).set(auth(signInResponse.authorization));
-      validateStatus(response, StatusCodes.NO_CONTENT);
+      await request
+        .delete(`/v2/transfers/${transfer.id}`)
+        .set(auth(signInResponse.authorization))
+        .expect(StatusCodes.NO_CONTENT);
 
-      response = await request
+      await request
         .get(`/v2/transfers/${transfer.id}`)
         .set(auth(signInResponse.authorization))
-        .expect('Content-Type', /json/);
-
-      validateStatus(response, StatusCodes.NOT_FOUND);
+        .expect('Content-Type', /json/)
+        .expect(StatusCodes.NOT_FOUND);
     });
   });
 });

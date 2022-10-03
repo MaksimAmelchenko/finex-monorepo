@@ -1,4 +1,4 @@
-import { CreatePlanRepositoryData, IPlanDAO, IPlanEntity, UpdatePlanRepositoryChanges } from '../plan/types';
+import { IPlanDAO } from '../plan/types';
 import { IRequestContext, Permissions, Permit, Sign, TDate } from '../../types/app';
 
 export interface IPlanTransactionDAO {
@@ -77,9 +77,9 @@ export interface CreatePlanTransactionRepositoryData {
   moneyId: string;
   categoryId: string;
   accountId: string;
-  contractorId: string | null;
-  quantity: number | null;
-  unitId: string | null;
+  contractorId?: string | null;
+  quantity?: number | null;
+  unitId?: string | null;
 
   startDate: TDate;
   reportPeriod: TDate;
@@ -95,6 +95,8 @@ export interface CreatePlanTransactionRepositoryData {
 }
 
 export type CreatePlanTransactionServiceData = CreatePlanTransactionRepositoryData;
+
+export type CreatePlanTransactionAPIData = CreatePlanTransactionServiceData;
 
 export type UpdatePlanTransactionRepositoryChanges = Partial<{
   sign: Sign;

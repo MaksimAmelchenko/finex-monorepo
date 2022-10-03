@@ -32,7 +32,7 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
       reportPeriod,
       quantity,
       unitId,
-      isNotConfirmed,
+      isNotConfirmed = false,
       note,
       tags,
     } = data;

@@ -1,68 +1,74 @@
 // NODE_ENV=development-test-local ./node_modules/.bin/mocha --require ts-node/register --exit ./tests/reset-password.ts
 
-import { it } from 'mocha';
-import * as supertest from 'supertest';
 import * as Http from 'http';
-import * as path from 'path';
+import * as supertest from 'supertest';
+import { StatusCodes } from 'http-status-codes';
 
 import { IRequestContext } from '../types/app';
+import { ISessionResponse } from '../types/auth';
 import { app } from '../server';
-import { log } from '../libs/log';
-import { sleep } from '../libs/utility';
-
-import { errorResponseSchema } from '../common/schemas/error.response.schema';
-
-import { validateResponse } from './libs/validate-response';
-import { validateStatus } from './libs/validate-status';
-import { getLastTransactionalEmail } from './libs/get-last-transactional-email';
-import { sessionSchema } from '../api/v2/auth/sign-in/response.session.schema';
-import { resetPasswordRequestParamsSchema } from '../api/v2/auth/create-reset-password-request/params.schema';
+import { authorize } from '../libs/rest-api/authorize';
 import { confirmResetPasswordRequestResponseSchema } from '../api/v2/auth/confirm-reset-password-request/response.schema';
-import config from '../libs/config';
-import { UserGateway } from '../services/user/gateway';
-import { hashPassword } from '../services/auth/methods/hash-password';
+import { createRequestContext } from './libs/create-request-context';
+import { deleteUser } from './libs/delete-user';
+import { errorResponseSchema } from '../common/schemas/error.response.schema';
+import { getLastTransactionalEmail } from './libs/get-last-transactional-email';
+import { initUser, UserData } from './libs/init-user';
 import { resetPasswordRequestResponseSchema } from '../api/v2/auth/create-reset-password-request/response.schema';
+import { sessionSchema } from '../api/v2/auth/sign-in/response.session.schema';
+import { signIn } from './libs/sign-in';
+import { sleep } from '../libs/utility';
+import { validateResponse } from './libs/validate-response';
 
 let server: Http.Server;
 let request: supertest.SuperTest<supertest.Test>;
 
-const time: string = Date.now().toString();
-const label = `${time} ${path.basename(__filename)}`;
+const username = 'test@finex.io';
+const password = 'password';
 
-const ctx: IRequestContext = <IRequestContext>{ log };
-const [testAccount] = config.get('testAccounts');
-const { user1 } = testAccount.users;
+let signInResponse: ISessionResponse;
+let userData: UserData;
+let projectId: string;
+let userId: string;
+let ctx: IRequestContext<never, true>;
 
 describe('Reset password', function (): void {
-  this.timeout(20000);
+  this.timeout(10000);
 
   let token: string;
   let resetPasswordRequestId: string;
   let transactionalEmail: any;
 
   before(async () => {
+    ctx = (await createRequestContext()) as IRequestContext<never, true>;
+
     server = app.listen();
     request = supertest(server);
+    await deleteUser(ctx, username);
+
+    userData = await initUser(ctx, { username, password });
+
+    projectId = String(userData.user.idProject);
+    userId = String(userData.user.idUser);
+
+    signInResponse = <ISessionResponse>await signIn(request, username, password);
+    await authorize(ctx, signInResponse.authorization, '');
   });
 
   after(async () => {
-    try {
-      const user = await UserGateway.getUserByUsername(ctx, user1.username);
-      await UserGateway.updateUser(ctx, String(user!.idUser), { password: await hashPassword(user1.password) });
-    } finally {
-      server.close();
-    }
+    await deleteUser(ctx, username);
+    server.close();
   });
 
   it('should create reset-password request', async () => {
     const response: supertest.Response = await request
       .post(`/v2/reset-password`)
       .send({
-        email: user1.username,
+        email: username,
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, resetPasswordRequestResponseSchema);
 
     resetPasswordRequestId = response.body.resetPasswordRequest.id;
@@ -74,17 +80,18 @@ describe('Reset password', function (): void {
       .send({
         token: 'bad token',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.NOT_FOUND);
 
-    validateStatus(response, 404);
     validateResponse(response, errorResponseSchema);
   });
 
   it('should receive email with token', async () => {
-    await sleep(1000);
-    transactionalEmail = await getLastTransactionalEmail(log, user1.username, 60);
+    await sleep(3000);
+    transactionalEmail = await getLastTransactionalEmail(ctx, username, 60);
 
-    token = transactionalEmail.originalMessage.html.match(/\/reset-password\/(.*)\/confirm"/)[1];
+    // token = transactionalEmail.originalMessage.html.match(/\/reset-password\/(.*)\/confirm"/)[1];
+    token = transactionalEmail.originalMessage.html.match(/\>https:\/\/finex.io\/password_recovery\/confirm\?token=(.*)\<\/a>/)[1];
     if (!token) {
       throw new Error('Token is not found in email');
     }
@@ -95,11 +102,11 @@ describe('Reset password', function (): void {
       .post(`/v2/reset-password/confirm`)
       .send({
         token,
-        password: 'password',
+        password: 'newpassword',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, confirmResetPasswordRequestResponseSchema);
   });
 
@@ -107,12 +114,12 @@ describe('Reset password', function (): void {
     const response: supertest.Response = await request
       .post(`/v2/sign-in`)
       .send({
-        username: user1.username,
-        password: 'password',
+        username,
+        password: 'newpassword',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.OK);
 
-    validateStatus(response, 200);
     validateResponse(response, sessionSchema);
   });
 
@@ -120,12 +127,12 @@ describe('Reset password', function (): void {
     const response: supertest.Response = await request
       .post(`/v2/sign-in`)
       .send({
-        username: user1.username,
-        password: user1.password,
+        username,
+        password,
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.UNAUTHORIZED);
 
-    validateStatus(response, 401);
     validateResponse(response, errorResponseSchema);
   });
 
@@ -133,12 +140,12 @@ describe('Reset password', function (): void {
     const response: supertest.Response = await request
       .post(`/v2/sign-in`)
       .send({
-        username: user1.username,
+        username,
         password: 'WrongPassword',
       })
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect(StatusCodes.UNAUTHORIZED);
 
-    validateStatus(response, 401);
     validateResponse(response, errorResponseSchema);
   });
 });
