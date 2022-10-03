@@ -1,5 +1,6 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
+import { accounts } from './accounts/swagger';
 import { exchanges } from './exchanges/swagger';
 import { header } from './header';
 import { planTransactions } from './plan-transactions/swagger';
@@ -10,12 +11,14 @@ const swagger: OpenAPIV3_1.Document = {
   ...header,
   tags: [
     //
+    ...(accounts.tags || []),
     ...(exchanges.tags || []),
     ...(planTransactions.tags || []),
     ...(transactions.tags || []),
     ...(transfers.tags || []),
   ],
   paths: {
+    ...accounts.paths,
     ...exchanges.paths,
     ...planTransactions.paths,
     ...transactions.paths,
@@ -23,12 +26,14 @@ const swagger: OpenAPIV3_1.Document = {
   },
   components: {
     schemas: {
+      ...(accounts.components?.schemas || {}),
       ...(exchanges.components?.schemas || {}),
       ...(planTransactions.components?.schemas || {}),
       ...(transactions.components?.schemas || {}),
       ...(transfers.components?.schemas || {}),
     },
     parameters: {
+      ...(accounts.components?.parameters || {}),
       ...(exchanges.components?.parameters || {}),
       ...(planTransactions.components?.parameters || {}),
       ...(transactions.components?.parameters || {}),
