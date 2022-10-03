@@ -43,9 +43,9 @@ export async function send(ctx: IRequestContext, params: ISendParams): Promise<v
     locals,
   });
 
-  // saveToLog(ctx, email, response).catch(err => {
-  //   ctx.log.error({ err });
-  // });
+  saveToLog(ctx, email, response).catch(err => {
+    ctx.log.error({ err });
+  });
 
   response.originalMessage.html = '<removed>';
   response.message = '<removed>';
