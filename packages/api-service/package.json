@@ -8,7 +8,7 @@
     "migrate:dev": "NODE_ENV=development-local knex migrate:latest",
     "start": "npm run migrate && node server.js",
     "start:dev": "NODE_ENV=development-local ts-node-dev -r dotenv/config --respawn --transpile-only server.ts dotenv_config_path=.env.dev | bunyan",
-    "test": "NODE_ENV=development-test-local mocha ./tests/*.ts --require ts-node/register --exit"
+    "test": "NODE_ENV=development-test-local mocha ./**/*.spec.ts --require ts-node/register --exit"
   },
   "dependencies": {
     "ajv": "^8.11.0",
