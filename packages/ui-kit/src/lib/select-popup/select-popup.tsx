@@ -11,6 +11,7 @@ const components = { DropdownIndicator };
 
 export interface SelectPopupProps<IsMulti extends boolean> extends Omit<SelectProps<IsMulti>, 'isPopup'> {
   target: FunctionComponent<{ value?: PropsValue<ISelectOption>; onClick: () => void }>;
+  className?: string;
 }
 
 export function SelectPopup<IsMulti extends boolean = false>({

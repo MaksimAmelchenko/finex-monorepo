@@ -13,6 +13,7 @@ interface MultiSelectProps {
   noFoundMessage?: string;
   smallInputMessage?: string;
   minimumInputLength?: number;
+  className?: string;
 }
 
 export function MultiSelect({ label, values, options, onChange, ...rest }: MultiSelectProps) {
