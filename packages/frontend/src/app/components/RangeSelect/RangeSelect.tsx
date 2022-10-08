@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef } from 'react';
 import { formatISO } from 'date-fns';
 
 import { InlineDatePicker, Tag, Target, TargetProps } from '@finex/ui-kit';
@@ -16,44 +16,53 @@ const ToTarget = forwardRef<HTMLSpanElement, TargetProps>(({ onClick }, ref) => 
   return <Target label={t('To')} onClick={onClick} />;
 });
 
-interface RangeSelectProps {
-  values: [Date | null, Date | null];
-  onChange: (values: [Date | null, Date | null]) => void;
+interface RangeSelectProps<IsStrict extends boolean> {
+  values: [Value<IsStrict>, Value<IsStrict>];
+  onChange: (values: [Value<IsStrict>, Value<IsStrict>]) => void;
+  isStrict?: boolean;
 }
 
-export function RangeSelect({ values, onChange }: RangeSelectProps) {
-  const [startDate, setStartDate] = useState<Date | null>(values[0]);
-  const [endDate, setEndDate] = useState<Date | null>(values[1]);
+type Value<IsStrict extends boolean> = IsStrict extends true ? Date : Date | null;
 
-  useEffect(() => {
-    onChange([startDate, endDate]);
-  }, [onChange, startDate, endDate]);
+export function RangeSelect<IsStrict extends boolean = false>({
+  values,
+  onChange,
+  isStrict = false,
+}: RangeSelectProps<IsStrict>) {
+  const startDate: Value<IsStrict> = values[0];
+  const endDate: Value<IsStrict> = values[1];
+
+  // @ts-ignore
+  const onStartDateReset = isStrict ? undefined : () => onChange([null, endDate]);
+
+  // @ts-ignore
+  const onEndDateReset = isStrict ? undefined : () => onChange([startDate, null]);
 
   return (
     <div className={styles.container}>
       <div className={styles.container__dateControl}>
         <InlineDatePicker
           value={startDate}
-          onChange={setStartDate}
+          onChange={startDate => onChange([startDate, endDate])}
           selectsStart
           startDate={startDate}
           endDate={endDate}
           target={FromTarget}
         />
-        {startDate && <Tag onClose={() => setStartDate(null)}>{formatDate(formatISO(startDate))}</Tag>}
+        {startDate && <Tag onClose={onStartDateReset}>{formatDate(formatISO(startDate))}</Tag>}
       </div>
 
       <div className={styles.container__dateControl}>
         <InlineDatePicker
           value={endDate}
-          onChange={setEndDate}
+          onChange={endDate => onChange([startDate, endDate])}
           selectsEnd
           startDate={startDate}
           endDate={endDate}
           target={ToTarget}
           minDate={startDate}
         />
-        {endDate && <Tag onClose={() => setEndDate(null)}>{formatDate(formatISO(endDate))}</Tag>}
+        {endDate && <Tag onClose={onEndDateReset}>{formatDate(formatISO(endDate))}</Tag>}
       </div>
     </div>
   );
