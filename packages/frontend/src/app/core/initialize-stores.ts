@@ -31,6 +31,8 @@ import { ProfileApi } from '../stores/api/profile-api';
 import { ProfileRepository } from '../stores/profile-repository';
 import { ProjectsApi } from '../stores/api/projects-api';
 import { ProjectsRepository } from '../stores/projects-repository';
+import { ReportsApi } from '../stores/api/reports-api';
+import { ReportsRepository } from '../stores/reports-store';
 import { TagsApi } from '../stores/api/tags-api';
 import { TagsRepository } from '../stores/tags-repository';
 import { TransactionsApi } from '../stores/api/transaction-api';
@@ -79,6 +81,7 @@ export function initializeMainStore(): MainStore {
   new TransfersRepository(mainStore, new TransfersApi(mainStore));
   new ExchangesRepository(mainStore, new ExchangesApi(mainStore));
   new PlanTransactionsRepository(mainStore, new PlanTransactionsApi(mainStore));
+  new ReportsRepository(mainStore, new ReportsApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;

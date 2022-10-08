@@ -160,6 +160,29 @@ module.exports = {
     Category: 'Категория',
     Amount: 'Сумма',
   },
+  DynamicsReport: {
+    Income: 'Доход',
+    Expenses: 'Расход',
+    'Net expenses (Expenses - Income)': 'Чистый расход (Расход - Доход)',
+    'Balance (Income - Expenses)': 'Баланс (Доход - Расход)',
+    Only: 'Только',
+    Except: 'Кроме',
+    'Use report period': 'Использовать отчетный период',
+    'Consider planned operations': 'Учитывать запланированные операции',
+    Reports: 'Отчеты',
+    Dynamics: 'Динамика',
+    Parameters: 'Параметры',
+    Accounts: 'Счета',
+    Counterparties: 'Контрагенты',
+    Categories: 'Категории',
+    Tags: 'Теги',
+    More: 'Ещё',
+  },
+  DynamicsTable: {
+    Category: 'Категория',
+    Total: 'Итого',
+    Others: 'Другое',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',
@@ -387,6 +410,9 @@ module.exports = {
   RangeSelect: {
     From: 'С',
     To: 'По',
+  },
+  ReportsRepository: {
+    'Something went wrong, please try again later': 'Что-то пошло не так. Пожалуйста, попытайтесь еще раз позже',
   },
   ResetPassword: {
     'Please enter email address': 'Укажите email',

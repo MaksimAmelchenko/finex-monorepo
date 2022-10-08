@@ -159,6 +159,29 @@ module.exports = {
     Category: 'Category',
     Amount: 'Amount',
   },
+  DynamicsReport: {
+    Income: 'Income',
+    Expenses: 'Expenses',
+    'Net expenses (Expenses - Income)': 'Net expenses (Expenses - Income)',
+    'Balance (Income - Expenses)': 'Balance (Income - Expenses)',
+    Only: 'Only',
+    Except: 'Except',
+    'Use report period': 'Use report period',
+    'Consider planned operations': 'Consider planned operations',
+    Reports: 'Reports',
+    Dynamics: 'Dynamics',
+    Parameters: 'Parameters',
+    Accounts: 'Accounts',
+    Counterparties: 'Counterparties',
+    Categories: 'Categories',
+    Tags: 'Tags',
+    More: 'More',
+  },
+  DynamicsTable: {
+    Category: 'Category',
+    Total: 'Total',
+    Others: 'Others',
+  },
   Error: {
     'The requested resource is restricted and requires authentication_':
       'The requested resource is restricted and requires authentication.',
@@ -386,6 +409,9 @@ module.exports = {
   RangeSelect: {
     From: 'From',
     To: 'To',
+  },
+  ReportsRepository: {
+    'Something went wrong, please try again later': 'Something went wrong, please try again later',
   },
   ResetPassword: {
     'Please enter email address': 'Please enter email address',

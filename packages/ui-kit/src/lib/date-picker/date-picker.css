@@ -1,3 +1,7 @@
+.react-datepicker-popper {
+  z-index: 4;
+}
+
 .react-datepicker {
   border: none;
   box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
