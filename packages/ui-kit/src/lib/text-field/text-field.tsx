@@ -82,9 +82,14 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, r
         )}
         {EndAdornment && <EndAdornment className={styles.input__endAdornment} />}
       </div>
-      <label className={clsx(styles.root__label, StartAdornment && styles.root__label_withStartAdornment)} htmlFor={id}>
-        {label}
-      </label>
+      {label && (
+        <label
+          className={clsx(styles.root__label, StartAdornment && styles.root__label_withStartAdornment)}
+          htmlFor={id}
+        >
+          {label}
+        </label>
+      )}
       {message && <p className={styles.root__helperText}>{message}</p>}
     </div>
   );

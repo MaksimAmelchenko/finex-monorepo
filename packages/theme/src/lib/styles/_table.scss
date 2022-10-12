@@ -1,4 +1,5 @@
 @use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
 
 .numeric {
   font-variant-numeric: tabular-nums;
@@ -10,15 +11,16 @@
   max-width: 100%;
 
   border-collapse: collapse;
-  border-spacing: 0;
 
-  th {
-    text-align: -webkit-match-parent;
-    font-weight: normal;
+  background-color: colors.$neutral0;
+
+  thead > tr > th {
+    @include typography.tableLabel;
+    text-align: left;
   }
 
   td {
-    border-top: 1px solid colors.$gray;
+    border-top: 1px solid colors.$neutral150;
 
     &.min-width {
       width: 0.1%;
@@ -40,7 +42,7 @@
   }
 
   &-hover > tbody > tr:hover {
-    background-color: colors.$grayLightest;
+    background-color: colors.$neutral100;
   }
 
   &-borderless > tbody > tr > td {

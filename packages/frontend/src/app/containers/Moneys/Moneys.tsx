@@ -69,11 +69,11 @@ export const Moneys = observer(() => {
 
   return (
     <>
-      <article>
-        <div className={styles.panel}>
+      <article className={styles.article}>
+        <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
+              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedMoneys.length} onClick={handleDeleteClick}>
@@ -85,22 +85,24 @@ export const Moneys = observer(() => {
             </div>
           </div>
         </div>
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th />
-              <th>{t('Name')}</th>
-              <th>{t('Symbol')}</th>
-              <th>{t('Active')}</th>
-              <th>{t('Currency')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {moneys.map(money => (
-              <MoneyRow money={money} onClick={handleClickOnMoney} key={money.id} />
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th />
+                <th>{t('Name')}</th>
+                <th>{t('Symbol')}</th>
+                <th>{t('Active')}</th>
+                <th>{t('Currency')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {moneys.map(money => (
+                <MoneyRow money={money} onClick={handleClickOnMoney} key={money.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </article>
 
       <Drawer isOpened={isOpenedMoneyWindow}>

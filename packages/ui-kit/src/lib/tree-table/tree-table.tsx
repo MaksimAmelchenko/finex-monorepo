@@ -86,10 +86,11 @@ export const TreeTableGroupingCell: FC<TreeTableGroupingCellProps> = ({
   level,
   onClick,
   children,
+  className,
   ...rest
 }) => {
   return (
-    <td {...rest}>
+    <td {...rest} className={className}>
       <div className={clsx(styles.groupingCell)}>
         <div className={clsx(styles.indent)} style={{ ['--level' as any]: level }} onClick={onClick}>
           {!isLeaf && (

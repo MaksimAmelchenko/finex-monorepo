@@ -2,22 +2,22 @@
 
 .row {
   &_is_deleting {
-    background-color: colors.$orangeLight;
+    background-color: colors.$danger200;
   }
 }
 
 .tick {
   img {
     display: block;
-    width: 24px;
+    width: 2.4rem;
   }
 }
 
 .name {
   cursor: pointer;
-  color: colors.$blueLight;
+  color: colors.$secondary600;
 
   &:hover {
-    color: colors.$blue;
+    color: colors.$secondary700;
   }
 }

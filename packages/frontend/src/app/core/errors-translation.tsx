@@ -9,7 +9,6 @@ import { ApiErrors, CoreError } from './errors';
  */
 export type ErrorTranslation = string | JSX.Element | ((error: CoreError) => string);
 
-
 /**
  * Type which determines CoreError class constructor,
  * You need to pass the class itself, not one of its instances

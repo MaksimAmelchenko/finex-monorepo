@@ -10,6 +10,7 @@ import { CategoriesRepository } from '../../../stores/categories-repository';
 import { ContractorsRepository } from '../../../stores/contractors-repository';
 import { DynamicsGraph } from './DynamicsGraph/DynamicsGraph';
 import { DynamicsTable } from './DynamicsTable/DynamicsTable';
+import { HeaderLayout } from '../../../components/HeaderLayout/HeaderLayout';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { MultiSelect } from '../../../components/MultiSelect/MultiSelect';
 import { ProjectsRepository } from '../../../stores/projects-repository';
@@ -190,13 +191,10 @@ export const DynamicsReport = observer(() => {
   }, [projectsRepository.currentProject]);
 
   return (
-    <>
-      <h1 className={styles.header}>
-        {t('Reports')} <span className={styles.subHeader}> {'>'} {t('Dynamics')} </span>
-      </h1>
-
-      <article className={styles.article}>
-        <div className={styles.panel}>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Reports — Dynamics')} />
+      <main className={styles.content}>
+        <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
               <Select<false>
@@ -204,6 +202,7 @@ export const DynamicsReport = observer(() => {
                 isClearable={false}
                 options={selectValueTypeOptions}
                 onChange={handleSelectValueType}
+                className={styles.valueTypeSelect}
               />
 
               <ToggleButtonGroup
@@ -244,6 +243,7 @@ export const DynamicsReport = observer(() => {
                   options={selectAccountsOptions}
                   values={selectAccountsOptions.filter(({ value }) => filter.accounts.includes(value))}
                   onChange={setAccounts}
+                  className={styles.multiSelect}
                 />
               </div>
 
@@ -259,6 +259,7 @@ export const DynamicsReport = observer(() => {
                   options={selectContractorsOptions}
                   values={selectContractorsOptions.filter(({ value }) => filter.contractors.includes(value))}
                   onChange={setContractors}
+                  className={styles.multiSelect}
                 />
               </div>
 
@@ -290,14 +291,17 @@ export const DynamicsReport = observer(() => {
                   options={selectTagsOptions}
                   values={selectTagsOptions.filter(({ value }) => filter.tags.includes(value))}
                   onChange={setTags}
+                  className={styles.multiSelect}
                 />
               </div>
 
               <MultiSelect
                 label={t('More')}
+                smallInputMessage=""
                 options={selectMoreOptions}
                 values={selectMoreOptions.filter(({ value }) => filter.more.includes(value as any))}
                 onChange={setMore}
+                className={styles.multiSelect}
               />
             </div>
           )}
@@ -309,13 +313,15 @@ export const DynamicsReport = observer(() => {
           </div>
         )}
 
-        {dynamicsReportLoadState.isDone() &&
-          (visualizationType === 'table' ? (
-            <DynamicsTable valueType={valueType.value} />
-          ) : (
-            <DynamicsGraph valueType={valueType.value} />
-          ))}
-      </article>
-    </>
+        <div className={styles.content__visualization}>
+          {dynamicsReportLoadState.isDone() &&
+            (visualizationType === 'table' ? (
+              <DynamicsTable valueType={valueType.value} />
+            ) : (
+              <DynamicsGraph valueType={valueType.value} />
+            ))}
+        </div>
+      </main>
+    </div>
   );
 });

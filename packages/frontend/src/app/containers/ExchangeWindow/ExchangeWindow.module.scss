@@ -4,25 +4,25 @@
   display: flex;
 
   width: 100%;
-  gap: 24px;
+  gap: 2.4rem;
 }
 
 .dateFields {
   display: flex;
   width: 100%;
-  gap: 24px;
+  gap: 1.6rem;
 
   &__date {
-    width: 15rem;
+    width: 16rem;
   }
 }
 
 .reportPeriod {
   display: flex;
-  gap: 8px;
+  gap: 0.8rem;
 
   &__input {
-    width: 15rem;
+    width: 16rem;
   }
 }
 
@@ -32,7 +32,7 @@
   row-gap: 2.4rem;
 
   &__description {
-    color: colors.$grayDarkest;
+    color: colors.$neutral500;
   }
 
   &__fields {
@@ -65,6 +65,6 @@
 .footer {
   &__rightButtons {
     display: flex;
-    gap: 16px;
+    gap: 0.8rem;
   }
 }

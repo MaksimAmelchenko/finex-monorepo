@@ -55,6 +55,7 @@ export const BalancesTable = observer(({ treeBalance }: IBalancesTableProps) => 
                       level={level}
                       onClick={onClick}
                       rowSpan={balances.length}
+                      className={styles.label}
                     >
                       {label}
                     </TreeTableGroupingCell>

@@ -3,8 +3,7 @@
 .footer {
   display: flex;
   justify-content: space-between;
-  //z-index: 1;
-  box-shadow: 0 -2px 5px colors.$grayLight;
-  padding: 1.6rem 3.2rem 2.4rem;
-  background-color: colors.$grayLight;
+  box-shadow: 0 -2px 5px colors.$neutral100;
+  padding: 1.6rem 3.2rem;
+  background-color: colors.$neutral100;
 }

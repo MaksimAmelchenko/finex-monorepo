@@ -8,8 +8,8 @@
   cursor: pointer;
 
   &__label {
-    color: colors.$blue;
-    @include typography.body2;
+    @include typography.bodyHighlight;
+    color: colors.$primary700;
     text-decoration: none;
     white-space: nowrap;
     border-bottom: 1px dashed;

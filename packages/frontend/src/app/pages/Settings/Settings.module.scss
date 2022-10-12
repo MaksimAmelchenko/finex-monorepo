@@ -1,0 +1,15 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100%;
+  &__tabs {
+    padding: 0 3.2rem;
+  }
+}
+
+.content {
+  padding-top: 2.4rem;
+  overflow: hidden;
+}

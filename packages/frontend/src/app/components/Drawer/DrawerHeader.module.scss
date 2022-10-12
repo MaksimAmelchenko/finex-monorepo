@@ -6,11 +6,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 5px colors.$grayLight;
+  box-shadow: 0 2px 5px colors.$neutral100;
   z-index: 1;
 
   &__title {
-    @include typography.h5();
+    @include typography.h3();
   }
 
   &__closeButton {

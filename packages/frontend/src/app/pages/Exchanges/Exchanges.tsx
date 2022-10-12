@@ -6,17 +6,18 @@ import { useSnackbar } from 'notistack';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { Exchange } from '../../stores/models/exchange';
+import { ExchangeRow } from './ExchangeRow/ExchangeRow';
+import { ExchangeWindow } from '../../containers/ExchangeWindow/ExchangeWindow';
+import { ExchangesRepository } from '../../stores/exchanges-repository';
 import { Form, FormTextField } from '../../components/Form';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { IExchange } from '../../types/exchange';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
-import { Exchange } from '../../stores/models/exchange';
-import { ExchangeRow } from './ExchangeRow/ExchangeRow';
-import { ExchangeWindow } from '../../containers/ExchangeWindow/ExchangeWindow';
-import { ExchangesRepository } from '../../stores/exchanges-repository';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -110,18 +111,18 @@ export const Exchanges = observer(() => {
     exchangesRepository.refresh();
   };
 
+  const selectedExchanges = exchanges.filter(({ isSelected }) => isSelected);
+
   const handleDeleteClick = () => {
-    if (exchanges.filter(({ isSelected }) => isSelected).length > 1) {
+    if (selectedExchanges.length > 1) {
       if (!window.confirm(t('Are you sure you what to delete several exchanges?'))) {
         return;
       }
     }
 
-    exchanges
-      .filter(({ isSelected }) => isSelected)
-      .forEach(exchange => {
-        exchangesRepository.removeExchange(exchange).catch(err => console.error({ err }));
-      });
+    selectedExchanges.forEach(exchange => {
+      exchangesRepository.removeExchange(exchange).catch(err => console.error({ err }));
+    });
   };
 
   const handleSearchSubmit = ({ searchText }: ISearchFormValues): Promise<unknown> => {
@@ -129,18 +130,18 @@ export const Exchanges = observer(() => {
     return exchangesRepository.refresh();
   };
 
-  const handleBuyggleFilter = () => {
+  const handleToggleFilter = () => {
     exchangesRepository.setFilter({ isFilter: !filter.isFilter });
   };
-  const selectedExchanges = exchanges.filter(({ isSelected }) => isSelected);
 
   return (
-    <>
-      <article>
-        <div className={styles.panel}>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Exchanges')} />
+      <main className={styles.content}>
+        <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddExchange}>
+              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddExchange}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedExchanges.length} onClick={handleDeleteClick}>
@@ -153,7 +154,7 @@ export const Exchanges = observer(() => {
 
             <div className={styles.toolbar__rightColumn}>
               <IconButton
-                onClick={handleBuyggleFilter}
+                onClick={handleToggleFilter}
                 size="small"
                 className={clsx(filter.isFilter && styles.filterButton_active)}
               >
@@ -208,33 +209,34 @@ export const Exchanges = observer(() => {
             </div>
           )}
         </div>
-
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
-              <th>{t('Sell account')}</th>
-              <th>{t('Buy account')}</th>
-              <th colSpan={2}>{t('Sell')}</th>
-              <th colSpan={2}>{t('Buy')}</th>
-              <th>{t('Rate')}</th>
-              <th colSpan={2}>{t('Fee')}</th>
-              <th className="hidden-sm">{t('Note')}</th>
-              <th className="hidden-sm">{t('Tags')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exchanges.map(exchange => (
-              <ExchangeRow exchange={exchange} onClick={handleClickOnExchange} key={exchange.id} />
-            ))}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </article>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                <th>{t('Sell account')}</th>
+                <th>{t('Buy account')}</th>
+                <th colSpan={2}>{t('Sell')}</th>
+                <th colSpan={2}>{t('Buy')}</th>
+                <th>{t('Rate')}</th>
+                <th colSpan={2}>{t('Fee')}</th>
+                <th className="hidden-sm">{t('Note')}</th>
+                <th className="hidden-sm">{t('Tags')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {exchanges.map(exchange => (
+                <ExchangeRow exchange={exchange} onClick={handleClickOnExchange} key={exchange.id} />
+              ))}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </main>
 
       <Drawer isOpened={isOpenedExchangeWindow}>
         {exchange && <ExchangeWindow exchange={exchange} onClose={handleCloseExchangeWindow} />}
       </Drawer>
-    </>
+    </div>
   );
 });

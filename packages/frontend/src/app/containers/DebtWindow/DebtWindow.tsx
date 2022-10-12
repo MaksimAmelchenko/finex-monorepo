@@ -23,6 +23,7 @@ import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './DebtWindow.module.scss';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 
 interface DebtFormValues {
   contractorId: string | null;
@@ -160,73 +161,83 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
   };
 
   return (
-    <div>
-      <Form<DebtFormValues>
-        onSubmit={onSubmit}
-        initialValues={{
-          contractorId: contractor?.id || null,
-          note: note ?? '',
-          tagIds: tags ? tags.map(tag => tag.id) : [],
-          items: [],
-        }}
-        validationSchema={validationSchema}
-        className={styles.form}
-      >
-        <div className={styles.debt__container}>
-          <div className={styles.debt__left}>
-            <FormSelect name="contractorId" label={t('Contractor')} options={selectContractorOptions} />
-            <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
-          </div>
-          <div className={styles.debt__right}>
-            <FormTextAreaField name="note" label={t('Note')} minRows={4} />
-          </div>
-        </div>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Debt')} />
+      <main className={clsx(styles.layout__content, styles.content)}>
+        <section className={styles.debt}>
+          <Form<DebtFormValues>
+            onSubmit={onSubmit}
+            initialValues={{
+              contractorId: contractor?.id || null,
+              note: note ?? '',
+              tagIds: tags ? tags.map(tag => tag.id) : [],
+              items: [],
+            }}
+            validationSchema={validationSchema}
+            className={styles.debt__form}
+          >
+            <div className={styles.debt__container}>
+              <div className={styles.debt__left}>
+                <FormSelect name="contractorId" label={t('Contractor')} options={selectContractorOptions} />
+                <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
+              </div>
+              <div className={styles.debt__right}>
+                <FormTextAreaField name="note" label={t('Note')} minRows={4} />
+              </div>
+            </div>
 
-        <div className={styles.debt__footer}>
-          <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
-            {t('Close')}
-          </FormButton>
-          <FormButton type="submit" color="secondary" isIgnoreValidation>
-            {t('Save')}
-          </FormButton>
-        </div>
-      </Form>
+            <div className={styles.debt__footer}>
+              <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+                {t('Close')}
+              </FormButton>
+              <FormButton type="submit" color="primary" isIgnoreValidation>
+                {t('Save')}
+              </FormButton>
+            </div>
+          </Form>
+        </section>
 
-      <hr />
-
-      <article>
-        <div className={styles.panel}>
-          <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
-            <div className={styles.toolbar__buttons}>
-              <Button variant="outlined" size="small" disabled={!Boolean(debt.id)} onClick={handleOpenAddDebtItem}>
-                {t('New')}
-              </Button>
-              <Button variant="outlined" size="small" disabled={!selectedDebtItems.length} onClick={handleDeleteClick}>
-                {t('Delete')}
-              </Button>
+        <section className={styles.debtItems}>
+          <div className={clsx(styles.panel)}>
+            <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
+              <div className={styles.toolbar__buttons}>
+                <Button variant="outlined" size="small" disabled={!Boolean(debt.id)} onClick={handleOpenAddDebtItem}>
+                  {t('New')}
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  disabled={!selectedDebtItems.length}
+                  onClick={handleDeleteClick}
+                >
+                  {t('Delete')}
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
-              <th>{t('Account')}</th>
-              <th>{t('Category')}</th>
-              <th colSpan={2}>{t('Amount')}</th>
-              <th className="hidden-sm">{t('Note')}</th>
-              <th className="hidden-sm">{t('Tags')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {debtItems.map(debtItem => (
-              <DebtItemRow debtItem={debtItem} onClick={handleClickOnDebt} key={debtItem.id} />
-            ))}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </article>
+          <div className={styles.tableWrapper}>
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '1.6rem' }}>{t('Date')}</th>
+                  <th>{t('Account')}</th>
+                  <th>{t('Category')}</th>
+                  <th colSpan={2}>{t('Amount')}</th>
+                  <th className="hidden-sm">{t('Note')}</th>
+                  <th className="hidden-sm">{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {debtItems.map(debtItem => (
+                  <DebtItemRow debtItem={debtItem} onClick={handleClickOnDebt} key={debtItem.id} />
+                ))}
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+        </section>
+      </main>
 
       <Drawer isOpened={isOpenedDebtItemWindow}>
         {debtItem && <DebtItemWindow debtItem={debtItem} onClose={handleCloseDebtItemWindow} />}

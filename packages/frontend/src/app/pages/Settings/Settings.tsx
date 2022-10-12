@@ -1,11 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsLazy } from '../../containers/Accounts/AccountsLazy';
 import { CategoriesLazy } from '../../containers/Categories/CategoriesLazy';
 import { ContractorsLazy } from '../../containers/Contractors/ContractorsLazy';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITabOption, Tabs } from '../../components/Tabs/Tabs';
+import { Loader } from '../../components/Loader/Loader';
 import { MoneysLazy } from '../../containers/Moneys/MoneysLazy';
 import { ProjectsLazy } from '../../containers/Projects/ProjectsLazy';
 import { TagsLazy } from '../../containers/Tags/TagsLazy';
@@ -13,6 +15,8 @@ import { UnitsLazy } from '../../containers/Units/UnitsLazy';
 import { getT } from '../../lib/core/i18n';
 
 const t = getT('Settings');
+
+import styles from './Settings.module.scss';
 
 export const Settings = observer(() => {
   const options: ITabOption[] = useMemo(
@@ -40,18 +44,23 @@ export const Settings = observer(() => {
   }
 
   return (
-    <article>
-      <h1>Settings</h1>
-      <Tabs options={options} value={tab} onChange={handleChangeTab} />
-
-      {tab === 'accounts' && <AccountsLazy />}
-      {tab === 'categories' && <CategoriesLazy />}
-      {tab === 'contractors' && <ContractorsLazy />}
-      {tab === 'units' && <UnitsLazy />}
-      {tab === 'tags' && <TagsLazy />}
-      {tab === 'moneys' && <MoneysLazy />}
-      {tab === 'projects' && <ProjectsLazy />}
-    </article>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Settings')} />
+      <div className={styles.layout__tabs}>
+        <Tabs options={options} value={tab} onChange={handleChangeTab} />
+      </div>
+      <main className={styles.content}>
+        <Suspense fallback={<Loader />}>
+          {tab === 'accounts' && <AccountsLazy />}
+          {tab === 'categories' && <CategoriesLazy />}
+          {tab === 'contractors' && <ContractorsLazy />}
+          {tab === 'units' && <UnitsLazy />}
+          {tab === 'tags' && <TagsLazy />}
+          {tab === 'moneys' && <MoneysLazy />}
+          {tab === 'projects' && <ProjectsLazy />}
+        </Suspense>
+      </main>
+    </div>
   );
 });
 

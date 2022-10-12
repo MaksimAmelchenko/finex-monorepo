@@ -23,31 +23,31 @@
   &_size_medium {
     border-radius: 4px;
     height: 40px;
-    padding: 0 24px;
+    padding: 0 2.4rem;
   }
 
   &_size_large {
     border-radius: 5px;
     height: 48px;
-    padding: 0 24px;
+    padding: 0 2.4rem;
     font-size: 1.4rem;
   }
 
   &_color_primary {
-    background: colors.$blue;
-    color: colors.$white;
+    background: colors.$primary600;
+    color: colors.$neutral0;
 
     &:hover {
-      background: colors.$blueLight;
+      background: colors.$primary500;
     }
   }
 
   &_color_secondary {
-    color: colors.$white;
-    background: colors.$green;
+    color: colors.$neutral0;
+    background: colors.$success600;
 
     &:hover {
-      background: colors.$greenLight;
+      background: colors.$success500;
     }
   }
 
@@ -56,18 +56,18 @@
   }
 
   &_variant_outlined {
-    border: 1px solid colors.$gray;
-    background: colors.$white;
-    color: colors.$black;
+    border: 1px solid colors.$neutral150;
+    background: colors.$neutral0;
+    color: colors.$neutral800;
 
     &:hover {
-      background: colors.$white;
-      border-color: colors.$grayDark;
+      background: colors.$neutral0;
+      border-color: colors.$neutral400;
     }
 
     &.button_disabled,
     &[disabled] {
-      background: colors.$gray;
+      background: colors.$neutral150;
     }
   }
 

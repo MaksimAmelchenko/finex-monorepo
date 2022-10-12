@@ -85,11 +85,11 @@ export const Categories = observer(() => {
 
   return (
     <>
-      <article>
-        <div className={styles.panel}>
+      <article className={styles.article}>
+        <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
+              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedCategory} onClick={handleDeleteClick}>
@@ -109,41 +109,44 @@ export const Categories = observer(() => {
             </div>
           </div>
         </div>
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th>{t('Name')}</th>
-              <th>{t('Active')}</th>
-              <th>{t('Note')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categoriesRepository.categories.map(category => {
-              const { path, name, isEnabled, note } = category;
-              const { isLeaf, isExpanded, level, isVisible } = getRowProps(path);
-              const { onClick } = getGroupingCellToggleProps(path);
-              if (!isVisible) {
-                return null;
-              }
-              return (
-                <TreeTableRow
-                  className={clsx(styles.row, category === selectedCategory && styles.row_selected)}
-                  isVisible={isVisible}
-                  onClick={handleRowClick(category)}
-                  key={category.id}
-                >
-                  <TreeTableGroupingCell isLeaf={isLeaf} isExpanded={isExpanded} level={level} onClick={onClick}>
-                    <div className={styles.row__name} onClick={handleClickOnCategory(category)}>
-                      {name}
-                    </div>
-                  </TreeTableGroupingCell>
-                  <td className={styles.tick}>{isEnabled && <Image src={TickSvg} alt="active" />}</td>
-                  <td>{note}</td>
-                </TreeTableRow>
-              );
-            })}
-          </tbody>
-        </table>
+
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th>{t('Name')}</th>
+                <th>{t('Active')}</th>
+                <th>{t('Note')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categoriesRepository.categories.map(category => {
+                const { path, name, isEnabled, note } = category;
+                const { isLeaf, isExpanded, level, isVisible } = getRowProps(path);
+                const { onClick } = getGroupingCellToggleProps(path);
+                if (!isVisible) {
+                  return null;
+                }
+                return (
+                  <TreeTableRow
+                    className={clsx(styles.row, category === selectedCategory && styles.row_selected)}
+                    isVisible={isVisible}
+                    onClick={handleRowClick(category)}
+                    key={category.id}
+                  >
+                    <TreeTableGroupingCell isLeaf={isLeaf} isExpanded={isExpanded} level={level} onClick={onClick}>
+                      <div className={styles.row__name} onClick={handleClickOnCategory(category)}>
+                        {name}
+                      </div>
+                    </TreeTableGroupingCell>
+                    <td className={styles.tick}>{isEnabled && <Image src={TickSvg} alt="active" />}</td>
+                    <td>{note}</td>
+                  </TreeTableRow>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </article>
 
       <Drawer isOpened={isOpenedCategoryWindow}>

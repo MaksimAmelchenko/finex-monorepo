@@ -146,7 +146,7 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
         <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
-        <FormButton type="submit" color="secondary" isIgnoreValidation>
+        <FormButton type="submit" color="primary" isIgnoreValidation>
           {isEdit ? t('Save') : t('Create project')}
         </FormButton>
       </FormFooter>

@@ -4,11 +4,11 @@ import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
-import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITransaction } from '../../types/transaction';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
@@ -17,7 +17,8 @@ import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
-import { TransactionRow } from './Transaction/Transaction';
+import { TransactionRow } from './Transaction/TransactionRow';
+import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
 import { TransactionsRepository } from '../../stores/transactions-repository';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -124,18 +125,18 @@ export const Transactions = observer(() => {
     transactionsRepository.refresh();
   };
 
+  const selectedTransactions = transactions.filter(({ isSelected }) => isSelected);
+
   const handleDeleteClick = () => {
-    if (transactions.filter(({ isSelected }) => isSelected).length > 1) {
+    if (selectedTransactions.length > 1) {
       if (!window.confirm(t('Are you sure you what to delete several transactions?'))) {
         return;
       }
     }
 
-    transactions
-      .filter(({ isSelected }) => isSelected)
-      .forEach(transaction => {
-        transactionsRepository.removeTransaction(transaction).catch(err => console.error({ err }));
-      });
+    selectedTransactions.forEach(transaction => {
+      transactionsRepository.removeTransaction(transaction).catch(err => console.error({ err }));
+    });
   };
 
   const handleSearchSubmit = ({ searchText }: ISearchFormValues): Promise<unknown> => {
@@ -152,17 +153,21 @@ export const Transactions = observer(() => {
   };
 
   return (
-    <>
-      <article>
-        {/*<div className={styles.search}>*/}
-        {/*</div>*/}
-        <div className={styles.panel}>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Incomes and Expenses - Transactions')} />
+      <main className={styles.content}>
+        <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddTransaction}>
+              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddTransaction}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleDeleteClick}>
+              <Button
+                variant="outlined"
+                size="small"
+                disabled={!selectedTransactions.length}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
               <Button variant="outlined" size="small" onClick={handleRefreshClick}>
@@ -234,53 +239,54 @@ export const Transactions = observer(() => {
             </div>
           )}
         </div>
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '8px' }} onClick={handleOnDateColumnHeaderClick}>
-                {t('Date')}
-              </th>
-              <th>
-                {t('Account')}
-                <br />
-                {t('Counterparty')}
-              </th>
-              <th>{t('Category')}</th>
-              <th className="hidden-sm hidden-md" colSpan={2}>
-                {t('Income')}
-              </th>
-              <th className="hidden-sm hidden-md" colSpan={2}>
-                {t('Expense')}
-              </th>
-              {/*<th className="hidden-lg" colSpan={2}>*/}
-              {/*  {t('Amount')}*/}
-              {/*</th>*/}
-              <th className="hidden-sm">{t('Note')}</th>
-              <th className="hidden-sm">{t('Tags')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <TransactionRow
-                transaction={transaction}
-                onClick={handleClickOnTransaction}
-                key={
-                  transaction instanceof Transaction
-                    ? transaction.id
-                    : `${transaction.planId}-${transaction.repetitionNumber}`
-                }
-              />
-            ))}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </article>
+
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th style={{ paddingLeft: '0.8rem' }} onClick={handleOnDateColumnHeaderClick}>
+                  {t('Date')}
+                </th>
+                <th>
+                  {t('Account')}
+                  <br />
+                  {t('Counterparty')}
+                </th>
+                <th>{t('Category')}</th>
+                <th className="hidden-sm hidden-md" colSpan={2}>
+                  {t('Income')}
+                </th>
+                <th className="hidden-sm hidden-md" colSpan={2}>
+                  {t('Expense')}
+                </th>
+                {/*<th className="hidden-lg" colSpan={2}>*/}
+                {/*  {t('Amount')}*/}
+                {/*</th>*/}
+                <th className="hidden-sm">{t('Note')}</th>
+                <th className="hidden-sm">{t('Tags')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((transaction, index) => (
+                <TransactionRow
+                  transaction={transaction}
+                  onClick={handleClickOnTransaction}
+                  key={
+                    transaction instanceof Transaction
+                      ? transaction.id
+                      : `${transaction.planId}-${transaction.repetitionNumber}`
+                  }
+                />
+              ))}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </main>
 
       <Drawer isOpened={isOpenedTransactionWindow}>
-        {transaction && (
-          <TransactionWindow transaction={transaction} onClose={handleCloseTransactionWindow} />
-        )}
+        {transaction && <TransactionWindow transaction={transaction} onClose={handleCloseTransactionWindow} />}
       </Drawer>
-    </>
+    </div>
   );
 });

@@ -2,15 +2,15 @@
 
 .row {
   &_is_deleting {
-    background-color: colors.$orangeLight;
+    background-color: colors.$danger200;
   }
 }
 
 .name {
   cursor: pointer;
-  color: colors.$blueLight;
+  color: colors.$secondary700;
 
   &:hover {
-    color: colors.$blue;
+    color: colors.$secondary600;
   }
 }

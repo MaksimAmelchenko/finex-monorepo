@@ -48,21 +48,21 @@
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range {
   border-radius: 50%;
-  background-color: #0066bf;
+  background-color: #006096;
   color: #fff;
 }
 
 .react-datepicker__day:hover {
   border-radius: 50%;
   color: white;
-  background-color: #0066bf;
+  background-color: #006096;
 }
 
 .react-datepicker__navigation {
   top: 12px;
   line-height: 2.4rem;
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
 }
 
 .react-datepicker__navigation--previous {

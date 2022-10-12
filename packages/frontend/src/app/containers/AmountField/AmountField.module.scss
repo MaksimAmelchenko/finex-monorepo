@@ -7,10 +7,10 @@
   &__delimiter {
     align-self: stretch;
     width: 1px;
-    background-color: colors.$gray;
+    background-color: colors.$neutral150;
   }
 
   &__target {
-    padding: 0 8px;
+    padding: 0 0.8rem;
   }
 }

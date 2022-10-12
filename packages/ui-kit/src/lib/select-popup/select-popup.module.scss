@@ -18,7 +18,7 @@
   border-radius: 0 0 3px 3px;
   box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
   margin-top: 8px;
-  background-color: colors.$white;
+  background-color: colors.$neutral0;
   z-index: 5;
 }
 
@@ -30,7 +30,7 @@
   margin-right: 10px;
 
   &__icon {
-    width: 24px;
-    height: 24px;
+    width: 2.4rem;
+    height: 2.4rem;
   }
 }

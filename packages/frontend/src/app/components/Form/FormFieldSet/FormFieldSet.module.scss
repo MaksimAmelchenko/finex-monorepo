@@ -11,8 +11,8 @@
 }
 
 .legend {
-  @include typography.subtitle1;
-  border-bottom: 1px dashed colors.$grayDark;
+  @include typography.subtitle;
+  border-bottom: 1px dashed colors.$neutral400;
   margin: 0 0 2.4rem;
   padding: 0.8rem 0;
   width: 100%;

@@ -7,6 +7,7 @@ import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITransfer } from '../../types/transfer';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
@@ -110,18 +111,18 @@ export const Transfers = observer(() => {
     transfersRepository.refresh();
   };
 
+  const selectedTransfers = transfers.filter(({ isSelected }) => isSelected);
+
   const handleDeleteClick = () => {
-    if (transfers.filter(({ isSelected }) => isSelected).length > 1) {
+    if (selectedTransfers.length > 1) {
       if (!window.confirm(t('Are you sure you what to delete several transfers?'))) {
         return;
       }
     }
 
-    transfers
-      .filter(({ isSelected }) => isSelected)
-      .forEach(transfer => {
-        transfersRepository.removeTransfer(transfer).catch(err => console.error({ err }));
-      });
+    selectedTransfers.forEach(transfer => {
+      transfersRepository.removeTransfer(transfer).catch(err => console.error({ err }));
+    });
   };
 
   const handleSearchSubmit = ({ searchText }: ISearchFormValues): Promise<unknown> => {
@@ -132,15 +133,15 @@ export const Transfers = observer(() => {
   const handleToggleFilter = () => {
     transfersRepository.setFilter({ isFilter: !filter.isFilter });
   };
-  const selectedTransfers = transfers.filter(({ isSelected }) => isSelected);
 
   return (
-    <>
-      <article>
-        <div className={styles.panel}>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Transfers')} />
+      <main className={styles.content}>
+        <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddTransfer}>
+              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddTransfer}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedTransfers.length} onClick={handleDeleteClick}>
@@ -208,31 +209,32 @@ export const Transfers = observer(() => {
             </div>
           )}
         </div>
-
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
-              <th>{t('From account')}</th>
-              <th>{t('To account')}</th>
-              <th colSpan={2}>{t('Amount')}</th>
-              <th colSpan={2}>{t('Fee')}</th>
-              <th className="hidden-sm">{t('Note')}</th>
-              <th className="hidden-sm">{t('Tags')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transfers.map(transfer => (
-              <TransferRow transfer={transfer} onClick={handleClickOnTransfer} key={transfer.id} />
-            ))}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </article>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                <th>{t('From account')}</th>
+                <th>{t('To account')}</th>
+                <th colSpan={2}>{t('Amount')}</th>
+                <th colSpan={2}>{t('Fee')}</th>
+                <th className="hidden-sm">{t('Note')}</th>
+                <th className="hidden-sm">{t('Tags')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transfers.map(transfer => (
+                <TransferRow transfer={transfer} onClick={handleClickOnTransfer} key={transfer.id} />
+              ))}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </main>
 
       <Drawer isOpened={isOpenedTransferWindow}>
         {transfer && <TransferWindow transfer={transfer} onClose={handleCloseTransferWindow} />}
       </Drawer>
-    </>
+    </div>
   );
 });

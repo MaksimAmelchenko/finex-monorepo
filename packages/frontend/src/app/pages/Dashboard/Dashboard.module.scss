@@ -1,0 +1,13 @@
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 1.6rem;
+  padding: 0 3.2rem 2.4rem;
+  overflow: auto;
+}

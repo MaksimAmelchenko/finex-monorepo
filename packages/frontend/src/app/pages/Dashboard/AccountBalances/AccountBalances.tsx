@@ -5,8 +5,9 @@ import { observer } from 'mobx-react-lite';
 
 import { BalanceRepository } from '../../../stores/balance-repository';
 import { BalancesTable } from '../BalancesTable/BalancesTable';
-import { CircularIndeterminate, InlineDatePicker, InlineSelect, IOption, Option } from '@finex/ui-kit';
 import { IMoney } from '../../../types/money';
+import { InlineDatePicker, InlineSelect, IOption, Option } from '@finex/ui-kit';
+import { Loader } from '../../../components/Loader/Loader';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { ProjectsRepository } from '../../../stores/projects-repository';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
@@ -57,62 +58,58 @@ export const AccountBalances = observer(() => {
   const balanceDate = isToday(date) ? t('today') : formatDate(date.toISOString());
 
   return (
-    <div>
-      <section className={clsx(styles.accountBalances)}>
-        <div className={clsx(styles.accountBalances__header, styles.header)}>
-          <h2 className={styles.header__title}>
-            {t('Balance')}
-            <div className={styles.header__date}>
-              <InlineDatePicker value={date} label={balanceDate} onChange={setDate} todayButton={t('Today')} />
-            </div>
-          </h2>
-
-          <div className={styles.header__options}>
-            <InlineSelect
-              label={moneysOptions.find(option => option.value === (selectedMoney ? selectedMoney.id : 'null'))!.label}
-              options={moneysOptions}
-              onChange={handleSelectMoney}
-            />
-
-            <Option
-              label={isShowZeroBalance ? t('hide zero balance') : t('show zero balance')}
-              onClick={handleClickOnShowZeroBalance}
-            />
+    <section className={clsx(styles.accountBalances)}>
+      <div className={clsx(styles.accountBalances__header, styles.header)}>
+        <h2 className={styles.header__title}>
+          {t('Balance')}
+          <div className={styles.header__date}>
+            <InlineDatePicker value={date} label={balanceDate} onChange={setDate} todayButton={t('Today')} />
           </div>
+        </h2>
+
+        <div className={styles.header__options}>
+          <InlineSelect
+            label={moneysOptions.find(option => option.value === (selectedMoney ? selectedMoney.id : 'null'))!.label}
+            options={moneysOptions}
+            onChange={handleSelectMoney}
+          />
+
+          <Option
+            label={isShowZeroBalance ? t('hide zero balance') : t('show zero balance')}
+            onClick={handleClickOnShowZeroBalance}
+          />
         </div>
+      </div>
 
-        {!balanceRepository.balancesLoadState.isDone() ? (
-          <div className={styles.loader}>
-            <CircularIndeterminate />
-          </div>
-        ) : (
-          <>
-            <table className="table table-borderless table-sm">
-              <tbody>
-                {balanceRepository.totalBalance.map(({ money, amount }, index, array) => (
-                  <tr className={clsx(styles.row)} key={money.id}>
-                    {index === 0 && (
-                      <td rowSpan={array.length} className={clsx(styles.row__firstCell)}>
-                        {t('Total')}
-                      </td>
-                    )}
-                    <td align="right" className="min-width numeric">
-                      {toCurrency(amount, money.precision)}
+      {!balanceRepository.balancesLoadState.isDone() ? (
+        <Loader />
+      ) : (
+        <>
+          <table className="table table-borderless table-sm">
+            <tbody>
+              {balanceRepository.totalBalance.map(({ money, amount }, index, array) => (
+                <tr className={clsx(styles.row)} key={money.id}>
+                  {index === 0 && (
+                    <td rowSpan={array.length} className={clsx(styles.row__firstCell)}>
+                      {t('Total')}
                     </td>
-                    <td
-                      align="left"
-                      className={clsx('min-width currency', styles.row__currency_symbol, styles.row__lastCell)}
-                      dangerouslySetInnerHTML={{ __html: money.symbol }}
-                    />
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                  )}
+                  <td align="right" className="min-width numeric">
+                    {toCurrency(amount, money.precision)}
+                  </td>
+                  <td
+                    align="left"
+                    className={clsx('min-width currency', styles.row__currency_symbol, styles.row__lastCell)}
+                    dangerouslySetInnerHTML={{ __html: money.symbol }}
+                  />
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-            <BalancesTable treeBalance={[...treeBalance, ...balanceRepository.treeDebt]} />
-          </>
-        )}
-      </section>
-    </div>
+          <BalancesTable treeBalance={[...treeBalance, ...balanceRepository.treeDebt]} />
+        </>
+      )}
+    </section>
   );
 });

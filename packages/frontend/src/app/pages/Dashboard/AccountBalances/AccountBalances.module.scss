@@ -2,26 +2,25 @@
 @use 'packages/theme/src/lib/styles/typography';
 
 .accountBalances {
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 0.4rem;
 }
 
 .row {
-  background-color: colors.$white;
-  @include typography.body1();
+  background-color: colors.$neutral0;
+  @include typography.body();
   font-weight: bold;
   line-height: 1;
 
   td.row__firstCell {
-    padding-left: 28px;
+    padding-left: 2.4rem;
   }
 
   td.row__lastCell {
-    padding-right: 28px;
+    padding-right: 2.4rem;
   }
 
   &__currency_symbol {
-    color: colors.$grayDark;
+    color: colors.$neutral500;
 
     .row_group & {
     }
@@ -29,8 +28,8 @@
 }
 
 .header {
-  padding: 16px 28px;
-  background-color: colors.$white;
+  padding: 1.6rem 2.4rem;
+  background-color: colors.$neutral0;
 
   &__title {
     margin: 0;
@@ -38,15 +37,11 @@
 
   &__date {
     display: inline-block;
-    margin-left: 8px;
+    margin-left: 0.8rem;
   }
 
   &__options {
     display: inline-flex;
-    gap: 20px
+    gap: 1.6rem;
   }
-}
-
-.loader {
-  height: 10rem;
 }

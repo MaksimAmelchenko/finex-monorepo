@@ -1,15 +1,13 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { BarDatum, Bar, ResponsiveBar } from '@nivo/bar';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Bar, BarDatum } from '@nivo/bar';
 import { add, differenceInMonths, format, formatISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 
 import { CategoriesRepository } from '../../../../stores/categories-repository';
 import { ReportsRepository } from '../../../../stores/reports-store';
-import { formatDate, getT } from '../../../../lib/core/i18n';
+import { formatDate } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
 import { useStore } from '../../../../core/hooks/use-store';
-
-const t = getT('DynamicsGraph');
 
 interface DynamicsTableProps {
   valueType: string;
@@ -78,7 +76,7 @@ export const DynamicsGraph = observer<DynamicsTableProps>(({ valueType }) => {
     <div style={{ height: 'calc(100% - 8px)' }} ref={refCallback}>
       {size.width && (
         <Bar
-          margin={{ top: 0, right: 32, bottom: 60, left: 64 }}
+          margin={{ top: 0, right: 32, bottom: 56, left: 64 }}
           width={size.width}
           height={size.height}
           indexBy="date"

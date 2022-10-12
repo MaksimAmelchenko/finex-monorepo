@@ -69,11 +69,11 @@ export const Accounts = observer(() => {
 
   return (
     <>
-      <article>
-        <div className={styles.panel}>
+      <article className={styles.article}>
+        <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
+              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedAccounts.length} onClick={handleDeleteClick}>
@@ -85,28 +85,31 @@ export const Accounts = observer(() => {
             </div>
           </div>
         </div>
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th rowSpan={2} />
-              <th rowSpan={2}>{t('Name')}</th>
-              <th rowSpan={2}>{t('Active')}</th>
-              <th rowSpan={2}>{t('Owner')}</th>
-              <th colSpan={2}>{t('Permit')}</th>
-              <th rowSpan={2}>{t('Type')}</th>
-              <th rowSpan={2}>{t('Note')}</th>
-            </tr>
-            <tr>
-              <th>{t('Read')}</th>
-              <th>{t('Edit')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {accounts.map(account => (
-              <AccountRow account={account} onClick={handleClickOnAccount} key={account.id} />
-            ))}
-          </tbody>
-        </table>
+
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm')}>
+            <thead>
+              <tr>
+                <th rowSpan={2} />
+                <th rowSpan={2}>{t('Name')}</th>
+                <th rowSpan={2}>{t('Active')}</th>
+                <th rowSpan={2}>{t('Owner')}</th>
+                <th colSpan={2}>{t('Permit')}</th>
+                <th rowSpan={2}>{t('Type')}</th>
+                <th rowSpan={2}>{t('Note')}</th>
+              </tr>
+              <tr>
+                <th>{t('Read')}</th>
+                <th>{t('Edit')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {accounts.map(account => (
+                <AccountRow account={account} onClick={handleClickOnAccount} key={account.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </article>
 
       <Drawer isOpened={isOpenedAccountWindow}>

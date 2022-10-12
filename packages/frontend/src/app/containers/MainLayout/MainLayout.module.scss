@@ -1,12 +1,22 @@
 @use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/media';
 
-.header__hamburger {
-  margin-left: -8px
-}
+//.header__hamburger {
+//  margin-left: -8px
+//}
 
 .header__logo {
-  height: 2rem;
-  width: auto;
-  margin: 18px 4px 18px 16px;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.layout {
+  display: flex;
+}
+
+.content {
+  flex-grow: 1;
+  height: 100vh;
+  background-color: colors.$neutral100;
+  //padding: 1px;
 }

@@ -1,60 +1,56 @@
 @use 'packages/theme/src/lib/styles/colors';
-@use 'packages/theme/src/lib/styles/typography';
 
-.header {
-  @include typography.h2;
-  .subHeader {
-    @include typography.h6;
-    display: inline-block;
-    vertical-align: 2px;
-  }
-}
-
-.article {
+.layout {
   display: grid;
   grid-template-rows: auto 1fr;
-  row-gap: 24px;
+  height: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 2.4rem;
   height: 100%;
   width: 100%;
   overflow: auto;
+
+  &__panel,
+  &__visualization {
+    padding: 0 3.2rem;
+  }
 }
 
 .panel {
   display: grid;
   z-index: 4;
 
-  background-color: colors.$grayLight;
+  background-color: colors.$neutral100;
 
   &__toolbar {
   }
 
   &__filter {
     display: flex;
-    margin-top: 24px;
-    column-gap: 24px;
-    row-gap: 8px;
+    margin-top: 2.4rem;
+    column-gap: 2.4rem;
+    row-gap: 0.8rem;
     flex-wrap: wrap;
   }
 }
 
 .toolbar {
-  display: flex;
-  justify-content: space-between;
-  flex-grow: 1;
-
   &__buttons {
     display: flex;
-    gap: 16px;
-  }
-
-  &__rightColumn {
-    display: flex;
-    gap: 16px;
+    gap: 0.8rem;
   }
 }
 
+.valueTypeSelect {
+  width: 32rem;
+}
+
 .multiSelect {
-  min-width: 300px;
+  min-width: 32rem;
 }
 
 .loader {

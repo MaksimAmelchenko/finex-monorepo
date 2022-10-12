@@ -7,16 +7,23 @@ import { DebtBalances } from './DebtBalances/DebtBalances';
 import { getT } from '../../lib/core/i18n';
 
 import styles from './Dashboard.module.scss';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 
 const t = getT('Dashboard');
 
 export const Dashboard = observer(() => {
   return (
-    <article className={styles.dashboard}>
-      <AccountBalances />
-      {/*<div />*/}
-      <AccountDailyBalances />
-    </article>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Overview')} />
+      <article className={styles.dashboard}>
+        <div style={{ overflow: 'auto', minWidth: '40rem' }}>
+          <AccountBalances />
+        </div>
+        <div style={{ overflow: 'auto', minWidth: '40rem' }}>
+          <AccountDailyBalances />
+        </div>
+      </article>
+    </div>
   );
 });
 

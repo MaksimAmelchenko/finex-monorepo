@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: colors.$grayLight;
+  background-color: colors.$neutral100;
 
   @include media.sm {
     justify-content: flex-start;
@@ -28,8 +28,8 @@
     max-width: 54rem;
     padding-top: 7rem;
     box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
-    border-radius: 5px;
-    background-color: colors.$white;
+    border-radius: 0.4rem;
+    background-color: colors.$neutral0;
     @include media.sm {
       margin-top: 8rem;
       padding-top: 5rem;
@@ -45,7 +45,7 @@
     justify-content: center;
 
     svg {
-      width: 100px;
+      width: 10rem;
       height: auto;
     }
   }
@@ -56,7 +56,7 @@
 }
 
 .footer {
-  color: colors.$blue;
+  color: colors.$secondary700;
 
   &__link {
     margin: 0 1rem;

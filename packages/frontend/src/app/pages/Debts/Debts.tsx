@@ -10,6 +10,7 @@ import { DebtRow } from './DebtRow/DebtRow';
 import { DebtWindow } from '../../containers/DebtWindow/DebtWindow';
 import { DebtsRepository } from '../../stores/debts-repository';
 import { Form, FormTextField } from '../../components/Form';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { IDebt } from '../../types/debt';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
@@ -118,18 +119,18 @@ export const Debts = observer(() => {
     debtsRepository.refresh();
   };
 
+  const selectedDebts = debts.filter(({ isSelected }) => isSelected);
+
   const handleDeleteClick = () => {
-    if (debts.filter(({ isSelected }) => isSelected).length > 1) {
+    if (selectedDebts.length > 1) {
       if (!window.confirm(t('Are you sure you what to delete several debts?'))) {
         return;
       }
     }
 
-    debts
-      .filter(({ isSelected }) => isSelected)
-      .forEach(debt => {
-        debtsRepository.removeDebt(debt).catch(err => console.error({ err }));
-      });
+    selectedDebts.forEach(debt => {
+      debtsRepository.removeDebt(debt).catch(err => console.error({ err }));
+    });
   };
 
   const handleSearchSubmit = ({ searchText }: ISearchFormValues): Promise<unknown> => {
@@ -146,15 +147,16 @@ export const Debts = observer(() => {
   }
 
   return (
-    <>
-      <article>
-        <div className={styles.panel}>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Debts')} />
+      <main className={styles.content}>
+        <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddDebt}>
+              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddDebt}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleDeleteClick}>
+              <Button variant="outlined" size="small" disabled={!selectedDebts.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
               <Button variant="outlined" size="small" onClick={handleRefreshClick}>
@@ -201,6 +203,7 @@ export const Debts = observer(() => {
                 options={selectContractorsOptions}
                 values={selectContractorsOptions.filter(({ value }) => filter.contractors.includes(value))}
                 onChange={setContractors}
+                className={styles.multiSelect}
               />
 
               <MultiSelect
@@ -208,42 +211,46 @@ export const Debts = observer(() => {
                 options={selectTagsOptions}
                 values={selectTagsOptions.filter(({ value }) => filter.tags.includes(value))}
                 onChange={setTags}
+                className={styles.multiSelect}
               />
 
               <MultiSelect
                 label={t('More')}
+                smallInputMessage=""
                 options={selectMoreOptions}
                 values={selectMoreOptions.filter(({ value }) => filter.more.includes(value as any))}
                 onChange={setMore}
+                className={styles.multiSelect}
               />
             </div>
           )}
         </div>
-
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
-              <th>{t('Counterparty')}</th>
-              <th colSpan={2}>{t('Долг')}</th>
-              <th colSpan={2}>{t('Возврат')}</th>
-              <th colSpan={2}>{t('Остаток')}</th>
-              <th colSpan={2}>{t('Проценты')}</th>
-              <th colSpan={2}>{t('Пеня')}</th>
-              <th colSpan={2}>{t('Комиссия')}</th>
-              <th colSpan={2}>{t('Стоимость (переплата)')}</th>
-              <th className="hidden-sm">{t('Note')}</th>
-              <th className="hidden-sm">{t('Tags')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {debts.map(debt => (
-              <DebtRow debt={debt} onClick={handleClickOnDebt} key={debt.id} />
-            ))}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </article>
-    </>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                <th>{t('Counterparty')}</th>
+                <th colSpan={2}>{t('Debt')}</th>
+                <th colSpan={2}>{t('Repayment')}</th>
+                <th colSpan={2}>{t('Debt balance')}</th>
+                <th colSpan={2}>{t('Interest')}</th>
+                <th colSpan={2}>{t('Fine')}</th>
+                <th colSpan={2}>{t('Fee')}</th>
+                <th colSpan={2}>{t('Cost (overpayment)')}</th>
+                <th className="hidden-sm">{t('Note')}</th>
+                <th className="hidden-sm">{t('Tags')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {debts.map(debt => (
+                <DebtRow debt={debt} onClick={handleClickOnDebt} key={debt.id} />
+              ))}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </main>
+    </div>
   );
 });

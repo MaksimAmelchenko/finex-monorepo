@@ -1,0 +1,97 @@
+@use './media';
+
+@mixin h1 {
+  font-size: clamp(4.2rem, 2.05712rem + 3.5714vw, 6.4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  //@include media.tablet {
+  //  font-size: 3rem;
+  //}
+  //@include media.sm {
+  //  font-size: 2rem;
+  //}
+}
+
+@mixin h2 {
+  font-size: clamp(2.4rem, 1.54288rem + 1.4286vw, 3.6rem);
+  font-weight: 300;
+  line-height: 1.2;
+  //font-style: normal;
+  //@include media.tablet {
+  //  font-size: 2.4rem;
+  //}
+  //@include media.sm {
+  //  font-size: 1.8rem;
+  //}
+}
+
+@mixin h3 {
+  font-size: 3.6rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.32rem;
+}
+
+@mixin h4 {
+  font-size: 2.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.32rem;
+}
+
+@mixin h5 {
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.16rem;
+}
+
+@mixin h6 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+@mixin subtitle1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+@mixin subtitle2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+@mixin body1 {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@mixin body2 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@mixin button {
+  font-size: 1.4rem;
+  font-weight: 700;
+  //line-height: 1.75;
+  text-transform: initial;
+}
+
+@mixin caption {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+@mixin overline {
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 2.5;
+  text-transform: uppercase;
+}

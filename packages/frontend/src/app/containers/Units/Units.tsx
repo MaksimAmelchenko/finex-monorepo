@@ -69,11 +69,11 @@ export const Units = observer(() => {
 
   return (
     <>
-      <article>
-        <div className={styles.panel}>
+      <article className={styles.article}>
+        <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
+              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedUnits.length} onClick={handleDeleteClick}>
@@ -85,19 +85,21 @@ export const Units = observer(() => {
             </div>
           </div>
         </div>
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th />
-              <th>{t('Name')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {units.map(unit => (
-              <UnitRow unit={unit} onClick={handleClickOnUnit} key={unit.id} />
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th />
+                <th>{t('Name')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {units.map(unit => (
+                <UnitRow unit={unit} onClick={handleClickOnUnit} key={unit.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </article>
 
       <Drawer isOpened={isOpenedUnitWindow}>

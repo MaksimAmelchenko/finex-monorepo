@@ -30,21 +30,21 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
       boxShadow: 'none',
       ...(isFocused
         ? {
-            borderColor: '#0066bf',
+            borderColor: '#006096',
             '&:hover': {
-              borderColor: '#0066bf',
+              borderColor: '#006096',
             },
           }
         : {
-            borderColor: '#dbe1ed',
+            borderColor: '#dcdce4',
             '&:hover': {
               borderColor: '#949db1',
             },
           }),
       ...(isError && {
-        borderColor: '#e43201',
+        borderColor: '#d02b20',
         '&:hover': {
-          borderColor: '#e43201',
+          borderColor: '#d02b20',
         },
       }),
     };

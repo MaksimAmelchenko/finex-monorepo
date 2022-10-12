@@ -6,10 +6,9 @@ import { SnackbarProvider } from 'notistack';
 import { observer } from 'mobx-react-lite';
 
 import { CashFlows } from './containers/CashFlows/CashFlows';
-import { DashboardLazy } from './containers/Dashboard/DashboardLazy';
+import { DashboardLazy } from './pages/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
 import { Exchanges } from './pages/Exchanges/Exchanges';
-import { Home } from './pages/Home/Home';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
@@ -53,8 +52,7 @@ export const App = observer(() => {
                 <RequireAuth>
                   <MainLayout>
                     <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/dashboard" element={<DashboardLazy />} />
+                      <Route path="/" element={<DashboardLazy />} />
                       <Route path="/cash-flows" element={<CashFlows />} />
                       <Route path="/transactions" element={<Transactions />} />
                       <Route path="/debts" element={<Debts />} />

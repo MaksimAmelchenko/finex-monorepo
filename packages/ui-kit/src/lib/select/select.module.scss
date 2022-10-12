@@ -23,7 +23,7 @@
     font-size: 1.2rem;
 
     .root:focus-within > & {
-      color: colors.$blue;
+      color: colors.$secondary700;
     }
 
     /* background for label */
@@ -35,14 +35,14 @@
       width: 100%;
       height: 3px;
       content: '';
-      background: colors.$white;
+      background: colors.$neutral0;
     }
   }
 
   &__helperText {
     margin: 4px 16px 0;
     font-size: 1.2rem;
-    color: colors.$grayDarkest;
+    color: colors.$neutral500;
   }
 
   &_error &__label,
@@ -50,6 +50,6 @@
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: colors.$red;
+    color: colors.$danger600;
   }
 }

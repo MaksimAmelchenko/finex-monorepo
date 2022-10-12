@@ -100,6 +100,9 @@ module.exports = {
     Cancel: 'Cancel',
     Save: 'Save',
   },
+  Dashboard: {
+    Overview: 'Overview',
+  },
   DebtItem: {
     Income: 'Income',
     Expense: 'Expense',
@@ -127,6 +130,7 @@ module.exports = {
   },
   Debts: {
     'Only debts with a non-zero balance': 'Only debts with a non-zero balance',
+    Debts: 'Debts',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
@@ -136,17 +140,18 @@ module.exports = {
     More: 'More',
     Date: 'Date',
     Counterparty: 'Counterparty',
-    Долг: 'Долг',
-    Возврат: 'Возврат',
-    Остаток: 'Остаток',
-    Проценты: 'Проценты',
-    Пеня: 'Пеня',
-    Комиссия: 'Комиссия',
-    'Стоимость (переплата)': 'Стоимость (переплата)',
+    Debt: 'Debt',
+    Repayment: 'Repayment',
+    'Debt balance': 'Debt balance',
+    Interest: 'Interest',
+    Fine: 'Fine',
+    Fee: 'Fee',
+    'Cost (overpayment)': 'Cost (overpayment)',
     Note: 'Note',
   },
   DebtWindow: {
     'Please select contractor': 'Please select contractor',
+    Debt: 'Debt',
     Contractor: 'Contractor',
     Tags: 'Tags',
     Note: 'Note',
@@ -168,8 +173,7 @@ module.exports = {
     Except: 'Except',
     'Use report period': 'Use report period',
     'Consider planned operations': 'Consider planned operations',
-    Reports: 'Reports',
-    Dynamics: 'Dynamics',
+    'Reports — Dynamics': 'Reports — Dynamics',
     Parameters: 'Parameters',
     Accounts: 'Accounts',
     Counterparties: 'Counterparties',
@@ -191,6 +195,7 @@ module.exports = {
     'Something went wrong, please try again': 'Something went wrong, please try again',
   },
   Exchanges: {
+    Exchanges: 'Exchanges',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
@@ -242,7 +247,6 @@ module.exports = {
     Support: 'Support',
   },
   MainLayout: {
-    Dashboard: 'Dashboard',
     'Income & Expenses': 'Income & Expenses',
     Debts: 'Debts',
     Transfers: 'Transfers',
@@ -297,6 +301,7 @@ module.exports = {
     of: 'of',
   },
   PlanTransaction: {
+    'Planning - Incomes & Expenses': 'Planning - Incomes & Expenses',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
@@ -450,6 +455,7 @@ module.exports = {
     Tags: 'Tags',
     Money: 'Money',
     Projects: 'Projects',
+    Settings: 'Settings',
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',
@@ -510,6 +516,7 @@ module.exports = {
     Save: 'Save',
   },
   Transactions: {
+    'Incomes and Expenses - Transactions': 'Incomes and Expenses - Transactions',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
@@ -553,6 +560,7 @@ module.exports = {
     'Save and Create New': 'Save and Create New',
   },
   Transfers: {
+    Transfers: 'Transfers',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',

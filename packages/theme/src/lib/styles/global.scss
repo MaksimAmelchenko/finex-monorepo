@@ -1,5 +1,6 @@
 @use './media';
 @use './colors';
+@use './typography';
 @import '~normalize.css';
 @import './table';
 
@@ -12,8 +13,7 @@ html {
 body {
   height: 100%;
   width: 100%;
-  font-size: 1.4rem;
-  color: colors.$black;
+  @include typography.body;
 }
 
 * {
@@ -86,4 +86,10 @@ body {
 
 .bg-color-redLight {
   background-color: #a65858;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }

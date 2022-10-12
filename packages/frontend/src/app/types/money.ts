@@ -19,7 +19,7 @@ export interface IMoney {
   symbol: string;
   precision?: number;
   isEnabled: boolean;
-  sorting: number | null
+  sorting: number | null;
   user: User;
 }
 

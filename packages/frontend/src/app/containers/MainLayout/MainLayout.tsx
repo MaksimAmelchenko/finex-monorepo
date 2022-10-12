@@ -2,38 +2,22 @@ import React, { Suspense, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
-// import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MuiDrawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
+import { CSSObject, styled, Theme } from '@mui/material/styles';
 
+import { CashFlowSvg, Logo, PlanningSvg, ReportsSvg, SettingsSvg, ToolsSvg } from '@finex/ui-kit';
 import { Link } from '../../components/Link/Link';
+import { Loader } from '../../components/Loader/Loader';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { Project } from '../../stores/models/project';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
-
-import {
-  CashFlowSvg,
-  DashboardSvg,
-  HamburgerIcon,
-  IconButton,
-  Logo,
-  PlanningSvg,
-  ReportsSvg,
-  SettingsSvg,
-  ToolsSvg,
-} from '@finex/ui-kit';
 
 import styles from './MainLayout.module.scss';
 
@@ -102,20 +86,12 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
 
   const [isOpened, setIsOpened] = useState(true);
 
-  const theme = useTheme();
-
   const handleDrawerToggle = () => {
     setIsOpened(isOpened => !isOpened);
   };
 
   const menu: IMenuItem[] = useMemo(() => {
     return [
-      {
-        id: 'dashboard',
-        link: '/dashboard',
-        label: t('Dashboard'),
-        icon: <img src={DashboardSvg} alt="" />,
-      },
       {
         id: 'transactions',
         link: '/transactions',
@@ -148,7 +124,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       },
       {
         id: 'reports',
-        link: '#',
+        link: '/reports',
         label: t('Reports'),
         icon: <img src={ReportsSvg} alt="" />,
       },
@@ -168,34 +144,17 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
   }, []);
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      {/*<CssBaseline />*/}
-      <AppBar
-        position="fixed"
-        sx={{
-          zIndex: theme.zIndex.drawer + 1,
-          backgroundColor: 'white',
-          boxShadow: 'none',
-        }}
-      >
-        <Toolbar>
-          <IconButton aria-label="open drawer" className={styles.header__hamburger} onClick={handleDrawerToggle}>
-            <HamburgerIcon />
-          </IconButton>
+    <div className={styles.layout}>
+      <Drawer variant="permanent" open={isOpened} onClick={handleDrawerToggle}>
+        <List component="nav" onClick={e => e.stopPropagation()}>
+          <ListItemButton href="/" component={Link}>
+            <ListItemIcon>
+              <Logo className={styles.header__logo} />
+            </ListItemIcon>
+            <ListItemText primary="FINEX.io" />
+          </ListItemButton>
 
-          <Logo className={styles.header__logo} />
-
-          <Typography variant="h6" noWrap color={theme.palette.text.primary} component="div">
-            FINEX.io
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <Drawer variant="permanent" open={isOpened}>
-        <Toolbar />
-
-        <List component="nav">
-          <ProjectMenu />
+          {/*<ProjectMenu />*/}
 
           {menu.map(({ link, label, icon: Icon, id }) => (
             <ListItemButton href={link} component={Link} key={id}>
@@ -208,32 +167,10 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
         {/*<Divider />*/}
       </Drawer>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
-          height: '100vh',
-        }}
-      >
-        <Toolbar />
-        <Divider />
-
-        <Box
-          sx={{
-            flexGrow: 1,
-            p: '2rem 3rem',
-            backgroundColor: '#f9f9f9',
-          }}
-        >
-          {!profileRepository.profile ? (
-            <div>loading...</div>
-          ) : (
-            <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
-          )}
-        </Box>
-      </Box>
-    </Box>
+      <div className={styles.content}>
+        {!profileRepository.profile ? <Loader /> : <Suspense fallback={<Loader />}>{children}</Suspense>}
+      </div>
+    </div>
   );
 });
 

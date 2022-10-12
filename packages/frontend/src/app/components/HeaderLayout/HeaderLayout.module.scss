@@ -1,0 +1,17 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.header {
+  padding: 2.4rem 3.2rem;
+}
+
+.title {
+  margin: 0;
+  //height: 4rem;
+  padding: 0;
+  @include typography.h2;
+}
+
+.subtitle {
+  @include typography.subtitle;
+}

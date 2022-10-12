@@ -6,19 +6,20 @@
 }
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
 
   &__helperText {
     margin-top: 4px;
     font-size: 1.2rem;
-    color: colors.$grayDarkest;
+    color: colors.$neutral500;
   }
 
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: colors.$red;
+    color: colors.$danger600;
   }
 }
 
@@ -41,30 +42,30 @@
     width: 18px;
     height: 18px;
     border-radius: 3px;
-    border: 1px solid colors.$grayDark;
-    background: colors.$white;
+    border: 1px solid colors.$neutral400;
+    background: colors.$neutral0;
     box-sizing: border-box;
   }
 
   // Box checked
   &:checked + label:before {
-    border: 1px solid colors.$blueLight;
-    background: colors.$blueLight;
+    border: 1px solid colors.$secondary700;
+    background: colors.$secondary600;
   }
 
   // Box focus
   &:focus + label:before {
-    border: 1px solid colors.$blue;
+    border: 1px solid colors.$secondary600;
   }
 
   // Box hover
   &:hover + label:before {
-    border: 1px solid colors.$blue;
-    background: colors.$blueLight;
+    border: 1px solid colors.$secondary600;
+    background: colors.$secondary700;
   }
 
   .container_error & + label:before {
-    border: 1px solid colors.$red;
+    border: 1px solid colors.$danger500;
   }
 
   // Disabled state label.
@@ -76,8 +77,8 @@
   // Disabled box.
   &:disabled + label:before {
     box-shadow: none;
-    border: 1px solid colors.$gray;
-    background: colors.$gray;
+    border: 1px solid colors.$neutral150;
+    background: colors.$neutral150;
   }
 
   // Checkmark. Could be replaced with an image
@@ -86,7 +87,7 @@
     position: absolute;
     left: 4px;
     top: 8px;
-    background: white;
+    background: colors.$neutral0;
     width: 2px;
     height: 2px;
     box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;

@@ -8,9 +8,9 @@ td.root {
 .dateColumn {
   display: flex;
   align-items: center;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 4px 4px 0;
   height: 100%;
-  background-color: colors.$grayLight;
+  background-color: colors.$neutral100;
   cursor: pointer;
 
   &__colorMark {
@@ -28,7 +28,7 @@ td.root {
   &__dateContainer {
     display: flex;
     flex-direction: column;
-    padding: 0.6rem 1.8rem 0.6rem 1.4rem;
+    padding: 0.8rem 1.6rem 0.8rem 1.6rem;
   }
 
   &__date {

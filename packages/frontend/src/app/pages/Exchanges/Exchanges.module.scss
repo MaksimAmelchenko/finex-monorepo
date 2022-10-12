@@ -1,19 +1,30 @@
 @use 'packages/theme/src/lib/styles/colors';
-@use 'packages/theme/src/lib/styles/typography';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 2.4rem;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+
+  &__panel {
+    padding: 0 3.2rem;
+  }
+}
 
 .panel {
-  position: sticky;
-  top: 5.6rem;
   display: grid;
-  //grid-template-columns: 1fr minmax(20rem, auto);
-  grid-template-columns: 1fr 20rem;
+  grid-template-columns: 1fr auto;
   grid-template-areas:
     'toolbar pagination'
     'filter filter';
-
-  padding: 6px 0;
-
-  background-color: colors.$grayLight;
 
   &__toolbar {
     margin-right: 1.2rem;
@@ -27,7 +38,7 @@
 
   &__filter {
     display: flex;
-    gap: 24px;
+    gap: 2.4rem;
     grid-area: filter;
     padding: 1rem 0;
   }
@@ -36,34 +47,36 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
-  flex-grow: 1;
 
   &__buttons {
     display: flex;
-    gap: 1.2rem;
+    gap: 0.8rem;
   }
 
   &__rightColumn {
     display: flex;
-    gap: 1.2rem;
-    margin-left: 1.2rem;
+    gap: 0.8rem;
+    margin-left: 0.8rem;
   }
 
   &__search {
-    min-width: 40rem;
+    min-width: 9.6rem;
   }
 }
 
 .filterButton {
   &_active {
-    color: colors.$blackDark;
+    color: colors.$neutral1000;
   }
 }
 
-.table {
-  @include typography.body2;
-  background-color: colors.$white;
+.tableWrapper {
+  overflow: auto;
+  height: 100%;
+  padding: 0 3.2rem 2.4rem;
+}
 
+.table {
   td {
     height: 1px;
   }

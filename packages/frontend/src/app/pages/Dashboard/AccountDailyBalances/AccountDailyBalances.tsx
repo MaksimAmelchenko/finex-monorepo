@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { ResponsiveLine, PointTooltipProps } from '@nivo/line';
+import { PointTooltipProps, ResponsiveLine } from '@nivo/line';
 import { linearGradientDef } from '@nivo/core';
 import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 
 import { BalanceRepository } from '../../../stores/balance-repository';
-import { CircularIndeterminate } from '@finex/ui-kit';
 import { IAccount } from '../../../types/account';
 import { IMoney } from '../../../types/money';
-import { InlineSelect, IOption, InlineDateRangePicker } from '@finex/ui-kit';
+import { InlineDateRangePicker, InlineSelect, IOption } from '@finex/ui-kit';
+import { Loader } from '../../../components/Loader/Loader';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { ParamsStore } from '../../../stores/params-store';
 import { ProjectsRepository } from '../../../stores/projects-repository';
@@ -144,16 +144,15 @@ export const AccountDailyBalances = observer(() => {
         </div>
       </div>
       {!dailyBalancesLoadState.isDone() ? (
-        <div className={styles.loader}>
-          <CircularIndeterminate />
-        </div>
+        <Loader />
       ) : (
         <>
           {dataByMoney.map(({ money, series }) => {
             return (
               <article className={styles.chart} key={money.id}>
                 <ResponsiveLine
-                  margin={{ top: 20, right: 200, bottom: 60, left: 80 }}
+                  // margin={{ top: 24, right: 24, bottom: 56, left: 24 }}
+                  margin={{ top: 0, right: 32, bottom: 56, left: 80 }}
                   data={series}
                   animate
                   useMesh
@@ -182,32 +181,32 @@ export const AccountDailyBalances = observer(() => {
                   curve="linear"
                   pointSize={0}
                   tooltip={Tooltip}
-                  legends={[
-                    {
-                      anchor: 'bottom-right',
-                      direction: 'column',
-                      justify: false,
-                      translateX: 100,
-                      translateY: 0,
-                      itemsSpacing: 0,
-                      itemDirection: 'left-to-right',
-                      itemWidth: 80,
-                      itemHeight: 20,
-                      itemOpacity: 0.75,
-                      symbolSize: 12,
-                      symbolShape: 'circle',
-                      symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                      effects: [
-                        {
-                          on: 'hover',
-                          style: {
-                            itemBackground: 'rgba(0, 0, 0, .03)',
-                            itemOpacity: 1,
-                          },
-                        },
-                      ],
-                    },
-                  ]}
+                  // legends={[
+                  //   {
+                  //     anchor: 'bottom-right',
+                  //     direction: 'column',
+                  //     justify: false,
+                  //     translateX: 100,
+                  //     translateY: 0,
+                  //     itemsSpacing: 0,
+                  //     itemDirection: 'left-to-right',
+                  //     itemWidth: 80,
+                  //     itemHeight: 20,
+                  //     itemOpacity: 0.75,
+                  //     symbolSize: 12,
+                  //     symbolShape: 'circle',
+                  //     symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                  //     effects: [
+                  //       {
+                  //         on: 'hover',
+                  //         style: {
+                  //           itemBackground: 'rgba(0, 0, 0, .03)',
+                  //           itemOpacity: 1,
+                  //         },
+                  //       },
+                  //     ],
+                  //   },
+                  // ]}
                   enableArea={true}
                   defs={[
                     linearGradientDef('gradientA', [

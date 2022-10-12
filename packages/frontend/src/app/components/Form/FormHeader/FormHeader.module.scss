@@ -2,16 +2,15 @@
 @use 'packages/theme/src/lib/styles/typography';
 
 .header {
-  padding: 2.4rem 3.2rem 1.6rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 5px colors.$grayLight;
-  z-index: 1;
-  background-color: colors.$grayLight;
+  box-shadow: 0 2px 5px colors.$neutral100;
+  padding: 1.6rem 3.2rem;
+  background-color: colors.$neutral100;
 
   &__title {
-    @include typography.h5();
+    @include typography.h2();
   }
 
   &__closeButton {

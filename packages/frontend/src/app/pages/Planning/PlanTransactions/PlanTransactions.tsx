@@ -15,6 +15,7 @@ import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './PlanTransactions.module.scss';
+import { HeaderLayout } from '../../../components/HeaderLayout/HeaderLayout';
 
 const t = getT('PlanTransaction');
 
@@ -60,32 +61,28 @@ export const PlanTransactions = observer(() => {
     planTransactionsRepository.refresh();
   };
 
+  const selectedPlans = planTransactions.filter(({ isSelected }) => isSelected);
+
   const handleDeleteClick = () => {
-    if (planTransactions.filter(({ isSelected }) => isSelected).length > 1) {
+    if (selectedPlans.length > 1) {
       if (!window.confirm(t('Are you sure you what to delete several plan transactions?'))) {
         return;
       }
     }
 
-    planTransactions
-      .filter(({ isSelected }) => isSelected)
-      .forEach(planTransaction => {
-        planTransactionsRepository.removePlanTransaction(planTransaction).catch(err => console.error({ err }));
-      });
+    selectedPlans.forEach(planTransaction => {
+      planTransactionsRepository.removePlanTransaction(planTransaction).catch(err => console.error({ err }));
+    });
   };
 
-  const selectedPlans = planTransactions.filter(({ isSelected }) => isSelected);
-
   return (
-    <>
-      <article>
-        <h1 className={styles.header}>
-          Планирование <span className={styles.subHeader}> {'>'} Доходы и расходы </span>
-        </h1>
-        <div className={styles.panel}>
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Planning - Incomes & Expenses')} />
+      <main className={styles.content}>
+        <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleOpenAddPlanTransaction}>
+              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddPlanTransaction}>
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedPlans.length} onClick={handleDeleteClick}>
@@ -97,41 +94,42 @@ export const PlanTransactions = observer(() => {
             </div>
           </div>
         </div>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                <th>
+                  {t('Account')}
+                  <br />
+                  {t('Counterparty')}
+                </th>
+                <th>{t('Category')}</th>
+                <th colSpan={2}>{t('Amount')}</th>
+                <th>{t('Schedule')}</th>
+                <th>{t('Note')}</th>
+              </tr>
+            </thead>
 
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '8px' }}>{t('Date')}</th>
-              <th>
-                {t('Account')}
-                <br />
-                {t('Counterparty')}
-              </th>
-              <th>{t('Category')}</th>
-              <th colSpan={2}>{t('Amount')}</th>
-              <th>{t('Schedule')}</th>
-              <th>{t('Note')}</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {planTransactions.map(planTransaction => (
-              <PlanTransactionRow
-                planTransaction={planTransaction}
-                onClick={handleClickOnPlanTransaction}
-                key={planTransaction.planId}
-              />
-            ))}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </article>
+            <tbody>
+              {planTransactions.map(planTransaction => (
+                <PlanTransactionRow
+                  planTransaction={planTransaction}
+                  onClick={handleClickOnPlanTransaction}
+                  key={planTransaction.planId}
+                />
+              ))}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </main>
 
       <Drawer isOpened={isOpenedPlanTransactionWindow}>
         {planTransaction && (
           <PlanTransactionWindow planTransaction={planTransaction} onClose={handleClosePlanTransactionWindow} />
         )}
       </Drawer>
-    </>
+    </div>
   );
 });

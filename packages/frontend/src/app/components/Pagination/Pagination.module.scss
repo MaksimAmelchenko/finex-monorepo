@@ -2,12 +2,13 @@
 
 .pagination {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
-  @include typography.body2;
+  @include typography.bodyHighlight;
 
   &__label {
     padding: 0 0.8rem;
-    //letter-spacing: 0.4px;
+    white-space: nowrap;
   }
 
   &__buttons {

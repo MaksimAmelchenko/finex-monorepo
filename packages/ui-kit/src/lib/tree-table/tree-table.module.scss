@@ -19,8 +19,8 @@
 
 .indent {
   flex-shrink: 0;
-  margin-left: calc((var(--level, 1) - 1) * 24px);
-  width: 24px;
+  margin-left: calc((var(--level, 1) - 1) * 2.4rem);
+  width: 2.4rem;
   user-select: none;
   cursor: pointer;
 

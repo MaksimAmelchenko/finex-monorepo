@@ -43,23 +43,22 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
   const theme = useTheme([
     {
       Table: `
-        --data-table-library_grid-template-columns: 300px repeat(${rangeLength + 1}, 1fr) 1fr;
+        --data-table-library_grid-template-columns: 32rem repeat(${rangeLength + 1}, 1fr) 1fr;
       `,
       HeaderRow: `
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 1rem 1rem 0 0;
         background-color: #fbfcfe;
       `,
       FooterRow: `
         background-color: #fbfcfe;
       `,
       BaseCell: `
-        height: 32px;
-        padding: 4px 8px;
+        height: 3.2rem;
+        padding: 0.4rem 0.8rem;
 
         &:not(:last-of-type) {
           border-right: 1px solid #eceef1;
         }
-        // border-bottom: 1px solid #eceef1;
 
         &:nth-of-type(1) {
           position: sticky;
@@ -88,8 +87,8 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
         margin: '0',
         iconRight: <ArrowForwardIcon />,
         iconDown: <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />,
-        noIconMargin: '24px',
-        size: '24px',
+        noIconMargin: '2.4rem',
+        size: '2.4rem',
       },
     }
   );
@@ -104,7 +103,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
     },
     {
       sortIcon: {
-        size: '20px',
+        size: '2rem',
         iconDefault: <SortIcon />,
         iconUp: <ArrowForwardIcon style={{ transform: 'rotate(270deg)' }} />,
         iconDown: <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />,

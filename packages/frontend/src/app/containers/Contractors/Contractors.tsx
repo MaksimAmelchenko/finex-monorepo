@@ -69,11 +69,11 @@ export const Contractors = observer(() => {
 
   return (
     <>
-      <article>
-        <div className={styles.panel}>
+      <article className={styles.article}>
+        <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="secondary" onClick={handleAddClick}>
+              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
                 {t('New')}
               </Button>
               <Button
@@ -90,20 +90,22 @@ export const Contractors = observer(() => {
             </div>
           </div>
         </div>
-        <table className={clsx('table table-hover table-sm', styles.table)}>
-          <thead>
-            <tr>
-              <th />
-              <th>{t('Name')}</th>
-              <th>{t('Note')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contractors.map(contractor => (
-              <Contractor contractor={contractor} onClick={handleClickOnContractor} key={contractor.id} />
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.tableWrapper}>
+          <table className={clsx('table table-hover table-sm', styles.table)}>
+            <thead>
+              <tr>
+                <th />
+                <th>{t('Name')}</th>
+                <th>{t('Note')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contractors.map(contractor => (
+                <Contractor contractor={contractor} onClick={handleClickOnContractor} key={contractor.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </article>
 
       <Drawer isOpened={isOpenedContractorWindow}>

@@ -3,11 +3,11 @@
 
 .tag {
   display: inline-flex;
-  @include typography.body2();
+  @include typography.bodyHighlight();
   line-height: 1.6rem;
-  background-color: colors.$blueLight;
+  background-color: colors.$primary200;
   border-radius: 0.3rem;
-  color: colors.$white;
+  color: colors.$primary600;
 
   &__label {
     padding: 4px 8px;
@@ -20,7 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px;
+    min-width: 2.4rem;
     cursor: pointer;
     border-radius: 0.3rem;
 
@@ -30,11 +30,11 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     background-color: inherit;
-    color: inherit;
+    color: colors.$neutral1000;
 
     &:focus,
     &:hover {
-      background-color: colors.$blue;
+      background-color: colors.$primary500;
     }
   }
 

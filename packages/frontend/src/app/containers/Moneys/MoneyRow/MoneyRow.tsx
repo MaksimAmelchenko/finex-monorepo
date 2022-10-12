@@ -27,7 +27,7 @@ export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }: MoneyRowPro
 
   return (
     <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td>
+      <td className="min-width">
         <Checkbox value={isSelected} onChange={handleOnSelect} />
       </td>
       <td>

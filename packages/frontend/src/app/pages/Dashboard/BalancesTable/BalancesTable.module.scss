@@ -1,0 +1,45 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.row {
+  background-color: colors.$neutral0;
+  @include typography.bodyHighlight();
+
+  & td {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+
+  &_group {
+    @include typography.body();
+    background-color: colors.$neutral100;
+  }
+
+  &_delimiter {
+    height: 0.8rem;
+  }
+
+  &_delimiter_with_border {
+    border-top: 1px solid colors.$neutral150;
+  }
+
+  &__amount {
+    .row_group & {
+    }
+  }
+
+  &__currency_symbol {
+    color: colors.$neutral500;
+
+    .row_group & {
+    }
+  }
+
+  td.row__lastCell {
+    padding-right: 2.4rem;
+  }
+}
+
+.label {
+  vertical-align: top;
+}

@@ -8,7 +8,7 @@ import { PlannedTransaction } from '../../../stores/models/planned-transaction';
 import { Transaction } from '../../../stores/models/transaction';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 
-import styles from './Transaction.module.scss';
+import styles from './TransactionRow.module.scss';
 
 const t = getT('CashFlow');
 
@@ -18,19 +18,8 @@ interface TransactionRowProps {
 }
 
 export const TransactionRow = observer<TransactionRowProps>(({ transaction, onClick }) => {
-  const {
-    transactionDate,
-    account,
-    contractor,
-    category,
-    sign,
-    amount,
-    money,
-    note,
-    tags,
-    isSelected,
-    isDeleting,
-  } = transaction;
+  const { transactionDate, account, contractor, category, sign, amount, money, note, tags, isSelected, isDeleting } =
+    transaction;
 
   const handleOnSelect = (event: React.SyntheticEvent) => {
     event.stopPropagation();
@@ -42,7 +31,8 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
   };
 
   const isPlanned = transaction instanceof PlannedTransaction;
-  const isOverdue = (isPlanned || transaction.isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
+  const isOverdue =
+    (isPlanned || transaction.isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
     <tr onClick={handleOnClick} className={clsx(isDeleting && styles.row_is_deleting)}>
