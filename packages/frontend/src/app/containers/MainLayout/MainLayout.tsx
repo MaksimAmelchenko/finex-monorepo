@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useState } from 'react';
+import React, { Fragment, Suspense, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
@@ -10,7 +10,17 @@ import ListItemText from '@mui/material/ListItemText';
 import MuiDrawer from '@mui/material/Drawer';
 import { CSSObject, styled, Theme } from '@mui/material/styles';
 
-import { CashFlowSvg, Logo, PlanningSvg, ReportsSvg, SettingsSvg, ToolsSvg } from '@finex/ui-kit';
+import {
+  ArrowForwardIcon,
+  BarIncreaseSvg,
+  CashFlowSvg,
+  Logo,
+  PieSvg,
+  PlanningSvg,
+  ReportsSvg,
+  SettingsSvg,
+  ToolsSvg,
+} from '@finex/ui-kit';
 import { Link } from '../../components/Link/Link';
 import { Loader } from '../../components/Loader/Loader';
 import { ProfileRepository } from '../../stores/profile-repository';
@@ -77,6 +87,7 @@ interface IMenuItem {
   link: string;
   label: string;
   icon: React.ReactNode;
+  items?: IMenuItem[];
 }
 
 const t = getT('MainLayout');
@@ -127,6 +138,20 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
         link: '/reports',
         label: t('Reports'),
         icon: <img src={ReportsSvg} alt="" />,
+        items: [
+          {
+            id: 'dynamicsReport',
+            link: '/reports/dynamics',
+            label: t('Dynamics'),
+            icon: <img src={BarIncreaseSvg} alt="" />,
+          },
+          {
+            id: 'distributionReport',
+            link: '/reports/distribution',
+            label: t('Distribution'),
+            icon: <img src={PieSvg} alt="" />,
+          },
+        ],
       },
       {
         id: 'settings',
@@ -143,6 +168,16 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
     ];
   }, []);
 
+  const [openedMenuIds, setOpenedMenuIds] = React.useState<string[]>([]);
+
+  const handleClick = (menuId: string) => () => {
+    if (openedMenuIds.includes(menuId)) {
+      setOpenedMenuIds(openedMenuIds.filter(id => id !== menuId));
+    } else {
+      setOpenedMenuIds([...openedMenuIds, menuId]);
+    }
+  };
+
   return (
     <div className={styles.layout}>
       <Drawer variant="permanent" open={isOpened} onClick={handleDrawerToggle}>
@@ -156,12 +191,37 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
 
           {/*<ProjectMenu />*/}
 
-          {menu.map(({ link, label, icon: Icon, id }) => (
-            <ListItemButton href={link} component={Link} key={id}>
-              <ListItemIcon>{Icon}</ListItemIcon>
-              <ListItemText primary={label} />
-            </ListItemButton>
-          ))}
+          {menu.map(({ link, label, icon: Icon, items, id }) => {
+            return (
+              <Fragment key={id}>
+                <ListItemButton {...(items ? { onClick: handleClick(id) } : { href: link, component: Link })}>
+                  <ListItemIcon>{Icon}</ListItemIcon>
+                  <ListItemText primary={label} />
+                  {items ? (
+                    openedMenuIds.includes(id) ? (
+                      <ArrowForwardIcon style={{ transform: 'rotate(270deg)' }} />
+                    ) : (
+                      <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />
+                    )
+                  ) : null}
+                </ListItemButton>
+                {items && (
+                  <Collapse in={openedMenuIds.includes(id)} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      {items.map(({ link, label, icon: Icon, items, id }) => {
+                        return (
+                          <ListItemButton href={link} component={Link} key={id}>
+                            <ListItemIcon>{Icon}</ListItemIcon>
+                            <ListItemText primary={label} />
+                          </ListItemButton>
+                        );
+                      })}
+                    </List>
+                  </Collapse>
+                )}
+              </Fragment>
+            );
+          })}
         </List>
 
         {/*<Divider />*/}

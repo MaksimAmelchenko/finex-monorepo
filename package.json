@@ -61,6 +61,7 @@
     "@nivo/bar": "^0.80.0",
     "@nivo/core": "^0.80.0",
     "@nivo/line": "^0.80.0",
+    "@nivo/sunburst": "^0.80.0",
     "@reach/dialog": "^0.17.0",
     "@table-library/react-table-library": "^4.0.18",
     "clsx": "^1.2.1",

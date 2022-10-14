@@ -6,44 +6,38 @@ import {
   FooterCell,
   FooterRow,
   Header,
-  HeaderCell,
   HeaderRow,
   Row,
   Table,
 } from '@table-library/react-table-library/table';
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
-import { add, differenceInMonths, format, formatISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 
 import { ArrowForwardIcon, SortIcon } from '../../../../../../../ui-kit/src';
 import { ReportsRepository } from '../../../../stores/reports-store';
-import { formatDate, getT, toCurrency } from '../../../../lib/core/i18n';
+import { getT, toCurrency } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
 import { useStore } from '../../../../core/hooks/use-store';
 import { useTheme } from '@table-library/react-table-library/theme';
 
-import styles from './DynamicsTable.module.scss';
+import styles from './DistributionTable.module.scss';
 
-const t = getT('DynamicsTable');
+const t = getT('DistributionTable');
 
-interface DynamicsTableProps {
+interface DistributionTableProps {
   valueType: string;
 }
 
-export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
+export const DistributionTable = observer<DistributionTableProps>(({ valueType }) => {
   const reportsRepository = useStore(ReportsRepository);
 
-  const { dynamicsReport, dynamicsReportFilter: filter } = reportsRepository;
-
-  const rangeLength = differenceInMonths(filter.range[1], filter.range[0]);
-
-  const months: Date[] = [...Array(rangeLength + 1)].map((_, index) => add(filter.range[0], { months: index }));
+  const { distributionReport, distributionReportFilter: filter } = reportsRepository;
 
   const theme = useTheme([
     {
       Table: `
-        --data-table-library_grid-template-columns: 32rem repeat(${rangeLength + 1}, 1fr) 1fr;
+        --data-table-library_grid-template-columns: 32rem 1fr;
       `,
       HeaderRow: `
         border-radius: 1rem 1rem 0 0;
@@ -79,7 +73,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
   ]);
 
   const tree = useTree(
-    dynamicsReport || { nodes: [] },
+    distributionReport || { nodes: [] },
     {},
     {
       clickType: TreeExpandClickTypes.ButtonClick,
@@ -94,7 +88,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
   );
 
   const sort = useSort(
-    dynamicsReport || { nodes: [] },
+    distributionReport || { nodes: [] },
     {
       state: {
         sortKey: 'CATEGORY',
@@ -110,19 +104,19 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
       },
       sortFns: {
         CATEGORY: array => array.sort((a, b) => a.category?.name.localeCompare(b.category?.name)),
-        TOTAL: array => array.sort((a, b) => getValue(a.total, valueType) - getValue(b.total, valueType)),
+        TOTAL: array => array.sort((a, b) => getValue(a.amount, valueType) - getValue(b.amount, valueType)),
       },
     }
   );
 
-  if (!dynamicsReport) {
+  if (!distributionReport) {
     return null;
   }
-
+  console.log(distributionReport);
   return (
     <div className={styles.tableContainer}>
       <Table
-        data={dynamicsReport}
+        data={distributionReport}
         tree={tree}
         theme={theme}
         sort={sort}
@@ -135,28 +129,19 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
                 <HeaderCellSort pinLeft sortKey="CATEGORY">
                   {t('Category')}
                 </HeaderCellSort>
-                {months.map(month => (
-                  <HeaderCell key={month.getTime()}>{formatDate(formatISO(month), 'date.formats.month')}</HeaderCell>
-                ))}
-                <HeaderCellSort sortKey="TOTAL">{t('Total')}</HeaderCellSort>
+                <HeaderCellSort sortKey="TOTAL" className={styles.cell__textAlignRight}>
+                  {t('Total')}
+                </HeaderCellSort>
               </HeaderRow>
             </Header>
             <Body>
               {tableList.map(item => {
-                const total = getValue(item.total, valueType);
+                const amount = getValue(item.amount, valueType);
                 return (
                   <Row item={item} key={item.id}>
                     <CellTree item={item}>{item.category?.name || t('Others')}</CellTree>
-                    {months.map(month => {
-                      const value = getValue(item[format(month, 'yyyyMM')], valueType);
-                      return (
-                        <Cell className={styles.cell__textAlignRight} key={month.getTime()}>
-                          {value && toCurrency(value, (filter.money?.precision ?? 2) - 2)}
-                        </Cell>
-                      );
-                    })}
                     <Cell className={styles.cell__textAlignRight}>
-                      {total && toCurrency(total, (filter.money?.precision ?? 2) - 2)}
+                      {amount && toCurrency(amount, (filter.money?.precision ?? 2) - 2)}
                     </Cell>
                   </Row>
                 );
@@ -165,16 +150,8 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
             <Footer>
               <FooterRow>
                 <FooterCell>{t('Total')}</FooterCell>
-                {months.map(month => {
-                  const value = getValue(dynamicsReport.footer[format(month, 'yyyyMM')], valueType);
-                  return (
-                    <FooterCell className={styles.cell__textAlignRight} key={month.getTime()}>
-                      {value && toCurrency(value, (filter.money?.precision ?? 2) - 2)}
-                    </FooterCell>
-                  );
-                })}
                 <FooterCell className={styles.cell__textAlignRight}>
-                  {toCurrency(getValue(dynamicsReport.footer.total, valueType), (filter.money?.precision ?? 2) - 2)}
+                  {toCurrency(getValue(distributionReport.footer.total, valueType), (filter.money?.precision ?? 2) - 2)}
                 </FooterCell>
               </FooterRow>
             </Footer>

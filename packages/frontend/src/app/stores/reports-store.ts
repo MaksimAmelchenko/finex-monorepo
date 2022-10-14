@@ -4,12 +4,17 @@ import { format, sub } from 'date-fns';
 import { ApiError } from '../core/errors';
 import { CategoriesRepository } from './categories-repository';
 import {
+  DistributionReportTableNode,
+  DynamicsReportTableNode,
+  IDistributionReport,
+  IDistributionReportDTO,
+  IDistributionReportItemDTO,
+  IDistributionReportParams,
   IDynamicsReport,
   IDynamicsReportDTO,
+  IDynamicsReportItemDTO,
   IDynamicsReportParams,
-  IItemDTO,
   IReportsApi,
-  TableNode,
 } from '../types/report';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
@@ -22,7 +27,8 @@ export enum UsingType {
   Include = '1',
   Exclude = '2',
 }
-interface IFilter {
+
+interface IDynamicsReportFilter {
   range: [Date, Date];
   money: Money | null;
   contractorsUsingType: string;
@@ -36,14 +42,28 @@ interface IFilter {
   more: Array<'isUseReportPeriod' | 'isUsePlanningOperation'>;
 }
 
+interface IDistributionReportFilter {
+  range: [Date, Date];
+  money: Money | null;
+  contractorsUsingType: string;
+  contractors: string[];
+  accountsUsingType: string;
+  accounts: string[];
+  categoriesUsingType: string;
+  categories: string[];
+  tagsUsingType: string;
+  tags: string[];
+  more: Array<'isUseReportPeriod'>;
+}
+
 const t = getT('ReportsRepository');
 
 export class ReportsRepository extends ManageableStore {
   static storeName = 'ReportsRepository';
-
+  i = 0;
   dynamicsReport: IDynamicsReport | null = null;
   dynamicsReportLoadState: LoadState = LoadState.none();
-  filter: IFilter = {
+  dynamicsReportFilter: IDynamicsReportFilter = {
     range: [sub(new Date(), { months: 6 }), new Date()],
     money: null,
     contractorsUsingType: UsingType.Include,
@@ -57,6 +77,22 @@ export class ReportsRepository extends ManageableStore {
     more: ['isUseReportPeriod', 'isUsePlanningOperation'],
   };
 
+  distributionReport: IDistributionReport | null = null;
+  distributionReportLoadState: LoadState = LoadState.none();
+  distributionReportFilter: IDistributionReportFilter = {
+    range: [sub(new Date(), { months: 6 }), new Date()],
+    money: null,
+    contractorsUsingType: UsingType.Include,
+    contractors: [],
+    accountsUsingType: UsingType.Include,
+    accounts: [],
+    categoriesUsingType: UsingType.Include,
+    categories: [],
+    tagsUsingType: UsingType.Include,
+    tags: [],
+    more: ['isUseReportPeriod'],
+  };
+
   constructor(mainStore: MainStore, private api: IReportsApi) {
     super(mainStore);
 
@@ -64,23 +100,33 @@ export class ReportsRepository extends ManageableStore {
 
     makeObservable(this, {
       dynamicsReport: observable.shallow,
-      filter: observable,
+      dynamicsReportFilter: observable,
       dynamicsReportLoadState: observable,
+      distributionReport: observable.shallow,
+      distributionReportFilter: observable,
+      distributionReportLoadState: observable,
       clear: action,
       getDynamicsReport: action,
-      setFilter: action,
+      setDynamicsReportFilter: action,
+      getDistributionReport: action,
+      setDistributionReportFilter: action,
     });
 
     reaction(
-      () => this.filter,
+      () => this.dynamicsReportFilter,
       () => {
         this.getDynamicsReport().catch((err: ApiError) => {
-          // let message = err.message;
           const message = t('Something went wrong, please try again later');
-          // switch (err.code) {
-          //   case 'invalidParameters': {
-          //   }
-          // }
+          SnackbarUtils.error(message);
+        });
+      }
+    );
+
+    reaction(
+      () => this.distributionReportFilter,
+      () => {
+        this.getDistributionReport().catch((err: ApiError) => {
+          const message = t('Something went wrong, please try again later');
           SnackbarUtils.error(message);
         });
       }
@@ -102,7 +148,7 @@ export class ReportsRepository extends ManageableStore {
       tagsUsingType,
       tags,
       more,
-    } = this.filter;
+    } = this.dynamicsReportFilter;
     if (!money) {
       throw new Error('Money is not defined');
     }
@@ -110,7 +156,7 @@ export class ReportsRepository extends ManageableStore {
     const params: IDynamicsReportParams = {
       startDate: format(startDate, 'yyyy-MM-dd'),
       endDate: format(endDate, 'yyyy-MM-dd'),
-      isUseReportPeriod: more.includes('isUsePlanningOperation'),
+      isUseReportPeriod: more.includes('isUseReportPeriod'),
       moneyId: money.id,
       contractorsUsingType: Number(contractorsUsingType),
       contractors: contractors.join(','),
@@ -137,9 +183,64 @@ export class ReportsRepository extends ManageableStore {
       );
   }
 
-  setFilter(filter: Partial<IFilter>) {
-    this.filter = {
-      ...this.filter,
+  setDynamicsReportFilter(filter: Partial<IDynamicsReportFilter>) {
+    this.dynamicsReportFilter = {
+      ...this.dynamicsReportFilter,
+      ...filter,
+    };
+  }
+  async getDistributionReport(): Promise<void> {
+    this.distributionReportLoadState = LoadState.pending();
+
+    const {
+      range: [startDate, endDate],
+      money,
+      contractorsUsingType,
+      contractors,
+      accountsUsingType,
+      accounts,
+      categoriesUsingType,
+      categories,
+      tagsUsingType,
+      tags,
+      more,
+    } = this.distributionReportFilter;
+    if (!money) {
+      throw new Error('Money is not defined');
+    }
+
+    const params: IDistributionReportParams = {
+      startDate: format(startDate, 'yyyy-MM-dd'),
+      endDate: format(endDate, 'yyyy-MM-dd'),
+      isUseReportPeriod: more.includes('isUseReportPeriod'),
+      moneyId: money.id,
+      contractorsUsingType: Number(contractorsUsingType),
+      contractors: contractors.join(','),
+      accountsUsingType: Number(accountsUsingType),
+      accounts: accounts.join(','),
+      categoriesUsingType: Number(categoriesUsingType),
+      categories: categories.join(','),
+      tagsUsingType: Number(tagsUsingType),
+      tags: tags.join(','),
+    };
+
+    return this.api
+      .getDistributionReport(params)
+      .then(
+        action(response => {
+          this.distributionReport = this.decodeDistributionReport(response);
+        })
+      )
+      .then(
+        action(() => {
+          this.distributionReportLoadState = LoadState.done();
+        })
+      );
+  }
+
+  setDistributionReportFilter(filter: Partial<IDistributionReportFilter>) {
+    this.distributionReportFilter = {
+      ...this.distributionReportFilter,
       ...filter,
     };
   }
@@ -169,8 +270,8 @@ export class ReportsRepository extends ManageableStore {
       footer,
     };
   }
-  i = 0;
-  private decodeItems(items: IItemDTO[]): TableNode[] {
+
+  private decodeItems(items: IDynamicsReportItemDTO[]): DynamicsReportTableNode[] {
     return items.map(({ idCategory, items, ...rest }) => {
       const category = this.getStore(CategoriesRepository).get(String(idCategory));
       const total = Object.keys(rest).reduce<[number, number]>(
@@ -194,7 +295,33 @@ export class ReportsRepository extends ManageableStore {
     });
   }
 
+  private decodeDistributionReport({ items }: IDistributionReportDTO): IDistributionReport {
+    const nodes = this.decodeDistributionReportItems(items);
+    const total = nodes.reduce<[number, number]>((acc, { amount }) => [acc[0] + amount[0], acc[1] + amount[1]], [0, 0]);
+
+    return {
+      nodes,
+      footer: {
+        total,
+      },
+    };
+  }
+
+  private decodeDistributionReportItems(items: IDistributionReportItemDTO[]): DistributionReportTableNode[] {
+    return items.map(({ idCategory, items, sum }) => {
+      const category = this.getStore(CategoriesRepository).get(String(idCategory));
+
+      return {
+        id: String(this.i++),
+        category,
+        amount: sum,
+        nodes: items && Array.isArray(items) && items.length ? this.decodeDistributionReportItems(items) : null,
+      };
+    });
+  }
+
   clear(): void {
     this.dynamicsReport = null;
+    this.i = 0;
   }
 }

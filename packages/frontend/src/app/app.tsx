@@ -8,11 +8,12 @@ import { observer } from 'mobx-react-lite';
 import { CashFlows } from './containers/CashFlows/CashFlows';
 import { DashboardLazy } from './pages/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
+import { DistributionReportLazy } from './pages/Reports/DistributionReport/DistributionReportLazy';
+import { DynamicsReportLazy } from './pages/Reports/DynamicsReport/DynamicsReportLazy';
 import { Exchanges } from './pages/Exchanges/Exchanges';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
-import { ReportsLazy } from './pages/Reports/ReportsLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { ResetPasswordConfirmationLazy } from './pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy';
 import { ResetPasswordLazy } from './pages/ResetPassword/ResetPasswordLazy';
@@ -59,7 +60,8 @@ export const App = observer(() => {
                       <Route path="/transfers" element={<Transfers />} />
                       <Route path="/exchanges" element={<Exchanges />} />
                       <Route path="/planning" element={<PlanningLazy />} />
-                      <Route path="/reports" element={<ReportsLazy />} />
+                      <Route path="/reports/dynamics" element={<DynamicsReportLazy />} />
+                      <Route path="/reports/distribution" element={<DistributionReportLazy />} />
 
                       <Route path="/settings" element={<SettingsLazy />} />
                       <Route path="/settings/:tab" element={<SettingsLazy />} />

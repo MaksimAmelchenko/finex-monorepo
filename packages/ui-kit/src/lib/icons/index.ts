@@ -1,4 +1,5 @@
 export { ReactComponent as ArrowForwardIcon, default as ArrowForwardSvg } from './arrow-forward.svg';
+export { ReactComponent as BarIncreaseIcon, default as BarIncreaseSvg } from './bar-increase.svg';
 export { ReactComponent as CalendarIcon, default as CalendarSvg } from './calendar.svg';
 export { ReactComponent as CashFlowIcon, default as CashFlowSvg } from './cash-flow.svg';
 export { ReactComponent as CheckboxIcon, default as CheckboxSvg } from './checkbox.svg';
@@ -11,6 +12,7 @@ export { ReactComponent as GraphIcon, default as GraphSvg } from './graph.svg';
 export { ReactComponent as HamburgerIcon, default as HamburgerSvg } from './hamburger.svg';
 export { ReactComponent as LoadingIcon, default as LoadingSvg } from './loading.svg';
 export { ReactComponent as Logo, default as LogoSvg } from './logo.svg';
+export { ReactComponent as PieIcon, default as PieSvg } from './pie.svg';
 export { ReactComponent as PlanningIcon, default as PlanningSvg } from './planning.svg';
 export { ReactComponent as PlusIcon, default as PlusSvg } from './plus.svg';
 export { ReactComponent as QuestionIcon, default as QuestionSvg } from './question.svg';

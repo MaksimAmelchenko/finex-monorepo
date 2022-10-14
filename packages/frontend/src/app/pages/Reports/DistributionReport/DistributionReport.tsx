@@ -8,8 +8,8 @@ import { AccountsRepository } from '../../../stores/accounts-repository';
 import { Button, GraphIcon, InlineSelect, IOption, ISelectOption, LoadingSvg, Select, TableIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../../stores/categories-repository';
 import { ContractorsRepository } from '../../../stores/contractors-repository';
-import { DynamicsGraph } from './DynamicsGraph/DynamicsGraph';
-import { DynamicsTable } from './DynamicsTable/DynamicsTable';
+import { DistributionGraph } from './DistributionGraph/DistributionGraph';
+import { DistributionTable } from './DistributionTable/DistributionTable';
 import { HeaderLayout } from '../../../components/HeaderLayout/HeaderLayout';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { MultiSelect } from '../../../components/MultiSelect/MultiSelect';
@@ -20,11 +20,11 @@ import { TagsRepository } from '../../../stores/tags-repository';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
-import styles from './DynamicsReport.module.scss';
+import styles from './DistributionReport.module.scss';
 
-const t = getT('DynamicsReport');
+const t = getT('DistributionReport');
 
-export const DynamicsReport = observer(() => {
+export const DistributionReport = observer(() => {
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
   const contractorsRepository = useStore(ContractorsRepository);
@@ -49,10 +49,6 @@ export const DynamicsReport = observer(() => {
         value: '3',
         label: t('Net expenses (Expenses - Income)'),
       },
-      {
-        value: '4',
-        label: t('Balance (Income - Expenses)'),
-      },
     ];
   }, []);
 
@@ -60,7 +56,7 @@ export const DynamicsReport = observer(() => {
   const [visualizationType, setVisualizationType] = useState<'table' | 'graph'>('graph');
   const [isShowParams, setIsShowParams] = useState<boolean>(false);
 
-  const { dynamicsReport, dynamicsReportLoadState, dynamicsReportFilter: filter } = reportsRepository;
+  const { distributionReportLoadState, distributionReportFilter: filter } = reportsRepository;
 
   const handleSelectValueType = (value: ISelectOption | null) => {
     if (value) {
@@ -119,16 +115,12 @@ export const DynamicsReport = observer(() => {
         value: 'isUseReportPeriod',
         label: t('Use report period'),
       },
-      {
-        value: 'isUsePlanningOperation',
-        label: t('Consider planned operations'),
-      },
     ];
   }, []);
 
   const setRange = useCallback(
     (values: [Date, Date]) => {
-      reportsRepository.setDynamicsReportFilter({ range: values });
+      reportsRepository.setDistributionReportFilter({ range: values });
     },
     [reportsRepository]
   );
@@ -136,49 +128,49 @@ export const DynamicsReport = observer(() => {
   const setMoney = ({ value }: IOption) => {
     const money = moneysRepository.get(value);
     if (money) {
-      reportsRepository.setDynamicsReportFilter({ money });
+      reportsRepository.setDistributionReportFilter({ money });
     }
   };
 
   const setContractorsUsingType = ({ value }: IOption) => {
-    reportsRepository.setDynamicsReportFilter({ contractorsUsingType: value });
+    reportsRepository.setDistributionReportFilter({ contractorsUsingType: value });
   };
 
   const setContractors = (contractors: ISelectOption[]) => {
-    reportsRepository.setDynamicsReportFilter({ contractors: contractors.map(({ value }) => value) });
+    reportsRepository.setDistributionReportFilter({ contractors: contractors.map(({ value }) => value) });
   };
 
   const setAccountsUsingType = ({ value }: IOption) => {
-    reportsRepository.setDynamicsReportFilter({ accountsUsingType: value });
+    reportsRepository.setDistributionReportFilter({ accountsUsingType: value });
   };
 
   const setAccounts = (accounts: ISelectOption[]) => {
-    reportsRepository.setDynamicsReportFilter({ accounts: accounts.map(({ value }) => value) });
+    reportsRepository.setDistributionReportFilter({ accounts: accounts.map(({ value }) => value) });
   };
 
   const setCategoriesUsingType = ({ value }: IOption) => {
-    reportsRepository.setDynamicsReportFilter({ categoriesUsingType: value });
+    reportsRepository.setDistributionReportFilter({ categoriesUsingType: value });
   };
 
   const setCategories = (categories: ISelectOption[]) => {
-    reportsRepository.setDynamicsReportFilter({ categories: categories.map(({ value }) => value) });
+    reportsRepository.setDistributionReportFilter({ categories: categories.map(({ value }) => value) });
   };
 
   const setTagsUsingType = ({ value }: IOption) => {
-    reportsRepository.setDynamicsReportFilter({ tagsUsingType: value });
+    reportsRepository.setDistributionReportFilter({ tagsUsingType: value });
   };
 
   const setTags = (tags: ISelectOption[]) => {
-    reportsRepository.setDynamicsReportFilter({ tags: tags.map(({ value }) => value) });
+    reportsRepository.setDistributionReportFilter({ tags: tags.map(({ value }) => value) });
   };
 
   const setMore = (more: ISelectOption[]) => {
-    reportsRepository.setDynamicsReportFilter({ more: more.map(({ value }) => value as any) });
+    reportsRepository.setDistributionReportFilter({ more: more.map(({ value }) => value as any) });
   };
 
   useEffect(() => {
     if (!moneysRepository.moneys.find(money => filter.money === money)) {
-      reportsRepository.setDynamicsReportFilter({
+      reportsRepository.setDistributionReportFilter({
         money: moneysRepository.moneys[0],
         categoriesUsingType: UsingType.Exclude,
         categories: [
@@ -192,7 +184,7 @@ export const DynamicsReport = observer(() => {
 
   return (
     <div className={styles.layout}>
-      <HeaderLayout title={t('Reports — Dynamics')} />
+      <HeaderLayout title={t('Reports — Distribution')} />
       <main className={styles.content}>
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
@@ -307,18 +299,18 @@ export const DynamicsReport = observer(() => {
           )}
         </div>
 
-        {dynamicsReportLoadState.isPending() && (
+        {distributionReportLoadState.isPending() && (
           <div className={styles.loader}>
             <img src={LoadingSvg} />
           </div>
         )}
 
         <div className={styles.content__visualization}>
-          {dynamicsReportLoadState.isDone() &&
+          {distributionReportLoadState.isDone() &&
             (visualizationType === 'table' ? (
-              <DynamicsTable valueType={valueType.value} />
+              <DistributionTable valueType={valueType.value} />
             ) : (
-              <DynamicsGraph valueType={valueType.value} />
+              <DistributionGraph valueType={valueType.value} />
             ))}
         </div>
       </main>
@@ -326,4 +318,4 @@ export const DynamicsReport = observer(() => {
   );
 });
 
-export default DynamicsReport;
+export default DistributionReport;

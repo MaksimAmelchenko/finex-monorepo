@@ -17,7 +17,7 @@ export const DynamicsGraph = observer<DynamicsTableProps>(({ valueType }) => {
   const reportsRepository = useStore(ReportsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
 
-  const { dynamicsReport, filter } = reportsRepository;
+  const { dynamicsReport, dynamicsReportFilter: filter } = reportsRepository;
 
   const rangeLength = differenceInMonths(filter.range[1], filter.range[0]);
 
@@ -76,7 +76,7 @@ export const DynamicsGraph = observer<DynamicsTableProps>(({ valueType }) => {
     <div style={{ height: 'calc(100% - 8px)' }} ref={refCallback}>
       {size.width && (
         <Bar
-          margin={{ top: 0, right: 32, bottom: 56, left: 64 }}
+          margin={{ top: 32, right: 32, bottom: 56, left: 64 }}
           width={size.width}
           height={size.height}
           indexBy="date"

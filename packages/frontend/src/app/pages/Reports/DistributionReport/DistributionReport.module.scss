@@ -1,0 +1,60 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 2.4rem;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+
+  &__panel,
+  &__visualization {
+    padding: 0 3.2rem;
+  }
+}
+
+.panel {
+  display: grid;
+  z-index: 4;
+
+  background-color: colors.$neutral100;
+
+  &__toolbar {
+  }
+
+  &__filter {
+    display: flex;
+    margin-top: 2.4rem;
+    column-gap: 2.4rem;
+    row-gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+}
+
+.toolbar {
+  &__buttons {
+    display: flex;
+    gap: 0.8rem;
+  }
+}
+
+.valueTypeSelect {
+  width: 32rem;
+}
+
+.multiSelect {
+  min-width: 32rem;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
