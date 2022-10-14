@@ -1,8 +1,9 @@
 @use 'packages/theme/src/lib/styles/media';
 
 .container {
-  padding: 0 10rem 2rem;
+  padding: 2rem 8rem 4rem;
+
   @include media.sm {
-    padding: 0 2rem 2rem;
+    padding: 2rem;
   }
 }

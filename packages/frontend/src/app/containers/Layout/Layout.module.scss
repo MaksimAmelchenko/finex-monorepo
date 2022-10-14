@@ -26,13 +26,13 @@
     margin-top: 8rem;
     width: 100%;
     max-width: 54rem;
-    padding-top: 7rem;
+    padding-top: 6rem;
     box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
     border-radius: 0.4rem;
     background-color: colors.$neutral0;
     @include media.sm {
       margin-top: 8rem;
-      padding-top: 5rem;
+      padding-top: 4rem;
     }
   }
 
@@ -45,8 +45,8 @@
     justify-content: center;
 
     svg {
-      width: 10rem;
-      height: auto;
+      width: auto;
+      height: 10rem;
     }
   }
 
@@ -56,8 +56,6 @@
 }
 
 .footer {
-  color: colors.$secondary700;
-
   &__link {
     margin: 0 1rem;
   }

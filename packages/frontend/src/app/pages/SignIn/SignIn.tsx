@@ -82,7 +82,7 @@ export function SignIn(): JSX.Element {
           initialValues={{ username, password: '' }}
           validationSchema={validationSchema}
         >
-          <FormLayout className={styles.formLayout}>
+          <FormLayout>
             <FormTextField name="username" type="text" label={t('Email')} autoFocusOnEmpty={true} />
             <FormTextField
               name="password"

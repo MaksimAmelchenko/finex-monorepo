@@ -14,7 +14,8 @@
 
   background-color: colors.$neutral0;
 
-  thead > tr > th {
+  thead > tr > th,
+  thead > tr > th button {
     @include typography.tableLabel;
     text-align: left;
   }

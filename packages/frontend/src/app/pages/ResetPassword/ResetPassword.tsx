@@ -60,7 +60,7 @@ export function ResetPassword(): JSX.Element {
             {t('To reset you password enter your email')}
             <FormTextField name="username" type="text" label={t('Email')} autoFocusOnEmpty={true} />
             <FormError />
-            <FormButton type="submit" size="large" color="primary" fullSize>
+            <FormButton type="submit" size="medium" color="primary" fullSize>
               {t('Next')}
             </FormButton>
           </FormLayout>

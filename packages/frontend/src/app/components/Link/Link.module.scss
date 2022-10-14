@@ -2,7 +2,7 @@
 @use 'packages/theme/src/lib/styles/typography';
 
 .link {
-  color: colors.$secondary700;
   text-decoration: none;
   @include typography.bodyHighlight;
+  color: colors.$secondary700;
 }
