@@ -2,6 +2,7 @@ import { ManageableStore } from '../manageable-store';
 import { ApiError, ApiErrors, CoreError } from '../errors';
 
 import { AuthRepository } from './auth-repository';
+import { getT } from '../../lib/core/i18n';
 
 /**
  * This is some syntax sugar for all api stores
@@ -23,6 +24,8 @@ interface IAppError {
 }
 
 const apiServer = process.env.NX_API_SERVER;
+
+const t = getT('ApiRepository');
 
 export abstract class ApiRepository extends ManageableStore {
   static storeName = 'ApiRepository';
@@ -89,7 +92,18 @@ export abstract class ApiRepository extends ManageableStore {
               apiErrorClass.status === 401 &&
               ['sessionClosed', 'sessionTimeout', 'jsonWebTokenError'].includes(error.code)
             ) {
-              return this.getStore(AuthRepository).clearAuth();
+              this.getStore(AuthRepository).clearAuth();
+              switch (error.code) {
+                case 'sessionTimeout': {
+                  throw new Error(t('Session Timeout'));
+                }
+                case 'sessionClosed': {
+                  throw new Error(t('Session closed'));
+                }
+                case 'jsonWebTokenError': {
+                  throw new Error(t('Invalid authorization'));
+                }
+              }
             }
             throw new apiErrorClass(error.message, error.code);
           });
