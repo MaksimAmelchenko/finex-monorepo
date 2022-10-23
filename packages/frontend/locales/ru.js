@@ -108,7 +108,7 @@ module.exports = {
     Save: 'Сохранить',
   },
   Dashboard: {
-    Outcome: 'Outcome',
+    Outcome: 'Обзор',
   },
   DebtItem: {
     Income: 'Приход',
@@ -298,7 +298,7 @@ module.exports = {
     Distribution: 'Распределение',
     Settings: 'Настройки',
     Tools: 'Инструменты',
-    Outcome: 'Outcome',
+    Outcome: 'Обзор',
   },
   Moneys: {
     'Are you sure you want to delete several moneys?': 'Вы уверены, что хотите удалить несколько валют?',
