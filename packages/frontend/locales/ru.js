@@ -281,7 +281,7 @@ module.exports = {
     'Export Data': 'Экспорт данных',
     'Export data in CSV file_ The data will be sent to your E-mail_':
       'Экспорт данных в файл CSV. Данные будут отправлены на ваш E-mail.',
-    Export: 'Export',
+    Export: 'Выгрузить данные',
   },
   Layout: {
     Home: 'На главную',
