@@ -1,31 +1,16 @@
-import React, { AnchorHTMLAttributes } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import { Link as RouterLink } from 'react-router-dom';
-
-import { GAOptions } from '../../types';
+import { ILinkBaseProps, LinkBase } from '../LinkBase/LinkBase';
 
 import styles from './Link.module.scss';
 
-export interface ILinkProps extends GAOptions, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'css'> {
-  href: string;
-}
+export interface ILinkProps extends ILinkBaseProps {}
 
 export const Link = React.forwardRef<HTMLAnchorElement, ILinkProps>(function Link(props, ref) {
-  const { href, className, children, ...rest } = props;
-
-  return /^(https?:\/\/|tel:|mailto:)/.test(href) ? (
-    <a
-      href={href}
-      {...rest}
-      target="_blank"
-      rel="nofollow noopener noreferrer"
-      className={clsx(className, styles.link)}
-    >
+  const { className, children, ...rest } = props;
+  return (
+    <LinkBase {...rest} ref={ref} className={clsx(styles.link, className)}>
       {children}
-    </a>
-  ) : (
-    <RouterLink to={href} {...rest} ref={ref} className={clsx(styles.link, className)}>
-      {children}
-    </RouterLink>
+    </LinkBase>
   );
 });
