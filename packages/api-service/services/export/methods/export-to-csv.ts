@@ -12,7 +12,7 @@ import { TransactionalEmail } from '../../transactional-email';
 import { Template } from '../../../types/transactional-email';
 import { AccessDeniedError } from '../../../libs/errors';
 import { SessionService } from '../../session';
-import { UserService } from '../../user';
+import { userService } from '../../../modules/user/user.service';
 
 numeral.locale('ru');
 
@@ -32,7 +32,7 @@ export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<vo
   const [session, user] = await Promise.all([
     //
     SessionService.getSession(ctx, sessionId),
-    UserService.getUser(ctx, userId),
+    userService.getUser(ctx, userId),
   ]);
 
   const csvStringifier = createObjectCsvStringifier({

@@ -12,7 +12,7 @@ import { knex } from './knex';
 import { log, logMiddleware, requestLogMiddleware } from './libs/log';
 import { gracefulShutdown } from './libs/graceful-shutdown';
 
-import { entitiesApi } from './api/v1/entities';
+import { entitiesApiV1 } from './api/v1/entities';
 import { accountsApi } from './api/v1/accounts';
 import { accountsBalancesApi } from './api/v1/accounts-balances';
 import { categoriesApi } from './api/v1/categories';
@@ -25,7 +25,7 @@ import { ieDetailsApi } from './api/v1/ie-details';
 import { iesApi } from './api/v1/ies';
 import { moneysApi } from './api/v1/moneys';
 import { plansApi } from './api/v1/plans';
-import { profileApi } from './api/v1/profile';
+import { profileApiV1 } from './api/v1/profile';
 import { projectsApi } from './api/v1/projects';
 import { reportsApi } from './api/v1/reports';
 import { tagsApi } from './api/v1/tags';
@@ -38,7 +38,7 @@ import { authApi } from './api/v2/auth';
 import { categoryApi } from './api/v2/category';
 import { currencyRatesApi } from './api/v2/currency-rates';
 import { emailServiceApi } from './api/v2/email-service';
-import { entitiesApi as entitiesApiv2 } from './api/v2/entities';
+import { entitiesApi } from './api/v2/entities';
 import { exportApi } from './api/v2/export';
 import { healthCheck } from './api/v2/health-check';
 import { invitationsApi } from './api/v2/invitations';
@@ -55,6 +55,7 @@ import { transferApi } from './api/v2/transfer';
 import { exchangeApi } from './api/v2/exchange';
 import { planTransactionApi } from './api/v2/plan-transaction';
 import { reportApi } from './api/v2/reports';
+import { profileApi } from './api/v2/profile';
 
 const app: Koa = new Koa();
 
@@ -72,8 +73,8 @@ app.use(require('./middlewares/errors').default);
 app.use(requestLogMiddleware());
 app.use(require('./middlewares/body-parser').default);
 
-app.use(entitiesApiv2);
 app.use(entitiesApi);
+app.use(entitiesApiV1);
 app.use(accountsBalancesApi);
 app.use(accountsApi);
 app.use(categoriesApi);
@@ -86,7 +87,7 @@ app.use(ieDetailsApi);
 app.use(iesApi);
 app.use(moneysApi);
 app.use(plansApi);
-app.use(profileApi);
+app.use(profileApiV1);
 app.use(projectsApi);
 app.use(reportsApi);
 app.use(tagsApi);
@@ -114,6 +115,7 @@ app.use(transferApi);
 app.use(exchangeApi);
 app.use(planTransactionApi);
 app.use(reportApi);
+app.use(profileApi);
 
 app.use(serve(`${__dirname}/public`));
 

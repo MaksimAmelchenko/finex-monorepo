@@ -4,12 +4,13 @@ import { CurrencyService } from '../../../../services/currency';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 import { ProjectService } from '../../../../services/project';
-import { UserService } from '../../../../services/user';
+import { userMapper } from '../../../../modules/user/user.mapper';
+import { userService } from '../../../../modules/user/user.service';
 
 export async function handler(ctx: IRequestContext<unknown, true>): Promise<IResponse> {
   const { projectId, userId } = ctx;
 
-  const user = await UserService.getUser(ctx, userId);
+  const user = await userService.getUser(ctx, userId);
 
   const [
     //
@@ -26,7 +27,7 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
     CurrencyService.getCurrencies(ctx),
     ProjectService.getDependencies(ctx, projectId, userId),
     ProjectService.getProjects(ctx, userId),
-    UserService.getUsers(ctx, String(user.idHousehold)),
+    userService.getUsers(ctx, user.householdId),
   ]);
 
   return {
@@ -34,9 +35,9 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
       accountTypes: accountTypes.map(accountType => accountType.toPublicModel()),
       categoryPrototypes: categoryPrototypes.map(categoryPrototype => categoryPrototype.toPublicModel()),
       currencies: currencies.map(currency => currency.toPublicModel()),
-      profile: user.toProfileModel(),
+      profile: userMapper.toProfile(user),
       projects: projects.map(project => project.toPublicModel()),
-      users: users.map(user => user.toPublicModel()),
+      users: users.map(user => userMapper.toDTO(user)),
       session: {
         projectId,
       },

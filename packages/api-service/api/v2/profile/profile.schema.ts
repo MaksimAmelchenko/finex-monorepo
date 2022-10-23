@@ -21,9 +21,6 @@ export const profileSchema: OpenAPIV3_1.SchemaObject = {
     currencyRateSourceId: {
       type: 'string',
     },
-    tz: {
-      type: 'string',
-    },
     timeout: {
       type: 'string',
     },
@@ -36,7 +33,6 @@ export const profileSchema: OpenAPIV3_1.SchemaObject = {
     'email',
     'projectId',
     'currencyRateSourceId',
-    'tz',
     'timeout',
   ],
 };

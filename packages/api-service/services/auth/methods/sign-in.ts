@@ -1,34 +1,28 @@
 import { IRequestContext } from '../../../types/app';
-import { TSignInResponse } from '../../../types/auth';
-import { SessionService } from '../../session';
-import { authenticateUser } from './authenticate-user';
-import { ProjectGateway } from '../../project/gateway';
 import { Project } from '../../project/model/project';
-import { User } from '../../user/model/user';
+import { ProjectGateway } from '../../project/gateway';
 import { Session } from '../../session/model/session';
+import { SessionService } from '../../session';
+import { TSignInResponse } from '../../../types/auth';
+import { authenticateUser } from './authenticate-user';
 
-export async function signIn(
-  ctx: IRequestContext<any, false>,
-  username: string,
-  password: string
-): Promise<TSignInResponse> {
+export async function signIn(ctx: IRequestContext, username: string, password: string): Promise<TSignInResponse> {
   const { userAgent } = ctx.additionalParams;
 
-  const user: User = await authenticateUser(ctx, username, password);
-  const userId: string = String(user.idUser);
-  const projects: Project[] = await ProjectGateway.getProjects(ctx, userId);
+  const user = await authenticateUser(ctx, username, password);
+  const projects: Project[] = await ProjectGateway.getProjects(ctx, user.id);
 
-  const idsProject: number[] = projects.map(project => project.idProject);
+  const projectIds: string[] = projects.map(project => String(project.idProject));
 
   let projectId: string;
-  if (user.idProject && idsProject.includes(user.idProject)) {
-    projectId = String(user.idProject);
+  if (user.projectId && projectIds.includes(user.projectId)) {
+    projectId = user.projectId;
   } else {
-    projectId = String(idsProject[0]);
-    ctx.log.warn({ userId, projectId }, 'The default project is not set');
+    projectId = projectIds[0];
+    ctx.log.warn({ userId: user.id, projectId }, 'The default project is not set');
   }
 
-  const session: Session = await SessionService.createSession(ctx, userId, {
+  const session: Session = await SessionService.createSession(ctx, user.id, {
     projectId,
     timeout: user.timeout || 'PT20M',
     userAgent,
@@ -39,7 +33,7 @@ export async function signIn(
   return {
     authorization: token,
     // for backward compatibility
-    idUser: Number(userId),
+    idUser: Number(user.id),
     idProject: Number(projectId),
   };
 }

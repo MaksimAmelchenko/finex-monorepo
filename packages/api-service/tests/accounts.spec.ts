@@ -55,8 +55,8 @@ describe('Accounts', function (): void {
   beforeEach(async () => {
     userData = await initUser(ctx, { username, password });
 
-    projectId = String(userData.user.idProject);
-    userId = String(userData.user.idUser);
+    projectId = userData.user.projectId!;
+    userId = userData.user.id;
 
     signInResponse = <ISessionResponse>await signIn(request, username, password);
     await authorize(ctx, signInResponse.authorization, '');

@@ -1,15 +1,13 @@
 import * as bcrypt from 'bcryptjs';
-import { IRequestContext } from '../../../types/app';
-import { UnauthorizedError } from '../../../libs/errors';
-import { User } from '../../user/model/user';
-import { UserGateway } from '../../user/gateway';
 
-export async function authenticateUser(
-  ctx: IRequestContext<any, false>,
-  username: string,
-  password: string
-): Promise<User> {
-  const user: User | undefined = await UserGateway.getUserByUsername(ctx, username);
+import { IRequestContext } from '../../../types/app';
+import { IUser } from '../../../modules/user/types';
+import { UnauthorizedError } from '../../../libs/errors';
+import { userMapper } from '../../../modules/user/user.mapper';
+import { userRepository } from '../../../modules/user/user.repository';
+
+export async function authenticateUser(ctx: IRequestContext, username: string, password: string): Promise<IUser> {
+  const user = await userRepository.getUserByUsername(ctx, username);
   if (!user) {
     throw new UnauthorizedError('Invalid username or password');
   }
@@ -20,5 +18,5 @@ export async function authenticateUser(
     throw new UnauthorizedError('Invalid username or password');
   }
 
-  return user;
+  return userMapper.toDomain(user);
 }

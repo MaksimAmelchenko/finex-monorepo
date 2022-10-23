@@ -2,25 +2,23 @@ import { CurrencyRateSource } from '../../types/currency-rate-source';
 import { Household } from '../../services/household';
 import { IHousehold } from '../../types/household';
 import { IRequestContext } from '../../types/app';
+import { IUser } from '../../modules/user/types';
 import { ProjectService } from '../../services/project';
-import { User } from '../../services/user/model/user';
-import { UserGateway } from '../../services/user/gateway';
-import { UserService } from '../../services/user';
 import { hashPassword } from '../../services/auth/methods/hash-password';
+import { userRepository } from '../../modules/user/user.repository';
+import { userService } from '../../modules/user/user.service';
+import { userMapper } from '../../modules/user/user.mapper';
 
 export interface CreateUser {
   username: string;
   password: string;
 }
 
-export async function createUser(
-  ctx: IRequestContext<never, false>,
-  { username, password }: CreateUser
-): Promise<User> {
+export async function createUser(ctx: IRequestContext, { username, password }: CreateUser): Promise<IUser> {
   const household: IHousehold = await Household.create(ctx);
   const hashedPassword = await hashPassword(password);
 
-  let user = await UserGateway.createUser(ctx, {
+  let user = await userRepository.createUser(ctx, {
     name: username,
     email: username,
     password: hashedPassword,
@@ -31,5 +29,6 @@ export async function createUser(
   const userId: string = String(user.idUser);
   const project = await ProjectService.createProject(ctx, userId, { name: 'Моя бухгалтерия' });
 
-  return UserService.updateUser(ctx, userId, { projectId: String(project.idProject) });
+  user = await userRepository.updateUser(ctx, userId, { projectId: String(project.idProject) });
+  return userMapper.toDomain(user);
 }

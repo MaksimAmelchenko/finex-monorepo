@@ -1,31 +1,25 @@
 import { Account } from '../../services/account/model/account';
 import { AccountGateway } from '../../services/account/gateway';
-import { CreateUser, createUser } from './create-user';
-import { IRequestContext } from '../../types/app';
-import { Money } from '../../services/money/model/money';
-import { MoneyGateway } from '../../services/money/gateway';
-import { User } from '../../services/user/model/user';
 import { Category } from '../../services/category/model/category';
 import { CategoryService } from '../../services/category';
+import { CreateUser, createUser } from './create-user';
+import { IRequestContext } from '../../types/app';
+import { IUser } from '../../modules/user/types';
+import { Money } from '../../services/money/model/money';
+import { MoneyGateway } from '../../services/money/gateway';
 
 export interface UserData {
-  user: User;
+  user: IUser;
   accounts: Account[];
   moneys: Money[];
   categories: Category[];
 }
 
-export async function initUser(
-  ctx: IRequestContext<never, false>,
-  { username, password }: CreateUser
-): Promise<UserData> {
+export async function initUser(ctx: IRequestContext, { username, password }: CreateUser): Promise<UserData> {
   const user = await createUser(ctx, {
     username,
     password,
   });
-
-  const projectId: string = String(user.idProject);
-  const userId: string = String(user.idUser);
 
   const accountFixtures = [
     {
@@ -40,7 +34,7 @@ export async function initUser(
     },
   ];
   const accounts = await Promise.all(
-    accountFixtures.map(accountFixture => AccountGateway.createAccount(ctx, projectId, userId, accountFixture))
+    accountFixtures.map(accountFixture => AccountGateway.createAccount(ctx, user.projectId!, user.id, accountFixture))
   );
 
   const moneyFixtures = [
@@ -56,10 +50,10 @@ export async function initUser(
     },
   ];
   const moneys = await Promise.all(
-    moneyFixtures.map(moneyFixture => MoneyGateway.createMoney(ctx, projectId, userId, moneyFixture))
+    moneyFixtures.map(moneyFixture => MoneyGateway.createMoney(ctx, user.projectId!, user.id, moneyFixture))
   );
 
-  const categories = await CategoryService.getCategories(ctx, projectId);
+  const categories = await CategoryService.getCategories(ctx, user.projectId!);
 
   return {
     user,

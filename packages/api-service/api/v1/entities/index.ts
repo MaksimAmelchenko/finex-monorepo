@@ -2,7 +2,7 @@ import { getRestApi } from '../../../libs/rest-api';
 
 import { getEntities } from './get';
 
-export const entitiesApi = getRestApi([
+export const entitiesApiV1 = getRestApi([
   //
   getEntities,
 ]);

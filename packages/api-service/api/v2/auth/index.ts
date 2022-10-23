@@ -1,5 +1,6 @@
 import { getRestApi } from '../../../libs/rest-api';
 
+import { changePassword } from './change-password';
 import { confirmResetPasswordRequest } from './confirm-reset-password-request';
 import { confirmSignUpRequest } from './confirm-sign-up-request';
 import { createResetPasswordRequest } from './create-reset-password-request';
@@ -10,6 +11,7 @@ import { signOutRouteOptions } from './sign-out';
 
 export const authApi = getRestApi([
   //
+  changePassword,
   confirmResetPasswordRequest,
   confirmSignUpRequest,
   createResetPasswordRequest,

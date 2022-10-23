@@ -1,18 +1,17 @@
 import { ConflictError } from '../../../libs/errors';
-
-import { IRequestContext } from '../../../types/app';
 import { ICreateParams, ISignUpRequest } from '../../../types/sign-up-request';
+import { IRequestContext } from '../../../types/app';
 import { SignUpRequestGateway } from '../gateway';
-import { UserGateway } from '../../user/gateway';
+import { Template } from '../../../types/transactional-email';
 import { TransactionalEmail } from '../../transactional-email';
 import { getSignUpConfirmationUrl } from './get-sign-up-confirmation-url';
 import { hashPassword } from '../../auth/methods/hash-password';
-import { Template } from '../../../types/transactional-email';
+import { userRepository } from '../../../modules/user/user.repository';
 
 export async function createSignUpRequest(ctx: IRequestContext, params: ICreateParams): Promise<ISignUpRequest> {
   const { name, email, password } = params;
 
-  const user = await UserGateway.getUserByUsername(ctx, email);
+  const user = await userRepository.getUserByUsername(ctx, email);
 
   if (user) {
     throw new ConflictError('This email already registered');

@@ -8,6 +8,7 @@ import { ManageableStore } from '../manageable-store';
 
 export interface IAuthApi {
   signIn: (username: string, password: string) => Promise<ISessionResponse>;
+  changePassword: (password: string, newPassword: string) => Promise<unknown>;
   signUp: (name: string, username: string, password: string) => Promise<ISignUpRequestResponse>;
   signUpConfirmation: (token: string) => Promise<unknown>;
   resetPassword: (username: string) => Promise<IResetPasswordRequestResponse>;
@@ -92,6 +93,10 @@ export class AuthRepository extends ManageableStore {
     this.clearAuth();
     return Promise.resolve(true);
   };
+
+  changePassword(password: string, newPassword: string): Promise<unknown> {
+    return this.api.changePassword(password, newPassword);
+  }
 
   // /**
   //  * Clear all auth data, logical logout for the client

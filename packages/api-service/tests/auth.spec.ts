@@ -7,6 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 import { IRequestContext } from '../types/app';
 import { ISessionResponse } from '../types/auth';
 import { app } from '../server';
+import { auth } from './libs/auth';
 import { authorize } from '../libs/rest-api/authorize';
 import { createRequestContext } from './libs/create-request-context';
 import { deleteUser } from './libs/delete-user';
@@ -49,8 +50,8 @@ describe('Auth', function (): void {
   beforeEach(async () => {
     userData = await initUser(ctx, { username, password });
 
-    projectId = String(userData.user.idProject);
-    userId = String(userData.user.idUser);
+    projectId = userData.user.projectId!;
+    userId = userData.user.id;
 
     signInResponse = <ISessionResponse>await signIn(request, username, password);
     await authorize(ctx, signInResponse.authorization, '');
@@ -95,6 +96,36 @@ describe('Auth', function (): void {
         .expect(StatusCodes.UNAUTHORIZED);
 
       validateResponse(response, errorResponseSchema);
+    });
+  });
+
+  describe('Change password', () => {
+    it('User can change his password', async () => {
+      const newPassword = 'New Password';
+      await request
+        .post('/v2/change-password')
+        .set(auth(signInResponse.authorization))
+        .send({
+          password,
+          newPassword,
+        })
+        .expect(StatusCodes.NO_CONTENT);
+
+      await request
+        .post('/v2/sign-in')
+        .send({
+          username,
+          password,
+        })
+        .expect(StatusCodes.UNAUTHORIZED);
+
+      await request
+        .post('/v2/sign-in')
+        .send({
+          username,
+          password: newPassword,
+        })
+        .expect(StatusCodes.OK);
     });
   });
 });

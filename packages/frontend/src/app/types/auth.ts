@@ -15,3 +15,8 @@ export interface IResetPasswordRequestResponse {
     id: string;
   };
 }
+
+export type ChangePasswordParams = {
+  password: string;
+  newPassword: string;
+};

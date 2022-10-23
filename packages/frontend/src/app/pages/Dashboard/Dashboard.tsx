@@ -14,7 +14,7 @@ const t = getT('Dashboard');
 export const Dashboard = observer(() => {
   return (
     <div className={styles.layout}>
-      <HeaderLayout title={t('Overview')} />
+      <HeaderLayout title={t('Outcome')} />
       <article className={styles.dashboard}>
         <div style={{ overflow: 'auto', minWidth: '40rem' }}>
           <AccountBalances />

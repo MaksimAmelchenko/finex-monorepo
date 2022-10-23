@@ -11,7 +11,7 @@ import { IApiUnit } from './unit';
 import { IApiUser } from './user';
 import { ICurrencyRateSourceRaw } from './currencies-rate-source';
 import { IInvitationRaw } from './invitation';
-import { IApiProfile } from './profile';
+import { IProfileDTO } from './profile';
 
 export interface IApiBootstrap {
   accountTypes: IApiAccountType[];
@@ -31,7 +31,7 @@ export interface IApiBootstrap {
       dEnd: TDate;
     };
   };
-  profile: IApiProfile;
+  profile: IProfileDTO;
   projects: IApiProject[];
   session: {
     projectId: string;

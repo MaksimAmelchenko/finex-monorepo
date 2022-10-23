@@ -112,7 +112,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
   if (!distributionReport) {
     return null;
   }
-  console.log(distributionReport);
+
   return (
     <div className={styles.tableContainer}>
       <Table

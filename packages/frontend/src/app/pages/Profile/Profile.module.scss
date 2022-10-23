@@ -1,5 +1,56 @@
-.profile {
-  padding: 56px 20px;
-  min-height: 100%;
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
   width: 100%;
+}
+
+.header {
+  box-shadow: 0 0 4px colors.$neutral200;
+}
+
+.content {
+  width: 100%;
+  max-width: 99rem;
+  margin: 0 auto;
+  padding: 1.6rem 3.2rem;
+  overflow: auto;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 1.6rem;
+
+  &__title {
+    @include typography.h3;
+    &_danger {
+      color: colors.$danger700;
+    }
+  }
+
+  &__sidebar {
+  }
+
+  &__content {
+  }
+}
+
+.form__footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.6rem 0;
+}
+
+.delimiter {
+  margin: 2.4rem 0;
+  border-top: 1px solid colors.$neutral200;
+}
+
+.hidden {
+  visibility: hidden;
+  display: none;
 }

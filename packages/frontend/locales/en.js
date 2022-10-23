@@ -14,6 +14,10 @@ module.exports = {
     'Daily Balance': 'Daily Balance',
     Today: 'Today',
   },
+  AccountMenu: {
+    Profile: 'Profile',
+    Logout: 'Logout',
+  },
   Accounts: {
     Me: 'Me',
     'Are you sure you want to delete several accounts?': 'Are you sure you want to delete several accounts?',
@@ -103,7 +107,7 @@ module.exports = {
     Save: 'Save',
   },
   Dashboard: {
-    Overview: 'Overview',
+    Outcome: 'Outcome',
   },
   DebtItem: {
     Income: 'Income',
@@ -285,6 +289,7 @@ module.exports = {
     Distribution: 'Distribution',
     Settings: 'Settings',
     Tools: 'Tools',
+    Outcome: 'Outcome',
   },
   Moneys: {
     'Are you sure you want to delete several moneys?': 'Are you sure you want to delete several moneys?',
@@ -396,6 +401,31 @@ module.exports = {
     Cancel: 'Cancel',
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
+  },
+  Profile: {
+    'Password has been change': 'Password has been change',
+    'Invalid password': 'Invalid password',
+    'Please enter password': 'Please enter password',
+    'Please enter new password': 'Please enter new password',
+    Password: 'Password',
+    'Current password': 'Current password',
+    'You must provide your current password in order to change it_':
+      'You must provide your current password in order to change it.',
+    'New password': 'New password',
+    'Save password': 'Save password',
+    'Are you sure you want to delete account?': 'Are you sure you want to delete account?',
+    'Delete account': 'Delete account',
+    'This action deletes the account and all data it contains_ There is no going back_':
+      'This action deletes the account and all data it contains. There is no going back.',
+    'You must provide your current password in order to delete account_':
+      'You must provide your current password in order to delete account.',
+    'Please enter name': 'Please enter name',
+    'Main settings': 'Main settings',
+    'E-mail': 'E-mail',
+    Name: 'Name',
+    'Project by default': 'Project by default',
+    'Update profile settings': 'Update profile settings',
+    Profile: 'Profile',
   },
   ProjectCopyWindow: {
     'Copy project': 'Copy project',

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Slide } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { observer } from 'mobx-react-lite';
@@ -14,6 +14,7 @@ import { Exchanges } from './pages/Exchanges/Exchanges';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
+import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { ResetPasswordConfirmationLazy } from './pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy';
 import { ResetPasswordLazy } from './pages/ResetPassword/ResetPasswordLazy';
@@ -60,11 +61,14 @@ export const App = observer(() => {
                       <Route path="/transfers" element={<Transfers />} />
                       <Route path="/exchanges" element={<Exchanges />} />
                       <Route path="/planning" element={<PlanningLazy />} />
+                      <Route path="/reports" element={<Navigate to={'/reports/dynamics'} replace={true} />} />
                       <Route path="/reports/dynamics" element={<DynamicsReportLazy />} />
                       <Route path="/reports/distribution" element={<DistributionReportLazy />} />
 
                       <Route path="/settings" element={<SettingsLazy />} />
                       <Route path="/settings/:tab" element={<SettingsLazy />} />
+
+                      <Route path="/profile" element={<ProfileLazy />} />
 
                       <Route path="*" element={<NotFoundLazy />} />
                     </Routes>

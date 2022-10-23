@@ -1,9 +1,11 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accounts } from './accounts/swagger';
+import { auth } from './auth/swagger';
 import { exchanges } from './exchanges/swagger';
 import { header } from './header';
 import { planTransactions } from './plan-transactions/swagger';
+import { profile } from './profile/swagger';
 import { reports } from './reports/swagger';
 import { transactions } from './transactions/swagger';
 import { transfers } from './transfers/swagger';
@@ -13,16 +15,20 @@ const swagger: OpenAPIV3_1.Document = {
   tags: [
     //
     ...(accounts.tags || []),
+    ...(auth.tags || []),
     ...(exchanges.tags || []),
     ...(planTransactions.tags || []),
+    ...(profile.tags || []),
     ...(reports.tags || []),
     ...(transactions.tags || []),
     ...(transfers.tags || []),
   ],
   paths: {
     ...accounts.paths,
+    ...auth.paths,
     ...exchanges.paths,
     ...planTransactions.paths,
+    ...profile.paths,
     ...reports.paths,
     ...transactions.paths,
     ...transfers.paths,
@@ -30,16 +36,20 @@ const swagger: OpenAPIV3_1.Document = {
   components: {
     schemas: {
       ...(accounts.components?.schemas || {}),
+      ...(auth.components?.schemas || {}),
       ...(exchanges.components?.schemas || {}),
       ...(planTransactions.components?.schemas || {}),
+      ...(profile.components?.schemas || {}),
       ...(reports.components?.schemas || {}),
       ...(transactions.components?.schemas || {}),
       ...(transfers.components?.schemas || {}),
     },
     parameters: {
       ...(accounts.components?.parameters || {}),
+      ...(auth.components?.parameters || {}),
       ...(exchanges.components?.parameters || {}),
       ...(planTransactions.components?.parameters || {}),
+      ...(profile.components?.parameters || {}),
       ...(reports.components?.parameters || {}),
       ...(transactions.components?.parameters || {}),
       ...(transfers.components?.parameters || {}),

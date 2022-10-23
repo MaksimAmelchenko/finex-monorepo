@@ -71,8 +71,7 @@ export class BootstrapStore extends ManageableStore {
 
     const projectsRepository = this.getStore(ProjectsRepository);
     projectsRepository.consume(projects);
-    const project = projectsRepository.get(session.projectId)!;
-    this.getStore(ProjectsRepository).setCurrentProject(project);
+    this.getStore(ProjectsRepository).setCurrentProject(session.projectId);
 
     this.getStore(CurrenciesRepository).consume(currencies);
     // this.getStore(CurrenciesRateSourceStore).consume(currencyRateSources);

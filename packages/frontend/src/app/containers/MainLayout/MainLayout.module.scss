@@ -20,3 +20,11 @@
   background-color: colors.$neutral100;
   //padding: 1px;
 }
+
+.empty {
+  height: 100%;
+}
+
+.accountMenu {
+  flex-grow: 0;
+}

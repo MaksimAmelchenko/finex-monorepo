@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 
 import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
@@ -40,16 +40,17 @@ export class ProjectsRepository extends ManageableStore {
 
   private _projects: Project[] = [];
 
-  currentProject: Project | null = null;
+  currentProjectId: string | null = null;
 
   constructor(mainStore: MainStore, private api: IProjectsApi) {
     super(mainStore);
     makeObservable<ProjectsRepository, '_projects'>(this, {
       _projects: observable.shallow,
       projects: computed,
-      currentProject: observable,
-      setCurrentProject: action,
+      currentProjectId: observable,
       consume: action,
+      setCurrentProject: action,
+      currentProject: computed,
       clear: action,
       deleteProject: action,
     });
@@ -63,8 +64,12 @@ export class ProjectsRepository extends ManageableStore {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
 
-  setCurrentProject(project: Project): void {
-    this.currentProject = project;
+  setCurrentProject(projectId: string): void {
+    this.currentProjectId = projectId;
+  }
+
+  get currentProject(): Project | null {
+    return this._projects.find(({ id }) => id === this.currentProjectId) || null;
   }
 
   get(projectId: string): Project | undefined {
@@ -176,7 +181,7 @@ export class ProjectsRepository extends ManageableStore {
     const unitsRepository = this.getStore(UnitsRepository);
     unitsRepository.consume(units);
 
-    this.setCurrentProject(this.get(projectId)!);
+    this.setCurrentProject(projectId!);
   }
 
   async copyProject(projectId: string, params: CopyProjectParams): Promise<void> {

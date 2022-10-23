@@ -1,12 +1,11 @@
-import { NotFoundError } from '../../../libs/errors';
-
-import { IRequestContext } from '../../../types/app';
 import { ICreateParams, IResetPasswordRequest } from '../../../types/reset-password-request';
+import { IRequestContext } from '../../../types/app';
+import { NotFoundError } from '../../../libs/errors';
 import { ResetPasswordRequestGateway } from '../gateway';
-import { UserGateway } from '../../user/gateway';
+import { Template } from '../../../types/transactional-email';
 import { TransactionalEmail } from '../../transactional-email';
 import { getResetPasswordConfirmationUrl } from './get-reset-password-confirmation-url';
-import { Template } from '../../../types/transactional-email';
+import { userRepository } from '../../../modules/user/user.repository';
 
 export async function createResetPasswordRequest(
   ctx: IRequestContext,
@@ -14,7 +13,7 @@ export async function createResetPasswordRequest(
 ): Promise<IResetPasswordRequest> {
   const { email, ip } = params;
 
-  const user = await UserGateway.getUserByUsername(ctx, email);
+  const user = await userRepository.getUserByUsername(ctx, email);
 
   if (!user) {
     throw new NotFoundError('Email not found');

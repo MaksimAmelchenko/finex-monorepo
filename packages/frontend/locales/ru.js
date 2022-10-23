@@ -14,6 +14,10 @@ module.exports = {
     'Daily Balance': 'Дневной остаток',
     Today: 'Сегодня',
   },
+  AccountMenu: {
+    Profile: 'Профиль',
+    Logout: 'Выйти',
+  },
   Accounts: {
     Me: 'Я',
     'Are you sure you want to delete several accounts?': 'Вы уверены, что хотите удалить несколько счетов?',
@@ -104,7 +108,7 @@ module.exports = {
     Save: 'Сохранить',
   },
   Dashboard: {
-    Overview: 'Обзор',
+    Outcome: 'Outcome',
   },
   DebtItem: {
     Income: 'Приход',
@@ -286,6 +290,7 @@ module.exports = {
     Distribution: 'Распределение',
     Settings: 'Настройки',
     Tools: 'Инструменты',
+    Outcome: 'Outcome',
   },
   Moneys: {
     'Are you sure you want to delete several moneys?': 'Вы уверены, что хотите удалить несколько валют?',
@@ -397,6 +402,31 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
     'Save and Create New': 'Сохранить и создать еще',
+  },
+  Profile: {
+    'Password has been change': 'Пароль успешно изменен',
+    'Invalid password': 'Неверный пароль',
+    'Please enter password': 'Пожалуйста, введите пароль',
+    'Please enter new password': 'Пожалуйста, введите новый пароль',
+    Password: 'Пароль',
+    'Current password': 'Текущий пароль',
+    'You must provide your current password in order to change it_':
+      'Вы должны указать свой текущий пароль, чтобы изменить его.',
+    'New password': 'Новый пароль',
+    'Save password': 'Изменить пароль',
+    'Are you sure you want to delete account?': 'Вы уверены, что хотите удалить аккаунт?',
+    'Delete account': 'Удалить аккаунт',
+    'This action deletes the account and all data it contains_ There is no going back_':
+      'Это действие БЕЗВОЗВРАТНО удаляет учетную запись и все содержащиеся в ней данные.',
+    'You must provide your current password in order to delete account_':
+      'Вы должны указать свой текущий пароль, чтобы удалить учетную запись.',
+    'Please enter name': 'Пожалуйста, введите имя',
+    'Main settings': 'Основные настройки',
+    'E-mail': 'E-mail',
+    Name: 'Имя',
+    'Project by default': 'Проект по умолчанию',
+    'Update profile settings': 'Обновить настройки',
+    Profile: 'Профиль',
   },
   ProjectCopyWindow: {
     'Copy project': 'Копировать',

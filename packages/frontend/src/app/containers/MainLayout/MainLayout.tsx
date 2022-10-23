@@ -1,8 +1,8 @@
 import React, { Fragment, Suspense, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useSnackbar } from 'notistack';
 
 import Collapse from '@mui/material/Collapse';
+import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -21,11 +21,11 @@ import {
   SettingsSvg,
   ToolsSvg,
 } from '@finex/ui-kit';
-import { Link } from '../../components/Link/Link';
+import { AccountMenu } from './AccountMenu/AccountMenu';
+import { LinkBase } from '../../components/LinkBase/LinkBase';
 import { Loader } from '../../components/Loader/Loader';
 import { ProfileRepository } from '../../stores/profile-repository';
-import { Project } from '../../stores/models/project';
-import { ProjectsRepository } from '../../stores/projects-repository';
+import { ProjectMenu } from './ProjectMenu/ProjectMenu';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -178,23 +178,26 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
     }
   };
 
+  const { profile } = profileRepository;
+  if (!profile) {
+    return <Loader />;
+  }
+
   return (
     <div className={styles.layout}>
-      <Drawer variant="permanent" open={isOpened} onClick={handleDrawerToggle}>
-        <List component="nav" onClick={e => e.stopPropagation()}>
-          <ListItemButton href="/" component={Link}>
+      <Drawer variant="permanent" open={isOpened}>
+        <List component="nav">
+          <ListItemButton href="/" component={LinkBase}>
             <ListItemIcon>
               <Logo className={styles.header__logo} />
             </ListItemIcon>
-            <ListItemText primary="FINEX.io" />
+            <ListItemText primary={t('Outcome')} />
           </ListItemButton>
-
-          {/*<ProjectMenu />*/}
 
           {menu.map(({ link, label, icon: Icon, items, id }) => {
             return (
               <Fragment key={id}>
-                <ListItemButton {...(items ? { onClick: handleClick(id) } : { href: link, component: Link })}>
+                <ListItemButton {...(items ? { onClick: handleClick(id) } : { href: link, component: LinkBase })}>
                   <ListItemIcon>{Icon}</ListItemIcon>
                   <ListItemText primary={label} />
                   {items ? (
@@ -205,12 +208,13 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
                     )
                   ) : null}
                 </ListItemButton>
+
                 {items && (
                   <Collapse in={openedMenuIds.includes(id)} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                       {items.map(({ link, label, icon: Icon, items, id }) => {
                         return (
-                          <ListItemButton href={link} component={Link} key={id}>
+                          <ListItemButton href={link} component={LinkBase} key={id}>
                             <ListItemIcon>{Icon}</ListItemIcon>
                             <ListItemText primary={label} />
                           </ListItemButton>
@@ -224,69 +228,18 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
           })}
         </List>
 
-        {/*<Divider />*/}
+        <div className={styles.empty} onClick={handleDrawerToggle} />
+
+        <ProjectMenu />
+
+        <Divider />
+
+        <AccountMenu className={styles.accountMenu} name={profile.name} />
       </Drawer>
 
       <div className={styles.content}>
-        {!profileRepository.profile ? <Loader /> : <Suspense fallback={<Loader />}>{children}</Suspense>}
+        <Suspense fallback={<Loader />}>{children}</Suspense>
       </div>
     </div>
   );
 });
-
-function ProjectMenu(): JSX.Element | null {
-  const projectsRepository = useStore(ProjectsRepository);
-  const { enqueueSnackbar } = useSnackbar();
-  const [isOpenedProjects, setIsOpenedProjects] = useState(false);
-
-  const handleCurrentProjectClick = () => {
-    setIsOpenedProjects(isOpenedProjects => !isOpenedProjects);
-  };
-
-  const handleProjectClick = (project: Project) => () => {
-    projectsRepository
-      .useProject(project.id)
-      .then(() => setIsOpenedProjects(false))
-      .catch(err => {
-        let message = '';
-        switch (err.code) {
-          default:
-            message = err.message;
-        }
-        enqueueSnackbar(message, { variant: 'error' });
-      });
-  };
-
-  const { currentProject, projects } = projectsRepository;
-  if (!currentProject) {
-    return null;
-  }
-
-  if (projects.length === 1) {
-    return (
-      <ListItemButton>
-        <ListItemText primary={currentProject.name} />
-      </ListItemButton>
-    );
-  }
-
-  return (
-    <>
-      <ListItemButton onClick={handleCurrentProjectClick}>
-        <ListItemText primary={currentProject.name} />
-      </ListItemButton>
-
-      <Collapse in={isOpenedProjects} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {projects
-            .filter(project => project !== currentProject)
-            .map(project => (
-              <ListItemButton onClick={handleProjectClick(project)} key={project.id}>
-                <ListItemText primary={project.name} />
-              </ListItemButton>
-            ))}
-        </List>
-      </Collapse>
-    </>
-  );
-}

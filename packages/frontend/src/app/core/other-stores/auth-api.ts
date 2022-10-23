@@ -60,7 +60,21 @@ export class AuthApi extends ApiRepository implements IAuthApi {
     });
   }
 
+  changePassword(password: string, newPassword: string): Promise<void> {
+    return this.fetch<void>({
+      url: '/v2/change-password',
+      method: 'POST',
+      body: {
+        password,
+        newPassword,
+      },
+    });
+  }
+
   signOut(): Promise<void> {
-    return Promise.resolve(undefined);
+    return this.fetch<void>({
+      url: '/v1/sign-out',
+      method: 'POST',
+    });
   }
 }
