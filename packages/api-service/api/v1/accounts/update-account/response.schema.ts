@@ -1,4 +1,5 @@
 import { OpenAPIV3_1 } from 'openapi-types';
+
 import { accountSchema } from '../../../../common/schemas/account.schema';
 
 export const updateAccountResponseSchema: OpenAPIV3_1.SchemaObject = {

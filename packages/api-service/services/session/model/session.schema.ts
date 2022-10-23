@@ -1,4 +1,5 @@
 import { OpenAPIV3_1 } from 'openapi-types';
+
 import { id } from '../../../common/schemas/fields/id';
 import { dateTime } from '../../../common/schemas/fields/date-time';
 

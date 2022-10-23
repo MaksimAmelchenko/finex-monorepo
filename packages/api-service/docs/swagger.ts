@@ -4,9 +4,9 @@ import { accounts } from './accounts/swagger';
 import { exchanges } from './exchanges/swagger';
 import { header } from './header';
 import { planTransactions } from './plan-transactions/swagger';
+import { reports } from './reports/swagger';
 import { transactions } from './transactions/swagger';
 import { transfers } from './transfers/swagger';
-import reports from './reports/swagger';
 
 const swagger: OpenAPIV3_1.Document = {
   ...header,

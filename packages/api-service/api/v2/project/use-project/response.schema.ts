@@ -1,12 +1,12 @@
 import { OpenAPIV3_1 } from 'openapi-types';
+
 import { accountsSchema } from './accounts.schema';
 import { categoriesSchema } from './categories.schema';
 import { contractorsSchema } from './contractors.schema';
+import { dateTime } from '../../../../common/schemas/fields/date-time';
 import { moneysSchema } from './moneys.schema';
 import { tagsSchema } from './tags.schema';
 import { unitsSchema } from './units.schema';
-import { date } from '../../../../common/schemas/fields/date';
-import { dateTime } from '../../../../common/schemas/fields/date-time';
 
 export const useProjectResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',

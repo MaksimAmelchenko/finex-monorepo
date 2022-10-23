@@ -1,4 +1,5 @@
 import { OpenAPIV3_1 } from 'openapi-types';
+
 import { idCategory } from '../../../../common/schemas/fields/id-category';
 
 export const deleteCategoryParamsSchema: OpenAPIV3_1.SchemaObject = {

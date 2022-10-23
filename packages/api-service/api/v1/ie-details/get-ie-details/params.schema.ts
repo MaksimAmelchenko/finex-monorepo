@@ -1,4 +1,5 @@
 import { OpenAPIV3_1 } from 'openapi-types';
+
 import { date } from '../../../../common/schemas/fields/date';
 import { emptyString } from '../../../../common/schemas/fields/empty-string';
 import { sign } from '../../../../common/schemas/fields/sign';
