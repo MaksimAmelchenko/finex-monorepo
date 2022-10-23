@@ -129,7 +129,7 @@ export const Transactions = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedTransactions.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several transactions?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several transactions?'))) {
         return;
       }
     }

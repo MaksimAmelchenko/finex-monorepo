@@ -16,6 +16,7 @@ module.exports = {
   },
   Accounts: {
     Me: 'Me',
+    'Are you sure you want to delete several accounts?': 'Are you sure you want to delete several accounts?',
     'There are transactions on this account': 'There are transactions on this account',
     New: 'New',
     Delete: 'Delete',
@@ -84,6 +85,7 @@ module.exports = {
     Save: 'Save',
   },
   Contractors: {
+    'Are you sure you want to delete several contractors?': 'Are you sure you want to delete several contractors?',
     "You can't delete contractor with transaction": "You can't delete contractor with transaction",
     New: 'New',
     Delete: 'Delete',
@@ -130,6 +132,7 @@ module.exports = {
   },
   Debts: {
     'Only debts with a non-zero balance': 'Only debts with a non-zero balance',
+    'Are you sure you want to delete several debts?': 'Are you sure you want to delete several debts?',
     Debts: 'Debts',
     New: 'New',
     Delete: 'Delete',
@@ -151,6 +154,7 @@ module.exports = {
   },
   DebtWindow: {
     'Please select contractor': 'Please select contractor',
+    'Are you sure you want to delete several debts?': 'Are you sure you want to delete several debts?',
     Debt: 'Debt',
     Contractor: 'Contractor',
     Tags: 'Tags',
@@ -218,6 +222,7 @@ module.exports = {
     'Something went wrong, please try again': 'Something went wrong, please try again',
   },
   Exchanges: {
+    'Are you sure you want to delete several exchanges?': 'Are you sure you want to delete several exchanges?',
     Exchanges: 'Exchanges',
     New: 'New',
     Delete: 'Delete',
@@ -282,6 +287,7 @@ module.exports = {
     Tools: 'Tools',
   },
   Moneys: {
+    'Are you sure you want to delete several moneys?': 'Are you sure you want to delete several moneys?',
     'There are transactions with this money': 'There are transactions with this money',
     New: 'New',
     Delete: 'Delete',
@@ -326,6 +332,8 @@ module.exports = {
     of: 'of',
   },
   PlanTransaction: {
+    'Are you sure you want to delete several plan transactions?':
+      'Are you sure you want to delete several plan transactions?',
     'Planning - Incomes & Expenses': 'Planning - Incomes & Expenses',
     New: 'New',
     Delete: 'Delete',
@@ -408,6 +416,7 @@ module.exports = {
   },
   Projects: {
     Me: 'Me',
+    'Are you sure you want to delete this project?': 'Are you sure you want to delete this project?',
     'Something went wrong, please try again': 'Something went wrong, please try again',
     'New project': 'New project',
     Delete: 'Delete',
@@ -527,6 +536,7 @@ module.exports = {
     'Start to use': 'Start to use',
   },
   Tags: {
+    'Are you sure you want to delete several tags?': 'Are you sure you want to delete several tags?',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
@@ -541,6 +551,7 @@ module.exports = {
     Save: 'Save',
   },
   Transactions: {
+    'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',
     'Incomes and Expenses - Transactions': 'Incomes and Expenses - Transactions',
     New: 'New',
     Delete: 'Delete',
@@ -585,6 +596,7 @@ module.exports = {
     'Save and Create New': 'Save and Create New',
   },
   Transfers: {
+    'Are you sure you want to delete several transfers?': 'Are you sure you want to delete several transfers?',
     Transfers: 'Transfers',
     New: 'New',
     Delete: 'Delete',
@@ -629,6 +641,7 @@ module.exports = {
     'Save and Create New': 'Save and Create New',
   },
   Units: {
+    'Are you sure you want to delete several units?': 'Are you sure you want to delete several units?',
     "You can't delete unit with transaction": "You can't delete unit with transaction",
     New: 'New',
     Delete: 'Delete',

@@ -34,7 +34,7 @@ export const Units = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedUnits.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several units?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several units?'))) {
         return;
       }
     }

@@ -34,7 +34,7 @@ export const Moneys = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedMoneys.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several moneys?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several moneys?'))) {
         return;
       }
     }

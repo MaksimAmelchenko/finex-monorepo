@@ -65,7 +65,7 @@ export const PlanTransactions = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedPlans.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several plan transactions?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several plan transactions?'))) {
         return;
       }
     }

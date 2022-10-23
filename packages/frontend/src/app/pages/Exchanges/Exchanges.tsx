@@ -115,7 +115,7 @@ export const Exchanges = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedExchanges.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several exchanges?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several exchanges?'))) {
         return;
       }
     }

@@ -34,7 +34,7 @@ export const Tags = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedTags.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several tags?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several tags?'))) {
         return;
       }
     }

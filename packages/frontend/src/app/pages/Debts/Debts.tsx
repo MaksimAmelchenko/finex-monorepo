@@ -123,7 +123,7 @@ export const Debts = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedDebts.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several debts?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several debts?'))) {
         return;
       }
     }

@@ -42,7 +42,7 @@ export const Projects = observer(() => {
       return;
     }
 
-    if (!window.confirm(t('Are you sure you what to delete this project?'))) {
+    if (!window.confirm(t('Are you sure you want to delete this project?'))) {
       return;
     }
 

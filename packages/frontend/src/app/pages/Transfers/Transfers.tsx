@@ -115,7 +115,7 @@ export const Transfers = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedTransfers.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several transfers?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several transfers?'))) {
         return;
       }
     }

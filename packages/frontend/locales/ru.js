@@ -16,6 +16,7 @@ module.exports = {
   },
   Accounts: {
     Me: 'Я',
+    'Are you sure you want to delete several accounts?': 'Вы уверены, что хотите удалить несколько счетов?',
     'There are transactions on this account': 'Есть операции по данному счету',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -85,6 +86,7 @@ module.exports = {
     Save: 'Сохранить',
   },
   Contractors: {
+    'Are you sure you want to delete several contractors?': 'Вы уверены, что хотите удалить несколько контрагентов?',
     "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -131,6 +133,7 @@ module.exports = {
   },
   Debts: {
     'Only debts with a non-zero balance': 'Только долги с ненулевым остатком',
+    'Are you sure you want to delete several debts?': 'Вы уверены, что хотите удалить несколько долгов?',
     Debts: 'Долги',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -152,6 +155,7 @@ module.exports = {
   },
   DebtWindow: {
     'Please select contractor': 'Пожалуйста, выберете контрагента',
+    'Are you sure you want to delete several debts?': 'Вы уверены, что хотите удалить несколько долгов?',
     Debt: 'Debt',
     Contractor: 'Контрагент',
     Tags: 'Теги',
@@ -219,6 +223,7 @@ module.exports = {
     'Something went wrong, please try again': 'Something went wrong, please try again',
   },
   Exchanges: {
+    'Are you sure you want to delete several exchanges?': 'Вы уверены, что хотите удалить несколько обменов?',
     Exchanges: 'Обмен валюты',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -283,6 +288,7 @@ module.exports = {
     Tools: 'Инструменты',
   },
   Moneys: {
+    'Are you sure you want to delete several moneys?': 'Вы уверены, что хотите удалить несколько валют?',
     'There are transactions with this money': 'Есть операции с этой валютой',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -327,6 +333,8 @@ module.exports = {
     of: 'из',
   },
   PlanTransaction: {
+    'Are you sure you want to delete several plan transactions?':
+      'Вы уверены, что хотите удалить несколько транзакций плана??',
     'Planning - Incomes & Expenses': 'Планирование - Доходы и расходы',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -409,6 +417,7 @@ module.exports = {
   },
   Projects: {
     Me: 'Я',
+    'Are you sure you want to delete this project?': 'Вы уверены, что хотите удалить этот проект?',
     'Something went wrong, please try again': 'Что-то пошло не так. Пожалуйста, попытайтесь еще раз',
     'New project': 'Новый проект',
     Delete: 'Удалить',
@@ -526,6 +535,7 @@ module.exports = {
     'Start to use': 'Начать пользоваться',
   },
   Tags: {
+    'Are you sure you want to delete several tags?': 'Вы уверены, что хотите удалить несколько тегов?',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
@@ -540,6 +550,7 @@ module.exports = {
     Save: 'Сохранить',
   },
   Transactions: {
+    'Are you sure you want to delete several transactions?': 'Вы уверены, что хотите удалить несколько транзакций?',
     'Incomes and Expenses - Transactions': 'Приходы и расходы - Операции',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -584,6 +595,7 @@ module.exports = {
     'Save and Create New': 'Сохранить и создать еще',
   },
   Transfers: {
+    'Are you sure you want to delete several transfers?': 'Вы уверены, что хотите удалить несколько переводов?',
     Transfers: 'Переводы',
     New: 'Добавить',
     Delete: 'Удалить',
@@ -628,6 +640,7 @@ module.exports = {
     'Save and Create New': 'Сохранить и создать еще',
   },
   Units: {
+    'Are you sure you want to delete several units?': 'Вы уверены, что хотите удалить несколько единиц измерений?',
     "You can't delete unit with transaction": 'Нельзя удалить ед.измерения с операциями',
     New: 'Добавить',
     Delete: 'Удалить',

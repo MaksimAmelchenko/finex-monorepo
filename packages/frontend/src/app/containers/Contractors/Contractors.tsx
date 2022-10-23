@@ -34,7 +34,7 @@ export const Contractors = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedContractors.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several contractors?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several contractors?'))) {
         return;
       }
     }

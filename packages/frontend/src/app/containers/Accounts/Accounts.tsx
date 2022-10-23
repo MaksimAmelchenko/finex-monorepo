@@ -34,7 +34,7 @@ export const Accounts = observer(() => {
 
   const handleDeleteClick = () => {
     if (selectedAccounts.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several accounts?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several accounts?'))) {
         return;
       }
     }

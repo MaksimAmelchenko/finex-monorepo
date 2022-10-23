@@ -148,7 +148,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
 
   const handleDeleteClick = () => {
     if (selectedDebtItems.length > 1) {
-      if (!window.confirm(t('Are you sure you what to delete several debts?'))) {
+      if (!window.confirm(t('Are you sure you want to delete several debts?'))) {
         return;
       }
     }
