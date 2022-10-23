@@ -23,6 +23,7 @@ import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 import { SnackbarUtilsConfigurator } from './components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
+import { ToolsLazy } from './pages/Tools/ToolsLazy';
 import { Transactions } from './pages/Transactions/Transactions';
 import { Transfers } from './pages/Transfers/Transfers';
 import { theme } from '@finex/theme';
@@ -69,6 +70,7 @@ export const App = observer(() => {
                       <Route path="/settings/:tab" element={<SettingsLazy />} />
 
                       <Route path="/profile" element={<ProfileLazy />} />
+                      <Route path="/tools" element={<ToolsLazy />} />
 
                       <Route path="*" element={<NotFoundLazy />} />
                     </Routes>

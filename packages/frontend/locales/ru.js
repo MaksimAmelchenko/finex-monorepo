@@ -275,6 +275,14 @@ module.exports = {
     Save: 'Сохранить',
     'Save and Create New': 'Сохранить и создать еще',
   },
+  ExportData: {
+    'Data export started_ In a few minutes you will receive the file by E-mail':
+      'Экспорт данных запущен. Через несколько минут вы получите файл по электронной почте',
+    'Export Data': 'Экспорт данных',
+    'Export data in CSV file_ The data will be sent to your E-mail_':
+      'Экспорт данных в файл CSV. Данные будут отправлены на ваш E-mail.',
+    Export: 'Export',
+  },
   Layout: {
     Home: 'На главную',
     Support: 'Поддержка',
@@ -578,6 +586,9 @@ module.exports = {
     Name: 'Наименование',
     Cancel: 'Отмена',
     Save: 'Сохранить',
+  },
+  Tools: {
+    Tools: 'Инструменты',
   },
   Transactions: {
     'Are you sure you want to delete several transactions?': 'Вы уверены, что хотите удалить несколько транзакций?',

@@ -274,6 +274,14 @@ module.exports = {
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
   },
+  ExportData: {
+    'Data export started_ In a few minutes you will receive the file by E-mail':
+      'Data export started. In a few minutes you will receive the file by E-mail',
+    'Export Data': 'Export Data',
+    'Export data in CSV file_ The data will be sent to your E-mail_':
+      'Export data in CSV file. The data will be sent to your E-mail.',
+    Export: 'Export',
+  },
   Layout: {
     Home: 'Home',
     Support: 'Support',
@@ -579,6 +587,9 @@ module.exports = {
     Name: 'Name',
     Cancel: 'Cancel',
     Save: 'Save',
+  },
+  Tools: {
+    Tools: 'Tools',
   },
   Transactions: {
     'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',

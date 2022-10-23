@@ -161,7 +161,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       },
       {
         id: 'tools',
-        link: '#',
+        link: '/tools',
         label: t('Tools'),
         icon: <img src={ToolsSvg} alt="" />,
       },

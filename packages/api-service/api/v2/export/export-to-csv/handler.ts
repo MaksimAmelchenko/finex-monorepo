@@ -1,11 +1,12 @@
 import { IRequestContext } from '../../../../types/app';
-import { IResponse } from '../../../../libs/rest-api/types';
+import { INoContent } from '../../../../libs/rest-api/types';
 import { Export } from '../../../../services/export';
+import { StatusCodes } from 'http-status-codes';
 
-export async function handler(ctx: IRequestContext<never, true>): Promise<IResponse<Record<any, never>>> {
-  Export.toCsv(ctx).catch(err => ctx.log.fatal({ err }));
+export async function handler(ctx: IRequestContext<never, true>): Promise<INoContent> {
+  await Export.toCsv(ctx);
 
   return {
-    body: {},
+    status: StatusCodes.NO_CONTENT,
   };
 }
