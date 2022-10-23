@@ -51,6 +51,15 @@
     }
   }
 
+  &_color_danger {
+    color: colors.$neutral0;
+    background: colors.$danger600;
+
+    &:hover {
+      background: colors.$danger500;
+    }
+  }
+
   &_variant_contained {
     border: none;
   }
