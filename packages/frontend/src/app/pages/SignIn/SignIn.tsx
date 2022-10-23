@@ -66,7 +66,7 @@ export function SignIn(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        username: Yup.string().required(t('Please enter email address')).email(t('Please enter a valid email address')),
+        username: Yup.string().required(t('Please enter E-mail address')).email(t('Please enter a valid E-mail address')),
         password: Yup.string().required(t('Please enter password')),
       }),
     []
@@ -82,7 +82,7 @@ export function SignIn(): JSX.Element {
           validationSchema={validationSchema}
         >
           <FormLayout>
-            <FormTextField name="username" type="text" label={t('Email')} autoFocusOnEmpty={true} />
+            <FormTextField name="username" type="text" label={t('E-mail')} autoFocusOnEmpty={true} />
             <FormTextField
               name="password"
               type="password"

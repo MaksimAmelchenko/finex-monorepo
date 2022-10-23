@@ -491,18 +491,18 @@ module.exports = {
     'Something went wrong, please try again later': 'Something went wrong, please try again later',
   },
   ResetPassword: {
-    'Please enter email address': 'Please enter email address',
-    'Please enter a valid email address': 'Please enter a valid email address',
+    'Please enter E-mail address': 'Please enter E-mail address',
+    'Please enter a valid E-mail address': 'Please enter a valid E-mail address',
     'Forgot your Password?': 'Forgot your Password?',
     'User not found': 'User not found',
-    'To reset you password enter your email': 'To reset you password enter your email',
-    Email: 'Email',
+    'To reset you password enter your E-mail': 'To reset you password enter your E-mail',
+    'E-mail': 'E-mail',
     Next: 'Next',
   },
   ResetPasswordAcknowledgment: {
     'Reset password': 'Reset password',
-    'An email has been sent to the specified email address_ Please open it and click on the link inside it to reset your password':
-      'An email has been sent to the specified email address. Please open it and click on the link inside it to reset your password',
+    'An email has been sent to the specified E-mail address_ Please open it and click on the link inside it to reset your password':
+      'An email has been sent to the specified E-mail address. Please open it and click on the link inside it to reset your password',
   },
   ResetPasswordConfirmation: {
     'Please enter password': 'Please enter password',
@@ -531,11 +531,11 @@ module.exports = {
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',
-    'Please enter email address': 'Please enter email address',
-    'Please enter a valid email address': 'Please enter a valid email address',
+    'Please enter E-mail address': 'Please enter E-mail address',
+    'Please enter a valid E-mail address': 'Please enter a valid E-mail address',
     'Please enter password': 'Please enter password',
     'Sign in': 'Sign in',
-    Email: 'Email',
+    'E-mail': 'E-mail',
     Password: 'Password',
     SignIn: 'SignIn',
     'Forgot your Password?': 'Forgot your Password?',
@@ -544,14 +544,14 @@ module.exports = {
   },
   SignUp: {
     'Please enter your name': 'Please enter your name',
-    'Please enter email address': 'Please enter email address',
-    'Please enter a valid email address': 'Please enter a valid email address',
+    'Please enter E-mail address': 'Please enter E-mail address',
+    'Please enter a valid E-mail address': 'Please enter a valid E-mail address',
     'Please enter password': 'Please enter password',
     'Use 8 characters or more for your password': 'Use 8 characters or more for your password',
     'Create an FINEX account': 'Create an FINEX account',
-    'This email already registered': 'This email already registered',
+    'This E-mail already registered': 'This E-mail already registered',
     Name: 'Name',
-    Email: 'Email',
+    'E-mail': 'E-mail',
     Password: 'Password',
     'Use 8 or more characters with a mix of letters, numbers & symbols':
       'Use 8 or more characters with a mix of letters, numbers & symbols',
@@ -560,17 +560,17 @@ module.exports = {
     'Sign In': 'Sign In',
   },
   SignUpAcknowledgment: {
-    'Please confirm your email address': 'Please confirm your email address',
+    'Please confirm your E-mail address': 'Please confirm your E-mail address',
     'Thanks for signing up_ To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link_':
       'Thanks for signing up. To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link.',
   },
   SignUpConfirmation: {
-    'The email has already been confirmed': 'The email has already been confirmed',
+    'The E-mail has already been confirmed': 'The E-mail has already been confirmed',
     'Sign Up request not found': 'Sign Up request not found',
-    'This email already registered': 'This email already registered',
-    'Email confirmation': 'Email confirmation',
+    'This E-mail already registered': 'This E-mail already registered',
+    'E-mail confirmation': 'E-mail confirmation',
     Processing___: 'Processing...',
-    'You email has been confirmed_': 'You email has been confirmed.',
+    'Your E-mail has been confirmed_': 'Your E-mail has been confirmed.',
     'Start to use': 'Start to use',
   },
   Tags: {

@@ -14,9 +14,9 @@ import styles from './SignUpConfirmation.module.scss';
 const t = getT('SignUpConfirmation');
 
 const errorsHR: [CoreErrorConstructor, ErrorTranslation][] = [
-  [ApiErrors.Expired, t('The email has already been confirmed')],
+  [ApiErrors.Expired, t('The E-mail has already been confirmed')],
   [ApiErrors.NotFound, t('Sign Up request not found')],
-  [ApiErrors.ConflictError, t('This email already registered')],
+  [ApiErrors.ConflictError, t('This E-mail already registered')],
 ];
 
 export function SignUpConfirmation(): JSX.Element {
@@ -46,12 +46,12 @@ export function SignUpConfirmation(): JSX.Element {
   }
 
   return (
-    <Layout title={t('Email confirmation')}>
+    <Layout title={t('E-mail confirmation')}>
       <div className={styles.container}>
         {status === 'pending' && <p>{t('Processing...')}</p>}
         {status === 'success' && (
           <>
-            <p>{t('You email has been confirmed.')}</p>
+            <p>{t('Your E-mail has been confirmed.')}</p>
             <Link href="/">{t('Start to use')}</Link>
           </>
         )}

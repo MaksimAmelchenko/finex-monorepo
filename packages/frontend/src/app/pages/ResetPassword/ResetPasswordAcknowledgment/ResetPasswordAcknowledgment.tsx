@@ -12,7 +12,7 @@ export function ResetPasswordAcknowledgment(): JSX.Element {
         <h1>{t('Reset password')} </h1>
         <p>
           {t(
-            'An email has been sent to the specified email address. Please open it and click on the link inside it to reset your password'
+            'An email has been sent to the specified E-mail address. Please open it and click on the link inside it to reset your password'
           )}
         </p>
       </div>
