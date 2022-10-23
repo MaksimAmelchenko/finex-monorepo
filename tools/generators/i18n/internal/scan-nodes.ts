@@ -22,7 +22,8 @@ const meaningfulKinds = {
   /*228*/ [SyntaxKind.AsExpression]: ['expression'],
   /*229*/ [SyntaxKind.VariableStatement]: 'declarationList', // scan const/let/var declaration
   /*230*/ [SyntaxKind.ExpressionStatement]: 'expression',
-  /*231*/ [SyntaxKind.IfStatement]: ['thenStatement', 'elseStatement'],
+  /*231*/ [SyntaxKind.IfStatement]: ['expression', 'thenStatement', 'elseStatement'],
+          [SyntaxKind.PrefixUnaryExpression]: ['operand'],
   /*232*/ [SyntaxKind.DoStatement]: 'expression',
   /*233*/ [SyntaxKind.WhileStatement]: 'expression',
   /*234*/ [SyntaxKind.ForStatement]: 'statement',
