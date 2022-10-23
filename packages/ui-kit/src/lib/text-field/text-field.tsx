@@ -1,4 +1,4 @@
-import React, { LegacyRef, forwardRef } from 'react';
+import React, { LegacyRef, forwardRef, useId } from 'react';
 import MaskedInput, { Mask, MaskedInputProps } from 'react-text-mask';
 import clsx from 'clsx';
 
@@ -29,13 +29,13 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, r
     size = 'medium',
     startAdornment: StartAdornment,
     label,
-    id = name,
     type = 'text',
     value,
     ...inputProps
   } = props;
 
   const isError = Boolean(error);
+  const id = useId();
 
   const message = isError ? error : helperText;
   return (
@@ -58,6 +58,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, r
             value={value}
             type={type}
             id={id}
+            name={name}
             className={clsx(
               //
               styles.input__field,
@@ -74,6 +75,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, r
             {...inputProps}
             type={type}
             id={id}
+            name={name}
             value={value}
             className={clsx(styles.input__field)}
             autoComplete={autoComplete}

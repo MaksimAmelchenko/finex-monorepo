@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import clsx from 'clsx';
 import TextareaAutosize, { TextareaAutosizeProps } from 'react-textarea-autosize';
 
@@ -14,9 +14,10 @@ export interface TextAreaFieldProps extends TextareaAutosizeProps {
 }
 
 export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>((props, ref) => {
-  const { className, error, helperText, label, name, id = name, value, minRows = 2, ...textareaProps } = props;
+  const { className, error, helperText, label, name, value, minRows = 2, ...textareaProps } = props;
 
   const isError = Boolean(error);
+  const id = useId();
 
   const message = isError ? error : helperText;
   return (
@@ -26,6 +27,7 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
           {...textareaProps}
           minRows={minRows}
           id={id}
+          name={name}
           value={value}
           className={clsx(styles.textarea__field)}
           ref={ref}
