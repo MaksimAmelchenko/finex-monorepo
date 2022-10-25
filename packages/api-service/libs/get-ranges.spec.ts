@@ -19,9 +19,9 @@ describe('Get ranges', () => {
     const result = getRanges(10, 1000, [15, 2, 1001, 0]);
 
     expect(result).to.be.deep.equals([
-      { offset: 10, limit: 15 },
+      { offset: 10, limit: 5 },
       { offset: 0, limit: 2 },
-      { offset: 0, limit: 983 },
+      { offset: 0, limit: 993 },
       { offset: 0, limit: 0 },
     ]);
   });
@@ -54,7 +54,7 @@ describe('Get ranges', () => {
     expect(result).to.be.deep.equals([
       { offset: 0, limit: 0 },
       { offset: 0, limit: 0 },
-      { offset: 1001, limit: 1 },
+      { offset: 0, limit: 0 },
       { offset: 0, limit: 0 },
     ]);
   });

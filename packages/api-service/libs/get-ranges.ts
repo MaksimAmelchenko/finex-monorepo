@@ -18,7 +18,7 @@ export function getRanges(offset: number, limit: number, lengths: number[]): IRa
   let l = lengths[i];
 
   let position = offset;
-  while (position > l && i < lengths.length) {
+  while (position >= l && i < lengths.length) {
     position -= l;
     result.push({ offset: 0, limit: 0 });
     i++;
@@ -27,8 +27,8 @@ export function getRanges(offset: number, limit: number, lengths: number[]): IRa
 
   let length = 0;
   while (length < limit && i < lengths.length) {
-    result.push({ offset: position, limit: Math.min(l, limit - length) });
-    length += Math.min(l, limit - length);
+    result.push({ offset: position, limit: Math.min(l - position, limit - length) });
+    length += Math.min(l - position, limit);
     position = 0;
     i++;
     l = lengths[i];
@@ -37,7 +37,6 @@ export function getRanges(offset: number, limit: number, lengths: number[]): IRa
   while (i < lengths.length) {
     result.push({ offset: 0, limit: 0 });
     i++;
-    l = lengths[i];
   }
 
   return result;
