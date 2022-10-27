@@ -1,6 +1,7 @@
-import { CashFlowItemMapper, ICashFlowItem, ICashFlowItemDAO } from './types';
-import { Permissions } from '../../types/app';
 import { CashFlowItem } from './models/cashflow-item';
+import { CashFlowItemMapper, ICashFlowItem, ICashFlowItemDAO } from './types';
+import { ICashFlowItemDTO } from '../cahsflow/types';
+import { Permissions } from '../../types/app';
 
 class CashFlowItemMapperImpl implements CashFlowItemMapper {
   toDomain(
@@ -42,6 +43,44 @@ class CashFlowItemMapperImpl implements CashFlowItemMapper {
       tags: tags ? tags.map(String) : [],
     });
   }
+
+  toDTO({
+    id,
+    sign,
+    amount,
+    moneyId,
+    categoryId,
+    accountId,
+    cashFlowItemDate,
+    reportPeriod,
+    quantity,
+    unitId,
+    isNotConfirmed,
+    note,
+    tags,
+    permit,
+    cashFlowId,
+    userId,
+  }: ICashFlowItem): ICashFlowItemDTO {
+    return {
+      id,
+      sign,
+      amount,
+      moneyId,
+      categoryId,
+      accountId,
+      cashFlowItemDate,
+      reportPeriod,
+      quantity,
+      unitId,
+      isNotConfirmed,
+      note,
+      tags,
+      permit,
+      cashFlowId,
+      userId,
+    };
+  }
 }
 
-export const cashflowItemMapper = new CashFlowItemMapperImpl();
+export const cashFlowItemMapper = new CashFlowItemMapperImpl();

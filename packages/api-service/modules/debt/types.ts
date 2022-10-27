@@ -113,7 +113,7 @@ export interface DebtService {
     changes: UpdateDebtServiceChanges
   ): Promise<IDebt>;
 
-  deleteDebt(ctx: IRequestContext, projectId: string, userId: string, debtId: string): Promise<void>;
+  deleteDebt(ctx: IRequestContext<unknown, true>, projectId: string, userId: string, debtId: string): Promise<void>;
 }
 
 export interface DebtMapper {

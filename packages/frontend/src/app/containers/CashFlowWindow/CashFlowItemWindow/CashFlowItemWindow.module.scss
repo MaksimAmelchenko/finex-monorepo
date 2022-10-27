@@ -1,0 +1,64 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.categoryField {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.dateFields {
+  display: flex;
+  width: 100%;
+  gap: 1.6rem;
+
+  &__date {
+    width: 16rem;
+  }
+}
+
+.reportPeriod {
+  display: flex;
+  gap: 0.8rem;
+
+  &__input {
+    width: 16rem;
+  }
+}
+
+.notConfirmedField {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.additional {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+
+  &__description {
+    color: colors.$neutral500;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.4rem;
+  }
+
+  &__fields_hidden {
+    display: none;
+  }
+}
+
+.form__body {
+  padding-top: 0;
+}
+
+.footer {
+  &__rightButtons {
+    display: flex;
+    gap: 0.8rem;
+  }
+}

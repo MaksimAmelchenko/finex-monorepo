@@ -121,9 +121,9 @@ export const Categories = observer(() => {
             </thead>
             <tbody>
               {categoriesRepository.categories.map(category => {
-                const { path, name, isEnabled, note } = category;
-                const { isLeaf, isExpanded, level, isVisible } = getRowProps(path);
-                const { onClick } = getGroupingCellToggleProps(path);
+                const { idsPath, name, isEnabled, note } = category;
+                const { isLeaf, isExpanded, level, isVisible } = getRowProps(idsPath);
+                const { onClick } = getGroupingCellToggleProps(idsPath);
                 if (!isVisible) {
                   return null;
                 }

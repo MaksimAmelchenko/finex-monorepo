@@ -1,0 +1,79 @@
+@use 'packages/theme/src/lib/styles/colors';
+@use 'packages/theme/src/lib/styles/typography';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  &__content {
+    padding: 0 3.2rem 2.4rem;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 2.4rem;
+  overflow: hidden;
+}
+
+.debt {
+  border-bottom: solid 1px colors.$neutral200;
+
+  &__form {
+    padding: 2.4rem 0;
+    gap: 2.4rem;
+  }
+}
+
+.debtItems {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 2.4rem;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow: auto;
+  height: 100%;
+  //padding: 0 3.2rem 2.4rem;
+}
+
+.debt__container {
+  display: flex;
+  gap: 2.4rem;
+}
+
+.debt__left {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  width: 50%;
+}
+
+.debt__right {
+  width: 50%;
+}
+
+.debt__footer {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.panel {
+  &__toolbar {
+  }
+}
+
+.toolbar {
+  &__buttons {
+    display: flex;
+    gap: 0.8rem;
+  }
+}
+
+.table {
+  td {
+    height: 1px;
+  }
+}

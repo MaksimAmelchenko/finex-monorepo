@@ -2,6 +2,8 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accounts } from './accounts/swagger';
 import { auth } from './auth/swagger';
+import { cashFlowItems } from './cashflow-items/swagger';
+import { cashFlows } from './cashflows/swagger';
 import { exchanges } from './exchanges/swagger';
 import { header } from './header';
 import { planTransactions } from './plan-transactions/swagger';
@@ -16,6 +18,8 @@ const swagger: OpenAPIV3_1.Document = {
     //
     ...(accounts.tags || []),
     ...(auth.tags || []),
+    ...(cashFlowItems.tags || []),
+    ...(cashFlows.tags || []),
     ...(exchanges.tags || []),
     ...(planTransactions.tags || []),
     ...(profile.tags || []),
@@ -26,6 +30,8 @@ const swagger: OpenAPIV3_1.Document = {
   paths: {
     ...accounts.paths,
     ...auth.paths,
+    ...cashFlowItems.paths,
+    ...cashFlows.paths,
     ...exchanges.paths,
     ...planTransactions.paths,
     ...profile.paths,
@@ -37,6 +43,8 @@ const swagger: OpenAPIV3_1.Document = {
     schemas: {
       ...(accounts.components?.schemas || {}),
       ...(auth.components?.schemas || {}),
+      ...(cashFlowItems.components?.schemas || {}),
+      ...(cashFlows.components?.schemas || {}),
       ...(exchanges.components?.schemas || {}),
       ...(planTransactions.components?.schemas || {}),
       ...(profile.components?.schemas || {}),
@@ -47,6 +55,8 @@ const swagger: OpenAPIV3_1.Document = {
     parameters: {
       ...(accounts.components?.parameters || {}),
       ...(auth.components?.parameters || {}),
+      ...(cashFlowItems.components?.parameters || {}),
+      ...(cashFlows.components?.parameters || {}),
       ...(exchanges.components?.parameters || {}),
       ...(planTransactions.components?.parameters || {}),
       ...(profile.components?.parameters || {}),

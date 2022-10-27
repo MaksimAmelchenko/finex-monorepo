@@ -7,6 +7,8 @@ import { BalanceApi } from '../stores/api/balance-api';
 import { BalanceRepository } from '../stores/balance-repository';
 import { BootstrapApi } from '../stores/api/bootstrap-api';
 import { BootstrapStore } from '../stores/bootstrap-store';
+import { CashFlowsApi } from '../stores/api/cash-flows-api';
+import { CashFlowsRepository } from '../stores/cash-flows-repository';
 import { CategoriesApi } from '../stores/api/categories-api';
 import { CategoriesRepository } from '../stores/categories-repository';
 import { CategoryPrototypesRepository } from '../stores/category-prototypes-repository';
@@ -77,6 +79,7 @@ export function initializeMainStore(): MainStore {
   new BalanceRepository(mainStore, new BalanceApi(mainStore));
   new ParamsStore(mainStore);
 
+  new CashFlowsRepository(mainStore, new CashFlowsApi(mainStore));
   new DebtsRepository(mainStore, new DebtsApi(mainStore));
   new TransfersRepository(mainStore, new TransfersApi(mainStore));
   new ExchangesRepository(mainStore, new ExchangesApi(mainStore));

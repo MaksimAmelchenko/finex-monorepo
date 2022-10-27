@@ -5,7 +5,7 @@ import { Slide } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { observer } from 'mobx-react-lite';
 
-import { CashFlows } from './containers/CashFlows/CashFlows';
+import { CashFlows } from './pages/CashFlows/CashFlows';
 import { DashboardLazy } from './pages/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
 import { DistributionReportLazy } from './pages/Reports/DistributionReport/DistributionReportLazy';

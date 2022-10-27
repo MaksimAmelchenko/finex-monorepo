@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 
 import { CategoryPrototype } from './category-prototype';
 import { ICategory } from '../../types/category';
@@ -36,38 +36,36 @@ export class Category implements ICategory, IDeletable {
       parent: observable,
       isEnabled: observable,
       isDeleting: observable,
+      path: computed,
+      idsPath: computed,
+      namePath: computed,
     });
   }
 
-  get path(): string[] {
+  get path(): Category[] {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let category: Category | null = this;
-    const path: string[] = [];
+    const path: Category[] = [];
     while (category) {
-      path.push(category.id);
+      path.push(category);
       category = category.parent;
     }
     return path.reverse();
   }
 
   get namePath(): string[] {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let category: ICategory | null = this;
-    const path: string[] = [];
-    while (category) {
-      path.push(category.name);
-      category = category.parent;
-    }
+    return this.path.map(({ name }) => name);
+  }
 
-    return path.reverse();
+  get idsPath(): string[] {
+    return this.path.map(({ id }) => id);
   }
 
   fullPath(isIncludeOwnName = false): string {
     const names = this.namePath;
-    if (isIncludeOwnName) {
-      return names.join(' → ');
+    if (!isIncludeOwnName) {
+      names.pop();
     }
-    names.pop();
     return names.join(' → ');
   }
 }

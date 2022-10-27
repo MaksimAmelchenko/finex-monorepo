@@ -127,7 +127,14 @@ class DebtServiceImpl implements DebtService {
     return this.getDebt(ctx, projectId, userId, String(debtDOA.id));
   }
 
-  async deleteDebt(ctx: IRequestContext, projectId: string, userId: string, debtId: string): Promise<void> {
+  async deleteDebt(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    debtId: string
+  ): Promise<void> {
+    await this.getDebt(ctx, projectId, userId, debtId);
+
     const debtItems = await this.debtItemService.getDebtItems(ctx, projectId, userId, [debtId]);
 
     for await (const debtItem of debtItems) {

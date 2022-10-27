@@ -1,8 +1,5 @@
 import { Transaction } from './models/transaction';
-import { TransactionMapper, ITransaction, ITransactionDTO, ITransactionEntity, ITransactionDAO } from './types';
-import { ICashFlowItem, ICashFlowItemDAO } from '../cahsflow-item/types';
-import { cashflowItemMapper } from '../cahsflow-item/cashflow-item.mapper';
-import { Permissions } from '../../types/app';
+import { ITransaction, ITransactionDAO, ITransactionDTO, TransactionMapper } from './types';
 
 class TransactionMapperImpl implements TransactionMapper {
   toDTO({

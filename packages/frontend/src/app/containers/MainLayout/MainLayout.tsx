@@ -104,6 +104,12 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
   const menu: IMenuItem[] = useMemo(() => {
     return [
       {
+        id: 'cash-flows',
+        link: '/cash-flows',
+        label: t('Cash Flow'),
+        icon: <img src={CashFlowSvg} alt="" />,
+      },
+      {
         id: 'transactions',
         link: '/transactions',
         label: t('Income & Expenses'),

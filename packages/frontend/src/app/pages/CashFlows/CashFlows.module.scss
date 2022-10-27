@@ -1,0 +1,87 @@
+@use 'packages/theme/src/lib/styles/colors';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 2.4rem;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+
+  &__panel {
+    padding: 0 3.2rem;
+  }
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'toolbar pagination'
+    'filter filter';
+
+  &__toolbar {
+    margin-right: 1.2rem;
+    grid-area: toolbar;
+  }
+
+  &__pagination {
+    grid-area: pagination;
+    place-self: end;
+  }
+
+  &__filter {
+    display: flex;
+    gap: 2.4rem;
+    grid-area: filter;
+    padding: 1rem 0;
+  }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+
+  &__buttons {
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  &__rightColumn {
+    display: flex;
+    gap: 0.8rem;
+    margin-left: 0.8rem;
+  }
+
+  &__search {
+    min-width: 9.6rem;
+  }
+}
+
+.filterButton {
+  &_active {
+    color: colors.$neutral1000;
+  }
+}
+
+.multiSelect {
+  min-width: 32rem;
+}
+
+.tableWrapper {
+  overflow: auto;
+  height: 100%;
+  padding: 0 3.2rem 2.4rem;
+}
+
+.table {
+  td {
+    height: 1px;
+  }
+}

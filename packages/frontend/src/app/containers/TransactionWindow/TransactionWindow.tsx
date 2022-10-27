@@ -375,10 +375,11 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
                 title={
                   <div>
                     <p>
-                      A not confirmed transaction will be marked in a journal yellow color. The overdue and not
-                      confirmed operation will be marked red.
+                      {t(
+                        'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed operation will be marked red.'
+                      )}
                     </p>
-                    <p>Otherwise, they are no different from ordinary operations.</p>
+                    <p>{t('Otherwise, they are no different from ordinary operations.')}</p>
                   </div>
                 }
               >

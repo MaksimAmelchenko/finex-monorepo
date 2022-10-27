@@ -1,6 +1,6 @@
 import { AccessDeniedError, NotFoundError } from '../../libs/errors';
 import { IRequestContext, Permit } from '../../types/app';
-import { cashflowItemMapper } from './cashflow-item.mapper';
+import { cashFlowItemMapper } from './cashflow-item.mapper';
 import { cashFlowItemRepository } from './cashflow-item.repository';
 
 import {
@@ -19,7 +19,7 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
   }
 
   async createCashFlowItem(
-    ctx: IRequestContext<never, true>,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     cashFlowId: string,
@@ -48,7 +48,7 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
       throw new NotFoundError();
     }
 
-    return cashflowItemMapper.toDomain(cashFlowItemDAO, ctx.permissions);
+    return cashFlowItemMapper.toDomain(cashFlowItemDAO, ctx.permissions);
   }
 
   async getCashFlowItems(
@@ -60,12 +60,12 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
     const cashFlowItemDOAs = await this.cashFlowItemRepository.getCashFlowItems(ctx, projectId, cashFlowIds);
 
     return cashFlowItemDOAs
-      .map(cashFlowItem => cashflowItemMapper.toDomain(cashFlowItem, ctx.permissions))
+      .map(cashFlowItem => cashFlowItemMapper.toDomain(cashFlowItem, ctx.permissions))
       .filter(({ permit }) => (permit & Permit.Read) === Permit.Read);
   }
 
   async updateCashFlowItem(
-    ctx: IRequestContext<never, true>,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     cashFlowItemId: string,
     changes: UpdateCashFlowItemServiceChanges
