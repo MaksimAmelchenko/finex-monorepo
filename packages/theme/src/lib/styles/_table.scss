@@ -18,6 +18,7 @@
   thead > tr > th button {
     @include typography.tableLabel;
     text-align: left;
+    padding: 4px;
   }
 
   td {
@@ -34,10 +35,12 @@
 
       &.numeric {
         padding-right: 1px;
+        font-size: 15px;
       }
 
       &.currency {
         padding-left: 1px;
+        color: colors.$neutral400;
       }
     }
   }
