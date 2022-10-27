@@ -1,6 +1,6 @@
 import { Debt } from './model/debt';
 import { DebtMapper, IDebt, IDebtDTO } from './types';
-import { ICashFlowDAO } from '../cahsflow/types';
+import { ICashFlowDAO } from '../cash-flow/types';
 import { IDebtItem } from '../debt-item/types';
 import { Permissions } from '../../types/app';
 import { debtItemMapper } from '../debt-item/debt-item.mapper';

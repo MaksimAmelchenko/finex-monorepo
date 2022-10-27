@@ -1,6 +1,6 @@
 import { IRequestContext, Permissions, TDate, TDateTime } from '../../types/app';
-import { ICashFlowDAO } from '../cahsflow/types';
-import { ICashFlowItemDAO } from '../cahsflow-item/types';
+import { ICashFlowDAO } from '../cash-flow/types';
+import { ICashFlowItemDAO } from '../cash-flow-item/types';
 
 export interface ITransferDAO {
   projectId: number;

@@ -1,5 +1,5 @@
-import { ICashFlowDAO } from '../cahsflow/types';
-import { ICashFlowItemDAO } from '../cahsflow-item/types';
+import { ICashFlowDAO } from '../cash-flow/types';
+import { ICashFlowItemDAO } from '../cash-flow-item/types';
 import { InternalError } from '../../libs/errors';
 import { Transfer } from './model/transfer';
 import { TransferMapper, ITransfer, ITransferDTO } from './types';

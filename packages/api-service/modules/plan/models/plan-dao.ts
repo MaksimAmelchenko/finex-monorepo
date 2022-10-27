@@ -4,11 +4,11 @@ import { format } from 'date-fns';
 import { IPlanDAO } from '../types';
 import { TDate } from '../../../types/app';
 import { ajvValidator } from '../../../libs/ajv';
-import { planDaoSchema } from './plan-dao.schema';
+import { planDAOSchema } from './plan-dao.schema';
 
 export class PlanDAO extends Model implements IPlanDAO {
   static tableName = 'cf$.v_plan_v2';
-  static jsonSchema = planDaoSchema as JSONSchema;
+  static jsonSchema = planDAOSchema as JSONSchema;
   static idColumn = ['projectId', 'id'];
   static jsonAttributes = [];
 

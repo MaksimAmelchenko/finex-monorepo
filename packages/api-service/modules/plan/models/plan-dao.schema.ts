@@ -2,7 +2,7 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { date } from '../../../common/schemas/fields/date';
 
-export const planDaoSchema: OpenAPIV3_1.SchemaObject = {
+export const planDAOSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     projectId: {

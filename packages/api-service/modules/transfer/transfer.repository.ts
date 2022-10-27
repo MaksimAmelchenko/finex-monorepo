@@ -1,6 +1,6 @@
 import { snakeCaseMappers } from 'objection';
 
-import { CashFlowDAO } from '../cahsflow/models/cahsflow-dao';
+import { CashFlowDAO } from '../cash-flow/models/cash-flow-dao';
 import { FindTransfersRepositoryResponse, FindTransfersServiceQuery, TransferRepository } from './types';
 import { IRequestContext } from '../../types/app';
 

@@ -1,5 +1,5 @@
-import { CashFlowItemRepository } from '../cahsflow-item/types';
-import { CashFlowRepository, CashFlowType } from '../cahsflow/types';
+import { CashFlowItemRepository } from '../cash-flow-item/types';
+import { CashFlowRepository, CashFlowType } from '../cash-flow/types';
 import {
   CreateDebtServiceData,
   DebtRepository,
@@ -12,8 +12,8 @@ import {
 import { DebtItemService, IDebtItem } from '../debt-item/types';
 import { IRequestContext, Permit } from '../../types/app';
 import { NotFoundError } from '../../libs/errors';
-import { cashFlowItemRepository } from '../cahsflow-item/cashflow-item.repository';
-import { cashFlowRepository } from '../cahsflow/cashflow.repository';
+import { cashFlowItemRepository } from '../cash-flow-item/cash-flow-item.repository';
+import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { debtItemService } from '../debt-item/debt-item.service';
 import { debtMapper } from './debt.mapper';
 import { debtRepository } from './debt.repository';

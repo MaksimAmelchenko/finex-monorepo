@@ -1,6 +1,6 @@
 import { DebtItem } from './models/debt-item';
 import { DebtItemMapper, IDebtItem, IDebtItemDTO } from './types';
-import { ICashFlowItem } from '../cahsflow-item/types';
+import { ICashFlowItem } from '../cash-flow-item/types';
 
 class DebtItemMapperImpl implements DebtItemMapper {
   toDTO({

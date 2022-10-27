@@ -1,4 +1,4 @@
-import { CashFlowItemService } from '../cahsflow-item/types';
+import { CashFlowItemService } from '../cash-flow-item/types';
 import {
   CreateTransactionServiceData,
   FindTransactionsServiceQuery,
@@ -8,11 +8,11 @@ import {
   TransactionService,
   UpdateTransactionServiceChanges,
 } from './types';
-import { CashFlowRepository, CashFlowType } from '../cahsflow/types';
+import { CashFlowRepository, CashFlowType } from '../cash-flow/types';
 import { IRequestContext } from '../../types/app';
 import { NotFoundError } from '../../libs/errors';
-import { cashFlowItemService } from '../cahsflow-item/cashflow-item.service';
-import { cashFlowRepository } from '../cahsflow/cashflow.repository';
+import { cashFlowItemService } from '../cash-flow-item/cash-flow-item.service';
+import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { transactionMapper } from './transaction.mapper';
 import { transactionRepository } from './transaction.repository';
 import { Transaction } from './models/transaction';

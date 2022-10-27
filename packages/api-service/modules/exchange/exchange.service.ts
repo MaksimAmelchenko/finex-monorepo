@@ -11,11 +11,11 @@ import {
   ExchangeService,
   UpdateExchangeServiceChanges,
 } from './types';
-import { CashFlowItemRepository, ICashFlowItemDAO } from '../cahsflow-item/types';
-import { CashFlowRepository, CashFlowType } from '../cahsflow/types';
+import { CashFlowItemRepository, ICashFlowItemDAO } from '../cash-flow-item/types';
+import { CashFlowRepository, CashFlowType } from '../cash-flow/types';
 import { CategoryGateway } from '../../services/category/gateway';
-import { cashFlowItemRepository } from '../cahsflow-item/cashflow-item.repository';
-import { cashFlowRepository } from '../cahsflow/cashflow.repository';
+import { cashFlowItemRepository } from '../cash-flow-item/cash-flow-item.repository';
+import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { exchangeMapper } from './exchange.mapper';
 import { exchangeRepository } from './exchange.repository';
 

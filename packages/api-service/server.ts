@@ -56,8 +56,8 @@ import { exchangeApi } from './api/v2/exchange';
 import { planTransactionApi } from './api/v2/plan-transaction';
 import { reportApi } from './api/v2/reports';
 import { profileApi } from './api/v2/profile';
-import { cashFlowApi } from './api/v2/cashflow';
-import { cashFlowItemApi } from './api/v2/cashflow-item';
+import { cashFlowApi } from './api/v2/cash-flow';
+import { cashFlowItemApi } from './api/v2/cash-flow-item';
 
 const app: Koa = new Koa();
 

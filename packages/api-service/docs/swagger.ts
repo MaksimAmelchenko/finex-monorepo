@@ -2,8 +2,8 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accounts } from './accounts/swagger';
 import { auth } from './auth/swagger';
-import { cashFlowItems } from './cashflow-items/swagger';
-import { cashFlows } from './cashflows/swagger';
+import { cashFlowItems } from './cash-flow-items/swagger';
+import { cashFlows } from './cash-flows/swagger';
 import { exchanges } from './exchanges/swagger';
 import { header } from './header';
 import { planTransactions } from './plan-transactions/swagger';

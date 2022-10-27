@@ -1,5 +1,5 @@
 import { Permit, Sign, TDate, IRequestContext, Permissions } from '../../types/app';
-import { ICashFlowItem, ICashFlowItemDAO } from '../cahsflow-item/types';
+import { ICashFlowItem, ICashFlowItemDAO } from '../cash-flow-item/types';
 
 export interface IDebtItemEntity {
   id: string;

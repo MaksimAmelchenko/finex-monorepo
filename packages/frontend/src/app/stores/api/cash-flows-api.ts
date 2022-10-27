@@ -20,14 +20,14 @@ export class CashFlowsApi extends ApiRepository implements ICashFlowsApi {
 
   getCashFlows(query: GetCashFlowsQuery): Promise<GetCashFlowsResponse> {
     return this.fetch<GetCashFlowsResponse>({
-      url: `/v2/cashflows?${queryString.stringify(query, { skipNull: true, skipEmptyString: true })}`,
+      url: `/v2/cash-flows?${queryString.stringify(query, { skipNull: true, skipEmptyString: true })}`,
     });
   }
 
   createCashFlow(data: CreateCashFlowData): Promise<CreateCashFlowResponse> {
     return this.fetch<CreateCashFlowResponse>({
       method: 'POST',
-      url: '/v2/cashflows',
+      url: '/v2/cash-flows',
       body: data,
     });
   }
@@ -35,7 +35,7 @@ export class CashFlowsApi extends ApiRepository implements ICashFlowsApi {
   createCashFlowItem(cashFlowId: string, data: CreateCashFlowItemData): Promise<CreateCashFlowItemResponse> {
     return this.fetch<CreateCashFlowItemResponse>({
       method: 'POST',
-      url: `/v2/cashflows/${cashFlowId}/items`,
+      url: `/v2/cash-flows/${cashFlowId}/items`,
       body: data,
     });
   }
@@ -43,7 +43,7 @@ export class CashFlowsApi extends ApiRepository implements ICashFlowsApi {
   updateCashFlow(cashFlowId: string, changes: UpdateCashFlowChanges): Promise<UpdateCashFlowResponse> {
     return this.fetch<CreateCashFlowResponse>({
       method: 'PATCH',
-      url: `/v2/cashflows/${cashFlowId}`,
+      url: `/v2/cash-flows/${cashFlowId}`,
       body: changes,
     });
   }
@@ -55,7 +55,7 @@ export class CashFlowsApi extends ApiRepository implements ICashFlowsApi {
   ): Promise<UpdateCashFlowItemResponse> {
     return this.fetch<CreateCashFlowItemResponse>({
       method: 'PATCH',
-      url: `/v2/cashflows/${cashFlowId}/items/${cashFlowItemId}`,
+      url: `/v2/cash-flows/${cashFlowId}/items/${cashFlowItemId}`,
       body: changes,
     });
   }
@@ -63,14 +63,14 @@ export class CashFlowsApi extends ApiRepository implements ICashFlowsApi {
   deleteCashFlow(cashFlowId: string): Promise<void> {
     return this.fetch<void>({
       method: 'DELETE',
-      url: `/v2/cashflows/${cashFlowId}`,
+      url: `/v2/cash-flows/${cashFlowId}`,
     });
   }
 
   deleteCashFlowItem(cashFlowId: string, cashFlowItemId: string): Promise<void> {
     return this.fetch<void>({
       method: 'DELETE',
-      url: `/v2/cashflows/${cashFlowId}/items/${cashFlowItemId}`,
+      url: `/v2/cash-flows/${cashFlowId}/items/${cashFlowItemId}`,
     });
   }
 }

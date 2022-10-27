@@ -1,4 +1,4 @@
-import { ICashFlowDAO } from '../cahsflow/types';
+import { ICashFlowDAO } from '../cash-flow/types';
 import { IRequestContext, Permissions, TDate, TDateTime } from '../../types/app';
 
 import {

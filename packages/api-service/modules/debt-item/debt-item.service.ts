@@ -1,7 +1,7 @@
-import { CashFlowItemService } from '../cahsflow-item/types';
+import { CashFlowItemService } from '../cash-flow-item/types';
 import { CreateDebtItemServiceData, DebtItemService, IDebtItem, UpdateDebtItemServiceChanges } from './types';
 import { IRequestContext } from '../../types/app';
-import { cashFlowItemService } from '../cahsflow-item/cashflow-item.service';
+import { cashFlowItemService } from '../cash-flow-item/cash-flow-item.service';
 import { debtItemMapper } from './debt-item.mapper';
 
 class DebtItemServiceImpl implements DebtItemService {
