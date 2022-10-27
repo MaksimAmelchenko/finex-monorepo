@@ -95,7 +95,7 @@ module.exports = {
   CashFlows: {
     'Are you sure you want to delete several cash flows?': 'Вы уверены, что хотите удалить несколько денежных потоков?',
     CashFlows: 'Денежные потоки',
-    New: 'Создать',
+    New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
     'Enter search request': 'Поиск',
@@ -118,7 +118,7 @@ module.exports = {
     Note: 'Примечание',
     Close: 'Закрыть',
     Save: 'Сохранить',
-    New: 'Создать',
+    New: 'Добавить',
     Delete: 'Удалить',
     Date: 'Дата',
     Account: 'Счёт',
