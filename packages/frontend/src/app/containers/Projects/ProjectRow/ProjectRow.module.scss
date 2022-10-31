@@ -1,24 +1,22 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 .row {
   &__name {
     cursor: pointer;
-    color: colors.$secondary700;
+    color: var(--color-secondary700);
 
     &:hover {
-      color: colors.$secondary600;
+      color: var(--color-secondary600);
     }
   }
 
   &_selected {
-    background-color: colors.$secondary200;
+    background-color: var(--color-secondary200);
   }
 
   &:hover {
-    background-color: colors.$secondary100;
+    background-color: var(--color-secondary100);
   }
 
   &_is_deleting {
-    background-color: colors.$danger500;
+    background-color: var(--color-danger500);
   }
 }

@@ -1,5 +1,3 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 %transition-styles {
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
@@ -23,7 +21,7 @@
     font-size: 1.2rem;
 
     .root:focus-within > & {
-      color: colors.$secondary700;
+      color: var(--color-secondary700);
     }
 
     /* background for label */
@@ -35,14 +33,14 @@
       width: 100%;
       height: 3px;
       content: '';
-      background: colors.$neutral0;
+      background: var(--color-neutral0);
     }
   }
 
   &__helperText {
     margin: 4px 16px 0;
     font-size: 1.2rem;
-    color: colors.$neutral500;
+    color: var(--color-neutral500);
   }
 
   &_error &__label,
@@ -50,6 +48,6 @@
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: colors.$danger600;
+    color: var(--color-danger600);
   }
 }

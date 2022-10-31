@@ -1,5 +1,3 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 .categoryField {
   display: flex;
   align-items: center;
@@ -38,7 +36,7 @@
   row-gap: 2.4rem;
 
   &__description {
-    color: colors.$neutral500;
+    color: var(--color-neutral500);
   }
 
   &__fields {

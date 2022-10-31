@@ -1,4 +1,3 @@
-@use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/media';
 @use 'packages/theme/src/lib/styles/typography';
 
@@ -8,7 +7,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: colors.$neutral100;
+  background-color: var(--color-neutral100);
 
   @include media.sm {
     justify-content: flex-start;
@@ -29,7 +28,7 @@
     padding-top: 6rem;
     box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
     border-radius: 0.4rem;
-    background-color: colors.$neutral0;
+    background-color: var(--color-neutral0);
     @include media.sm {
       margin-top: 8rem;
       padding-top: 4rem;

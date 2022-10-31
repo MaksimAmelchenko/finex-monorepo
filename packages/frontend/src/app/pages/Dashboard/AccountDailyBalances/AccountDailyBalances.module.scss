@@ -1,10 +1,9 @@
-@use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/typography';
 
 .container {
   border-radius: 0.4rem;
   width: 100%;
-  background-color: colors.$neutral0;
+  background-color: var(--color-neutral0);
 }
 
 .header {
@@ -31,9 +30,9 @@
 }
 
 .tooltip {
-  background: colors.$neutral0;
+  background: var(--color-neutral0);
   padding: 0.8rem 1.6rem;
-  border: 1px solid colors.$neutral400;
+  border: 1px solid var(--color-neutral400);
 
   &__name {
     font-weight: bold;

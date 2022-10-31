@@ -1,5 +1,3 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 %transition-styles {
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
@@ -13,13 +11,13 @@
   &__helperText {
     margin-top: 4px;
     font-size: 1.2rem;
-    color: colors.$neutral500;
+    color: var(--color-neutral500);
   }
 
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: colors.$danger600;
+    color: var(--color-danger600);
   }
 }
 

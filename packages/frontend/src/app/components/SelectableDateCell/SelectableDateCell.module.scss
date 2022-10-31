@@ -1,5 +1,3 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 td.root {
   padding-left: 0;
   padding-right: 0;
@@ -10,7 +8,7 @@ td.root {
   align-items: center;
   border-radius: 0 4px 4px 0;
   height: 100%;
-  background-color: colors.$neutral100;
+  background-color: var(--color-neutral100);
   cursor: pointer;
 
   &__colorMark {

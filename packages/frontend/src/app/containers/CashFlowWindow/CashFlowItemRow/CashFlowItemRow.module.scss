@@ -1,7 +1,5 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 .row_is_deleting {
-  background-color: colors.$danger200;
+  background-color: var(--color-danger200);
 }
 
 td.firstColumn {
@@ -14,7 +12,7 @@ td.firstColumn {
   align-items: center;
   border-radius: 0 0.8rem 0.8rem 0;
   height: 100%;
-  background-color: colors.$neutral100;
+  background-color: var(--color-neutral100);
   cursor: pointer;
 
   &__colorMark {
@@ -50,5 +48,5 @@ td.firstColumn {
 }
 
 .categoryPath {
-  color: colors.$neutral400;
+  color: var(--color-neutral400);
 }

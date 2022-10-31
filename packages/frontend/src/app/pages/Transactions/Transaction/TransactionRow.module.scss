@@ -1,7 +1,5 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 .row_is_deleting {
-  background-color: colors.$danger200;
+  background-color: var(--color-danger200);
 }
 
 td.firstColumn {
@@ -14,7 +12,7 @@ td.firstColumn {
   align-items: center;
   border-radius: 0 0.4rem 0.4rem 0;
   height: 100%;
-  background-color: colors.$neutral100;
+  background-color: var(--color-neutral100);
   cursor: pointer;
 
   &__colorMark {
@@ -44,18 +42,18 @@ td.firstColumn {
   }
 
   &_planned {
-    background-color: colors.$success100;
+    background-color: var(--color-success100);
 
     .dateColumn__label {
-      color: colors.$success500;
+      color: var(--color-success500);
     }
   }
 
   &_overdue {
-    background-color: colors.$danger100;
+    background-color: var(--color-danger100);
 
     .dateColumn__label {
-      color: colors.$danger500;
+      color: var(--color-danger500);
     }
   }
 }
@@ -66,5 +64,5 @@ td.firstColumn {
 }
 
 .categoryPath {
-  color: colors.$neutral400;
+  color: var(--color-neutral400);
 }

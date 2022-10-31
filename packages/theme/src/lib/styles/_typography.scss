@@ -1,39 +1,38 @@
 @use './media';
-@use './colors';
 
 @mixin h1 {
   font-size: 3.2rem;
   font-weight: 600;
   line-height: 4rem;
-  color: colors.$neutral800;
+  color: var(--color-neutral800);
 }
 
 @mixin h2 {
   font-size: 2.4rem;
   font-weight: 600;
   line-height: 3rem;
-  color: colors.$neutral800;
+  color: var(--color-neutral800);
 }
 
 @mixin h3 {
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 2.2rem;
-  color: colors.$neutral800;
+  color: var(--color-neutral800);
 }
 
 @mixin subtitle {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.4rem;
-  color: colors.$neutral600;
+  color: var(--color-neutral600);
 }
 
 @mixin body {
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 1.6rem;
-  color: colors.$neutral800;
+  color: var(--color-neutral800);
 }
 
 @mixin bodyHighlight {

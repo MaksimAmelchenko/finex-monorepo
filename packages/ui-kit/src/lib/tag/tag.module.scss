@@ -1,13 +1,12 @@
-@use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/typography';
 
 .tag {
   display: inline-flex;
   @include typography.bodyHighlight();
   line-height: 1.6rem;
-  background-color: colors.$primary200;
+  background-color: var(--color-primary200);
   border-radius: 0.3rem;
-  color: colors.$primary600;
+  color: var(--color-primary600);
 
   &__label {
     padding: 4px 8px;
@@ -30,11 +29,11 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     background-color: inherit;
-    color: colors.$neutral1000;
+    color: var(--color-neutral1000);
 
     &:focus,
     &:hover {
-      background-color: colors.$primary500;
+      background-color: var(--color-primary500);
     }
   }
 

@@ -1,16 +1,14 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 .row {
   &_is_deleting {
-    background-color: colors.$danger500;
+    background-color: var(--color-danger500);
   }
 }
 
 .name {
   cursor: pointer;
-  color: colors.$secondary700;
+  color: var(--color-secondary700);
 
   &:hover {
-    color: colors.$secondary600;
+    color: var(--color-secondary600);
   }
 }

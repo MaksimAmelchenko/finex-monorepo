@@ -1,8 +1,7 @@
-@use 'packages/theme/src/lib/styles/colors';
 @use 'packages/theme/src/lib/styles/typography';
 
 .row {
-  background-color: colors.$neutral0;
+  background-color: var(--color-neutral0);
   @include typography.bodyHighlight();
 
   & td {
@@ -12,7 +11,7 @@
 
   &_group {
     @include typography.body();
-    background-color: colors.$neutral100;
+    background-color: var(--color-neutral100);
   }
 
   &_delimiter {
@@ -20,7 +19,7 @@
   }
 
   &_delimiter_with_border {
-    border-top: 1px solid colors.$neutral150;
+    border-top: 1px solid var(--color-neutral150);
   }
 
   &__amount {
@@ -29,7 +28,7 @@
   }
 
   &__currency_symbol {
-    color: colors.$neutral500;
+    color: var(--color-neutral500);
 
     .row_group & {
     }

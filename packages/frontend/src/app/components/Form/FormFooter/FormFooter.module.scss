@@ -1,9 +1,7 @@
-@use 'packages/theme/src/lib/styles/colors';
-
 .footer {
   display: flex;
   justify-content: space-between;
-  box-shadow: 0 -2px 5px colors.$neutral100;
+  box-shadow: 0 -2px 5px var(--color-neutral100);
   padding: 1.6rem 3.2rem;
-  background-color: colors.$neutral100;
+  background-color: var(--color-neutral100);
 }
