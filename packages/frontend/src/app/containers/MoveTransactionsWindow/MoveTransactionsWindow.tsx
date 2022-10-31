@@ -94,7 +94,7 @@ export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProp
       <FormBody>
         <FormSelect name="categoryId" label={t('From')} options={selectCategoriesOptions} />
         <FormSelect name="categoryIdTo" label={t('To')} options={selectCategoriesOptions} isClearable autoFocus />
-        <FormCheckbox name="isRecursive" label={t('Move operations from subcategories')} />
+        <FormCheckbox name="isRecursive">{t('Move operations from subcategories')}</FormCheckbox>
       </FormBody>
 
       <FormFooter>

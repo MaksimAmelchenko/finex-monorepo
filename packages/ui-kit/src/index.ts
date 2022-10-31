@@ -1,3 +1,4 @@
+export * from './lib/base-checkbox/base-checkbox';
 export * from './lib/button/button';
 export * from './lib/checkbox/checkbox';
 export * from './lib/circular-indeterminate/circular-indeterminate';

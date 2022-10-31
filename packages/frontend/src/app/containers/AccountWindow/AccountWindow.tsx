@@ -167,9 +167,10 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
         />
         <FormCheckbox
           name="isEnabled"
-          label={t('Active')}
           helperText={t('Inactive accounts are hidden when creating or editing a transaction')}
-        />
+        >
+          {t('Active')}
+        </FormCheckbox>
         <FormTextAreaField name="note" label={t('Note')} />
         {/*<FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />*/}
         <FormFieldSet legend={t('Permissions')}>

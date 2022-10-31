@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { isBefore, parseISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 
-import { CheckboxSvg, CheckboxUncheckedSvg, Tag } from '@finex/ui-kit';
+import { BaseCheckbox, Tag } from '@finex/ui-kit';
 import { PlannedTransaction } from '../../../stores/models/planned-transaction';
 import { Transaction } from '../../../stores/models/transaction';
 import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
@@ -46,9 +46,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
           onClick={handleOnSelect}
         >
           <div className={clsx(styles.dateColumn__colorMark, isPlanned && transaction.markerColor)} />
-          <div className={styles.dateColumn__checkbox}>
-            <img src={isSelected ? CheckboxSvg : CheckboxUncheckedSvg} alt="" />
-          </div>
+          <BaseCheckbox value={isSelected} />
           <div className={styles.dateColumn__dateContainer}>
             {isPlanned ? (
               <>

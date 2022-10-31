@@ -161,9 +161,10 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
         <FormTextField name="precision" label={t('Precision')} helperText={t('A number of symbols after comma')} />
         <FormCheckbox
           name="isEnabled"
-          label={t('Active')}
           helperText={t('Inactive money is hidden when creating or editing a transaction')}
-        />
+        >
+          {t('Active')}
+        </FormCheckbox>
         <FormTextField name="sorting" label={t('Sorting')} />
       </FormBody>
 

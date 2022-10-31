@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { CheckboxSvg, CheckboxUncheckedSvg, Tag } from '@finex/ui-kit';
+import { BaseCheckbox, Tag } from '@finex/ui-kit';
 import { Debt } from '../../../stores/models/debt';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { formatDate, toCurrency } from '../../../lib/core/i18n';
@@ -33,9 +33,7 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
       <td className={clsx(styles.firstColumn, 'min-width')}>
         <div className={clsx(styles.dateColumn)} onClick={handleOnSelect}>
           <div className={clsx(styles.dateColumn__colorMark)} />
-          <div className={styles.dateColumn__checkbox}>
-            <img src={isSelected ? CheckboxSvg : CheckboxUncheckedSvg} alt="" />
-          </div>
+          <BaseCheckbox value={isSelected} />
           <div className={styles.dateColumn__dateContainer}>
             <div className={styles.dateColumn__date}>{formatDate(debtDate)}</div>
           </div>

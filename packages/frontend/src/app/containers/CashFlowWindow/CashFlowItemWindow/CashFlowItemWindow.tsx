@@ -350,7 +350,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           <div className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}>
             <QuantityField />
             <div className={styles.notConfirmedField}>
-              <FormCheckbox name="isNotConfirmed" label={t('Not confirmed operation')} />
+              <FormCheckbox name="isNotConfirmed">{t('Not confirmed operation')}</FormCheckbox>
               <HtmlTooltip
                 title={
                   <div>

@@ -166,11 +166,9 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
           options={selectCategoryPrototypesOptions}
           isClearable
         />
-        <FormCheckbox
-          name="isEnabled"
-          label={t('Active')}
-          helperText={t('Show category when adding or editing an operation')}
-        />
+        <FormCheckbox name="isEnabled" helperText={t('Show category when adding or editing an operation')}>
+          {t('Active')}
+        </FormCheckbox>
         <FormTextAreaField name="note" label={t('Note')} />
       </FormBody>
 

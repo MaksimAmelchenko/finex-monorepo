@@ -380,7 +380,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
               </div>
             </div>
 
-            <FormCheckbox name="isFee" label={t('Fee')} />
+            <FormCheckbox name="isFee">label={t('Fee')}</FormCheckbox>
 
             <div className={clsx(styles.fee__fields, !values.isFee && styles.fee__fields_hidden)}>
               <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />

@@ -1,46 +1,34 @@
-import React, { ChangeEvent, useId } from 'react';
+import React from 'react';
 import clsx from 'clsx';
+
+import { BaseCheckbox, BaseCheckboxProps } from '../base-checkbox/base-checkbox';
 
 import styles from './checkbox.module.scss';
 
-export interface ICheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id' | 'value' | 'onChange'> {
-  value?: boolean;
-  label?: string;
+export interface ICheckboxProps extends BaseCheckboxProps {
   error?: string;
   helperText?: string;
-  onChange: (value: boolean, event: ChangeEvent<HTMLInputElement>) => unknown;
+  children: React.ReactNode;
 }
 
 export function Checkbox({
-  label,
-  disabled,
-  value = false,
-  onChange,
+  disabled = false,
   error,
+  onChange,
   helperText,
+  children,
   ...rest
 }: ICheckboxProps): JSX.Element {
-  const id = useId();
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.checked, event);
-  };
   const isError = Boolean(error);
 
   const message = isError ? error : helperText;
 
   return (
     <div className={clsx(styles.container, isError && styles.container_error)}>
-      <input
-        type="checkbox"
-        {...rest}
-        id={id}
-        disabled={disabled}
-        checked={value}
-        onChange={handleChange}
-        className={styles.checkbox}
-      />
-      <label htmlFor={id}>{label}</label>
+      <label className={clsx(styles.label, disabled && styles.label_disabled)}>
+        <BaseCheckbox {...rest} className={styles.checkbox} onChange={onChange} disabled={disabled} />
+        <div className={styles.content}>{children} </div>
+      </label>
       {message && <p className={styles.container__helperText}>{message}</p>}
     </div>
   );

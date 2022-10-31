@@ -4,7 +4,7 @@ import { Checkbox } from './checkbox';
 
 describe('Checkbox', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Checkbox label="Checkbox" />);
+    const { baseElement } = render(<Checkbox value={true}> Checkbox </Checkbox>);
     expect(baseElement).toBeTruthy();
   });
 });

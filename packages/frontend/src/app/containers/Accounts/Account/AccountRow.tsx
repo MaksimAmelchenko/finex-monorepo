@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { Account } from '../../../stores/models/account';
-import { Checkbox, Image, Tag, TickSvg } from '@finex/ui-kit';
+import { BaseCheckbox, Image, Tag, TickSvg } from '@finex/ui-kit';
 import { Permit } from '../../../types';
 import { getT } from '../../../lib/core/i18n';
 
@@ -35,7 +35,7 @@ export const AccountRow = observer<AccountProps>(({ account, onClick }: AccountP
   return (
     <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
       <td>
-        <Checkbox value={isSelected} onChange={handleOnSelect} />
+        <BaseCheckbox value={isSelected} />
       </td>
       <td>
         {isOwner ? (

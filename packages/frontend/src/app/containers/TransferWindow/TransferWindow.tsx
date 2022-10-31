@@ -336,7 +336,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
               </div>
             </div>
 
-            <FormCheckbox name="isFee" label={t('Fee')} />
+            <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
 
             <div className={clsx(styles.fee__fields, !values.isFee && styles.fee__fields_hidden)}>
               <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />

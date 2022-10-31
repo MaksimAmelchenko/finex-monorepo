@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { CheckboxSvg, CheckboxUncheckedSvg, Tag } from '@finex/ui-kit';
+import { BaseCheckbox, Tag } from '@finex/ui-kit';
 import { Transfer } from '../../../stores/models/transfer';
 import { formatDate, toCurrency } from '../../../lib/core/i18n';
 
@@ -43,9 +43,7 @@ export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) =>
       <td className={clsx(styles.firstColumn, 'min-width')}>
         <div className={clsx(styles.dateColumn)} onClick={handleOnSelect}>
           <div className={clsx(styles.dateColumn__colorMark)} />
-          <div className={styles.dateColumn__checkbox}>
-            <img src={isSelected ? CheckboxSvg : CheckboxUncheckedSvg} alt="" />
-          </div>
+          <BaseCheckbox value={isSelected} />
           <div className={styles.dateColumn__dateContainer}>
             <div className={styles.dateColumn__date}>{formatDate(transferDate)}</div>
           </div>

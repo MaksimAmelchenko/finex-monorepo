@@ -77,12 +77,11 @@ export function ProjectMergeWindow({ project, onClose }: ProjectMergeWindowProps
       <FormBody>
         <FormSelect name="projectId" label={t('Target project')} options={selectProjectsOptions} />
         <FormSelect name="projects" label={t('Merged projects')} options={selectProjectsOptions} isMulti autoFocus />
-        <FormCheckbox
-          name="isRiskAccepted"
-          label={t(
+        <FormCheckbox name="isRiskAccepted">
+          {t(
             'I understand that the merged projects will be deleted after the data has been transferred to the target project'
           )}
-        />
+        </FormCheckbox>
       </FormBody>
 
       <FormFooter>

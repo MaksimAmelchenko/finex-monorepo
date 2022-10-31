@@ -6,21 +6,30 @@ export default {
   title: 'Components/Checkbox',
   component: Checkbox,
   argTypes: {
-    disabled: { control: { type: 'radio', options: [false, true] } },
-    label: { control: { type: 'text' } },
+    disabled: {
+      options: [false, true],
+      control: { type: 'radio' },
+    },
     error: { control: { type: 'text' } },
   },
 } as Meta;
 
-const Template: Story<ICheckboxProps> = args => {
-  const [value, setValue] = useState<boolean>(false);
-  return <Checkbox {...args} value={value} onChange={setValue} />;
+const Template: Story<ICheckboxProps> = ({ value, indeterminate, children, ...props }) => {
+  const [localValue, setValue] = useState<boolean>(value);
+
+  return (
+    <Checkbox {...props} value={localValue} onChange={setValue} indeterminate={indeterminate}>
+      {children}
+    </Checkbox>
+  );
 };
 
 export const Default = Template.bind({});
 
 Default.args = {
-  label: 'Accept Privacy Policy',
+  children: 'Accept Privacy Policy',
   disabled: false,
+  indeterminate: true,
+  value: true,
   error: '',
 };

@@ -3,10 +3,8 @@ import { useField, useFormikContext } from 'formik';
 
 import { Checkbox, ICheckboxProps } from '@finex/ui-kit';
 
-export interface IFormCheckboxProps extends Omit<ICheckboxProps, 'value' | 'onChange'> {
+export interface IFormCheckboxProps extends Omit<ICheckboxProps, 'value' | 'onChange' | 'name'> {
   name: string;
-  disabled?: boolean;
-  className?: string;
 }
 
 export const FormCheckbox = (props: IFormCheckboxProps): JSX.Element => {
