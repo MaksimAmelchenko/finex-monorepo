@@ -14,20 +14,8 @@ interface TransferRowProps {
 }
 
 export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) => {
-  const {
-    amount,
-    money,
-    accountFrom,
-    accountTo,
-    fee,
-    moneyFee,
-    accountFee,
-    transferDate,
-    isDeleting,
-    isSelected,
-    note,
-    tags,
-  } = transfer;
+  const { amount, money, accountFrom, accountTo, fee, moneyFee, transferDate, isDeleting, isSelected, note, tags } =
+    transfer;
 
   const handleOnSelect = (event: React.SyntheticEvent) => {
     event.stopPropagation();

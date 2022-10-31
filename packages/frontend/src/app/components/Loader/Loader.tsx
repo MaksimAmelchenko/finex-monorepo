@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CircularIndeterminate } from '../../../../../ui-kit/src';
+import { CircularIndeterminate } from '@finex/ui-kit';
 
 import styles from './Loader.module.scss';
 

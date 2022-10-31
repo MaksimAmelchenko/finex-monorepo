@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Form, FormButton, FormLayout, FormSelect, FormTextField } from '../../../components/Form';
 import { IProfile, UpdateProfileChanges } from '../../../types/profile';
-import { ISelectOption } from '../../../../../../ui-kit/src';
+import { ISelectOption } from '@finex/ui-kit';
 import { Permit, Shape } from '../../../types';
 import { ProfileRepository } from '../../../stores/profile-repository';
 import { ProjectsRepository } from '../../../stores/projects-repository';

@@ -35,7 +35,9 @@ export function ResetPassword(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        username: Yup.string().required(t('Please enter E-mail address')).email(t('Please enter a valid E-mail address')),
+        username: Yup.string()
+          .required(t('Please enter E-mail address'))
+          .email(t('Please enter a valid E-mail address')),
       }),
     []
   );

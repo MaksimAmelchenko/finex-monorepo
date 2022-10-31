@@ -2,9 +2,9 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { Project } from '../../../stores/models/project';
-import { Checkbox, Image, Tag, TickSvg } from '@finex/ui-kit';
 import { Permit } from '../../../types';
+import { Project } from '../../../stores/models/project';
+import { Tag } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';
 
 import styles from './ProjectRow.module.scss';

@@ -39,7 +39,9 @@ export function SignUp(): JSX.Element {
     () =>
       Yup.object().shape({
         name: Yup.string().required(t('Please enter your name')),
-        username: Yup.string().required(t('Please enter E-mail address')).email(t('Please enter a valid E-mail address')),
+        username: Yup.string()
+          .required(t('Please enter E-mail address'))
+          .email(t('Please enter a valid E-mail address')),
         password: Yup.string()
           .required(t('Please enter password'))
           .min(8, t('Use 8 characters or more for your password')),
