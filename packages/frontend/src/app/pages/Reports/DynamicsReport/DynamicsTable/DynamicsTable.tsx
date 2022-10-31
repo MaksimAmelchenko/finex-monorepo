@@ -15,13 +15,13 @@ import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-ta
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { add, differenceInMonths, format, formatISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
+import { useTheme } from '@table-library/react-table-library/theme';
 
-import { ArrowForwardIcon, SortIcon } from '../../../../../../../ui-kit/src';
+import { ChevronRightIcon, SortDownIcon, SortIcon, SortUpIcon } from '@finex/ui-kit';
 import { ReportsRepository } from '../../../../stores/reports-store';
 import { formatDate, getT, toCurrency } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
 import { useStore } from '../../../../core/hooks/use-store';
-import { useTheme } from '@table-library/react-table-library/theme';
 
 import styles from './DynamicsTable.module.scss';
 
@@ -84,9 +84,9 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
     {
       clickType: TreeExpandClickTypes.ButtonClick,
       treeIcon: {
-        margin: '0',
-        iconRight: <ArrowForwardIcon />,
-        iconDown: <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />,
+        margin: '0.4rem',
+        iconRight: <ChevronRightIcon className={styles.iconRight} />,
+        iconDown: <ChevronRightIcon className={styles.iconDown} />,
         noIconMargin: '2.4rem',
         size: '2.4rem',
       },
@@ -103,10 +103,10 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
     },
     {
       sortIcon: {
-        size: '2rem',
+        size: '1.6rem',
         iconDefault: <SortIcon />,
-        iconUp: <ArrowForwardIcon style={{ transform: 'rotate(270deg)' }} />,
-        iconDown: <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />,
+        iconUp: <SortUpIcon />,
+        iconDown: <SortDownIcon />,
       },
       sortFns: {
         CATEGORY: array => array.sort((a, b) => a.category?.name.localeCompare(b.category?.name)),

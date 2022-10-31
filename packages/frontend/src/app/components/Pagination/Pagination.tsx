@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getT, toNumber } from '../../lib/core/i18n';
-import { ArrowForwardIcon, IconButton } from '@finex/ui-kit';
+import { ChevronRightIcon, IconButton } from '@finex/ui-kit';
 
 import styles from './Pagination.module.scss';
 
@@ -27,10 +27,10 @@ export function Pagination({ count, offset, total, onPreviousPage, onNextPage }:
       </span>
       <div className={styles.pagination__buttons}>
         <IconButton onClick={onPreviousPage} size="small" disabled={offset === 0}>
-          <ArrowForwardIcon className={styles.pagination__previousIcon} />
+          <ChevronRightIcon className={styles.pagination__previousIcon} />
         </IconButton>
         <IconButton onClick={onNextPage} size="small" disabled={offset + count === total}>
-          <ArrowForwardIcon />
+          <ChevronRightIcon />
         </IconButton>
       </div>
     </div>

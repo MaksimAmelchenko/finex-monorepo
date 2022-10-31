@@ -13,13 +13,13 @@ import {
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { observer } from 'mobx-react-lite';
+import { useTheme } from '@table-library/react-table-library/theme';
 
-import { ArrowForwardIcon, SortIcon } from '../../../../../../../ui-kit/src';
+import { ChevronRightIcon, SortDownIcon, SortIcon, SortUpIcon } from '@finex/ui-kit';
 import { ReportsRepository } from '../../../../stores/reports-store';
 import { getT, toCurrency } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
 import { useStore } from '../../../../core/hooks/use-store';
-import { useTheme } from '@table-library/react-table-library/theme';
 
 import styles from './DistributionTable.module.scss';
 
@@ -78,9 +78,9 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
     {
       clickType: TreeExpandClickTypes.ButtonClick,
       treeIcon: {
-        margin: '0',
-        iconRight: <ArrowForwardIcon />,
-        iconDown: <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />,
+        margin: '0.4rem',
+        iconRight: <ChevronRightIcon className={styles.iconRight} />,
+        iconDown: <ChevronRightIcon className={styles.iconDown} />,
         noIconMargin: '2.4rem',
         size: '2.4rem',
       },
@@ -97,10 +97,10 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
     },
     {
       sortIcon: {
-        size: '2rem',
+        size: '1.6rem',
         iconDefault: <SortIcon />,
-        iconUp: <ArrowForwardIcon style={{ transform: 'rotate(270deg)' }} />,
-        iconDown: <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />,
+        iconUp: <SortUpIcon />,
+        iconDown: <SortDownIcon />,
       },
       sortFns: {
         CATEGORY: array => array.sort((a, b) => a.category?.name.localeCompare(b.category?.name)),

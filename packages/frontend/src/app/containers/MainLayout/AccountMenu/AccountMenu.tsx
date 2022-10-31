@@ -4,7 +4,8 @@ import { observer } from 'mobx-react-lite';
 import { AuthRepository } from '../../../core/other-stores/auth-repository';
 import { Divider, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { LinkBase } from '../../../components/LinkBase/LinkBase';
-import { ProfileSvg, SignOutSvg } from '../../../../../../ui-kit/src';
+
+import { arrowRightFromBracketSvg, userSvg } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -40,7 +41,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
         aria-expanded={isOpened ? 'true' : undefined}
       >
         <ListItemIcon>
-          <img src={ProfileSvg} alt="" />
+          <img src={userSvg} alt="" />
         </ListItemIcon>
         <ListItemText primary={name} />
       </ListItemButton>
@@ -48,7 +49,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
       <Menu anchorEl={anchorEl} id="account-menu" open={isOpened} onClose={handleClose} onClick={handleClose}>
         <MenuItem href="/profile" component={LinkBase}>
           <ListItemIcon>
-            <img src={ProfileSvg} alt="" />
+            <img src={userSvg} alt="" />
           </ListItemIcon>
           {t('Profile')}
         </MenuItem>
@@ -57,7 +58,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
 
         <MenuItem onClick={handleSignOutClick}>
           <ListItemIcon>
-            <img src={SignOutSvg} alt="" />
+            <img src={arrowRightFromBracketSvg} alt="" />
           </ListItemIcon>
           {t('Logout')}
         </MenuItem>

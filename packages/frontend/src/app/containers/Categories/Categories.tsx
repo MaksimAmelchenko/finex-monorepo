@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, Image, TickSvg, TreeTableGroupingCell, TreeTableRow, useTreeTable } from '@finex/ui-kit';
+import { Button, Image, checkSvg, TreeTableGroupingCell, TreeTableRow, useTreeTable } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category as CategoryModel } from '../../stores/models/category';
 import { CategoryWindow } from '../CategoryWindow/CategoryWindow';
@@ -139,7 +139,7 @@ export const Categories = observer(() => {
                         {name}
                       </div>
                     </TreeTableGroupingCell>
-                    <td className={styles.tick}>{isEnabled && <Image src={TickSvg} alt="active" />}</td>
+                    <td className={styles.tick}>{isEnabled && <Image src={checkSvg} alt="active" />}</td>
                     <td>{note}</td>
                   </TreeTableRow>
                 );

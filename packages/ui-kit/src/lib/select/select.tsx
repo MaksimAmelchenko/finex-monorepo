@@ -3,7 +3,7 @@ import ReactSelect, { Props, StylesConfig } from 'react-select';
 import clsx from 'clsx';
 import { FilterOptionOption } from 'react-select/dist/declarations/src/filters';
 
-import { ArrowForwardIcon } from '../icons';
+import { ChevronRightIcon } from '../icons';
 
 import styles from './select.module.scss';
 
@@ -142,5 +142,5 @@ export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
 }
 
 function DropdownIndicator(): JSX.Element {
-  return <ArrowForwardIcon className={styles.dropdownIndicator} />;
+  return <ChevronRightIcon className={styles.dropdownIndicator} />;
 }

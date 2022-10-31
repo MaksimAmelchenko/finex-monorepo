@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, useRef, useState } from 'react';
 import clsx from 'clsx';
 
-import { ArrowForwardSvg } from '../icons';
+import { chevronRightSvg } from '../icons';
 
 import styles from './tree-table.module.scss';
 
@@ -95,7 +95,7 @@ export const TreeTableGroupingCell: FC<TreeTableGroupingCellProps> = ({
         <div className={clsx(styles.indent)} style={{ ['--level' as any]: level }} onClick={onClick}>
           {!isLeaf && (
             <img
-              src={ArrowForwardSvg}
+              src={chevronRightSvg}
               className={clsx(styles.indent__icon, isExpanded && styles.indent__icon_expanded)}
             />
           )}

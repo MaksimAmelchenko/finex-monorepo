@@ -26,7 +26,7 @@ import {
 } from '../../../components/Form';
 import { HtmlTooltip } from '../../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
+import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { Link } from '../../../components/Link/Link';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { QuantityField } from '../../QuantityField/QuantityField';
@@ -332,7 +332,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
               }
             >
               <IconButton onClick={noop} size="medium">
-                <QuestionIcon />
+                <CircleQuestionIcon />
               </IconButton>
             </HtmlTooltip>
           </div>
@@ -364,7 +364,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
                 }
               >
                 <IconButton onClick={noop} size="medium">
-                  <QuestionIcon />
+                  <CircleQuestionIcon />
                 </IconButton>
               </HtmlTooltip>
             </div>

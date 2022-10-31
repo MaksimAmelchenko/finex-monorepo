@@ -32,7 +32,7 @@ import {
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
+import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { PlanTransaction } from '../../stores/models/plan-transaction';
 import { PlanTransactionsRepository } from '../../stores/plan-transactions-repository';
@@ -579,7 +579,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
                   }
                 >
                   <IconButton onClick={noop} size="medium">
-                    <QuestionIcon />
+                    <CircleQuestionIcon />
                   </IconButton>
                 </HtmlTooltip>
               </div>

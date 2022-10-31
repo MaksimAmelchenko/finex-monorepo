@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { Image, TickSvg, BaseCheckbox } from '@finex/ui-kit';
+import { Image, checkSvg, BaseCheckbox } from '@finex/ui-kit';
 import { Money } from '../../../stores/models/money';
 
 import styles from './MoneyRow.module.scss';
@@ -38,7 +38,7 @@ export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }: MoneyRowPro
       <td>
         <span dangerouslySetInnerHTML={{ __html: symbol }} />
       </td>
-      <td className={styles.tick}>{isEnabled && <Image src={TickSvg} alt="active" />}</td>
+      <td className={styles.tick}>{isEnabled && <Image src={checkSvg} alt="active" />}</td>
       <td>{currency?.name}</td>
     </tr>
   );

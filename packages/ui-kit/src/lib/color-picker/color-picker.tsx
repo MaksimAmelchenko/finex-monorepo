@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { Image } from '../image/image';
-import { TickSvg } from '../icons';
+import { checkSvg } from '../icons';
 
 import styles from './color-picker.module.scss';
 
@@ -19,7 +19,7 @@ function Item({ color, isActive, onClick }: ItemProps): JSX.Element {
 
   return (
     <div className={clsx(styles.item, color, color === '' && styles.item_empty)} onClick={handleOnClick}>
-      {isActive && <Image src={TickSvg} alt="active" />}
+      {isActive && <Image src={checkSvg} alt="active" />}
     </div>
   );
 }

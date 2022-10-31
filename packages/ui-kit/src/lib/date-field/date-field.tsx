@@ -1,6 +1,6 @@
 import React, { createElement, forwardRef } from 'react';
 
-import { CalendarIcon } from '../icons';
+import { CalendarDaysIcon } from '../icons';
 import { DatePicker } from '../date-picker/date-picker';
 import { ITextFieldProps, TextField } from '../text-field/text-field';
 
@@ -27,5 +27,5 @@ export function DateField({ value, onChange, dateFormat, showMonthYearPicker, cl
 }
 
 const CustomInput = forwardRef<HTMLElement, any>((props, ref) => {
-  return <TextField {...props} startAdornment={CalendarIcon} />;
+  return <TextField {...props} startAdornment={CalendarDaysIcon} />;
 });

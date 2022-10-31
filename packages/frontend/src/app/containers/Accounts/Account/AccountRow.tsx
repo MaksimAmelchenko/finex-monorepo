@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { Account } from '../../../stores/models/account';
-import { BaseCheckbox, Image, Tag, TickSvg } from '@finex/ui-kit';
+import { Image, Tag, checkSvg, BaseCheckbox } from '@finex/ui-kit';
 import { Permit } from '../../../types';
 import { getT } from '../../../lib/core/i18n';
 
@@ -46,15 +46,15 @@ export const AccountRow = observer<AccountProps>(({ account, onClick }: AccountP
           name
         )}
       </td>
-      <td className={styles.tick}>{isEnabled && <Image src={TickSvg} alt="active" />}</td>
+      <td className={styles.tick}>{isEnabled && <Image src={checkSvg} alt="active" />}</td>
       <td>{isOwner ? t('Me') : user.name}</td>
       <td className={styles.tick}>
         {isOwner && viewers.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
-        {isView ? <Image src={TickSvg} alt="view" /> : ''}
+        {isView ? <Image src={checkSvg} alt="view" /> : ''}
       </td>
       <td className={styles.tick}>
         {isOwner && editors.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
-        {isEdit ? <Image src={TickSvg} alt="edit" /> : ''}
+        {isEdit ? <Image src={checkSvg} alt="edit" /> : ''}
       </td>
       <td>{accountType.name}</td>
       <td>{note}</td>

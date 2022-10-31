@@ -5,7 +5,16 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../../stores/accounts-repository';
-import { Button, GraphIcon, InlineSelect, IOption, ISelectOption, LoadingSvg, Select, TableIcon } from '@finex/ui-kit';
+import {
+  Button,
+  ChartColumnIcon,
+  InlineSelect,
+  IOption,
+  ISelectOption,
+  loadingSvg,
+  Select,
+  TableIcon,
+} from '@finex/ui-kit';
 import { CategoriesRepository } from '../../../stores/categories-repository';
 import { ContractorsRepository } from '../../../stores/contractors-repository';
 import { DynamicsGraph } from './DynamicsGraph/DynamicsGraph';
@@ -215,7 +224,7 @@ export const DynamicsReport = observer(() => {
                   <TableIcon />
                 </ToggleButton>
                 <ToggleButton value="graph">
-                  <GraphIcon />
+                  <ChartColumnIcon />
                 </ToggleButton>
               </ToggleButtonGroup>
 
@@ -309,7 +318,7 @@ export const DynamicsReport = observer(() => {
 
         {dynamicsReportLoadState.isPending() && (
           <div className={styles.loader}>
-            <img src={LoadingSvg} />
+            <img src={loadingSvg} />
           </div>
         )}
 

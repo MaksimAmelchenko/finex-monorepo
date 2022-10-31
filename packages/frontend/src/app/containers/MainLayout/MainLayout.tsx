@@ -1,4 +1,5 @@
 import React, { Fragment, Suspense, useMemo, useState } from 'react';
+import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import Collapse from '@mui/material/Collapse';
@@ -11,15 +12,18 @@ import MuiDrawer from '@mui/material/Drawer';
 import { CSSObject, styled, Theme } from '@mui/material/styles';
 
 import {
-  ArrowForwardIcon,
-  BarIncreaseSvg,
-  CashFlowSvg,
+  ChevronRightIcon,
   Logo,
-  PieSvg,
-  PlanningSvg,
-  ReportsSvg,
-  SettingsSvg,
-  ToolsSvg,
+  calendarDaysSvg,
+  chartColumnSvg,
+  chartLineSvg,
+  chartPieSvg,
+  gearSvg,
+  giftSvg,
+  rightLeftSvg,
+  rightLongSvg,
+  screwdriverWrenchSvg,
+  shuffleSvg,
 } from '@finex/ui-kit';
 import { AccountMenu } from './AccountMenu/AccountMenu';
 import { LinkBase } from '../../components/LinkBase/LinkBase';
@@ -107,55 +111,55 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
         id: 'cash-flows',
         link: '/cash-flows',
         label: t('Cash Flow'),
-        icon: <img src={CashFlowSvg} alt="" />,
+        icon: <img src={shuffleSvg} alt="" />,
       },
       {
         id: 'transactions',
         link: '/transactions',
         label: t('Income & Expenses'),
-        icon: <img src={CashFlowSvg} alt="" />,
+        icon: <img src={rightLeftSvg} alt="" />,
       },
       {
         id: 'debts',
         link: '/debts',
         label: t('Debts'),
-        icon: <img src={CashFlowSvg} alt="" />,
+        icon: <img src={giftSvg} alt="" />,
       },
       {
         id: 'transfers',
         link: '/transfers',
         label: t('Transfers'),
-        icon: <img src={CashFlowSvg} alt="" />,
+        icon: <img src={rightLongSvg} alt="" />,
       },
       {
         id: 'exchanges',
         link: '/exchanges',
         label: t('Exchanges'),
-        icon: <img src={CashFlowSvg} alt="" />,
+        icon: <img src={rightLeftSvg} alt="" />,
       },
       {
         id: 'planning',
         link: '/planning',
         label: t('Planning'),
-        icon: <img src={PlanningSvg} alt="" />,
+        icon: <img src={calendarDaysSvg} alt="" />,
       },
       {
         id: 'reports',
         link: '/reports',
         label: t('Reports'),
-        icon: <img src={ReportsSvg} alt="" />,
+        icon: <img src={chartLineSvg} alt="" />,
         items: [
           {
             id: 'dynamicsReport',
             link: '/reports/dynamics',
             label: t('Dynamics'),
-            icon: <img src={BarIncreaseSvg} alt="" />,
+            icon: <img src={chartColumnSvg} alt="" />,
           },
           {
             id: 'distributionReport',
             link: '/reports/distribution',
             label: t('Distribution'),
-            icon: <img src={PieSvg} alt="" />,
+            icon: <img src={chartPieSvg} alt="" />,
           },
         ],
       },
@@ -163,13 +167,13 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
         id: 'settings',
         link: '/settings/accounts',
         label: t('Settings'),
-        icon: <img src={SettingsSvg} alt="" />,
+        icon: <img src={gearSvg} alt="" />,
       },
       {
         id: 'tools',
         link: '/tools',
         label: t('Tools'),
-        icon: <img src={ToolsSvg} alt="" />,
+        icon: <img src={screwdriverWrenchSvg} alt="" />,
       },
     ];
   }, []);
@@ -207,11 +211,9 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
                   <ListItemIcon>{Icon}</ListItemIcon>
                   <ListItemText primary={label} />
                   {items ? (
-                    openedMenuIds.includes(id) ? (
-                      <ArrowForwardIcon style={{ transform: 'rotate(270deg)' }} />
-                    ) : (
-                      <ArrowForwardIcon style={{ transform: 'rotate(90deg)' }} />
-                    )
+                    <ChevronRightIcon
+                      className={clsx(styles.chevron, openedMenuIds.includes(id) && styles.chevron_opened)}
+                    />
                   ) : null}
                 </ListItemButton>
 

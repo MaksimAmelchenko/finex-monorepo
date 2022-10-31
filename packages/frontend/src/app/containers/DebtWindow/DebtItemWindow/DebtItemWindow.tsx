@@ -25,7 +25,7 @@ import {
 } from '../../../components/Form';
 import { HtmlTooltip } from '../../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
+import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { Link } from '../../../components/Link/Link';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { Shape, Sign } from '../../../types';
@@ -290,7 +290,7 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
               }
             >
               <IconButton onClick={noop} size="medium">
-                <QuestionIcon />
+                <CircleQuestionIcon />
               </IconButton>
             </HtmlTooltip>
           </div>

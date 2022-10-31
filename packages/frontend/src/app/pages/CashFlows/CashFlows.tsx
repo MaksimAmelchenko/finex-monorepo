@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CashFlow } from '../../stores/models/cash-flow';
 import { CashFlowRow } from './CashFlowRow/CashFlowRow';
@@ -165,7 +165,7 @@ export const CashFlows = observer(() => {
                   size="small"
                   placeholder={t('Enter search request')}
                   className={styles.toolbar__search}
-                  startAdornment={SearchIcon}
+                  startAdornment={MagnifyingGlassIcon}
                 />
               </Form>
             </div>

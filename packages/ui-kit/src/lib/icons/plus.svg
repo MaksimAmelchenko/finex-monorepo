@@ -1,5 +1,6 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" clip-rule="evenodd"
-        d="M12 5a1 1 0 0 1 1 1l-.001 5H18a1 1 0 1 1 0 2h-5.001L13 18a1 1 0 1 1-2 0l-.001-5H6a1 1 0 1 1 0-2h4.999L11 6a1 1 0 0 1 1-1Z"
-        fill="currentColor"/>
+  <!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
+  <path
+    d="M13.23 5.23a1.23 1.23 0 1 0-2.462 0v5.54H5.232a1.23 1.23 0 1 0 0 2.462h5.538v5.537C10.77 19.45 11.32 20 12 20c.68 0 1.23-.55 1.23-1.23v-5.54h5.54a1.23 1.23 0 1 0 0-2.462h-5.54V5.232Z"
+    fill="currentColor"/>
 </svg>

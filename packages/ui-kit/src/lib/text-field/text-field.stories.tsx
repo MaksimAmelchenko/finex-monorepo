@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { Meta, Story } from '@storybook/react';
 
 import { ITextFieldProps, TextField } from './text-field';
-import { SearchIcon } from '../icons/';
+import { MagnifyingGlassIcon } from '../icons/';
 
 const icons: Record<string, FC<any>> = {
-  searchIcon: SearchIcon,
+  MagnifyingGlassIcon: MagnifyingGlassIcon,
 };
 
 export default {
@@ -17,7 +17,7 @@ export default {
     placeholder: { control: { type: 'text' } },
     label: { control: { type: 'text' } },
     helperText: { control: { type: 'text' } },
-    startAdornment: { control: { type: 'select', options: ['empty', 'searchIcon'] } },
+    startAdornment: { control: { type: 'select', options: ['empty', 'MagnifyingGlassIcon'] } },
   },
 } as Meta;
 
@@ -41,7 +41,7 @@ Default.args = {
   size: 'medium',
   label: 'Label',
   // placeholder: 'Placeholder',
-  startAdornment: 'searchIcon' as any,
+  startAdornment: 'MagnifyingGlassIcon' as any,
   error: 'Error',
   helperText: 'Helper Text',
 };

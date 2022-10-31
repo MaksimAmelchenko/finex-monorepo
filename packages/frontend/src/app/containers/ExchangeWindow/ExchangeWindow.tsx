@@ -23,7 +23,7 @@ import {
   IFormButton,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
-import { IconButton, ISelectOption, QuestionIcon, Target } from '@finex/ui-kit';
+import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { Shape } from '../../types';
@@ -374,7 +374,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
                   }
                 >
                   <IconButton onClick={noop} size="medium">
-                    <QuestionIcon />
+                    <CircleQuestionIcon />
                   </IconButton>
                 </HtmlTooltip>
               </div>

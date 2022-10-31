@@ -8,9 +8,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-import { CashBagSvg } from '../../../../../../ui-kit/src';
 import { Project } from '../../../stores/models/project';
 import { ProjectsRepository } from '../../../stores/projects-repository';
+import { briefcaseSvg } from '@finex/ui-kit';
 import { useStore } from '../../../core/hooks/use-store';
 
 export const ProjectMenu = observer(() => {
@@ -45,7 +45,7 @@ export const ProjectMenu = observer(() => {
     <>
       <ListItemButton onClick={handleCurrentProjectClick}>
         <ListItemIcon>
-          <img src={CashBagSvg} alt="" />
+          <img src={briefcaseSvg} alt="" />
         </ListItemIcon>
         <ListItemText primary={currentProject.name} />
       </ListItemButton>

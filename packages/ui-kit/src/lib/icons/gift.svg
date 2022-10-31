@@ -1,0 +1,6 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
+  <path
+    d="M9.953 6.15 11.041 8H8.75a1.25 1.25 0 1 1 0-2.5h.069c.465 0 .9.247 1.134.65ZM6 6.75c0 .45.11.875.3 1.25H5c-.553 0-1 .447-1 1v2c0 .553.447 1 1 1h14c.553 0 1-.447 1-1V9c0-.553-.447-1-1-1h-1.3a2.75 2.75 0 0 0-2.45-4h-.069a2.82 2.82 0 0 0-2.428 1.388L12 6.671l-.753-1.281A2.816 2.816 0 0 0 8.819 4H8.75A2.75 2.75 0 0 0 6 6.75Zm10.5 0c0 .69-.56 1.25-1.25 1.25h-2.29l1.087-1.85c.237-.403.669-.65 1.134-.65h.069c.69 0 1.25.56 1.25 1.25ZM5 13v5.5A1.5 1.5 0 0 0 6.5 20H11v-7H5Zm8 7h4.5a1.5 1.5 0 0 0 1.5-1.5V13h-6v7Z"
+    fill="currentColor"/>
+</svg>

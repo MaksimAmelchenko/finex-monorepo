@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, SearchIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
@@ -166,7 +166,7 @@ export const Transfers = observer(() => {
                   size="small"
                   placeholder={t('Enter search request')}
                   className={styles.toolbar__search}
-                  startAdornment={SearchIcon}
+                  startAdornment={MagnifyingGlassIcon}
                 />
               </Form>
             </div>
