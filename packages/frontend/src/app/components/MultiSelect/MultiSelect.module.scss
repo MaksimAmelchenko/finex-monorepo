@@ -1,6 +1,8 @@
 .container {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
+  min-height: 2.4rem;
 
   &__tags {
     display: flex;

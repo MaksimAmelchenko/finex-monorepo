@@ -235,12 +235,12 @@ export const DynamicsReport = observer(() => {
           </div>
 
           {isShowParams && (
-            <div className={styles.panel__filter}>
+            <div className={clsx(styles.panel__filter, styles.filter)}>
               <RangeSelect<true> values={filter.range} isStrict onChange={setRange} />
 
               <InlineSelect label={filter.money?.symbol ?? '<NA>'} options={moneysOptions} onChange={setMoney} />
 
-              <div style={{ display: 'flex' }}>
+              <div className={styles.filter_item}>
                 <InlineSelect
                   label={usingTypeOptions.find(option => option.value === filter.accountsUsingType)!.label}
                   options={usingTypeOptions}
@@ -256,7 +256,7 @@ export const DynamicsReport = observer(() => {
                 />
               </div>
 
-              <div style={{ display: 'flex' }}>
+              <div className={styles.filter_item}>
                 <InlineSelect
                   label={usingTypeOptions.find(option => option.value === filter.contractorsUsingType)!.label}
                   options={usingTypeOptions}
@@ -272,7 +272,7 @@ export const DynamicsReport = observer(() => {
                 />
               </div>
 
-              <div style={{ display: 'flex' }}>
+              <div className={styles.filter_item}>
                 <InlineSelect
                   label={usingTypeOptions.find(option => option.value === filter.categoriesUsingType)!.label}
                   options={usingTypeOptions}
@@ -288,7 +288,7 @@ export const DynamicsReport = observer(() => {
                 />
               </div>
 
-              <div style={{ display: 'flex' }}>
+              <div className={styles.filter_item}>
                 <InlineSelect
                   label={usingTypeOptions.find(option => option.value === filter.tagsUsingType)!.label}
                   options={usingTypeOptions}

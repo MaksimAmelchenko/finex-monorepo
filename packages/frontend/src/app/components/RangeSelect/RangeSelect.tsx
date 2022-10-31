@@ -9,11 +9,11 @@ import styles from './RangeSelect.module.scss';
 const t = getT('RangeSelect');
 
 const FromTarget = forwardRef<HTMLSpanElement, TargetProps>(({ onClick }, ref) => {
-  return <Target label={t('From')} onClick={onClick} />;
+  return <Target label={t('From')} onClick={onClick} className={styles.target} />;
 });
 
 const ToTarget = forwardRef<HTMLSpanElement, TargetProps>(({ onClick }, ref) => {
-  return <Target label={t('To')} onClick={onClick} />;
+  return <Target label={t('To')} onClick={onClick} className={styles.target} />;
 });
 
 interface RangeSelectProps<IsStrict extends boolean> {

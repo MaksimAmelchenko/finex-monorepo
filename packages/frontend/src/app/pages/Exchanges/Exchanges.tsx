@@ -183,7 +183,7 @@ export const Exchanges = observer(() => {
           </div>
 
           {filter.isFilter && (
-            <div className={styles.panel__filter}>
+            <div className={clsx(styles.panel__filter, styles.filter)}>
               <RangeSelect values={filter.range} onChange={setRange} />
 
               <MultiSelect
@@ -191,6 +191,7 @@ export const Exchanges = observer(() => {
                 options={selectAccountOptions}
                 values={selectAccountOptions.filter(({ value }) => filter.accountsSell.includes(value))}
                 onChange={setAccountsSell}
+                className={styles.multiSelect}
               />
 
               <MultiSelect
@@ -198,6 +199,7 @@ export const Exchanges = observer(() => {
                 options={selectAccountOptions}
                 values={selectAccountOptions.filter(({ value }) => filter.accountsBuy.includes(value))}
                 onChange={setAccountsBuy}
+                className={styles.multiSelect}
               />
 
               <MultiSelect
@@ -205,6 +207,7 @@ export const Exchanges = observer(() => {
                 options={selectTagsOptions}
                 values={selectTagsOptions.filter(({ value }) => filter.tags.includes(value))}
                 onChange={setTags}
+                className={styles.multiSelect}
               />
             </div>
           )}

@@ -35,11 +35,15 @@
   }
 
   &__filter {
-    display: flex;
-    gap: 2.4rem;
     grid-area: filter;
-    padding: 1rem 0;
+    margin-top: 0.8rem;
   }
+}
+
+.filter {
+  display: flex;
+  gap: 0.8rem 2.4rem;
+  flex-wrap: wrap;
 }
 
 .toolbar {

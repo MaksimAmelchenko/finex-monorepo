@@ -28,11 +28,18 @@
   }
 
   &__filter {
+    margin-top: 0.8rem;
+  }
+}
+
+.filter {
+  display: flex;
+  gap: 0.8rem 2.4rem;
+  flex-wrap: wrap;
+
+  &_item {
     display: flex;
-    margin-top: 2.4rem;
-    column-gap: 2.4rem;
-    row-gap: 0.8rem;
-    flex-wrap: wrap;
+    column-gap: 0.4rem;
   }
 }
 

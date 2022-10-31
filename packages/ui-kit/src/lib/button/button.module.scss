@@ -13,15 +13,16 @@
     cursor: pointer;
   }
 
+  // It is a main button, need to review size prop
   &_size_small {
     border-radius: 3px;
-    height: 32px;
-    padding: 0 20px;
+    height: 3.2rem;
+    padding: 0 1.6rem;
   }
 
   &_size_medium {
     border-radius: 4px;
-    height: 40px;
+    height: 4rem;
     padding: 0 2.4rem;
   }
 

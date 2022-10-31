@@ -195,7 +195,7 @@ export const Debts = observer(() => {
           </div>
 
           {filter.isFilter && (
-            <div className={styles.panel__filter}>
+            <div className={clsx(styles.panel__filter, styles.filter)}>
               <RangeSelect values={filter.range} onChange={setRange} />
 
               <MultiSelect

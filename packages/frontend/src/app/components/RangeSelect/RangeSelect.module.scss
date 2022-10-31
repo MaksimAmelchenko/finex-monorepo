@@ -1,8 +1,15 @@
 .container {
   display: flex;
+  align-items: center;
   gap: 0.8rem;
+  min-height: 2.4rem;
 
   &__dateControl {
     display: flex;
+    align-items: center;
   }
+}
+
+.target {
+  margin: 0.4rem;
 }
