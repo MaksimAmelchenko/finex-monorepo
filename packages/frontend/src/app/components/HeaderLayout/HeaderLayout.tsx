@@ -9,9 +9,9 @@ export interface HeaderLayoutProps {
 
 import styles from './HeaderLayout.module.scss';
 
-export function HeaderLayout({ title, subtitle, className }: HeaderLayoutProps): JSX.Element {
+export function HeaderLayout({ title, subtitle, className, ...rest }: HeaderLayoutProps): JSX.Element {
   return (
-    <header className={clsx(styles.header, className)}>
+    <header className={clsx(styles.header, className)} {...rest}>
       <h1 className={styles.title}>{title}</h1>
       {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
     </header>
