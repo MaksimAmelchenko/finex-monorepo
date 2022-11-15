@@ -35,6 +35,7 @@ import { ProjectsApi } from '../stores/api/projects-api';
 import { ProjectsRepository } from '../stores/projects-repository';
 import { ReportsApi } from '../stores/api/reports-api';
 import { ReportsRepository } from '../stores/reports-store';
+import { SessionStorageStore } from './other-stores/session-storage-store';
 import { TagsApi } from '../stores/api/tags-api';
 import { TagsRepository } from '../stores/tags-repository';
 import { TransactionsApi } from '../stores/api/transaction-api';
@@ -55,6 +56,7 @@ import { UsersRepository } from '../stores/users-repository';
 export function initializeMainStore(): MainStore {
   const mainStore = new MainStore();
   new CommonStorageStore(mainStore);
+  new SessionStorageStore(mainStore);
 
   new BootstrapStore(mainStore, new BootstrapApi(mainStore));
 
