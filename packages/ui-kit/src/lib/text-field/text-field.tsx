@@ -43,7 +43,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, r
       className={clsx(
         styles.root,
         styles[`root_size_${size}`],
-        error && styles.root_error,
+        isError && styles.root_error,
         value.length > 0 && styles.root_filled,
         className
       )}
@@ -80,6 +80,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>((props, r
             className={clsx(styles.input__field)}
             autoComplete={autoComplete}
             ref={ref}
+            aria-invalid={isError || undefined}
           />
         )}
         {EndAdornment && <EndAdornment className={styles.input__endAdornment} />}

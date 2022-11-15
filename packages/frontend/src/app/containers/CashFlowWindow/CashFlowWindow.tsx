@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
@@ -17,7 +16,6 @@ import { CreateCashFlowData, ICashFlow, ICashFlowItem, UpdateCashFlowChanges } f
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
-import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
@@ -175,19 +173,24 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           >
             <div className={styles.debt__container}>
               <div className={styles.debt__left}>
-                <FormSelect name="contractorId" label={t('Contractor')} options={selectContractorOptions} />
-                <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
+                <FormSelect
+                  name="contractorId"
+                  label={t('Contractor')}
+                  options={selectContractorOptions}
+                  data-cy="cfw-contractor"
+                />
+                <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfw-tags" />
               </div>
               <div className={styles.debt__right}>
-                <FormTextAreaField name="note" label={t('Note')} minRows={4} />
+                <FormTextAreaField name="note" label={t('Note')} minRows={4} data-cy="cfw-note" />
               </div>
             </div>
 
             <div className={styles.debt__footer}>
-              <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+              <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
                 {t('Close')}
               </FormButton>
-              <FormButton type="submit" color="primary" isIgnoreValidation>
+              <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfw-save-button">
                 {t('Save')}
               </FormButton>
             </div>
@@ -203,6 +206,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   size="small"
                   disabled={!Boolean(cashFlow.id)}
                   onClick={handleOpenAddCashFlowItem}
+                  data-cy="cfw-create-cash-flow-item-button"
                 >
                   {t('New')}
                 </Button>
@@ -211,6 +215,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   size="small"
                   disabled={!selectedCashFlowItems.length}
                   onClick={handleDeleteClick}
+                  data-cy="cfw-delete-cash-flow-item-button"
                 >
                   {t('Delete')}
                 </Button>

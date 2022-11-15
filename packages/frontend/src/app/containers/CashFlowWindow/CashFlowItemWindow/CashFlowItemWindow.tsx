@@ -290,7 +290,11 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
       }}
       validationSchema={validationSchema}
     >
-      <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
+      <FormHeader
+        title={isNew ? t('Add new transaction') : t('Edit transaction')}
+        onClose={onClose}
+        data-cy="cfiw-form-header"
+      />
 
       <FormBody className={styles.form__body}>
         <FormTabs name="sign" options={signOptions} />
@@ -300,9 +304,16 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           label={t('Amount')}
           ref={amountFieldRefCallback}
           tabIndex={1}
+          data-cy="cfiw-amount"
         />
         <div className={styles.categoryField}>
-          <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
+          <FormSelect
+            name="categoryId"
+            label={t('Category')}
+            options={selectCategoriesOptions}
+            tabIndex={2}
+            data-cy="cfiw-category"
+          />
           {/*<IconButton onClick={noop} tabIndex={-1}>*/}
           {/*  <PlusIcon />*/}
           {/*</IconButton>*/}
@@ -343,14 +354,17 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
             <Target
               label={isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
               onClick={handleShowAdditionalFieldsClick}
+              data-cy="cfiw-show-additional-fields-button"
             />
             <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
           </div>
 
           <div className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}>
-            <QuantityField />
+            <QuantityField data-cy="cfiw-quantity" />
             <div className={styles.notConfirmedField}>
-              <FormCheckbox name="isNotConfirmed">{t('Not confirmed operation')}</FormCheckbox>
+              <FormCheckbox name="isNotConfirmed" data-cy="cfiw-is-not-confirmed">
+                {t('Not confirmed operation')}
+              </FormCheckbox>
               <HtmlTooltip
                 title={
                   <div>
@@ -368,21 +382,21 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
                 </IconButton>
               </HtmlTooltip>
             </div>
-            <FormTextAreaField name="note" label={t('Note')} />
-            <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
+            <FormTextAreaField name="note" label={t('Note')} data-cy="cfiw-note" />
+            <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfiw-tags" />
           </div>
         </div>
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfiw-cancel-button">
           {t('Cancel')}
         </FormButton>
         <div className={styles.footer__rightButtons}>
-          <SaveButton variant="outlined" isIgnoreValidation>
+          <SaveButton variant="outlined" isIgnoreValidation data-cy="cfiw-save-button">
             {t('Save')}
           </SaveButton>
-          <FormButton type="submit" color="primary" isIgnoreValidation>
+          <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfiw-save-and-create-more-button">
             {t('Save and Create New')}
           </FormButton>
         </div>

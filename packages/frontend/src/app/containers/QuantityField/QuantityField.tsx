@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 
-import { FormInlineSelect, FormTextField } from '../../components/Form';
+import { FormInlineSelect, FormTextField, IFormTextFieldProps } from '../../components/Form';
 import { IOption } from '@finex/ui-kit';
 import { UnitsRepository } from '../../stores/units-repository';
 import { getT } from '../../lib/core/i18n';
@@ -25,6 +25,8 @@ function UnitSelect(): JSX.Element {
   );
 }
 
-export function QuantityField(): JSX.Element {
-  return <FormTextField name="quantity" label={t('Quantity')} endAdornment={UnitSelect} />;
-}
+export const QuantityField = forwardRef<HTMLInputElement, Omit<IFormTextFieldProps, 'name' | 'label' | 'endAdornment'>>(
+  (props, ref) => {
+    return <FormTextField {...props} name="quantity" label={t('Quantity')} endAdornment={UnitSelect} ref={ref} />;
+  }
+);

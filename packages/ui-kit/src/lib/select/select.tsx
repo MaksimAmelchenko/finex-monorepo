@@ -89,6 +89,7 @@ export interface SelectProps<IsMulti extends boolean> extends Omit<Props<ISelect
   isPopup?: boolean;
   error?: string;
   helperText?: string;
+  'data-cy'?: string;
 }
 
 export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
@@ -125,7 +126,7 @@ export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
   );
 
   return (
-    <div className={clsx(styles.root, isError && styles.root_error, className)}>
+    <div className={clsx(styles.root, isError && styles.root_error, className)} data-cy={rest['data-cy']}>
       <ReactSelect
         {...rest}
         data-is-popup={isPopup}
