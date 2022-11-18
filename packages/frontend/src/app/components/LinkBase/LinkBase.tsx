@@ -1,5 +1,6 @@
 import React, { AnchorHTMLAttributes } from 'react';
-import { Link } from 'react-router-dom';
+import clsx from 'clsx';
+import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
 import { GAOptions } from '../../types';
 
@@ -9,14 +10,24 @@ export interface ILinkBaseProps extends GAOptions, Omit<AnchorHTMLAttributes<HTM
 }
 
 export const LinkBase = React.forwardRef<HTMLAnchorElement, ILinkBaseProps>(function LinkBase(props, ref) {
-  const { href, children, ...rest } = props;
+  const { href, children, className, ...rest } = props;
+
+  let path = useResolvedPath(href);
+  let location = useLocation();
+
+  let toPathname = path.pathname.toLowerCase();
+  let locationPathname = location.pathname.toLowerCase();
+
+  let isActive =
+    locationPathname === toPathname ||
+    (locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === '/');
 
   return /^(https?:\/\/|tel:|mailto:)/.test(href) ? (
-    <a href={href} {...rest} target="_blank" rel="nofollow noopener noreferrer">
+    <a href={href} className={className} {...rest} target="_blank" rel="nofollow noopener noreferrer">
       {children}
     </a>
   ) : (
-    <Link to={href} {...rest} ref={ref}>
+    <Link to={href} {...rest} ref={ref} className={clsx(className, isActive && 'active')}>
       {children}
     </Link>
   );
