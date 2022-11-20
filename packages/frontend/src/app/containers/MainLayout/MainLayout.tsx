@@ -168,7 +168,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       },
       {
         id: 'settings',
-        link: '/settings/accounts',
+        link: '/settings',
         label: t('Settings'),
         icon: <img src={gearSvg} alt="" />,
       },
