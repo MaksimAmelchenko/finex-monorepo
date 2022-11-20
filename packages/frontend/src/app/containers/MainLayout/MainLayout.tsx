@@ -200,7 +200,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
     <div className={styles.layout}>
       <Drawer variant="permanent" open={isOpened}>
         <List component="nav">
-          <ListItemButton href="/" component={LinkBase}>
+          <ListItemButton href="/outcome" component={LinkBase}>
             <ListItemIcon>
               <Logo className={styles.header__logo} />
             </ListItemIcon>

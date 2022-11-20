@@ -55,7 +55,7 @@ export const App = observer(() => {
                 <RequireAuth>
                   <MainLayout>
                     <Routes>
-                      <Route path="/" element={<DashboardLazy />} />
+                      <Route path="/outcome" element={<DashboardLazy />} />
                       <Route path="/cash-flows" element={<CashFlows />} />
                       <Route path="/transactions" element={<Transactions />} />
                       <Route path="/debts" element={<Debts />} />
@@ -72,7 +72,7 @@ export const App = observer(() => {
                       <Route path="/profile" element={<ProfileLazy />} />
                       <Route path="/tools" element={<ToolsLazy />} />
 
-                      <Route path="*" element={<NotFoundLazy />} />
+                      <Route path="*" element={<Navigate to="/transactions" />} />
                     </Routes>
                   </MainLayout>
                 </RequireAuth>
