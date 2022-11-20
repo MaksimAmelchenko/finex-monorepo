@@ -1,17 +1,12 @@
-import {
-  FindTransactionsAPIQuery,
-  FindTransactionsServiceQuery,
-  FindTransactionsServiceResponse,
-  ITransactionDTO,
-} from '../../../../modules/transaction/types';
+import { FindTransactionsAPIQuery, ITransactionDTO } from '../../../../modules/transaction/types';
+import { IPlannedTransactionDTO } from '../../../../modules/planned-transaction/types';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
+import { getRanges } from '../../../../libs/get-ranges';
+import { plannedTransactionMapper } from '../../../../modules/planned-transaction/planned-transaction.mapper';
+import { plannedTransactionService } from '../../../../modules/planned-transaction/planned-transaction.service';
 import { transactionMapper } from '../../../../modules/transaction/transaction.mapper';
 import { transactionService } from '../../../../modules/transaction/transaction.service';
-import { plannedTransactionService } from '../../../../modules/planned-transaction/planned-transaction.service';
-import { plannedTransactionMapper } from '../../../../modules/planned-transaction/planned-transaction.mapper';
-import { IPlannedTransactionDTO } from '../../../../modules/planned-transaction/types';
-import { getRanges } from '../../../../libs/get-ranges';
 
 export async function handler(ctx: IRequestContext<FindTransactionsAPIQuery, true>): Promise<IResponse<any>> {
   const {
@@ -76,7 +71,7 @@ export async function handler(ctx: IRequestContext<FindTransactionsAPIQuery, tru
       userId,
       {
         ...params,
-        offset,
+        offset: offset + findPlannedTransactionsResponse.transactions.length,
         limit,
       }
     );
@@ -97,7 +92,7 @@ export async function handler(ctx: IRequestContext<FindTransactionsAPIQuery, tru
     const { offset, limit } = ranges[3];
     const { transactions: _transactions } = await transactionService.findTransactions(ctx, projectId, userId, {
       ...params,
-      offset,
+      offset: offset + findTransactionsResponse.transactions.length,
       limit,
     });
 
