@@ -6,12 +6,13 @@ import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import {
   CreateTransactionData,
+  GetTransactionsQuery,
   IPlannedTransactionDTO,
-  isPlannedTransactionDTO,
   ITransaction,
   ITransactionDTO,
   ITransactionsApi,
   UpdateTransactionChanges,
+  isPlannedTransactionDTO,
 } from '../types/transaction';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
@@ -94,11 +95,17 @@ export class TransactionsRepository extends ManageableStore {
       contractors,
       tags,
     } = this.filter;
-    let params = {};
+
+    let params: GetTransactionsQuery = {
+      limit: this.limit,
+      offset: this.offset,
+    };
+
     if (isFilter) {
       params = {
-        dBegin: startDate ? format(startDate, 'yyyy-MM-dd') : null,
-        dEnd: endDate ? format(endDate, 'yyyy-MM-dd') : null,
+        ...params,
+        startDate: startDate ? format(startDate, 'yyyy-MM-dd') : undefined,
+        endDate: endDate ? format(endDate, 'yyyy-MM-dd') : undefined,
         accounts: accounts.join(','),
         categories: categories.join(','),
         contractors: contractors.join(','),
@@ -108,8 +115,6 @@ export class TransactionsRepository extends ManageableStore {
 
     return this.api
       .get({
-        offset: this.offset,
-        limit: this.limit,
         searchText,
         ...params,
       })
