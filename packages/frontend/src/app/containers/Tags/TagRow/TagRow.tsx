@@ -3,13 +3,11 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { BaseCheckbox } from '@finex/ui-kit';
-import { Tag as TagModel } from '../../../stores/models/tag';
-
-import styles from './TagRow.module.scss';
+import { Tag } from '../../../stores/models/tag';
 
 interface TagProps {
-  tag: TagModel;
-  onClick: (tag: TagModel) => void;
+  tag: Tag;
+  onClick: (tag: Tag) => void;
 }
 
 export const TagRow = observer<TagProps>(({ tag, onClick }: TagProps) => {
@@ -20,18 +18,16 @@ export const TagRow = observer<TagProps>(({ tag, onClick }: TagProps) => {
   };
 
   const handleClick = (event: React.SyntheticEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
     onClick(tag);
   };
 
   return (
-    <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td className="min-width">
+    <tr className={clsx(isDeleting && 'is_deleting')}>
+      <td className="checkboxCell" onClick={handleOnSelect}>
         <BaseCheckbox value={isSelected} />
       </td>
       <td>
-        <span className={styles.name} onClick={handleClick}>
+        <span className="name" onClick={handleClick}>
           {name}
         </span>
       </td>

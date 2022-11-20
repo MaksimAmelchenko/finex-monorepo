@@ -333,7 +333,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
             name="transactionDate"
             label={t('Date')}
             dateFormat={getFormat('date.formats.default')}
-            className={styles.dateFields__dTransaction}
+            className={styles.dateFields__date}
           />
           <div className={styles.reportPeriod}>
             <FormDateField
@@ -394,7 +394,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
         </div>
       </FormBody>
 
-      <FormFooter className={styles.footer}>
+      <FormFooter>
         <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>

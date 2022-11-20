@@ -1,5 +1,9 @@
-.row_is_deleting {
-  background-color: var(--color-danger200);
+.row {
+  cursor: pointer;
+
+  &_is_deleting {
+    background-color: var(--color-danger200);
+  }
 }
 
 .tags {

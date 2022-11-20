@@ -3,11 +3,11 @@
   grid-template-rows: auto auto 1fr;
   height: 100%;
   &__tabs {
-    padding: 0 3.2rem;
+    padding: 0 1.6rem 0 2.4rem;
   }
 }
 
 .content {
-  padding-top: 2.4rem;
+  padding-top: 1.6rem;
   overflow: hidden;
 }

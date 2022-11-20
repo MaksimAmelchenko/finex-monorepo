@@ -31,6 +31,7 @@
   background-color: var(--color-neutral0);
 
   &__title {
+    @include typography.h3;
     margin: 0;
   }
 

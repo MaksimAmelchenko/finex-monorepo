@@ -3,9 +3,17 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, Image, checkSvg, TreeTableGroupingCell, TreeTableRow, useTreeTable } from '@finex/ui-kit';
+import {
+  BaseCheckbox,
+  Button,
+  Image,
+  TreeTableGroupingCell,
+  TreeTableRow,
+  checkSvg,
+  useTreeTable,
+} from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
-import { Category as CategoryModel } from '../../stores/models/category';
+import { Category } from '../../stores/models/category';
 import { CategoryWindow } from '../CategoryWindow/CategoryWindow';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ICategory } from '../../types/category';
@@ -22,15 +30,15 @@ export const Categories = observer(() => {
 
   const [isOpenedCategoryWindow, setIsOpenedCategoryWindow] = useState<boolean>(false);
   const [isOpenedMoveTransactionsWindow, setIsOpenedMoveTransactionsWindow] = useState<boolean>(false);
-  const [category, setCategory] = useState<Partial<ICategory> | CategoryModel | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryModel | null>(null);
+  const [category, setCategory] = useState<Partial<ICategory> | Category | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
   const { getRowProps, getGroupingCellToggleProps } = useTreeTable();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAddClick = () => {
-    setCategory({});
+    setCategory({ parent: selectedCategory });
     setIsOpenedCategoryWindow(true);
   };
 
@@ -66,11 +74,15 @@ export const Categories = observer(() => {
     categoriesRepository.getCategories();
   };
 
-  const handleRowClick = (category: CategoryModel) => (event: React.SyntheticEvent) => {
-    setSelectedCategory(category);
+  const handleCheckboxCellClick = (category: Category) => (event: React.SyntheticEvent) => {
+    if (category !== selectedCategory) {
+      setSelectedCategory(category);
+    } else {
+      setSelectedCategory(null);
+    }
   };
 
-  const handleClickOnCategory = (category: CategoryModel) => (event: React.SyntheticEvent) => {
+  const handleClickOnCategory = (category: Category) => (event: React.SyntheticEvent) => {
     setCategory(category);
     setIsOpenedCategoryWindow(true);
   };
@@ -82,6 +94,8 @@ export const Categories = observer(() => {
   const handleCloseMoveTransactionsWindow = () => {
     setIsOpenedMoveTransactionsWindow(false);
   };
+
+  const categories = categoriesRepository.categories.filter(({ isSystem }) => !isSystem);
 
   return (
     <>
@@ -114,32 +128,37 @@ export const Categories = observer(() => {
           <table className={clsx('table table-hover table-sm', styles.table)}>
             <thead>
               <tr>
+                <th />
                 <th>{t('Name')}</th>
                 <th>{t('Active')}</th>
                 <th>{t('Note')}</th>
               </tr>
             </thead>
             <tbody>
-              {categoriesRepository.categories.map(category => {
+              {categories.map(category => {
                 const { idsPath, name, isEnabled, note } = category;
                 const { isLeaf, isExpanded, level, isVisible } = getRowProps(idsPath);
                 const { onClick } = getGroupingCellToggleProps(idsPath);
                 if (!isVisible) {
                   return null;
                 }
+                const isSelected = category === selectedCategory;
                 return (
                   <TreeTableRow
-                    className={clsx(styles.row, category === selectedCategory && styles.row_selected)}
+                    className={clsx(styles.row, isSelected && styles.row_selected)}
                     isVisible={isVisible}
-                    onClick={handleRowClick(category)}
                     key={category.id}
                   >
+                    <td className="checkboxCell" onClick={handleCheckboxCellClick(category)}>
+                      <BaseCheckbox value={isSelected} />
+                    </td>
+
                     <TreeTableGroupingCell isLeaf={isLeaf} isExpanded={isExpanded} level={level} onClick={onClick}>
-                      <div className={styles.row__name} onClick={handleClickOnCategory(category)}>
+                      <div className="name" onClick={handleClickOnCategory(category)}>
                         {name}
                       </div>
                     </TreeTableGroupingCell>
-                    <td className={styles.tick}>{isEnabled && <Image src={checkSvg} alt="active" />}</td>
+                    <td className="tickCell">{isEnabled && <Image src={checkSvg} alt="active" />}</td>
                     <td>{note}</td>
                   </TreeTableRow>
                 );

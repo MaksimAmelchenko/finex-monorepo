@@ -51,4 +51,41 @@
   &-borderless > tbody > tr > td {
     border-top: none;
   }
+
+  tr {
+    height: 3.2rem;
+
+    td {
+      &.checkboxCell {
+        vertical-align: middle;
+        width: 0.1%;
+        & > input {
+          display: block;
+        }
+      }
+
+      &.tickCell {
+        vertical-align: middle;
+        text-align: center;
+
+        & > img {
+          display: block;
+          width: 2rem;
+        }
+      }
+
+      .name {
+        cursor: pointer;
+        color: var(--color-secondary700);
+
+        &:hover {
+          color: var(--color-secondary600);
+        }
+      }
+    }
+
+    &.is_deleting {
+      background-color: var(--color-danger200);
+    }
+  }
 }

@@ -1,3 +1,5 @@
+@use 'packages/theme/src/lib/styles/typography';
+
 %transition-styles {
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
@@ -26,7 +28,7 @@
 
   &__helperText {
     margin-top: 4px;
-    font-size: 1.2rem;
+    @include typography.smallText;
     color: var(--color-neutral500);
   }
 

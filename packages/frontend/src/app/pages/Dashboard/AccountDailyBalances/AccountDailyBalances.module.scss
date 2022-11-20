@@ -10,6 +10,7 @@
   padding: 1.6rem 2.4rem;
 
   &__title {
+    @include typography.h3;
     margin: 0;
   }
 

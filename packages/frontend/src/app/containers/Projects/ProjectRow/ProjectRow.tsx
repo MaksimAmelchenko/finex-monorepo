@@ -2,12 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
+import { BaseCheckbox, Tag } from '@finex/ui-kit';
 import { Permit } from '../../../types';
 import { Project } from '../../../stores/models/project';
-import { Tag } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';
-
-import styles from './ProjectRow.module.scss';
 
 const t = getT('Projects');
 
@@ -27,22 +25,18 @@ export const ProjectRow = observer<ProjectProps>(({ project, isSelected, onClick
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
     onClick(project);
   };
 
   return (
-    <tr
-      onClick={handleOnSelect}
-      className={clsx(styles.row, {
-        [styles.row_is_deleting]: isDeleting,
-        [styles.row_selected]: isSelected,
-      })}
-    >
+    <tr className={clsx(isDeleting && 'is_deleting')}>
+      <td className="checkboxCell" onClick={handleOnSelect}>
+        <BaseCheckbox value={isSelected} />
+      </td>
+
       <td>
         {isOwner ? (
-          <span className={styles.row__name} onClick={handleClick}>
+          <span className="name" onClick={handleClick}>
             {name}
           </span>
         ) : (
@@ -50,7 +44,7 @@ export const ProjectRow = observer<ProjectProps>(({ project, isSelected, onClick
         )}
       </td>
       <td>{isOwner ? t('Me') : user.name}</td>
-      <td className={styles.tick}>{isOwner && editors.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}</td>
+      <td>{isOwner && editors.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}</td>
       <td>{note}</td>
     </tr>
   );

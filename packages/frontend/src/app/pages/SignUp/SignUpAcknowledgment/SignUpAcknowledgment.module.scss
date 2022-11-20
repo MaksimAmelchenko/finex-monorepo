@@ -10,8 +10,4 @@
   h1 {
     @include typography.h3;
   }
-
-  p {
-    @include typography.bodyHighlight;
-  }
 }

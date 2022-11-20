@@ -41,7 +41,7 @@ export const ExchangeRow = observer<ExchangeRowProps>(({ exchange, onClick }) =>
   };
 
   return (
-    <tr onClick={handleOnClick} className={clsx(isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <td className={clsx(styles.firstColumn, 'min-width')}>
         <div className={clsx(styles.dateColumn)} onClick={handleOnSelect}>
           <div className={clsx(styles.dateColumn__colorMark)} />

@@ -8,6 +8,7 @@
 
   &__label {
     @include typography.bodyHighlight;
+    //color: var(--color-secondary600);
     color: var(--color-primary600);
     text-decoration: none;
     white-space: nowrap;

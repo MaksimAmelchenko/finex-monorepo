@@ -5,8 +5,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  padding-top: 4rem;
+  min-height: 100vh;
+  height: 100%;
   background-color: var(--color-neutral100);
 
   @include media.sm {
@@ -15,7 +16,7 @@
   }
 
   &__header {
-    @include typography.h2();
+    @include typography.h1();
   }
 
   &__body {
