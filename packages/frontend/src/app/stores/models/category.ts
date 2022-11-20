@@ -62,7 +62,7 @@ export class Category implements ICategory, IDeletable {
   }
 
   fullPath(isIncludeOwnName = false): string {
-    const names = this.namePath;
+    const names = [...this.namePath];
     if (!isIncludeOwnName) {
       names.pop();
     }
