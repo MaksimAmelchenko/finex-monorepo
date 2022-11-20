@@ -24,6 +24,8 @@ export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
    */
   onChange?: (values: Values) => void;
 
+  onDirtyChange?: (dirty: boolean) => void;
+
   /**
    * Process submitted values, in most cases they need to sent to backend
    * @param {Values} values
@@ -66,7 +68,7 @@ export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
  */
 export function Form<Values extends FormikValues>(props: IFormProps<Values>): JSX.Element {
   const { children, component, render, initialValues } = props;
-  const { onChange, onSubmit, onError, errorsHR, afterSubmit, className, ...rest } = props;
+  const { onChange, onSubmit, onError, errorsHR, afterSubmit, onDirtyChange, className, ...rest } = props;
 
   // Prepare everything for errors translation to HumanReadable form
   const [errorContextValue, setErrorContextState] = useState<ErrorContextValue>({});
@@ -109,6 +111,10 @@ export function Form<Values extends FormikValues>(props: IFormProps<Values>): JS
   useEffect(() => {
     onChange && onChange(formikBag.values);
   }, [formikBag.values, onChange]);
+
+  useEffect(() => {
+    onDirtyChange && onDirtyChange(formikBag.dirty);
+  }, [formikBag.dirty, onDirtyChange]);
 
   return (
     <FormikProvider value={formikBag}>

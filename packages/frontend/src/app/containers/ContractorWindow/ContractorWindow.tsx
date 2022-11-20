@@ -18,6 +18,7 @@ import {
 import { Shape } from '../../types';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface ContractorFormValues {
@@ -40,7 +41,9 @@ function mapValuesToPayload({ name, note }: ContractorFormValues): CreateContrac
 }
 export function ContractorWindow({ contractor, onClose }: ContractorWindowProps): JSX.Element {
   const contractorsRepository = useStore(ContractorsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -99,6 +102,7 @@ export function ContractorWindow({ contractor, onClose }: ContractorWindowProps)
         note: note ?? '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader
         title={contractor instanceof Contractor ? t('Edit contractor') : t('Add new contractor')}

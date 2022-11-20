@@ -31,6 +31,7 @@ import { TagsRepository } from '../../stores/tags-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './ExchangeWindow.module.scss';
@@ -148,7 +149,9 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
   const exchangesRepository = useStore(ExchangesRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(exchange instanceof Exchange));
@@ -332,6 +335,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       {({ values }) => (
         <>

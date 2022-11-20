@@ -33,6 +33,7 @@ import { TagsRepository } from '../../../stores/tags-repository';
 import { getFormat, getT } from '../../../lib/core/i18n';
 import { getPatch } from '../../../lib/core/get-patch';
 import { noop } from '../../../lib/noop';
+import { useCloseOnEscape } from '../../../hooks/use-close-on-escape';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './DebtItemWindow.module.scss';
@@ -121,6 +122,7 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(debtItem instanceof DebtItem));
@@ -248,6 +250,7 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={isNew ? t('Add new debt record') : t('Edit debt record')} onClose={onClose} />
 

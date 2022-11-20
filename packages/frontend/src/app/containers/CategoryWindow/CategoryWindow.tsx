@@ -24,6 +24,7 @@ import { Shape } from '../../types';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 
 interface CategoryFormValues {
   name: string;
@@ -75,7 +76,10 @@ function mapValuesToUpdatePayload({
 export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.Element {
   const categoriesRepository = useStore(CategoriesRepository);
   const categoryPrototypesRepository = useStore(CategoryPrototypesRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -154,6 +158,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
         //
         [ApiErrors.InvalidRequest, t('Check data and try again')],
       ]}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={category instanceof Category ? t('Edit category') : t('Add new category')} onClose={onClose} />
 

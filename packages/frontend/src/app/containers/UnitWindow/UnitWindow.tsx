@@ -10,6 +10,7 @@ import { Unit } from '../../stores/models/unit';
 import { UnitsRepository } from '../../stores/units-repository';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface UnitFormValues {
@@ -30,7 +31,9 @@ function mapValuesToPayload({ name }: UnitFormValues): CreateUnitData {
 }
 export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
   const unitsRepository = useStore(UnitsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -85,6 +88,7 @@ export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
         name: name ?? '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={unit instanceof Unit ? t('Edit unit') : t('Add new unit')} onClose={onClose} />
 

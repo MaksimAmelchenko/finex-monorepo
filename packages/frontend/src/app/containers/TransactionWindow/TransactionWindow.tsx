@@ -41,6 +41,7 @@ import { TransactionsRepository } from '../../stores/transactions-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './TransactionWindow.module.scss';
@@ -164,6 +165,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || note || tags?.length)
@@ -310,6 +312,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
 

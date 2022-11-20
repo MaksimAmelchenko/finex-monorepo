@@ -17,6 +17,7 @@ export function Drawer({ isOpened, children, className }: IDrawerProps): JSX.Ele
   return (
     <MuiDrawer
       anchor="right"
+      disableEscapeKeyDown={true}
       open={isOpened}
       sx={{
         // because the header has "drawer + 1" to override the left menu

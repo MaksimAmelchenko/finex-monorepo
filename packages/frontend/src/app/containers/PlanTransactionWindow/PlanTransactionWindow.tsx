@@ -43,6 +43,7 @@ import { TagsRepository } from '../../stores/tags-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './PlanTransactionWindow.module.scss';
@@ -281,7 +282,9 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || contractor || operationTags?.length || operationNote || note)
   );
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
   const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
@@ -526,6 +529,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       {({ values }) => (
         <>

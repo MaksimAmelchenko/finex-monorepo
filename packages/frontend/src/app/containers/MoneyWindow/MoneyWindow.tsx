@@ -21,6 +21,7 @@ import { MoneysRepository } from '../../stores/moneys-repository';
 import { Shape } from '../../types';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface MoneyFormValues {
@@ -80,6 +81,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
   const moneysRepository = useStore(MoneysRepository);
 
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -151,6 +153,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
         sorting: sorting ? String(sorting) : '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={money instanceof Money ? t('Edit money') : t('Add new money')} onClose={onClose} />
 

@@ -31,6 +31,7 @@ import { TransfersRepository } from '../../stores/transfers-repository';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './TransferWindow.module.scss';
@@ -138,7 +139,9 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
   const transfersRepository = useStore(TransfersRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(transfer instanceof Transfer));
@@ -291,6 +294,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       {({ values }) => (
         <>

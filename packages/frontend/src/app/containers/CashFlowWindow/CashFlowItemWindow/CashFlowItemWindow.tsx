@@ -35,6 +35,7 @@ import { TagsRepository } from '../../../stores/tags-repository';
 import { getFormat, getT } from '../../../lib/core/i18n';
 import { getPatch } from '../../../lib/core/get-patch';
 import { noop } from '../../../lib/noop';
+import { useCloseOnEscape } from '../../../hooks/use-close-on-escape';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './CashFlowItemWindow.module.scss';
@@ -138,6 +139,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(cashFlowItem instanceof CashFlowItem));
@@ -289,6 +291,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader
         title={isNew ? t('Add new transaction') : t('Edit transaction')}

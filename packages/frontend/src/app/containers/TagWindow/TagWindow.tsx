@@ -10,6 +10,7 @@ import { Tag } from '../../stores/models/tag';
 import { TagsRepository } from '../../stores/tags-repository';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface TagFormValues {
@@ -30,7 +31,9 @@ function mapValuesToPayload({ name }: TagFormValues): CreateTagData {
 }
 export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
   const tagsRepository = useStore(TagsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -85,6 +88,7 @@ export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
         name: name ?? '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={tag instanceof Tag ? t('Edit tag') : t('Add new tag')} onClose={onClose} />
 

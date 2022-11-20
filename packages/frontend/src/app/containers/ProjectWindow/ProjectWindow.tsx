@@ -23,6 +23,7 @@ import { Shape } from '../../types';
 import { UsersRepository } from '../../stores/users-repository';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface ProjectFormValues {
@@ -58,7 +59,9 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
   const projectsRepository = useStore(ProjectsRepository);
   const profileRepository = useStore(ProfileRepository);
   const usersRepository = useStore(UsersRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -125,6 +128,7 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
         editors: editors?.map(({ id }) => id) ?? [],
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={isEdit ? t('Edit project') : t('New project')} onClose={onClose} />
 

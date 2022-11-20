@@ -25,6 +25,7 @@ import { Shape } from '../../types';
 import { UsersRepository } from '../../stores/users-repository';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface AccountFormValues {
@@ -84,7 +85,9 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
   const accountsRepository = useStore(AccountsRepository);
   const profileRepository = useStore(ProfileRepository);
   const usersRepository = useStore(UsersRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -157,6 +160,7 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
         editors: editors?.map(({ id }) => id) ?? [],
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
     >
       <FormHeader title={account instanceof Account ? t('Edit account') : t('Add new account')} onClose={onClose} />
 
