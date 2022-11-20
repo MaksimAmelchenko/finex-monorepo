@@ -168,6 +168,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || note || tags?.length)
   );
+  const [isNew, setIsNew] = useState<boolean>(!(transaction instanceof Transaction));
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
   const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
@@ -184,16 +185,16 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       initialValues: TransactionFormValues
     ) => {
       let result: Promise<unknown>;
-      if (transaction instanceof Transaction) {
+      if (isNew) {
+        // create transaction
+        const data: CreateTransactionData = mapValuesToCreatePayload(values);
+        result = transactionsRepository.createTransaction(transaction, data);
+      } else {
         const changes: UpdateTransactionChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = transactionsRepository.updateTransaction(transaction, changes);
-      } else {
-        // create transaction
-        const data: CreateTransactionData = mapValuesToCreatePayload(values);
-        result = transactionsRepository.createTransaction(transaction, data);
+        result = transactionsRepository.updateTransaction(transaction as Transaction, changes);
       }
 
       return result
@@ -220,7 +221,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
                 planId: null,
               },
             });
-
+            setIsNew(true);
             amountFieldRef.current?.focus();
           }
         })
@@ -233,14 +234,14 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, transactionsRepository, onClose, transaction]
+    [enqueueSnackbar, transactionsRepository, onClose, transaction, isNew]
   );
 
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<TransactionFormValues>>({
-        transactionDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        transactionDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
@@ -310,10 +311,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       }}
       validationSchema={validationSchema}
     >
-      <FormHeader
-        title={transaction instanceof Transaction ? t('Edit transaction') : t('Add new transaction')}
-        onClose={onClose}
-      />
+      <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
 
       <FormBody className={styles.form__body}>
         <FormTabs name="sign" options={signOptions} />
