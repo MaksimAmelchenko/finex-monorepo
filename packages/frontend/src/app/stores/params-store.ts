@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 
-import { IParams, IParamsRaw } from '../types/params';
+import { IParams, IParamsDTO } from '../types/params';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 
@@ -18,9 +18,9 @@ export class ParamsStore extends ManageableStore {
     });
   }
 
-  consume({ dashboard }: IParamsRaw): void {
+  consume({ outcome }: IParamsDTO): void {
     this.params = {
-      dashboard,
+      outcome,
     };
   }
 

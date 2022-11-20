@@ -1,15 +1,19 @@
 import { TDate } from './index';
 
-export interface IParamsRaw {
-  dashboard: {
-    dBegin: TDate;
-    dEnd: TDate;
+export interface IParamsDTO {
+  outcome: {
+    accountDailyBalances: {
+      startDate: TDate;
+      endDate: TDate;
+    };
   };
 }
 
 export interface IParams {
-  dashboard: {
-    dBegin: TDate;
-    dEnd: TDate;
+  outcome: {
+    accountDailyBalances: {
+      startDate: TDate;
+      endDate: TDate;
+    };
   };
 }

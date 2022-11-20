@@ -44,8 +44,8 @@ export const AccountDailyBalances = observer(() => {
   const paramsStore = useStore(ParamsStore);
   const projectsRepository = useStore(ProjectsRepository);
 
-  const { dBegin, dEnd } = paramsStore.params!.dashboard;
-  const [range, setRange] = useState<[Date, Date]>([new Date(parseISO(dBegin)), new Date(parseISO(dEnd))]);
+  const { startDate, endDate } = paramsStore.params!.outcome.accountDailyBalances;
+  const [range, setRange] = useState<[Date, Date]>([new Date(parseISO(startDate)), new Date(parseISO(endDate))]);
 
   const [selectedMoney, setSelectedMoney] = useState<IMoney | null>(null);
 
