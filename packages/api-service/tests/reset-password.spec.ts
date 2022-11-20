@@ -91,7 +91,9 @@ describe('Reset password', function (): void {
     transactionalEmail = await getLastTransactionalEmail(ctx, username, 60);
 
     // token = transactionalEmail.originalMessage.html.match(/\/reset-password\/(.*)\/confirm"/)[1];
-    token = transactionalEmail.originalMessage.html.match(/\>https:\/\/finex.io\/password_recovery\/confirm\?token=(.*)\<\/a>/)[1];
+    token = transactionalEmail.originalMessage.html.match(
+      /\>https:\/\/finex.io\/password_recovery\/confirm\?token=(.*)\<\/a>/
+    )[1];
     if (!token) {
       throw new Error('Token is not found in email');
     }

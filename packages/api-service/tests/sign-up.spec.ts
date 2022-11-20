@@ -114,9 +114,10 @@ describe('SignUp', function (): void {
     const transactionalEmailAgain = await getLastTransactionalEmail(ctx, signUpRequest.email, 60);
     expect(transactionalEmailAgain.messageId).be.not.equal(transactionalEmail.messageId);
 
-
     // const tokenAgain = transactionalEmailAgain.originalMessage.html.match(/\/sign-up\/(.*)\/confirm"/)[1];
-    const tokenAgain = transactionalEmailAgain.originalMessage.html.match(/\>https:\/\/finex.io\/signup\/confirm\?token=(.*)\<\/a>/)[1];
+    const tokenAgain = transactionalEmailAgain.originalMessage.html.match(
+      /\>https:\/\/finex.io\/signup\/confirm\?token=(.*)\<\/a>/
+    )[1];
 
     if (!tokenAgain) {
       throw new Error('Token is not found in email');

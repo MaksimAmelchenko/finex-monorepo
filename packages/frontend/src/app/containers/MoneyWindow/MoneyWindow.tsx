@@ -168,7 +168,11 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
         >
           {t('Active')}
         </FormCheckbox>
-        <FormTextField name="sorting" label={t('Sorting')} helperText={t('Sets the currency display order for multicurrency accounts')}/>
+        <FormTextField
+          name="sorting"
+          label={t('Sorting')}
+          helperText={t('Sets the currency display order for multicurrency accounts')}
+        />
       </FormBody>
 
       <FormFooter>
