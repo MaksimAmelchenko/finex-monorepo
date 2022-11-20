@@ -226,8 +226,8 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
-        transferDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        transferDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),

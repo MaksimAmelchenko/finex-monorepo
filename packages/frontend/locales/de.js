@@ -35,13 +35,15 @@ module.exports = {
     Edit: 'Edit',
   },
   AccountWindow: {
+    'Account already exists': 'Account already exists',
+    'Please fill name': 'Please fill name',
     'Edit account': 'Edit account',
     'Add new account': 'Add new account',
     Name: 'Name',
     'Account type': 'Account type',
-    Active: 'Active',
     'Inactive accounts are hidden when creating or editing a transaction':
       'Inactive accounts are hidden when creating or editing a transaction',
+    Active: 'Active',
     Note: 'Note',
     Permissions: 'Permissions',
     View: 'View',
@@ -52,6 +54,11 @@ module.exports = {
       'List of users who have the right to add, edit and delete transactions on this account',
     Cancel: 'Cancel',
     Save: 'Save',
+  },
+  ApiRepository: {
+    'Session Timeout': 'Session Timeout',
+    'Session closed': 'Session closed',
+    'Invalid authorization': 'Invalid authorization',
   },
   BalanceRepository: {
     'Owe me': 'Schulden mir',
@@ -65,6 +72,7 @@ module.exports = {
   CashFlowItem: {
     Income: 'Income',
     Expense: 'Expense',
+    'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
     'Please select category': 'Please select category',
@@ -140,14 +148,15 @@ module.exports = {
   },
   CategoryWindow: {
     'There is a cycle in the hierarchy': 'There is a cycle in the hierarchy',
+    'Please fill name': 'Please fill name',
     'Check data and try again': 'Check data and try again',
     'Edit category': 'Edit category',
     'Add new category': 'Add new category',
     Name: 'Name',
     'Parent category': 'Parent category',
     Prototype: 'Prototype',
-    Active: 'Active',
     'Show category when adding or editing an operation': 'Show category when adding or editing an operation',
+    Active: 'Active',
     Note: 'Note',
     Cancel: 'Cancel',
     Save: 'Save',
@@ -163,6 +172,7 @@ module.exports = {
   },
   ContractorWindow: {
     'Contractor already exists': 'Contractor already exists',
+    'Please fill name': 'Please fill name',
     'Edit contractor': 'Edit contractor',
     'Add new contractor': 'Add new contractor',
     Name: 'Name',
@@ -176,6 +186,7 @@ module.exports = {
   DebtItem: {
     Income: 'Income',
     Expense: 'Expense',
+    'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
     'Please select category': 'Please select category',
@@ -314,6 +325,7 @@ module.exports = {
     'Please select money': 'Please select money',
     'Please select a money other than the money you are exchanging money from':
       'Please select a money other than the money you are exchanging money from',
+    'Please select date': 'Please select date',
     'Please fill fee': 'Please fill fee',
     'Please select account': 'Please select account',
     'At first,': 'At first,',
@@ -339,11 +351,11 @@ module.exports = {
     'Save and Create New': 'Save and Create New',
   },
   ExportData: {
-    'Data export started_ In a few minutes you will receive the file by E-mail':
-      'Data export started. In a few minutes you will receive the file by E-mail',
+    'Data export started_ In a few minutes you will receive the file by e-mail':
+      'Data export started. In a few minutes you will receive the file by e-mail',
     'Export Data': 'Export Data',
-    'Export data in CSV file_ The data will be sent to your E-mail_':
-      'Export data in CSV file. The data will be sent to your E-mail.',
+    'Export data in CSV file_ The data will be sent to your e-mail_':
+      'Export data in CSV file. The data will be sent to your e-mail.',
     Export: 'Export',
   },
   Layout: {
@@ -378,6 +390,7 @@ module.exports = {
   MoneyWindow: {
     'Money already exists': 'Money already exists',
     "You can't delete money with transaction": "You can't delete money with transaction",
+    'Please fill name': 'Please fill name',
     'Please enter a number': 'Please enter a number',
     'Edit money': 'Edit money',
     'Add new money': 'Add new money',
@@ -387,10 +400,12 @@ module.exports = {
     'Displayed currency sign': 'Displayed currency sign',
     Precision: 'Precision',
     'A number of symbols after comma': 'A number of symbols after comma',
-    Active: 'Active',
     'Inactive money is hidden when creating or editing a transaction':
       'Inactive money is hidden when creating or editing a transaction',
+    Active: 'Active',
     Sorting: 'Sorting',
+    'Sets the currency display order for multicurrency accounts':
+      'Sets the currency display order for multicurrency accounts',
     Cancel: 'Cancel',
     Save: 'Save',
   },
@@ -501,6 +516,7 @@ module.exports = {
     Profile: 'Profile',
   },
   ProjectCopyWindow: {
+    'Enter a project name': 'Enter a project name',
     'Copy project': 'Copy project',
     'Project to be copied': 'Project to be copied',
     'Project name': 'Project name',
@@ -533,6 +549,7 @@ module.exports = {
   },
   ProjectWindow: {
     'That name is taken_ Try another_': 'That name is taken. Try another.',
+    'Enter a project name': 'Enter a project name',
     'Edit project': 'Edit project',
     'New project': 'New project',
     'Project name': 'Project name',
@@ -556,18 +573,19 @@ module.exports = {
     'Something went wrong, please try again later': 'Something went wrong, please try again later',
   },
   ResetPassword: {
-    'Please enter E-mail address': 'Please enter E-mail address',
-    'Please enter a valid E-mail address': 'Please enter a valid E-mail address',
-    'Forgot your Password?': 'Forgot your Password?',
+    'Please enter your e-mail address': 'Please enter your e-mail address',
+    'Invalid email address': 'Invalid email address',
+    'Forgot your password?': 'Forgot your password?',
     'User not found': 'User not found',
-    'To reset you password enter your E-mail': 'To reset you password enter your E-mail',
+    "Enter the email address associated with your account and we'll send you a link to reset your password_":
+      "Enter the email address associated with your account and we'll send you a link to reset your password.",
     'E-mail': 'E-mail',
-    Next: 'Next',
+    Continue: 'Continue',
   },
   ResetPasswordAcknowledgment: {
     'Reset password': 'Reset password',
-    'An email has been sent to the specified E-mail address_ Please open it and click on the link inside it to reset your password':
-      'An email has been sent to the specified E-mail address. Please open it and click on the link inside it to reset your password',
+    'An email has been sent to the specified e-mail address_ Please open it and click on the link inside it to reset your password':
+      'An email has been sent to the specified e-mail address. Please open it and click on the link inside it to reset your password',
   },
   ResetPasswordConfirmation: {
     'Please enter password': 'Please enter password',
@@ -582,7 +600,7 @@ module.exports = {
   },
   ResetPasswordConfirmationAcknowledgment: {
     'The password has been reset': 'The password has been reset',
-    'Sign In': 'Sign In',
+    'Sign in': 'Sign in',
   },
   Settings: {
     Accounts: 'Accounts',
@@ -596,46 +614,47 @@ module.exports = {
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',
-    'Please enter E-mail address': 'Please enter E-mail address',
-    'Please enter a valid E-mail address': 'Please enter a valid E-mail address',
-    'Please enter password': 'Please enter password',
+    'Please enter your e-mail': 'Please enter your e-mail',
+    'Invalid e-mail address': 'Invalid e-mail address',
+    'Please enter your password': 'Please enter your password',
     'Sign in': 'Sign in',
     'E-mail': 'E-mail',
     Password: 'Password',
     SignIn: 'SignIn',
-    'Forgot your Password?': 'Forgot your Password?',
+    'Forgot your password?': 'Forgot your password?',
     'New to FINEX?': 'New to FINEX?',
     'Create an account': 'Create an account',
   },
   SignUp: {
     'Please enter your name': 'Please enter your name',
-    'Please enter E-mail address': 'Please enter E-mail address',
-    'Please enter a valid E-mail address': 'Please enter a valid E-mail address',
-    'Please enter password': 'Please enter password',
-    'Use 8 characters or more for your password': 'Use 8 characters or more for your password',
-    'Create an FINEX account': 'Create an FINEX account',
-    'This E-mail already registered': 'This E-mail already registered',
+    'Please enter your e-mail address': 'Please enter your e-mail address',
+    'Invalid email address': 'Invalid email address',
+    'Please enter your password': 'Please enter your password',
+    'Your password is not strong enough_ Your password must be at least 8 characters_':
+      'Your password is not strong enough. Your password must be at least 8 characters.',
+    'Create your FINEX account': 'Create your FINEX account',
+    'This e-mail already registered': 'This e-mail already registered',
     Name: 'Name',
     'E-mail': 'E-mail',
     Password: 'Password',
-    'Use 8 or more characters with a mix of letters, numbers & symbols':
-      'Use 8 or more characters with a mix of letters, numbers & symbols',
-    'Sign Up': 'Sign Up',
+    'Your password needs to be at least 8 characters_ Include multiple words and phrases to make it more secure_':
+      'Your password needs to be at least 8 characters. Include multiple words and phrases to make it more secure.',
+    'Create account': 'Create account',
     'Already have an account?': 'Already have an account?',
-    'Sign In': 'Sign In',
+    'Sign in': 'Sign in',
   },
   SignUpAcknowledgment: {
-    'Please confirm your E-mail address': 'Please confirm your E-mail address',
+    'Please confirm your e-mail address': 'Please confirm your e-mail address',
     'Thanks for signing up_ To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link_':
       'Thanks for signing up. To complete your signup process, please open the confirmation email we just sent you on {{email}}, and click on the link.',
   },
   SignUpConfirmation: {
-    'The E-mail has already been confirmed': 'The E-mail has already been confirmed',
-    'Sign Up request not found': 'Sign Up request not found',
-    'This E-mail already registered': 'This E-mail already registered',
+    'The e-mail has already been confirmed': 'The e-mail has already been confirmed',
+    'Sign-up request not found': 'Sign-up request not found',
+    'This e-mail already registered': 'This e-mail already registered',
     'E-mail confirmation': 'E-mail confirmation',
     Processing___: 'Processing...',
-    'Your E-mail has been confirmed_': 'Your E-mail has been confirmed.',
+    'Your e-mail has been confirmed_': 'Your e-mail has been confirmed.',
     'Start to use': 'Start to use',
   },
   Tags: {
@@ -647,8 +666,9 @@ module.exports = {
   },
   TagWindow: {
     'Tag already exists': 'Tag already exists',
-    'Add new tag': 'Add new tag',
+    'Please fill name': 'Please fill name',
     'Edit tag': 'Edit tag',
+    'Add new tag': 'Add new tag',
     Name: 'Name',
     Cancel: 'Cancel',
     Save: 'Save',
@@ -678,14 +698,15 @@ module.exports = {
   TransactionWindow: {
     Income: 'Income',
     Expense: 'Expense',
+    'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
     'Please select category': 'Please select category',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
-    'Edit transaction': 'Edit transaction',
     'Add new transaction': 'Add new transaction',
+    'Edit transaction': 'Edit transaction',
     Amount: 'Amount',
     Category: 'Category',
     Account: 'Account',
@@ -725,6 +746,7 @@ module.exports = {
   TransferWindow: {
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
+    'Please select date': 'Please select date',
     'Please fill fee': 'Please fill fee',
     'Please select account': 'Please select account',
     'Please select an account other than the account you are transferring money from':
@@ -760,8 +782,9 @@ module.exports = {
   },
   UnitWindow: {
     'Unit already exists': 'Unit already exists',
-    'Add new unit': 'Add new unit',
+    'Please fill name': 'Please fill name',
     'Edit unit': 'Edit unit',
+    'Add new unit': 'Add new unit',
     Name: 'Name',
     Cancel: 'Cancel',
     Save: 'Save',

@@ -84,7 +84,7 @@ export function ContractorWindow({ contractor, onClose }: ContractorWindowProps)
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<ContractorFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );

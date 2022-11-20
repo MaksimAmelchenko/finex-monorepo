@@ -54,7 +54,7 @@ export function ProjectCopyWindow({ project, onClose }: ProjectCopyWindowProps):
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<CopyProjectFormValues>>({
-        name: Yup.string().required('Enter a project name'),
+        name: Yup.string().required(t('Enter a project name')),
       }),
     []
   );

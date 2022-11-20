@@ -126,7 +126,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<MoneyFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
         precision: Yup.mixed().test('precision', t('Please enter a number'), value => !value || !isNaN(value)),
         sorting: Yup.mixed().test('sorting', t('Please enter a number'), value => !value || !isNaN(value)),
       }),
@@ -165,7 +165,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
         >
           {t('Active')}
         </FormCheckbox>
-        <FormTextField name="sorting" label={t('Sorting')} />
+        <FormTextField name="sorting" label={t('Sorting')} helperText={t('Sets the currency display order for multicurrency accounts')}/>
       </FormBody>
 
       <FormFooter>

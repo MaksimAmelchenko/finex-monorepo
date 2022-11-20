@@ -35,9 +35,7 @@ export function ResetPassword(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        username: Yup.string()
-          .required(t('Please enter E-mail address'))
-          .email(t('Please enter a valid E-mail address')),
+        username: Yup.string().required(t('Please enter your e-mail address')).email(t('Invalid email address')),
       }),
     []
   );
@@ -47,7 +45,7 @@ export function ResetPassword(): JSX.Element {
   }
 
   return (
-    <Layout title={t('Forgot your Password?')}>
+    <Layout title={t('Forgot your password?')}>
       <div className={styles.container}>
         <Form<ResetPasswordFormValues>
           onSubmit={onSubmit}
@@ -59,11 +57,15 @@ export function ResetPassword(): JSX.Element {
           ]}
         >
           <FormLayout className={styles.formLayout}>
-            {t('To reset you password enter your E-mail')}
+            <p>
+              {t(
+                "Enter the email address associated with your account and we'll send you a link to reset your password."
+              )}
+            </p>
             <FormTextField name="username" type="text" label={t('E-mail')} autoFocusOnEmpty={true} />
             <FormError />
             <FormButton type="submit" size="medium" color="primary" fullSize>
-              {t('Next')}
+              {t('Continue')}
             </FormButton>
           </FormLayout>
         </Form>

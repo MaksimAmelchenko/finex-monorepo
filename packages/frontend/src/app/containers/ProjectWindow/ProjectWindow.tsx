@@ -102,7 +102,7 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<ProjectFormValues>>({
-        name: Yup.string().required('Enter a project name'),
+        name: Yup.string().required(t('Enter a project name')),
       }),
     []
   );

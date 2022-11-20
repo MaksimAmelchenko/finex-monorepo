@@ -113,6 +113,9 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
         .catch(err => {
           let message = '';
           switch (err.code) {
+            case 'account_id_project_name_u':
+              message = t('Account already exists');
+              break;
             default:
               message = err.message;
           }
@@ -125,7 +128,7 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<AccountFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );

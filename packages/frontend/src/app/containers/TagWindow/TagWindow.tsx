@@ -71,7 +71,7 @@ export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<TagFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );
@@ -86,7 +86,7 @@ export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
       }}
       validationSchema={validationSchema}
     >
-      <FormHeader title={tag instanceof Tag ? t('Add new tag') : t('Edit tag')} onClose={onClose} />
+      <FormHeader title={tag instanceof Tag ? t('Edit tag') : t('Add new tag')} onClose={onClose} />
 
       <FormBody>
         <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />

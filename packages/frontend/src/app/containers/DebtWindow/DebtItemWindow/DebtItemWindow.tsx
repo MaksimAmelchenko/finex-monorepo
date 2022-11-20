@@ -191,8 +191,8 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<DebtItemFormValues>>({
-        debtItemDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        debtItemDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),

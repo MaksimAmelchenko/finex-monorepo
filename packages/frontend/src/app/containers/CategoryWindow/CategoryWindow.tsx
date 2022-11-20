@@ -119,7 +119,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<CategoryFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );

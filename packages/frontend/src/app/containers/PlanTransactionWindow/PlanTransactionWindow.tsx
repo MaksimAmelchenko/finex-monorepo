@@ -369,12 +369,12 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
         categoryId: Yup.mixed().test('categoryId', t('Please select category'), value => Boolean(value)),
-        startDate: Yup.date().required('Please select date'),
+        startDate: Yup.date().required(t('Please select date')),
         reportPeriod: Yup.mixed()
           .test('reportPeriod', t('Please select date'), function (value) {
             return !(!value || !isDate(value));
           })
-          .required('Please select date'),
+          .required(t('Please select date')),
         repetitionDaysOfWeek: Yup.mixed().test(
           'repetitionDaysOfWeek',
           t('Please enter the days of the week'),

@@ -211,8 +211,8 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<CashFlowItemFormValues>>({
-        cashFlowItemDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        cashFlowItemDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),

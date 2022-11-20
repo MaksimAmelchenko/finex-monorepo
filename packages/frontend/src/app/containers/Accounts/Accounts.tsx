@@ -43,7 +43,7 @@ export const Accounts = observer(() => {
       accountsRepository.deleteAccount(account).catch(err => {
         let message = '';
         switch (err.code) {
-          case 'foreign_key_violation.cashflow_detail_2_account': {
+          case 'cashflow_detail_2_account': {
             message = t('There are transactions on this account');
             break;
           }

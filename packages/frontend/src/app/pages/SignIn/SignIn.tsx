@@ -66,10 +66,8 @@ export function SignIn(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        username: Yup.string()
-          .required(t('Please enter E-mail address'))
-          .email(t('Please enter a valid E-mail address')),
-        password: Yup.string().required(t('Please enter password')),
+        username: Yup.string().required(t('Please enter your e-mail')).email(t('Invalid e-mail address')),
+        password: Yup.string().required(t('Please enter your password')),
       }),
     []
   );
@@ -92,10 +90,10 @@ export function SignIn(): JSX.Element {
               autoFocusOnEmpty={true}
               autoComplete="current-password"
             />
-            <FormButton type="submit" size="medium" color="primary" fullSize>
+            <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation>
               {t('SignIn')}
             </FormButton>
-            <Link href="/reset-password">{t('Forgot your Password?')}</Link>
+            <Link href="/reset-password">{t('Forgot your password?')}</Link>
             <div>
               <span>{t('New to FINEX?')}</span> <Link href="/sign-up">{t('Create an account')}</Link>
             </div>

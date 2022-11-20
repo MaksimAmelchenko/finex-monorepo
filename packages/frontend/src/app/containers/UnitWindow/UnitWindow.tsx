@@ -71,7 +71,7 @@ export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<UnitFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );
@@ -86,7 +86,7 @@ export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
       }}
       validationSchema={validationSchema}
     >
-      <FormHeader title={unit instanceof Unit ? t('Add new unit') : t('Edit unit')} onClose={onClose} />
+      <FormHeader title={unit instanceof Unit ? t('Edit unit') : t('Add new unit')} onClose={onClose} />
 
       <FormBody>
         <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />

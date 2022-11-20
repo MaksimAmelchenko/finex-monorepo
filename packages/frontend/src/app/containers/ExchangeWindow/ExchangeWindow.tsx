@@ -253,8 +253,8 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
               return !(this.parent.moneySellId === this.parent.moneyBuyId);
             }
           ),
-        exchangeDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        exchangeDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),
