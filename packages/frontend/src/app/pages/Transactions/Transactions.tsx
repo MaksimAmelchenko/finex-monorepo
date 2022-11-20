@@ -270,17 +270,13 @@ export const Transactions = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction, index) => (
-                <TransactionRow
-                  transaction={transaction}
-                  onClick={handleClickOnTransaction}
-                  key={
-                    transaction instanceof Transaction
-                      ? transaction.id
-                      : `${transaction.planId}-${transaction.repetitionNumber}`
-                  }
-                />
-              ))}
+              {transactions.map(transaction => {
+                const key =
+                  transaction instanceof Transaction
+                    ? transaction.id
+                    : `${transaction.planId}-${transaction.repetitionNumber}`;
+                return <TransactionRow transaction={transaction} onClick={handleClickOnTransaction} key={key} />;
+              })}
             </tbody>
             <tfoot></tfoot>
           </table>

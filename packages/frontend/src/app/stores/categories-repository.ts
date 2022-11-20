@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 
 import { Category } from './models/category';
+import { CategoryPrototype } from './models/category-prototype';
 import { CategoryPrototypesRepository } from './category-prototypes-repository';
 import {
   CreateCategoryData,
@@ -11,12 +12,9 @@ import {
   UpdateCategoryChanges,
   UpdateCategoryResponse,
 } from '../types/category';
-import { IUnit } from '../types/unit';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
-import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
-import { CategoryPrototype } from './models/category-prototype';
 
 export interface ICategoriesApi {
   getCategories: () => Promise<GetCategoriesResponse>;
@@ -134,19 +132,8 @@ export class CategoriesRepository extends ManageableStore {
     return this.api.moveTransactions(categoryIdFrom, categoryIdTo, isRecursive);
   }
 
-  private decode({
-    id,
-    name,
-    parent,
-    categoryPrototypeId,
-    isEnabled,
-    note,
-    unitId,
-    userId,
-    isSystem,
-  }: IApiCategory): Category {
+  private decode({ id, name, parent, categoryPrototypeId, isEnabled, note, userId, isSystem }: IApiCategory): Category {
     const categoryPrototypesRepository = this.getStore(CategoryPrototypesRepository);
-    const unitsRepository = this.getStore(UnitsRepository);
     const usersRepository = this.getStore(UsersRepository);
 
     const user = usersRepository.get(userId);
@@ -167,14 +154,6 @@ export class CategoriesRepository extends ManageableStore {
       categoryPrototype = categoryPrototypesRepository.get(categoryPrototypeId) ?? null;
       if (!categoryPrototype) {
         throw new Error('Category prototype is not found');
-      }
-    }
-
-    let unit: IUnit | null = null;
-    if (unitId) {
-      unit = unitsRepository.get(unitId) ?? null;
-      if (!unit) {
-        throw new Error('Unit is not found');
       }
     }
 

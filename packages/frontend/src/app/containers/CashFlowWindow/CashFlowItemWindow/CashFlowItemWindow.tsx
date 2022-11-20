@@ -133,7 +133,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
 
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
-  const debtsRepository = useStore(CashFlowsRepository);
+  const cashFlowsRepository = useStore(CashFlowsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
 
@@ -160,13 +160,13 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
       let result: Promise<unknown>;
       if (isNew) {
         const data: CreateCashFlowItemData = mapValuesToCreatePayload(values);
-        result = debtsRepository.createCashFlowItem(cashFlowItem.cashFlowId, data);
+        result = cashFlowsRepository.createCashFlowItem(cashFlowItem.cashFlowId, data);
       } else {
         const changes: UpdateCashFlowItemChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = debtsRepository.updateCashFlowItem(cashFlowItem as CashFlowItem, changes);
+        result = cashFlowsRepository.updateCashFlowItem(cashFlowItem as CashFlowItem, changes);
       }
 
       return result
@@ -205,7 +205,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, debtsRepository, onClose, cashFlowItem, isNew]
+    [enqueueSnackbar, cashFlowsRepository, onClose, cashFlowItem, isNew]
   );
 
   const validationSchema = useMemo(

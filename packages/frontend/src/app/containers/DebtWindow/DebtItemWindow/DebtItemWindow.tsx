@@ -119,6 +119,7 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
   const debtsRepository = useStore(DebtsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);

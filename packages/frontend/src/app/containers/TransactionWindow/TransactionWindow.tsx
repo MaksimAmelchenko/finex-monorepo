@@ -10,9 +10,9 @@ import { AmountField } from '../AmountField/AmountField';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import {
   CreateTransactionData,
-  isPlannedTransaction,
   ITransaction,
   UpdateTransactionChanges,
+  isPlannedTransaction,
 } from '../../types/transaction';
 import {
   Form,
@@ -75,13 +75,13 @@ function mapValuesToCreatePayload({
   moneyId,
   categoryId,
   accountId,
-  quantity,
-  unitId,
   transactionDate,
   reportPeriod,
+  quantity,
+  unitId,
+  isNotConfirmed,
   note,
   tagIds,
-  isNotConfirmed,
   planId,
 }: TransactionFormValues): CreateTransactionData {
   return {
@@ -90,14 +90,15 @@ function mapValuesToCreatePayload({
     moneyId,
     categoryId: categoryId!,
     accountId,
+    // TODO take contractorId from PlannedTransaction
     contractorId: null,
-    quantity: quantity ? Number(quantity) : null,
-    unitId: unitId || null,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
+    quantity: quantity ? Number(quantity) : null,
+    unitId: unitId || null,
+    isNotConfirmed,
     note,
     tags: tagIds,
-    isNotConfirmed,
     planId,
   };
 }
@@ -108,13 +109,13 @@ function mapValuesToUpdatePayload({
   moneyId,
   categoryId,
   accountId,
-  quantity,
-  unitId,
   transactionDate,
   reportPeriod,
+  quantity,
+  unitId,
+  isNotConfirmed,
   note,
   tagIds,
-  isNotConfirmed,
 }: TransactionFormValues): UpdateTransactionChanges {
   return {
     sign: Number(sign) as Sign,
@@ -122,13 +123,13 @@ function mapValuesToUpdatePayload({
     moneyId,
     categoryId: categoryId!,
     accountId,
-    quantity: quantity ? Number(quantity) : null,
-    unitId: unitId || null,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
+    quantity: quantity ? Number(quantity) : null,
+    unitId: unitId || null,
+    isNotConfirmed,
     note,
     tags: tagIds,
-    isNotConfirmed,
   };
 }
 
@@ -162,10 +163,11 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || note || tags?.length)
   );
-  const { enqueueSnackbar } = useSnackbar();
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
   const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
@@ -209,11 +211,11 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
                 accountId,
                 transactionDate,
                 reportPeriod,
-                unitId: null,
                 quantity: '',
+                unitId: null,
+                isNotConfirmed,
                 note: '',
                 tagIds: [],
-                isNotConfirmed,
                 isOnlySave: false,
                 planId: null,
               },
@@ -285,6 +287,8 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
     );
   }
 
+  const isPlanned = isPlannedTransaction(transaction);
+
   return (
     <Form<TransactionFormValues>
       onSubmit={onSubmit}
@@ -298,11 +302,10 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         quantity: quantity ? String(quantity) : '',
         unitId: unit?.id ?? null,
-        isNotConfirmed: isPlannedTransaction(transaction) ? false : transaction?.isNotConfirmed ?? false,
+        isNotConfirmed: isPlanned ? false : transaction?.isNotConfirmed ?? false,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
-        planId: transaction instanceof PlannedTransaction ? transaction.planId : null,
-
+        planId: isPlanned ? transaction.planId : null,
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
@@ -411,7 +414,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   );
 }
 
-export const SaveButton = (props: IFormButton): JSX.Element => {
+function SaveButton(props: IFormButton): JSX.Element {
   const { setFieldValue, handleSubmit } = useFormikContext();
   const handleClick = () => {
     setFieldValue('isOnlySave', true);
@@ -419,4 +422,4 @@ export const SaveButton = (props: IFormButton): JSX.Element => {
   };
 
   return <FormButton {...props} onClick={handleClick} />;
-};
+}
