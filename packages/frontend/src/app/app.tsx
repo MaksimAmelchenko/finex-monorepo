@@ -12,8 +12,9 @@ import { DistributionReportLazy } from './pages/Reports/DistributionReport/Distr
 import { DynamicsReportLazy } from './pages/Reports/DynamicsReport/DynamicsReportLazy';
 import { Exchanges } from './pages/Exchanges/Exchanges';
 import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
+import { Loader } from './components/Loader/Loader';
 import { MainLayout } from './containers/MainLayout/MainLayout';
-import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
+// import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -33,7 +34,7 @@ const TRACKING_ID = process.env.NX_TRACKING_ID;
 
 export const App = observer(() => {
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    <Suspense fallback={<Loader />}>
       {TRACKING_ID && <GoogleAnalytics trackingId={TRACKING_ID} />}
       <ThemeProvider theme={theme}>
         <SnackbarProvider
