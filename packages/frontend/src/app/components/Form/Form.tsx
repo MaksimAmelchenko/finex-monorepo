@@ -61,6 +61,7 @@ export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
    */
   afterSubmit?: (result: any) => unknown;
   className?: string;
+  name: string;
 };
 
 /**
@@ -68,7 +69,7 @@ export type IFormProps<Values> = Omit<FormikConfig<Values>, 'onSubmit'> & {
  */
 export function Form<Values extends FormikValues>(props: IFormProps<Values>): JSX.Element {
   const { children, component, render, initialValues } = props;
-  const { onChange, onSubmit, onError, errorsHR, afterSubmit, onDirtyChange, className, ...rest } = props;
+  const { onChange, onSubmit, onError, errorsHR, afterSubmit, onDirtyChange, className, name, ...rest } = props;
 
   // Prepare everything for errors translation to HumanReadable form
   const [errorContextValue, setErrorContextState] = useState<ErrorContextValue>({});
@@ -122,6 +123,7 @@ export function Form<Values extends FormikValues>(props: IFormProps<Values>): JS
         <form
           onSubmit={formikBag.handleSubmit}
           onReset={formikBag.handleReset}
+          name={name}
           className={clsx(styles.form, className)}
         >
           {component

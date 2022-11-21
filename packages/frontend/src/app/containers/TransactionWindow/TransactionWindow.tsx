@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -38,6 +38,7 @@ import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
 import { TransactionsRepository } from '../../stores/transactions-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
@@ -171,6 +172,12 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
     Boolean(quantity || note || tags?.length)
   );
   const [isNew, setIsNew] = useState<boolean>(!(transaction instanceof Transaction));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'transaction',
+    });
+  }, []);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
   const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
@@ -313,6 +320,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="transaction"
     >
       <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
 

@@ -65,7 +65,12 @@ export const DeleteAccount = observer(({ username }: DeleteAccountProps) => {
       </div>
 
       <div className={styles.section__content}>
-        <Form onSubmit={onSubmit} initialValues={{ password: '' }} validationSchema={validationSchema}>
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{ password: '' }}
+          validationSchema={validationSchema}
+          name="delete-account"
+        >
           <FormLayout>
             <p>{t('This action deletes the account and all data it contains. There is no going back.')}</p>
             <input name="username" value={username} readOnly autoComplete="off" className={styles.hidden} />

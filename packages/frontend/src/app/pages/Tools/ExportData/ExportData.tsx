@@ -41,7 +41,7 @@ export function ExportData(): JSX.Element {
       </div>
 
       <div className={styles.section__content}>
-        <Form onSubmit={onSubmit} initialValues={{}}>
+        <Form onSubmit={onSubmit} initialValues={{}} name="export-data">
           <FormLayout>
             <p>{t('Export data in CSV file. The data will be sent to your e-mail.')}</p>
           </FormLayout>

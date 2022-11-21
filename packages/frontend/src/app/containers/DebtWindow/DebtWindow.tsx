@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers } from 'formik';
@@ -16,14 +16,15 @@ import { DebtItemWindow } from './DebtItemWindow/DebtItemWindow';
 import { DebtsRepository } from '../../stores/debts-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './DebtWindow.module.scss';
-import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 
 interface DebtFormValues {
   contractorId: string | null;
@@ -67,6 +68,12 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
 
   const { enqueueSnackbar } = useSnackbar();
   const [debt, setDebt] = useState<Partial<IDebt> | Debt>(props.debt);
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'debt',
+    });
+  }, []);
 
   const onSubmit = useCallback(
     (values: DebtFormValues, _: FormikHelpers<DebtFormValues>, initialValues: DebtFormValues) => {
@@ -175,6 +182,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
             }}
             validationSchema={validationSchema}
             className={styles.debt__form}
+            name="debt"
           >
             <div className={styles.debt__container}>
               <div className={styles.debt__left}>

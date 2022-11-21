@@ -55,6 +55,7 @@ export function ResetPassword(): JSX.Element {
             //
             [ApiErrors.NotFound, t('User not found')],
           ]}
+          name="reset-password"
         >
           <FormLayout className={styles.formLayout}>
             <p>

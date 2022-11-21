@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 
@@ -7,6 +7,7 @@ import { Category } from '../../stores/models/category';
 import { Form, FormBody, FormButton, FormCheckbox, FormFooter, FormHeader, FormSelect } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { Shape } from '../../types';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -26,6 +27,12 @@ const t = getT('MoveTransactionsWindow');
 export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProps): JSX.Element {
   const categoriesRepository = useStore(CategoriesRepository);
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'move-transactions',
+    });
+  }, []);
 
   const onSubmit = useCallback(
     ({ categoryId, categoryIdTo, isRecursive }: MoveTransactionsFormValues) => {
@@ -88,6 +95,7 @@ export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProp
         isRecursive: false,
       }}
       validationSchema={validationSchema}
+      name="move-transactions"
     >
       <FormHeader title={t('Move transactions from one category to another')} onClose={onClose} />
 

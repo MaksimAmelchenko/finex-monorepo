@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -28,6 +28,7 @@ import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
@@ -155,6 +156,12 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(exchange instanceof Exchange));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'exchange',
+    });
+  }, []);
 
   const amountSellFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -336,6 +343,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="exchange"
     >
       {({ values }) => (
         <>

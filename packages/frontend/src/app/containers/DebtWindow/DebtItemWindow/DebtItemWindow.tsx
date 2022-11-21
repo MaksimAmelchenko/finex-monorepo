@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -30,6 +30,7 @@ import { Link } from '../../../components/Link/Link';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { Shape, Sign } from '../../../types';
 import { TagsRepository } from '../../../stores/tags-repository';
+import { analytics } from '../../../lib/analytics';
 import { getFormat, getT } from '../../../lib/core/i18n';
 import { getPatch } from '../../../lib/core/get-patch';
 import { noop } from '../../../lib/noop';
@@ -123,6 +124,12 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
 
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'debt-item',
+    });
+  }, []);
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(debtItem instanceof DebtItem));
@@ -251,6 +258,7 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="debt-item"
     >
       <FormHeader title={isNew ? t('Add new debt record') : t('Edit debt record')} onClose={onClose} />
 

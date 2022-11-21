@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -21,10 +21,11 @@ import {
 } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { Shape } from '../../types';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
-import { useStore } from '../../core/hooks/use-store';
 import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
+import { useStore } from '../../core/hooks/use-store';
 
 interface CategoryFormValues {
   name: string;
@@ -80,6 +81,12 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
   const { enqueueSnackbar } = useSnackbar();
 
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'categories',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -159,6 +166,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
         [ApiErrors.InvalidRequest, t('Check data and try again')],
       ]}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="category"
     >
       <FormHeader title={category instanceof Category ? t('Edit category') : t('Add new category')} onClose={onClose} />
 

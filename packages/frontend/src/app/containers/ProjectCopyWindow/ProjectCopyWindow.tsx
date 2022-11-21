@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 
@@ -7,6 +7,7 @@ import { ISelectOption } from '@finex/ui-kit';
 import { Project } from '../../stores/models/project';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { Shape } from '../../types';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -25,6 +26,12 @@ const t = getT('ProjectCopyWindow');
 export function ProjectCopyWindow({ project, onClose }: ProjectCopyWindowProps): JSX.Element {
   const projectsRepository = useStore(ProjectsRepository);
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'project-copy',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -73,6 +80,7 @@ export function ProjectCopyWindow({ project, onClose }: ProjectCopyWindowProps):
         name: '',
       }}
       validationSchema={validationSchema}
+      name="project-copy"
     >
       <FormHeader title={t('Copy project')} onClose={onClose} />
 

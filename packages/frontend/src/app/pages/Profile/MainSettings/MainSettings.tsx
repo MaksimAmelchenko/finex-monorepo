@@ -72,6 +72,7 @@ export const MainSettings = observer(({ profile }: MainSettingsProps) => {
           onSubmit={onSubmit}
           initialValues={{ name, email, projectId: project?.id ?? null }}
           validationSchema={validationSchema}
+          name="main-settings"
         >
           <FormLayout>
             <FormTextField name="email" type="email" label={t('E-mail')} readOnly disabled />

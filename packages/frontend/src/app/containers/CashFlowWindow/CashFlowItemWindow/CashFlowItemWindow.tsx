@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -32,6 +32,7 @@ import { MoneysRepository } from '../../../stores/moneys-repository';
 import { QuantityField } from '../../QuantityField/QuantityField';
 import { Shape, Sign } from '../../../types';
 import { TagsRepository } from '../../../stores/tags-repository';
+import { analytics } from '../../../lib/analytics';
 import { getFormat, getT } from '../../../lib/core/i18n';
 import { getPatch } from '../../../lib/core/get-patch';
 import { noop } from '../../../lib/noop';
@@ -143,6 +144,12 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(cashFlowItem instanceof CashFlowItem));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'cash-flow-item',
+    });
+  }, []);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -292,6 +299,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="cash-flow-item"
     >
       <FormHeader
         title={isNew ? t('Add new transaction') : t('Edit transaction')}

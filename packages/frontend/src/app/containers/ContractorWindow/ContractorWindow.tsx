@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -16,6 +16,7 @@ import {
   FormTextField,
 } from '../../components/Form';
 import { Shape } from '../../types';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
@@ -44,6 +45,12 @@ export function ContractorWindow({ contractor, onClose }: ContractorWindowProps)
 
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'contractor',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -103,6 +110,7 @@ export function ContractorWindow({ contractor, onClose }: ContractorWindowProps)
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="contractor"
     >
       <FormHeader
         title={contractor instanceof Contractor ? t('Edit contractor') : t('Add new contractor')}

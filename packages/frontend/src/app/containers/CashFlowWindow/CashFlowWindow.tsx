@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
@@ -17,6 +17,7 @@ import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -65,6 +66,12 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
 
   const { enqueueSnackbar } = useSnackbar();
   const [cashFlow, setCashFlow] = useState<Partial<ICashFlow> | CashFlow>(props.cashFlow);
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'cash-flow',
+    });
+  }, []);
 
   const onSubmit = useCallback(
     (values: CashFlowFormValues, _: FormikHelpers<CashFlowFormValues>, initialValues: CashFlowFormValues) => {
@@ -170,6 +177,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
             }}
             validationSchema={validationSchema}
             className={styles.debt__form}
+            name="cash-flow"
           >
             <div className={styles.debt__container}>
               <div className={styles.debt__left}>

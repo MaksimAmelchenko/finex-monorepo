@@ -6,9 +6,10 @@ import { useSnackbar } from 'notistack';
 
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { CommonStorageStore } from '../../core/other-stores/common-storage-store';
-import { Form, FormButton, FormError, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormLayout, FormTextField } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -41,6 +42,7 @@ export function SignIn(): JSX.Element {
           // when they get to the protected page and click the back button, they
           // won't end up back on the login page, which is also really nice for the
           // user experience.
+          analytics.event('login', { method: 'onsite' });
           navigate(from, { replace: true });
         })
         .catch(err => {
@@ -80,6 +82,7 @@ export function SignIn(): JSX.Element {
           // afterSubmit={afterSubmit}
           initialValues={{ username, password: '' }}
           validationSchema={validationSchema}
+          name="sign-in"
         >
           <FormLayout>
             <FormTextField name="username" type="text" label={t('E-mail')} autoFocusOnEmpty={true} />

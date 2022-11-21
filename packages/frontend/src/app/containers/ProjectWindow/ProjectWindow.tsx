@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -21,6 +21,7 @@ import { Project } from '../../stores/models/project';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { Shape } from '../../types';
 import { UsersRepository } from '../../stores/users-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
@@ -62,6 +63,12 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
 
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'project',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -129,6 +136,7 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="project"
     >
       <FormHeader title={isEdit ? t('Edit project') : t('New project')} onClose={onClose} />
 

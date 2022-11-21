@@ -160,7 +160,11 @@ export const Exchanges = observer(() => {
               >
                 <FilterIcon />
               </IconButton>
-              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+              <Form<ISearchFormValues>
+                onSubmit={handleSearchSubmit}
+                initialValues={{ searchText: filter.searchText }}
+                name="exchanges-search"
+              >
                 <FormTextField
                   name="searchText"
                   size="small"

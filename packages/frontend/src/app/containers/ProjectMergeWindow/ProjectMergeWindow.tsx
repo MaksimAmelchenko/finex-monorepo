@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 
@@ -7,6 +7,7 @@ import { ISelectOption } from '@finex/ui-kit';
 import { Permit, Shape } from '../../types';
 import { Project } from '../../stores/models/project';
 import { ProjectsRepository } from '../../stores/projects-repository';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -26,6 +27,12 @@ const t = getT('ProjectMergeWindow');
 export function ProjectMergeWindow({ project, onClose }: ProjectMergeWindowProps): JSX.Element {
   const projectsRepository = useStore(ProjectsRepository);
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'project-merge',
+    });
+  }, []);
 
   const onSubmit = useCallback(
     ({ projectId, projects }: MergeProjectFormValues) => {
@@ -71,6 +78,7 @@ export function ProjectMergeWindow({ project, onClose }: ProjectMergeWindowProps
         isRiskAccepted: false,
       }}
       validationSchema={validationSchema}
+      name="project-merge"
     >
       <FormHeader title={t('Merge projects')} onClose={onClose} />
 

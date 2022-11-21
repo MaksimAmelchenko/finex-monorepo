@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -23,6 +23,7 @@ import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { Shape } from '../../types';
 import { UsersRepository } from '../../stores/users-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
@@ -88,6 +89,12 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
 
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'account',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -161,6 +168,7 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="account"
     >
       <FormHeader title={account instanceof Account ? t('Edit account') : t('Add new account')} onClose={onClose} />
 

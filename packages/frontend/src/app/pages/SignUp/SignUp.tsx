@@ -7,6 +7,7 @@ import { Form, FormButton, FormError, FormLayout, FormTextField } from '../../co
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
 import { SignUpAcknowledgment } from './SignUpAcknowledgment/SignUpAcknowledgment';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -30,6 +31,7 @@ export function SignUp(): JSX.Element {
       return authStore.signUp(values).then(() => {
         setEmail(values.username);
         setIsDone(true);
+        analytics.event('sign_up', { method: 'onsite' });
       });
     },
     [authStore]
@@ -62,6 +64,7 @@ export function SignUp(): JSX.Element {
             //
             [ApiErrors.ConflictError, t('This e-mail already registered')],
           ]}
+          name="sign-up"
         >
           <FormLayout className={styles.formLayout}>
             <FormTextField name="name" type="text" label={t('Name')} autoFocusOnEmpty={true} />

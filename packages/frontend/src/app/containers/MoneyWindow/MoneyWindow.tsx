@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -19,6 +19,7 @@ import { ISelectOption } from '@finex/ui-kit';
 import { Money } from '../../stores/models/money';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { Shape } from '../../types';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
@@ -82,6 +83,12 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
 
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'money',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -154,6 +161,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="money"
     >
       <FormHeader title={money instanceof Money ? t('Edit money') : t('Add new money')} onClose={onClose} />
 

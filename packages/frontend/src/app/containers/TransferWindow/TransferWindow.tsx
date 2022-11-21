@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -28,6 +28,7 @@ import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transfer } from '../../stores/models/transfer';
 import { TransfersRepository } from '../../stores/transfers-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
@@ -145,6 +146,12 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(transfer instanceof Transfer));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'transfer',
+    });
+  }, []);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -295,6 +302,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="transfer"
     >
       {({ values }) => (
         <>

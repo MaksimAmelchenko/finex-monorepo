@@ -183,7 +183,11 @@ export const Transactions = observer(() => {
               >
                 <FilterIcon />
               </IconButton>
-              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+              <Form<ISearchFormValues>
+                onSubmit={handleSearchSubmit}
+                initialValues={{ searchText: filter.searchText }}
+                name="transactions-search"
+              >
                 <FormTextField
                   name="searchText"
                   size="small"

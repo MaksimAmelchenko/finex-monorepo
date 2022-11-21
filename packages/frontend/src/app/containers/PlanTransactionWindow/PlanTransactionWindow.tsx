@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -40,6 +40,7 @@ import { QuantityField } from '../QuantityField/QuantityField';
 import { RepetitionType, TerminationType } from '../../types/plan';
 import { Shape, Sign, TDate } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
@@ -286,6 +287,12 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
+  useEffect(() => {
+    analytics.view({
+      page_title: 'plan-transaction',
+    });
+  }, []);
+
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
   const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -530,6 +537,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
       }}
       validationSchema={validationSchema}
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="plan-transaction"
     >
       {({ values }) => (
         <>
