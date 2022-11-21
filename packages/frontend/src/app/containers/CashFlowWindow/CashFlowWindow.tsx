@@ -61,7 +61,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
   const { onClose } = props;
 
   const contractorsRepository = useStore(ContractorsRepository);
-  const debtsRepository = useStore(CashFlowsRepository);
+  const cashFlowsRepository = useStore(CashFlowsRepository);
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -81,14 +81,14 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = debtsRepository.updateCashFlow(cashFlow as CashFlow, changes);
+        result = cashFlowsRepository.updateCashFlow(cashFlow as CashFlow, changes);
       } else {
         const data: CreateCashFlowData = mapValuesToCreatePayload(values);
-        result = debtsRepository.createCashFlow(data);
+        result = cashFlowsRepository.createCashFlow(data);
       }
 
       return result
-        .then(debt => setCashFlow(debt))
+        .then(cashFlow => setCashFlow(cashFlow))
         .catch(err => {
           let message = '';
           switch (err.code) {
@@ -98,7 +98,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [cashFlow, debtsRepository, enqueueSnackbar, onClose]
+    [cashFlow, cashFlowsRepository, enqueueSnackbar, onClose]
   );
 
   const validationSchema = useMemo(() => {}, []);
@@ -128,8 +128,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
     setIsOpenedCashFlowItemWindow(true);
   };
 
-  const handleClickOnCashFlow = (debtItem: CashFlowItem) => {
-    setCashFlowItem(debtItem);
+  const handleClickOnCashFlow = (cashFlowItem: CashFlowItem) => {
+    setCashFlowItem(cashFlowItem);
     setIsOpenedCashFlowItemWindow(true);
   };
 
@@ -155,8 +155,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
       }
     }
 
-    selectedCashFlowItems.forEach(debtItem => {
-      debtsRepository.removeCashFlowItem(debtItem).catch(err => {
+    selectedCashFlowItems.forEach(cashFlowItem => {
+      cashFlowsRepository.removeCashFlowItem(cashFlowItem).catch(err => {
         enqueueSnackbar(err.message, { variant: 'error' });
       });
     });
@@ -166,7 +166,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
     <div className={styles.layout}>
       <HeaderLayout title={t('CashFlow')} />
       <main className={clsx(styles.layout__content, styles.content)}>
-        <section className={styles.debt}>
+        <section className={styles.cashFlow}>
           <Form<CashFlowFormValues>
             onSubmit={onSubmit}
             initialValues={{
@@ -176,11 +176,11 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
               items: [],
             }}
             validationSchema={validationSchema}
-            className={styles.debt__form}
+            className={styles.cashFlow__form}
             name="cash-flow"
           >
-            <div className={styles.debt__container}>
-              <div className={styles.debt__left}>
+            <div className={styles.cashFlow__container}>
+              <div className={styles.cashFlow__left}>
                 <FormSelect
                   name="contractorId"
                   label={t('Contractor')}
@@ -189,12 +189,12 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                 />
                 <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfw-tags" />
               </div>
-              <div className={styles.debt__right}>
+              <div className={styles.cashFlow__right}>
                 <FormTextAreaField name="note" label={t('Note')} minRows={4} data-cy="cfw-note" />
               </div>
             </div>
 
-            <div className={styles.debt__footer}>
+            <div className={styles.cashFlow__footer}>
               <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
                 {t('Close')}
               </FormButton>
@@ -205,7 +205,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           </Form>
         </section>
 
-        <section className={styles.debtItems}>
+        <section className={styles.cashFlowItems}>
           <div className={clsx(styles.panel)}>
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>

@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-.debt {
+.cashFlow {
   border-bottom: solid 1px var(--color-neutral200);
 
   &__form {
@@ -25,7 +25,7 @@
   }
 }
 
-.debtItems {
+.cashFlowItems {
   display: grid;
   grid-template-rows: auto 1fr;
   row-gap: 2.4rem;
@@ -37,23 +37,23 @@
   height: 100%;
 }
 
-.debt__container {
+.cashFlow__container {
   display: flex;
   gap: 2.4rem;
 }
 
-.debt__left {
+.cashFlow__left {
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
   width: 50%;
 }
 
-.debt__right {
+.cashFlow__right {
   width: 50%;
 }
 
-.debt__footer {
+.cashFlow__footer {
   display: flex;
   gap: 0.8rem;
 }
