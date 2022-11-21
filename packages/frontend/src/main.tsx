@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import * as Sentry from '@sentry/react';
 import { BrowserRouter } from 'react-router-dom';
+import { BrowserTracing } from '@sentry/tracing';
 
 import { App } from './app/app';
 import { createMainContext } from './app/core/main-context';
@@ -14,6 +16,16 @@ const languages = ['en', 'ru', 'de'];
 const lang = languages[1];
 const defaultLanguage = languages[0];
 const currentLocale = languages.includes(lang) ? lang : defaultLanguage;
+
+const SENTRY_DSN = process.env.NX_SENTRY_DSN;
+
+if (SENTRY_DSN) {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    integrations: [new BrowserTracing()],
+    tracesSampleRate: 1.0,
+  });
+}
 
 async function initI18n(): Promise<void> {
   switch (currentLocale) {
