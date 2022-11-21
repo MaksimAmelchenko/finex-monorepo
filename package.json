@@ -61,7 +61,6 @@
     "@nivo/core": "^0.80.0",
     "@nivo/line": "^0.80.0",
     "@nivo/sunburst": "^0.80.0",
-    "@reach/dialog": "^0.18.0",
     "@sentry/react": "^7.20.0",
     "@sentry/tracing": "^7.20.0",
     "@table-library/react-table-library": "^4.0.18",
