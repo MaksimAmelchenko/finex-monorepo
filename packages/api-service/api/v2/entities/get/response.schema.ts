@@ -43,16 +43,22 @@ export const getEntitiesResponseSchema: OpenAPIV3_1.SchemaObject = {
     params: {
       type: 'object',
       properties: {
-        dashboard: {
+        outcome: {
           type: 'object',
           properties: {
-            dBegin: date,
-            dEnd: date,
+            accountDailyBalances: {
+              type: 'object',
+              properties: {
+                startDate: date,
+                endDate: date,
+              },
+              required: ['startDate', 'endDate'],
+            },
           },
-          required: ['dBegin', 'dEnd'],
+          required: ['accountDailyBalances'],
         },
       },
-      required: ['dashboard'],
+      required: ['outcome'],
     },
     badges: badgesSchema,
   },
