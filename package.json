@@ -3,6 +3,9 @@
   "version": "1.2.5",
   "author": "Maksim Amelchenko <m.amelchenko@gmail.com>",
   "description": "",
+  "scripts": {
+    "generate-version": "GIT_TAG=$GIT_TAG GIT_HASH=$GIT_HASH [ $GIT_TAG ] && version=$GIT_TAG:$GIT_HASH || version=$npm_package_version:$GIT_HASH && printf $version > ./version"
+  },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
