@@ -6,10 +6,10 @@ export interface IPlanDAO {
 
   startDate: TDate;
   reportPeriod: TDate;
-  repetitionType: number;
+  repetitionType: RepetitionType;
 
   repetitionDays: number[] | null;
-  terminationType: number | null;
+  terminationType: TerminationType | null;
   repetitionCount: number | null;
   endDate: TDate | null;
 
@@ -26,10 +26,10 @@ export interface IPlanEntity {
   id: string;
   startDate: TDate;
   reportPeriod: TDate;
-  repetitionType: number;
+  repetitionType: RepetitionType;
 
   repetitionDays: number[] | null;
-  terminationType: number | null;
+  terminationType: TerminationType | null;
   repetitionCount: number | null;
   endDate: TDate | null;
 
@@ -46,10 +46,10 @@ export interface IPlan extends IPlanEntity {}
 export interface CreatePlanRepositoryData {
   startDate: TDate;
   reportPeriod: TDate;
-  repetitionType: number;
+  repetitionType: RepetitionType;
 
   repetitionDays?: number[] | null;
-  terminationType?: number | null;
+  terminationType?: TerminationType | null;
   repetitionCount?: number | null;
   endDate?: TDate | null;
 
@@ -63,10 +63,10 @@ export interface CreatePlanRepositoryData {
 export type UpdatePlanRepositoryChanges = Partial<{
   startDate: TDate;
   reportPeriod: TDate;
-  repetitionType: number;
+  repetitionType: RepetitionType;
 
   repetitionDays: number[] | null;
-  terminationType: number | null;
+  terminationType: TerminationType | null;
   repetitionCount: number | null;
   endDate: TDate | null;
 
@@ -76,3 +76,17 @@ export type UpdatePlanRepositoryChanges = Partial<{
   operationTags: number[];
   markerColor: string | null;
 }>;
+
+export enum RepetitionType {
+  No = 0,
+  Daily = 1,
+  Monthly = 2,
+  Quarterly = 3,
+  Annually = 4,
+}
+
+export enum TerminationType {
+  Never = 0,
+  After = 1,
+  EndDate = 2,
+}

@@ -12,7 +12,7 @@ import {
 } from '../modules/plan-transaction/types';
 import { IRequestContext } from '../types/app';
 import { ISessionResponse } from '../types/auth';
-import { RepetitionType, TerminationType } from '../../frontend/src/app/types/plan';
+import { RepetitionType, TerminationType } from '../modules/plan/types';
 import { addYears, format } from 'date-fns';
 import { app } from '../server';
 import { auth } from './libs/auth';
