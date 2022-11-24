@@ -8,6 +8,7 @@ RUN apk add python3 make g++
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY .npmrc ./
 
 RUN NODE_ENV=development npm ci
 
@@ -23,8 +24,8 @@ ENV GIT_HASH=$GIT_HASH
 
 RUN NODE_ENV=$NODE_ENV node_modules/.bin/nx build frontend
 
-RUN NODE_ENV=$NODE_ENV GIT_TAG=$GIT_TAG GIT_HASH=$GIT_HASH npm run generate-version
-COPY version ./dist/packages/frontend
+RUN GIT_TAG=$GIT_TAG GIT_HASH=$GIT_HASH npm run generate-version
+RUN cp version ./dist/packages/frontend
 
 FROM nginx:1.21.5-alpine
 
