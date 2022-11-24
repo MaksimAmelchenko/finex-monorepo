@@ -65,7 +65,7 @@ export type UpdateDebtItemServiceChanges = UpdateDebtItemRepositoryChanges;
 
 export interface DebtItemService {
   createDebtItem(
-    ctx: IRequestContext,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     debtId: string,

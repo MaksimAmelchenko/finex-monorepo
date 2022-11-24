@@ -12,7 +12,7 @@ class DebtItemServiceImpl implements DebtItemService {
   }
 
   async createDebtItem(
-    ctx: IRequestContext,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     debtId: string,
