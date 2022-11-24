@@ -12,10 +12,12 @@ import * as en from '../locales/en.js';
 import { initializeI18n } from './app/lib/core/i18n';
 
 const languages = ['en', 'ru', 'de'];
-// const lang = window.location.pathname.split('/')[1];
-const lang = languages[1];
-const defaultLanguage = languages[0];
-const currentLocale = languages.includes(lang) ? lang : defaultLanguage;
+
+const searchParams = new URLSearchParams(window.location.search);
+const locale = searchParams.get('locale');
+
+const defaultLanguage = languages[1];
+const currentLocale = locale && languages.includes(locale) ? locale : defaultLanguage;
 
 const SENTRY_DSN = process.env.NX_SENTRY_DSN;
 
@@ -82,7 +84,7 @@ async function initI18n(): Promise<void> {
       const de = await import(/* webpackChunkName: "locale-de" */ '../locales/de.js');
       initializeI18n(
         {
-          en: {
+          de: {
             ...de,
             date: {
               formats: {
