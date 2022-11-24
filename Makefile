@@ -4,3 +4,15 @@ component:
 
 ui-component:
 	nx g @nrwl/react:component $(name) --project=ui-kit --export
+
+
+frontend-build:
+	docker build . -t finex.io/app/monorepo/frontend:latest
+
+frontend-release: frontend-build
+	docker tag finex.io/app/monorepo/frontend:latest registry.gitlab.com/finex.io/app/monorepo/frontend:1.3.0
+	docker tag finex.io/app/monorepo/frontend:latest registry.gitlab.com/finex.io/app/monorepo/frontend:latest
+
+frontend-publish: frontend-release
+	docker push registry.gitlab.com/finex.io/app/monorepo/frontend:1.3.0
+	docker push registry.gitlab.com/finex.io/app/monorepo/frontend:latest
