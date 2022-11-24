@@ -41,10 +41,10 @@ export class ProfileRepository extends ManageableStore {
     //   throw new Error('CurrencyRateSource is not found');
     // }
 
-    const project = projectsRepository.get(projectId);
+    let project = projectsRepository.get(projectId);
     if (!project) {
       console.warn('Project is not found', { projectId });
-      throw new Error('Project');
+      project = projectsRepository.projects[0];
     }
 
     this.profile = new Profile({

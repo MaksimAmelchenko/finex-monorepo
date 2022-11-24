@@ -21,7 +21,7 @@ class UserMapperImpl implements UserMapper {
       password,
       timeout,
       householdId: String(idHousehold),
-      projectId: String(idProject),
+      projectId: idProject ? String(idProject) : null,
       currencyRateSourceId: String(idCurrencyRateSource),
       createdAt,
       updatedAt,
