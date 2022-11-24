@@ -9,6 +9,7 @@ import { CommonStorageStore } from '../../core/other-stores/common-storage-store
 import { Form, FormButton, FormLayout, FormTextField } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
+import { Loader } from '../../components/Loader/Loader';
 import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -19,6 +20,9 @@ interface ISignInFormValues {
   username: string;
   password: string;
 }
+
+const DEMO_USERNAME = process.env.NX_DEMO_USERNAME;
+const DEMO_PASSWORD = process.env.NX_DEMO_PASSWORD;
 
 const t = getT('SignIn');
 
@@ -74,6 +78,15 @@ export function SignIn(): JSX.Element {
     []
   );
 
+  if (from === '/demo' && DEMO_USERNAME && DEMO_PASSWORD) {
+    authStore.signIn({ username: DEMO_USERNAME, password: DEMO_PASSWORD }).then(() => {
+      analytics.event('login', { method: 'onsite-demo' });
+      navigate('/');
+    });
+
+    return <Loader />;
+  }
+
   return (
     <Layout title={t('Sign in')}>
       <div className={styles.container}>
@@ -94,7 +107,7 @@ export function SignIn(): JSX.Element {
               autoComplete="current-password"
             />
             <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation>
-              {t('SignIn')}
+              {t('Continue')}
             </FormButton>
             <Link href="/reset-password">{t('Forgot your password?')}</Link>
             <div>

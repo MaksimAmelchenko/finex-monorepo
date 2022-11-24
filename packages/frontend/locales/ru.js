@@ -620,7 +620,7 @@ module.exports = {
     'Sign in': 'Авторизация',
     'E-mail': 'E-mail',
     Password: 'Пароль',
-    SignIn: 'Войти',
+    Continue: 'Войти',
     'Forgot your password?': 'Забыли пароль?',
     'New to FINEX?': 'Нет аккаунта?',
     'Create an account': 'Зарегистрироваться',
