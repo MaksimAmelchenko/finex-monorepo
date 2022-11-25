@@ -7,6 +7,7 @@ import { Form, FormButton, FormError, FormLayout, FormTextField } from '../../co
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
 import { SignUpAcknowledgment } from './SignUpAcknowledgment/SignUpAcknowledgment';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -30,6 +31,7 @@ export function SignUp(): JSX.Element {
       return authStore.signUp(values).then(() => {
         setEmail(values.username);
         setIsDone(true);
+        analytics.event('sign_up', { method: 'onsite' });
       });
     },
     [authStore]
@@ -39,12 +41,10 @@ export function SignUp(): JSX.Element {
     () =>
       Yup.object().shape({
         name: Yup.string().required(t('Please enter your name')),
-        username: Yup.string()
-          .required(t('Please enter E-mail address'))
-          .email(t('Please enter a valid E-mail address')),
+        username: Yup.string().required(t('Please enter your e-mail address')).email(t('Invalid email address')),
         password: Yup.string()
-          .required(t('Please enter password'))
-          .min(8, t('Use 8 characters or more for your password')),
+          .required(t('Please enter your password'))
+          .min(8, t('Your password is not strong enough. Your password must be at least 8 characters.')),
       }),
     []
   );
@@ -54,7 +54,7 @@ export function SignUp(): JSX.Element {
   }
 
   return (
-    <Layout title={t('Create an FINEX account')}>
+    <Layout title={t('Create your FINEX account')}>
       <div className={styles.container}>
         <Form<ISignUpFormValues>
           onSubmit={onSubmit}
@@ -62,8 +62,9 @@ export function SignUp(): JSX.Element {
           validationSchema={validationSchema}
           errorsHR={[
             //
-            [ApiErrors.ConflictError, t('This E-mail already registered')],
+            [ApiErrors.ConflictError, t('This e-mail already registered')],
           ]}
+          name="sign-up"
         >
           <FormLayout className={styles.formLayout}>
             <FormTextField name="name" type="text" label={t('Name')} autoFocusOnEmpty={true} />
@@ -74,16 +75,18 @@ export function SignUp(): JSX.Element {
               label={t('Password')}
               autoFocusOnEmpty={true}
               autoComplete="new-password"
-              helperText={t('Use 8 or more characters with a mix of letters, numbers & symbols')}
+              helperText={t(
+                'Your password needs to be at least 8 characters. Include multiple words and phrases to make it more secure.'
+              )}
             />
             <FormError />
             <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation={true}>
-              {t('Sign Up')}
+              {t('Create account')}
             </FormButton>
             <div>
               <span>{t('Already have an account?')}</span>{' '}
               <Link href="/sign-in" className={styles.footer__link}>
-                {t('Sign In')}
+                {t('Sign in')}
               </Link>
             </div>
           </FormLayout>

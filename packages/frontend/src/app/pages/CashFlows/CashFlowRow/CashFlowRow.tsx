@@ -35,9 +35,9 @@ export const CashFlowRow = observer<CashFlowRowProps>(({ cashFlow, onClick }) =>
   }, [cashFlow.balances]);
 
   return (
-    <tr onClick={handleOnClick} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td className={clsx(styles.firstColumn, 'min-width')}>
-        <div className={clsx(styles.dateColumn)} onClick={handleOnSelect}>
+    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+      <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
+        <div className={clsx(styles.dateColumn)}>
           <div className={clsx(styles.dateColumn__colorMark)} />
           <BaseCheckbox value={isSelected} />
           <div className={styles.dateColumn__dateContainer}>

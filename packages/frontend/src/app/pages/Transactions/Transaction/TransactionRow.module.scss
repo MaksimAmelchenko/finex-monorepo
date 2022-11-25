@@ -1,10 +1,14 @@
-.row_is_deleting {
-  background-color: var(--color-danger200);
-}
+.row {
+  cursor: pointer;
 
-td.firstColumn {
-  padding-left: 0;
-  padding-right: 0;
+  &_is_deleting {
+    background-color: var(--color-danger200);
+  }
+
+  td.firstColumn {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .dateColumn {

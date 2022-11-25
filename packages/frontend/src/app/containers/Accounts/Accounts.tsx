@@ -19,7 +19,6 @@ const t = getT('Accounts');
 
 export const Accounts = observer(() => {
   const accountsRepository = useStore(AccountsRepository);
-  const { accounts } = accountsRepository;
 
   const [isOpenedAccountWindow, setIsOpenedAccountWindow] = useState<boolean>(false);
   const [account, setAccount] = useState<Partial<IAccount> | Account | null>(null);
@@ -29,6 +28,8 @@ export const Accounts = observer(() => {
     setAccount({});
     setIsOpenedAccountWindow(true);
   };
+
+  const { accounts } = accountsRepository;
 
   const selectedAccounts = accounts.filter(({ isSelected }) => isSelected);
 
@@ -42,7 +43,7 @@ export const Accounts = observer(() => {
       accountsRepository.deleteAccount(account).catch(err => {
         let message = '';
         switch (err.code) {
-          case 'foreign_key_violation.cashflow_detail_2_account': {
+          case 'cashflow_detail_2_account': {
             message = t('There are transactions on this account');
             break;
           }

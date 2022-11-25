@@ -18,7 +18,7 @@ export function ExportData(): JSX.Element {
     return toolsApi
       .exportData()
       .then(() => {
-        enqueueSnackbar(t('Data export started. In a few minutes you will receive the file by E-mail'), {
+        enqueueSnackbar(t('Data export started. In a few minutes you will receive the file by e-mail'), {
           variant: 'success',
         });
       })
@@ -41,9 +41,9 @@ export function ExportData(): JSX.Element {
       </div>
 
       <div className={styles.section__content}>
-        <Form onSubmit={onSubmit} initialValues={{}}>
+        <Form onSubmit={onSubmit} initialValues={{}} name="export-data">
           <FormLayout>
-            <p>{t('Export data in CSV file. The data will be sent to your E-mail.')}</p>
+            <p>{t('Export data in CSV file. The data will be sent to your e-mail.')}</p>
           </FormLayout>
           <footer className={styles.form__footer}>
             <FormButton type="submit" size="small" color="primary" isIgnoreValidation>

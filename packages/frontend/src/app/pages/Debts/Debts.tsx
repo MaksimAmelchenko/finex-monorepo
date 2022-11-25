@@ -172,7 +172,11 @@ export const Debts = observer(() => {
               >
                 <FilterIcon />
               </IconButton>
-              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+              <Form<ISearchFormValues>
+                onSubmit={handleSearchSubmit}
+                initialValues={{ searchText: filter.searchText }}
+                name="debts-search"
+              >
                 <FormTextField
                   name="searchText"
                   size="small"

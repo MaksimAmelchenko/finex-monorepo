@@ -1,15 +1,15 @@
-@use 'packages/theme/src/lib/styles/typography';
+@use '../../../../../theme/src/lib/styles/typography';
 
 .article {
   display: grid;
   grid-template-rows: auto 1fr;
-  row-gap: 2.4rem;
+  row-gap: 1.6rem;
   height: 100%;
   width: 100%;
   overflow: hidden;
 
   &__panel {
-    padding: 0 3.2rem;
+    padding: 0 1.6rem 0 2.4rem;
   }
 }
 
@@ -28,35 +28,5 @@
 .tableWrapper {
   overflow: auto;
   height: 100%;
-  padding: 0 3.2rem 2.4rem;
-}
-
-.table {
-  & > tbody > tr.row_selected:hover {
-    background-color: var(--color-secondary100);
-  }
-}
-
-.tick {
-  img {
-    display: block;
-    width: 2.4rem;
-  }
-}
-
-.row {
-  cursor: pointer;
-
-  &__name {
-    cursor: pointer;
-    color: var(--color-secondary700);
-
-    &:hover {
-      color: var(--color-secondary600);
-    }
-  }
-
-  &_selected {
-    background-color: var(--color-secondary200);
-  }
+  padding: 0 1.6rem 1.6rem 2.4rem;
 }

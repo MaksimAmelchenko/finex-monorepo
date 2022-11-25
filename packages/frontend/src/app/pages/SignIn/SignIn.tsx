@@ -6,9 +6,11 @@ import { useSnackbar } from 'notistack';
 
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { CommonStorageStore } from '../../core/other-stores/common-storage-store';
-import { Form, FormButton, FormError, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormLayout, FormTextField } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
+import { Loader } from '../../components/Loader/Loader';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -18,6 +20,9 @@ interface ISignInFormValues {
   username: string;
   password: string;
 }
+
+const DEMO_USERNAME = process.env.NX_DEMO_USERNAME;
+const DEMO_PASSWORD = process.env.NX_DEMO_PASSWORD;
 
 const t = getT('SignIn');
 
@@ -41,6 +46,7 @@ export function SignIn(): JSX.Element {
           // when they get to the protected page and click the back button, they
           // won't end up back on the login page, which is also really nice for the
           // user experience.
+          analytics.event('login', { method: 'onsite' });
           navigate(from, { replace: true });
         })
         .catch(err => {
@@ -66,13 +72,20 @@ export function SignIn(): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object().shape({
-        username: Yup.string()
-          .required(t('Please enter E-mail address'))
-          .email(t('Please enter a valid E-mail address')),
-        password: Yup.string().required(t('Please enter password')),
+        username: Yup.string().required(t('Please enter your e-mail')).email(t('Invalid e-mail address')),
+        password: Yup.string().required(t('Please enter your password')),
       }),
     []
   );
+
+  if (from === '/demo' && DEMO_USERNAME && DEMO_PASSWORD) {
+    authStore.signIn({ username: DEMO_USERNAME, password: DEMO_PASSWORD }).then(() => {
+      analytics.event('login', { method: 'onsite-demo' });
+      navigate('/');
+    });
+
+    return <Loader />;
+  }
 
   return (
     <Layout title={t('Sign in')}>
@@ -82,6 +95,7 @@ export function SignIn(): JSX.Element {
           // afterSubmit={afterSubmit}
           initialValues={{ username, password: '' }}
           validationSchema={validationSchema}
+          name="sign-in"
         >
           <FormLayout>
             <FormTextField name="username" type="text" label={t('E-mail')} autoFocusOnEmpty={true} />
@@ -92,10 +106,10 @@ export function SignIn(): JSX.Element {
               autoFocusOnEmpty={true}
               autoComplete="current-password"
             />
-            <FormButton type="submit" size="medium" color="primary" fullSize>
-              {t('SignIn')}
+            <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation>
+              {t('Continue')}
             </FormButton>
-            <Link href="/reset-password">{t('Forgot your Password?')}</Link>
+            <Link href="/reset-password">{t('Forgot your password?')}</Link>
             <div>
               <span>{t('New to FINEX?')}</span> <Link href="/sign-up">{t('Create an account')}</Link>
             </div>

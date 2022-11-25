@@ -68,6 +68,7 @@ export function ResetPasswordConfirmation(): JSX.Element {
             [ApiErrors.Expired, t('The password has already been reset')],
             [ApiErrors.NotFound, t('Password reset request not found')],
           ]}
+          name="reset-password-confirmation"
         >
           <FormLayout className={styles.formLayout}>
             <FormTextField

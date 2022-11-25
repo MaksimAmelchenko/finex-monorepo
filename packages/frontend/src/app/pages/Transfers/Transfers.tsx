@@ -160,7 +160,11 @@ export const Transfers = observer(() => {
               >
                 <FilterIcon />
               </IconButton>
-              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+              <Form<ISearchFormValues>
+                onSubmit={handleSearchSubmit}
+                initialValues={{ searchText: filter.searchText }}
+                name="transfers-search"
+              >
                 <FormTextField
                   name="searchText"
                   size="small"

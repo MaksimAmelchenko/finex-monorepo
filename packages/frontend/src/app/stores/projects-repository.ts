@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
@@ -19,11 +19,12 @@ import {
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { ParamsStore } from './params-store';
 import { Project } from './models/project';
+import { TagsRepository } from './tags-repository';
 import { UnitsRepository } from './units-repository';
 import { User } from './models/user';
 import { UsersRepository } from './users-repository';
-import { TagsRepository } from './tags-repository';
 
 export interface IProjectsApi {
   copyProject: (projectId: string, params: CopyProjectParams) => Promise<CopyProjectResponse>;
@@ -180,6 +181,9 @@ export class ProjectsRepository extends ManageableStore {
 
     const unitsRepository = this.getStore(UnitsRepository);
     unitsRepository.consume(units);
+
+    const paramsStore = this.getStore(ParamsStore);
+    paramsStore.consume(params);
 
     this.setCurrentProject(projectId!);
   }

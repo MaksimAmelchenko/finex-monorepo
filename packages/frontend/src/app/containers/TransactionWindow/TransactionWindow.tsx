@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -10,9 +10,9 @@ import { AmountField } from '../AmountField/AmountField';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import {
   CreateTransactionData,
-  isPlannedTransaction,
   ITransaction,
   UpdateTransactionChanges,
+  isPlannedTransaction,
 } from '../../types/transaction';
 import {
   Form,
@@ -38,9 +38,11 @@ import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
 import { TransactionsRepository } from '../../stores/transactions-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './TransactionWindow.module.scss';
@@ -75,13 +77,13 @@ function mapValuesToCreatePayload({
   moneyId,
   categoryId,
   accountId,
-  quantity,
-  unitId,
   transactionDate,
   reportPeriod,
+  quantity,
+  unitId,
+  isNotConfirmed,
   note,
   tagIds,
-  isNotConfirmed,
   planId,
 }: TransactionFormValues): CreateTransactionData {
   return {
@@ -90,14 +92,15 @@ function mapValuesToCreatePayload({
     moneyId,
     categoryId: categoryId!,
     accountId,
+    // TODO take contractorId from PlannedTransaction
     contractorId: null,
-    quantity: quantity ? Number(quantity) : null,
-    unitId: unitId || null,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
+    quantity: quantity ? Number(quantity) : null,
+    unitId: unitId || null,
+    isNotConfirmed,
     note,
     tags: tagIds,
-    isNotConfirmed,
     planId,
   };
 }
@@ -108,13 +111,13 @@ function mapValuesToUpdatePayload({
   moneyId,
   categoryId,
   accountId,
-  quantity,
-  unitId,
   transactionDate,
   reportPeriod,
+  quantity,
+  unitId,
+  isNotConfirmed,
   note,
   tagIds,
-  isNotConfirmed,
 }: TransactionFormValues): UpdateTransactionChanges {
   return {
     sign: Number(sign) as Sign,
@@ -122,13 +125,13 @@ function mapValuesToUpdatePayload({
     moneyId,
     categoryId: categoryId!,
     accountId,
-    quantity: quantity ? Number(quantity) : null,
-    unitId: unitId || null,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
+    quantity: quantity ? Number(quantity) : null,
+    unitId: unitId || null,
+    isNotConfirmed,
     note,
     tags: tagIds,
-    isNotConfirmed,
   };
 }
 
@@ -162,10 +165,19 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
 
+  const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || note || tags?.length)
   );
-  const { enqueueSnackbar } = useSnackbar();
+  const [isNew, setIsNew] = useState<boolean>(!(transaction instanceof Transaction));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'transaction',
+    });
+  }, []);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
   const amountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
@@ -182,16 +194,16 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       initialValues: TransactionFormValues
     ) => {
       let result: Promise<unknown>;
-      if (transaction instanceof Transaction) {
+      if (isNew) {
+        // create transaction
+        const data: CreateTransactionData = mapValuesToCreatePayload(values);
+        result = transactionsRepository.createTransaction(transaction, data);
+      } else {
         const changes: UpdateTransactionChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = transactionsRepository.updateTransaction(transaction, changes);
-      } else {
-        // create transaction
-        const data: CreateTransactionData = mapValuesToCreatePayload(values);
-        result = transactionsRepository.createTransaction(transaction, data);
+        result = transactionsRepository.updateTransaction(transaction as Transaction, changes);
       }
 
       return result
@@ -209,16 +221,16 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
                 accountId,
                 transactionDate,
                 reportPeriod,
-                unitId: null,
                 quantity: '',
+                unitId: null,
+                isNotConfirmed,
                 note: '',
                 tagIds: [],
-                isNotConfirmed,
                 isOnlySave: false,
                 planId: null,
               },
             });
-
+            setIsNew(true);
             amountFieldRef.current?.focus();
           }
         })
@@ -231,14 +243,14 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, transactionsRepository, onClose, transaction]
+    [enqueueSnackbar, transactionsRepository, onClose, transaction, isNew]
   );
 
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<TransactionFormValues>>({
-        transactionDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        transactionDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
@@ -285,6 +297,8 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
     );
   }
 
+  const isPlanned = isPlannedTransaction(transaction);
+
   return (
     <Form<TransactionFormValues>
       onSubmit={onSubmit}
@@ -298,19 +312,17 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         quantity: quantity ? String(quantity) : '',
         unitId: unit?.id ?? null,
-        isNotConfirmed: isPlannedTransaction(transaction) ? false : transaction?.isNotConfirmed ?? false,
+        isNotConfirmed: isPlanned ? false : transaction?.isNotConfirmed ?? false,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
-        planId: transaction instanceof PlannedTransaction ? transaction.planId : null,
-
+        planId: isPlanned ? transaction.planId : null,
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="transaction"
     >
-      <FormHeader
-        title={transaction instanceof Transaction ? t('Edit transaction') : t('Add new transaction')}
-        onClose={onClose}
-      />
+      <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
 
       <FormBody className={styles.form__body}>
         <FormTabs name="sign" options={signOptions} />
@@ -333,7 +345,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
             name="transactionDate"
             label={t('Date')}
             dateFormat={getFormat('date.formats.default')}
-            className={styles.dateFields__dTransaction}
+            className={styles.dateFields__date}
           />
           <div className={styles.reportPeriod}>
             <FormDateField
@@ -394,7 +406,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
         </div>
       </FormBody>
 
-      <FormFooter className={styles.footer}>
+      <FormFooter>
         <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
@@ -411,7 +423,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   );
 }
 
-export const SaveButton = (props: IFormButton): JSX.Element => {
+function SaveButton(props: IFormButton): JSX.Element {
   const { setFieldValue, handleSubmit } = useFormikContext();
   const handleClick = () => {
     setFieldValue('isOnlySave', true);
@@ -419,4 +431,4 @@ export const SaveButton = (props: IFormButton): JSX.Element => {
   };
 
   return <FormButton {...props} onClick={handleClick} />;
-};
+}

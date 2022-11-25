@@ -12,6 +12,7 @@ import { IApiUser } from './user';
 import { ICurrencyRateSourceRaw } from './currencies-rate-source';
 import { IInvitationRaw } from './invitation';
 import { IProfileDTO } from './profile';
+import { IParamsDTO } from './params';
 
 export interface IApiBootstrap {
   accountTypes: IApiAccountType[];
@@ -25,12 +26,7 @@ export interface IApiBootstrap {
   // invitations: IInvitationRaw[];
   // messages: Record<string, any>;
   moneys: IApiMoney[];
-  params: {
-    dashboard: {
-      dBegin: TDate;
-      dEnd: TDate;
-    };
-  };
+  params: IParamsDTO;
   profile: IProfileDTO;
   projects: IApiProject[];
   session: {

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -23,8 +23,10 @@ import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { Shape } from '../../types';
 import { UsersRepository } from '../../stores/users-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface AccountFormValues {
@@ -84,7 +86,15 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
   const accountsRepository = useStore(AccountsRepository);
   const profileRepository = useStore(ProfileRepository);
   const usersRepository = useStore(UsersRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'account',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -113,6 +123,9 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
         .catch(err => {
           let message = '';
           switch (err.code) {
+            case 'account_id_project_name_u':
+              message = t('Account already exists');
+              break;
             default:
               message = err.message;
           }
@@ -125,7 +138,7 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<AccountFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );
@@ -154,6 +167,8 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
         editors: editors?.map(({ id }) => id) ?? [],
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="account"
     >
       <FormHeader title={account instanceof Account ? t('Edit account') : t('Add new account')} onClose={onClose} />
 

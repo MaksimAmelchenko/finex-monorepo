@@ -46,9 +46,11 @@ Run `nx affected:test` to execute the unit tests affected by a change.
 
 ## Running end-to-end tests
 
-Run `nx e2e frontend` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+Run `nx e2e frontend-e2e` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+Run `nx affected:e2e --base=master` to execute the end-to-end tests affected by a change.
+
+Run `nx e2e frontend-e2e --headed --watch --skipServe --baseUrl=http://localhost:4200`
 
 ## Understand your workspace
 

@@ -15,7 +15,15 @@
         "main": "packages/frontend/src/main.tsx",
         "polyfills": "packages/frontend/src/polyfills.ts",
         "tsConfig": "packages/frontend/tsconfig.app.json",
-        "assets": ["packages/frontend/src/favicon.ico", "packages/frontend/src/assets"],
+        "assets": [
+          "packages/frontend/src/favicon.png",
+          "packages/frontend/src/assets",
+          {
+            "glob": "**/*",
+            "input": "packages/frontend/src/public",
+            "output": "./"
+          }
+        ],
         "styles": ["packages/frontend/src/styles.scss"],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"

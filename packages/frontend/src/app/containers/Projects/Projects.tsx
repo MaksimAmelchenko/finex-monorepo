@@ -140,6 +140,7 @@ export const Projects = observer(() => {
           <table className={clsx('table table-sm', styles.table)}>
             <thead>
               <tr>
+                <th />
                 <th>{t('Name')}</th>
                 <th>{t('Owner')}</th>
                 <th>{t('Permit')}</th>

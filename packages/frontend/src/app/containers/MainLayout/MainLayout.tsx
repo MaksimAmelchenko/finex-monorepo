@@ -77,6 +77,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
     [theme.breakpoints.up('sm')]: {
       paddingLeft: theme.spacing(3),
     },
+    '&.active': {
+      backgroundColor: 'var(--color-neutral100)',
+    },
   },
   '& .MuiListItemIcon-root': {
     minWidth: theme.spacing(5),
@@ -165,7 +168,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       },
       {
         id: 'settings',
-        link: '/settings/accounts',
+        link: '/settings',
         label: t('Settings'),
         icon: <img src={gearSvg} alt="" />,
       },
@@ -197,7 +200,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
     <div className={styles.layout}>
       <Drawer variant="permanent" open={isOpened}>
         <List component="nav">
-          <ListItemButton href="/" component={LinkBase}>
+          <ListItemButton href="/outcome" component={LinkBase}>
             <ListItemIcon>
               <Logo className={styles.header__logo} />
             </ListItemIcon>

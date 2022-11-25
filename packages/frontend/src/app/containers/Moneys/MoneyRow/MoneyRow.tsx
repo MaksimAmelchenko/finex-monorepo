@@ -5,8 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { Image, checkSvg, BaseCheckbox } from '@finex/ui-kit';
 import { Money } from '../../../stores/models/money';
 
-import styles from './MoneyRow.module.scss';
-
 interface MoneyRowProps {
   money: Money;
   onClick: (money: Money) => void;
@@ -20,25 +18,23 @@ export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }: MoneyRowPro
   };
 
   const handleClick = (event: React.SyntheticEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
     onClick(money);
   };
 
   return (
-    <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td className="min-width">
+    <tr className={clsx(isDeleting && 'is_deleting')}>
+      <td className="checkboxCell" onClick={handleOnSelect}>
         <BaseCheckbox value={isSelected} />
       </td>
       <td>
-        <span className={styles.name} onClick={handleClick}>
+        <span className="name" onClick={handleClick}>
           {name}
         </span>
       </td>
       <td>
         <span dangerouslySetInnerHTML={{ __html: symbol }} />
       </td>
-      <td className={styles.tick}>{isEnabled && <Image src={checkSvg} alt="active" />}</td>
+      <td className="tickCell">{isEnabled && <Image src={checkSvg} alt="active" />}</td>
       <td>{currency?.name}</td>
     </tr>
   );

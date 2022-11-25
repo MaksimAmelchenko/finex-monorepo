@@ -49,6 +49,7 @@ const meaningfulKinds = {
   [SyntaxKind.DefaultClause]: ['statements'],
   [SyntaxKind.CatchClause]: ['block'],
   [SyntaxKind.PropertyAssignment]: 'initializer',
+  [SyntaxKind.NewExpression]: 'arguments',
 };
 
 const translationFunction = 't';

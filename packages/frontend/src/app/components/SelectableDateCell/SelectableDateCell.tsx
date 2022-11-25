@@ -25,7 +25,7 @@ export function SelectableDateCell({
     <td className={clsx('min-width', className)}>
       <div className={clsx(styles.dateColumn)} onClick={onSelect}>
         <div className={clsx(styles.dateColumn__colorMark, markerColor)} />
-        <BaseCheckbox value={isSelected}/>
+        <BaseCheckbox value={isSelected} />
         <div className={styles.dateColumn__dateContainer}>
           <div className={styles.dateColumn__date}>{formatDate(date)}</div>
         </div>

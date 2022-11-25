@@ -3,16 +3,14 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { BaseCheckbox } from '@finex/ui-kit';
-import { Contractor as ContractorModel } from '../../../stores/models/contractor';
-
-import styles from './Contractor.module.scss';
+import { Contractor } from '../../../stores/models/contractor';
 
 interface ContractorProps {
-  contractor: ContractorModel;
-  onClick: (contractor: ContractorModel) => void;
+  contractor: Contractor;
+  onClick: (contractor: Contractor) => void;
 }
 
-export const Contractor = observer<ContractorProps>(({ contractor, onClick }: ContractorProps) => {
+export const ContractorRow = observer<ContractorProps>(({ contractor, onClick }: ContractorProps) => {
   const { name, note, isSelected, isDeleting } = contractor;
 
   const handleOnSelect = () => {
@@ -20,18 +18,16 @@ export const Contractor = observer<ContractorProps>(({ contractor, onClick }: Co
   };
 
   const handleClick = (event: React.SyntheticEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
     onClick(contractor);
   };
 
   return (
-    <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td className="min-width">
+    <tr className={clsx(isDeleting && 'is_deleting')}>
+      <td className="checkboxCell" onClick={handleOnSelect}>
         <BaseCheckbox value={isSelected} />
       </td>
       <td>
-        <span className={styles.name} onClick={handleClick}>
+        <span className="name" onClick={handleClick}>
           {name}
         </span>
       </td>

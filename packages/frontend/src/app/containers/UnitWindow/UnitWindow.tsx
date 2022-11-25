@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -8,8 +8,10 @@ import { Form, FormBody, FormButton, FormFooter, FormHeader, FormTextField } fro
 import { Shape } from '../../types';
 import { Unit } from '../../stores/models/unit';
 import { UnitsRepository } from '../../stores/units-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface UnitFormValues {
@@ -30,7 +32,15 @@ function mapValuesToPayload({ name }: UnitFormValues): CreateUnitData {
 }
 export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
   const unitsRepository = useStore(UnitsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'unit',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -71,7 +81,7 @@ export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<UnitFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );
@@ -85,8 +95,10 @@ export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
         name: name ?? '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="unit"
     >
-      <FormHeader title={unit instanceof Unit ? t('Add new unit') : t('Edit unit')} onClose={onClose} />
+      <FormHeader title={unit instanceof Unit ? t('Edit unit') : t('Add new unit')} onClose={onClose} />
 
       <FormBody>
         <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />

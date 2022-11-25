@@ -6,6 +6,7 @@ import { IApiTag } from './tag';
 import { Permit, TDate } from './index';
 import { User } from '../stores/models/user';
 import { IApiUnit } from './unit';
+import { IParamsDTO } from './params';
 
 export interface IApiProject {
   id: string;
@@ -70,10 +71,5 @@ export interface UseProjectResponse {
   tags: IApiTag[];
   units: IApiUnit[];
   moneys: IApiMoney[];
-  params: {
-    dashboard: {
-      dBegin: TDate;
-      dEnd: TDate;
-    };
-  };
+  params: IParamsDTO;
 }

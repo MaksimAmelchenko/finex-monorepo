@@ -1,4 +1,4 @@
-@use 'packages/theme/src/lib/styles/typography';
+@use '../../../../../../theme/src/lib/styles/typography';
 
 .accountBalances {
   border-radius: 0.4rem;
@@ -31,6 +31,7 @@
   background-color: var(--color-neutral0);
 
   &__title {
+    @include typography.h3;
     margin: 0;
   }
 

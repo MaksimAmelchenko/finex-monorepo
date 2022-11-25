@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -32,9 +32,11 @@ import { MoneysRepository } from '../../../stores/moneys-repository';
 import { QuantityField } from '../../QuantityField/QuantityField';
 import { Shape, Sign } from '../../../types';
 import { TagsRepository } from '../../../stores/tags-repository';
+import { analytics } from '../../../lib/analytics';
 import { getFormat, getT } from '../../../lib/core/i18n';
 import { getPatch } from '../../../lib/core/get-patch';
 import { noop } from '../../../lib/noop';
+import { useCloseOnEscape } from '../../../hooks/use-close-on-escape';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './CashFlowItemWindow.module.scss';
@@ -133,14 +135,21 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
 
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
-  const debtsRepository = useStore(CashFlowsRepository);
+  const cashFlowsRepository = useStore(CashFlowsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(cashFlowItem instanceof CashFlowItem));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'cash-flow-item',
+    });
+  }, []);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -160,13 +169,13 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
       let result: Promise<unknown>;
       if (isNew) {
         const data: CreateCashFlowItemData = mapValuesToCreatePayload(values);
-        result = debtsRepository.createCashFlowItem(cashFlowItem.cashFlowId, data);
+        result = cashFlowsRepository.createCashFlowItem(cashFlowItem.cashFlowId, data);
       } else {
         const changes: UpdateCashFlowItemChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = debtsRepository.updateCashFlowItem(cashFlowItem as CashFlowItem, changes);
+        result = cashFlowsRepository.updateCashFlowItem(cashFlowItem as CashFlowItem, changes);
       }
 
       return result
@@ -205,14 +214,14 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, debtsRepository, onClose, cashFlowItem, isNew]
+    [enqueueSnackbar, cashFlowsRepository, onClose, cashFlowItem, isNew]
   );
 
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<CashFlowItemFormValues>>({
-        cashFlowItemDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        cashFlowItemDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
@@ -289,8 +298,14 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="cash-flow-item"
     >
-      <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
+      <FormHeader
+        title={isNew ? t('Add new transaction') : t('Edit transaction')}
+        onClose={onClose}
+        data-cy="cfiw-form-header"
+      />
 
       <FormBody className={styles.form__body}>
         <FormTabs name="sign" options={signOptions} />
@@ -300,9 +315,16 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           label={t('Amount')}
           ref={amountFieldRefCallback}
           tabIndex={1}
+          data-cy="cfiw-amount"
         />
         <div className={styles.categoryField}>
-          <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
+          <FormSelect
+            name="categoryId"
+            label={t('Category')}
+            options={selectCategoriesOptions}
+            tabIndex={2}
+            data-cy="cfiw-category"
+          />
           {/*<IconButton onClick={noop} tabIndex={-1}>*/}
           {/*  <PlusIcon />*/}
           {/*</IconButton>*/}
@@ -343,14 +365,17 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
             <Target
               label={isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
               onClick={handleShowAdditionalFieldsClick}
+              data-cy="cfiw-show-additional-fields-button"
             />
             <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
           </div>
 
           <div className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}>
-            <QuantityField />
+            <QuantityField data-cy="cfiw-quantity" />
             <div className={styles.notConfirmedField}>
-              <FormCheckbox name="isNotConfirmed">{t('Not confirmed operation')}</FormCheckbox>
+              <FormCheckbox name="isNotConfirmed" data-cy="cfiw-is-not-confirmed">
+                {t('Not confirmed operation')}
+              </FormCheckbox>
               <HtmlTooltip
                 title={
                   <div>
@@ -368,21 +393,21 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
                 </IconButton>
               </HtmlTooltip>
             </div>
-            <FormTextAreaField name="note" label={t('Note')} />
-            <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
+            <FormTextAreaField name="note" label={t('Note')} data-cy="cfiw-note" />
+            <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfiw-tags" />
           </div>
         </div>
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfiw-cancel-button">
           {t('Cancel')}
         </FormButton>
         <div className={styles.footer__rightButtons}>
-          <SaveButton variant="outlined" isIgnoreValidation>
+          <SaveButton variant="outlined" isIgnoreValidation data-cy="cfiw-save-button">
             {t('Save')}
           </SaveButton>
-          <FormButton type="submit" color="primary" isIgnoreValidation>
+          <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfiw-save-and-create-more-button">
             {t('Save and Create New')}
           </FormButton>
         </div>

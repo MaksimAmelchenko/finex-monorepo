@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import * as Yup from 'yup';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
@@ -17,8 +16,8 @@ import { CreateCashFlowData, ICashFlow, ICashFlowItem, UpdateCashFlowChanges } f
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
-import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -62,11 +61,17 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
   const { onClose } = props;
 
   const contractorsRepository = useStore(ContractorsRepository);
-  const debtsRepository = useStore(CashFlowsRepository);
+  const cashFlowsRepository = useStore(CashFlowsRepository);
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
   const [cashFlow, setCashFlow] = useState<Partial<ICashFlow> | CashFlow>(props.cashFlow);
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'cash-flow',
+    });
+  }, []);
 
   const onSubmit = useCallback(
     (values: CashFlowFormValues, _: FormikHelpers<CashFlowFormValues>, initialValues: CashFlowFormValues) => {
@@ -76,14 +81,14 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = debtsRepository.updateCashFlow(cashFlow as CashFlow, changes);
+        result = cashFlowsRepository.updateCashFlow(cashFlow as CashFlow, changes);
       } else {
         const data: CreateCashFlowData = mapValuesToCreatePayload(values);
-        result = debtsRepository.createCashFlow(data);
+        result = cashFlowsRepository.createCashFlow(data);
       }
 
       return result
-        .then(debt => setCashFlow(debt))
+        .then(cashFlow => setCashFlow(cashFlow))
         .catch(err => {
           let message = '';
           switch (err.code) {
@@ -93,7 +98,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [cashFlow, debtsRepository, enqueueSnackbar, onClose]
+    [cashFlow, cashFlowsRepository, enqueueSnackbar, onClose]
   );
 
   const validationSchema = useMemo(() => {}, []);
@@ -123,8 +128,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
     setIsOpenedCashFlowItemWindow(true);
   };
 
-  const handleClickOnCashFlow = (debtItem: CashFlowItem) => {
-    setCashFlowItem(debtItem);
+  const handleClickOnCashFlow = (cashFlowItem: CashFlowItem) => {
+    setCashFlowItem(cashFlowItem);
     setIsOpenedCashFlowItemWindow(true);
   };
 
@@ -150,8 +155,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
       }
     }
 
-    selectedCashFlowItems.forEach(debtItem => {
-      debtsRepository.removeCashFlowItem(debtItem).catch(err => {
+    selectedCashFlowItems.forEach(cashFlowItem => {
+      cashFlowsRepository.removeCashFlowItem(cashFlowItem).catch(err => {
         enqueueSnackbar(err.message, { variant: 'error' });
       });
     });
@@ -161,7 +166,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
     <div className={styles.layout}>
       <HeaderLayout title={t('CashFlow')} />
       <main className={clsx(styles.layout__content, styles.content)}>
-        <section className={styles.debt}>
+        <section className={styles.cashFlow}>
           <Form<CashFlowFormValues>
             onSubmit={onSubmit}
             initialValues={{
@@ -171,30 +176,36 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
               items: [],
             }}
             validationSchema={validationSchema}
-            className={styles.debt__form}
+            className={styles.cashFlow__form}
+            name="cash-flow"
           >
-            <div className={styles.debt__container}>
-              <div className={styles.debt__left}>
-                <FormSelect name="contractorId" label={t('Contractor')} options={selectContractorOptions} />
-                <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
+            <div className={styles.cashFlow__container}>
+              <div className={styles.cashFlow__left}>
+                <FormSelect
+                  name="contractorId"
+                  label={t('Contractor')}
+                  options={selectContractorOptions}
+                  data-cy="cfw-contractor"
+                />
+                <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfw-tags" />
               </div>
-              <div className={styles.debt__right}>
-                <FormTextAreaField name="note" label={t('Note')} minRows={4} />
+              <div className={styles.cashFlow__right}>
+                <FormTextAreaField name="note" label={t('Note')} minRows={4} data-cy="cfw-note" />
               </div>
             </div>
 
-            <div className={styles.debt__footer}>
-              <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+            <div className={styles.cashFlow__footer}>
+              <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
                 {t('Close')}
               </FormButton>
-              <FormButton type="submit" color="primary" isIgnoreValidation>
+              <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfw-save-button">
                 {t('Save')}
               </FormButton>
             </div>
           </Form>
         </section>
 
-        <section className={styles.debtItems}>
+        <section className={styles.cashFlowItems}>
           <div className={clsx(styles.panel)}>
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
@@ -203,6 +214,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   size="small"
                   disabled={!Boolean(cashFlow.id)}
                   onClick={handleOpenAddCashFlowItem}
+                  data-cy="cfw-create-cash-flow-item-button"
                 >
                   {t('New')}
                 </Button>
@@ -211,6 +223,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   size="small"
                   disabled={!selectedCashFlowItems.length}
                   onClick={handleDeleteClick}
+                  data-cy="cfw-delete-cash-flow-item-button"
                 >
                   {t('Delete')}
                 </Button>

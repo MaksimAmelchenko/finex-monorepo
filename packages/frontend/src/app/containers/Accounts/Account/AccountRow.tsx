@@ -7,8 +7,6 @@ import { Image, Tag, checkSvg, BaseCheckbox } from '@finex/ui-kit';
 import { Permit } from '../../../types';
 import { getT } from '../../../lib/core/i18n';
 
-import styles from './AccountRow.module.scss';
-
 const t = getT('Accounts');
 
 interface AccountProps {
@@ -26,33 +24,31 @@ export const AccountRow = observer<AccountProps>(({ account, onClick }: AccountP
     account.toggleSelection();
   };
 
-  const handleClick = (event: React.SyntheticEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const handleNameClick = (event: React.SyntheticEvent) => {
     onClick(account);
   };
 
   return (
-    <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td>
+    <tr className={clsx(isDeleting && 'is_deleting')}>
+      <td className="checkboxCell" onClick={handleOnSelect}>
         <BaseCheckbox value={isSelected} />
       </td>
       <td>
         {isOwner ? (
-          <span className={styles.name} onClick={handleClick}>
+          <span className="name" onClick={handleNameClick}>
             {name}
           </span>
         ) : (
           name
         )}
       </td>
-      <td className={styles.tick}>{isEnabled && <Image src={checkSvg} alt="active" />}</td>
+      <td className="tickCell">{isEnabled && <Image src={checkSvg} alt="active" />}</td>
       <td>{isOwner ? t('Me') : user.name}</td>
-      <td className={styles.tick}>
+      <td className={clsx(!isOwner && 'tickCell')}>
         {isOwner && viewers.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
         {isView ? <Image src={checkSvg} alt="view" /> : ''}
       </td>
-      <td className={styles.tick}>
+      <td className={clsx(!isOwner && 'tickCell')}>
         {isOwner && editors.map(({ name, id }) => <Tag key={id}>{name}</Tag>)}
         {isEdit ? <Image src={checkSvg} alt="edit" /> : ''}
       </td>

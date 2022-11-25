@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -28,9 +28,11 @@ import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transfer } from '../../stores/models/transfer';
 import { TransfersRepository } from '../../stores/transfers-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './TransferWindow.module.scss';
@@ -138,10 +140,18 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
   const transfersRepository = useStore(TransfersRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(transfer instanceof Transfer));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'transfer',
+    });
+  }, []);
 
   const amountFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -226,8 +236,8 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
-        transferDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        transferDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),
@@ -291,6 +301,8 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="transfer"
     >
       {({ values }) => (
         <>

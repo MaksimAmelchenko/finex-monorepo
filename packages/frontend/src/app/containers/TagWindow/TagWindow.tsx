@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -8,8 +8,10 @@ import { Form, FormBody, FormButton, FormFooter, FormHeader, FormTextField } fro
 import { Shape } from '../../types';
 import { Tag } from '../../stores/models/tag';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface TagFormValues {
@@ -30,7 +32,15 @@ function mapValuesToPayload({ name }: TagFormValues): CreateTagData {
 }
 export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
   const tagsRepository = useStore(TagsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'tag',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -71,7 +81,7 @@ export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<TagFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );
@@ -85,8 +95,10 @@ export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
         name: name ?? '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="tag"
     >
-      <FormHeader title={tag instanceof Tag ? t('Add new tag') : t('Edit tag')} onClose={onClose} />
+      <FormHeader title={tag instanceof Tag ? t('Edit tag') : t('Add new tag')} onClose={onClose} />
 
       <FormBody>
         <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />

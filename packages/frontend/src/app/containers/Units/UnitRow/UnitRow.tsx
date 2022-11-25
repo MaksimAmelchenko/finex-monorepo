@@ -3,13 +3,11 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { BaseCheckbox } from '@finex/ui-kit';
-import { Unit as UnitModel } from '../../../stores/models/unit';
-
-import styles from './UnitRow.module.scss';
+import { Unit } from '../../../stores/models/unit';
 
 interface UnitProps {
-  unit: UnitModel;
-  onClick: (unit: UnitModel) => void;
+  unit: Unit;
+  onClick: (unit: Unit) => void;
 }
 
 export const UnitRow = observer<UnitProps>(({ unit, onClick }: UnitProps) => {
@@ -20,18 +18,16 @@ export const UnitRow = observer<UnitProps>(({ unit, onClick }: UnitProps) => {
   };
 
   const handleClick = (event: React.SyntheticEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
     onClick(unit);
   };
 
   return (
-    <tr onClick={handleOnSelect} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td className="min-width">
+    <tr className={clsx(isDeleting && 'is_deleting')}>
+      <td className="checkboxCell" onClick={handleOnSelect}>
         <BaseCheckbox value={isSelected} />
       </td>
       <td>
-        <span className={styles.name} onClick={handleClick}>
+        <span className="name" onClick={handleClick}>
           {name}
         </span>
       </td>

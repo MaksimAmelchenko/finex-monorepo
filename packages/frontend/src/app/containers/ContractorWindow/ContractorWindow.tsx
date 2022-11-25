@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -16,8 +16,10 @@ import {
   FormTextField,
 } from '../../components/Form';
 import { Shape } from '../../types';
+import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 interface ContractorFormValues {
@@ -40,7 +42,15 @@ function mapValuesToPayload({ name, note }: ContractorFormValues): CreateContrac
 }
 export function ContractorWindow({ contractor, onClose }: ContractorWindowProps): JSX.Element {
   const contractorsRepository = useStore(ContractorsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'contractor',
+    });
+  }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
@@ -84,7 +94,7 @@ export function ContractorWindow({ contractor, onClose }: ContractorWindowProps)
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<ContractorFormValues>>({
-        name: Yup.string().required('Please fill name'),
+        name: Yup.string().required(t('Please fill name')),
       }),
     []
   );
@@ -99,6 +109,8 @@ export function ContractorWindow({ contractor, onClose }: ContractorWindowProps)
         note: note ?? '',
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="contractor"
     >
       <FormHeader
         title={contractor instanceof Contractor ? t('Edit contractor') : t('Add new contractor')}

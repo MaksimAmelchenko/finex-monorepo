@@ -121,18 +121,32 @@ app.use(profileApi);
 app.use(cashFlowApi);
 app.use(cashFlowItemApi);
 
+// serve docs
+app.use(async (ctx, next) => {
+  if (ctx.path.endsWith('/docs')) {
+    ctx.redirect('/docs/');
+    return;
+  }
+  return next();
+});
+
+app.use(async (ctx, next) => {
+  // GA does not work with this header
+  ctx.res.removeHeader('content-security-policy');
+  return next();
+});
+
 app.use(serve(`${__dirname}/public`));
 
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
-app.use(serve(`${__dirname}/public`));
 app.use(mount('/docs', serve(pathToSwaggerUi)));
 
 app.use(async (ctx, next) => {
   if (ctx.path.endsWith('swagger.json')) {
     ctx.body = require(`.${ctx.path.replace('.json', '')}`).default;
-  } else {
-    await next();
+    return;
   }
+  return next();
 });
 //
 

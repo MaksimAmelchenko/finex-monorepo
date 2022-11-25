@@ -183,7 +183,11 @@ export const Transactions = observer(() => {
               >
                 <FilterIcon />
               </IconButton>
-              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+              <Form<ISearchFormValues>
+                onSubmit={handleSearchSubmit}
+                initialValues={{ searchText: filter.searchText }}
+                name="transactions-search"
+              >
                 <FormTextField
                   name="searchText"
                   size="small"
@@ -270,17 +274,13 @@ export const Transactions = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction, index) => (
-                <TransactionRow
-                  transaction={transaction}
-                  onClick={handleClickOnTransaction}
-                  key={
-                    transaction instanceof Transaction
-                      ? transaction.id
-                      : `${transaction.planId}-${transaction.repetitionNumber}`
-                  }
-                />
-              ))}
+              {transactions.map(transaction => {
+                const key =
+                  transaction instanceof Transaction
+                    ? transaction.id
+                    : `${transaction.planId}-${transaction.repetitionNumber}`;
+                return <TransactionRow transaction={transaction} onClick={handleClickOnTransaction} key={key} />;
+              })}
             </tbody>
             <tfoot></tfoot>
           </table>

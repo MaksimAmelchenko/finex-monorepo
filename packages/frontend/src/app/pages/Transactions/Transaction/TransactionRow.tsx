@@ -35,15 +35,14 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
     (isPlanned || transaction.isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
-    <tr onClick={handleOnClick} className={clsx(isDeleting && styles.row_is_deleting)}>
-      <td className={clsx(styles.firstColumn, 'min-width')}>
+    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+      <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
         <div
           className={clsx(
             styles.dateColumn,
             isPlanned && styles.dateColumn_planned,
             isOverdue && styles.dateColumn_overdue
           )}
-          onClick={handleOnSelect}
         >
           <div className={clsx(styles.dateColumn__colorMark, isPlanned && transaction.markerColor)} />
           <BaseCheckbox value={isSelected} />

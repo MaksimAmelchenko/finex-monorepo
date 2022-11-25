@@ -1,10 +1,11 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
 
-import { FormInlineSelect, FormTextField, IFormTextFieldProps } from '../../components/Form';
-import { IOption } from '@finex/ui-kit';
+import { FormInlineSelect, IFormTextFieldProps } from '../../components/Form';
+import { IOption, TextField } from '@finex/ui-kit';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { round } from '../../lib/round';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './AmountField.module.scss';
@@ -42,6 +43,8 @@ interface AmountFieldProps extends IFormTextFieldProps {
 
 export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, 'name' | 'endAdornment'>>(
   ({ amountFieldName, moneyFieldName, ...props }, ref) => {
+    const moneysRepository = useStore(MoneysRepository);
+
     const moneySelect = useMemo(
       () =>
         ({ className }: { className?: string }) =>
@@ -49,6 +52,29 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
       [moneyFieldName]
     );
 
-    return <FormTextField {...props} name={amountFieldName} endAdornment={moneySelect} ref={ref} />;
+    const [amountFieldProps, meta] = useField(amountFieldName);
+    const [{ value: moneyId }] = useField(moneyFieldName);
+
+    const joinedProps = { ...props, ...amountFieldProps };
+
+    const { setFieldValue, setFieldTouched } = useFormikContext<any>();
+
+    const handleBlur = useCallback(() => {
+      let value: string = amountFieldProps.value.trim();
+      if (value) {
+        value = value.replace(/[,ю]/g, '.').replace(/\s/g, '');
+        try {
+          const amount: number = eval(value);
+          const money = moneysRepository.get(moneyId);
+
+          if (!isNaN(amount) && money) {
+            setFieldValue(amountFieldName, String(round(amount, money.precision)));
+            setFieldTouched(amountFieldName, true, false);
+          }
+        } catch (err) {}
+      }
+    }, [amountFieldName, setFieldValue, setFieldTouched, meta.value]);
+
+    return <TextField {...joinedProps} error={meta.error} endAdornment={moneySelect} ref={ref} onBlur={handleBlur} />;
   }
 );

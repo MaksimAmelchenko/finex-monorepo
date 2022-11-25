@@ -73,6 +73,7 @@ export const ChangePassword = observer(({ username }: ChangePasswordProps) => {
           onSubmit={onSubmit}
           initialValues={{ password: '', newPassword: '' }}
           validationSchema={validationSchema}
+          name="change-password"
         >
           <FormLayout>
             <input name="username" value={username} readOnly autoComplete="off" className={styles.hidden} />

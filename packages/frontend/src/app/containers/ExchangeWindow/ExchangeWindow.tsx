@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -28,9 +28,11 @@ import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { analytics } from '../../lib/analytics';
 import { getFormat, getT } from '../../lib/core/i18n';
 import { getPatch } from '../../lib/core/get-patch';
 import { noop } from '../../lib/noop';
+import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './ExchangeWindow.module.scss';
@@ -148,10 +150,18 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
   const exchangesRepository = useStore(ExchangesRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(exchange instanceof Exchange));
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'exchange',
+    });
+  }, []);
 
   const amountSellFieldRef = useRef<HTMLInputElement | null>(null);
 
@@ -253,8 +263,8 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
               return !(this.parent.moneySellId === this.parent.moneyBuyId);
             }
           ),
-        exchangeDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        exchangeDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),
@@ -332,6 +342,8 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="exchange"
     >
       {({ values }) => (
         <>

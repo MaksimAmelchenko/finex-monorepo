@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -30,9 +30,11 @@ import { Link } from '../../../components/Link/Link';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { Shape, Sign } from '../../../types';
 import { TagsRepository } from '../../../stores/tags-repository';
+import { analytics } from '../../../lib/analytics';
 import { getFormat, getT } from '../../../lib/core/i18n';
 import { getPatch } from '../../../lib/core/get-patch';
 import { noop } from '../../../lib/noop';
+import { useCloseOnEscape } from '../../../hooks/use-close-on-escape';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './DebtItemWindow.module.scss';
@@ -119,7 +121,15 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
   const debtsRepository = useStore(DebtsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
+
   const { enqueueSnackbar } = useSnackbar();
+  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'debt-item',
+    });
+  }, []);
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(!(debtItem instanceof DebtItem));
@@ -190,8 +200,8 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<DebtItemFormValues>>({
-        debtItemDate: Yup.date().required('Please select date'),
-        reportPeriod: Yup.date().required('Please select date'),
+        debtItemDate: Yup.date().required(t('Please select date')),
+        reportPeriod: Yup.date().required(t('Please select date')),
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
@@ -247,6 +257,8 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
+      onDirtyChange={dirty => onCanCloseChange(!dirty)}
+      name="debt-item"
     >
       <FormHeader title={isNew ? t('Add new debt record') : t('Edit debt record')} onClose={onClose} />
 

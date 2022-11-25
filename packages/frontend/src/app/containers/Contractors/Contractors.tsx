@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack';
 
 import { Button } from '@finex/ui-kit';
 import { Contractor as ContractorModel } from '../../stores/models/contractor';
-import { Contractor } from './Contractor/Contractor';
+import { ContractorRow } from './Contractor/Contractor';
 import { ContractorWindow } from '../ContractorWindow/ContractorWindow';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
@@ -101,7 +101,7 @@ export const Contractors = observer(() => {
             </thead>
             <tbody>
               {contractors.map(contractor => (
-                <Contractor contractor={contractor} onClick={handleClickOnContractor} key={contractor.id} />
+                <ContractorRow contractor={contractor} onClick={handleClickOnContractor} key={contractor.id} />
               ))}
             </tbody>
           </table>

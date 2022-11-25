@@ -135,12 +135,18 @@ export const CashFlows = observer(() => {
 
   return (
     <div className={styles.layout}>
-      <HeaderLayout title={t('CashFlows')} />
+      <HeaderLayout title={t('CashFlows')} data-cy="cash-flows-header" />
       <main className={styles.content}>
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddCashFlow}>
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={handleOpenAddCashFlow}
+                data-cy="cf-create-cash-flow-button"
+              >
                 {t('New')}
               </Button>
               <Button variant="outlined" size="small" disabled={!selectedCashFlows.length} onClick={handleDeleteClick}>
@@ -159,7 +165,11 @@ export const CashFlows = observer(() => {
               >
                 <FilterIcon />
               </IconButton>
-              <Form<ISearchFormValues> onSubmit={handleSearchSubmit} initialValues={{ searchText: filter.searchText }}>
+              <Form<ISearchFormValues>
+                onSubmit={handleSearchSubmit}
+                initialValues={{ searchText: filter.searchText }}
+                name="cash-flows-search"
+              >
                 <FormTextField
                   name="searchText"
                   size="small"

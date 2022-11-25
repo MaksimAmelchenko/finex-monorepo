@@ -5,6 +5,7 @@ import { CommonStorageStore } from './common-storage-store';
 import { IResetPasswordRequestResponse, ISessionResponse, ISignUpRequestResponse } from '../../types/auth';
 import { MainStore } from '../main-store';
 import { ManageableStore } from '../manageable-store';
+import { SessionStorageStore } from './session-storage-store';
 
 export interface IAuthApi {
   signIn: (username: string, password: string) => Promise<ISessionResponse>;
@@ -42,8 +43,9 @@ export class AuthRepository extends ManageableStore {
     });
 
     const commonStorageStore = this.getStore(CommonStorageStore);
+    const sessionStorageStore = this.getStore(SessionStorageStore);
     const username = commonStorageStore.get('username');
-    const token = commonStorageStore.get('token');
+    const token = sessionStorageStore.get('token');
     if (token && username) {
       // TODO handle the error
       this.processLogin(token, username);
@@ -109,17 +111,17 @@ export class AuthRepository extends ManageableStore {
 
   clear(): void {
     this.token = null;
-    this.getStore(CommonStorageStore).removeItem('token');
+    this.getStore(SessionStorageStore).removeItem('token');
   }
 
-  private async processLogin(token: string, username: string): Promise<void> {
+  async processLogin(token: string, username: string): Promise<void> {
     this.getStore(CommonStorageStore).set('username', username);
     return this.processGrant(token);
   }
 
   private async processGrant(token: string): Promise<void> {
     this.token = token;
-    this.getStore(CommonStorageStore).set('token', token);
+    this.getStore(SessionStorageStore).set('token', token);
     return this.getStore(BootstrapStore).get();
   }
 }

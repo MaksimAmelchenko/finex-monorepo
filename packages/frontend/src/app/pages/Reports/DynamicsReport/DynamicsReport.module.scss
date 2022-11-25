@@ -7,14 +7,14 @@
 .content {
   display: grid;
   grid-template-rows: auto 1fr;
-  row-gap: 2.4rem;
+  row-gap: 1.6rem;
   height: 100%;
   width: 100%;
   overflow: auto;
 
   &__panel,
   &__visualization {
-    padding: 0 3.2rem;
+    padding: 0 1.6rem 0 2.4rem;
   }
 }
 

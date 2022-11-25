@@ -37,7 +37,7 @@ class TransactionServiceImpl implements TransactionService {
   }
 
   async createTransaction(
-    ctx: IRequestContext,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     cashFlowId: string | null,

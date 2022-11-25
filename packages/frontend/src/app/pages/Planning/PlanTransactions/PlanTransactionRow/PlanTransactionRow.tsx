@@ -42,7 +42,7 @@ export const PlanTransactionRow = observer<PlanTransactionRowProps>(({ planTrans
   };
 
   return (
-    <tr onClick={handleOnClick} className={clsx(isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <SelectableDateCell
         date={startDate}
         isSelected={isSelected}
