@@ -1,6 +1,6 @@
 export default {
   appName: 'api.finex.io',
-  appDomain: 'finex.io',
+  appDomain: 'app.finex.io',
   port: 3000,
   log: {
     level: 'trace',
