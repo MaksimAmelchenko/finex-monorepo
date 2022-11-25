@@ -16,7 +16,7 @@
         "polyfills": "packages/frontend/src/polyfills.ts",
         "tsConfig": "packages/frontend/tsconfig.app.json",
         "assets": [
-          "packages/frontend/src/favicon.ico",
+          "packages/frontend/src/favicon.png",
           "packages/frontend/src/assets",
           {
             "glob": "**/*",
