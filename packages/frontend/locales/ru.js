@@ -639,6 +639,11 @@ module.exports = {
     Password: 'Пароль',
     'Your password needs to be at least 8 characters_ Include multiple words and phrases to make it more secure_':
       'Ваш пароль должен быть не менее 8 символов. Включите несколько слов и фраз, чтобы сделать его более безопасным.',
+    'By clicking Create account, you agree to FINEX': 'Регистрируясь вы соглашаетесь с ',
+    'User Agreement': 'Пользовательским соглашением',
+    'Terms of Use': 'Правилами использования',
+    'and ': 'и ',
+    'Privacy Policy': 'Политикой конфиденциальности',
     'Create account': 'Регистрация',
     'Already have an account?': 'Уже зарегистрировались?',
     'Sign in': 'Войти',
