@@ -16,10 +16,12 @@ import { CreateCashFlowData, ICashFlow, ICashFlowItem, UpdateCashFlowChanges } f
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
+import { MoneysRepository } from '../../stores/moneys-repository';
 import { TagsRepository } from '../../stores/tags-repository';
 import { analytics } from '../../lib/analytics';
+import { balanceByMoney } from '../../lib/balance-by-money';
 import { getPatch } from '../../lib/core/get-patch';
-import { getT } from '../../lib/core/i18n';
+import { getT, toCurrency } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './CashFlowWindow.module.scss';
@@ -62,6 +64,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
 
   const contractorsRepository = useStore(ContractorsRepository);
   const cashFlowsRepository = useStore(CashFlowsRepository);
+  const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -147,6 +150,17 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
     );
 
   const selectedCashFlowItems = items.filter(({ isSelected }) => isSelected);
+
+  const balancesBySelectedCashFlowItems = balanceByMoney(selectedCashFlowItems).sort(
+    (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
+  );
+
+  const balances =
+    cashFlow instanceof CashFlow
+      ? cashFlow.balances.sort(
+          (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
+        )
+      : [];
 
   const handleDeleteClick = () => {
     if (selectedCashFlowItems.length > 1) {
@@ -250,7 +264,64 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   <CashFlowItemRow cashFlowItem={cashFlowItem} onClick={handleClickOnCashFlow} key={cashFlowItem.id} />
                 ))}
               </tbody>
-              <tfoot></tfoot>
+              <tfoot>
+                <tr>
+                  <td colSpan={4}>{t('Total for selected operations:')}</td>
+                  <td className="text-end numeric">
+                    {balancesBySelectedCashFlowItems.map(({ money, income }) => {
+                      return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
+                    })}
+                  </td>
+
+                  <td className="currency">
+                    {balancesBySelectedCashFlowItems.map(({ money, income }) => {
+                      return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                    })}
+                  </td>
+
+                  <td className="text-end numeric">
+                    {balancesBySelectedCashFlowItems.map(({ money, expense }) => {
+                      return expense ? <div key={money.id}>{toCurrency(-expense, money.precision)}</div> : null;
+                    })}
+                  </td>
+
+                  <td className="currency">
+                    {balancesBySelectedCashFlowItems.map(({ money, expense }) => {
+                      return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                    })}
+                  </td>
+                  <td />
+                  <td />
+                </tr>
+                <tr>
+                  <td colSpan={4}>{t('Total:')}</td>
+                  <td className="text-end numeric">
+                    {balances.map(({ money, income }) => {
+                      return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
+                    })}
+                  </td>
+
+                  <td className="currency">
+                    {balances.map(({ money, income }) => {
+                      return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                    })}
+                  </td>
+
+                  <td className="text-end numeric">
+                    {balances.map(({ money, expense }) => {
+                      return expense ? <div key={money.id}>{toCurrency(-expense, money.precision)}</div> : null;
+                    })}
+                  </td>
+
+                  <td className="currency">
+                    {balances.map(({ money, expense }) => {
+                      return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                    })}
+                  </td>
+                  <td />
+                  <td />
+                </tr>
+              </tfoot>
             </table>
           </div>
         </section>

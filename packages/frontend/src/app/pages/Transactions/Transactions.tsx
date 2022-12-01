@@ -10,6 +10,7 @@ import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormTextField } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITransaction } from '../../types/transaction';
+import { MoneysRepository } from '../../stores/moneys-repository';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { PlannedTransaction } from '../../stores/models/planned-transaction';
@@ -20,7 +21,8 @@ import { Transaction } from '../../stores/models/transaction';
 import { TransactionRow } from './Transaction/TransactionRow';
 import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
 import { TransactionsRepository } from '../../stores/transactions-repository';
-import { getT } from '../../lib/core/i18n';
+import { balanceByMoney } from '../../lib/balance-by-money';
+import { getT, toCurrency } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './Transactions.module.scss';
@@ -35,9 +37,10 @@ export const Transactions = observer(() => {
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
   const contractorsRepository = useStore(ContractorsRepository);
-  const transactionsRepository = useStore(TransactionsRepository);
+  const moneysRepository = useStore(MoneysRepository);
   const projectsRepository = useStore(ProjectsRepository);
   const tagsRepository = useStore(TagsRepository);
+  const transactionsRepository = useStore(TransactionsRepository);
 
   const [isOpenedTransactionWindow, setIsOpenedTransactionWindow] = useState<boolean>(false);
 
@@ -126,6 +129,10 @@ export const Transactions = observer(() => {
   };
 
   const selectedTransactions = transactions.filter(({ isSelected }) => isSelected);
+
+  const balancesBySelectedTransactions = balanceByMoney(selectedTransactions).sort(
+    (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
+  );
 
   const handleDeleteClick = () => {
     if (selectedTransactions.length > 1) {
@@ -282,7 +289,36 @@ export const Transactions = observer(() => {
                 return <TransactionRow transaction={transaction} onClick={handleClickOnTransaction} key={key} />;
               })}
             </tbody>
-            <tfoot></tfoot>
+            <tfoot>
+              <tr>
+                <td colSpan={3}>{t('Total for selected operations:')}</td>
+                <td className="text-end numeric">
+                  {balancesBySelectedTransactions.map(({ money, income }) => {
+                    return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
+                  })}
+                </td>
+
+                <td className="currency">
+                  {balancesBySelectedTransactions.map(({ money, income }) => {
+                    return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                  })}
+                </td>
+
+                <td className="text-end numeric">
+                  {balancesBySelectedTransactions.map(({ money, expense }) => {
+                    return expense ? <div key={money.id}>{toCurrency(-expense, money.precision)}</div> : null;
+                  })}
+                </td>
+
+                <td className="currency">
+                  {balancesBySelectedTransactions.map(({ money, expense }) => {
+                    return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                  })}
+                </td>
+                <td />
+                <td />
+              </tr>
+            </tfoot>
           </table>
         </div>
       </main>

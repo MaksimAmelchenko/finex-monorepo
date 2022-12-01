@@ -79,6 +79,13 @@ export function SignUp(): JSX.Element {
                 'Your password needs to be at least 8 characters. Include multiple words and phrases to make it more secure.'
               )}
             />
+            <p>
+              {t('By clicking Create account, you agree to FINEX')}{' '}
+              <Link href="https://finex.io/legal/agreement/">{t('User Agreement')}</Link>,{' '}
+              <Link href="https://finex.io/legal/terms/">{t('Terms of Use')}</Link> {t('and ')}{' '}
+              <Link href="https://finex.io/legal/privacy/">{t('Privacy Policy')}</Link>
+            </p>
+
             <FormError />
             <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation={true}>
               {t('Create account')}

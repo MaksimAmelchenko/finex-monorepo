@@ -133,6 +133,8 @@ module.exports = {
     Category: 'Категория',
     Income: 'Приход',
     Expense: 'Расход',
+    'Total for selected operations:': 'Итого по выделенным операциям:',
+    'Total:': 'Итого:',
   },
   Categories: {
     "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
@@ -639,6 +641,11 @@ module.exports = {
     Password: 'Пароль',
     'Your password needs to be at least 8 characters_ Include multiple words and phrases to make it more secure_':
       'Ваш пароль должен быть не менее 8 символов. Включите несколько слов и фраз, чтобы сделать его более безопасным.',
+    'By clicking Create account, you agree to FINEX': 'Регистрируясь вы соглашаетесь с ',
+    'User Agreement': 'Пользовательским соглашением',
+    'Terms of Use': 'Правилами использования',
+    'and ': 'и ',
+    'Privacy Policy': 'Политикой конфиденциальности',
     'Create account': 'Регистрация',
     'Already have an account?': 'Уже зарегистрировались?',
     'Sign in': 'Войти',
@@ -694,6 +701,7 @@ module.exports = {
     Income: 'Доход',
     Expense: 'Расход',
     Note: 'Примечание',
+    'Total for selected operations:': 'Итого по выделенным операциям:',
   },
   TransactionWindow: {
     Income: 'Доход',

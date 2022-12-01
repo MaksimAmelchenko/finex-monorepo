@@ -9,5 +9,6 @@ publish: release
 	docker push registry.gitlab.com/finex.io/app/monorepo/api-service:1.3.0
 	docker push registry.gitlab.com/finex.io/app/monorepo/api-service:latest
 
+# for first run use docker-compose
 infra:
 	docker run --name cf -p 5432:5432 -e POSTGRES_DB=cf -e POSTGRES_PASSWORD=postgrespassword -d postgres:13.2-alpine

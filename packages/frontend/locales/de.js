@@ -133,6 +133,8 @@ module.exports = {
     Category: 'Category',
     Income: 'Income',
     Expense: 'Expense',
+    'Total for selected operations:': 'Total for selected operations:',
+    'Total:': 'Total:',
   },
   Categories: {
     "You can't delete a category with subcategories": "You can't delete a category with subcategories",
@@ -639,6 +641,11 @@ module.exports = {
     Password: 'Password',
     'Your password needs to be at least 8 characters_ Include multiple words and phrases to make it more secure_':
       'Your password needs to be at least 8 characters. Include multiple words and phrases to make it more secure.',
+    'By clicking Create account, you agree to FINEX': 'By clicking Create account, you agree to FINEX',
+    'User Agreement': 'User Agreement',
+    'Terms of Use': 'Terms of Use',
+    'and ': 'and ',
+    'Privacy Policy': 'Privacy Policy',
     'Create account': 'Create account',
     'Already have an account?': 'Already have an account?',
     'Sign in': 'Sign in',
@@ -694,6 +701,7 @@ module.exports = {
     Income: 'Income',
     Expense: 'Expense',
     Note: 'Note',
+    'Total for selected operations:': 'Total for selected operations:',
   },
   TransactionWindow: {
     Income: 'Income',

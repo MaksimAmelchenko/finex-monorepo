@@ -4,4 +4,7 @@
   text-decoration: none;
   @include typography.bodyHighlight;
   color: var(--color-secondary600);
+  &:hover {
+    text-decoration: underline;
+  }
 }
