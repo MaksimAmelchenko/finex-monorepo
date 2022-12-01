@@ -133,6 +133,8 @@ module.exports = {
     Category: 'Категория',
     Income: 'Приход',
     Expense: 'Расход',
+    'Total for selected operations:': 'Итого по выделенным операциям:',
+    'Total:': 'Итого:',
   },
   Categories: {
     "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
@@ -699,6 +701,7 @@ module.exports = {
     Income: 'Доход',
     Expense: 'Расход',
     Note: 'Примечание',
+    'Total for selected operations:': 'Итого по выделенным операциям:',
   },
   TransactionWindow: {
     Income: 'Доход',

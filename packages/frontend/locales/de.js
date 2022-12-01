@@ -133,6 +133,8 @@ module.exports = {
     Category: 'Category',
     Income: 'Income',
     Expense: 'Expense',
+    'Total for selected operations:': 'Total for selected operations:',
+    'Total:': 'Total:',
   },
   Categories: {
     "You can't delete a category with subcategories": "You can't delete a category with subcategories",
@@ -699,6 +701,7 @@ module.exports = {
     Income: 'Income',
     Expense: 'Expense',
     Note: 'Note',
+    'Total for selected operations:': 'Total for selected operations:',
   },
   TransactionWindow: {
     Income: 'Income',
