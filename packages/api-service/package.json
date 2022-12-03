@@ -24,7 +24,7 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "kcors": "^2.2.2",
-    "knex": "^2.2.0",
+    "knex": "^2.3.0",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^6.1.0",

@@ -46,7 +46,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.timestamp('dset').notNullable().comment('Дата создания записи');
 
-      table.primary(['id_project', 'id_cashflow'], 'cashflow_pk');
+      table.primary(['id_project', 'id_cashflow'], { constraintName: 'cashflow_pk' });
       table.index(['id_project', 'id_cashflow_type'], 'cashflow_id_project_id_cashflow_type');
       table.index(['id_project', 'id_contractor'], 'cashflow_id_project_id_contractor');
     })

@@ -28,7 +28,7 @@ export async function up(knex: Knex): Promise<void> {
         .notNullable()
         .comment('3 - чтение и запись в проект (нет прав на передачу прав)');
 
-      table.unique(['id_user', 'id_project'], 'project_permit_id_user_project_u');
+      table.unique(['id_user', 'id_project'], { indexName: 'project_permit_id_user_project_u' });
     })
     .raw(project_permit_aiud_check_permit_trigger_v1.up);
 

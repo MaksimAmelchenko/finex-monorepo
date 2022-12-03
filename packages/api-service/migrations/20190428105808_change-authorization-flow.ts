@@ -75,7 +75,7 @@ export async function down(knex: Knex): Promise<void> {
   `);
 
   await knex.schema.withSchema('core$').alterTable('session', table => {
-    table.primary(['id_session'], 'session_pk');
+    table.primary(['id_session'], { constraintName: 'session_pk' });
     table.text('token').notNullable().alter();
   });
 

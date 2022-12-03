@@ -41,7 +41,9 @@ export async function up(knex: Knex): Promise<void> {
 
         .notNullable()
         .comment('1 - чтение, 3 - чтение и запись, 7 - владелец счета');
-      table.unique(['id_project', 'id_account', 'id_user'], 'account_permit_id_project_id_account_id_user_u');
+      table.unique(['id_project', 'id_account', 'id_user'], {
+        indexName: 'account_permit_id_project_id_account_id_user_u',
+      });
     })
     .raw(account_permit_biud_trigger_v1.up);
   await knex.schema.raw(v_account_permit_v1.up);

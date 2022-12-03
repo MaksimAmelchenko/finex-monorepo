@@ -47,7 +47,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.specificType('sum', 'numeric').notNullable().comment('Сумма');
 
-      table.unique(['id_project', 'id_plan'], 'plan_cashflow_item_id_project_id_plan');
+      table.unique(['id_project', 'id_plan'], { indexName: 'plan_cashflow_item_id_project_id_plan' });
 
       // Для быстрой проверки по внешнему ключу при удалении статьи
       table.index(['id_project', 'id_category'], 'plan_cashflow_item_id_project_id_category');

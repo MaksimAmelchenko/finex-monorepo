@@ -76,7 +76,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.integer('id_file').notNullable();
 
-      table.unique(['id_message', 'id_file'], 'message_attachment_id_message_id_file_u');
+      table.unique(['id_message', 'id_file'], { indexName: 'message_attachment_id_message_id_file_u' });
 
       table
         .foreign('id_message', 'message_attachment_2_message')

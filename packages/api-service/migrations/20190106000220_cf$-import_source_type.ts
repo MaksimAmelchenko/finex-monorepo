@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<void> {
       .onDelete('cascade');
 
     table.integer('code').notNullable().comment('Код формата импортируемых данных');
-    table.primary(['id_import_source', 'code'], 'import_source_type_pk');
+    table.primary(['id_import_source', 'code'], { constraintName: 'import_source_type_pk' });
     table.text('name').notNullable().comment('Наименование');
     table.text('note').comment('html-текс примечания');
     table.text('help').comment('html-текст помощи');

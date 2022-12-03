@@ -24,7 +24,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.text('name').notNullable().comment('Наименование');
 
-      table.primary(['id_project', 'id_unit'], 'unit_pk');
+      table.primary(['id_project', 'id_unit'], { constraintName: 'unit_pk' });
     })
     .raw("alter table cf$.unit add constraint unit_name_is_empty CHECK (btrim(name) <> ''::text);")
     .raw('alter table cf$.unit add constraint unit_name_is_too_long CHECK (length(name) <= 20);')

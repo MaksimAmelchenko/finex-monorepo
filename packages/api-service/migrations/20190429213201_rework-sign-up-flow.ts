@@ -52,7 +52,7 @@ export async function down(knex: Knex): Promise<void> {
   `);
 
   await knex.schema.withSchema('core$').alterTable('signup_request', table => {
-    table.primary(['id_signup_request'], 'signup_request_pk');
+    table.primary(['id_signup_request'], { constraintName: 'signup_request_pk' });
     table.dropTimestamps();
   });
 

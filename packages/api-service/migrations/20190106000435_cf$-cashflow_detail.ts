@@ -67,7 +67,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.specificType('tags', 'integer[]').comment('ID тегов');
 
-      table.unique(['id_project', 'id_cashflow_detail'], 'cashflow_detail_pk');
+      table.unique(['id_project', 'id_cashflow_detail'], { indexName: 'cashflow_detail_pk' });
 
       // Дата добавлена для поиск ДП в импорте
       table.index(['id_project', 'id_account'], 'cashflow_detail_id_project_id_account');

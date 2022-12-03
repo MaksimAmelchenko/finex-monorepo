@@ -23,7 +23,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.specificType('id_account', 'serial').notNullable().comment('ID счета');
 
-      table.primary(['id_project', 'id_account'], 'account_pk');
+      table.primary(['id_project', 'id_account'], { constraintName: 'account_pk' });
 
       table.integer('id_user').notNullable().index('account_id_user').comment('ID пользователя');
 
