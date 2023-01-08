@@ -58,6 +58,7 @@ module.exports = {
   ApiRepository: {
     'Session Timeout': 'Session Timeout',
     'Session closed': 'Session closed',
+    'Session not found': 'Session not found',
     'Invalid authorization': 'Invalid authorization',
   },
   BalanceRepository: {

@@ -92,7 +92,13 @@ export abstract class ApiRepository extends ManageableStore {
           return response.json().then(({ error }: { error: IAppError }) => {
             if (
               apiErrorClass.status === 401 &&
-              ['sessionClosed', 'sessionTimeout', 'jsonWebTokenError'].includes(error.code)
+              [
+                //
+                'jsonWebTokenError',
+                'sessionClosed',
+                'sessionNotFound',
+                'sessionTimeout',
+              ].includes(error.code)
             ) {
               this.getStore(AuthRepository).clearAuth();
               switch (error.code) {
@@ -101,6 +107,9 @@ export abstract class ApiRepository extends ManageableStore {
                 }
                 case 'sessionClosed': {
                   throw new Error(t('Session closed'));
+                }
+                case 'sessionNotFound': {
+                  throw new Error(t('Session not found'));
                 }
                 case 'jsonWebTokenError': {
                   throw new Error(t('Invalid authorization'));

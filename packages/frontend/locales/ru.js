@@ -56,9 +56,10 @@ module.exports = {
     Save: 'Сохранить',
   },
   ApiRepository: {
-    'Session Timeout': 'Session Timeout',
-    'Session closed': 'Session closed',
-    'Invalid authorization': 'Invalid authorization',
+    'Session Timeout': 'Время ожидания сессии истекло. Требуется повторный вход в систему.',
+    'Session closed': 'Сессия завершина',
+    'Session not found': 'Сессия не найдена',
+    'Invalid authorization': 'Ошибка авторизации',
   },
   BalanceRepository: {
     'Owe me': 'Должны мне',
