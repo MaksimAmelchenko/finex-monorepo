@@ -1,0 +1,63 @@
+@use '../../../../../theme/src/lib/styles/typography';
+@use '../../../../../theme/src/lib/styles/media';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  box-shadow: 0 0 4px var(--color-neutral200);
+}
+
+.content {
+  width: 100%;
+  max-width: 99rem;
+  margin: 0 auto;
+  padding: 1.6rem 1.6rem 1.6rem 2.4rem;
+  overflow: auto;
+}
+
+.priceSection {
+  display: grid;
+  gap: 2.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  margin: 4rem 0;
+
+  &__priceCard {
+  }
+
+  &__priceCardButtons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+  }
+
+  @include media.md {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.currentPlanInfo {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.4rem;
+  @include typography.h3;
+
+  &__accessUntil {
+    font-weight: bold;
+    &__expired {
+      color: var(--color-danger600);
+    }
+  }
+
+  &__name {
+    font-weight: bold;
+    &_noSubscription {
+      color: var(--color-danger600);
+    }
+  }
+}

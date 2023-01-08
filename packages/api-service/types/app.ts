@@ -35,6 +35,7 @@ interface IAuthorizedRequestContext {
   sessionId: string;
   projectId: string;
   userId: string;
+  accessUntil: TDateTime;
   permissions: Permissions;
   // for DB port
   authorization: string;

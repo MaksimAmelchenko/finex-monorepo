@@ -1,6 +1,7 @@
 declare interface Window {
   gtag: any;
-  LUX: any;
+  YooMoneyCheckoutWidget: any;
+  paypal: any;
 }
 
 //

@@ -49,4 +49,14 @@ export default {
       },
     },
   },
+  paypal: {
+    baseUrl: 'PAYPAL__BASE_URL',
+    clientId: 'PAYPAL__CLIENT_ID',
+    secret: 'PAYPAL__SECRET',
+    webhookId: 'PAYPAL__WEBHOOK_ID',
+  },
+  yookassa: {
+    shopId: 'YOOKASSA__SHOP_ID',
+    secretKey: 'YOOKASSA__SECRET_KEY',
+  },
 };

@@ -41,6 +41,7 @@ async function initI18n(): Promise<void> {
             date: {
               formats: {
                 default: 'dd.MM.yyyy',
+                full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM YYYY',
               },
@@ -66,6 +67,7 @@ async function initI18n(): Promise<void> {
             date: {
               formats: {
                 default: 'dd.MM.yyyy',
+                full: 'dd.MM.yyyy hh:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
               },
@@ -91,6 +93,7 @@ async function initI18n(): Promise<void> {
             date: {
               formats: {
                 default: 'dd.MM.yyyy',
+                full: 'dd.MM.yyyy hh:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
               },

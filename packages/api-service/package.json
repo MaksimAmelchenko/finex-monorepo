@@ -12,6 +12,7 @@
     "test": "NODE_ENV=development-test-local mocha ./**/*.spec.ts --require ts-node/register --exit"
   },
   "dependencies": {
+    "@a2seven/yoo-checkout": "^1.1.4",
     "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
     "aws-sdk": "^2.1204.0",

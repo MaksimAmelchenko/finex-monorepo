@@ -11,7 +11,7 @@ export async function createSession(
 ): Promise<Session> {
   ctx.log.trace({ data }, 'try to create session');
 
-  const { timeout, userAgent, ip, projectId } = data;
+  const { timeout, userAgent, ip, projectId, accessUntil } = data;
   const sessionId: string = uuid.v4();
 
   const session = await Session.query(ctx.trx).insertAndFetch({
@@ -24,6 +24,7 @@ export async function createSession(
     timeout,
     userAgent,
     lastAccessTime: new Date().toISOString(),
+    accessUntil,
   });
 
   ctx.log.info({ sessionId }, 'created session');

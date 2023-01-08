@@ -13,6 +13,7 @@ export { ReactComponent as ChevronRightIcon, default as chevronRightSvg } from '
 export { ReactComponent as CircleInfoIcon, default as circleInfoSvg } from './circle-info.svg';
 export { ReactComponent as CircleQuestionIcon, default as circleQuestionSvg } from './circle-question.svg';
 export { ReactComponent as CommentIcon, default as commentSvg } from './comment.svg';
+export { ReactComponent as CreditCardIcon, default as creditCardSvg } from './credit-card.svg';
 export { ReactComponent as FilterIcon, default as filterSvg } from './filter.svg';
 export { ReactComponent as GearIcon, default as gearSvg } from './gear.svg';
 export { ReactComponent as GiftIcon, default as giftSvg } from './gift.svg';

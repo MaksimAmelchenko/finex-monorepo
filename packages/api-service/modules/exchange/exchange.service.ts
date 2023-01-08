@@ -18,6 +18,7 @@ import { cashFlowItemRepository } from '../cash-flow-item/cash-flow-item.reposit
 import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { exchangeMapper } from './exchange.mapper';
 import { exchangeRepository } from './exchange.repository';
+import { billingService } from '../billing/billing.service';
 
 class ExchangeServiceImpl implements ExchangeService {
   private exchangeRepository: ExchangeRepository;
@@ -44,6 +45,7 @@ class ExchangeServiceImpl implements ExchangeService {
     userId: string,
     data: CreateExchangeServiceData
   ): Promise<IExchange> {
+    await billingService.validateSubscription(ctx);
     const {
       amountSell,
       moneySellId,
@@ -209,6 +211,7 @@ class ExchangeServiceImpl implements ExchangeService {
     exchangeId: string,
     changes: UpdateExchangeServiceChanges
   ): Promise<IExchange> {
+    await billingService.validateSubscription(ctx);
     const {
       amountSell,
       moneySellId,
@@ -336,6 +339,7 @@ class ExchangeServiceImpl implements ExchangeService {
     userId: string,
     exchangeId: string
   ): Promise<void> {
+    await billingService.validateSubscription(ctx);
     const exchange = await this.getExchange(ctx, projectId, userId, exchangeId);
     const { accounts } = ctx.permissions;
 

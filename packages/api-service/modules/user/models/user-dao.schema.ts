@@ -28,6 +28,7 @@ export const userDAOSchema: OpenAPIV3_1.SchemaObject = {
     idCurrencyRateSource: {
       type: 'number',
     },
+    accessUntil: dateTime,
     createdAt: dateTime,
     updatedAt: dateTime,
   },

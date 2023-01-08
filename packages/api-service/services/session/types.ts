@@ -10,6 +10,7 @@ export interface ISession {
   lastAccessTime: string;
   timeout: string;
   userAgent: string;
+  accessUntil: TDateTime;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 }
@@ -22,6 +23,8 @@ export interface CreateSessionGatewayData {
   timeout: string;
   projectId: string;
   userAgent: string;
+  ip: string;
+  accessUntil: TDateTime;
 }
 
 export type UpdateSessionGatewayChanges = Partial<{

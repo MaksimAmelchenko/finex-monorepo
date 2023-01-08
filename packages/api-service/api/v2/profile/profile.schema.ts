@@ -3,6 +3,7 @@ import { OpenAPIV3_1 } from 'openapi-types';
 import { email } from '../../../common/schemas/fields/email';
 import { projectId } from '../../../common/schemas/fields/project-id';
 import { userId } from '../../../common/schemas/fields/user-id';
+import { dateTime } from '../../../common/schemas/fields/date-time';
 
 export const profileSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -24,6 +25,10 @@ export const profileSchema: OpenAPIV3_1.SchemaObject = {
     timeout: {
       type: 'string',
     },
+    planId: {
+      type: ['string', 'null'],
+    },
+    accessUntil: dateTime,
   },
   additionalProperties: false,
   required: [
@@ -34,5 +39,7 @@ export const profileSchema: OpenAPIV3_1.SchemaObject = {
     'projectId',
     'currencyRateSourceId',
     'timeout',
+    'planId',
+    'accessUntil',
   ],
 };

@@ -17,6 +17,8 @@ class UserRepositoryImpl implements UserRepository {
       timeout,
       idHousehold: Number(householdId),
       idCurrencyRateSource: Number(currencyRateSourceId),
+      // Set temporary value. It will recalculate after adding 'access period' record, but this field is required
+      accessUntil: new Date().toISOString(),
     });
 
     const userId = String(userDAO.idUser);

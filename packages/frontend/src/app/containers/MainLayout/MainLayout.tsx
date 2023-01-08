@@ -1,6 +1,8 @@
-import React, { Fragment, Suspense, useMemo, useState } from 'react';
+import React, { Fragment, Suspense, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { SnackbarKey, useSnackbar } from 'notistack';
 import { observer } from 'mobx-react-lite';
+import { parseISO } from 'date-fns';
 
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
@@ -26,6 +28,7 @@ import {
   shuffleSvg,
 } from '@finex/ui-kit';
 import { AccountMenu } from './AccountMenu/AccountMenu';
+import { Link } from '../../components/Link/Link';
 import { LinkBase } from '../../components/LinkBase/LinkBase';
 import { Loader } from '../../components/Loader/Loader';
 import { ProfileRepository } from '../../stores/profile-repository';
@@ -103,6 +106,8 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
   const profileRepository = useStore(ProfileRepository);
 
   const [isOpened, setIsOpened] = useState(true);
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const handleDrawerToggle = () => {
     setIsOpened(isOpened => !isOpened);
@@ -192,6 +197,29 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
   };
 
   const { profile } = profileRepository;
+
+  useEffect(() => {
+    if (profile) {
+      if (parseISO(profile.accessUntil) < new Date()) {
+        const action = (snackbarId: SnackbarKey) => (
+          <div className={styles.snackbar__action}>
+            <Link
+              href="/settings/billing"
+              className={styles.snackbar__actionlink}
+              onClick={() => closeSnackbar(snackbarId)}
+            >
+              {t('Subscribe')}
+            </Link>
+            <Link href="#" className={styles.snackbar__actionlink} onClick={() => closeSnackbar(snackbarId)}>
+              {t('Dismiss')}
+            </Link>
+          </div>
+        );
+        enqueueSnackbar(t('Your subscription has ended.'), { variant: 'info', action, autoHideDuration: 10000 });
+      }
+    }
+  }, [profile]);
+
   if (!profile) {
     return <Loader />;
   }

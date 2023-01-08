@@ -3,6 +3,7 @@ import { JSONSchema, Model, Validator } from 'objection';
 import { IUserDAO } from '../types';
 import { ajvValidator } from '../../../libs/ajv';
 import { userDAOSchema } from './user-dao.schema';
+import { TDateTime } from '../../../types/app';
 
 export class UserDAO extends Model implements IUserDAO {
   static tableName = 'core$.user';
@@ -17,6 +18,7 @@ export class UserDAO extends Model implements IUserDAO {
   idHousehold: number;
   idProject: number | null;
   idCurrencyRateSource: number;
+  accessUntil: TDateTime;
   createdAt: string;
   updatedAt: string;
 

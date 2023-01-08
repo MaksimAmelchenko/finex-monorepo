@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import { ConflictError, GoneError, NotFoundError } from '../../../libs/errors';
 import { CurrencyRateSource } from '../../../types/currency-rate-source';
 import { Household } from '../../household';
@@ -7,6 +9,10 @@ import { ISignUpRequest } from '../../../types/sign-up-request';
 import { Project } from '../../project/model/project';
 import { ProjectService } from '../../project';
 import { SignUpRequestGateway } from '../gateway';
+import { SubscriptionStatus } from '../../../modules/billing/subscription/types';
+import { accessPeriodService } from '../../../modules/billing/access-period/access-period.service';
+import { planService } from '../../../modules/billing/plan/plan.service';
+import { subscriptionRepository } from '../../../modules/billing/subscription/subscription.repository';
 import { userRepository } from '../../../modules/user/user.repository';
 
 export async function confirmSignUpRequest(ctx: IRequestContext<unknown, true>, token: string): Promise<void> {
@@ -43,5 +49,18 @@ export async function confirmSignUpRequest(ctx: IRequestContext<unknown, true>, 
 
   await SignUpRequestGateway.update(ctx, signUpRequest.id, {
     confirmed_at: new Date().toISOString(),
+  });
+
+  const plan = await planService.getPlan(ctx, 'trial');
+
+  await subscriptionRepository.createSubscription(ctx, userId, {
+    planId: plan.id,
+    status: SubscriptionStatus.Active,
+  });
+
+  await accessPeriodService.createAccessPeriod(ctx, userId, {
+    planId: plan.id,
+    startAt: new Date().toISOString(),
+    endAt: moment.utc().add(moment.duration(plan.duration)).toISOString(),
   });
 }

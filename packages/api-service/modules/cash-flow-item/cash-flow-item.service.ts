@@ -1,8 +1,4 @@
 import { AccessDeniedError, NotFoundError } from '../../libs/errors';
-import { IRequestContext, Permit } from '../../types/app';
-import { cashFlowItemMapper } from './cash-flow-item.mapper';
-import { cashFlowItemRepository } from './cash-flow-item.repository';
-
 import {
   CreateCashFlowItemServiceData,
   CashFlowItemRepository,
@@ -10,6 +6,10 @@ import {
   ICashFlowItem,
   UpdateCashFlowItemServiceChanges,
 } from './types';
+import { IRequestContext, Permit } from '../../types/app';
+import { billingService } from '../billing/billing.service';
+import { cashFlowItemMapper } from './cash-flow-item.mapper';
+import { cashFlowItemRepository } from './cash-flow-item.repository';
 
 class CashFlowItemServiceImpl implements CashFlowItemService {
   private cashFlowItemRepository: CashFlowItemRepository;
@@ -25,6 +25,8 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
     cashFlowId: string,
     data: CreateCashFlowItemServiceData
   ): Promise<ICashFlowItem> {
+    await billingService.validateSubscription(ctx);
+
     if ((ctx.permissions.accounts[data.accountId] & Permit.Update) !== Permit.Update) {
       throw new AccessDeniedError();
     }
@@ -70,6 +72,8 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
     cashFlowItemId: string,
     changes: UpdateCashFlowItemServiceChanges
   ): Promise<ICashFlowItem> {
+    await billingService.validateSubscription(ctx);
+
     const cashFlowItem = await this.getCashFlowItem(ctx, projectId, cashFlowItemId);
 
     if ((cashFlowItem.permit & Permit.Update) !== Permit.Update) {
@@ -86,6 +90,8 @@ class CashFlowItemServiceImpl implements CashFlowItemService {
     projectId: string,
     cashFlowItemId: string
   ): Promise<void> {
+    await billingService.validateSubscription(ctx);
+
     const cashFlowItem = await this.getCashFlowItem(ctx, projectId, cashFlowItemId);
 
     if ((cashFlowItem.permit & Permit.Update) !== Permit.Update) {

@@ -5,6 +5,8 @@ import { AuthApi } from './other-stores/auth-api';
 import { AuthRepository } from './other-stores/auth-repository';
 import { BalanceApi } from '../stores/api/balance-api';
 import { BalanceRepository } from '../stores/balance-repository';
+import { BillingApi } from '../stores/api/billing-api';
+import { BillingRepository } from '../stores/billing-repository';
 import { BootstrapApi } from '../stores/api/bootstrap-api';
 import { BootstrapStore } from '../stores/bootstrap-store';
 import { CashFlowsApi } from '../stores/api/cash-flows-api';
@@ -87,6 +89,8 @@ export function initializeMainStore(): MainStore {
   new ExchangesRepository(mainStore, new ExchangesApi(mainStore));
   new PlanTransactionsRepository(mainStore, new PlanTransactionsApi(mainStore));
   new ReportsRepository(mainStore, new ReportsApi(mainStore));
+
+  new BillingRepository(mainStore, new BillingApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;

@@ -27,6 +27,7 @@ export async function signIn(ctx: IRequestContext, username: string, password: s
     timeout: user.timeout || 'PT20M',
     userAgent,
     ip,
+    accessUntil:  user.accessUntil,
   });
 
   const token = SessionService.getJwt(session.id);

@@ -18,6 +18,7 @@ export class Session extends Model implements ISession {
   lastAccessTime: TDateTime;
   timeout: string;
   userAgent: string;
+  accessUntil: TDateTime;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 
