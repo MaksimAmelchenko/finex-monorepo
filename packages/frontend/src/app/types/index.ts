@@ -48,3 +48,9 @@ export interface ISelectable {
 export interface IDeletable {
   isDeleting: boolean;
 }
+
+export enum Locale {
+  En = 'en',
+  Ru = 'ru',
+  De = 'de',
+}

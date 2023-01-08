@@ -4,6 +4,7 @@ import { accountId } from '../../../../common/schemas/fields/account-id';
 import { categoryId } from '../../../../common/schemas/fields/category-id';
 import { contractorId } from '../../../../common/schemas/fields/contractor-id';
 import { date } from '../../../../common/schemas/fields/date';
+import { locale } from '../../../../common/schemas/fields/locale';
 import { moneyId } from '../../../../common/schemas/fields/money-id';
 import { sign } from '../../../../common/schemas/fields/sign';
 import { unitId } from '../../../../common/schemas/fields/unit-id';
@@ -68,6 +69,7 @@ export const createPlanTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     markerColor: {
       type: ['string', 'null'],
     },
+    locale,
   },
   additionalProperties: false,
   required: [

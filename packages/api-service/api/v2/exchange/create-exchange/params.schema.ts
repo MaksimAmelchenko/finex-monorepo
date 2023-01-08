@@ -2,6 +2,7 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountId } from '../../../../common/schemas/fields/account-id';
 import { date } from '../../../../common/schemas/fields/date';
+import { locale } from '../../../../common/schemas/fields/locale';
 import { moneyId } from '../../../../common/schemas/fields/money-id';
 
 export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
@@ -31,6 +32,7 @@ export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
             type: 'string',
           },
         },
+        locale,
       },
       additionalProperties: false,
       required: [
@@ -74,6 +76,7 @@ export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
             type: 'string',
           },
         },
+        locale,
       },
       additionalProperties: false,
       required: [

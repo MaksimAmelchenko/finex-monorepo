@@ -5,19 +5,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { BrowserTracing } from '@sentry/tracing';
 
 import { App } from './app/app';
+import { Locale } from './app/types';
 import { createMainContext } from './app/core/main-context';
+import { initializeI18n } from './app/lib/core/i18n';
 import { initializeMainStore } from './app/core/initialize-stores';
 
 import * as en from '../locales/en.js';
-import { initializeI18n } from './app/lib/core/i18n';
 
-const languages = ['en', 'ru', 'de'];
+const locales = [Locale.En, Locale.Ru, Locale.De];
 
 const searchParams = new URLSearchParams(window.location.search);
-const locale = searchParams.get('locale');
+const locale: Locale | null = searchParams.get('locale') as Locale;
 
-const defaultLanguage = languages[1];
-const currentLocale = locale && languages.includes(locale) ? locale : defaultLanguage;
+// TODO use localStorage to save default locale
+const defaultLocale = locales[0] as Locale;
+const currentLocale: Locale = locale && locales.includes(locale) ? locale : defaultLocale;
 
 const SENTRY_DSN = process.env.NX_SENTRY_DSN;
 
@@ -51,7 +53,7 @@ async function initI18n(): Promise<void> {
           },
         },
         currentLocale,
-        defaultLanguage
+        defaultLocale
       );
       break;
     }
@@ -76,7 +78,7 @@ async function initI18n(): Promise<void> {
           },
         },
         currentLocale,
-        defaultLanguage
+        defaultLocale
       );
       break;
     }
@@ -101,7 +103,7 @@ async function initI18n(): Promise<void> {
           },
         },
         currentLocale,
-        defaultLanguage
+        defaultLocale
       );
       break;
     }

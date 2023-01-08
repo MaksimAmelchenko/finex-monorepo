@@ -2,8 +2,9 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountId } from '../../../../common/schemas/fields/account-id';
 import { date } from '../../../../common/schemas/fields/date';
-import { moneyId } from '../../../../common/schemas/fields/money-id';
 import { id } from '../../../../common/schemas/fields/id';
+import { locale } from '../../../../common/schemas/fields/locale';
+import { moneyId } from '../../../../common/schemas/fields/money-id';
 
 export const updateExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -37,6 +38,7 @@ export const updateExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
             type: 'string',
           },
         },
+        locale,
       },
       additionalProperties: false,
       required: ['exchangeId', 'isFee'],
@@ -71,6 +73,7 @@ export const updateExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
         },
         exchangeDate: date,
         reportPeriod: date,
+        locale,
       },
       additionalProperties: false,
       required: ['exchangeId'],

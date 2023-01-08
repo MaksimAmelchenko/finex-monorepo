@@ -38,8 +38,10 @@ export abstract class ApiRepository extends ManageableStore {
   }): Promise<T> {
     const { url, method = 'GET', body, responseTypeCheck = null } = params;
     const data: FormData | string = isFormData(body) ? body : JSON.stringify(body);
+    const { search } = new URL(url, apiServer);
+    const localeParam = (search.length ? '&' : '?') + `locale=${currentLocale()}`;
     return window
-      .fetch(`${apiServer}${url}`, {
+      .fetch(`${apiServer}${url}${localeParam}`, {
         headers: this.headers(isFormData(body)),
         method,
         body: data,

@@ -1,3 +1,5 @@
+import { Locale } from '../types/app';
+
 export default {
   appName: 'api.finex.io',
   appDomain: 'app.finex.io',
@@ -5,6 +7,7 @@ export default {
   log: {
     level: 'trace',
   },
+  locales: [Locale.En, Locale.Ru, Locale.De],
   db: {
     client: 'pg',
     connection: {

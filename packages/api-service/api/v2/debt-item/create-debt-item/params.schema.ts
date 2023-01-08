@@ -4,6 +4,7 @@ import { accountId } from '../../../../common/schemas/fields/account-id';
 import { categoryId } from '../../../../common/schemas/fields/category-id';
 import { date } from '../../../../common/schemas/fields/date';
 import { id } from '../../../../common/schemas/fields/id';
+import { locale } from '../../../../common/schemas/fields/locale';
 import { moneyId } from '../../../../common/schemas/fields/money-id';
 import { sign } from '../../../../common/schemas/fields/sign';
 
@@ -29,6 +30,7 @@ export const createDebtItemParamsSchema: OpenAPIV3_1.SchemaObject = {
         type: 'string',
       },
     },
+    locale,
   },
   additionalProperties: false,
   required: [
