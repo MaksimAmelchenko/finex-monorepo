@@ -22,14 +22,14 @@ export default {
       max: 10,
     },
     migrations: {
-      user: 'DB__MIGRATIONS_USER',
-      password: 'DB__MIGRATIONS_PASSWORD',
+      user: 'DB__MIGRATIONS__USER',
+      password: 'DB__MIGRATIONS__PASSWORD',
       directory: './migrations',
       tableName: 'migrations',
     },
   },
   auth: {
-    jwtSecret: 'AUTH__JWT__SECRET',
+    jwtSecret: 'AUTH__JWT_SECRET',
   },
   captcha: {
     secret: 'CAPTCHA__SECRET',
@@ -42,10 +42,10 @@ export default {
     transport: 'ses',
     from: 'FINEX.io <no-reply@finex.io>',
     service: {
-      region: 'AWS__REGION',
+      region: 'MAIL__SERVICE__REGION',
       credentials: {
-        accessKeyId: 'AWS__ACCESS__KEY__ID',
-        secretAccessKey: 'AWS__SECRET__ACCESS__KEY',
+        accessKeyId: 'MAIL__SERVICE__CREDENTIALS__ACCESS_KEY_ID',
+        secretAccessKey: 'MAIL__SERVICE__CREDENTIALS__SECRET_ACCESS_KEY',
       },
     },
   },

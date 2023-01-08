@@ -4,7 +4,7 @@ import { Session } from '../model/session';
 import { SessionGateway } from '../gateway';
 
 export async function createSession(
-  ctx: IRequestContext<any, false>,
+  ctx: IRequestContext,
   userId: string,
   data: CreateSessionGatewayData
 ): Promise<Session> {

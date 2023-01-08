@@ -6,7 +6,7 @@ import { NotFoundError } from '../../../libs/errors';
 import removeContent from './remove-content';
 
 export default async function remove(
-  ctx: IRequestContext<unknown, false>,
+  ctx: IRequestContext,
   projectId: number,
   fileId: number
 ): Promise<IFile> {
