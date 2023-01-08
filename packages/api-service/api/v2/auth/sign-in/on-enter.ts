@@ -1,9 +1,9 @@
 import { IRequestContext, IRouterContext } from '../../../../types/app';
 
-export default async function onEnter(routerContext: IRouterContext, requestContext: IRequestContext): Promise<void> {
+export async function onEnter(routerContext: IRouterContext, requestContext: IRequestContext): Promise<void> {
   const userAgent = routerContext.request.headers['user-agent'] ?? '';
 
-  const ip = routerContext.request.ip;
+  const { ip } = routerContext;
   requestContext.additionalParams = {
     userAgent,
     ip,

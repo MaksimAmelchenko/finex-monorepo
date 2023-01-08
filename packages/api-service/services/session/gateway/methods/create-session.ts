@@ -1,19 +1,17 @@
 import * as uuid from 'uuid';
+
 import { CreateSessionGatewayData } from '../../types';
 import { IRequestContext } from '../../../../types/app';
 import { Session } from '../../model/session';
 
 export async function createSession(
-  ctx: IRequestContext<any, false>,
+  ctx: IRequestContext,
   userId: string,
   data: CreateSessionGatewayData
 ): Promise<Session> {
   ctx.log.trace({ data }, 'try to create session');
-  const {
-    additionalParams: { ip },
-  } = ctx;
 
-  const { timeout, userAgent, projectId } = data;
+  const { timeout, userAgent, ip, projectId } = data;
   const sessionId: string = uuid.v4();
 
   const session = await Session.query(ctx.trx).insertAndFetch({
