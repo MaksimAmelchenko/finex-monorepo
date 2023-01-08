@@ -1,8 +1,7 @@
-import { ManageableStore } from '../manageable-store';
 import { ApiError, ApiErrors, CoreError } from '../errors';
-
 import { AuthRepository } from './auth-repository';
-import { getT } from '../../lib/core/i18n';
+import { ManageableStore } from '../manageable-store';
+import { currentLocale, getT } from '../../lib/core/i18n';
 
 /**
  * This is some syntax sugar for all api stores
@@ -76,8 +75,7 @@ export abstract class ApiRepository extends ManageableStore {
       : {};
 
     if (authRepository.hasAuth) {
-      // headers['Authorization'] = `Bearer ${authRepository.token}`;
-      headers['Authorization'] = authRepository.token!;
+      headers['Authorization'] = `Bearer ${authRepository.token}`;
     }
 
     return headers;
