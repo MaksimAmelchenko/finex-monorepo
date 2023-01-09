@@ -8,7 +8,15 @@ class UserRepositoryImpl implements UserRepository {
   async createUser(ctx: IRequestContext, data: CreateUserRepositoryData): Promise<IUserDAO> {
     ctx.log.trace({ data }, 'try to create user');
 
-    const { name, email, password, timeout = 'PT20M', householdId, currencyRateSourceId } = data;
+    const {
+      name,
+      email,
+      password,
+      timeout = 'PT20M',
+      householdId,
+      currencyRateSourceId,
+      accessUntil = new Date().toISOString(),
+    } = data;
 
     const userDAO = await UserDAO.query(ctx.trx).insert({
       name,
@@ -17,8 +25,7 @@ class UserRepositoryImpl implements UserRepository {
       timeout,
       idHousehold: Number(householdId),
       idCurrencyRateSource: Number(currencyRateSourceId),
-      // Set temporary value. It will recalculate after adding 'access period' record, but this field is required
-      accessUntil: new Date().toISOString(),
+      accessUntil,
     });
 
     const userId = String(userDAO.idUser);
