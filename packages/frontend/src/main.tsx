@@ -43,7 +43,7 @@ async function initI18n(): Promise<void> {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
-                month: 'MMM YYYY',
+                month: 'MMM yyyy',
               },
             },
             time: {
