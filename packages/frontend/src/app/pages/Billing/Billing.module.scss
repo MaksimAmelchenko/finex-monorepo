@@ -18,6 +18,11 @@
   margin: 0 auto;
   padding: 1.6rem 1.6rem 1.6rem 2.4rem;
   overflow: auto;
+
+  &__freeSubscriptionImage {
+    margin-top: 3.2rem;
+    color: var(--color-alternative700);
+  }
 }
 
 .priceSection {
@@ -59,5 +64,15 @@
     &_noSubscription {
       color: var(--color-danger600);
     }
+  }
+}
+
+.freeSubscriptionImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__image {
+    max-width: 48rem;
   }
 }

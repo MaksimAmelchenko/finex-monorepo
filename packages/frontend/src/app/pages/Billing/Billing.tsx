@@ -17,6 +17,8 @@ import { YooKassaButton } from './YooKassaButton/YooKassaButton';
 import { currentLocale, formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
+import { default as financialManagementSvg } from './assets/financial-management.svg';
+
 import styles from './Billing.module.scss';
 
 const localeCurrencyMap: Record<Locale, string> = {
@@ -111,7 +113,7 @@ export const Billing = observer(() => {
             </div>
           </section>
 
-          {!isFreeSubscription && (
+          {!isFreeSubscription ? (
             <section className={styles.priceSection}>
               {availablePlans.map(plan => {
                 const { id, availablePaymentGateways } = plan;
@@ -159,6 +161,14 @@ export const Billing = observer(() => {
                 );
               })}
             </section>
+          ) : (
+            <div className={clsx(styles.content__freeSubscriptionImage, styles.freeSubscriptionImage)}>
+              <img
+                className={styles.freeSubscriptionImage__image}
+                src={financialManagementSvg}
+                alt="Financial management"
+              />
+            </div>
           )}
         </main>
       </div>
