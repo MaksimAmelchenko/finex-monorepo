@@ -12,7 +12,7 @@ import { initializeMainStore } from './app/core/initialize-stores';
 
 import * as en from '../locales/en.js';
 
-const locales = [Locale.En, Locale.Ru, Locale.De];
+const locales = [Locale.Ru, Locale.En, Locale.De];
 
 const searchParams = new URLSearchParams(window.location.search);
 const locale: Locale | null = searchParams.get('locale') as Locale;
