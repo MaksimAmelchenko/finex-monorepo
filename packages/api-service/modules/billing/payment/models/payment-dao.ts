@@ -4,7 +4,6 @@ import { JSONSchema, Model, Validator } from 'objection';
 import { AccessPeriodDAO } from '../../access-period/models/access-period-dao';
 import { Initiator, IPaymentDAO, PaymentGateway, PaymentStatus } from '../types';
 import { TDateTime, TJson } from '../../../../types/app';
-import { TUUid } from '../../../../../frontend/src/app/types';
 import { ajvValidator } from '../../../../libs/ajv';
 import { paymentDAOSchema } from './payment-dao.schema';
 
@@ -18,7 +17,7 @@ export class PaymentDAO extends Model implements IPaymentDAO {
   status: PaymentStatus;
 
   initiator: Initiator;
-  subscriptionId: TUUid | null;
+  subscriptionId: string | null;
   planId: string;
   amount: number;
   currency: string;

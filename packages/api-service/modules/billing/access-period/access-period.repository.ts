@@ -3,13 +3,12 @@ import * as uuid from 'uuid';
 import { AccessPeriodDAO } from './models/access-period-dao';
 import { AccessPeriodRepository, CreateAccessPeriodRepositoryData, IAccessPeriodDAO } from './types';
 import { IRequestContext } from '../../../types/app';
-import { TUUid } from '../../../../frontend/src/app/types';
 
 class AccessPeriodRepositoryImpl implements AccessPeriodRepository {
   async getAccessPeriod(
     ctx: IRequestContext,
     userId: string,
-    accessPeriodId: TUUid
+    accessPeriodId: string,
   ): Promise<IAccessPeriodDAO | undefined> {
     ctx.log.trace({ accessPeriodId }, 'try to get access period');
 

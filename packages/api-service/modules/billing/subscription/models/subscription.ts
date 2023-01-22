@@ -1,10 +1,9 @@
 import { ISubscription, ISubscriptionEntity, SubscriptionStatus } from '../types';
 import { PaymentGateway } from '../../payment/types';
 import { TDateTime, TJson } from '../../../../types/app';
-import { TUUid } from '../../../../../frontend/src/app/types';
 
 export class Subscription implements ISubscription {
-  readonly id: TUUid;
+  readonly id: string;
   readonly userId: string;
   status: SubscriptionStatus;
   planId: string;

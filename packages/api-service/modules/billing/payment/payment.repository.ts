@@ -4,7 +4,6 @@ import { CreatePaymentRepositoryData, IPaymentDAO, PaymentRepository, UpdatePaym
 import { IRequestContext } from '../../../types/app';
 import { NotFoundError } from '../../../libs/errors';
 import { PaymentDAO } from './models/payment-dao';
-import { TUUid } from '../../../../frontend/src/app/types';
 import { knex } from '../../../knex';
 
 class PaymentRepositoryImpl implements PaymentRepository {
@@ -47,7 +46,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
     return (await this.getPayment(ctx, userId, paymentDAO.id)) as IPaymentDAO;
   }
 
-  async getPayment(ctx: IRequestContext, userId: string, paymentId: TUUid): Promise<IPaymentDAO | undefined> {
+  async getPayment(ctx: IRequestContext, userId: string, paymentId: string): Promise<IPaymentDAO | undefined> {
     ctx.log.trace({ paymentId }, 'try to get payment');
 
     return PaymentDAO.query(ctx.trx)
@@ -70,7 +69,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
   async updatePayment(
     ctx: IRequestContext,
     userId: string,
-    paymentId: TUUid,
+    paymentId: string,
     changes: UpdatePaymentRepositoryChanges
   ): Promise<IPaymentDAO> {
     ctx.log.trace({ paymentId, changes }, 'try to update payment');

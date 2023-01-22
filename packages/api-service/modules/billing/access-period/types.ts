@@ -1,8 +1,7 @@
 import { IRequestContext, TDateTime } from '../../../types/app';
-import { TUUid } from '../../../../frontend/src/app/types';
 
 export interface IAccessPeriodDAO {
-  id: TUUid;
+  id: string;
   userId: number;
   planId: string;
   startAt: TDateTime;
@@ -12,7 +11,7 @@ export interface IAccessPeriodDAO {
 }
 
 export interface IAccessPeriodEntity {
-  id: TUUid;
+  id: string;
   userId: string;
   planId: string;
   startAt: TDateTime;
@@ -35,7 +34,7 @@ export interface AccessPeriodRepository {
   getAccessPeriod(
     ctx: IRequestContext<unknown, true>,
     userId: string,
-    accessPeriodId: TUUid
+    accessPeriodId: string
   ): Promise<IAccessPeriodDAO | undefined>;
 
   createAccessPeriod(
@@ -46,7 +45,7 @@ export interface AccessPeriodRepository {
 }
 
 export interface AccessPeriodService {
-  getAccessPeriod(ctx: IRequestContext<unknown, true>, userId: string, accessPeriodId: TUUid): Promise<IAccessPeriod>;
+  getAccessPeriod(ctx: IRequestContext<unknown, true>, userId: string, accessPeriodId: string): Promise<IAccessPeriod>;
   createAccessPeriod(
     ctx: IRequestContext<unknown, true>,
     userId: string,

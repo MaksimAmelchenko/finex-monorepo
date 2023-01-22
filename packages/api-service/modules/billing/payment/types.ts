@@ -1,5 +1,4 @@
 import { IRequestContext, TDateTime, TJson } from '../../../types/app';
-import { TUUid } from '../../../../frontend/src/app/types';
 
 export type Initiator = 'subscription' | 'user';
 export type PaymentGateway = 'yookassa' | 'paypal';
@@ -7,12 +6,12 @@ export type PaymentGateway = 'yookassa' | 'paypal';
 export type PaymentStatus = 'waiting_for_capture' | 'pending' | 'succeeded' | 'canceled';
 
 export interface IPaymentDAO {
-  id: TUUid;
+  id: string;
   userId: number;
   status: PaymentStatus;
   initiator: Initiator;
   planId: string;
-  subscriptionId: TUUid | null;
+  subscriptionId: string | null;
   amount: number;
   currency: string;
   startAt: TDateTime;
@@ -25,12 +24,12 @@ export interface IPaymentDAO {
 }
 
 export interface IPaymentEntity {
-  id: TUUid;
+  id: string;
   userId: string;
   status: PaymentStatus;
   initiator: Initiator;
   planId: string;
-  subscriptionId: TUUid | null;
+  subscriptionId: string | null;
   amount: number;
   currency: string;
   startAt: TDateTime;
@@ -47,7 +46,7 @@ export interface IPayment extends IPaymentEntity {}
 export interface CreatePaymentRepositoryData {
   status: PaymentStatus;
   initiator: Initiator;
-  subscriptionId: TUUid | null;
+  subscriptionId: string | null;
   planId: string;
   amount: number;
   currency: string;
@@ -62,7 +61,7 @@ export type CreatePaymentServiceData = CreatePaymentRepositoryData;
 
 export interface UpdatePaymentRepositoryChanges {
   status?: PaymentStatus;
-  subscriptionId?: TUUid;
+  subscriptionId?: string;
   gatewayResponse?: TJson;
 }
 
@@ -71,7 +70,7 @@ export type UpdatePaymentServiceChanges = UpdatePaymentRepositoryChanges;
 export interface PaymentRepository {
   createPayment(ctx: IRequestContext, userId: string, data: CreatePaymentRepositoryData): Promise<IPaymentDAO>;
 
-  getPayment(ctx: IRequestContext, userId: string, paymentId: TUUid): Promise<IPaymentDAO | undefined>;
+  getPayment(ctx: IRequestContext, userId: string, paymentId: string): Promise<IPaymentDAO | undefined>;
 
   getPaymentByGatewayPaymentId(
     ctx: IRequestContext,
@@ -84,7 +83,7 @@ export interface PaymentRepository {
   updatePayment(
     ctx: IRequestContext<unknown, true>,
     userId: string,
-    paymentId: TUUid,
+    paymentId: string,
     changes: UpdatePaymentRepositoryChanges
   ): Promise<IPaymentDAO>;
 }
@@ -92,7 +91,7 @@ export interface PaymentRepository {
 export interface PaymentService {
   createPayment(ctx: IRequestContext<unknown, true>, userId: string, data: CreatePaymentServiceData): Promise<IPayment>;
 
-  getPayment(ctx: IRequestContext<unknown, true>, userId: string, paymentId: TUUid): Promise<IPayment>;
+  getPayment(ctx: IRequestContext<unknown, true>, userId: string, paymentId: string): Promise<IPayment>;
 
   getPaymentByGatewayPaymentId(ctx: IRequestContext, userId: string, gatewayPaymentId: string): Promise<IPayment>;
 
@@ -101,7 +100,7 @@ export interface PaymentService {
   updatePayment(
     ctx: IRequestContext<unknown, true>,
     userId: string,
-    paymentId: TUUid,
+    paymentId: string,
     changes: UpdatePaymentServiceChanges
   ): Promise<IPayment>;
 }

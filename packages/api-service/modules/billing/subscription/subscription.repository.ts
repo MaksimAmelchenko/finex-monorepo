@@ -9,7 +9,6 @@ import {
 } from './types';
 import { IRequestContext } from '../../../types/app';
 import { SubscriptionDAO } from './models/subscription-dao';
-import { TUUid } from '../../../../frontend/src/app/types';
 
 class SubscriptionRepositoryImpl implements SubscriptionRepository {
   async createSubscription(
@@ -40,7 +39,7 @@ class SubscriptionRepositoryImpl implements SubscriptionRepository {
   async getSubscription(
     ctx: IRequestContext,
     userId: string,
-    subscriptionId: TUUid
+    subscriptionId: string
   ): Promise<ISubscriptionDAO | undefined> {
     ctx.log.trace({ subscriptionId }, 'try to get subscription');
 
@@ -49,7 +48,7 @@ class SubscriptionRepositoryImpl implements SubscriptionRepository {
       .where({ userId: Number(userId) });
   }
 
-  async getSubscriptionById(ctx: IRequestContext, subscriptionId: TUUid): Promise<ISubscriptionDAO | undefined> {
+  async getSubscriptionById(ctx: IRequestContext, subscriptionId: string): Promise<ISubscriptionDAO | undefined> {
     ctx.log.trace({ subscriptionId }, 'try to get subscription');
 
     return SubscriptionDAO.query(ctx.trx).findById(subscriptionId);

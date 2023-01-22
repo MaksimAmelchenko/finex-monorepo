@@ -1,7 +1,6 @@
 import { CreatePaymentServiceData, IPayment, PaymentService, UpdatePaymentServiceChanges } from './types';
 import { IRequestContext } from '../../../types/app';
 import { InternalError, NotFoundError } from '../../../libs/errors';
-import { TUUid } from '../../../../frontend/src/app/types';
 import { paymentMapper } from './payment.mapper';
 import { paymentRepository } from './payment.repository';
 
@@ -12,7 +11,7 @@ class PaymentServiceImpl implements PaymentService {
     return this.getPayment(ctx, userId, paymentDAO.id);
   }
 
-  async getPayment(ctx: IRequestContext, userId: string, paymentId: TUUid): Promise<IPayment> {
+  async getPayment(ctx: IRequestContext, userId: string, paymentId: string): Promise<IPayment> {
     const paymentDAO = await paymentRepository.getPayment(ctx, userId, paymentId);
     if (!paymentDAO) {
       throw new NotFoundError('Payment not found');
@@ -45,7 +44,7 @@ class PaymentServiceImpl implements PaymentService {
   async updatePayment(
     ctx: IRequestContext,
     userId: string,
-    paymentId: TUUid,
+    paymentId: string,
     changes: UpdatePaymentServiceChanges
   ): Promise<IPayment> {
     await this.getPayment(ctx, userId, paymentId);

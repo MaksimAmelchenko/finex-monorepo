@@ -11,7 +11,6 @@ import {
 import { IRequestContext } from '../../../types/app';
 import { InternalError, InvalidParametersError, NotFoundError } from '../../../libs/errors';
 import { PaymentGateway } from '../payment/types';
-import { TUUid } from '../../../../frontend/src/app/types';
 import { paypalService } from '../paypal/paypal.service';
 import { paymentRepository } from '../payment/payment.repository';
 import { paymentService } from '../payment/payment.service';
@@ -93,7 +92,7 @@ class SubscriptionServiceImpl implements SubscriptionService {
     throw new InternalError(`Payment gateway ${gateway} is not implemented`);
   }
 
-  async getSubscription(ctx: IRequestContext, userId: string, subscriptionId: TUUid): Promise<ISubscription> {
+  async getSubscription(ctx: IRequestContext, userId: string, subscriptionId: string): Promise<ISubscription> {
     const subscriptionDAO = await subscriptionRepository.getSubscription(ctx, userId, subscriptionId);
     if (!subscriptionDAO) {
       throw new NotFoundError('Subscription not found');

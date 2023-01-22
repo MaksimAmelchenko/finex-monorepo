@@ -3,13 +3,12 @@ import { IAccessPeriod, AccessPeriodService, CreateAccessPeriodServiceData } fro
 import { NotFoundError } from '../../../libs/errors';
 import { accessPeriodMapper } from './access-period.mapper';
 import { accessPeriodRepository } from './access-period.repository';
-import { TUUid } from '../../../../frontend/src/app/types';
 
 class AccessPeriodImpl implements AccessPeriodService {
   async getAccessPeriod(
     ctx: IRequestContext,
     userId: string,
-    accessPeriodId: TUUid
+    accessPeriodId: string
   ): Promise<IAccessPeriod> {
     const accessPeriodDAO = await accessPeriodRepository.getAccessPeriod(ctx, userId, accessPeriodId);
     if (!accessPeriodDAO) {

@@ -3,7 +3,6 @@ import { JSONSchema, Model, Validator } from 'objection';
 import { ISubscriptionDAO, SubscriptionStatus } from '../types';
 import { PaymentGateway } from '../../payment/types';
 import { TDateTime, TJson } from '../../../../types/app';
-import { TUUid } from '../../../../../frontend/src/app/types';
 import { ajvValidator } from '../../../../libs/ajv';
 
 import { subscriptionDAOSchema } from './subscription-dao.schema';
@@ -13,7 +12,7 @@ export class SubscriptionDAO extends Model implements ISubscriptionDAO {
   static jsonSchema = subscriptionDAOSchema as JSONSchema;
   static jsonAttributes = ['paymentMetadata'];
 
-  id: TUUid;
+  id: string;
   userId: number;
   planId: string;
   status: SubscriptionStatus;

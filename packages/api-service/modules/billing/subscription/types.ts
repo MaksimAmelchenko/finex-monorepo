@@ -1,6 +1,5 @@
 import { IRequestContext, TDateTime, TJson } from '../../../types/app';
 import { PaymentGateway } from '../payment/types';
-import { TUUid } from '../../../../frontend/src/app/types';
 
 // export type SubscriptionStatus = 'pending' | 'active' | 'canceled';
 export enum SubscriptionStatus {
@@ -10,7 +9,7 @@ export enum SubscriptionStatus {
 }
 
 export interface ISubscriptionDAO {
-  id: TUUid;
+  id: string;
   userId: number;
   status: SubscriptionStatus;
   planId: string;
@@ -22,7 +21,7 @@ export interface ISubscriptionDAO {
 }
 
 export interface ISubscriptionEntity {
-  id: TUUid;
+  id: string;
   userId: string;
   status: SubscriptionStatus;
   planId: string;
@@ -36,7 +35,7 @@ export interface ISubscriptionEntity {
 export interface ISubscription extends ISubscriptionEntity {}
 
 export type ISubscriptionDTO = {
-  id: TUUid;
+  id: string;
   planId: string;
 };
 
@@ -77,10 +76,10 @@ export interface SubscriptionRepository {
   getSubscription(
     ctx: IRequestContext<unknown, true>,
     userId: string,
-    subscriptionId: TUUid
+    subscriptionId: string
   ): Promise<ISubscriptionDAO | undefined>;
 
-  getSubscriptionById(ctx: IRequestContext, subscriptionId: TUUid): Promise<ISubscriptionDAO | undefined>;
+  getSubscriptionById(ctx: IRequestContext, subscriptionId: string): Promise<ISubscriptionDAO | undefined>;
 
   getSubscriptionByGatewaySubscriptionId(
     ctx: IRequestContext,
@@ -105,7 +104,7 @@ export interface SubscriptionService {
     planId: string
   ): Promise<ICreateSubscriptionResponse>;
 
-  getSubscription(ctx: IRequestContext<unknown, true>, userId: string, subscriptionId: TUUid): Promise<ISubscription>;
+  getSubscription(ctx: IRequestContext<unknown, true>, userId: string, subscriptionId: string): Promise<ISubscription>;
 
   getActiveSubscription(ctx: IRequestContext<unknown, true>, userId: string): Promise<ISubscription | null>;
 
