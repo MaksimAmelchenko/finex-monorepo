@@ -63,7 +63,7 @@ export async function up(knex: Knex): Promise<void> {
       //   .inTable('cf$.money')
       //   .onDelete('cascade');
 
-      table.unique(['id_project', 'id_plan'], 'plan_transfer_id_project_id_plan');
+      table.unique(['id_project', 'id_plan'], { indexName: 'plan_transfer_id_project_id_plan' });
     })
     .raw(
       'alter table cf$.plan_transfer add constraint plan_transfer_account_check check (id_account_from <> id_account_to);'

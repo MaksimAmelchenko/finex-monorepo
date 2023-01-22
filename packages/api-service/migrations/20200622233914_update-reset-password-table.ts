@@ -44,7 +44,7 @@ export async function down(knex: Knex): Promise<void> {
   `);
 
   await knex.schema.withSchema('core$').alterTable('password_recovery_request', table => {
-    table.primary(['id_password_recovery_request'], 'password_recovery_request_pk');
+    table.primary(['id_password_recovery_request'], { constraintName: 'password_recovery_request_pk' });
     table.dropTimestamps();
   });
 }

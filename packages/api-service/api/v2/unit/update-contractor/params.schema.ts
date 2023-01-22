@@ -1,5 +1,6 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
+import { locale } from '../../../../common/schemas/fields/locale';
 import { unitId } from '../../../../common/schemas/fields/unit-id';
 
 export const updateUnitParamsSchema: OpenAPIV3_1.SchemaObject = {
@@ -12,6 +13,7 @@ export const updateUnitParamsSchema: OpenAPIV3_1.SchemaObject = {
     note: {
       type: 'string',
     },
+    locale,
   },
   additionalProperties: false,
   required: ['unitId'],

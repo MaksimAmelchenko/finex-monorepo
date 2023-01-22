@@ -3,6 +3,7 @@ import { OpenAPIV3_1 } from 'openapi-types';
 import { contractorId } from '../../../../common/schemas/fields/contractor-id';
 import { id } from '../../../../common/schemas/fields/id';
 import { updateCashFlowItemParamsSchema } from './update-cash-flow-item.params.schema';
+import { locale } from '../../../../common/schemas/fields/locale';
 
 export const updateCashFlowParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -29,6 +30,7 @@ export const updateCashFlowParamsSchema: OpenAPIV3_1.SchemaObject = {
         ],
       },
     },
+    locale,
   },
   additionalProperties: false,
   required: ['cashFlowId'],

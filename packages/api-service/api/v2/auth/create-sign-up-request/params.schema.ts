@@ -1,6 +1,7 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
 import { email } from '../../../../common/schemas/fields/email';
+import { locale } from '../../../../common/schemas/fields/locale';
 
 export const createSignUpRequestParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -25,6 +26,7 @@ export const createSignUpRequestParamsSchema: OpenAPIV3_1.SchemaObject = {
     recaptcha: {
       type: 'string',
     },
+    locale,
   },
   required: ['name', 'email', 'password', 'isAcceptTerms'],
   additionalProperties: false,

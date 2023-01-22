@@ -74,7 +74,7 @@ export async function up(knex: Knex): Promise<void> {
       //   .inTable('cf$.money')
       //   .onDelete('cascade');
 
-      table.unique(['id_project', 'id_plan'], 'plan_exchange_id_project_id_plan');
+      table.unique(['id_project', 'id_plan'], { indexName: 'plan_exchange_id_project_id_plan' });
     })
     .raw(
       'alter table cf$.plan_exchange add constraint plan_exchange_fee_check CHECK (((((id_account_fee IS NULL) AND (fee IS NULL)) AND (id_money_fee IS NULL)) OR (((id_account_fee IS NOT NULL) AND (fee IS NOT NULL)) AND (id_money_fee IS NOT NULL))));'

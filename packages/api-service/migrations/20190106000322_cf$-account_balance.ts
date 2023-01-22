@@ -28,7 +28,7 @@ export async function up(knex: Knex): Promise<void> {
 
     table.specificType('sum_out', 'numeric').notNullable().comment('Сумма расхода');
 
-    table.unique(['id_project', 'id_account', 'dbalance', 'id_money'], 'account_balance_u');
+    table.unique(['id_project', 'id_account', 'dbalance', 'id_money'], { indexName: 'account_balance_u' });
   });
 }
 

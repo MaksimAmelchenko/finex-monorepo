@@ -7,7 +7,7 @@ import { TSignInResponse } from '../../../types/auth';
 import { authenticateUser } from './authenticate-user';
 
 export async function signIn(ctx: IRequestContext, username: string, password: string): Promise<TSignInResponse> {
-  const { userAgent } = ctx.additionalParams;
+  const { userAgent, ip } = ctx.additionalParams;
 
   const user = await authenticateUser(ctx, username, password);
   const projects: Project[] = await ProjectGateway.getProjects(ctx, user.id);
@@ -26,6 +26,8 @@ export async function signIn(ctx: IRequestContext, username: string, password: s
     projectId,
     timeout: user.timeout || 'PT20M',
     userAgent,
+    ip,
+    accessUntil:  user.accessUntil,
   });
 
   const token = SessionService.getJwt(session.id);

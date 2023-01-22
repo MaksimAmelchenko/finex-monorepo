@@ -1,5 +1,6 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
+import { locale } from '../../../../common/schemas/fields/locale';
 import { projectId } from '../../../../common/schemas/parameters/project-id';
 
 export const mergeProjectParamsSchema: OpenAPIV3_1.SchemaObject = {
@@ -13,6 +14,7 @@ export const mergeProjectParamsSchema: OpenAPIV3_1.SchemaObject = {
       },
       minItems: 1,
     },
+    locale,
   },
   additionalProperties: false,
   required: ['projectId', 'projects'],

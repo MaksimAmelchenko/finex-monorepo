@@ -2,6 +2,7 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { id } from '../../../common/schemas/fields/id';
 import { dateTime } from '../../../common/schemas/fields/date-time';
+import { TDateTime } from '../../../types/app';
 
 export const sessionSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -29,6 +30,7 @@ export const sessionSchema: OpenAPIV3_1.SchemaObject = {
     isActive: {
       type: 'boolean',
     },
+    accessUntil: dateTime,
     createdAt: dateTime,
     updatedAt: dateTime,
   },
@@ -43,5 +45,6 @@ export const sessionSchema: OpenAPIV3_1.SchemaObject = {
     'timeout',
     'isActive',
     'userAgent',
+    'accessUntil',
   ],
 };

@@ -17,7 +17,7 @@ export interface IModel {
 export type IRouterContext = Router.RouterContext<any, ContextCustomT>;
 
 export type IRequestContext<P = unknown, isAuthorized extends boolean = false> = {
-  params: P;
+  params: P & { locale: Locale };
   additionalParams?: any;
   cookies: Cookies;
   trx?: Knex.Transaction;
@@ -35,6 +35,7 @@ interface IAuthorizedRequestContext {
   sessionId: string;
   projectId: string;
   userId: string;
+  accessUntil: TDateTime;
   permissions: Permissions;
   // for DB port
   authorization: string;
@@ -72,3 +73,11 @@ export type Permissions = {
   accounts: Record<string, Permit>;
   projects: Record<string, Permit>;
 };
+
+export type TI18nField<T> = Record<Locale, T>;
+
+export enum Locale {
+  En = 'en',
+  Ru = 'ru',
+  De = 'de',
+}

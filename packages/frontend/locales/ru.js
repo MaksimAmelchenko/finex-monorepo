@@ -16,6 +16,7 @@ module.exports = {
   },
   AccountMenu: {
     Profile: 'Профиль',
+    'Billing & plans': 'Оплата и подписка',
     Logout: 'Выйти',
   },
   Accounts: {
@@ -56,13 +57,23 @@ module.exports = {
     Save: 'Сохранить',
   },
   ApiRepository: {
-    'Session Timeout': 'Session Timeout',
-    'Session closed': 'Session closed',
-    'Invalid authorization': 'Invalid authorization',
+    'Session Timeout': 'Время ожидания сессии истекло. Требуется повторный вход в систему.',
+    'Session closed': 'Сессия завершина',
+    'Session not found': 'Сессия не найдена',
+    'Invalid authorization': 'Ошибка авторизации',
   },
   BalanceRepository: {
     'Owe me': 'Должны мне',
     'I owe': 'Я должен',
+  },
+  Billing: {
+    'Subscription successful': 'Подписка оформлена успешно',
+    'Billing settings': 'Оплата и подписка',
+    'Access until': 'Доступ до',
+    'Your plan': 'Ваш план',
+    'No active subscription': 'Нет активной подписки',
+    Unsubscribe: 'Отписаться',
+    'Pay Now': 'Заплатить сейчас',
   },
   CashFlow: {
     Overdue: 'Просрочено',
@@ -377,6 +388,9 @@ module.exports = {
     Distribution: 'Распределение',
     Settings: 'Настройки',
     Tools: 'Инструменты',
+    Subscribe: 'Subscribe',
+    Dismiss: 'Dismiss',
+    'Your subscription has ended_': 'Your subscription has ended.',
     Outcome: 'Обзор',
   },
   Moneys: {
@@ -426,6 +440,12 @@ module.exports = {
   },
   Pagination: {
     of: 'из',
+  },
+  PayPalButton: {
+    'Something went wrong, please try again late': 'Something went wrong, please try again late',
+  },
+  Plan: {
+    'Plan automatically renews until canceled': 'Подписка автоматически продлевается до отмены',
   },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
@@ -796,5 +816,8 @@ module.exports = {
     Name: 'Наименование',
     Cancel: 'Отмена',
     Save: 'Сохранить',
+  },
+  YooKassaButton: {
+    Subscribe: 'Подписаться',
   },
 };

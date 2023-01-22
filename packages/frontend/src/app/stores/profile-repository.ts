@@ -24,7 +24,7 @@ export class ProfileRepository extends ManageableStore {
     });
   }
 
-  consume({ id, name, email, projectId, timeout }: IProfileDTO): void {
+  consume({ id, name, email, projectId, timeout, accessUntil, planId }: IProfileDTO): void {
     const usersRepository = this.getStore(UsersRepository);
     const currenciesRateSourceStore = this.getStore(CurrenciesRateSourceStore);
     const projectsRepository = this.getStore(ProjectsRepository);
@@ -54,6 +54,14 @@ export class ProfileRepository extends ManageableStore {
       // currencyRateSource,
       project,
       timeout,
+      accessUntil,
+      planId,
+    });
+  }
+
+  async getProfile(): Promise<void> {
+    return this.api.getProfile().then(({ profile }) => {
+      this.consume(profile);
     });
   }
 

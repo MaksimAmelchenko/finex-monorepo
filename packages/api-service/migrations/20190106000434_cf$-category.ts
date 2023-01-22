@@ -21,7 +21,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.specificType('id_category', 'serial').notNullable().comment('УИД статьи денежного потока');
 
-      table.primary(['id_project', 'id_category'], 'category_pk');
+      table.primary(['id_project', 'id_category'], { constraintName: 'category_pk' });
 
       table.integer('id_user').notNullable().comment('УИД пользователя');
 

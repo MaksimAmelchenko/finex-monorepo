@@ -16,6 +16,7 @@ module.exports = {
   },
   AccountMenu: {
     Profile: 'Profile',
+    'Billing & plans': 'Billing & plans',
     Logout: 'Logout',
   },
   Accounts: {
@@ -58,11 +59,21 @@ module.exports = {
   ApiRepository: {
     'Session Timeout': 'Session Timeout',
     'Session closed': 'Session closed',
+    'Session not found': 'Session not found',
     'Invalid authorization': 'Invalid authorization',
   },
   BalanceRepository: {
     'Owe me': 'Owe me',
     'I owe': 'I owe',
+  },
+  Billing: {
+    'Subscription successful': 'Subscription successful',
+    'Billing settings': 'Billing settings',
+    'Access until': 'Access until',
+    'Your plan': 'Your plan',
+    'No active subscription': 'No active subscription',
+    Unsubscribe: 'Unsubscribe',
+    'Pay Now': 'Pay Now',
   },
   CashFlow: {
     Overdue: 'Overdue',
@@ -376,6 +387,9 @@ module.exports = {
     Distribution: 'Distribution',
     Settings: 'Settings',
     Tools: 'Tools',
+    Subscribe: 'Subscribe',
+    Dismiss: 'Dismiss',
+    'Your subscription has ended_': 'Your subscription has ended.',
     Outcome: 'Outcome',
   },
   Moneys: {
@@ -425,6 +439,12 @@ module.exports = {
   },
   Pagination: {
     of: 'of',
+  },
+  PayPalButton: {
+    'Something went wrong, please try again late': 'Something went wrong, please try again late',
+  },
+  Plan: {
+    'Plan automatically renews until canceled': 'Plan automatically renews until canceled',
   },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
@@ -796,5 +816,8 @@ module.exports = {
     Name: 'Name',
     Cancel: 'Cancel',
     Save: 'Save',
+  },
+  YooKassaButton: {
+    Subscribe: 'Subscribe',
   },
 };

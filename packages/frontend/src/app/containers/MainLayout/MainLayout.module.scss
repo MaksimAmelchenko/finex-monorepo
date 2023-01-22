@@ -36,3 +36,15 @@
     transform: rotate(-90deg);
   }
 }
+
+.snackbar {
+  &__action {
+    display: flex;
+    column-gap: 0.8rem;
+  }
+
+  &__actionlink {
+    color: var(--color-neutral0);
+    font-weight: bold;
+  }
+}

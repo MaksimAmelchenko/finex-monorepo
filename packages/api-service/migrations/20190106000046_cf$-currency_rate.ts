@@ -12,10 +12,9 @@ export async function up(knex: Knex): Promise<void> {
 
     table.specificType('rate', 'numeric');
 
-    table.unique(
-      ['id_currency_rate_source', 'id_currency', 'drate'],
-      'currency_rate_id_currency_rate_source_id_currency_drate'
-    );
+    table.unique(['id_currency_rate_source', 'id_currency', 'drate'], {
+      indexName: 'currency_rate_id_currency_rate_source_id_currency_drate',
+    });
   });
 }
 

@@ -41,8 +41,8 @@ export async function up(knex: Knex): Promise<void> {
 
     table.specificType('rate', 'numeric').notNullable().comment('Курс');
 
-    table.primary(['id_project', 'id_money_rate'], 'money_rate_pk');
-    table.unique(['id_project', 'id_money', 'drate'], 'money_rate_u');
+    table.primary(['id_project', 'id_money_rate'], { constraintName: 'money_rate_pk' });
+    table.unique(['id_project', 'id_money', 'drate'], { indexName: 'money_rate_u' });
   });
   await knex.schema.raw(v_money_rate_v1.up);
 }

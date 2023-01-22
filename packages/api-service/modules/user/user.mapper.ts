@@ -1,4 +1,5 @@
 import { IProfile, IUser, IUserDAO, IUserDTO, UserMapper } from './types';
+import { ISubscription } from '../billing/subscription/types';
 import { User } from './models/user';
 
 class UserMapperImpl implements UserMapper {
@@ -11,6 +12,7 @@ class UserMapperImpl implements UserMapper {
     idHousehold,
     idProject,
     idCurrencyRateSource,
+    accessUntil,
     createdAt,
     updatedAt,
   }: IUserDAO): IUser {
@@ -23,6 +25,7 @@ class UserMapperImpl implements UserMapper {
       householdId: String(idHousehold),
       projectId: idProject ? String(idProject) : null,
       currencyRateSourceId: String(idCurrencyRateSource),
+      accessUntil,
       createdAt,
       updatedAt,
     });
@@ -36,7 +39,10 @@ class UserMapperImpl implements UserMapper {
     };
   }
 
-  toProfile({ id, name, email, timeout, projectId, currencyRateSourceId }: IUser): IProfile {
+  toProfile(
+    { id, name, email, timeout, projectId, currencyRateSourceId, accessUntil }: IUser,
+    subscription: ISubscription | null
+  ): IProfile {
     return {
       id,
       name,
@@ -44,6 +50,8 @@ class UserMapperImpl implements UserMapper {
       timeout,
       projectId,
       currencyRateSourceId,
+      accessUntil,
+      planId: subscription?.planId ?? null,
     };
   }
 }

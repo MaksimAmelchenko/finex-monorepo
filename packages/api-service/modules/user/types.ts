@@ -1,4 +1,5 @@
 import { IRequestContext, TDateTime } from '../../types/app';
+import { ISubscription } from '../billing/subscription/types';
 
 export interface IUserDAO {
   idUser: number;
@@ -9,6 +10,7 @@ export interface IUserDAO {
   idHousehold: number;
   idProject: number | null;
   idCurrencyRateSource: number;
+  accessUntil: TDateTime;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 }
@@ -22,6 +24,7 @@ export interface IUserEntity {
   householdId: string;
   projectId: string | null;
   currencyRateSourceId: string;
+  accessUntil: TDateTime;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 }
@@ -41,6 +44,8 @@ export interface IProfile {
   timeout: string;
   projectId: string | null;
   currencyRateSourceId: string;
+  accessUntil: TDateTime;
+  planId: string | null;
 }
 
 export interface CreateUserRepositoryData {
@@ -50,6 +55,7 @@ export interface CreateUserRepositoryData {
   timeout?: string;
   householdId: string;
   currencyRateSourceId: string;
+  accessUntil?: TDateTime
 }
 
 export type CreateUserServiceData = CreateUserRepositoryData;
@@ -104,5 +110,5 @@ export interface UserService {
 export interface UserMapper {
   toDomain(user: IUserDAO): IUser;
   toDTO(user: IUser): IUserDTO;
-  toProfile(user: IUser): IProfile;
+  toProfile(user: IUser, subscription: ISubscription | null): IProfile;
 }

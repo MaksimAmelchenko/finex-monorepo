@@ -52,7 +52,7 @@ describe('Reset password', function (): void {
     userId = userData.user.id;
 
     signInResponse = <ISessionResponse>await signIn(request, username, password);
-    await authorize(ctx, signInResponse.authorization, '');
+    await authorize(ctx, `Bearer ${signInResponse.authorization}`, '');
   });
 
   after(async () => {
@@ -90,9 +90,8 @@ describe('Reset password', function (): void {
     await sleep(3000);
     transactionalEmail = await getLastTransactionalEmail(ctx, username, 60);
 
-    // token = transactionalEmail.originalMessage.html.match(/\/reset-password\/(.*)\/confirm"/)[1];
     token = transactionalEmail.originalMessage.html.match(
-      /\>https:\/\/finex.io\/password_recovery\/confirm\?token=(.*)\<\/a>/
+      /\>https:\/\/app.finex.io\/reset-password\/confirmation\?token=(.*)\<\/a>/
     )[1];
     if (!token) {
       throw new Error('Token is not found in email');

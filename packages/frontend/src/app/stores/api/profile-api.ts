@@ -1,8 +1,21 @@
 import { ApiRepository } from '../../core/other-stores/api-repository';
-import { DeleteProfileParams, IProfileApi, UpdateProfileChanges, UpdateProfileResponse } from '../../types/profile';
+import {
+  DeleteProfileParams,
+  GetProfileResponse,
+  IProfileApi,
+  UpdateProfileChanges,
+  UpdateProfileResponse,
+} from '../../types/profile';
 
 export class ProfileApi extends ApiRepository implements IProfileApi {
   static override storeName = 'ProfileApi';
+
+  getProfile(): Promise<GetProfileResponse> {
+    return this.fetch<GetProfileResponse>({
+      method: 'GET',
+      url: `/v2/profile`,
+    });
+  }
 
   update(changes: UpdateProfileChanges): Promise<UpdateProfileResponse> {
     return this.fetch<UpdateProfileResponse>({

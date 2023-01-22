@@ -57,7 +57,7 @@ describe('Profile', function (): void {
     userId = userData.user.id;
 
     signInResponse = <ISessionResponse>await signIn(request, username, password);
-    await authorize(ctx, signInResponse.authorization, '');
+    await authorize(ctx, `Bearer ${signInResponse.authorization}`, '');
   });
 
   afterEach(async () => {

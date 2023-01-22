@@ -58,6 +58,7 @@ import { reportApi } from './api/v2/reports';
 import { profileApi } from './api/v2/profile';
 import { cashFlowApi } from './api/v2/cash-flow';
 import { cashFlowItemApi } from './api/v2/cash-flow-item';
+import { billingApi } from './api/v2/billing';
 
 const app: Koa = new Koa();
 
@@ -120,6 +121,7 @@ app.use(reportApi);
 app.use(profileApi);
 app.use(cashFlowApi);
 app.use(cashFlowItemApi);
+app.use(billingApi);
 
 // serve docs
 app.use(async (ctx, next) => {

@@ -5,6 +5,7 @@ import { Slide } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { observer } from 'mobx-react-lite';
 
+import { BillingLazy } from './pages/Billing/BillingLazy';
 import { CashFlows } from './pages/CashFlows/CashFlows';
 import { DashboardLazy } from './pages/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
@@ -14,7 +15,6 @@ import { Exchanges } from './pages/Exchanges/Exchanges';
 import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
 import { Loader } from './components/Loader/Loader';
 import { MainLayout } from './containers/MainLayout/MainLayout';
-// import { NotFoundLazy } from './pages/NotFound/NotFoundLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -68,6 +68,8 @@ export const App = observer(() => {
                       <Route path="/reports" element={<Navigate to={'/reports/dynamics'} replace={true} />} />
                       <Route path="/reports/dynamics" element={<DynamicsReportLazy />} />
                       <Route path="/reports/distribution" element={<DistributionReportLazy />} />
+
+                      <Route path="/settings/billing" element={<BillingLazy />} />
 
                       <Route path="/settings" element={<SettingsLazy />} />
                       <Route path="/settings/:tab" element={<SettingsLazy />} />

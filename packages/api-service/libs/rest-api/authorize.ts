@@ -44,6 +44,7 @@ export async function authorize(
   ctx.sessionId = session.id;
   ctx.userId = String(session.idUser);
   ctx.projectId = String(session.idProject);
+  ctx.accessUntil = session.accessUntil;
 
   const [accountPermits, projectPermits] = await Promise.all([
     //

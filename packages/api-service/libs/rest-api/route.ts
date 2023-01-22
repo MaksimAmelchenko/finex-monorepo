@@ -1,22 +1,25 @@
 import * as defaults from 'lodash.defaults';
 
-import { getMultipartParams } from './get-multipart-params';
-import { getParams } from './get-params';
-import { getValidators } from './get-validators';
-import { send, isContent } from './send';
-import { sendError } from './send-error';
-import { IRequestContext, IRouterContext } from '../../types/app';
+import config from '../config';
+import { IRequestContext, IRouterContext, Locale } from '../../types/app';
 import { IResponse, IRestRoute, RestMethod, RestRouteOptions, SchemasValidators } from './types';
 import { InvalidParametersError, InvalidResponseError, UnauthorizedError } from '../errors';
 import { ajv } from '../ajv';
 import { authorize } from './authorize';
+import { getMultipartParams } from './get-multipart-params';
+import { getParams } from './get-params';
+import { getValidators } from './get-validators';
 import { knex } from '../../knex';
 import { log } from '../log';
+import { send, isContent } from './send';
+import { sendError } from './send-error';
+
+const locales: Locale[] = config.get('locales');
 
 export class RestRoute<P extends unknown, IsAuthorized extends boolean> implements IRestRoute {
   options: RestRouteOptions<P, IsAuthorized>;
   validators: SchemasValidators;
-  getParams: (routerContext: IRouterContext) => Promise<Record<string, unknown>>;
+  getParams: (routerContext: IRouterContext) => Promise<Record<string, unknown> & { locale: Locale }>;
 
   constructor(routeOptions: RestRouteOptions<P, IsAuthorized>) {
     this.options = defaults(routeOptions, {
@@ -35,14 +38,14 @@ export class RestRoute<P extends unknown, IsAuthorized extends boolean> implemen
       throw err;
     }
 
-    this.getParams = routeOptions.uploader ? getMultipartParams(routeOptions.uploader) : getParams;
+    this.getParams = routeOptions.uploader ? (getMultipartParams(routeOptions.uploader) as any) : getParams;
   }
 
   async handler(routerContext: IRouterContext, next): Promise<any> {
     const { options } = this;
 
-    const ctx: IRequestContext<unknown, false> = {
-      params: {},
+    const ctx: IRequestContext = {
+      params: { locale: locales[0] },
       log: routerContext.log,
       requestId: routerContext.requestId,
       cookies: routerContext.cookies,
@@ -66,7 +69,7 @@ export class RestRoute<P extends unknown, IsAuthorized extends boolean> implemen
           .transacting(ctx.trx);
       }
 
-      let params = {};
+      let params = { locale: locales[0] };
       try {
         params = await this.getParams(routerContext);
       } catch (err: any) {

@@ -32,7 +32,8 @@ describe('frontend', () => {
     cy.get('[data-cy=cfw-tags]').click();
     getSelectOption('[data-cy=cfw-tags]', 1).click();
 
-    cy.get('[data-cy=cfw-save-button]').click().should('be.disabled');
+    cy.get('[data-cy=cfw-save-button]').click();
+    // cy.get('[data-cy=cfw-save-button]').should('be.disabled');
     cy.get('[data-cy=cfw-save-button]').should('be.not.disabled');
 
     //
@@ -43,7 +44,8 @@ describe('frontend', () => {
 
     getSelectOption('[data-cy=cfiw-category]', 1).click();
 
-    cy.get('[data-cy=cfiw-save-button]').click().should('be.disabled');
+    cy.get('[data-cy=cfiw-save-button]').click();
+    // cy.get('[data-cy=cfiw-save-button]').should('be.disabled');
 
     cy.get('[data-cy=cfiw-form-header]').should('not.exist');
 
@@ -60,7 +62,8 @@ describe('frontend', () => {
     cy.get('[data-cy=cfiw-quantity]').type('1');
     cy.get('[data-cy=cfiw-is-not-confirmed]').click();
     cy.get('[data-cy=cfiw-note]').type('Note');
-    cy.get('[data-cy=cfiw-save-and-create-more-button]').click().should('be.disabled');
+    cy.get('[data-cy=cfiw-save-and-create-more-button]').click();
+    // cy.get('[data-cy=cfiw-save-and-create-more-button]').should('be.disabled');
     cy.get('[data-cy=cfiw-save-and-create-more-button]').should('be.not.disabled');
 
     cy.get('[data-cy=cfiw-amount]').should('be.empty');

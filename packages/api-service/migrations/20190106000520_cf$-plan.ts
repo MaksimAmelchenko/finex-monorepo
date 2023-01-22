@@ -62,7 +62,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('color_mark').comment('Цветовая метка');
       table.text('note').comment('Примечание');
 
-      table.primary(['id_project', 'id_plan'], 'plan_pk');
+      table.primary(['id_project', 'id_plan'], { constraintName: 'plan_pk' });
     })
     .raw(plan_aiu_trigger_v1.up)
     .raw(plan_bi_trigger_v1.up);

@@ -39,7 +39,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.integer('precision').defaultTo(2);
 
-      table.primary(['id_project', 'id_money'], 'money_pk');
+      table.primary(['id_project', 'id_money'], { constraintName: 'money_pk' });
     })
     .raw("alter table cf$.money add constraint money_name_is_empty CHECK (btrim(name) <> ''::text);")
     .raw('alter table cf$.money add constraint money_name_is_too_long CHECK (length(name) <= 50);')

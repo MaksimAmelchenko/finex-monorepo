@@ -10,6 +10,7 @@ export class User implements IUser {
   householdId: string;
   projectId: string | null;
   currencyRateSourceId: string;
+  accessUntil: TDateTime;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 
@@ -22,6 +23,7 @@ export class User implements IUser {
     householdId,
     projectId,
     currencyRateSourceId,
+    accessUntil,
     createdAt,
     updatedAt,
   }: IUserEntity) {
@@ -33,6 +35,7 @@ export class User implements IUser {
     this.householdId = householdId;
     this.projectId = projectId;
     this.currencyRateSourceId = currencyRateSourceId;
+    this.accessUntil = accessUntil;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
