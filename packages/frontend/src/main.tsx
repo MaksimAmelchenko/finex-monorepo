@@ -44,6 +44,7 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
+                dateWithDayIfWeek: 'd MMM yyyy, iiiiii',
               },
             },
             time: {
@@ -70,6 +71,7 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
+                dateWithDayIfWeek: 'd MMM yyyy, EEEEEE',
               },
             },
             time: {
@@ -96,6 +98,7 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
+                dateWithDayIfWeek: 'd MMM yyyy, EEEEEE',
               },
             },
             time: {

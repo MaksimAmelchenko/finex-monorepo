@@ -1,0 +1,120 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: row;
+  gap: 1.6rem;
+
+  transition: opacity 0.15s ease-in-out;
+
+  border: 0;
+  border-radius: 0;
+
+  width: 100%;
+  padding: 0.8rem 1.6rem;
+
+  background: none;
+
+  text-align: unset;
+  text-decoration: none;
+  color: var(--color-gray-900);
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__contentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex-grow: 1;
+  }
+
+  &__noteWrapper {
+    padding-right: 0.8rem;
+  }
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 2rem;
+
+  width: 4.8rem;
+  height: 4.8rem;
+
+  background: var(--color-gray-100);
+
+  img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  &__header {
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  &__contractorName {
+    align-self: stretch;
+    flex-grow: 1;
+    overflow: hidden;
+    width: 1px;
+    @include typography.textMD;
+    text-overflow: ellipsis;
+  }
+
+  &__amount {
+    flex-grow: 0;
+    @include typography.textMD;
+    white-space: nowrap;
+    color: var(--color-gray-900);
+
+    &_income {
+      color: var(--color-success-500);
+    }
+  }
+
+  &__categoryName {
+    @include typography.textMD;
+    align-self: stretch;
+    flex-grow: 0;
+    overflow: hidden;
+    max-width: calc(100vw - 96px);
+    text-overflow: ellipsis;
+  }
+
+  &__accountName {
+    @include typography.textSM;
+    align-self: stretch;
+    flex-grow: 0;
+    overflow: hidden;
+    max-width: calc(100vw - 96px);
+    text-overflow: ellipsis;
+    color: var(--color-gray-500);
+  }
+}
+
+.note {
+  display: flex;
+  border-radius: 0.4rem 2rem 2rem 2rem;
+  padding: 1.6rem;
+  background: var(--color-gray-100);
+
+  &__text {
+    @include typography.textSM;
+    color: var(--color-gray-500);
+  }
+}

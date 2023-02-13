@@ -86,6 +86,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.6.1",
     "react-select": "^5.7.0",
+    "react-spring-bottom-sheet": "^3.4.1",
     "react-text-mask": "^5.5.0",
     "react-textarea-autosize": "^8.4.0",
     "regenerator-runtime": "^0.13.9",

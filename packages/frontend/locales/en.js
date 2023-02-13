@@ -443,6 +443,9 @@ module.exports = {
     Cancel: 'Cancel',
     Move: 'Move',
   },
+  Operations: {
+    'Load more': 'Load more',
+  },
   Pagination: {
     of: 'of',
   },

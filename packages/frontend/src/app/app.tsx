@@ -16,6 +16,7 @@ import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
 import { Loader } from './components/Loader/Loader';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { MainLayoutMobile } from './containers/MainLayoutMobile/MainLayoutMobile';
+import { OperationsLazy } from './pages/Operations/OperationsLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -63,6 +64,7 @@ export const App = observer(() => {
                   {isSmall ? (
                     <MainLayoutMobile>
                       <Routes>
+                        <Route path="/operations" element={<OperationsLazy />} />
                         <Route path="/outcome" element={<DashboardLazy />} />
                         <Route path="/settings" element={<SettingsLazy />} />
                         <Route path="/settings/:tab" element={<SettingsLazy />} />
@@ -70,30 +72,30 @@ export const App = observer(() => {
                       </Routes>
                     </MainLayoutMobile>
                   ) : (
-                  <MainLayout>
-                    <Routes>
-                      <Route path="/outcome" element={<DashboardLazy />} />
-                      <Route path="/cash-flows" element={<CashFlows />} />
-                      <Route path="/transactions" element={<Transactions />} />
-                      <Route path="/debts" element={<Debts />} />
-                      <Route path="/transfers" element={<Transfers />} />
-                      <Route path="/exchanges" element={<Exchanges />} />
-                      <Route path="/planning" element={<PlanningLazy />} />
-                      <Route path="/reports" element={<Navigate to={'/reports/dynamics'} replace={true} />} />
-                      <Route path="/reports/dynamics" element={<DynamicsReportLazy />} />
-                      <Route path="/reports/distribution" element={<DistributionReportLazy />} />
+                    <MainLayout>
+                      <Routes>
+                        <Route path="/outcome" element={<DashboardLazy />} />
+                        <Route path="/cash-flows" element={<CashFlows />} />
+                        <Route path="/transactions" element={<Transactions />} />
+                        <Route path="/debts" element={<Debts />} />
+                        <Route path="/transfers" element={<Transfers />} />
+                        <Route path="/exchanges" element={<Exchanges />} />
+                        <Route path="/planning" element={<PlanningLazy />} />
+                        <Route path="/reports" element={<Navigate to={'/reports/dynamics'} replace={true} />} />
+                        <Route path="/reports/dynamics" element={<DynamicsReportLazy />} />
+                        <Route path="/reports/distribution" element={<DistributionReportLazy />} />
 
-                      <Route path="/settings/billing" element={<BillingLazy />} />
+                        <Route path="/settings/billing" element={<BillingLazy />} />
 
-                      <Route path="/settings" element={<SettingsLazy />} />
-                      <Route path="/settings/:tab" element={<SettingsLazy />} />
+                        <Route path="/settings" element={<SettingsLazy />} />
+                        <Route path="/settings/:tab" element={<SettingsLazy />} />
 
-                      <Route path="/profile" element={<ProfileLazy />} />
-                      <Route path="/tools" element={<ToolsLazy />} />
+                        <Route path="/profile" element={<ProfileLazy />} />
+                        <Route path="/tools" element={<ToolsLazy />} />
 
-                      <Route path="*" element={<Navigate to="/transactions" />} />
-                    </Routes>
-                  </MainLayout>
+                        <Route path="*" element={<Navigate to="/transactions" />} />
+                      </Routes>
+                    </MainLayout>
                   )}
                 </RequireAuth>
               }

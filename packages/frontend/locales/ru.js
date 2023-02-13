@@ -444,6 +444,9 @@ module.exports = {
     Cancel: 'Отмена',
     Move: 'Перенести',
   },
+  Operations: {
+    'Load more': 'Загрузить еще...',
+  },
   Pagination: {
     of: 'из',
   },

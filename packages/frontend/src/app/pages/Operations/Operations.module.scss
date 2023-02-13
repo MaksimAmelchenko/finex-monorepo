@@ -1,0 +1,27 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  padding-bottom: 6rem;
+}
+
+.section {
+  &__header {
+    position: sticky;
+    top: 0;
+    padding: 0.8rem 1.6rem;
+    background-color: white;
+    @include typography.textMDMedium;
+    color: var(--color-gray-500);
+  }
+
+  &__content {
+    padding: 0.8rem 0;
+  }
+}
+
+.loadMorePanel {
+  padding: 1.6rem;
+}
