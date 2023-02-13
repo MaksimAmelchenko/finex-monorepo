@@ -15,11 +15,13 @@ import * as en from '../locales/en.js';
 const locales = [Locale.Ru, Locale.En, Locale.De];
 
 const searchParams = new URLSearchParams(window.location.search);
-const locale: Locale | null = searchParams.get('locale') as Locale;
+const locale = searchParams.get('locale') as Locale | null;
 
-// TODO use localStorage to save default locale
-const defaultLocale = locales[0] as Locale;
-const currentLocale: Locale = locale && locales.includes(locale) ? locale : defaultLocale;
+const defaultLocale = 'en';
+const currentLocale: Locale =
+  locale && locales.includes(locale) ? locale : (window.localStorage.getItem('locale') as Locale) ?? locales[0];
+
+window.localStorage.setItem('locale', currentLocale);
 
 const SENTRY_DSN = process.env.NX_SENTRY_DSN;
 
