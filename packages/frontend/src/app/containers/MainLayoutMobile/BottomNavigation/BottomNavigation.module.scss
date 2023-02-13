@@ -1,0 +1,43 @@
+@use 'packages/theme/src/lib/styles/media';
+
+.root {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+
+  box-shadow: 0 -2px 4px var(--color-neutral100);
+  width: 100%;
+  height: 5.6rem;
+  padding: 0 1.6rem;
+
+  background-color: var(--color-neutral0);
+
+  @include media.only(sm) {
+    padding: 0 0.8rem;
+  }
+}
+
+.outcomeButtonIcon {
+  transition: background 0.3s ease-in-out;
+  width: 100%;
+  height: 2.4rem;
+
+  background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo-01-gray.svg');
+  :global(.active) & {
+    background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo-01.svg');
+  }
+}
+
+// Preloading images using CSS
+.outcomeButtonIcon::after {
+  content: url('packages/ui-kit/src/lib/icons/logo-01.svg');
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: -1;
+  overflow: hidden;
+}

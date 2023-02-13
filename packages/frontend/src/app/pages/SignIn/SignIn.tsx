@@ -98,7 +98,7 @@ export function SignIn(): JSX.Element {
           name="sign-in"
         >
           <FormLayout>
-            <FormTextField name="username" type="text" label={t('E-mail')} autoFocusOnEmpty={true} />
+            <FormTextField name="username" type="email" label={t('E-mail')} autoFocusOnEmpty={true} />
             <FormTextField
               name="password"
               type="password"

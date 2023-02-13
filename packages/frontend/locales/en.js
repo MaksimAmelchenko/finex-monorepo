@@ -75,6 +75,12 @@ module.exports = {
     Unsubscribe: 'Unsubscribe',
     'Pay Now': 'Pay Now',
   },
+  BottomNavigation: {
+    Outcome: 'Outcome',
+    Operations: 'Operations',
+    Budget: 'Budget',
+    Settings: 'Settings',
+  },
   CashFlow: {
     Overdue: 'Overdue',
     Planned: 'Planned',

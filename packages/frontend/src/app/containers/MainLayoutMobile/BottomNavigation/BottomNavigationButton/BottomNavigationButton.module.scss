@@ -1,0 +1,47 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: color 0.3s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
+
+  border: 0;
+  border-radius: 0;
+  outline: none;
+
+  width: 100%;
+  background: none;
+
+  text-align: unset;
+  text-decoration: none;
+  color: var(--color-gray-800);
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:global(.active) {
+    color: var(--color-primary700);
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+
+    svg {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  &__label {
+    @include typography.textXSMedium;
+  }
+}

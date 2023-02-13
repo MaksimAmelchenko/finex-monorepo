@@ -15,6 +15,7 @@ import { Exchanges } from './pages/Exchanges/Exchanges';
 import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
 import { Loader } from './components/Loader/Loader';
 import { MainLayout } from './containers/MainLayout/MainLayout';
+import { MainLayoutMobile } from './containers/MainLayoutMobile/MainLayoutMobile';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -29,10 +30,13 @@ import { ToolsLazy } from './pages/Tools/ToolsLazy';
 import { Transactions } from './pages/Transactions/Transactions';
 import { Transfers } from './pages/Transfers/Transfers';
 import { theme } from '@finex/theme';
+import { useDeviceSize } from './lib/use-device-size';
 
 const TRACKING_ID = process.env.NX_TRACKING_ID;
 
 export const App = observer(() => {
+  const { isSmall } = useDeviceSize();
+
   return (
     <Suspense fallback={<Loader />}>
       {TRACKING_ID && <GoogleAnalytics trackingId={TRACKING_ID} />}
@@ -56,6 +60,16 @@ export const App = observer(() => {
               path="*"
               element={
                 <RequireAuth>
+                  {isSmall ? (
+                    <MainLayoutMobile>
+                      <Routes>
+                        <Route path="/outcome" element={<DashboardLazy />} />
+                        <Route path="/settings" element={<SettingsLazy />} />
+                        <Route path="/settings/:tab" element={<SettingsLazy />} />
+                        <Route path="*" element={<Navigate to="/operations" />} />
+                      </Routes>
+                    </MainLayoutMobile>
+                  ) : (
                   <MainLayout>
                     <Routes>
                       <Route path="/outcome" element={<DashboardLazy />} />
@@ -80,6 +94,7 @@ export const App = observer(() => {
                       <Route path="*" element={<Navigate to="/transactions" />} />
                     </Routes>
                   </MainLayout>
+                  )}
                 </RequireAuth>
               }
             />

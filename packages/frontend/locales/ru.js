@@ -75,6 +75,12 @@ module.exports = {
     Unsubscribe: 'Отписаться',
     'Pay Now': 'Заплатить сейчас',
   },
+  BottomNavigation: {
+    Outcome: 'Обзор',
+    Operations: 'Операции',
+    Budget: 'Бюджет',
+    Settings: 'Настройки',
+  },
   CashFlow: {
     Overdue: 'Просрочено',
     Planned: 'Запланировано',

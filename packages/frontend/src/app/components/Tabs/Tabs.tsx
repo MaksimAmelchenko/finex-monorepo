@@ -32,7 +32,7 @@ export function Tabs({ value, options, onChange }: TabsProps): JSX.Element {
   };
 
   return (
-    <MuiTabsStyled value={value} onChange={handleChange}>
+    <MuiTabsStyled value={value} onChange={handleChange} variant="scrollable" scrollButtons>
       {options.map(({ value, label }) => (
         <MuiTabStyled disableRipple value={value} label={label} key={value} />
       ))}

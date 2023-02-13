@@ -7,6 +7,7 @@
   user-select: none;
   text-decoration: none;
   @include typography.button;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     cursor: pointer;
