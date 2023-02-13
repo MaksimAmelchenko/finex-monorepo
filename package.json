@@ -73,6 +73,7 @@
     "date-fns": "^2.29.2",
     "formik": "^2.2.9",
     "i18n-js": "^3.9.2",
+    "inter-ui": "^3.19.3",
     "lodash.get": "^4.4.2",
     "mobx": "^6.7.0",
     "mobx-react-lite": "^3.4.0",

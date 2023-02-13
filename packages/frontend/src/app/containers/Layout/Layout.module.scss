@@ -1,5 +1,5 @@
-@use '../../../../../theme/src/lib/styles/media';
-@use '../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
 
 .page {
   display: flex;
@@ -10,7 +10,7 @@
   height: 100%;
   background-color: var(--color-neutral100);
 
-  @include media.sm {
+  @include media.only(sm) {
     justify-content: flex-start;
     padding: 1rem;
   }
@@ -30,7 +30,7 @@
     box-shadow: 0 2px 5px rgba(43, 55, 79, 0.1);
     border-radius: 0.4rem;
     background-color: var(--color-neutral0);
-    @include media.sm {
+    @include media.only(sm) {
       margin-top: 8rem;
       padding-top: 4rem;
     }

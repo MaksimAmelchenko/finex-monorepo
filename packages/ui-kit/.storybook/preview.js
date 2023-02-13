@@ -3,7 +3,7 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
 import { theme } from '@finex/theme';
 
-import '../../theme/src/lib/styles/global.scss';
+import 'packages/theme/src/lib/styles/global.scss';
 
 export const decorators = [
   Story => (

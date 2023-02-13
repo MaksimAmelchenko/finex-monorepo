@@ -1,5 +1,5 @@
-@use '../../../../../theme/src/lib/styles/typography';
-@use '../../../../../theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
 
 .layout {
   display: grid;
@@ -40,7 +40,7 @@
     row-gap: 1.6rem;
   }
 
-  @include media.md {
+  @include media.down(md) {
     flex-direction: column;
     justify-content: center;
   }

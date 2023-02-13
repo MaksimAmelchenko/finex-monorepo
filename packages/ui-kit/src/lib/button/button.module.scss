@@ -1,5 +1,4 @@
-@use '../../../../theme/src/lib/styles/media';
-@use '../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .button {
   display: inline-flex;

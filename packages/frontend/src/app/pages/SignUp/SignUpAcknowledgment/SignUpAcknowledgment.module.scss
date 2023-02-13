@@ -1,9 +1,9 @@
-@use '../../../../../../theme/src/lib/styles/media';
-@use '../../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
 
 .container {
   padding: 0 4rem 4rem;
-  @include media.sm {
+  @include media.only(sm) {
     padding: 0 2rem 2rem;
   }
 
