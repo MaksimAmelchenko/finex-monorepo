@@ -35,59 +35,24 @@ class PlannedTransactionRepositoryImpl implements PlannedTransactionRepository {
     let query = knex.raw(
       `
           with recursive
-            ct (id_category) as (
-              select c.id_category
-                from cf$.category c
-               where c.id_project = :projectId::int
-                 and c.id_category in (select unnest(:categories::int[]))
-               union all
-              select c.id_category
-                from ct,
-                     cf$.category c
-               where c.id_project = :projectId::int
-                 and c.parent = ct.id_category
-            ),
-            ct_s (id_category) as (
-              select c.id_category
-                from cf$.category c
-               where c.id_project = :projectId::int
-                 and :searchText::text is not null
-                 and upper(c.name) like upper('%' || :searchText::text || '%')
-               union all
-              select c.id_category
-                from ct_s,
-                     cf$.category c
-               where c.id_project = :projectId::int
-                 and c.parent = ct_s.id_category
-            ),
+            ct (category_id) as (
+              select category_id
+                from cf$_category.get_categories_recursive(:projectId::int, :categories::int[])),
+            ct_s (category_id) as (
+              select category_id
+                from cf$_category.get_categories_recursive(:projectId::int, :searchText::text)),
             permit as
-              (select a.id_project as project_id,
-                      a.id_account as account_id,
-                      7 as permit
-                 from cf$.account a
-                where a.id_project = :projectId::int
-                  and a.id_user = :userId::int
-                union all
-               select ap.id_project,
-                      ap.id_account,
-                      ap.permit
-                 from cf$.account_permit ap
-                where ap.id_project = :projectId::int
-                  and ap.id_user = :userId::int
+              (select project_id,
+                      account_id,
+                      permit
+                 from cf$_account.permit(:projectId::int, :userId::int)),
+            c_s(contractor_id) as
+              (select contractor_id
+                 from cf$_contractor.get_contractors(:projectId::int, :searchText::text)
               ),
-            c_s(id_contractor) as
-              (select c.id_contractor
-                 from cf$.contractor c
-                where c.id_project = :projectId::int
-                  and :searchText::text is not null
-                  and upper(c.name) like upper('%' || :searchText::text || '%')
-              ),
-            t_s (id_tag) as
-              (select array(select t.id_tag
-                              from cf$.tag t
-                             where t.id_project = :projectId::int
-                               and :searchText::text is not null
-                               and upper(t.name) like upper('%' || :searchText::text || '%')
+            t_s (tags) as
+              (select array(select tag_id
+                              from cf$_tag.get_tags(:projectId::int, :searchText::text)
                         ) as tags
               ),
             pt as (
@@ -139,15 +104,15 @@ class PlannedTransactionRepositoryImpl implements PlannedTransactionRepository {
            and (:endDate::date is null or pt.transaction_date <= :endDate::date)
            and (:sign::int is null or pt.sign = :sign::int)
            and (:accounts::int[] is null or pt.account_id in (select unnest(:accounts::int[])))
-           and (:categories::int[] is null or pt.category_id in (select ct.id_category from ct))
+           and (:categories::int[] is null or pt.category_id in (select ct.category_id from ct))
            and (:contractors::int[] is null or pt.contractor_id in (select unnest(:contractors::int[])))
            and (:tags::int[] is null or pt.tags && :tags::int[])
            and (
              :searchText::text is null
              or upper(pt.note) like upper('%' || :searchText::text || '%')
-             or pt.category_id in (select ct_s.id_category from ct_s)
-             or pt.contractor_id in (select c_s.id_contractor from c_s)
-             or pt.tags && (select t_s.id_tag from t_s)
+             or pt.category_id in (select ct_s.category_id from ct_s)
+             or pt.contractor_id in (select c_s.contractor_id from c_s)
+             or pt.tags && (select t_s.tags from t_s)
            )
          order by pt.transaction_date desc
          limit :limit::int offset :offset::int

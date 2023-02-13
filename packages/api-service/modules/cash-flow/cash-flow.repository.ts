@@ -79,21 +79,11 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
 
     let query = knex.raw(
       `
-          with permit as (
-            select a.id_project as project_id,
-                   a.id_account as account_id,
-                   7 as permit
-              from cf$.account a
-             where a.id_project = :projectId::int
-               and a.id_user = :userId::int
-             union all
-            select ap.id_project,
-                   ap.id_account,
-                   ap.permit
-              from cf$.account_permit ap
-             where ap.id_project = :projectId::int
-               and ap.id_user = :userId::int
-          ),
+          with permit as
+                 (select project_id,
+                         account_id,
+                         permit
+                    from cf$_account.permit(:projectId::int, :userId::int)),
                cfi as (
                  select cfi.cashflow_id,
                         max(cfi.cashflow_item_date) as last_transaction_date
@@ -110,21 +100,15 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
                     and (:accounts::int[] is null or cfi.account_id in (select unnest(:accounts::int[])))
                   group by cfi.cashflow_id
                ),
-               c_s(id_contractor) as (
-                 select c.id_contractor
-                   from cf$.contractor c
-                  where c.id_project = :projectId::int
-                    and :searchText::text is not null
-                    and upper(c.name) like upper('%' || :searchText::text || '%')
-               ),
-               t_s (id_tag) as (
-                 select array(select t.id_tag
-                                from cf$.tag t
-                               where t.id_project = :projectId::int
-                                 and :searchText::text is not null
-                                 and upper(t.name) like upper('%' || :searchText::text || '%')
-                          ) as tags
-               )
+               c_s(contractor_id) as
+                 (select contractor_id
+                    from cf$_contractor.get_contractors(:projectId::int, :searchText::text)
+                 ),
+               t_s (tags) as
+                 (select array(select tag_id
+                                 from cf$_tag.get_tags(:projectId::int, :searchText::text)
+                           ) as tags
+                 )
         select cf.project_id,
                cf.user_id,
                cf.id,
@@ -150,9 +134,9 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
            and (:tags::int[] is null or cf.tags && :tags::int[])
            and (
              :searchText::text is null
-             or cf.contractor_id in (select c_s.id_contractor from c_s)
+             or cf.contractor_id in (select c_s.contractor_id from c_s)
              or upper(cf.note) like upper('%' || :searchText::text || '%')
-             or cf.tags && (select t_s.id_tag from t_s)
+             or cf.tags && (select t_s.tags from t_s)
            )
          order by coalesce(cfi.last_transaction_date, cf.updated_at) desc,
                   cf.id desc
