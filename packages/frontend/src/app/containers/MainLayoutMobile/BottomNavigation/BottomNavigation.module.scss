@@ -11,19 +11,18 @@
 
   box-shadow: 0 -2px 4px var(--color-neutral100);
   width: 100%;
-  height: 5.6rem;
-  padding: 0 1.6rem;
+  padding: 0.4rem 1.6rem;
 
   background-color: var(--color-neutral0);
 
   @include media.only(sm) {
-    padding: 0 0.8rem;
+    padding: 0.4rem 0.8rem;
   }
 }
 
 .outcomeButtonIcon {
   transition: background 0.3s ease-in-out;
-  width: 100%;
+  width: 3.2rem;
   height: 2.4rem;
 
   background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo-01-gray.svg');
