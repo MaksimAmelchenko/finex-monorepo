@@ -1,0 +1,77 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: row;
+  gap: 1.6rem;
+
+  -webkit-tap-highlight-color: transparent;
+
+  border: 0;
+  border-radius: 0;
+
+  width: 100%;
+  padding: 1.6rem;
+
+  background: none;
+
+  text-align: unset;
+  color: var(--color-gray-900);
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__header {
+    flex-grow: 1;
+    width: 0;
+  }
+
+  &__amounts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    @include typography.textMD;
+    color: var(--color-gray-900);
+  }
+
+  &__amount {
+    white-space: nowrap;
+
+    &_expense {
+      color: var(--color-danger500);
+    }
+
+    &_zero {
+      color: var(--color-gray-500);
+    }
+  }
+}
+
+.icon {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.header {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+
+  &__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include typography.textMD;
+  }
+
+  &__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    transform: rotate(90deg);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    &_expended {
+      transform: rotate(-90deg);
+    }
+  }
+}

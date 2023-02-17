@@ -17,6 +17,7 @@ import { Loader } from './components/Loader/Loader';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { MainLayoutMobile } from './containers/MainLayoutMobile/MainLayoutMobile';
 import { OperationsLazy } from './pages/Operations/OperationsLazy';
+import { OutcomeMobileLazy } from './pages/OutcomeMobile/OutcomeMobileLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
@@ -64,8 +65,8 @@ export const App = observer(() => {
                   {isSmall ? (
                     <MainLayoutMobile>
                       <Routes>
+                        <Route path="/outcome" element={<OutcomeMobileLazy />} />
                         <Route path="/operations" element={<OperationsLazy />} />
-                        <Route path="/outcome" element={<DashboardLazy />} />
                         <Route path="/settings" element={<SettingsLazy />} />
                         <Route path="/settings/:tab" element={<SettingsLazy />} />
                         <Route path="*" element={<Navigate to="/operations" />} />

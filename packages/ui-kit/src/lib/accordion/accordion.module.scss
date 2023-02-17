@@ -1,0 +1,11 @@
+.root {
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+  height: auto;
+  max-height: 0;
+
+  &_expanded {
+    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+    max-height: 9999px;
+  }
+}

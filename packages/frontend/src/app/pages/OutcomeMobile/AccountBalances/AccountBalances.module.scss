@@ -1,0 +1,21 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  &__totalCard {
+    border-bottom: var(--color-neutral150) 1px solid;
+  }
+}
+
+.header {
+  padding: 1.6rem;
+  background-color: var(--color-neutral0);
+
+  &__title {
+    margin: 0;
+    @include typography.textLGSemibold;
+  }
+}
+
+.balancePanel {
+  border-bottom: var(--color-neutral150) 1px solid;
+}

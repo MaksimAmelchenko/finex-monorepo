@@ -66,5 +66,5 @@ export interface IDebtBalance {
 
 export interface IBalance {
   money: Money;
-  sum: number;
+  amount: number;
 }

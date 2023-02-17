@@ -8,6 +8,10 @@ module.exports = {
     'show zero balance': 'show zero balance',
     Total: 'Total',
   },
+  AccountBalancesMobile: {
+    Balance: 'Balance',
+    Total: 'Total',
+  },
   AccountDailyBalances: {
     'in original currency': 'in original currency',
     Total: 'Total',
@@ -201,6 +205,9 @@ module.exports = {
   },
   Dashboard: {
     Outcome: 'Outcome',
+  },
+  DebtBalancesMobile: {
+    Debts: 'Debts',
   },
   DebtItem: {
     Income: 'Income',

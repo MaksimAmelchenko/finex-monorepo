@@ -71,7 +71,7 @@
     align-self: stretch;
     flex-grow: 1;
     overflow: hidden;
-    width: 1px;
+    width: 0;
     @include typography.textMD;
     text-overflow: ellipsis;
   }

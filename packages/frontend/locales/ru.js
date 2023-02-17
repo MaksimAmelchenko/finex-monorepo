@@ -8,6 +8,10 @@ module.exports = {
     'show zero balance': 'показать нулевые остатки',
     Total: 'Всего',
   },
+  AccountBalancesMobile: {
+    Balance: 'Общий баланс',
+    Total: 'Всего',
+  },
   AccountDailyBalances: {
     'in original currency': 'в исходной валюте',
     Total: 'Всего',
@@ -202,6 +206,9 @@ module.exports = {
   },
   Dashboard: {
     Outcome: 'Обзор',
+  },
+  DebtBalancesMobile: {
+    Debts: 'Долги',
   },
   DebtItem: {
     Income: 'Приход',

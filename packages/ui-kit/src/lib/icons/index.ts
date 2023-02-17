@@ -13,8 +13,11 @@ export { ReactComponent as ChevronRightIcon, default as chevronRightSvg } from '
 export { ReactComponent as CircleInfoIcon, default as circleInfoSvg } from './circle-info.svg';
 export { ReactComponent as CircleQuestionIcon, default as circleQuestionSvg } from './circle-question.svg';
 export { ReactComponent as CoinsStacked01Icon, default as coinsStacked01Svg } from './coins-stacked-01.svg';
+export { ReactComponent as CoinsStacked03Icon, default as coinsStacked03Svg } from './coins-stacked-03.svg';
 export { ReactComponent as CommentIcon, default as commentSvg } from './comment.svg';
+export { ReactComponent as CreditCard01Icon, default as creditCard01Svg } from './credit-card-01.svg';
 export { ReactComponent as CreditCardIcon, default as creditCardSvg } from './credit-card.svg';
+export { ReactComponent as Cryptocurrency01Icon, default as cryptocurrency01Svg } from './cryptocurrency-01.svg';
 export { ReactComponent as FilterIcon, default as filterSvg } from './filter.svg';
 export { ReactComponent as GearIcon, default as gearSvg } from './gear.svg';
 export { ReactComponent as Gift01Icon, default as gift01Svg } from './gift-01.svg';
@@ -32,6 +35,7 @@ export { ReactComponent as RefreshCW03Icon, default as refreshCW03Svg } from './
 export { ReactComponent as ReverseRightIcon, default as reverseRightSvg } from './reverse-right.svg';
 export { ReactComponent as RightLeftIcon, default as rightLeftSvg } from './right-left.svg';
 export { ReactComponent as RightLongIcon, default as rightLongSvg } from './right-long.svg';
+export { ReactComponent as SafeIcon, default as safeSvg } from './safe.svg';
 export { ReactComponent as ScrewdriverWrenchIcon, default as screwdriverWrenchSvg } from './screwdriver-wrench.svg';
 export { ReactComponent as Settings02Icon, default as settings02Svg } from './settings-02.svg';
 export { ReactComponent as ShuffleIcon, default as shuffleSvg } from './shuffle.svg';
@@ -43,4 +47,6 @@ export { ReactComponent as TableIcon, default as tableSvg } from './table.svg';
 export { ReactComponent as TrashIcon, default as trashSvg } from './trash-can.svg';
 export { ReactComponent as UserIcon, default as userSvg } from './user.svg';
 export { ReactComponent as UsersIcon, default as usersSvg } from './users.svg';
+export { ReactComponent as Wallet03Icon, default as wallet03Svg } from './wallet-03.svg';
 export { ReactComponent as XmarkIcon, default as xmarkSvg } from './xmark.svg';
+export { ReactComponent as bankIcon, default as bankSvg } from './bank.svg';
