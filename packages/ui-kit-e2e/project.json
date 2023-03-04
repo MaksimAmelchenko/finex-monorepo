@@ -1,5 +1,6 @@
 {
-  "root": "packages/ui-kit-e2e",
+  "name": "ui-kit-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/ui-kit-e2e/src",
   "projectType": "application",
   "targets": {

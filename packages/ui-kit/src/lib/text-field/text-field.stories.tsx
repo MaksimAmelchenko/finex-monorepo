@@ -12,12 +12,12 @@ export default {
   title: 'Components/TextField',
   component: TextField,
   argTypes: {
-    size: { control: { type: 'select', options: ['small', 'medium'] } },
+    size: { options: ['small', 'medium'], control: { type: 'select' } },
     error: { control: { type: 'text' } },
     placeholder: { control: { type: 'text' } },
     label: { control: { type: 'text' } },
     helperText: { control: { type: 'text' } },
-    startAdornment: { control: { type: 'select', options: ['empty', 'MagnifyingGlassIcon'] } },
+    startAdornment: { options: ['empty', 'MagnifyingGlassIcon'], control: { type: 'select' } },
   },
 } as Meta;
 

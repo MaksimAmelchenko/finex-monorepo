@@ -7,7 +7,7 @@ export default {
   title: 'Components/DateField',
   component: DateField,
   argTypes: {
-    size: { control: { type: 'select', options: ['small', 'medium'] } },
+    size: { options: ['small', 'medium'], control: { type: 'select' } },
     error: { control: { type: 'text' } },
     placeholder: { control: { type: 'text' } },
     label: { control: { type: 'text' } },

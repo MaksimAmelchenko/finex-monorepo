@@ -1,5 +1,6 @@
 {
-  "root": "packages/frontend",
+  "name": "frontend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/frontend/src",
   "projectType": "application",
   "targets": {
@@ -46,7 +47,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/web:dev-server",
+      "executor": "@nrwl/webpack:dev-server",
       "options": {
         "buildTarget": "frontend:build:development",
         "hmr": true

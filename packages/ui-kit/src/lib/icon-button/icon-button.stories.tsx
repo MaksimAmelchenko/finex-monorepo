@@ -1,23 +1,23 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { CashFlowIcon } from '../icons';
+import { MagnifyingGlassIcon } from '../icons';
 import { IconButton, IconButtonProps } from './icon-button';
 
 export default {
   title: 'Components/IconButton',
   component: IconButton,
   argTypes: {
-    size: { control: { type: 'select', options: ['small', 'medium'] } },
-    disabled: { control: { type: 'radio', options: [false, true] } },
-    loading: { control: { type: 'radio', options: [false, true] } },
+    size: { options: ['small', 'medium'], control: { type: 'select' } },
+    disabled: { options: [false, true], control: { type: 'radio' } },
+    loading: { options: [false, true], control: { type: 'radio' } },
     href: { control: { type: 'text' } },
   },
 } as Meta;
 
 const Template: Story<IconButtonProps> = args => (
   <IconButton {...args}>
-    <CashFlowIcon />
+    <MagnifyingGlassIcon />
   </IconButton>
 );
 
