@@ -12,6 +12,7 @@ export * from './lib/image/image';
 export * from './lib/inline-date-picker/inline-date-picker';
 export * from './lib/inline-date-range-picker/inline-date-range-picker';
 export * from './lib/inline-select/inline-select';
+export * from './lib/input/input';
 export * from './lib/option/option';
 export * from './lib/select-popup/select-popup';
 export * from './lib/select/select';
