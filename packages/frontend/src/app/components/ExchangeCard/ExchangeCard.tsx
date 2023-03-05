@@ -55,7 +55,7 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
   };
 
   return (
-    <button className={styles.root} onClick={handleClick}>
+    <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
         <img src={refreshCW03Svg} loading="lazy" />
       </div>

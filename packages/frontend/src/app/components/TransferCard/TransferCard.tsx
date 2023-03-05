@@ -46,7 +46,7 @@ export function TransferCard({ transfer, onClick }: TransferCardProps) {
   };
 
   return (
-    <button className={styles.root} onClick={handleClick}>
+    <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
         <img src={reverseRightSvg} loading="lazy" />
       </div>
