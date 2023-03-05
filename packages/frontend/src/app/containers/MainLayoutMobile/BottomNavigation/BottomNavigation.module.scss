@@ -9,11 +9,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
 
-  box-shadow: 0 -2px 4px var(--color-neutral100);
+  border-top: 0.5px solid var(--color-gray-300);
   width: 100%;
   padding: 0.4rem 1.6rem;
 
-  background-color: var(--color-neutral0);
+  background-color: var(--color-white);
 
   @include media.only(sm) {
     padding: 0.4rem 0.8rem;

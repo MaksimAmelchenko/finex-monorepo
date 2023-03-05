@@ -3,7 +3,7 @@
 .link {
   text-decoration: none;
   @include typography.bodyHighlight;
-  color: var(--color-secondary600);
+  color: var(--color-primary-600);
   &:hover {
     text-decoration: underline;
   }

@@ -1,25 +1,16 @@
+@use 'packages/theme/src/lib/styles/mixins';
 @use 'packages/theme/src/lib/styles/typography';
 
 .root {
+  @include mixins.resetButton;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 0.4rem;
-
   transition: color 0.3s ease-in-out;
-  -webkit-tap-highlight-color: transparent;
-
-  border: 0;
-  border-radius: 0;
-  outline: none;
-
   width: 100%;
   padding-top: 0.4rem;
-  background: none;
-
-  text-align: unset;
-  text-decoration: none;
   color: var(--color-gray-800);
 
   &:hover {
@@ -27,7 +18,7 @@
   }
 
   &:global(.active) {
-    color: var(--color-primary700);
+    color: var(--color-primary-700);
   }
 
   &__icon {

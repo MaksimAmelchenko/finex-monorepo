@@ -15,14 +15,14 @@ export interface TabsProps {
 
 const MuiTabsStyled = styled(MuiTabs)(({ theme }) => ({
   '.MuiTabs-indicator': {
-    backgroundColor: 'var(--color-primary600)',
+    backgroundColor: 'var(--color-primary-600)',
   },
 }));
 
 const MuiTabStyled = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
   '&.Mui-selected': {
-    color: 'var(--color-primary600)',
+    color: 'var(--color-primary-600)',
   },
 }));
 

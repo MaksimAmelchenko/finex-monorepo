@@ -3,19 +3,19 @@
   height: 1.8rem;
   min-width: 1.8rem;
   border-radius: 0.4rem;
-  border: 1px solid var(--color-neutral300);
+  border: 1px solid var(--color-gray-300);
   -webkit-appearance: none;
-  background-color: var(--color-neutral0);
+  background-color: var(--color-white);
   cursor: pointer;
 
   &:focus-visible {
-    outline: var(--color-primary600) solid 2px;
+    outline: 2px solid var(--color-primary-600);
     outline-offset: 2px;
   }
 
   &:checked {
-    background-color: var(--color-primary600);
-    border: 1px solid var(--color-primary600);
+    background-color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-600);
 
     &:after {
       content: '';
@@ -23,11 +23,11 @@
       display: block;
       left: 3px;
       top: 7px;
-      background: var(--color-neutral0);
+      background: var(--color-white);
       width: 2px;
       height: 2px;
-      box-shadow: 2px 0 0 var(--color-neutral0), 4px 0 0 var(--color-neutral0), 4px -2px 0 var(--color-neutral0),
-        4px -4px 0 var(--color-neutral0), 4px -6px 0 var(--color-neutral0), 4px -8px 0 var(--color-neutral0);
+      box-shadow: 2px 0 0 var(--color-white), 4px 0 0 var(--color-white), 4px -2px 0 var(--color-white),
+        4px -4px 0 var(--color-white), 4px -6px 0 var(--color-white), 4px -8px 0 var(--color-white);
       transform: rotate(45deg);
     }
 
@@ -37,23 +37,23 @@
       display: block;
       left: 3px;
       top: 7px;
-      background: var(--color-neutral600);
+      background: var(--color-gray-600);
       width: 2px;
       height: 2px;
-      box-shadow: 2px 0 0 var(--color-neutral600), 4px 0 0 var(--color-neutral600), 4px -2px 0 var(--color-neutral600),
-        4px -4px 0 var(--color-neutral600), 4px -6px 0 var(--color-neutral600), 4px -8px 0 var(--color-neutral600);
+      box-shadow: 2px 0 0 var(--color-gray-600), 4px 0 0 var(--color-gray-600), 4px -2px 0 var(--color-gray-600),
+        4px -4px 0 var(--color-gray-600), 4px -6px 0 var(--color-gray-600), 4px -8px 0 var(--color-gray-600);
       transform: rotate(45deg);
     }
   }
 
   &:disabled {
-    background-color: var(--color-neutral200);
-    border: 1px solid var(--color-neutral300);
+    background-color: var(--color-gray-200);
+    border: 1px solid var(--color-gray-300);
   }
 
   &:indeterminate {
-    background-color: var(--color-primary600);
-    border: 1px solid var(--color-primary600);
+    background-color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-600);
 
     &:after {
       content: '';
@@ -62,18 +62,18 @@
       color: white;
       height: 2px;
       width: 10px;
-      background-color: var(--color-neutral0);
+      background-color: var(--color-white);
       left: 50%;
       top: 50%;
       transform: translateX(-50%) translateY(-50%);
     }
 
     &:disabled {
-      background-color: var(--color-neutral200);
-      border: 1px solid var(--color-neutral300);
+      background-color: var(--color-gray-200);
+      border: 1px solid var(--color-gray-300);
 
       &:after {
-        background-color: var(--color-neutral500);
+        background-color: var(--color-gray-500);
       }
     }
   }

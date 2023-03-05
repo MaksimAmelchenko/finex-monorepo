@@ -26,13 +26,13 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
       ...provided,
       borderRadius: 4,
       paddingLeft: 4,
-      height: 40,
+      minHeight: 40,
       boxShadow: 'none',
       ...(isFocused
         ? {
-            borderColor: '#006096',
+            borderColor: 'var(--color-primary-800)',
             '&:hover': {
-              borderColor: '#006096',
+              borderColor: 'var(--color-primary-800)',
             },
           }
         : {
@@ -42,9 +42,9 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
             },
           }),
       ...(isError && {
-        borderColor: '#d02b20',
+        borderColor: 'var(--color-error-800)',
         '&:hover': {
-          borderColor: '#d02b20',
+          borderColor: 'var(--color-error-800)',
         },
       }),
     };

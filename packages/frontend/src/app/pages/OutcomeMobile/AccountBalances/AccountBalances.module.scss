@@ -2,13 +2,13 @@
 
 .root {
   &__totalCard {
-    border-bottom: var(--color-neutral150) 1px solid;
+    border-bottom: 0.5px solid var(--color-gray-200);
   }
 }
 
 .header {
   padding: 1.6rem;
-  background-color: var(--color-neutral0);
+  background-color: var(--color-white);
 
   &__title {
     margin: 0;
@@ -17,5 +17,5 @@
 }
 
 .balancePanel {
-  border-bottom: var(--color-neutral150) 1px solid;
+  border-bottom: 0.5px solid var(--color-gray-200);
 }

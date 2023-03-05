@@ -2,7 +2,7 @@
   cursor: pointer;
 
   &_is_deleting {
-    background-color: var(--color-danger200);
+    background-color: var(--color-error-200);
   }
 }
 
@@ -16,7 +16,7 @@ td.firstColumn {
   align-items: center;
   border-radius: 0 0.8rem 0.8rem 0;
   height: 100%;
-  background-color: var(--color-neutral100);
+  background-color: var(--color-primary-50);
   cursor: pointer;
 
   &__colorMark {
@@ -46,5 +46,5 @@ td.firstColumn {
 }
 
 .categoryPath {
-  color: var(--color-neutral400);
+  color: var(--color-gray-400);
 }

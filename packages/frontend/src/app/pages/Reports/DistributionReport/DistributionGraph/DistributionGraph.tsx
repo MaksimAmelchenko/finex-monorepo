@@ -123,7 +123,7 @@ const CustomTooltip = ({ id, value, data: { category } }: ComputedDatum<RawDatum
         padding: 12,
         color: '#181826',
         background: '#ffffff',
-        border: 'solid 1px #dcdce4',
+        border: '1px solid #dcdce4',
       }}
     >
       <span>{category?.name || t('Others')}</span>

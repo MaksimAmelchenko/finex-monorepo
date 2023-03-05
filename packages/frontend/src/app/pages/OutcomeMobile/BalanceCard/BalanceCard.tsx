@@ -54,7 +54,7 @@ export function BalanceCard({
           balances.map(({ amount, money }) => {
             return (
               <div
-                className={clsx(styles.root__amount, Math.sign(amount) === -1 && styles.root__amount_expense)}
+                className={clsx(styles.root__amount, Math.sign(amount) === -1 && styles.root__amount_minus)}
                 key={money.id}
               >
                 {toCurrency(amount, money.precision)} <span dangerouslySetInnerHTML={{ __html: money.symbol }} />

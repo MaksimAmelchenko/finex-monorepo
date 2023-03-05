@@ -9,7 +9,7 @@
 }
 
 .header {
-  box-shadow: 0 0 4px var(--color-neutral200);
+  box-shadow: 0 0 4px var(--color-gray-200);
 }
 
 .content {
@@ -21,7 +21,7 @@
 
   &__freeSubscriptionImage {
     margin-top: 3.2rem;
-    color: var(--color-alternative700);
+    color: var(--color-delft-blue-500);
   }
 }
 
@@ -55,14 +55,14 @@
   &__accessUntil {
     font-weight: bold;
     &__expired {
-      color: var(--color-danger600);
+      color: var(--color-error-600);
     }
   }
 
   &__name {
     font-weight: bold;
     &_noSubscription {
-      color: var(--color-danger600);
+      color: var(--color-error-600);
     }
   }
 }

@@ -308,35 +308,35 @@
   font-size: 3.2rem;
   font-weight: 600;
   line-height: 4rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin h2 {
   font-size: 2.4rem;
   font-weight: 400;
   line-height: 3rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin h3 {
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 2.2rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin subtitle {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.4rem;
-  color: var(--color-neutral600);
+  color: var(--color-gray-600);
 }
 
 @mixin body {
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 2rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin bodyHighlight {
@@ -353,7 +353,7 @@
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.6rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin smallButtonText {

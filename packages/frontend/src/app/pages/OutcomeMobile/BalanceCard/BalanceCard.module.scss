@@ -5,8 +5,6 @@
   flex-direction: row;
   gap: 1.6rem;
 
-  -webkit-tap-highlight-color: transparent;
-
   border: 0;
   border-radius: 0;
 
@@ -23,7 +21,7 @@
   }
 
   &__header {
-    flex-grow: 1;
+    flex: 1 1 0;
     width: 0;
   }
 
@@ -38,8 +36,8 @@
   &__amount {
     white-space: nowrap;
 
-    &_expense {
-      color: var(--color-danger500);
+    &_minus {
+      color: var(--color-error-500);
     }
 
     &_zero {

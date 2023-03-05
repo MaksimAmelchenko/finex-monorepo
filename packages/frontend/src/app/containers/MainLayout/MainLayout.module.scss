@@ -14,7 +14,7 @@
 .content {
   flex-grow: 1;
   height: 100vh;
-  background-color: var(--color-neutral100);
+  background-color: var(--color-gray-100);
   //padding: 1px;
 }
 
@@ -42,7 +42,7 @@
   }
 
   &__actionlink {
-    color: var(--color-neutral0);
+    color: var(--color-white);
     font-weight: bold;
   }
 }

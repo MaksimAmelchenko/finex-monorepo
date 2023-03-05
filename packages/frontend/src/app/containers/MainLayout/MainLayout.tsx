@@ -81,7 +81,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
       paddingLeft: theme.spacing(3),
     },
     '&.active': {
-      backgroundColor: 'var(--color-neutral100)',
+      backgroundColor: 'var(--color-gray-100)',
     },
   },
   '& .MuiListItemIcon-root': {

@@ -8,7 +8,7 @@
 .root {
   position: relative;
   width: 100%;
-  color: var(--color-neutral600);
+  color: var(--color-gray-600);
 
   &__label {
     position: absolute;
@@ -19,7 +19,7 @@
     transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
       max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
     @include typography.body;
-    color: var(--color-neutral400);
+    color: var(--color-gray-400);
     padding: 0 5px;
 
     .root_size_small & {
@@ -35,19 +35,19 @@
     }
 
     .input:focus-within + & {
-      color: var(--color-secondary700);
+      color: var(--color-primary-700);
     }
 
     .root_filled &,
     .input:focus-within + & {
       transform: translate(12px, -8px) scale(1);
       @include typography.smallText;
-      color: var(--color-neutral800);
+      color: var(--color-gray-800);
     }
 
     .root_error &,
     .root_error .input:focus-within + & {
-      color: var(--color-danger600);
+      color: var(--color-error-600);
     }
 
     /* background for label */
@@ -59,7 +59,7 @@
       width: 100%;
       height: 3px;
       content: '';
-      background: var(--color-neutral0);
+      background: var(--color-white);
     }
   }
 
@@ -69,13 +69,13 @@
   &__helperText {
     margin: 4px 16px 0;
     @include typography.smallText;
-    color: var(--color-neutral500);
+    color: var(--color-gray-500);
   }
 
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: var(--color-danger600);
+    color: var(--color-error-600);
   }
 }
 
@@ -88,14 +88,14 @@
   @extend %transition-styles;
   transition-property: border-color;
 
-  border: 1px solid var(--color-neutral200);
+  border: 1px solid var(--color-gray-200);
   border-radius: 4px;
   width: 100%;
   height: 40px;
   cursor: text;
   padding-left: 10px;
 
-  background-color: var(--color-neutral0);
+  background-color: var(--color-white);
 
   &__startAdornment {
     flex-shrink: 0;
@@ -110,17 +110,17 @@
   }
 
   &:hover {
-    border: 1px solid var(--color-neutral400);
+    border: 1px solid var(--color-gray-400);
   }
 
   &:focus-within {
-    border: 1px solid var(--color-secondary700);
+    border: 1px solid var(--color-primary-700);
   }
 
   &_error,
   &_error:focus-within,
   &_error:hover {
-    border: 1px solid var(--color-danger600);
+    border: 1px solid var(--color-error-600);
   }
 
   &_size_small {
@@ -139,6 +139,6 @@
     height: 100%;
     padding: 0 6px;
     font-size: 1.4rem;
-    color: var(--color-neutral800);
+    color: var(--color-gray-800);
   }
 }

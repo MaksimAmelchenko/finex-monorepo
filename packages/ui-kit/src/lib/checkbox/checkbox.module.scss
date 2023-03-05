@@ -29,12 +29,12 @@
   &__helperText {
     margin-top: 4px;
     @include typography.smallText;
-    color: var(--color-neutral500);
+    color: var(--color-gray-500);
   }
 
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: var(--color-danger600);
+    color: var(--color-error-600);
   }
 }
