@@ -12,6 +12,7 @@ export const findOperationsResponseSchema: OpenAPIV3_1.SchemaObject = {
       type: 'array',
       items: {
         oneOf: [
+          //
           transactionSchema,
           debtItemSchema,
           transferSchema,

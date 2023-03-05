@@ -171,7 +171,9 @@ export type IOperationDTO =
   | IOperationTransferDTO
   | IOperationExchangeDTO;
 
-export type IOperation = (IOperationTransaction | IOperationDebt | IOperationTransfer | IOperationExchange) & ISelectable & IDeletable;
+export type IOperation = (IOperationTransaction | IOperationDebt | IOperationTransfer | IOperationExchange) &
+  ISelectable &
+  IDeletable;
 
 export interface FindOperationsAPIQuery {
   limit: number;

@@ -55,7 +55,7 @@ export interface CreateUserRepositoryData {
   timeout?: string;
   householdId: string;
   currencyRateSourceId: string;
-  accessUntil?: TDateTime
+  accessUntil?: TDateTime;
 }
 
 export type CreateUserServiceData = CreateUserRepositoryData;

@@ -5,11 +5,7 @@ import { FileGateway } from '../gateway';
 import { NotFoundError } from '../../../libs/errors';
 import removeContent from './remove-content';
 
-export default async function remove(
-  ctx: IRequestContext,
-  projectId: number,
-  fileId: number
-): Promise<IFile> {
+export default async function remove(ctx: IRequestContext, projectId: number, fileId: number): Promise<IFile> {
   const file: IFile | null = await getFile(ctx, projectId, fileId);
 
   if (!file) {
