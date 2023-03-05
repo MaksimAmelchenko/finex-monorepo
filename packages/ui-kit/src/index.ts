@@ -18,5 +18,6 @@ export * from './lib/select/select';
 export * from './lib/tag/tag';
 export * from './lib/target/target';
 export * from './lib/text-area-field/text-area-field';
+export * from './lib/text-area/text-area';
 export * from './lib/text-field/text-field';
 export * from './lib/tree-table/tree-table';
