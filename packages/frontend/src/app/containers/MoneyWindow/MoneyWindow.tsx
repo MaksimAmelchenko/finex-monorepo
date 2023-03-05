@@ -184,7 +184,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
         <FormButton type="submit" color="primary" isIgnoreValidation>

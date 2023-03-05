@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Exchange } from '../../stores/models/exchange';
 import { ExchangeRow } from './ExchangeRow/ExchangeRow';
@@ -141,13 +141,18 @@ export const Exchanges = observer(() => {
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddExchange}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddExchange}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedExchanges.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="sm"
+                disabled={!selectedExchanges.length}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

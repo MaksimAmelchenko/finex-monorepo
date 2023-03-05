@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
@@ -166,18 +166,18 @@ export const Transactions = observer(() => {
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddTransaction}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddTransaction}>
                 {t('New')}
               </Button>
               <Button
-                variant="outlined"
-                size="small"
+                variant="secondaryGray"
+                size="sm"
                 disabled={!selectedTransactions.length}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

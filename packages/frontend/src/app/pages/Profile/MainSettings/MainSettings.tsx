@@ -83,7 +83,7 @@ export const MainSettings = observer(({ profile }: MainSettingsProps) => {
           </FormLayout>
 
           <footer className={styles.form__footer}>
-            <FormButton type="submit" size="small" color="primary">
+            <FormButton type="submit" variant="primary" size="sm">
               {t('Update profile settings')}
             </FormButton>
           </footer>

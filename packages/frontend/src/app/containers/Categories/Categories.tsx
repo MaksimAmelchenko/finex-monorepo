@@ -11,6 +11,7 @@ import {
   TreeTableRow,
   checkSvg,
   useTreeTable,
+  PlusIcon,
 } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
@@ -103,18 +104,18 @@ export const Categories = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedCategory} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="sm" disabled={!selectedCategory} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
               <Button
-                variant="outlined"
-                size="small"
+                variant="secondaryGray"
+                size="sm"
                 disabled={!selectedCategory}
                 onClick={handleMoveTransactionsClick}
               >

@@ -209,7 +209,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
             </div>
 
             <div className={styles.cashFlow__footer}>
-              <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
+              <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
                 {t('Close')}
               </FormButton>
               <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfw-save-button">
@@ -224,8 +224,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
                 <Button
-                  variant="outlined"
-                  size="small"
+                  variant="secondaryGray"
                   disabled={!Boolean(cashFlow.id)}
                   onClick={handleOpenAddCashFlowItem}
                   data-cy="cfw-create-cash-flow-item-button"
@@ -233,8 +232,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   {t('New')}
                 </Button>
                 <Button
-                  variant="outlined"
-                  size="small"
+                  variant="secondaryGray"
                   disabled={!selectedCashFlowItems.length}
                   onClick={handleDeleteClick}
                   data-cy="cfw-delete-cash-flow-item-button"

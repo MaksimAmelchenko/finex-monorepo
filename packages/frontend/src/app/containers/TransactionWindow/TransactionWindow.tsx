@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { FormikHelpers } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
 import { CategoriesRepository } from '../../stores/categories-repository';
+import { CircleQuestionIcon, IconButton, ISelectOption, Target } from '@finex/ui-kit';
 import {
   CreateTransactionData,
+  isPlannedTransaction,
   ITransaction,
   UpdateTransactionChanges,
-  isPlannedTransaction,
 } from '../../types/transaction';
 import {
   Form,
@@ -25,15 +26,14 @@ import {
   FormSelect,
   FormTabs,
   FormTextAreaField,
-  IFormButton,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { PlannedTransaction } from '../../stores/models/planned-transaction';
 import { QuantityField } from '../QuantityField/QuantityField';
+import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape, Sign } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transaction } from '../../stores/models/transaction';
@@ -407,28 +407,18 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="tertiaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
         <div className={styles.footer__rightButtons}>
-          <SaveButton variant="outlined" isIgnoreValidation>
+          <SaveButton variant="secondaryGray" isIgnoreValidation>
             {t('Save')}
           </SaveButton>
-          <FormButton type="submit" color="primary" isIgnoreValidation>
+          <FormButton type="submit" isIgnoreValidation>
             {t('Save and Create New')}
           </FormButton>
         </div>
       </FormFooter>
     </Form>
   );
-}
-
-function SaveButton(props: IFormButton): JSX.Element {
-  const { setFieldValue, handleSubmit } = useFormikContext();
-  const handleClick = () => {
-    setFieldValue('isOnlySave', true);
-    handleSubmit();
-  };
-
-  return <FormButton {...props} onClick={handleClick} />;
 }

@@ -146,7 +146,7 @@ export const Billing = observer(() => {
                           <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
                             <FormButton
                               type="submit"
-                              variant="outlined"
+                              variant="secondaryGray"
                               color="primary"
                               fullSize
                               className={styles.root__button}

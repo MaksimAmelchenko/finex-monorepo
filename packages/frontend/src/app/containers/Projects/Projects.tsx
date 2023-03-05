@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button } from '@finex/ui-kit';
+import { Button, PlusIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { IProject } from '../../types/project';
 import { Project } from '../../stores/models/project';
@@ -110,26 +110,26 @@ export const Projects = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New project')}
               </Button>
               <Button
-                variant="outlined"
-                size="small"
+                variant="secondaryGray"
+                size="sm"
                 disabled={!Boolean(selectedProject) || isSelectCurrentProject}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
 
-              <Button variant="outlined" size="small" onClick={handleCopyClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleCopyClick}>
                 {t('Copy')}
               </Button>
 
-              <Button variant="outlined" size="small" onClick={handleMergeClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleMergeClick}>
                 {t('Merge')}
               </Button>
             </div>

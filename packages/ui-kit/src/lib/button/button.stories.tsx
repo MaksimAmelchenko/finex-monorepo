@@ -1,30 +1,69 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, Story } from '@storybook/react';
 
-import { Button, IButtonProps } from './button';
+import { Button, ButtonProps } from './button';
+import { CalendarIcon, MagnifyingGlassIcon } from '../icons';
 
 export default {
   title: 'Components/Button',
   component: Button,
   argTypes: {
-    color: { control: { type: 'select', options: ['primary', 'secondary'] } },
-    size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
-    disabled: { control: { type: 'radio', options: [false, true] } },
-    loading: { control: { type: 'radio', options: [false, true] } },
+    variant: {
+      options: ['primary', 'secondary', 'secondaryGray'],
+      control: { type: 'select' },
+    },
+    size: { options: ['sm', 'md', 'lg', 'xl'], control: { type: 'select' } },
+    startIcon: {
+      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      mapping: {
+        Empty: undefined,
+        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        CalendarIcon: <CalendarIcon />,
+      },
+      control: {
+        type: 'select',
+        labels: {
+          Empty: 'Empty',
+          MagnifyingGlassIcon: 'MagnifyingGlass',
+          CalendarIcon: 'Calendar',
+        },
+      },
+    },
+    endIcon: {
+      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      mapping: {
+        Empty: undefined,
+        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        CalendarIcon: <CalendarIcon />,
+      },
+      control: {
+        type: 'select',
+        labels: {
+          Empty: 'Empty',
+          MagnifyingGlassIcon: 'MagnifyingGlass',
+          CalendarIcon: 'Calendar',
+        },
+      },
+    },
+
+    disabled: { options: [false, true], control: { type: 'radio' } },
+    loading: { options: [false, true], control: { type: 'radio' } },
     href: { control: { type: 'text' } },
     children: { control: { type: 'text' } },
   },
 } as Meta;
 
-const Template: Story<IButtonProps> = args => <Button {...args} />;
+const Template: Story<ButtonProps> = args => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  color: 'primary',
-  size: 'medium',
+  size: 'md',
+  variant: 'primary',
+  // startIcon: <CalendarIcon />,
   disabled: false,
+  destructive: false,
   loading: false,
   fullSize: false,
   href: '#',
-  children: 'Button text',
+  children: '20 July, 2020',
 };

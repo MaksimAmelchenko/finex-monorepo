@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Debt } from '../../stores/models/debt';
 import { DebtRow } from './DebtRow/DebtRow';
@@ -153,13 +153,13 @@ export const Debts = observer(() => {
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddDebt}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddDebt}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedDebts.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="sm" disabled={!selectedDebts.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

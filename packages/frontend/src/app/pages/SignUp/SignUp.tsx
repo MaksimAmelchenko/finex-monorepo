@@ -87,7 +87,7 @@ export function SignUp(): JSX.Element {
             </p>
 
             <FormError />
-            <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation={true}>
+            <FormButton type="submit" size="lg" variant="primary" fullSize isIgnoreValidation={true}>
               {t('Create account')}
             </FormButton>
             <div>

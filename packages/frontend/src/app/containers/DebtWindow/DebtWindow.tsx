@@ -195,7 +195,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
             </div>
 
             <div className={styles.debt__footer}>
-              <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+              <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
                 {t('Close')}
               </FormButton>
               <FormButton type="submit" color="primary" isIgnoreValidation>
@@ -209,15 +209,10 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           <div className={clsx(styles.panel)}>
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
-                <Button variant="outlined" size="small" disabled={!Boolean(debt.id)} onClick={handleOpenAddDebtItem}>
+                <Button variant="secondaryGray" disabled={!Boolean(debt.id)} onClick={handleOpenAddDebtItem}>
                   {t('New')}
                 </Button>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  disabled={!selectedDebtItems.length}
-                  onClick={handleDeleteClick}
-                >
+                <Button variant="secondaryGray" disabled={!selectedDebtItems.length} onClick={handleDeleteClick}>
                   {t('Delete')}
                 </Button>
               </div>

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { FormikHelpers } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
@@ -10,6 +10,7 @@ import { AmountField } from '../../AmountField/AmountField';
 import { CashFlowItem } from '../../../stores/models/cash-flow-item';
 import { CashFlowsRepository } from '../../../stores/cash-flows-repository';
 import { CategoriesRepository } from '../../../stores/categories-repository';
+import { CircleQuestionIcon, IconButton, ISelectOption, Target } from '@finex/ui-kit';
 import { CreateCashFlowItemData, ICashFlowItem, UpdateCashFlowItemChanges } from '../../../types/cash-flow';
 import {
   Form,
@@ -22,14 +23,13 @@ import {
   FormSelect,
   FormTabs,
   FormTextAreaField,
-  IFormButton,
 } from '../../../components/Form';
 import { HtmlTooltip } from '../../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { Link } from '../../../components/Link/Link';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { QuantityField } from '../../QuantityField/QuantityField';
+import { SaveButton } from '../../../components/FormSaveButton/FormSaveButton';
 import { Shape, Sign } from '../../../types';
 import { TagsRepository } from '../../../stores/tags-repository';
 import { analytics } from '../../../lib/analytics';
@@ -400,11 +400,11 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfiw-cancel-button">
+        <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose} data-cy="cfiw-cancel-button">
           {t('Cancel')}
         </FormButton>
         <div className={styles.footer__rightButtons}>
-          <SaveButton variant="outlined" isIgnoreValidation data-cy="cfiw-save-button">
+          <SaveButton variant="secondaryGray" isIgnoreValidation data-cy="cfiw-save-button">
             {t('Save')}
           </SaveButton>
           <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfiw-save-and-create-more-button">
@@ -414,14 +414,4 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
       </FormFooter>
     </Form>
   );
-}
-
-function SaveButton(props: IFormButton): JSX.Element {
-  const { setFieldValue, handleSubmit } = useFormikContext();
-  const handleClick = () => {
-    setFieldValue('isOnlySave', true);
-    handleSubmit();
-  };
-
-  return <FormButton {...props} onClick={handleClick} />;
 }

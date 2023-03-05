@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { FormikHelpers } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
+import { CircleQuestionIcon, IconButton, ISelectOption, Target } from '@finex/ui-kit';
 import { CreateTransferData, ITransfer, UpdateTransferChanges } from '../../types/transfer';
 import {
   Form,
@@ -18,12 +19,11 @@ import {
   FormHeader,
   FormSelect,
   FormTextAreaField,
-  IFormButton,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
-import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { Transfer } from '../../stores/models/transfer';
@@ -374,11 +374,11 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
           </FormBody>
 
           <FormFooter>
-            <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+            <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
               {t('Cancel')}
             </FormButton>
             <div className={styles.footer__rightButtons}>
-              <SaveButton variant="outlined" isIgnoreValidation>
+              <SaveButton variant="secondaryGray" isIgnoreValidation>
                 {t('Save')}
               </SaveButton>
               <FormButton type="submit" color="primary" isIgnoreValidation>
@@ -390,14 +390,4 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
       )}
     </Form>
   );
-}
-
-function SaveButton(props: IFormButton): JSX.Element {
-  const { setFieldValue, handleSubmit } = useFormikContext();
-  const handleClick = () => {
-    setFieldValue('isOnlySave', true);
-    handleSubmit();
-  };
-
-  return <FormButton {...props} onClick={handleClick} />;
 }

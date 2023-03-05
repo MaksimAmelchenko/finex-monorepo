@@ -220,7 +220,7 @@ export const DistributionReport = observer(() => {
                 </ToggleButton>
               </ToggleButtonGroup>
 
-              <Button variant="outlined" onClick={handleToggleParams}>
+              <Button variant="secondaryGray" onClick={handleToggleParams}>
                 {t('Parameters')}
               </Button>
             </div>
