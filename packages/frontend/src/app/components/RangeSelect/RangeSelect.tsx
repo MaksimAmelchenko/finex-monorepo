@@ -49,7 +49,11 @@ export function RangeSelect<IsStrict extends boolean = false>({
           endDate={endDate}
           target={FromTarget}
         />
-        {startDate && <Tag onClose={onStartDateReset}>{formatDate(formatISO(startDate))}</Tag>}
+        {startDate && (
+          <Tag size="lg" outline={false} onClose={onStartDateReset}>
+            {formatDate(formatISO(startDate))}
+          </Tag>
+        )}
       </div>
 
       <div className={styles.container__dateControl}>
@@ -62,7 +66,11 @@ export function RangeSelect<IsStrict extends boolean = false>({
           target={ToTarget}
           minDate={startDate}
         />
-        {endDate && <Tag onClose={onEndDateReset}>{formatDate(formatISO(endDate))}</Tag>}
+        {endDate && (
+          <Tag size="lg" outline={false} onClose={onEndDateReset}>
+            {formatDate(formatISO(endDate))}
+          </Tag>
+        )}
       </div>
     </div>
   );

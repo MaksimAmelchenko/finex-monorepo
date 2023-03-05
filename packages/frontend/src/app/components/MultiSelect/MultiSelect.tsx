@@ -40,7 +40,7 @@ export function MultiSelect({ label, values, options, onChange, ...rest }: Multi
       {values.length > 0 && (
         <div className={styles.container__tags}>
           {values.map(({ value, label }) => (
-            <Tag onClose={handleDelete(value)} className={styles.container__tag} key={value}>
+            <Tag onClose={handleDelete(value)} outline={false} size="lg" className={styles.container__tag} key={value}>
               {label}
             </Tag>
           ))}
