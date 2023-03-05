@@ -108,7 +108,7 @@ export const Contractors = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedContractorWindow}>
+      <Drawer open={isOpenedContractorWindow}>
         {contractor && <ContractorWindow contractor={contractor} onClose={handleCloseContractorWindow} />}
       </Drawer>
     </>

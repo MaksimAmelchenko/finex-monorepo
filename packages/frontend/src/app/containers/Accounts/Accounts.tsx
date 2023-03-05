@@ -113,7 +113,7 @@ export const Accounts = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedAccountWindow}>
+      <Drawer open={isOpenedAccountWindow}>
         {account && <AccountWindow account={account} onClose={handleCloseAccountWindow} />}
       </Drawer>
     </>

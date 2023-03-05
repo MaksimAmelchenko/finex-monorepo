@@ -98,7 +98,7 @@ export const Tags = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedTagWindow}>{tag && <TagWindow tag={tag} onClose={handleCloseTagWindow} />}</Drawer>
+      <Drawer open={isOpenedTagWindow}>{tag && <TagWindow tag={tag} onClose={handleCloseTagWindow} />}</Drawer>
     </>
   );
 });

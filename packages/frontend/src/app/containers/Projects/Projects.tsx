@@ -162,15 +162,15 @@ export const Projects = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedProjectWindow}>
+      <Drawer open={isOpenedProjectWindow}>
         {project && <ProjectWindow project={project} onClose={handleCloseProjectWindow} />}
       </Drawer>
 
-      <Drawer isOpened={isOpenedCopyProjectWindow}>
+      <Drawer open={isOpenedCopyProjectWindow}>
         <ProjectCopyWindow project={selectedProject} onClose={handleCloseCopyProjectWindow} />
       </Drawer>
 
-      <Drawer isOpened={isOpenedMergeProjectWindow}>
+      <Drawer open={isOpenedMergeProjectWindow}>
         <ProjectMergeWindow project={selectedProject} onClose={handleCloseMergeProjectWindow} />
       </Drawer>
     </>

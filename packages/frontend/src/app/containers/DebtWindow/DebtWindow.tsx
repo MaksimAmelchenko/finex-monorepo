@@ -242,7 +242,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
         </section>
       </main>
 
-      <Drawer isOpened={isOpenedDebtItemWindow}>
+      <Drawer open={isOpenedDebtItemWindow}>
         {debtItem && <DebtItemWindow debtItem={debtItem} onClose={handleCloseDebtItemWindow} />}
       </Drawer>
     </div>

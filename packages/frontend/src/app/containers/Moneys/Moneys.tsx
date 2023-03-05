@@ -105,7 +105,7 @@ export const Moneys = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedMoneyWindow}>
+      <Drawer open={isOpenedMoneyWindow}>
         {money && <MoneyWindow money={money} onClose={handleCloseMoneyWindow} />}
       </Drawer>
     </>

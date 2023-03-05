@@ -244,7 +244,7 @@ export const Transfers = observer(() => {
         </div>
       </main>
 
-      <Drawer isOpened={isOpenedTransferWindow}>
+      <Drawer open={isOpenedTransferWindow}>
         {transfer && <TransferWindow transfer={transfer} onClose={handleCloseTransferWindow} />}
       </Drawer>
     </div>

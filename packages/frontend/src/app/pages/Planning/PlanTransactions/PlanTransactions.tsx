@@ -125,7 +125,7 @@ export const PlanTransactions = observer(() => {
         </div>
       </main>
 
-      <Drawer isOpened={isOpenedPlanTransactionWindow}>
+      <Drawer open={isOpenedPlanTransactionWindow}>
         {planTransaction && (
           <PlanTransactionWindow planTransaction={planTransaction} onClose={handleClosePlanTransactionWindow} />
         )}

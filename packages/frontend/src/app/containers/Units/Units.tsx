@@ -102,7 +102,7 @@ export const Units = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedUnitWindow}>
+      <Drawer open={isOpenedUnitWindow}>
         {unit && <UnitWindow unit={unit} onClose={handleCloseUnitWindow} />}
       </Drawer>
     </>

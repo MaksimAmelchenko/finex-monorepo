@@ -246,7 +246,7 @@ export const Exchanges = observer(() => {
         </div>
       </main>
 
-      <Drawer isOpened={isOpenedExchangeWindow}>
+      <Drawer open={isOpenedExchangeWindow}>
         {exchange && <ExchangeWindow exchange={exchange} onClose={handleCloseExchangeWindow} />}
       </Drawer>
     </div>

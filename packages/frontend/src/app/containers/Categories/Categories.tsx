@@ -169,11 +169,11 @@ export const Categories = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedCategoryWindow}>
+      <Drawer open={isOpenedCategoryWindow}>
         {category && <CategoryWindow category={category} onClose={handleCloseCategoryWindow} />}
       </Drawer>
 
-      <Drawer isOpened={isOpenedMoveTransactionsWindow}>
+      <Drawer open={isOpenedMoveTransactionsWindow}>
         {selectedCategory && (
           <MoveTransactionsWindow category={selectedCategory} onClose={handleCloseMoveTransactionsWindow} />
         )}

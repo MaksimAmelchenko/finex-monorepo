@@ -325,7 +325,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
         </section>
       </main>
 
-      <Drawer isOpened={isOpenedCashFlowItemWindow}>
+      <Drawer open={isOpenedCashFlowItemWindow}>
         {cashFlowItem && <CashFlowItemWindow cashFlowItem={cashFlowItem} onClose={handleCloseCashFlowItemWindow} />}
       </Drawer>
     </div>

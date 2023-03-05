@@ -323,7 +323,7 @@ export const Transactions = observer(() => {
         </div>
       </main>
 
-      <Drawer isOpened={isOpenedTransactionWindow}>
+      <Drawer open={isOpenedTransactionWindow}>
         {transaction && <TransactionWindow transaction={transaction} onClose={handleCloseTransactionWindow} />}
       </Drawer>
     </div>
