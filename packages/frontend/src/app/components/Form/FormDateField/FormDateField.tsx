@@ -9,7 +9,7 @@ export interface FormDateFieldProps extends Omit<DateFieldProps, 'value' | 'onCh
 
 export function FormDateField(props: FormDateFieldProps): JSX.Element {
   const [formikProps, meta] = useField(props.name);
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, setFieldTouched } = useFormikContext();
 
   const joinedProps = { ...props, ...formikProps };
   const isError = Boolean(meta.error);
@@ -17,6 +17,7 @@ export function FormDateField(props: FormDateFieldProps): JSX.Element {
   const handleChange = useCallback(
     (value: Date | null) => {
       setFieldValue(name, value);
+      setFieldTouched(name, true, false);
     },
     [name, setFieldValue]
   );

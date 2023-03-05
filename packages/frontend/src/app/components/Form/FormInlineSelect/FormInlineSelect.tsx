@@ -9,7 +9,7 @@ export interface FormInlineSelectProps extends Omit<InlineSelectProps, 'label' |
 
 export function FormInlineSelect(props: FormInlineSelectProps): JSX.Element {
   const [formikProps, meta] = useField<string>(props.name);
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, setFieldTouched } = useFormikContext();
 
   const joinedProps = { ...props, ...formikProps };
 
@@ -20,6 +20,7 @@ export function FormInlineSelect(props: FormInlineSelectProps): JSX.Element {
   const handleChange = useCallback(
     (option: IOption) => {
       setFieldValue(name, option.value);
+      setFieldTouched(name, true, false);
     },
     [name, setFieldValue]
   );

@@ -17,7 +17,7 @@ export const FormCheckbox = (props: IFormCheckboxProps): JSX.Element => {
   const handleChange = useCallback(
     (value: boolean) => {
       setFieldValue(props.name, value);
-      setFieldTouched(props.name);
+      setFieldTouched(props.name, true, false);
     },
     [props.name, setFieldValue, setFieldTouched]
   );
