@@ -1,0 +1,49 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  box-shadow: 0 0 4px var(--color-gray-200);
+  height: 5.6rem;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 0;
+    height: 100%;
+    padding: 1.6rem;
+    background: none;
+
+    &_backButton {
+      padding-left: 1.2rem;
+    }
+
+    &_backAdd {
+      padding-right: 1.2rem;
+    }
+
+    img {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  &__backIcon {
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    @include typography.textLGSemibold;
+
+    &_withoutAddButton {
+      padding-right: 5.2rem;
+    }
+  }
+}
