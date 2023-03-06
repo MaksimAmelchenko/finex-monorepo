@@ -1,0 +1,85 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.categoryField {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.dateFields {
+  display: flex;
+  width: 100%;
+  gap: 1.6rem;
+
+  &__reportPeriod {
+    flex: 1 1 24rem;
+  }
+}
+
+.notConfirmedField {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.additional {
+  //display: flex;
+  //flex-direction: column;
+  //row-gap: 1.6rem;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include typography.textMD;
+  }
+
+  &__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    transform: rotate(90deg);
+    //transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    //&_expended {
+    //  transform: rotate(-90deg);
+    //}
+  }
+
+  &__description {
+    @include typography.textSM;
+    color: var(--color-gray-500);
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+
+    margin: 0 -0.4rem;
+    padding: 0 0.4rem;
+  }
+}
+
+.form__body {
+  //padding-top: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.6rem;
+  border-top: 0.5px solid var(--color-gray-300);
+  padding: 1.6rem;
+  background-color: var(--color-white);
+}
+
+.spacer {
+  min-height: 4rem;
+}

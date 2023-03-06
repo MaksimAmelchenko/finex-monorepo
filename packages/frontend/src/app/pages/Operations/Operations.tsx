@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { BottomSheet } from 'react-spring-bottom-sheet';
 import { observer } from 'mobx-react-lite';
 
 import { Button } from '@finex/ui-kit';
 import { DebtCard } from '../../components/DebtCard/DebtCard';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
 import { IOperation } from '../../types/operation';
 import { LoadState } from '../../core/load-state';
@@ -15,12 +15,11 @@ import {
 } from '../../stores/models/operation';
 import { OperationsRepository } from '../../stores/operations-repository';
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
-import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
+import { OperationWindowMobile } from '../../containers/OperationWindowMobile/OperationWindowMobile';
 import { TransferCard } from '../../components/TransferCard/TransferCard';
 import { formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import 'react-spring-bottom-sheet/dist/style.css';
 import styles from './Operations.module.scss';
 
 const t = getT('Operations');
@@ -49,7 +48,7 @@ export const Operations = observer(() => {
         return (
           <Fragment key={operationsByDate.date}>
             <div className={styles.section__header}>
-              {formatDate(operationsByDate.date, 'date.formats.dateWithDayIfWeek')}
+              {formatDate(operationsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
             </div>
             <div className={styles.section__content}>
               {operationsByDate.operations.map(operation => {
@@ -88,20 +87,9 @@ export const Operations = observer(() => {
         </div>
       )}
 
-      <BottomSheet
-        open={open}
-        skipInitialTransition
-        expandOnContentDrag
-        onDismiss={() => {
-          setOpen(false);
-        }}
-        snapPoints={({ maxHeight }) => maxHeight - 24}
-      >
-        {operation && operation instanceof OperationTransaction && (
-          <TransactionWindow transaction={operation} onClose={() => {}} />
-        )}
-        {operation?.id}
-      </BottomSheet>
+      <Drawer open={open}>
+        {operation && <OperationWindowMobile operation={operation} onClose={() => setOpen(false)} />}
+      </Drawer>
     </div>
   );
 });

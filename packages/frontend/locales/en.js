@@ -39,6 +39,9 @@ module.exports = {
     Read: 'Read',
     Edit: 'Edit',
   },
+  AccountsMobile: {
+    Accounts: 'Accounts',
+  },
   AccountWindow: {
     'Account already exists': 'Account already exists',
     'Please fill name': 'Please fill name',
@@ -168,6 +171,9 @@ module.exports = {
     Name: 'Name',
     Active: 'Active',
     Note: 'Note',
+  },
+  CategoriesMobile: {
+    Categories: 'Categories',
   },
   CategoryWindow: {
     'There is a cycle in the hierarchy': 'There is a cycle in the hierarchy',
@@ -416,6 +422,9 @@ module.exports = {
     Active: 'Active',
     Currency: 'Currency',
   },
+  MoneysMobile: {
+    Moneys: 'Moneys',
+  },
   MoneyWindow: {
     'Money already exists': 'Money already exists',
     "You can't delete money with transaction": "You can't delete money with transaction",
@@ -452,6 +461,29 @@ module.exports = {
   },
   Operations: {
     'Load more': 'Load more',
+  },
+  OperationWindowMobile: {
+    Income: 'Income',
+    Expense: 'Expense',
+    'Please select date': 'Please select date',
+    'Please fill amount': 'Please fill amount',
+    'Please enter a number': 'Please enter a number',
+    'Please select category': 'Please select category',
+    'Add transaction': 'Add transaction',
+    Amount: 'Amount',
+    Category: 'Category',
+    Account: 'Account',
+    Date: 'Date',
+    Period: 'Period',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
+    Quantity: 'Quantity',
+    'Not confirmed operation': 'Not confirmed operation',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Save and Create New': 'Save and Create New',
+    Save: 'Save',
   },
   Pagination: {
     of: 'of',
@@ -707,6 +739,9 @@ module.exports = {
     Refresh: 'Refresh',
     Name: 'Name',
   },
+  TagsMobile: {
+    Tags: 'Tags',
+  },
   TagWindow: {
     'Tag already exists': 'Tag already exists',
     'Please fill name': 'Please fill name',
@@ -736,6 +771,7 @@ module.exports = {
     Category: 'Category',
     Income: 'Income',
     Expense: 'Expense',
+    Amount: 'Amount',
     Note: 'Note',
     'Total for selected operations:': 'Total for selected operations:',
   },

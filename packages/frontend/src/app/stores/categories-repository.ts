@@ -23,6 +23,10 @@ export interface ICategoriesApi {
   deleteCategory: (categoryId: string) => Promise<void>;
   moveTransactions: (categoryIdFrom: string, categoryIdTo: string, isRecursive: boolean) => Promise<{ count: number }>;
 }
+export type CategoryTreeNode = { category: Category; children: CategoryTreeNode[] };
+export type CategoriesTree = CategoryTreeNode[];
+
+type categoryId = string;
 
 export class CategoriesRepository extends ManageableStore {
   static storeName = 'CategoriesRepository';
@@ -57,6 +61,36 @@ export class CategoriesRepository extends ManageableStore {
     return this._categories
       .slice()
       .sort((a, b) => a.fullPath(true).localeCompare(b.fullPath(true), 'en', { sensitivity: 'base' }));
+  }
+
+  private getChildren(
+    category: Category,
+    map: Map<categoryId, { category: Category; children: Category[] }>
+  ): CategoriesTree {
+    if (!map.has(category.id)) {
+      return [];
+    }
+    const { children } = map.get(category.id)!;
+    return children.map(category => ({ category, children: this.getChildren(category, map) }));
+  }
+
+  get categoriesTree(): CategoriesTree {
+    const map: Map<categoryId, { category: Category; children: Category[] }> = new Map();
+    const root: Category[] = [];
+    this.categories.forEach(category => {
+      if (!category.parent) {
+        root.push(category);
+        map.set(category.id, { category, children: [] });
+      } else {
+        if (!map.has(category.parent.id)) {
+          map.set(category.parent.id, { category: category.parent, children: [category] });
+        } else {
+          map.get(category.parent.id)!.children.push(category);
+        }
+      }
+    });
+
+    return root.map(category => ({ category, children: this.getChildren(category, map) }));
   }
 
   get(categoryId: string): Category | undefined {

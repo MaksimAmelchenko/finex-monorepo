@@ -161,7 +161,7 @@ export const Transactions = observer(() => {
 
   return (
     <div className={styles.layout}>
-      <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header"/>
+      <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header" />
       <main className={styles.content}>
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
@@ -267,17 +267,18 @@ export const Transactions = observer(() => {
                   {t('Counterparty')}
                 </th>
                 <th>{t('Category')}</th>
+
                 <th className="hidden-sm hidden-md" colSpan={2}>
                   {t('Income')}
                 </th>
                 <th className="hidden-sm hidden-md" colSpan={2}>
                   {t('Expense')}
                 </th>
-                {/*<th className="hidden-lg" colSpan={2}>*/}
-                {/*  {t('Amount')}*/}
-                {/*</th>*/}
-                <th className="hidden-sm">{t('Note')}</th>
-                <th className="hidden-sm">{t('Tags')}</th>
+                <th className="hidden-lg" colSpan={2}>
+                  {t('Amount')}
+                </th>
+                <th>{t('Note')}</th>
+                <th>{t('Tags')}</th>
               </tr>
             </thead>
             <tbody>

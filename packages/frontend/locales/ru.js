@@ -39,6 +39,9 @@ module.exports = {
     Read: 'Просмотр',
     Edit: 'Изменение',
   },
+  AccountsMobile: {
+    Accounts: 'Счета',
+  },
   AccountWindow: {
     'Account already exists': 'Счет с таким наименованием уже существует',
     'Please fill name': 'Пожалуйста, укажите наименование',
@@ -168,6 +171,9 @@ module.exports = {
     Name: 'Наименование',
     Active: 'Активная',
     Note: 'Примечание',
+  },
+  CategoriesMobile: {
+    Categories: 'Категории',
   },
   CategoryWindow: {
     'There is a cycle in the hierarchy': 'Есть зацикливание в иерархии',
@@ -417,6 +423,9 @@ module.exports = {
     Active: 'Активная',
     Currency: 'Валюта',
   },
+  MoneysMobile: {
+    Moneys: 'Валюты',
+  },
   MoneyWindow: {
     'Money already exists': 'Валюта уже существует',
     "You can't delete money with transaction": 'Нельзя уделать валюту с операциями',
@@ -453,6 +462,29 @@ module.exports = {
   },
   Operations: {
     'Load more': 'Загрузить еще...',
+  },
+  OperationWindowMobile: {
+    Income: 'Доход',
+    Expense: 'Расход',
+    'Please select date': 'Пожалуйста, выберите дату',
+    'Please fill amount': 'Пожалуйста, укажите сумму',
+    'Please enter a number': 'Пожалуйста, введите число',
+    'Please select category': 'Пожалуйста, выберите категорию',
+    'Add transaction': 'Добавление операции',
+    Amount: 'Сумма',
+    Category: 'Категория',
+    Account: 'Счет',
+    Date: 'Дата',
+    Period: 'Период',
+    'Hide additional fields': 'Скрыть дополнительные поля',
+    'Show additional fields': 'Показать дополнительные поля',
+    'Quantity, Not confirmed, Note, Tags': 'Количество, Неподтвержденная операция, Примечание, Теги',
+    Quantity: 'Количество',
+    'Not confirmed operation': 'Неподтвержденная операция',
+    Note: 'Примечание',
+    Tags: 'Теги',
+    'Save and Create New': 'Сохранить и создать еще',
+    Save: 'Сохранить',
   },
   Pagination: {
     of: 'из',
@@ -707,6 +739,9 @@ module.exports = {
     Refresh: 'Обновить',
     Name: 'Наименование',
   },
+  TagsMobile: {
+    Tags: 'Tags',
+  },
   TagWindow: {
     'Tag already exists': 'Тег уже существует',
     'Please fill name': 'Пожалуйста, укажите наименование',
@@ -736,6 +771,7 @@ module.exports = {
     Category: 'Категория',
     Income: 'Доход',
     Expense: 'Расход',
+    Amount: 'Amount',
     Note: 'Примечание',
     'Total for selected operations:': 'Итого по выделенным операциям:',
   },

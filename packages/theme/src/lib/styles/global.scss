@@ -54,6 +54,12 @@ body {
   }
 }
 
+.hidden-lg {
+  @include media.only(lg) {
+    display: none;
+  }
+}
+
 .text-end {
   text-align: right;
 }

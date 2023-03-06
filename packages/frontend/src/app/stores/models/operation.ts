@@ -12,7 +12,6 @@ import { User } from './user';
 
 export class OperationTransaction implements IOperationTransaction, ISelectable, IDeletable {
   readonly id: string;
-  readonly operationDate: TDate;
   readonly cashFlowId: string;
 
   sign: Sign;
@@ -54,7 +53,6 @@ export class OperationTransaction implements IOperationTransaction, ISelectable,
     user,
   }: Omit<IOperationTransaction, 'operationDate'>) {
     this.id = id;
-    this.operationDate = transactionDate;
     this.cashFlowId = cashFlowId;
     this.sign = sign;
     this.amount = amount;
@@ -84,11 +82,14 @@ export class OperationTransaction implements IOperationTransaction, ISelectable,
   toggleSelection() {
     this.isSelected = !this.isSelected;
   }
+
+  get operationDate(): TDate {
+    return this.transactionDate;
+  }
 }
 
 export class OperationDebt implements IOperationDebt, ISelectable, IDeletable {
   readonly id: string;
-  readonly operationDate: TDate;
   readonly cashFlowId: string;
   sign: Sign;
   amount: number;
@@ -123,7 +124,6 @@ export class OperationDebt implements IOperationDebt, ISelectable, IDeletable {
     user,
   }: Omit<IOperationDebt, 'operationDate'>) {
     this.id = id;
-    this.operationDate = debtItemDate;
     this.cashFlowId = cashFlowId;
     this.sign = sign;
     this.amount = amount;
@@ -150,11 +150,14 @@ export class OperationDebt implements IOperationDebt, ISelectable, IDeletable {
   toggleSelection() {
     this.isSelected = !this.isSelected;
   }
+
+  get operationDate(): TDate {
+    return this.debtItemDate;
+  }
 }
 
 export class OperationTransfer implements IOperationTransfer, ISelectable, IDeletable {
   readonly id: string;
-  readonly operationDate: TDate;
   amount: number;
   money: Money;
   accountFrom: Account;
@@ -187,7 +190,6 @@ export class OperationTransfer implements IOperationTransfer, ISelectable, IDele
     user,
   }: Omit<IOperationTransfer, 'operationDate'>) {
     this.id = id;
-    this.operationDate = transferDate;
     this.amount = amount;
     this.money = money;
     this.accountFrom = accountFrom;
@@ -213,12 +215,14 @@ export class OperationTransfer implements IOperationTransfer, ISelectable, IDele
   toggleSelection() {
     this.isSelected = !this.isSelected;
   }
+
+  get operationDate(): TDate {
+    return this.transferDate;
+  }
 }
 
 export class OperationExchange implements IOperationExchange, ISelectable, IDeletable {
   readonly id: string;
-  readonly operationDate: TDate;
-
   sellAmount: number;
   moneySell: Money;
   accountSell: Account;
@@ -255,7 +259,6 @@ export class OperationExchange implements IOperationExchange, ISelectable, IDele
     user,
   }: Omit<IOperationExchange, 'operationDate'>) {
     this.id = id;
-    this.operationDate = exchangeDate;
     this.sellAmount = sellAmount;
     this.moneySell = moneySell;
     this.accountSell = accountSell;
@@ -282,5 +285,9 @@ export class OperationExchange implements IOperationExchange, ISelectable, IDele
 
   toggleSelection() {
     this.isSelected = !this.isSelected;
+  }
+
+  get operationDate(): TDate {
+    return this.exchangeDate;
   }
 }

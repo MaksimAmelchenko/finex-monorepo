@@ -1,10 +1,13 @@
+export { ReactComponent as ArrowLeftIcon, default as arrowLeftSvg } from './arrow-left.svg';
 export {
   ReactComponent as ArrowRightFromBracketIcon,
   default as arrowRightFromBracketSvg,
 } from './arrow-right-from-bracket.svg';
+export { ReactComponent as BankIcon, default as bankSvg } from './bank.svg';
 export { ReactComponent as BarsIcon, default as barsSvg } from './bars.svg';
 export { ReactComponent as BriefcaseIcon, default as briefcaseSvg } from './briefcase.svg';
 export { ReactComponent as CalendarDaysIcon, default as calendarDaysSvg } from './calendar-days.svg';
+export { ReactComponent as CalendarIcon, default as calendarSvg } from './calendar.svg';
 export { ReactComponent as ChartColumnIcon, default as chartColumnSvg } from './chart-column.svg';
 export { ReactComponent as ChartLineIcon, default as chartLineSvg } from './chart-line.svg';
 export { ReactComponent as ChartPieIcon, default as chartPieSvg } from './chart-pie.svg';
@@ -47,4 +50,3 @@ export { ReactComponent as UserIcon, default as userSvg } from './user.svg';
 export { ReactComponent as UsersIcon, default as usersSvg } from './users.svg';
 export { ReactComponent as Wallet03Icon, default as wallet03Svg } from './wallet-03.svg';
 export { ReactComponent as XmarkIcon, default as xmarkSvg } from './xmark.svg';
-export { ReactComponent as bankIcon, default as bankSvg } from './bank.svg';

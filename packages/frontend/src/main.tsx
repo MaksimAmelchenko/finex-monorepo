@@ -46,7 +46,8 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
-                dateWithDayIfWeek: 'd MMM yyyy, iiiiii',
+                // 4 March 2023, Sat
+                fullDateWithDayOfWeek: 'd MMMM yyyy, EEE',
               },
             },
             time: {
@@ -73,7 +74,8 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
-                dateWithDayIfWeek: 'd MMM yyyy, EEEEEE',
+                // 4 марта 2023, суб
+                fullDateWithDayOfWeek: 'd MMMM yyyy, EEE',
               },
             },
             time: {
@@ -100,7 +102,8 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
-                dateWithDayIfWeek: 'd MMM yyyy, EEEEEE',
+                // 4 März 2023, Sa.
+                fullDateWithDayOfWeek: 'd MMMM yyyy, EEE',
               },
             },
             time: {
