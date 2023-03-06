@@ -1,0 +1,12 @@
+@use 'packages/theme/src/lib/styles/mixins';
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+
+  &__main {
+    overflow: auto;
+  }
+}
