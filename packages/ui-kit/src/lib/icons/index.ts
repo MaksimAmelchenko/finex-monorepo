@@ -25,8 +25,6 @@ export { ReactComponent as GiftIcon, default as giftSvg } from './gift.svg';
 export { ReactComponent as LeftRightIcon, default as leftRightSvg } from './left-right.svg';
 export { ReactComponent as LoadingIcon, default as loadingSvg } from './loading.svg';
 export { ReactComponent as Logo, default as logoSvg } from './logo.svg';
-export { ReactComponent as Logo01GrayIcon, default as logo01GraySvg } from './logo-01-gray.svg';
-export { ReactComponent as Logo01Icon, default as logo01Svg } from './logo-01.svg';
 export { ReactComponent as MagnifyingGlassIcon, default as magnifyingGlassSvg } from './magnifying-glass.svg';
 export { ReactComponent as MiscellaneousIcon, default as miscellaneousSvg } from './miscellaneous.svg';
 export { ReactComponent as PlusCircleIcon, default as plusCircleSvg } from './plus-circle.svg';

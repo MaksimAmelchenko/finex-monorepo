@@ -21,22 +21,13 @@
 }
 
 .outcomeButtonIcon {
-  transition: background 0.3s ease-in-out;
+  transition: filter 0.3s ease-in-out;
   width: 3.2rem;
   height: 2.4rem;
+  filter: grayscale(100%);
+  background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo.svg');
 
-  background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo-01-gray.svg');
   :global(.active) & {
-    background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo-01.svg');
+    filter: grayscale(0);
   }
-}
-
-// Preloading images using CSS
-.outcomeButtonIcon::after {
-  content: url('packages/ui-kit/src/lib/icons/logo-01.svg');
-  position: absolute;
-  width: 0;
-  height: 0;
-  z-index: -1;
-  overflow: hidden;
 }
