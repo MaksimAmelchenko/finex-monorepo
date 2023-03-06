@@ -824,6 +824,9 @@ module.exports = {
     Refresh: 'Обновить',
     Name: 'Наименование',
   },
+  UnitsMobile: {
+    Units: 'Единицы измерения',
+  },
   UnitWindow: {
     'Unit already exists': 'Ед.измерения уже существует',
     'Please fill name': 'Пожалуйста, укажите наименование',

@@ -824,6 +824,9 @@ module.exports = {
     Refresh: 'Refresh',
     Name: 'Name',
   },
+  UnitsMobile: {
+    Units: 'Units',
+  },
   UnitWindow: {
     'Unit already exists': 'Unit already exists',
     'Please fill name': 'Please fill name',
