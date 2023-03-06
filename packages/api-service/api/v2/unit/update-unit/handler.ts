@@ -8,10 +8,10 @@ export async function handler(
 ): Promise<IResponse<{ unit: IPublicUnit }>> {
   const {
     projectId,
-    params: { unitId, ...changes },
+    params: { unitId, name },
   } = ctx;
 
-  const unit = await UnitService.updateUnit(ctx, projectId, unitId, changes);
+  const unit = await UnitService.updateUnit(ctx, projectId, unitId, { name });
 
   return {
     body: {

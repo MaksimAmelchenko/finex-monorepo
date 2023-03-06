@@ -5,9 +5,16 @@ import { MoneyService } from '../../../../services/money';
 export async function handler(ctx: IRequestContext<any, true>): Promise<IResponse> {
   const {
     projectId,
-    params: { moneyId, ...changes },
+    params: { moneyId, currencyId, isEnabled, name, precision, sorting, symbol },
   } = ctx;
-  const money = await MoneyService.updateMoney(ctx, projectId, moneyId, changes);
+  const money = await MoneyService.updateMoney(ctx, projectId, moneyId, {
+    currencyId,
+    isEnabled,
+    name,
+    precision,
+    sorting,
+    symbol,
+  });
 
   return {
     body: {

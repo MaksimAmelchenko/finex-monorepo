@@ -8,10 +8,10 @@ export async function handler(
 ): Promise<IResponse<{ contractor: IPublicContractor }>> {
   const {
     projectId,
-    params: { contractorId, ...changes },
+    params: { contractorId, name, note },
   } = ctx;
 
-  const contractor = await ContractorService.updateContractor(ctx, projectId, contractorId, changes);
+  const contractor = await ContractorService.updateContractor(ctx, projectId, contractorId, { name, note });
 
   return {
     body: {
