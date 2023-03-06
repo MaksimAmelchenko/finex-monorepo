@@ -8,10 +8,10 @@ export async function handler(
 ): Promise<IResponse<{ tag: IPublicTag }>> {
   const {
     projectId,
-    params: { tagId, ...changes },
+    params: { tagId, name },
   } = ctx;
 
-  const tag = await TagService.updateTag(ctx, projectId, tagId, changes);
+  const tag = await TagService.updateTag(ctx, projectId, tagId, { name });
 
   return {
     body: {
