@@ -290,7 +290,7 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
         <AccountField name="accountId" label={t('Account')} />
 
         <div className={styles.dateFields}>
-          <DateField name="transactionDate" label={t('Date')} dateFormat="date.formats.date2" />
+          <DateField name="transactionDate" label={t('Date')} dateFormat="date.formats.fullDateWithDayOfWeek" />
 
           <DateField
             name="reportPeriod"
