@@ -10,5 +10,7 @@ export interface AccordionProps {
 }
 
 export function Accordion({ isExpanded, className, children }: AccordionProps): JSX.Element {
-  return <div className={clsx(styles.root, isExpanded && styles.root_expanded, className)}>{children}</div>;
+  return (
+    <div className={clsx(styles.root, isExpanded && styles.root_expanded, className)}>{isExpanded && children}</div>
+  );
 }
