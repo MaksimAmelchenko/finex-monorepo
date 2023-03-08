@@ -14,12 +14,6 @@
   }
 }
 
-.notConfirmedField {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
 .additional {
   &__header {
   }
@@ -33,7 +27,6 @@
     width: 1.6rem;
     height: 1.6rem;
     transform: rotate(90deg);
-    //transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     color: var(--color-gray-500);
 
     &_expended {
@@ -62,9 +55,4 @@
   gap: 1.6rem;
   border-top: 0.5px solid var(--color-gray-200);
   padding: 1.6rem;
-  //background-color: var(--color-white);
-}
-
-.spacer {
-  min-height: 4rem;
 }
