@@ -1,29 +1,58 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { arrowLeftSvg, plusSvg } from '@finex/ui-kit';
+import { ArrowLeftIcon, PlusIcon, Trash01Icon } from '@finex/ui-kit';
 
 import styles from './Header.module.scss';
 
 export interface HeaderProps {
-  onClickBack: () => void;
   title: string;
-  onClickAdd?: () => void;
+  startAdornment?: React.ReactNode;
+  endAdornment?: React.ReactNode;
 }
 
-export function Header({ onClickBack, title, onClickAdd }: HeaderProps): JSX.Element {
-  const isAddIcon = Boolean(onClickAdd);
+export function Header({
+  title,
+  startAdornment: StartAdornment,
+  endAdornment: EndAdornment,
+}: HeaderProps): JSX.Element {
   return (
     <header className={styles.root}>
-      <button type="button" className={clsx(styles.root__button, styles.root__button_backButton)} onClick={onClickBack}>
-        <img src={arrowLeftSvg} className={styles.root__backIcon} alt="back" />
-      </button>
-      <div className={clsx(styles.root__title, !isAddIcon && styles.root__title_withoutAddButton)}>{title}</div>
-      {isAddIcon && (
-        <button type="button" className={clsx(styles.root__button, styles.root__button_backAdd)} onClick={onClickAdd}>
-          <img src={plusSvg} className={styles.root__backIcon} alt="add" />
-        </button>
-      )}
+      {StartAdornment}
+      <div className={clsx(styles.root__title, !Boolean(EndAdornment) && styles.root__title_withoutEndAdornment)}>
+        {title}
+      </div>
+      {EndAdornment}
     </header>
+  );
+}
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export function BackButton({ onClick }: ButtonProps): JSX.Element {
+  return (
+    <button type="button" className={clsx(styles.button, styles.button_startAdornment)} onClick={onClick}>
+      <ArrowLeftIcon />
+    </button>
+  );
+}
+
+export function AddButton({ onClick }: ButtonProps): JSX.Element {
+  return (
+    <button type="button" className={clsx(styles.button, styles.button_endAdornment)} onClick={onClick}>
+      <PlusIcon />
+    </button>
+  );
+}
+
+export function DeleteButton({ onClick }: ButtonProps): JSX.Element {
+  return (
+    <button
+      type="button"
+      className={clsx(styles.button, styles.button_endAdornment, styles.button_delete)}
+      onClick={onClick}
+    >
+      <Trash01Icon />
+    </button>
   );
 }

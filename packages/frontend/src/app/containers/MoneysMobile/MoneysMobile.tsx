@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { Drawer } from '../../components/Drawer/Drawer';
-import { Header } from '../../components/Header/Header';
+import { BackButton, Header } from '../../components/Header/Header';
 import { Money } from '../../stores/models/money';
 import { MoneyRow } from './MoneyRow/MoneyRow';
 import { MoneysRepository } from '../../stores/moneys-repository';
@@ -32,7 +32,7 @@ export const MoneysMobile = observer<MoneysMobileProps>(({ open, onSelect, onClo
 
   return (
     <Drawer open={open} className={styles.root}>
-      <Header title={t('Moneys')} onClickBack={onClose} onClickAdd={() => {}} />
+      <Header title={t('Moneys')} startAdornment={<BackButton onClick={onClose} />} />
       <main className={styles.root__main}>
         {moneys
           .filter(({ isEnabled }) => !isSelectMode || (isSelectMode && isEnabled))

@@ -1,3 +1,4 @@
+@use 'packages/theme/src/lib/styles/mixins';
 @use 'packages/theme/src/lib/styles/typography';
 
 .root {
@@ -7,34 +8,6 @@
   box-shadow: 0 0 4px var(--color-gray-200);
   height: 5.6rem;
 
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 0;
-    border-radius: 0;
-    height: 100%;
-    padding: 1.6rem;
-    background: none;
-
-    &_backButton {
-      padding-left: 1.2rem;
-    }
-
-    &_backAdd {
-      padding-right: 1.2rem;
-    }
-
-    img {
-      width: 2.4rem;
-      height: 2.4rem;
-    }
-  }
-
-  &__backIcon {
-  }
-
   &__title {
     display: flex;
     align-items: center;
@@ -42,8 +15,36 @@
     flex-grow: 1;
     @include typography.textLGSemibold;
 
-    &_withoutAddButton {
+    &_withoutEndAdornment {
       padding-right: 5.2rem;
     }
+  }
+}
+
+.button {
+  @include mixins.resetButton;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 100%;
+  padding: 1.6rem;
+  color: var(--color-gray-900);
+
+  &_startAdornment {
+    padding-left: 1.2rem;
+  }
+
+  &_endAdornment {
+    padding-right: 1.2rem;
+  }
+
+  svg {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  &_delete {
+    color: var(--color-error-500);
   }
 }

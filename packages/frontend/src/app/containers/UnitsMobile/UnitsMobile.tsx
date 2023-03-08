@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { Drawer } from '../../components/Drawer/Drawer';
-import { Header } from '../../components/Header/Header';
+import { BackButton, Header } from '../../components/Header/Header';
 import { Unit } from '../../stores/models/unit';
 import { UnitRow } from './UnitRow/UnitRow';
 import { UnitsRepository } from '../../stores/units-repository';
@@ -32,7 +32,7 @@ export const UnitsMobile = observer<UnitsMobileProps>(({ open, onSelect, onClose
 
   return (
     <Drawer open={open} className={styles.root}>
-      <Header title={t('Units')} onClickBack={onClose} onClickAdd={() => {}} />
+      <Header title={t('Units')} startAdornment={<BackButton onClick={onClose} />} />
       <main className={styles.root__main}>
         {units.map(unit => {
           return <UnitRow unit={unit} onClick={handleOnClick} key={unit.id} />;

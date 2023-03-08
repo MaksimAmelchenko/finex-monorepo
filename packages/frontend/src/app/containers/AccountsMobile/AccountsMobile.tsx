@@ -5,7 +5,7 @@ import { Account } from '../../stores/models/account';
 import { AccountRow } from './AccountRow/AccountRow';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
-import { Header } from '../../components/Header/Header';
+import { BackButton, Header } from '../../components/Header/Header';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -32,7 +32,7 @@ export const AccountsMobile = observer<AccountsMobileProps>(({ open, onSelect, o
 
   return (
     <Drawer open={open} className={styles.root}>
-      <Header title={t('Accounts')} onClickBack={onClose} onClickAdd={() => {}} />
+      <Header title={t('Accounts')} startAdornment={<BackButton onClick={onClose} />} />
       <main className={styles.root__main}>
         {accounts
           .filter(({ isEnabled }) => !isSelectMode || (isSelectMode && isEnabled))

@@ -5,7 +5,7 @@ import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
 import { CategoryCard } from './CategoryCard/CategoryCard';
 import { Drawer } from '../../components/Drawer/Drawer';
-import { Header } from '../../components/Header/Header';
+import { BackButton, Header } from '../../components/Header/Header';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -32,7 +32,7 @@ export const CategoriesMobile = observer<CategoriesMobileProps>(({ open, onSelec
 
   return (
     <Drawer open={open} className={styles.root}>
-      <Header title={t('Categories')} onClickBack={onClose} onClickAdd={() => {}} />
+      <Header title={t('Categories')} startAdornment={<BackButton onClick={onClose} />} />
       <main className={styles.root__main}>
         {categoriesTree
           .filter(({ category: { isEnabled } }) => !isSelectMode || (isSelectMode && isEnabled))
