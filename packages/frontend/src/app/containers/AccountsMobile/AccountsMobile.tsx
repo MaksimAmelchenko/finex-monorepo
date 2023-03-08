@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { Account } from '../../stores/models/account';
 import { AccountRow } from './AccountRow/AccountRow';
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Drawer } from '../../components/Drawer/Drawer';
 import { BackButton, Header } from '../../components/Header/Header';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -24,11 +24,14 @@ export const AccountsMobile = observer<AccountsMobileProps>(({ open, onSelect, o
   const { accounts } = accountsRepository;
   const isSelectMode = Boolean(onSelect);
 
-  const handleOnClick = (account: Account, event: React.MouseEvent<HTMLButtonElement>) => {
-    if (isSelectMode) {
-      onSelect(account);
-    }
-  };
+  const handleClick = useCallback(
+    (account: Account, event: React.MouseEvent<HTMLButtonElement>) => {
+      if (isSelectMode) {
+        onSelect(account);
+      }
+    },
+    [isSelectMode, onSelect]
+  );
 
   return (
     <Drawer open={open} className={styles.root}>
@@ -37,7 +40,7 @@ export const AccountsMobile = observer<AccountsMobileProps>(({ open, onSelect, o
         {accounts
           .filter(({ isEnabled }) => !isSelectMode || (isSelectMode && isEnabled))
           .map(account => {
-            return <AccountRow account={account} onClick={handleOnClick} key={account.id} />;
+            return <AccountRow account={account} onClick={handleClick} key={account.id} />;
           })}
       </main>
     </Drawer>

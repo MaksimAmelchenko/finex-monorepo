@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { Drawer } from '../../components/Drawer/Drawer';
 import { BackButton, Header } from '../../components/Header/Header';
+import { Drawer } from '../../components/Drawer/Drawer';
 import { Unit } from '../../stores/models/unit';
 import { UnitRow } from './UnitRow/UnitRow';
 import { UnitsRepository } from '../../stores/units-repository';
@@ -24,18 +24,21 @@ export const UnitsMobile = observer<UnitsMobileProps>(({ open, onSelect, onClose
   const { units } = unitsRepository;
   const isSelectMode = Boolean(onSelect);
 
-  const handleOnClick = (unit: Unit, event: React.MouseEvent<HTMLButtonElement>) => {
-    if (isSelectMode) {
-      onSelect(unit);
-    }
-  };
+  const handleClick = useCallback(
+    (unit: Unit, event: React.MouseEvent<HTMLButtonElement>) => {
+      if (isSelectMode) {
+        onSelect(unit);
+      }
+    },
+    [isSelectMode, onSelect]
+  );
 
   return (
     <Drawer open={open} className={styles.root}>
       <Header title={t('Units')} startAdornment={<BackButton onClick={onClose} />} />
       <main className={styles.root__main}>
         {units.map(unit => {
-          return <UnitRow unit={unit} onClick={handleOnClick} key={unit.id} />;
+          return <UnitRow unit={unit} onClick={handleClick} key={unit.id} />;
         })}
       </main>
     </Drawer>

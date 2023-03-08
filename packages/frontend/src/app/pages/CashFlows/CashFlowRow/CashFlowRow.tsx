@@ -24,7 +24,7 @@ export const CashFlowRow = observer<CashFlowRowProps>(({ cashFlow, onClick }) =>
     cashFlow.toggleSelection();
   };
 
-  const handleOnClick = (event: React.SyntheticEvent) => {
+  const handleClick = (event: React.SyntheticEvent) => {
     onClick(cashFlow);
   };
 
@@ -35,7 +35,7 @@ export const CashFlowRow = observer<CashFlowRowProps>(({ cashFlow, onClick }) =>
   }, [cashFlow.balances]);
 
   return (
-    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
         <div className={clsx(styles.dateColumn)}>
           <div className={clsx(styles.dateColumn__colorMark)} />

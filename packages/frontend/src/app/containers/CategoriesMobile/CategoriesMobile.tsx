@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { CategoriesRepository } from '../../stores/categories-repository';
@@ -24,11 +24,14 @@ export const CategoriesMobile = observer<CategoriesMobileProps>(({ open, onSelec
   const { categories, categoriesTree } = categoriesRepository;
   const isSelectMode = Boolean(onSelect);
 
-  const handleOnClick = (category: Category, event: React.MouseEvent<HTMLButtonElement>) => {
-    if (isSelectMode) {
-      onSelect(category);
-    }
-  };
+  const handleClick = useCallback(
+    (category: Category, event: React.MouseEvent<HTMLButtonElement>) => {
+      if (isSelectMode) {
+        onSelect(category);
+      }
+    },
+    [isSelectMode, onSelect]
+  );
 
   return (
     <Drawer open={open} className={styles.root}>
@@ -37,7 +40,7 @@ export const CategoriesMobile = observer<CategoriesMobileProps>(({ open, onSelec
         {categoriesTree
           .filter(({ category: { isEnabled } }) => !isSelectMode || (isSelectMode && isEnabled))
           .map(node => {
-            return <CategoryCard node={node} onClick={handleOnClick} key={node.category.id} />;
+            return <CategoryCard node={node} onClick={handleClick} key={node.category.id} />;
           })}
       </main>
     </Drawer>

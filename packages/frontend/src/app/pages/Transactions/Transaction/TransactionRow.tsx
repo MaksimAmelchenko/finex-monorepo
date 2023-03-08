@@ -26,7 +26,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
     transaction.toggleSelection();
   };
 
-  const handleOnClick = (event: React.SyntheticEvent) => {
+  const handleClick = (event: React.SyntheticEvent) => {
     onClick(transaction);
   };
 
@@ -35,7 +35,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
     (isPlanned || transaction.isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
-    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
         <div
           className={clsx(

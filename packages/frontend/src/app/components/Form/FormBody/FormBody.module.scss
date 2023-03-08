@@ -1,6 +1,6 @@
 @use 'packages/theme/src/lib/styles/media';
 
-.main {
+.root {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@
   padding: 2.4rem 3.2rem;
 
   @include media.only(sm) {
-    padding: 0.8rem 1.6rem;
     row-gap: 1.6rem;
+    padding: 0.8rem 1.6rem;
   }
 }

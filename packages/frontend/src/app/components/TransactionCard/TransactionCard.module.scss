@@ -68,7 +68,6 @@
     flex-grow: 0;
     @include typography.textMD;
     white-space: nowrap;
-    color: var(--color-gray-900);
 
     &_income {
       color: var(--color-success-500);
@@ -76,12 +75,12 @@
   }
 
   &__accountName {
-    @include typography.textSM;
     align-self: stretch;
     flex-grow: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: calc(100vw - 96px);
+    @include typography.textSM;
     color: var(--color-gray-500);
   }
 }
