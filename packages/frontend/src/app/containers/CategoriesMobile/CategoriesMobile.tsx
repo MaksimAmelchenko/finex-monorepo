@@ -21,7 +21,6 @@ interface CategoriesMobileProps {
 
 export const CategoriesMobile = observer<CategoriesMobileProps>(({ open, onSelect, onClose }) => {
   const categoriesRepository = useStore(CategoriesRepository);
-  const { categories, categoriesTree } = categoriesRepository;
   const isSelectMode = Boolean(onSelect);
 
   const handleClick = useCallback(
@@ -32,6 +31,8 @@ export const CategoriesMobile = observer<CategoriesMobileProps>(({ open, onSelec
     },
     [isSelectMode, onSelect]
   );
+
+  const categoriesTree = open ? categoriesRepository.categoriesTree : [];
 
   return (
     <Drawer open={open} className={styles.root}>
