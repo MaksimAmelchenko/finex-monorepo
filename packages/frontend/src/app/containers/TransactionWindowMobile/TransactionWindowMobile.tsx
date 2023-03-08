@@ -233,7 +233,7 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
 
   const handleDeleteClick = () => {
     operationsRepository
-      .removeTransaction(transaction as OperationTransaction)
+      .deleteTransaction(transaction as OperationTransaction)
       .then(() => {
         onClose();
       })

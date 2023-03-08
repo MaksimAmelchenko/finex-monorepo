@@ -1,0 +1,69 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.main {
+  padding-bottom: 4rem;
+}
+
+.dateFields {
+  display: flex;
+  width: 100%;
+  gap: 1.6rem;
+
+  &__reportPeriod {
+    flex: 1 1 24rem;
+  }
+}
+
+.fee {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+
+    margin: 0 -0.4rem;
+    padding: 0 0.4rem;
+  }
+}
+
+.additional {
+  &__header {
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    transform: rotate(90deg);
+    color: var(--color-gray-500);
+
+    &_expended {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &__description {
+    @include typography.textSM;
+    color: var(--color-gray-500);
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+
+    margin: 0 -0.4rem;
+    padding: 0 0.4rem;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.6rem;
+  border-top: 0.5px solid var(--color-gray-200);
+  padding: 1.6rem;
+}

@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 import { Account } from './account';
 import { Category } from './category';
@@ -7,8 +7,9 @@ import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { IOperationDebt, IOperationExchange, IOperationTransaction, IOperationTransfer } from '../../types/operation';
 import { Money } from './money';
 import { Tag } from './tag';
-import { User } from './user';
 import { Transaction } from './transaction';
+import { Transfer } from './transfer';
+import { User } from './user';
 
 export class OperationTransaction extends Transaction implements IOperationTransaction {
   constructor(entity: Omit<IOperationTransaction, 'operationDate'>) {
@@ -88,64 +89,9 @@ export class OperationDebt implements IOperationDebt, ISelectable, IDeletable {
   }
 }
 
-export class OperationTransfer implements IOperationTransfer, ISelectable, IDeletable {
-  readonly id: string;
-  amount: number;
-  money: Money;
-  accountFrom: Account;
-  accountTo: Account;
-  transferDate: TDate;
-  reportPeriod: TDate;
-  fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
-  note: string;
-  tags: Tag[];
-  user: User;
-
-  isDeleting: boolean;
-  isSelected: boolean;
-
-  constructor({
-    id,
-    amount,
-    money,
-    accountFrom,
-    accountTo,
-    transferDate,
-    reportPeriod,
-    fee,
-    moneyFee,
-    accountFee,
-    note,
-    tags,
-    user,
-  }: Omit<IOperationTransfer, 'operationDate'>) {
-    this.id = id;
-    this.amount = amount;
-    this.money = money;
-    this.accountFrom = accountFrom;
-    this.accountTo = accountTo;
-    this.transferDate = transferDate;
-    this.reportPeriod = reportPeriod;
-    this.fee = fee;
-    this.moneyFee = moneyFee;
-    this.accountFee = accountFee;
-    this.note = note;
-    this.tags = tags;
-    this.user = user;
-    this.isDeleting = false;
-    this.isSelected = false;
-
-    makeObservable(this, {
-      isDeleting: observable,
-      isSelected: observable,
-      toggleSelection: action,
-    });
-  }
-
-  toggleSelection() {
-    this.isSelected = !this.isSelected;
+export class OperationTransfer extends Transfer implements IOperationTransfer {
+  constructor(entity: Omit<IOperationTransfer, 'operationDate'>) {
+    super(entity);
   }
 
   get operationDate(): TDate {

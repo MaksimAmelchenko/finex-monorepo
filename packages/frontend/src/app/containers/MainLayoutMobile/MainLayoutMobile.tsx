@@ -7,6 +7,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { MainLayoutStoreMobile, Window } from '../../stores/main-layout-store-mobile';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { TransactionWindowMobile } from '../TransactionWindowMobile/TransactionWindowMobile';
+import { TransferWindowMobile } from '../TransferWindowMobile/TransferWindowMobile';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -41,7 +42,8 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
 
   const openExpenseTransactionWindow = mainLayoutStore.window === Window.AddExpenseTransaction;
   const openIncomeTransactionWindow = mainLayoutStore.window === Window.AddIncomeTransaction;
-  const openOperationTransactionWindow = openExpenseTransactionWindow || openIncomeTransactionWindow;
+  const openTransactionWindow = openExpenseTransactionWindow || openIncomeTransactionWindow;
+  const openTransferWindow = mainLayoutStore.window === Window.AddTransfer;
 
   if (!profile) {
     return <Loader />;
@@ -53,11 +55,15 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
 
       <BottomNavigation onMenuItemClick={handleMenuItemClick} />
 
-      <Drawer open={openOperationTransactionWindow}>
+      <Drawer open={openTransactionWindow}>
         <TransactionWindowMobile
           transaction={{ sign: openExpenseTransactionWindow ? -1 : 1 }}
           onClose={handleCloseWindow}
         />
+      </Drawer>
+
+      <Drawer open={openTransferWindow}>
+        <TransferWindowMobile transfer={{}} onClose={handleCloseWindow} />
       </Drawer>
     </div>
   );

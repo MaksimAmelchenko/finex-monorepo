@@ -5,6 +5,7 @@ import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import { CreateTransactionData, UpdateTransactionChanges } from '../types/transaction';
+import { CreateTransferData, UpdateTransferChanges } from '../types/transfer';
 import {
   GetOperationsQuery,
   IOperation,
@@ -82,7 +83,8 @@ export class OperationsRepository extends ManageableStore {
       clear: action,
       fetch: action,
       refresh: action,
-      removeTransaction: action,
+      deleteTransaction: action,
+      deleteTransfer: action,
       setFilter: action,
     });
 
@@ -243,7 +245,7 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  removeTransaction(transaction: OperationTransaction | PlannedTransaction): Promise<unknown> {
+  deleteTransaction(transaction: OperationTransaction | PlannedTransaction): Promise<unknown> {
     transaction.isDeleting = true;
     let operation: Promise<void>;
     if (transaction instanceof PlannedTransaction) {
@@ -251,12 +253,51 @@ export class OperationsRepository extends ManageableStore {
         .get(PlansRepository)
         .cancelPlan(transaction.planId, { excludedDate: transaction.transactionDate });
     } else {
-      operation = this.api.removeTransaction(transaction.id);
+      operation = this.api.deleteTransaction(transaction.id);
     }
 
     return operation.then(
       action(() => {
         this._operations = this._operations.filter(t => t !== transaction);
+      })
+    );
+  }
+
+  createTransfer(data: CreateTransferData): Promise<unknown> {
+    return this.api.createTransfer(data).then(
+      action(response => {
+        const transfer = this.decode([{ ...response.transfer, operationType: 'transfer' }])[0];
+        if (!transfer) {
+          return;
+        }
+
+        this._operations.push(transfer);
+      })
+    );
+  }
+
+  updateTransfer(transfer: OperationTransfer, changes: UpdateTransferChanges): Promise<unknown> {
+    return this.api.updateTransfer(transfer.id, changes).then(
+      action(response => {
+        const updatedTransfer = this.decode([{ ...response.transfer, operationType: 'transfer' }])[0];
+        if (updatedTransfer) {
+          const indexOf = this._operations.indexOf(transfer);
+          if (indexOf !== -1) {
+            this._operations[indexOf] = updatedTransfer;
+          } else {
+            this._operations.push(updatedTransfer);
+          }
+        }
+      })
+    );
+  }
+
+  deleteTransfer(transfer: OperationTransfer): Promise<unknown> {
+    transfer.isDeleting = true;
+
+    return this.api.deleteTransfer(transfer.id).then(
+      action(() => {
+        this._operations = this._operations.filter(t => t !== transfer);
       })
     );
   }
@@ -467,6 +508,7 @@ export class OperationsRepository extends ManageableStore {
       note,
       tags: tagIds,
       userId,
+      updatedAt,
     } = transfer;
 
     const user = usersRepository.get(userId);
@@ -518,6 +560,7 @@ export class OperationsRepository extends ManageableStore {
       note: note ?? '',
       tags,
       user,
+      updatedAt,
     });
   }
 

@@ -10,11 +10,17 @@ import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
 import { IOperation } from '../../types/operation';
 import { LoadState } from '../../core/load-state';
 import { Loader } from '../../components/Loader/Loader';
-import { OperationDebt, OperationExchange, OperationTransaction, OperationTransfer, } from '../../stores/models/operation';
+import {
+  OperationDebt,
+  OperationExchange,
+  OperationTransaction,
+  OperationTransfer,
+} from '../../stores/models/operation';
 import { OperationsRepository } from '../../stores/operations-repository';
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
 import { TransactionWindowMobile } from '../../containers/TransactionWindowMobile/TransactionWindowMobile';
 import { TransferCard } from '../../components/TransferCard/TransferCard';
+import { TransferWindowMobile } from '../../containers/TransferWindowMobile/TransferWindowMobile';
 import { formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -24,7 +30,6 @@ const t = getT('Operations');
 
 export const Operations = observer(() => {
   const operationsRepository = useStore(OperationsRepository);
-  const [open, setOpen] = useState(false);
 
   const [operation, setOperation] = useState<IOperation | null>(null);
 
@@ -35,9 +40,12 @@ export const Operations = observer(() => {
   const handleCardClick = (operationId: string) => {
     const operation = operationsRepository.getOperation(operationId);
     if (operation) {
-      setOpen(true);
       setOperation(operation);
     }
+  };
+
+  const handleClose = () => {
+    setOperation(null);
   };
 
   useEffect(() => {
@@ -109,8 +117,12 @@ export const Operations = observer(() => {
         </div>
       )}
 
-      <Drawer open={open}>
-        {operation && <TransactionWindowMobile transaction={operation} onClose={() => setOpen(false)} />}
+      <Drawer open={operation instanceof OperationTransaction}>
+        {operation && <TransactionWindowMobile transaction={operation} onClose={handleClose} />}
+      </Drawer>
+
+      <Drawer open={operation instanceof OperationTransfer}>
+        {operation && <TransferWindowMobile transfer={operation} onClose={handleClose} />}
       </Drawer>
     </div>
   );

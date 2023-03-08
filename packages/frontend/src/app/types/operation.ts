@@ -1,7 +1,6 @@
 import { Account } from '../stores/models/account';
 import { Category } from '../stores/models/category';
 import { Contractor } from '../stores/models/contractor';
-import { IDeletable, ISelectable, Metadata, Permit, Sign, TDate } from './index';
 import {
   CreateTransactionData,
   CreateTransactionResponse,
@@ -10,6 +9,15 @@ import {
   UpdateTransactionChanges,
   UpdateTransactionResponse,
 } from './transaction';
+import {
+  CreateTransferData,
+  CreateTransferResponse,
+  ITransfer,
+  ITransferDTO,
+  UpdateTransferChanges,
+  UpdateTransferResponse,
+} from './transfer';
+import { IDeletable, ISelectable, Metadata, Permit, Sign, TDate } from './index';
 import { Money } from '../stores/models/money';
 import { Tag } from '../stores/models/tag';
 import { User } from '../stores/models/user';
@@ -58,38 +66,12 @@ export interface IOperationDebt {
   permit: Permit;
 }
 
-export interface IOperationTransferDTO {
+export interface IOperationTransferDTO extends ITransferDTO {
   operationType: 'transfer';
-  id: string;
-  amount: number;
-  moneyId: string;
-  accountFromId: string;
-  accountToId: string;
-  transferDate: TDate;
-  reportPeriod: TDate;
-  fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
-  note: string;
-  tags: string[];
-  userId: string;
 }
 
-export interface IOperationTransfer {
-  id: string;
+export interface IOperationTransfer extends ITransfer {
   operationDate: TDate;
-  amount: number;
-  money: Money;
-  accountFrom: Account;
-  accountTo: Account;
-  transferDate: TDate;
-  reportPeriod: TDate;
-  fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
-  note: string;
-  tags: Tag[];
-  user: User;
 }
 
 export interface IOperationExchangeDTO {
@@ -183,5 +165,9 @@ export interface IOperationsApi {
   get: (query: GetOperationsQuery) => Promise<GetOperationsResponse>;
   createTransaction: (data: CreateTransactionData) => Promise<CreateTransactionResponse>;
   updateTransaction: (transactionId: string, changes: UpdateTransactionChanges) => Promise<UpdateTransactionResponse>;
-  removeTransaction: (transactionId: string) => Promise<void>;
+  deleteTransaction: (transactionId: string) => Promise<void>;
+
+  createTransfer: (data: CreateTransferData) => Promise<CreateTransferResponse>;
+  updateTransfer: (transferId: string, changes: UpdateTransferChanges) => Promise<UpdateTransferResponse>;
+  deleteTransfer: (transferId: string) => Promise<void>;
 }
