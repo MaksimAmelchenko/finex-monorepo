@@ -1,6 +1,7 @@
 export * from './lib/accordion/accordion';
 export * from './lib/badge/badge';
 export * from './lib/base-checkbox/base-checkbox';
+export * from './lib/bottom-sheet/bottom-sheet';
 export * from './lib/button/button';
 export * from './lib/checkbox/checkbox';
 export * from './lib/circular-indeterminate/circular-indeterminate';

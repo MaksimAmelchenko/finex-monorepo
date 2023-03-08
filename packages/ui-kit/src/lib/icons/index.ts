@@ -29,6 +29,7 @@ export { ReactComponent as LeftRightIcon, default as leftRightSvg } from './left
 export { ReactComponent as LoadingIcon, default as loadingSvg } from './loading.svg';
 export { ReactComponent as Logo, default as logoSvg } from './logo.svg';
 export { ReactComponent as MagnifyingGlassIcon, default as magnifyingGlassSvg } from './magnifying-glass.svg';
+export { ReactComponent as MinusIcon, default as minusSvg } from './minus.svg';
 export { ReactComponent as MiscellaneousIcon, default as miscellaneousSvg } from './miscellaneous.svg';
 export { ReactComponent as PlusCircleIcon, default as plusCircleSvg } from './plus-circle.svg';
 export { ReactComponent as PlusIcon, default as plusSvg } from './plus.svg';
@@ -45,6 +46,7 @@ export { ReactComponent as SortIcon, default as sortSvg } from './sort.svg';
 export { ReactComponent as SortUpIcon, default as sortUpSvg } from './sort-up.svg';
 export { ReactComponent as SwitchHorizontal01Icon, default as switchHorizontal01Svg } from './switch-horizontal-01.svg';
 export { ReactComponent as TableIcon, default as tableSvg } from './table.svg';
+export { ReactComponent as Trash01Icon, default as trash01Svg } from './trash-01.svg';
 export { ReactComponent as TrashIcon, default as trashSvg } from './trash-can.svg';
 export { ReactComponent as UserIcon, default as userSvg } from './user.svg';
 export { ReactComponent as UsersIcon, default as usersSvg } from './users.svg';

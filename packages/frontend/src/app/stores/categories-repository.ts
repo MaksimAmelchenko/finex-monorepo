@@ -42,6 +42,7 @@ export class CategoriesRepository extends ManageableStore {
       consume: action,
       clear: action,
       deleteCategory: action,
+      categoriesTree: computed,
     });
   }
 

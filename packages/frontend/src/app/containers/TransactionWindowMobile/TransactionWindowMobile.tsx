@@ -5,7 +5,7 @@ import { FormikHelpers } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
-import { Accordion, chevronRightSvg } from '@finex/ui-kit';
+import { Accordion, ChevronRightIcon } from '@finex/ui-kit';
 import { AccountField } from '../AccountFieldMobile/AccountField';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountFieldMobile/AmountField';
@@ -15,24 +15,22 @@ import { DateField } from '../../components/DateField/DateField';
 import { Form, FormBody, FormButton, FormCheckbox } from '../../components/Form';
 import { FormSegmentedControl } from '../../components/Form/FormSegmentedControl/FormSegmentedControl';
 import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
-import { Header } from '../../components/Header/Header';
+import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { IOperationTransaction } from '../../types/operation';
 import { ITabOption } from '../../components/Tabs/Tabs';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { OperationTransaction } from '../../stores/models/operation';
+import { OperationsRepository } from '../../stores/operations-repository';
 import { QuantityField } from '../QuantityFieldMobile/QuantityField';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape, Sign } from '../../types';
 import { TagsField } from '../TagsFieldMobile/TagsField';
-import { Transaction } from '../../stores/models/transaction';
-import { TransactionsRepository } from '../../stores/transactions-repository';
 import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
-import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './OperationWindowMobile.module.scss';
+import styles from './TransactionWindowMobile.module.scss';
 
 interface TransactionFormValues {
   sign: '1' | '-1';
@@ -51,12 +49,12 @@ interface TransactionFormValues {
   isOnlySave: boolean;
 }
 
-interface OperationWindowMobileProps {
-  operation: Partial<IOperationTransaction> | OperationTransaction;
+interface TransactionWindowMobileProps {
+  transaction: Partial<IOperationTransaction> | OperationTransaction;
   onClose: () => unknown;
 }
 
-const t = getT('OperationWindowMobile');
+const t = getT('TransactionWindowMobile');
 
 function mapValuesToCreatePayload(values: TransactionFormValues): CreateTransactionData {
   const {
@@ -124,8 +122,9 @@ function mapValuesToUpdatePayload(values: TransactionFormValues): UpdateTransact
   };
 }
 
-export function OperationWindowMobile({ operation, onClose }: OperationWindowMobileProps): JSX.Element {
+export function TransactionWindowMobile({ transaction, onClose }: TransactionWindowMobileProps): JSX.Element {
   const {
+    //
     sign,
     amount,
     money,
@@ -135,10 +134,9 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
     reportPeriod,
     quantity,
     unit,
-    // isNotConfirmed,
     note,
     tags,
-  } = operation;
+  } = transaction;
 
   const signOptions: ITabOption[] = useMemo(
     () => [
@@ -149,16 +147,15 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
   );
 
   const accountsRepository = useStore(AccountsRepository);
-  const transactionsRepository = useStore(TransactionsRepository);
   const moneysRepository = useStore(MoneysRepository);
+  const operationsRepository = useStore(OperationsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
-  const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || note || tags?.length)
   );
-  const [isNew, setIsNew] = useState<boolean>(!(operation instanceof Transaction));
+  const [isNew, setIsNew] = useState<boolean>(!(transaction instanceof OperationTransaction));
 
   useEffect(() => {
     analytics.view({
@@ -184,13 +181,13 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
       if (isNew) {
         // create transaction
         const data: CreateTransactionData = mapValuesToCreatePayload(values);
-        result = transactionsRepository.createTransaction(operation, data);
+        result = operationsRepository.createTransaction(transaction, data);
       } else {
         const changes: UpdateTransactionChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = transactionsRepository.updateTransaction(operation as Transaction, changes);
+        result = operationsRepository.updateTransaction(transaction as OperationTransaction, changes);
       }
 
       return result
@@ -219,6 +216,7 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
             });
             setIsNew(true);
             amountFieldRef.current?.focus();
+            enqueueSnackbar(t('Transaction has been saved'), { variant: 'success' });
           }
         })
         .catch(err => {
@@ -230,8 +228,24 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, transactionsRepository, onClose, operation, isNew]
+    [enqueueSnackbar, operationsRepository, onClose, transaction, isNew]
   );
+
+  const handleDeleteClick = () => {
+    operationsRepository
+      .removeTransaction(transaction as OperationTransaction)
+      .then(() => {
+        onClose();
+      })
+      .catch(err => {
+        let message = '';
+        switch (err.code) {
+          default:
+            message = err.message;
+        }
+        enqueueSnackbar(message, { variant: 'error' });
+      });
+  };
 
   const validationSchema = useMemo(
     () =>
@@ -250,6 +264,7 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
   const handleShowAdditionalFieldsClick = () => {
     setIsShowAdditionalFields(isShow => !isShow);
   };
+
   const isPlanned = false;
   return (
     <Form<TransactionFormValues>
@@ -264,7 +279,7 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         quantity: quantity ? String(quantity) : '',
         unitId: unit?.id ?? null,
-        isNotConfirmed: isPlanned ? false : operation?.isNotConfirmed ?? false,
+        isNotConfirmed: isPlanned ? false : transaction?.isNotConfirmed ?? false,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
         // planId: isPlanned ? transaction.planId : null,
@@ -272,11 +287,14 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
         isOnlySave: false,
       }}
       validationSchema={validationSchema}
-      onDirtyChange={dirty => onCanCloseChange(!dirty)}
       name="transaction-mobile"
     >
-      <Header title={t('Add transaction')} onClickBack={onClose} />
-      <FormBody className={styles.form__body}>
+      <Header
+        title={isNew ? t('Add transaction') : t('Edit transaction')}
+        startAdornment={<BackButton onClick={onClose} />}
+        endAdornment={!isNew && <DeleteButton onClick={handleDeleteClick} />}
+      />
+      <FormBody className={styles.main}>
         <FormSegmentedControl name="sign" options={signOptions} />
 
         <AmountField
@@ -304,12 +322,13 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
         <div className={styles.additional__header} onClick={handleShowAdditionalFieldsClick}>
           <div className={styles.additional__title}>
             {isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
-            <img src={chevronRightSvg} className={clsx(styles.additional__icon)} />
+            <ChevronRightIcon
+              className={clsx(styles.additional__icon, isShowAdditionalFields && styles.additional__icon_expended)}
+            />
           </div>
           <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
         </div>
-
-        <div className={styles.additional}>
+        <div>
           <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
             <QuantityField quantityFieldName="quantity" unitFieldName="unitId" label={t('Quantity')} />
             <FormCheckbox name="isNotConfirmed">{t('Not confirmed operation')}</FormCheckbox>
@@ -317,32 +336,12 @@ export function OperationWindowMobile({ operation, onClose }: OperationWindowMob
             <TagsField name="tagIds" label={t('Tags')} />
           </Accordion>
         </div>
-
-        {/*
-        <div className={styles.additional}>
-          <div>
-            <Target
-              label={isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
-              onClick={handleShowAdditionalFieldsClick}
-            />
-            <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
-          </div>
-
-          <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
-            <QuantityField quantityFieldName="quantity" unitFieldName="unitId" label={t('Quantity')} />
-            <FormTextAreaField name="note" label={t('Note')} minRows={1} />
-            <TagsField name="tagIds" label={t('Tags')} />
-          </Accordion>
-        </div>
-        */}
-
-        <div className={styles.spacer}>&nbsp;</div>
       </FormBody>
 
       <footer className={styles.footer}>
-        <FormButton variant="secondaryGray" isIgnoreValidation>
+        <SaveButton variant="secondaryGray" isOnlySave={false} isIgnoreValidation>
           {t('Save and Create New')}
-        </FormButton>
+        </SaveButton>
         <SaveButton type="submit" variant="primary" isIgnoreValidation>
           {t('Save')}
         </SaveButton>

@@ -1,9 +1,10 @@
 import { action, makeObservable, observable, reaction, computed } from 'mobx';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
+import { CreateTransactionData, UpdateTransactionChanges } from '../types/transaction';
 import {
   GetOperationsQuery,
   IOperation,
@@ -11,6 +12,7 @@ import {
   IOperationDTO,
   IOperationExchangeDTO,
   IOperationsApi,
+  IOperationTransaction,
   IOperationTransactionDTO,
   IOperationTransferDTO,
 } from '../types/operation';
@@ -19,11 +21,13 @@ import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
 import { OperationDebt, OperationExchange, OperationTransaction, OperationTransfer } from './models/operation';
+import { PlannedTransaction } from './models/planned-transaction';
+import { PlansRepository } from './plans-repository';
+import { TDate } from '../types';
 import { Tag } from './models/tag';
 import { TagsRepository } from './tags-repository';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
-import { TDate } from '../types';
 
 interface IFilter {
   isFilter: boolean;
@@ -56,8 +60,7 @@ export class OperationsRepository extends ManageableStore {
     tags: [],
   };
 
-  operations: IOperation[];
-  private operationsMap: Map<string, IOperation>;
+  private _operations: IOperation[];
 
   loadState: LoadState;
 
@@ -68,18 +71,19 @@ export class OperationsRepository extends ManageableStore {
     this.total = 0;
 
     this.loadState = LoadState.none();
-    this.operations = [];
-    this.operationsMap = new Map<string, IOperation>();
+    this._operations = [];
 
-    makeObservable(this, {
-      operations: observable,
-      loadState: observable,
+    makeObservable<OperationsRepository, '_operations'>(this, {
+      _operations: observable,
       filter: observable,
+      loadState: observable,
+      operations: computed,
+      operationsByDates: computed,
       clear: action,
       fetch: action,
-      setFilter: action,
       refresh: action,
-      operationsByDates: computed,
+      removeTransaction: action,
+      setFilter: action,
     });
 
     reaction(
@@ -88,6 +92,17 @@ export class OperationsRepository extends ManageableStore {
         this.refresh();
       }
     );
+  }
+
+  get operations(): IOperation[] {
+    return this._operations
+      .slice()
+      .sort(
+        (a, b) =>
+          Number(Boolean((b as any).planId)) - Number(Boolean((a as any).planId)) ||
+          parseISO(b.operationDate).getTime() - parseISO(a.operationDate).getTime() ||
+          Number((b as any).id) - Number((a as any).id)
+      );
   }
 
   async fetch(): Promise<void> {
@@ -130,8 +145,7 @@ export class OperationsRepository extends ManageableStore {
           this.offset = metadata.offset;
           this.total = metadata.total;
           const operations = this.decode(operationDTOs);
-          operations.forEach(operation => this.operationsMap.set(operation.id, operation));
-          this.operations = [...this.operations, ...operations];
+          this._operations = [...this._operations, ...operations];
         })
       )
       .then(
@@ -158,7 +172,7 @@ export class OperationsRepository extends ManageableStore {
 
   async refresh(): Promise<void> {
     this.offset = 0;
-    this.operations = [];
+    this._operations = [];
     return this.fetch();
   }
 
@@ -184,7 +198,67 @@ export class OperationsRepository extends ManageableStore {
   }
 
   getOperation(operationId: string): IOperation | undefined {
-    return this.operationsMap.get(operationId);
+    return this._operations.find(({ id }) => id === operationId);
+  }
+
+  createTransaction(transaction: Partial<IOperationTransaction>, data: CreateTransactionData): Promise<unknown> {
+    return this.api.createTransaction(data).then(
+      action(response => {
+        const newTransaction = this.decode([{ ...response.transaction, operationType: 'transaction' }])[0];
+        if (!newTransaction) {
+          return;
+        }
+
+        if (transaction instanceof PlannedTransaction) {
+          /*
+          // need to replace planned transaction
+          const indexOf = this._transactions.indexOf(transaction);
+          if (indexOf !== -1) {
+            this._transactions[indexOf] = newTransaction;
+          } else {
+            this._transactions.push(newTransaction);
+          }
+          */
+        } else {
+          // just add new transaction
+          this._operations.push(newTransaction);
+        }
+      })
+    );
+  }
+
+  updateTransaction(transaction: OperationTransaction, changes: UpdateTransactionChanges): Promise<unknown> {
+    return this.api.updateTransaction(transaction.id, changes).then(
+      action(response => {
+        const updatedTransaction = this.decode([{ ...response.transaction, operationType: 'transaction' }])[0];
+        if (updatedTransaction) {
+          const indexOf = this._operations.indexOf(transaction);
+          if (indexOf !== -1) {
+            this._operations[indexOf] = updatedTransaction;
+          } else {
+            this._operations.push(updatedTransaction);
+          }
+        }
+      })
+    );
+  }
+
+  removeTransaction(transaction: OperationTransaction | PlannedTransaction): Promise<unknown> {
+    transaction.isDeleting = true;
+    let operation: Promise<void>;
+    if (transaction instanceof PlannedTransaction) {
+      operation = this._mainStore
+        .get(PlansRepository)
+        .cancelPlan(transaction.planId, { excludedDate: transaction.transactionDate });
+    } else {
+      operation = this.api.removeTransaction(transaction.id);
+    }
+
+    return operation.then(
+      action(() => {
+        this._operations = this._operations.filter(t => t !== transaction);
+      })
+    );
   }
 
   private decode(operationDTOs: IOperationDTO[]): IOperation[] {
@@ -532,6 +606,6 @@ export class OperationsRepository extends ManageableStore {
   }
 
   clear(): void {
-    this.operations = [];
+    this._operations = [];
   }
 }

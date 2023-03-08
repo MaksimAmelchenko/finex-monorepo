@@ -15,7 +15,7 @@ import {
 } from '../../stores/models/operation';
 import { OperationsRepository } from '../../stores/operations-repository';
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
-import { OperationWindowMobile } from '../../containers/OperationWindowMobile/OperationWindowMobile';
+import { TransactionWindowMobile } from '../../containers/TransactionWindowMobile/TransactionWindowMobile';
 import { TransferCard } from '../../components/TransferCard/TransferCard';
 import { formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -88,7 +88,7 @@ export const Operations = observer(() => {
       )}
 
       <Drawer open={open}>
-        {operation && <OperationWindowMobile operation={operation} onClose={() => setOpen(false)} />}
+        {operation && <TransactionWindowMobile transaction={operation} onClose={() => setOpen(false)} />}
       </Drawer>
     </div>
   );

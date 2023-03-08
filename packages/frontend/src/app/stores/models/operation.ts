@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 import { Account } from './account';
 import { Category } from './category';
@@ -7,80 +7,12 @@ import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { IOperationDebt, IOperationExchange, IOperationTransaction, IOperationTransfer } from '../../types/operation';
 import { Money } from './money';
 import { Tag } from './tag';
-import { Unit } from './unit';
 import { User } from './user';
+import { Transaction } from './transaction';
 
-export class OperationTransaction implements IOperationTransaction, ISelectable, IDeletable {
-  readonly id: string;
-  readonly cashFlowId: string;
-
-  sign: Sign;
-  amount: number;
-  money: Money;
-  account: Account;
-  category: Category;
-  contractor: Contractor | null;
-  transactionDate: TDate;
-  reportPeriod: TDate;
-  quantity: number | null;
-  unit: Unit | null;
-  isNotConfirmed: boolean;
-  note: string;
-  tags: Tag[];
-  permit: Permit;
-  user: User;
-
-  isDeleting: boolean;
-  isSelected: boolean;
-
-  constructor({
-    id,
-    cashFlowId,
-    sign,
-    amount,
-    money,
-    category,
-    account,
-    contractor,
-    transactionDate,
-    reportPeriod,
-    quantity,
-    unit,
-    isNotConfirmed,
-    note,
-    tags,
-    permit,
-    user,
-  }: Omit<IOperationTransaction, 'operationDate'>) {
-    this.id = id;
-    this.cashFlowId = cashFlowId;
-    this.sign = sign;
-    this.amount = amount;
-    this.money = money;
-    this.category = category;
-    this.account = account;
-    this.contractor = contractor;
-    this.transactionDate = transactionDate;
-    this.reportPeriod = reportPeriod;
-    this.quantity = quantity;
-    this.unit = unit;
-    this.isNotConfirmed = isNotConfirmed;
-    this.note = note;
-    this.tags = tags;
-    this.permit = permit;
-    this.user = user;
-    this.isDeleting = false;
-    this.isSelected = false;
-
-    makeObservable(this, {
-      isDeleting: observable,
-      isSelected: observable,
-      toggleSelection: action,
-    });
-  }
-
-  toggleSelection() {
-    this.isSelected = !this.isSelected;
+export class OperationTransaction extends Transaction implements IOperationTransaction {
+  constructor(entity: Omit<IOperationTransaction, 'operationDate'>) {
+    super(entity);
   }
 
   get operationDate(): TDate {

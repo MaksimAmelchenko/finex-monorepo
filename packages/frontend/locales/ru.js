@@ -87,6 +87,10 @@ module.exports = {
     Operations: 'Операции',
     Budget: 'Бюджет',
     Settings: 'Настройки',
+    Expense: 'Expense',
+    Income: 'Income',
+    Transfer: 'Transfer',
+    Exchange: 'Exchange',
   },
   CashFlow: {
     Overdue: 'Просрочено',
@@ -463,14 +467,16 @@ module.exports = {
   Operations: {
     'Load more': 'Загрузить еще...',
   },
-  OperationWindowMobile: {
+  TransactionWindowMobile: {
     Income: 'Доход',
     Expense: 'Расход',
+    'Transaction has been saved': 'Транзакция успешно сохранена',
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select category': 'Пожалуйста, выберите категорию',
-    'Add transaction': 'Добавление операции',
+    'Add transaction': 'Добавление',
+    'Edit transaction': 'Редактирование',
     Amount: 'Сумма',
     Category: 'Категория',
     Account: 'Счет',

@@ -2,51 +2,24 @@ import { Account } from '../stores/models/account';
 import { Category } from '../stores/models/category';
 import { Contractor } from '../stores/models/contractor';
 import { IDeletable, ISelectable, Metadata, Permit, Sign, TDate } from './index';
+import {
+  CreateTransactionData,
+  CreateTransactionResponse,
+  ITransaction,
+  ITransactionDTO,
+  UpdateTransactionChanges,
+  UpdateTransactionResponse,
+} from './transaction';
 import { Money } from '../stores/models/money';
-import { Unit } from '../stores/models/unit';
-import { User } from '../stores/models/user';
 import { Tag } from '../stores/models/tag';
+import { User } from '../stores/models/user';
 
-export interface IOperationTransactionDTO {
+export interface IOperationTransactionDTO extends ITransactionDTO {
   operationType: 'transaction';
-  id: string;
-  cashFlowId: string;
-  sign: Sign;
-  amount: number;
-  moneyId: string;
-  accountId: string;
-  categoryId: string;
-  transactionDate: TDate;
-  reportPeriod: TDate;
-  quantity: number | null;
-  unitId: string | null;
-  isNotConfirmed: boolean;
-  note: string;
-  tags: string[];
-  contractorId: string | null;
-  userId: string;
-  permit: Permit;
 }
 
-export interface IOperationTransaction {
-  id: string;
-  cashFlowId: string;
+export interface IOperationTransaction extends ITransaction {
   operationDate: TDate;
-  sign: Sign;
-  amount: number;
-  money: Money;
-  account: Account;
-  category: Category;
-  transactionDate: TDate;
-  reportPeriod: TDate;
-  quantity: number | null;
-  unit: Unit | null;
-  isNotConfirmed: boolean;
-  note: string;
-  tags: Tag[];
-  contractor: Contractor | null;
-  user: User;
-  permit: Permit;
 }
 
 export interface IOperationDebtDTO {
@@ -208,4 +181,7 @@ export interface GetOperationsResponse {
 
 export interface IOperationsApi {
   get: (query: GetOperationsQuery) => Promise<GetOperationsResponse>;
+  createTransaction: (data: CreateTransactionData) => Promise<CreateTransactionResponse>;
+  updateTransaction: (transactionId: string, changes: UpdateTransactionChanges) => Promise<UpdateTransactionResponse>;
+  removeTransaction: (transactionId: string) => Promise<void>;
 }
