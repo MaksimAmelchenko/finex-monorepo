@@ -1,4 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import PullToRefresh from 'pulltorefreshjs';
+import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { Button } from '@finex/ui-kit';
@@ -7,12 +9,8 @@ import { Drawer } from '../../components/Drawer/Drawer';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
 import { IOperation } from '../../types/operation';
 import { LoadState } from '../../core/load-state';
-import {
-  OperationDebt,
-  OperationExchange,
-  OperationTransaction,
-  OperationTransfer,
-} from '../../stores/models/operation';
+import { Loader } from '../../components/Loader/Loader';
+import { OperationDebt, OperationExchange, OperationTransaction, OperationTransfer, } from '../../stores/models/operation';
 import { OperationsRepository } from '../../stores/operations-repository';
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
 import { TransactionWindowMobile } from '../../containers/TransactionWindowMobile/TransactionWindowMobile';
@@ -42,8 +40,32 @@ export const Operations = observer(() => {
     }
   };
 
+  useEffect(() => {
+    PullToRefresh.init({
+      mainElement: '.pull',
+      instructionsReleaseToRefresh: ' ',
+      instructionsRefreshing: ' ',
+      instructionsPullToRefresh: ' ',
+      onRefresh() {
+        operationsRepository.refresh();
+      },
+      refreshTimeout: 0,
+    });
+    return () => {
+      PullToRefresh.destroyAll();
+    };
+  }, []);
+
+  if (!operationsRepository.operationsByDates.length && operationsRepository.loadState.isPending()) {
+    return (
+      <div className="pull">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.layout}>
+    <div className={clsx(styles.layout, 'pull')}>
       {operationsRepository.operationsByDates.map(operationsByDate => {
         return (
           <Fragment key={operationsByDate.date}>
