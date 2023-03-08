@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { Accordion, chevronRightSvg } from '@finex/ui-kit';
+import { Accordion, ChevronRightIcon, chevronRightSvg } from '@finex/ui-kit';
 import { Category } from '../../../stores/models/category';
 import { CategoryTreeNode } from '../../../stores/categories-repository';
 
@@ -36,7 +36,7 @@ export const CategoryCard = observer<CategoryCardProps>(({ node, level = 1, onCl
             className={clsx(styles.category__expandButton, isExpanded && styles.category__expandButton_expended)}
             onClick={handleExpandButtonClick}
           >
-            <img src={chevronRightSvg} />
+            <ChevronRightIcon />
           </button>
         ) : (
           <div className={styles.category__expandPlaceholder} />
