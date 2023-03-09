@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { Accordion } from '@finex/ui-kit';
 import { BalanceCard } from '../BalanceCard/BalanceCard';
 import { BalanceRepository } from '../../../stores/balance-repository';
-import { ProjectsRepository } from '../../../stores/projects-repository';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -15,7 +14,6 @@ const t = getT('DebtBalancesMobile');
 
 export const DebtBalances = observer(() => {
   const balanceRepository = useStore(BalanceRepository);
-  const projectsRepository = useStore(ProjectsRepository);
 
   const [openedAccordionIds, setOpenedAccordionIds] = useState<string[]>([]);
 
@@ -26,10 +24,6 @@ export const DebtBalances = observer(() => {
       setOpenedAccordionIds([...openedAccordionIds, id]);
     }
   };
-
-  useEffect(() => {
-    balanceRepository.fetchBalance({}).catch(console.error);
-  }, [projectsRepository.currentProject]);
 
   if (!balanceRepository.balancesLoadState.isDone()) {
     return null;
