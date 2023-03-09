@@ -10,6 +10,8 @@
   &__header {
     position: sticky;
     top: 0;
+    /* prevent the overlapping of the scrollbar */
+    margin-right: 0.8rem;
     padding: 0.8rem 1.6rem;
     background-color: white;
     @include typography.textMDMedium;
