@@ -7,6 +7,7 @@ import { Button } from '@finex/ui-kit';
 import { DebtCard } from '../../components/DebtCard/DebtCard';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
+import { ExchangeWindowMobile } from '../../containers/ExchangeWindowMobile/ExchangeWindowMobile';
 import { IOperation } from '../../types/operation';
 import { LoadState } from '../../core/load-state';
 import { Loader } from '../../components/Loader/Loader';
@@ -123,6 +124,10 @@ export const Operations = observer(() => {
 
       <Drawer open={operation instanceof OperationTransfer}>
         {operation && <TransferWindowMobile transfer={operation} onClose={handleClose} />}
+      </Drawer>
+
+      <Drawer open={operation instanceof OperationExchange}>
+        {operation && <ExchangeWindowMobile exchange={operation} onClose={handleClose} />}
       </Drawer>
     </div>
   );

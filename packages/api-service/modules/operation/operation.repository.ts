@@ -125,10 +125,10 @@ class OperationRepositoryImpl implements OperationRepository {
                                      and c.id_category_prototype = 22) as category_exchange_free_id)
                 select cfi_sell.cashflow_item_date as raw_operation_date,
                        cf.id,
-                       cfi_sell.amount as sell_amount,
+                       cfi_sell.amount as amount_sell,
                        cfi_sell.money_id as money_sell_id,
                        cfi_sell.account_id as account_sell_id,
-                       cfi_buy.amount as buy_amount,
+                       cfi_buy.amount as amount_buy,
                        cfi_buy.money_id as money_buy_id,
                        cfi_buy.account_id as account_buy_id,
                        cfi_sell.cashflow_item_date as exchange_date,
@@ -188,11 +188,11 @@ class OperationRepositoryImpl implements OperationRepository {
                         cfi.contractor_id,
                         cfi.user_id,
                         cfi.permit,
-                        null::numeric sell_amount,
+                        null::numeric amount_sell,
                         null::int money_sell_id,
                         null::int account_sell_id,
 
-                        null::numeric buy_amount,
+                        null::numeric amount_buy,
                         null::int money_buy_id,
                         null::int account_buy_id,
 
@@ -238,11 +238,11 @@ class OperationRepositoryImpl implements OperationRepository {
                         t.user_id,
                         null permit,
 
-                        null sell_amount,
+                        null amount_sell,
                         null money_sell_id,
                         null account_sell_id,
 
-                        null buy_amount,
+                        null amount_buy,
                         null money_buy_id,
                         null account_buy_id,
 
@@ -284,11 +284,11 @@ class OperationRepositoryImpl implements OperationRepository {
                         e.user_id,
                         null permit,
 
-                        e.sell_amount,
+                        e.amount_sell,
                         e.money_sell_id,
                         e.account_sell_id,
 
-                        e.buy_amount,
+                        e.amount_buy,
                         e.money_buy_id,
                         e.account_buy_id,
 

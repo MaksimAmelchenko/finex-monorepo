@@ -2,6 +2,14 @@ import { Account } from '../stores/models/account';
 import { Category } from '../stores/models/category';
 import { Contractor } from '../stores/models/contractor';
 import {
+  CreateExchangeData,
+  CreateExchangeResponse,
+  IExchange,
+  IExchangeDTO,
+  UpdateExchangeChanges,
+  UpdateExchangeResponse,
+} from './exchange';
+import {
   CreateTransactionData,
   CreateTransactionResponse,
   ITransaction,
@@ -74,50 +82,12 @@ export interface IOperationTransfer extends ITransfer {
   operationDate: TDate;
 }
 
-export interface IOperationExchangeDTO {
+export interface IOperationExchangeDTO extends IExchangeDTO {
   operationType: 'exchange';
-  id: string;
-  sellAmount: number;
-  moneySellId: string;
-  accountSellId: string;
-
-  buyAmount: number;
-  moneyBuyId: string;
-  accountBuyId: string;
-
-  exchangeDate: TDate;
-  reportPeriod: TDate;
-
-  fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
-
-  note: string;
-  tags: string[];
-  userId: string;
 }
 
-export interface IOperationExchange {
-  id: string;
+export interface IOperationExchange extends IExchange {
   operationDate: TDate;
-  sellAmount: number;
-  moneySell: Money;
-  accountSell: Account;
-
-  buyAmount: number;
-  moneyBuy: Money;
-  accountBuy: Account;
-
-  exchangeDate: TDate;
-  reportPeriod: TDate;
-
-  fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
-
-  note: string;
-  tags: Tag[];
-  user: User;
 }
 
 export type IOperationDTO =
@@ -163,6 +133,7 @@ export interface GetOperationsResponse {
 
 export interface IOperationsApi {
   get: (query: GetOperationsQuery) => Promise<GetOperationsResponse>;
+
   createTransaction: (data: CreateTransactionData) => Promise<CreateTransactionResponse>;
   updateTransaction: (transactionId: string, changes: UpdateTransactionChanges) => Promise<UpdateTransactionResponse>;
   deleteTransaction: (transactionId: string) => Promise<void>;
@@ -170,4 +141,8 @@ export interface IOperationsApi {
   createTransfer: (data: CreateTransferData) => Promise<CreateTransferResponse>;
   updateTransfer: (transferId: string, changes: UpdateTransferChanges) => Promise<UpdateTransferResponse>;
   deleteTransfer: (transferId: string) => Promise<void>;
+
+  createExchange: (data: CreateExchangeData) => Promise<CreateExchangeResponse>;
+  updateExchange: (exchangeId: string, changes: UpdateExchangeChanges) => Promise<UpdateExchangeResponse>;
+  deleteExchange: (exchangeId: string) => Promise<void>;
 }

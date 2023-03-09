@@ -10,7 +10,7 @@ interface ExchangeCardCardOperationExchange {
   accountSell: {
     name: string;
   };
-  sellAmount: number;
+  amountSell: number;
   moneySell: {
     name: string;
     symbol: string;
@@ -20,7 +20,7 @@ interface ExchangeCardCardOperationExchange {
   accountBuy: {
     name: string;
   };
-  buyAmount: number;
+  amountBuy: number;
   moneyBuy: {
     name: string;
     symbol: string;
@@ -47,7 +47,7 @@ export interface ExchangeCardProps {
 import styles from './ExchangeCard.module.scss';
 
 export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
-  const { id, accountSell, sellAmount, moneySell, accountBuy, buyAmount, moneyBuy, fee, moneyFee, accountFee, note } =
+  const { id, accountSell, amountSell, moneySell, accountBuy, amountBuy, moneyBuy, fee, moneyFee, accountFee, note } =
     exchange;
 
   const handleClick = () => {
@@ -64,7 +64,7 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
           <div className={styles.mainContent__header}>
             <div className={styles.mainContent__accountName}>{accountBuy.name}</div>
             <div className={styles.mainContent__amount}>
-              +{toCurrency(buyAmount, moneyBuy.precision)}{' '}
+              +{toCurrency(amountBuy, moneyBuy.precision)}{' '}
               <span dangerouslySetInnerHTML={{ __html: moneyBuy.symbol }} />
             </div>
           </div>
@@ -72,7 +72,7 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
           <div className={styles.mainContent__header}>
             <div className={styles.mainContent__accountName}>{accountSell.name}</div>
             <div className={styles.mainContent__amount}>
-              {toCurrency(-sellAmount, moneySell.precision)}{' '}
+              {toCurrency(-amountSell, moneySell.precision)}{' '}
               <span dangerouslySetInnerHTML={{ __html: moneySell.symbol }} />
             </div>
           </div>

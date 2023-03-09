@@ -115,11 +115,11 @@ export interface IOperationTransferDTO {
 export interface IOperationExchangeDAO {
   operationType: 'exchange';
   id: number;
-  sellAmount: number;
+  amountSell: number;
   moneySellId: number;
   accountSellId: number;
 
-  buyAmount: number;
+  amountBuy: number;
   moneyBuyId: number;
   accountBuyId: number;
 
@@ -138,11 +138,11 @@ export interface IOperationExchangeDAO {
 export interface IOperationExchangeDTO {
   operationType: 'exchange';
   id: string;
-  sellAmount: number;
+  amountSell: number;
   moneySellId: string;
   accountSellId: string;
 
-  buyAmount: number;
+  amountBuy: number;
   moneyBuyId: string;
   accountBuyId: string;
 

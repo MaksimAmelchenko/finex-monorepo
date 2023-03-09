@@ -19,12 +19,12 @@ export const exchangeSchema: OpenAPIV3_1.SchemaObject = {
       enum: ['exchange'],
     },
     id,
-    sellAmount: {
+    amountSell: {
       type: 'number',
     },
     moneySellId: moneyId,
     accountSellId: accountId,
-    buyAmount: {
+    amountBuy: {
       type: 'number',
     },
     moneyBuyId: moneyId,
@@ -51,10 +51,10 @@ export const exchangeSchema: OpenAPIV3_1.SchemaObject = {
   required: [
     'operationType',
     'id',
-    'sellAmount',
+    'amountSell',
     'moneySellId',
     'accountSellId',
-    'buyAmount',
+    'amountBuy',
     'moneyBuyId',
     'accountBuyId',
     'exchangeDate',

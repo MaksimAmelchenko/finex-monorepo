@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { BottomNavigation } from './BottomNavigation/BottomNavigation';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { ExchangeWindowMobile } from '../ExchangeWindowMobile/ExchangeWindowMobile';
 import { Loader } from '../../components/Loader/Loader';
 import { MainLayoutStoreMobile, Window } from '../../stores/main-layout-store-mobile';
 import { ProfileRepository } from '../../stores/profile-repository';
@@ -44,6 +45,7 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
   const openIncomeTransactionWindow = mainLayoutStore.window === Window.AddIncomeTransaction;
   const openTransactionWindow = openExpenseTransactionWindow || openIncomeTransactionWindow;
   const openTransferWindow = mainLayoutStore.window === Window.AddTransfer;
+  const openExchangeWindow = mainLayoutStore.window === Window.AddExchange;
 
   if (!profile) {
     return <Loader />;
@@ -64,6 +66,10 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
 
       <Drawer open={openTransferWindow}>
         <TransferWindowMobile transfer={{}} onClose={handleCloseWindow} />
+      </Drawer>
+
+      <Drawer open={openExchangeWindow}>
+        <ExchangeWindowMobile exchange={{}} onClose={handleCloseWindow} />
       </Drawer>
     </div>
   );

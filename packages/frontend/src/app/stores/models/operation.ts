@@ -3,6 +3,7 @@ import { action, makeObservable, observable } from 'mobx';
 import { Account } from './account';
 import { Category } from './category';
 import { Contractor } from './contractor';
+import { Exchange } from './exchange';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { IOperationDebt, IOperationExchange, IOperationTransaction, IOperationTransfer } from '../../types/operation';
 import { Money } from './money';
@@ -99,70 +100,9 @@ export class OperationTransfer extends Transfer implements IOperationTransfer {
   }
 }
 
-export class OperationExchange implements IOperationExchange, ISelectable, IDeletable {
-  readonly id: string;
-  sellAmount: number;
-  moneySell: Money;
-  accountSell: Account;
-  buyAmount: number;
-  moneyBuy: Money;
-  accountBuy: Account;
-  exchangeDate: TDate;
-  reportPeriod: TDate;
-  fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
-  note: string;
-  tags: Tag[];
-  user: User;
-
-  isDeleting: boolean;
-  isSelected: boolean;
-
-  constructor({
-    id,
-    sellAmount,
-    moneySell,
-    accountSell,
-    buyAmount,
-    moneyBuy,
-    accountBuy,
-    exchangeDate,
-    reportPeriod,
-    fee,
-    moneyFee,
-    accountFee,
-    note,
-    tags,
-    user,
-  }: Omit<IOperationExchange, 'operationDate'>) {
-    this.id = id;
-    this.sellAmount = sellAmount;
-    this.moneySell = moneySell;
-    this.accountSell = accountSell;
-    this.buyAmount = buyAmount;
-    this.moneyBuy = moneyBuy;
-    this.accountBuy = accountBuy;
-    this.exchangeDate = exchangeDate;
-    this.reportPeriod = reportPeriod;
-    this.fee = fee;
-    this.moneyFee = moneyFee;
-    this.accountFee = accountFee;
-    this.note = note;
-    this.tags = tags;
-    this.user = user;
-    this.isDeleting = false;
-    this.isSelected = false;
-
-    makeObservable(this, {
-      isDeleting: observable,
-      isSelected: observable,
-      toggleSelection: action,
-    });
-  }
-
-  toggleSelection() {
-    this.isSelected = !this.isSelected;
+export class OperationExchange extends Exchange implements IOperationExchange {
+  constructor(entity: Omit<IOperationExchange, 'operationDate'>) {
+    super(entity);
   }
 
   get operationDate(): TDate {

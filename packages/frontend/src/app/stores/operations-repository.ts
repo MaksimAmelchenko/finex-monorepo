@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns';
 import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
+import { CreateExchangeData, UpdateExchangeChanges } from '../types/exchange';
 import { CreateTransactionData, UpdateTransactionChanges } from '../types/transaction';
 import { CreateTransferData, UpdateTransferChanges } from '../types/transfer';
 import {
@@ -234,19 +235,19 @@ export class OperationsRepository extends ManageableStore {
         if (!updatedTransaction) {
           throw new Error('Transaction entity is corrupted');
         }
-          const indexOf = this._operations.indexOf(transaction);
-          if (indexOf !== -1) {
-            this._operations[indexOf] = updatedTransaction;
-          } else {
-            this._operations.push(updatedTransaction);
-          }
+        const indexOf = this._operations.indexOf(transaction);
+        if (indexOf !== -1) {
+          this._operations[indexOf] = updatedTransaction;
+        } else {
+          this._operations.push(updatedTransaction);
+        }
       })
     );
   }
 
   deleteTransaction(transaction: OperationTransaction | PlannedTransaction): Promise<unknown> {
     runInAction(() => {
-    transaction.isDeleting = true;
+      transaction.isDeleting = true;
     });
     let operation: Promise<void>;
     if (transaction instanceof PlannedTransaction) {
@@ -284,23 +285,66 @@ export class OperationsRepository extends ManageableStore {
         if (!updatedTransfer) {
           throw new Error('Exchange entity is corrupted');
         }
-          const indexOf = this._operations.indexOf(transfer);
-          if (indexOf !== -1) {
-            this._operations[indexOf] = updatedTransfer;
-          } else {
-            this._operations.push(updatedTransfer);
-          }
+        const indexOf = this._operations.indexOf(transfer);
+        if (indexOf !== -1) {
+          this._operations[indexOf] = updatedTransfer;
+        } else {
+          this._operations.push(updatedTransfer);
+        }
       })
     );
   }
 
   deleteTransfer(transfer: OperationTransfer): Promise<unknown> {
     runInAction(() => {
-    transfer.isDeleting = true;
+      transfer.isDeleting = true;
     });
     return this.api.deleteTransfer(transfer.id).then(
       action(() => {
         this._operations = this._operations.filter(operation => operation !== transfer);
+      })
+    );
+  }
+
+  createExchange(data: CreateExchangeData): Promise<unknown> {
+    return this.api.createExchange(data).then(
+      action(response => {
+        const exchange = this.decodeExchange(response.exchange);
+        if (!exchange) {
+          throw new Error('Exchange entity is corrupted');
+        }
+
+        this._operations.push(exchange);
+      })
+    );
+  }
+
+  updateExchange(exchange: OperationExchange, changes: UpdateExchangeChanges): Promise<unknown> {
+    return this.api.updateExchange(exchange.id, changes).then(
+      action(response => {
+        const updatedExchange = this.decodeExchange(response.exchange);
+        if (!updatedExchange) {
+          throw new Error('Exchange entity is corrupted');
+        }
+
+        const indexOf = this._operations.indexOf(exchange);
+        if (indexOf !== -1) {
+          this._operations[indexOf] = updatedExchange;
+        } else {
+          this._operations.push(updatedExchange);
+        }
+      })
+    );
+  }
+
+  deleteExchange(exchange: OperationExchange): Promise<unknown> {
+    runInAction(() => {
+      exchange.isDeleting = true;
+    });
+
+    return this.api.deleteExchange(exchange.id).then(
+      action(() => {
+        this._operations = this._operations.filter(operation => operation !== exchange);
       })
     );
   }
@@ -567,7 +611,7 @@ export class OperationsRepository extends ManageableStore {
     });
   }
 
-  private decodeExchange(exchange: IOperationExchangeDTO): OperationExchange | null {
+  private decodeExchange(exchange: Omit<IOperationExchangeDTO, 'operationType'>): OperationExchange | null {
     const accountsRepository = this.getStore(AccountsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
     const tagsRepository = this.getStore(TagsRepository);
@@ -575,10 +619,10 @@ export class OperationsRepository extends ManageableStore {
 
     const {
       id,
-      sellAmount,
+      amountSell,
       moneySellId,
       accountSellId,
-      buyAmount,
+      amountBuy,
       moneyBuyId,
       accountBuyId,
       exchangeDate,
@@ -589,6 +633,7 @@ export class OperationsRepository extends ManageableStore {
       note,
       tags: tagIds,
       userId,
+      updatedAt,
     } = exchange;
 
     const user = usersRepository.get(userId);
@@ -634,10 +679,10 @@ export class OperationsRepository extends ManageableStore {
 
     return new OperationExchange({
       id,
-      sellAmount,
+      amountSell,
       moneySell,
       accountSell,
-      buyAmount,
+      amountBuy,
       moneyBuy,
       accountBuy,
       exchangeDate,
@@ -648,6 +693,7 @@ export class OperationsRepository extends ManageableStore {
       note: note ?? '',
       tags,
       user,
+      updatedAt,
     });
   }
 
