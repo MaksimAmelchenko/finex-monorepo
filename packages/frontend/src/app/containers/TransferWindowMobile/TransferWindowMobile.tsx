@@ -26,7 +26,7 @@ import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './TransferWindowMobile.module.scss';
+import styles from '../OperationWindowMobile/OperationWindowMobile.module.scss';
 
 interface TransferFormValues {
   amount: string;
@@ -322,6 +322,7 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
             />
 
             <AccountField name="accountFromId" label={t('From account')} />
+
             <AccountField name="accountToId" label={t('To account')} />
 
             <div className={styles.dateFields}>
@@ -336,24 +337,27 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
               />
             </div>
 
-            <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
-            <div>
+            <div className={clsx(styles.fee)}>
+              <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
               <Accordion isExpanded={values.isFee} className={styles.fee__fields}>
                 <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />
                 <AccountField name="accountFeeId" label={t('Fee account')} />
               </Accordion>
             </div>
 
-            <div className={styles.additional__header} onClick={handleShowAdditionalFieldsClick}>
-              <div className={styles.additional__title}>
-                {isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
-                <ChevronRightIcon
-                  className={clsx(styles.additional__icon, isShowAdditionalFields && styles.additional__icon_expended)}
-                />
+            <div className={styles.additional}>
+              <div className={styles.additional__header} onClick={handleShowAdditionalFieldsClick}>
+                <div className={styles.additional__title}>
+                  {isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
+                  <ChevronRightIcon
+                    className={clsx(
+                      styles.additional__icon,
+                      isShowAdditionalFields && styles.additional__icon_expended
+                    )}
+                  />
+                </div>
+                <div className={styles.additional__description}>{t('Note, Tags')}</div>
               </div>
-              <div className={styles.additional__description}>{t('Note, Tags')}</div>
-            </div>
-            <div>
               <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
                 <FormTextAreaField name="note" label={t('Note')} minRows={1} />
                 <TagsField name="tagIds" label={t('Tags')} />

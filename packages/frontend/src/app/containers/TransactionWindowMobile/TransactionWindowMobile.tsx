@@ -30,7 +30,7 @@ import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './TransactionWindowMobile.module.scss';
+import styles from '../OperationWindowMobile/OperationWindowMobile.module.scss';
 
 interface TransactionFormValues {
   sign: '1' | '-1';
@@ -265,6 +265,9 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
+  const defaultMoney = moneysRepository.moneys[0];
+  const defaultAccount = accountsRepository.accounts[0];
+
   const isPlanned = false;
   return (
     <Form<TransactionFormValues>
@@ -272,9 +275,9 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
       initialValues={{
         sign: String(sign) as any,
         amount: amount ? String(amount) : '',
-        moneyId: money?.id ?? moneysRepository.moneys[0].id,
+        moneyId: money?.id ?? defaultMoney.id,
         categoryId: category?.id ?? null,
-        accountId: account?.id ?? accountsRepository.accounts[0].id,
+        accountId: account?.id ?? defaultAccount.id,
         transactionDate: transactionDate ? parseISO(transactionDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         quantity: quantity ? String(quantity) : '',
@@ -305,6 +308,7 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
         />
 
         <CategoryField name="categoryId" label={t('Category')} />
+
         <AccountField name="accountId" label={t('Account')} />
 
         <div className={styles.dateFields}>
@@ -319,16 +323,16 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
           />
         </div>
 
-        <div className={styles.additional__header} onClick={handleShowAdditionalFieldsClick}>
-          <div className={styles.additional__title}>
-            {isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
-            <ChevronRightIcon
-              className={clsx(styles.additional__icon, isShowAdditionalFields && styles.additional__icon_expended)}
-            />
+        <div className={styles.additional}>
+          <div className={styles.additional__header} onClick={handleShowAdditionalFieldsClick}>
+            <div className={styles.additional__title}>
+              {isShowAdditionalFields ? t('Hide additional fields') : t('Show additional fields')}
+              <ChevronRightIcon
+                className={clsx(styles.additional__icon, isShowAdditionalFields && styles.additional__icon_expended)}
+              />
+            </div>
+            <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
           </div>
-          <div className={styles.additional__description}>{t('Quantity, Not confirmed, Note, Tags')}</div>
-        </div>
-        <div>
           <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
             <QuantityField quantityFieldName="quantity" unitFieldName="unitId" label={t('Quantity')} />
             <FormCheckbox name="isNotConfirmed">{t('Not confirmed operation')}</FormCheckbox>

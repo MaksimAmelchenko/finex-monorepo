@@ -14,7 +14,26 @@
   }
 }
 
+.fee {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+
+    margin: -0.4rem;
+    padding: 0.4rem;
+  }
+}
+
 .additional {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+
   &__header {
   }
 
@@ -44,8 +63,8 @@
     flex-direction: column;
     row-gap: 1.6rem;
 
-    margin: 0 -0.4rem;
-    padding: 0 0.4rem;
+    margin: -0.4rem;
+    padding: 0.4rem;
   }
 }
 
