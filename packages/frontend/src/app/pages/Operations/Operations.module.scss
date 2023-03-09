@@ -1,8 +1,7 @@
 @use 'packages/theme/src/lib/styles/typography';
 
 .layout {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  overflow: auto;
   height: 100%;
   padding-bottom: 6rem;
 }

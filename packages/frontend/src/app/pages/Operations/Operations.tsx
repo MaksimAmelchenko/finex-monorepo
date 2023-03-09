@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PullToRefresh from 'pulltorefreshjs';
-import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { Button } from '@finex/ui-kit';
@@ -51,15 +50,21 @@ export const Operations = observer(() => {
 
   useEffect(() => {
     PullToRefresh.init({
-      mainElement: '.pull',
+      mainElement: `.${styles.layout}`,
+      triggerElement: `.${styles.layout}`,
       instructionsReleaseToRefresh: ' ',
       instructionsRefreshing: ' ',
       instructionsPullToRefresh: ' ',
       onRefresh() {
         operationsRepository.refresh();
       },
+      shouldPullToRefresh() {
+        // @ts-ignore
+        return !this.mainElement.scrollTop;
+      },
       refreshTimeout: 0,
     });
+
     return () => {
       PullToRefresh.destroyAll();
     };
@@ -67,14 +72,14 @@ export const Operations = observer(() => {
 
   if (!operationsRepository.operationsByDates.length && operationsRepository.loadState.isPending()) {
     return (
-      <div className="pull">
+      <div className={styles.layout}>
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className={clsx(styles.layout, 'pull')}>
+    <div className={styles.layout}>
       {operationsRepository.operationsByDates.map(operationsByDate => {
         return (
           <Fragment key={operationsByDate.date}>
