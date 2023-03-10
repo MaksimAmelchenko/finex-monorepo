@@ -1,80 +1,111 @@
-.input {
-  margin: 0;
-  height: 1.8rem;
-  min-width: 1.8rem;
-  border-radius: 0.4rem;
-  border: 1px solid var(--color-gray-300);
+@use 'packages/theme/src/lib/styles/shadow';
+
+@mixin checkbox($color) {
+  width: 2px;
+  height: 2px;
+  transform: rotate(45deg);
+  box-shadow: 2px 0 0 $color, 4px 0 0 $color, 4px -2px 0 $color, 4px -4px 0 $color, 4px -6px 0 $color, 4px -8px 0 $color;
+  background-color: $color;
+}
+
+.root {
+  position: relative;
+  flex-shrink: 0;
   -webkit-appearance: none;
+  outline: none;
+  margin: 0;
+  border: 1px solid var(--color-gray-300);
   background-color: var(--color-white);
   cursor: pointer;
 
   &:focus-visible {
-    outline: 2px solid var(--color-primary-600);
-    outline-offset: 2px;
+    @include shadow.shadowXSFocused4pxPrimary100;
+    border: 1px solid var(--color-primary-300);
+    background-color: var(--color-white);
+  }
+
+  &:hover:enabled {
+    border: 1px solid var(--color-primary-600);
+    background-color: var(--color-primary-100);
   }
 
   &:checked {
-    background-color: var(--color-primary-600);
     border: 1px solid var(--color-primary-600);
+    background-color: var(--color-primary-50);
 
     &:after {
       content: '';
       position: relative;
       display: block;
-      left: 3px;
-      top: 7px;
-      background: var(--color-white);
-      width: 2px;
-      height: 2px;
-      box-shadow: 2px 0 0 var(--color-white), 4px 0 0 var(--color-white), 4px -2px 0 var(--color-white),
-        4px -4px 0 var(--color-white), 4px -6px 0 var(--color-white), 4px -8px 0 var(--color-white);
-      transform: rotate(45deg);
     }
 
     &:disabled:after {
       content: '';
       position: relative;
       display: block;
-      left: 3px;
-      top: 7px;
-      background: var(--color-gray-600);
-      width: 2px;
-      height: 2px;
-      box-shadow: 2px 0 0 var(--color-gray-600), 4px 0 0 var(--color-gray-600), 4px -2px 0 var(--color-gray-600),
-        4px -4px 0 var(--color-gray-600), 4px -6px 0 var(--color-gray-600), 4px -8px 0 var(--color-gray-600);
-      transform: rotate(45deg);
     }
   }
 
-  &:disabled {
-    background-color: var(--color-gray-200);
-    border: 1px solid var(--color-gray-300);
-  }
-
   &:indeterminate {
-    background-color: var(--color-primary-600);
     border: 1px solid var(--color-primary-600);
+    background-color: var(--color-primary-50);
 
     &:after {
       content: '';
       display: block;
       position: relative;
-      color: white;
-      height: 2px;
       width: 10px;
-      background-color: var(--color-white);
-      left: 50%;
+      height: 2px;
       top: 50%;
+      left: 50%;
       transform: translateX(-50%) translateY(-50%);
+      background-color: var(--color-primary-600);
     }
 
     &:disabled {
-      background-color: var(--color-gray-200);
       border: 1px solid var(--color-gray-300);
+      background-color: var(--color-gray-100);
 
       &:after {
-        background-color: var(--color-gray-500);
+        background-color: var(--color-gray-300);
       }
     }
+  }
+
+  &_size_sm {
+    border-radius: 0.4rem;
+    height: 1.8rem;
+    width: 1.8rem;
+    &:checked {
+      &:after {
+        top: 7px;
+        left: 3px;
+        @include checkbox(var(--color-primary-600));
+      }
+      &:disabled:after {
+        @include checkbox(var(--color-gray-300));
+      }
+    }
+  }
+
+  &_size_md {
+    border-radius: 0.6rem;
+    height: 2rem;
+    width: 2rem;
+    &:checked {
+      &:after {
+        top: 8px;
+        left: 4px;
+        @include checkbox(var(--color-primary-600));
+      }
+      &:disabled:after {
+        @include checkbox(var(--color-gray-300));
+      }
+    }
+  }
+
+  &:disabled {
+    background-color: var(--color-gray-100);
+    border: 1px solid var(--color-gray-300);
   }
 }
