@@ -18,6 +18,7 @@ export * from './lib/input/input';
 export * from './lib/label-input/label-input';
 export * from './lib/option/option';
 export * from './lib/segmented-control/segmented-control';
+export * from './lib/select-native/select-native';
 export * from './lib/select-popup/select-popup';
 export * from './lib/select/select';
 export * from './lib/tag/tag';
