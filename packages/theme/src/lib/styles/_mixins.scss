@@ -8,10 +8,6 @@
 }
 
 @mixin resetButton {
-  border: 0;
-  border-radius: 0;
-  outline: none;
-  background: none;
-  text-align: unset;
-  text-decoration: none;
+  all: unset;
+  box-sizing: inherit;
 }

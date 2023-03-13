@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { TUrl } from '../../../types';
-import { chevronRightSvg } from '@finex/ui-kit';
+import { ChevronRightIcon, chevronRightSvg } from '@finex/ui-kit';
 import { toCurrency } from '../../../lib/core/i18n';
 
 import styles from './BalanceCard.module.scss';
@@ -43,9 +43,8 @@ export function BalanceCard({
       <div className={clsx(styles.root__header, styles.header)}>
         <div className={styles.header__title}>{title}</div>
         {isAccordion && (
-          <img
-            src={chevronRightSvg}
-            className={clsx(styles.header__icon, isExpanded && styles.header__icon_expended)}
+          <ChevronRightIcon
+            className={clsx(styles.header__expandIcon, isExpanded && styles.header__expandIcon_expended)}
           />
         )}
       </div>

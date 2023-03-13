@@ -1,19 +1,14 @@
+@use 'packages/theme/src/lib/styles/mixins';
 @use 'packages/theme/src/lib/styles/typography';
 
 .root {
+  @include mixins.resetButton;
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   gap: 1.6rem;
-
-  border: 0;
-  border-radius: 0;
-
   width: 100%;
   padding: 1.6rem;
-
-  background: none;
-
-  text-align: unset;
   color: var(--color-gray-900);
 
   &__icon {
@@ -54,7 +49,6 @@
 .header {
   display: flex;
   gap: 0.4rem;
-  align-items: center;
 
   &__title {
     overflow: hidden;
@@ -62,11 +56,15 @@
     @include typography.textMD;
   }
 
-  &__icon {
-    width: 1.6rem;
-    height: 1.6rem;
+  &__expandIcon {
+    position: relative;
+    top: 0.4rem;
+    flex-shrink: 0;
     transform: rotate(90deg);
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--color-gray-500);
 
     &_expended {
       transform: rotate(-90deg);

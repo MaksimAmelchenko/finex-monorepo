@@ -38,8 +38,14 @@ body {
   color: var(--color-gray-900);
 }
 
-* {
+:root {
   box-sizing: border-box;
+}
+
+*:not(img):not(video):not(svg),
+*:after,
+*:before {
+  box-sizing: inherit;
 }
 
 .hidden-sm {
