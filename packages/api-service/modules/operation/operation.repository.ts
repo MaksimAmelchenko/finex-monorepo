@@ -168,7 +168,7 @@ class OperationRepositoryImpl implements OperationRepository {
                  select case
                           when cfi.cashflow_type_id = 1
                             then 'transaction'
-                          else 'debt'
+                          else 'debtItem'
                           end as operation_type,
                         cfi.cashflow_item_date as raw_operation_date,
                         cfi.id,

@@ -49,7 +49,7 @@ export class DebtsApi extends ApiRepository implements IDebtsApi {
   }
 
   updateDebtItem(debtId: string, debtItemId: string, changes: UpdateDebtItemChanges): Promise<UpdateDebtItemResponse> {
-    return this.fetch<CreateDebtItemResponse>({
+    return this.fetch<UpdateDebtItemResponse>({
       method: 'PATCH',
       url: `/v2/debts/${debtId}/items/${debtItemId}`,
       body: changes,

@@ -319,6 +319,7 @@ export class DebtsRepository extends ManageableStore {
   private decodeDebtItems(debtItems: IDebtItemDTO[]): DebtItem[] {
     const accountsRepository = this.getStore(AccountsRepository);
     const categoriesRepository = this.getStore(CategoriesRepository);
+    const contractorsRepository = this.getStore(ContractorsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
     const tagsRepository = this.getStore(TagsRepository);
     const usersRepository = this.getStore(UsersRepository);
@@ -338,6 +339,7 @@ export class DebtsRepository extends ManageableStore {
         tags: tagIds,
         userId,
         permit,
+        contractorId,
       } = debtItem;
 
       const money = moneysRepository.get(moneyId);
@@ -355,6 +357,12 @@ export class DebtsRepository extends ManageableStore {
       const account = accountsRepository.get(accountId);
       if (!account) {
         console.warn('Account not found', { debtItem });
+        return acc;
+      }
+
+      const contractor = contractorsRepository.get(contractorId);
+      if (!contractor) {
+        console.warn('Contractor not found', { debtItem });
         return acc;
       }
 
@@ -387,6 +395,7 @@ export class DebtsRepository extends ManageableStore {
           tags,
           user,
           permit,
+          contractor,
         })
       );
 

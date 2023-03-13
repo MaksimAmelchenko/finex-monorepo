@@ -2,6 +2,7 @@ import { action, makeObservable, observable } from 'mobx';
 
 import { Account } from './account';
 import { Category } from './category';
+import { Contractor } from './contractor';
 import { IDebtItem } from '../../types/debt';
 import { IDeletable, ISelectable, Permit, Sign, TDate } from '../../types';
 import { Money } from './money';
@@ -16,6 +17,7 @@ export class DebtItem implements IDebtItem, ISelectable, IDeletable {
   money: Money;
   account: Account;
   category: Category;
+  contractor: Contractor;
   debtItemDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -33,6 +35,7 @@ export class DebtItem implements IDebtItem, ISelectable, IDeletable {
     money,
     category,
     account,
+    contractor,
     debtItemDate,
     reportPeriod,
     note,
@@ -47,6 +50,7 @@ export class DebtItem implements IDebtItem, ISelectable, IDeletable {
     this.money = money;
     this.category = category;
     this.account = account;
+    this.contractor = contractor;
     this.debtItemDate = debtItemDate;
     this.reportPeriod = reportPeriod;
     this.note = note;

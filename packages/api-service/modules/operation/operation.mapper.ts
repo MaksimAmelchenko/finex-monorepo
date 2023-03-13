@@ -1,7 +1,7 @@
 import {
   IOperationDAO,
-  IOperationDebtDAO,
   IOperationDTO,
+  IOperationDebtItemDAO,
   IOperationTransactionDAO,
   IOperationTransferDAO,
   OperationMapper,
@@ -11,8 +11,8 @@ function isOperationTransaction(operation: IOperationDAO): operation is IOperati
   return operation.operationType === 'transaction';
 }
 
-function isOperationDebt(operation: IOperationDAO): operation is IOperationDebtDAO {
-  return operation.operationType === 'debt';
+function isOperationDebtItem(operation: IOperationDAO): operation is IOperationDebtItemDAO {
+  return operation.operationType === 'debtItem';
 }
 
 function isOperationTransfer(operation: IOperationDAO): operation is IOperationTransferDAO {
@@ -65,7 +65,7 @@ class OperationMapperImpl implements OperationMapper {
       };
     }
 
-    if (isOperationDebt(operation)) {
+    if (isOperationDebtItem(operation)) {
       const {
         operationType,
         id,
@@ -87,7 +87,7 @@ class OperationMapperImpl implements OperationMapper {
       return {
         operationType,
         id: String(id),
-        cashFlowId: String(cashflowId),
+        debtId: String(cashflowId),
         sign,
         amount,
         moneyId: String(moneyId),

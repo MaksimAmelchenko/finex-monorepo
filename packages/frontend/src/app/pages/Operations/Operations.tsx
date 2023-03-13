@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Button } from '@finex/ui-kit';
 import { DebtCard } from '../../components/DebtCard/DebtCard';
+import { DebtItemWindowMobile } from '../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
 import { ExchangeWindowMobile } from '../../containers/ExchangeWindowMobile/ExchangeWindowMobile';
@@ -11,7 +12,7 @@ import { IOperation } from '../../types/operation';
 import { LoadState } from '../../core/load-state';
 import { Loader } from '../../components/Loader/Loader';
 import {
-  OperationDebt,
+  OperationDebtItem,
   OperationExchange,
   OperationTransaction,
   OperationTransfer,
@@ -92,7 +93,7 @@ export const Operations = observer(() => {
                   return <TransactionCard transaction={operation} onClick={handleCardClick} key={operation.id} />;
                 }
 
-                if (operation instanceof OperationDebt) {
+                if (operation instanceof OperationDebtItem) {
                   return <DebtCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
                 }
 
@@ -125,6 +126,10 @@ export const Operations = observer(() => {
 
       <Drawer open={operation instanceof OperationTransaction}>
         {operation && <TransactionWindowMobile transaction={operation} onClose={handleClose} />}
+      </Drawer>
+
+      <Drawer open={operation instanceof OperationDebtItem}>
+        {operation && <DebtItemWindowMobile debtItem={operation as OperationDebtItem} onClose={handleClose} />}
       </Drawer>
 
       <Drawer open={operation instanceof OperationTransfer}>

@@ -29,6 +29,7 @@ import { IDeletable, ISelectable, Metadata, Permit, Sign, TDate } from './index'
 import { Money } from '../stores/models/money';
 import { Tag } from '../stores/models/tag';
 import { User } from '../stores/models/user';
+import { IDebtItem, IDebtItemDTO, UpdateDebtItemChanges, UpdateDebtItemResponse } from './debt';
 
 export interface IOperationTransactionDTO extends ITransactionDTO {
   operationType: 'transaction';
@@ -38,40 +39,12 @@ export interface IOperationTransaction extends ITransaction {
   operationDate: TDate;
 }
 
-export interface IOperationDebtDTO {
-  operationType: 'debt';
-  id: string;
-  cashFlowId: string;
-  sign: Sign;
-  amount: number;
-  moneyId: string;
-  accountId: string;
-  categoryId: string;
-  debtItemDate: TDate;
-  reportPeriod: TDate;
-  note: string;
-  tags: string[];
-  contractorId: string;
-  userId: string;
-  permit: Permit;
+export interface IOperationDebtItemDTO extends IDebtItemDTO {
+  operationType: 'debtItem';
 }
 
-export interface IOperationDebt {
-  id: string;
+export interface IOperationDebtItem extends IDebtItem {
   operationDate: TDate;
-  cashFlowId: string;
-  sign: Sign;
-  amount: number;
-  money: Money;
-  account: Account;
-  category: Category;
-  debtItemDate: TDate;
-  reportPeriod: TDate;
-  note: string;
-  tags: Tag[];
-  contractor: Contractor;
-  user: User;
-  permit: Permit;
 }
 
 export interface IOperationTransferDTO extends ITransferDTO {
@@ -92,11 +65,11 @@ export interface IOperationExchange extends IExchange {
 
 export type IOperationDTO =
   | IOperationTransactionDTO
-  | IOperationDebtDTO
+  | IOperationDebtItemDTO
   | IOperationTransferDTO
   | IOperationExchangeDTO;
 
-export type IOperation = (IOperationTransaction | IOperationDebt | IOperationTransfer | IOperationExchange) &
+export type IOperation = (IOperationTransaction | IOperationDebtItem | IOperationTransfer | IOperationExchange) &
   ISelectable &
   IDeletable;
 
@@ -137,6 +110,9 @@ export interface IOperationsApi {
   createTransaction: (data: CreateTransactionData) => Promise<CreateTransactionResponse>;
   updateTransaction: (transactionId: string, changes: UpdateTransactionChanges) => Promise<UpdateTransactionResponse>;
   deleteTransaction: (transactionId: string) => Promise<void>;
+
+  updateDebtItem(debtId: string, debtItemId: string, changes: UpdateDebtItemChanges): Promise<UpdateDebtItemResponse>;
+  deleteDebtItem(debtId: string, debtItemId: string): Promise<void>;
 
   createTransfer: (data: CreateTransferData) => Promise<CreateTransferResponse>;
   updateTransfer: (transferId: string, changes: UpdateTransferChanges) => Promise<UpdateTransferResponse>;

@@ -20,6 +20,7 @@ import {
   UpdateTransferResponse,
 } from '../../types/transfer';
 import { GetOperationsQuery, GetOperationsResponse, IOperationsApi } from '../../types/operation';
+import { UpdateDebtItemChanges, UpdateDebtItemResponse } from '../../types/debt';
 
 export class OperationsApi extends ApiRepository implements IOperationsApi {
   static override storeName = 'OperationsApi';
@@ -52,6 +53,22 @@ export class OperationsApi extends ApiRepository implements IOperationsApi {
       url: `/v2/transactions/${transactionId}`,
     });
   }
+
+  updateDebtItem(debtId: string, debtItemId: string, changes: UpdateDebtItemChanges): Promise<UpdateDebtItemResponse> {
+    return this.fetch<UpdateDebtItemResponse>({
+      method: 'PATCH',
+      url: `/v2/debts/${debtId}/items/${debtItemId}`,
+      body: changes,
+    });
+  }
+
+  deleteDebtItem(debtId: string, debtItemId: string): Promise<void> {
+    return this.fetch<void>({
+      method: 'DELETE',
+      url: `/v2/debts/${debtId}/items/${debtItemId}`,
+    });
+  }
+
 
   createTransfer(data: CreateTransferData): Promise<CreateTransferResponse> {
     return this.fetch<CreateTransferResponse>({

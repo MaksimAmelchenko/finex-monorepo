@@ -18,6 +18,7 @@ export class CashFlowItem implements ICashFlowItem {
   note: string;
   tags: string[];
   permit: Permit;
+  contractorId: string | null;
 
   constructor({
     id,
@@ -36,6 +37,7 @@ export class CashFlowItem implements ICashFlowItem {
     note,
     tags,
     permit,
+    contractorId,
   }: ICashFlowItemEntity) {
     this.id = id;
     this.cashFlowId = cashFlowId;
@@ -53,5 +55,6 @@ export class CashFlowItem implements ICashFlowItem {
     this.note = note;
     this.tags = tags;
     this.permit = permit;
+    this.contractorId = contractorId;
   }
 }

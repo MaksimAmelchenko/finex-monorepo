@@ -15,6 +15,7 @@ export interface IDebtItemEntity {
   note: string;
   tags: string[];
   permit: Permit;
+  contractorId: string;
 }
 
 export interface IDebtItem extends IDebtItemEntity {}
@@ -33,6 +34,7 @@ export type IDebtItemDTO = {
   note: string;
   tags: string[];
   permit: Permit;
+  contractorId: string;
 };
 
 export interface CreateDebtItemRepositoryData {

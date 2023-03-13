@@ -17,6 +17,7 @@ export interface ICashFlowItemDAO {
   isNotConfirmed: boolean;
   note: string | null;
   tags: number[] | null;
+  contractorId: string | null;
 }
 
 export interface ICashFlowItemEntity {
@@ -36,6 +37,7 @@ export interface ICashFlowItemEntity {
   note: string;
   tags: string[];
   permit: Permit;
+  contractorId: string | null;
 }
 
 export interface ICashFlowItem extends ICashFlowItemEntity {}

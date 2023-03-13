@@ -42,8 +42,8 @@ export interface IOperationTransactionDTO {
   permit: Permit;
 }
 
-export interface IOperationDebtDAO {
-  operationType: 'debt';
+export interface IOperationDebtItemDAO {
+  operationType: 'debtItem';
   id: number;
   cashflowId: number;
   sign: Sign;
@@ -55,25 +55,25 @@ export interface IOperationDebtDAO {
   reportPeriod: TDate;
   note: string | null;
   tags: number[] | null;
-  contractorId: number | null;
+  contractorId: number;
   userId: number;
   permit: Permit;
 }
 
-export interface IOperationDebtDTO {
-  operationType: 'debt';
+export interface IOperationDebtItemDTO {
+  operationType: 'debtItem';
   id: string;
-  cashFlowId: string;
+  debtId: string;
   sign: Sign;
   amount: number;
   moneyId: string;
   accountId: string;
   categoryId: string;
+  contractorId: string;
   debtItemDate: TDate;
   reportPeriod: TDate;
   note: string;
   tags: string[];
-  contractorId: string;
   userId: string;
   permit: Permit;
 }
@@ -160,13 +160,13 @@ export interface IOperationExchangeDTO {
 
 export type IOperationDAO =
   | IOperationTransactionDAO
-  | IOperationDebtDAO
+  | IOperationDebtItemDAO
   | IOperationTransferDAO
   | IOperationExchangeDAO;
 
 export type IOperationDTO =
   | IOperationTransactionDTO
-  | IOperationDebtDTO
+  | IOperationDebtItemDTO
   | IOperationTransferDTO
   | IOperationExchangeDTO;
 

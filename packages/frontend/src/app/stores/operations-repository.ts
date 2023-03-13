@@ -10,7 +10,7 @@ import { CreateTransferData, UpdateTransferChanges } from '../types/transfer';
 import {
   GetOperationsQuery,
   IOperation,
-  IOperationDebtDTO,
+  IOperationDebtItemDTO,
   IOperationDTO,
   IOperationExchangeDTO,
   IOperationsApi,
@@ -22,7 +22,7 @@ import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
-import { OperationDebt, OperationExchange, OperationTransaction, OperationTransfer } from './models/operation';
+import { OperationDebtItem, OperationExchange, OperationTransaction, OperationTransfer } from './models/operation';
 import { PlannedTransaction } from './models/planned-transaction';
 import { PlansRepository } from './plans-repository';
 import { TDate } from '../types';
@@ -30,6 +30,7 @@ import { Tag } from './models/tag';
 import { TagsRepository } from './tags-repository';
 import { UnitsRepository } from './units-repository';
 import { UsersRepository } from './users-repository';
+import { UpdateDebtItemChanges } from '../types/debt';
 
 interface IFilter {
   isFilter: boolean;
@@ -265,6 +266,35 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
+  updateDebtItem(debtItem: OperationDebtItem, changes: UpdateDebtItemChanges): Promise<unknown> {
+    return this.api.updateDebtItem(debtItem.debtId, debtItem.id, changes).then(
+      action(response => {
+        const updatedDebtItem = this.decodeDebtItem(response.debtItem);
+        if (!updatedDebtItem) {
+          throw new Error('Debt item entity is corrupted');
+        }
+        const indexOf = this._operations.indexOf(debtItem);
+        if (indexOf !== -1) {
+          this._operations[indexOf] = updatedDebtItem;
+        } else {
+          this._operations.push(updatedDebtItem);
+        }
+      })
+    );
+  }
+
+  deleteDebtItem(debtItem: OperationDebtItem): Promise<unknown> {
+    runInAction(() => {
+      debtItem.isDeleting = true;
+    });
+
+    return this.api.deleteDebtItem(debtItem.debtId, debtItem.id).then(
+      action(() => {
+        this._operations = this._operations.filter(operation => operation !== debtItem);
+      })
+    );
+  }
+
   createTransfer(data: CreateTransferData): Promise<unknown> {
     return this.api.createTransfer(data).then(
       action(response => {
@@ -352,7 +382,7 @@ export class OperationsRepository extends ManageableStore {
   private decode(operationDTOs: IOperationDTO[]): IOperation[] {
     const handlerMap: Record<string, (operation: any) => IOperation | null> = {
       transaction: this.decodeTransaction.bind(this),
-      debt: this.decodeDebt.bind(this),
+      debtItem: this.decodeDebtItem.bind(this),
       transfer: this.decodeTransfer.bind(this),
       exchange: this.decodeExchange.bind(this),
     };
@@ -454,7 +484,7 @@ export class OperationsRepository extends ManageableStore {
     });
   }
 
-  private decodeDebt(debt: Omit<IOperationDebtDTO, 'operationType'>): OperationDebt | null {
+  private decodeDebtItem(debt: Omit<IOperationDebtItemDTO, 'operationType'>): OperationDebtItem | null {
     const accountsRepository = this.getStore(AccountsRepository);
     const categoriesRepository = this.getStore(CategoriesRepository);
     const contractorsRepository = this.getStore(ContractorsRepository);
@@ -464,7 +494,7 @@ export class OperationsRepository extends ManageableStore {
 
     const {
       id,
-      cashFlowId,
+      debtId,
       sign,
       amount,
       moneyId,
@@ -517,9 +547,9 @@ export class OperationsRepository extends ManageableStore {
       return acc;
     }, []);
 
-    return new OperationDebt({
+    return new OperationDebtItem({
       id,
-      cashFlowId,
+      debtId,
       sign,
       amount,
       money,

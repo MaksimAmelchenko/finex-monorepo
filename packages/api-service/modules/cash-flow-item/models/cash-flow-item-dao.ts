@@ -28,6 +28,7 @@ export class CashFlowItemDAO extends Model implements ICashFlowItemDAO {
   isNotConfirmed: boolean;
   note: string | null;
   tags: number[] | null;
+  contractorId: string | null;
 
   static createValidator(): Validator {
     return ajvValidator;
