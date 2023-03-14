@@ -1,7 +1,7 @@
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 import { useField, useFormikContext } from 'formik';
 
-import { CategoriesMobile } from '../CategoriesMobile/CategoriesMobile_';
+import { CategoriesMobile } from '../CategoriesMobile/CategoriesMobile';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
 import { Dropdown, Input } from '@finex/ui-kit';

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { AccountsMobile } from '../../containers/AccountsMobile/AccountsMobile_';
+import { AccountsMobile } from '../../containers/AccountsMobile/AccountsMobile';
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { BackButton, Header } from '../../components/Header/Header';
 import {
@@ -18,16 +18,16 @@ import {
   User01Icon,
   Wallet01Icon,
 } from '@finex/ui-kit';
-import { CategoriesMobile } from '../../containers/CategoriesMobile/CategoriesMobile_';
+import { CategoriesMobile } from '../../containers/CategoriesMobile/CategoriesMobile';
 import { ContractorsMobile } from '../../containers/ContractorsMobile/ContractorsMobile';
 import { MenuItem } from './MenuItem/MenuItem';
-import { MoneysMobile } from '../../containers/MoneysMobile/MoneysMobile_';
+import { MoneysMobile } from '../../containers/MoneysMobile/MoneysMobile';
 import { ProfileMobile } from '../ProfileMobile/ProfileMobile';
 import { ProjectsMobile } from '../../containers/ProjectsMobile/ProjectsMobile';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { SideSheetBody } from '../../components/SideSheetMobile/SideSheetBody/SideSheetBody';
-import { TagsMobile } from '../../containers/TagsMobile/TagsMobile_';
-import { UnitsMobile } from '../../containers/UnitsMobile/UnitsMobile_';
+import { TagsMobile } from '../../containers/TagsMobile/TagsMobile';
+import { UnitsMobile } from '../../containers/UnitsMobile/UnitsMobile';
 import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';

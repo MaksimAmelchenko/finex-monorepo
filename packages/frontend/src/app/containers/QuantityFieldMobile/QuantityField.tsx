@@ -4,7 +4,7 @@ import { useField, useFormikContext } from 'formik';
 import { Dropdown, Input } from '@finex/ui-kit';
 import { IFormInputProps } from '../../components/Form';
 import { Unit } from '../../stores/models/unit';
-import { UnitsMobile } from '../UnitsMobile/UnitsMobile_';
+import { UnitsMobile } from '../UnitsMobile/UnitsMobile';
 import { UnitsRepository } from '../../stores/units-repository';
 import { useStore } from '../../core/hooks/use-store';
 

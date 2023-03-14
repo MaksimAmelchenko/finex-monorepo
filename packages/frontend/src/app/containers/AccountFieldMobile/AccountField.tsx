@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 import { useField, useFormikContext } from 'formik';
 
 import { Account } from '../../stores/models/account';
-import { AccountsMobile } from '../AccountsMobile/AccountsMobile_';
+import { AccountsMobile } from '../AccountsMobile/AccountsMobile';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { Dropdown, Input } from '@finex/ui-kit';
 import { IFormInputProps } from '../../components/Form';
