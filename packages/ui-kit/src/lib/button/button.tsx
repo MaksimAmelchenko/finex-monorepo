@@ -47,6 +47,7 @@ export function Button({
     styles.root,
     [styles[`root_size_${size}`]],
     [styles[`root_variant_${variant}`]],
+    destructive && styles.root_destructive,
     fullSize && styles.root_fullSize,
     className
   );

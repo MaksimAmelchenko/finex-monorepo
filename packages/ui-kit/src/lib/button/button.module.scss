@@ -42,20 +42,39 @@
     background: var(--color-primary-600);
     color: var(--color-white);
 
+    &.root_destructive {
+      border: 1px solid var(--color-error-600);
+      background-color: var(--color-error-600);
+    }
+
     &:hover:enabled {
       border: 1px solid var(--color-primary-700);
       background: var(--color-primary-700);
+
+      &.root_destructive {
+        border: 1px solid var(--color-error-700);
+        background-color: var(--color-error-700);
+      }
     }
 
     &:active:enabled,
     &:focus:enabled {
       @include shadow.shadowXSFocused4pxPrimary100;
+
+      &.root_destructive {
+        @include shadow.shadowXSFocused4pxError100;
+      }
     }
 
     &:disabled,
     &[disabled] {
       border: 1px solid var(--color-primary-200);
       background: var(--color-primary-200);
+
+      &.root_destructive {
+        border: 1px solid var(--color-error-200);
+        background: var(--color-error-200);
+      }
     }
   }
 
