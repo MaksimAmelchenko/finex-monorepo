@@ -1,0 +1,198 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
+
+import { AccountsMobile } from '../../containers/AccountsMobile/AccountsMobile_';
+import { AuthRepository } from '../../core/other-stores/auth-repository';
+import { BackButton, Header } from '../../components/Header/Header';
+import {
+  Building02Icon,
+  Coins02Icon,
+  FolderIcon,
+  IOption,
+  LogOut01Icon,
+  MiscellaneousIcon,
+  SelectNative,
+  SpacingWidth01Icon,
+  Tag01Icon,
+  User01Icon,
+  Wallet01Icon,
+} from '@finex/ui-kit';
+import { CategoriesMobile } from '../../containers/CategoriesMobile/CategoriesMobile_';
+import { ContractorsMobile } from '../../containers/ContractorsMobile/ContractorsMobile';
+import { MenuItem } from './MenuItem/MenuItem';
+import { MoneysMobile } from '../../containers/MoneysMobile/MoneysMobile_';
+import { ProfileMobile } from '../ProfileMobile/ProfileMobile';
+import { ProjectsMobile } from '../../containers/ProjectsMobile/ProjectsMobile';
+import { ProjectsRepository } from '../../stores/projects-repository';
+import { SideSheetBody } from '../../components/SideSheetMobile/SideSheetBody/SideSheetBody';
+import { TagsMobile } from '../../containers/TagsMobile/TagsMobile_';
+import { UnitsMobile } from '../../containers/UnitsMobile/UnitsMobile_';
+import { analytics } from '../../lib/analytics';
+import { getT } from '../../lib/core/i18n';
+import { useStore } from '../../core/hooks/use-store';
+
+import styles from './SettingsMobile.module.scss';
+
+const t = getT('Settings');
+
+export interface SettingsMobileProps {
+  onClose: () => void;
+}
+
+export enum SideSheet {
+  Accounts,
+  Categories,
+  Contractors,
+  Units,
+  Tags,
+  Moneys,
+  Projects,
+  Profile,
+  None,
+}
+
+interface IMenuItem {
+  menuItemId: string;
+  icon: React.ReactNode;
+  text: string;
+}
+
+export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
+  const authRepository = useStore(AuthRepository);
+  const projectsRepository = useStore(ProjectsRepository);
+  const [sideSheet, setSideSheet] = useState<SideSheet>(SideSheet.None);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { currentProject, projects } = projectsRepository;
+
+  useEffect(() => {
+    analytics.view({
+      page_title: 'settings-mobile',
+    });
+  }, []);
+
+  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => () => {
+    const projectId = event.target.value;
+    projectsRepository.useProject(projectId).catch(err => {
+      let message = '';
+      switch (err.code) {
+        default:
+          message = err.message;
+      }
+      enqueueSnackbar(message, { variant: 'error' });
+    });
+  };
+
+  const selectProjectOptions = useMemo<IOption[]>(() => {
+    return projects.map(({ id: value, name: label }) => ({ value, label }));
+  }, [projects]);
+
+  const references: IMenuItem[] = useMemo(
+    () => [
+      { menuItemId: 'accounts', icon: <Wallet01Icon />, text: t('Accounts') },
+      { menuItemId: 'categories', icon: <MiscellaneousIcon />, text: t('Categories') },
+      { menuItemId: 'contractors', icon: <Building02Icon />, text: t('Contractors') },
+      { menuItemId: 'units', icon: <SpacingWidth01Icon />, text: t('Units') },
+      { menuItemId: 'tags', icon: <Tag01Icon />, text: t('Tags') },
+      { menuItemId: 'moneys', icon: <Coins02Icon />, text: t('Money') },
+      { menuItemId: 'projects', icon: <FolderIcon />, text: t('Projects') },
+    ],
+    []
+  );
+
+  const handleMenuItemClick = useCallback((menuItemId: string) => {
+    const map: Record<string, SideSheet> = {
+      accounts: SideSheet.Accounts,
+      categories: SideSheet.Categories,
+      contractors: SideSheet.Contractors,
+      units: SideSheet.Units,
+      tags: SideSheet.Tags,
+      moneys: SideSheet.Moneys,
+      projects: SideSheet.Projects,
+      profile: SideSheet.Profile,
+    };
+    const sideSheet = map[menuItemId] ?? SideSheet.None;
+    setSideSheet(sideSheet);
+  }, []);
+
+  const handleCloseSideSheet = useCallback(() => {
+    setSideSheet(SideSheet.None);
+  }, []);
+
+  if (!currentProject) {
+    return null;
+  }
+
+  return (
+    <>
+      <Header title={t('Settings')} startAdornment={<BackButton onClick={onClose} />} />
+      <SideSheetBody className={styles.root}>
+        {currentProject && (
+          <section className={styles.section}>
+            <SelectNative
+              label={t('Current project')}
+              options={selectProjectOptions}
+              value={currentProject.id}
+              onChange={handleProjectChange}
+            />
+          </section>
+        )}
+
+        <section className={styles.menuSection}>
+          <h2 className={styles.menuSection__header}>{t('References')}</h2>
+          <div className={styles.menuSection__content}>
+            {references.map(({ menuItemId, icon, text }) => {
+              return (
+                <MenuItem
+                  menuItemId={menuItemId}
+                  icon={icon}
+                  text={text}
+                  onClick={handleMenuItemClick}
+                  key={menuItemId}
+                />
+              );
+            })}
+          </div>
+        </section>
+
+        <section className={styles.menuSection}>
+          <h2 className={styles.menuSection__header}>{t('Profile')}</h2>
+          <div className={styles.menuSection__content}>
+            <MenuItem
+              menuItemId="profile"
+              icon={<User01Icon />}
+              text={t('Profile settings')}
+              onClick={handleMenuItemClick}
+            />
+            <MenuItem
+              menuItemId="signOut"
+              icon={<LogOut01Icon />}
+              text={t('Log out')}
+              expandButton={false}
+              onClick={() => authRepository.signOut()}
+            />
+          </div>
+        </section>
+      </SideSheetBody>
+
+      <AccountsMobile open={sideSheet === SideSheet.Accounts} onClose={handleCloseSideSheet} />
+
+      <CategoriesMobile open={sideSheet === SideSheet.Categories} onClose={handleCloseSideSheet} />
+
+      <ContractorsMobile open={sideSheet === SideSheet.Contractors} onClose={handleCloseSideSheet} />
+
+      <UnitsMobile open={sideSheet === SideSheet.Units} onClose={handleCloseSideSheet} />
+
+      <TagsMobile open={sideSheet === SideSheet.Tags} onClose={handleCloseSideSheet} />
+
+      <MoneysMobile open={sideSheet === SideSheet.Moneys} onClose={handleCloseSideSheet} />
+
+      <ProjectsMobile open={sideSheet === SideSheet.Projects} onClose={handleCloseSideSheet} />
+
+      <ProfileMobile open={sideSheet === SideSheet.Profile} onClose={handleCloseSideSheet} />
+    </>
+  );
+});
+
+export default SettingsMobile;

@@ -1,0 +1,21 @@
+@use 'packages/theme/src/lib/styles/mixins';
+
+.root {
+  @include mixins.resetButton;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 100%;
+  padding: 1.2rem 0.8rem;
+  color: var(--color-gray-900);
+
+  &:last-child {
+    padding-right: 1.6rem;
+  }
+
+  svg {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}

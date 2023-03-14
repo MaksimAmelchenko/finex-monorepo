@@ -4,12 +4,12 @@ import { BottomNavigationButton } from './BottomNavigationButton/BottomNavigatio
 import { CenterBottomNavigationButton } from './CenterBottomNavigationButton/CenterBottomNavigationButton';
 import {
   BottomSheet,
+  CoinsHandIcon,
   CoinsStacked01Icon,
   MinusIcon,
   PlusIcon,
   RefreshCW03Icon,
   ReverseRightIcon,
-  Settings02Icon,
   SwitchHorizontal01Icon,
 } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';
@@ -46,8 +46,8 @@ export function BottomNavigation({ onMenuItemClick }: BottomNavigationProps): JS
         <BottomNavigationButton href="/outcome" label={t('Outcome')} icon={OutcomeButtonIcon} />
         <BottomNavigationButton href="/operations" label={t('Operations')} icon={SwitchHorizontal01Icon} />
         <CenterBottomNavigationButton onClick={handleAddClick} />
+        <BottomNavigationButton href="/debts" label={t('Debts')} icon={CoinsHandIcon} />
         <BottomNavigationButton href="/budget" label={t('Budget')} icon={CoinsStacked01Icon} />
-        <BottomNavigationButton href="/settings" label={t('Settings')} icon={Settings02Icon} />
       </nav>
 
       <BottomSheet open={open} onClose={handleClose}>

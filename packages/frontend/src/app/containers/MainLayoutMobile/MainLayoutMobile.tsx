@@ -9,12 +9,9 @@ import { MainLayoutStoreMobile, Window } from '../../stores/main-layout-store-mo
 import { ProfileRepository } from '../../stores/profile-repository';
 import { TransactionWindowMobile } from '../TransactionWindowMobile/TransactionWindowMobile';
 import { TransferWindowMobile } from '../TransferWindowMobile/TransferWindowMobile';
-import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './MainLayoutMobile.module.scss';
-
-const t = getT('MainLayoutMobile');
 
 interface MainLayoutMobileProps {
   children: React.ReactNode;

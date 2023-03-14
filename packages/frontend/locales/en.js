@@ -85,8 +85,8 @@ module.exports = {
   BottomNavigation: {
     Outcome: 'Outcome',
     Operations: 'Operations',
+    Debts: 'Debts',
     Budget: 'Budget',
-    Settings: 'Settings',
     Expense: 'Expense',
     Income: 'Income',
     Transfer: 'Transfer',
@@ -202,6 +202,9 @@ module.exports = {
     Refresh: 'Refresh',
     Name: 'Name',
     Note: 'Note',
+  },
+  ContractorsMobile: {
+    Contractors: 'Contractors',
   },
   ContractorWindow: {
     'Contractor already exists': 'Contractor already exists',
@@ -515,6 +518,7 @@ module.exports = {
     Move: 'Move',
   },
   Operations: {
+    Operations: 'Operations',
     'Load more': 'Load more',
   },
   Pagination: {
@@ -616,6 +620,12 @@ module.exports = {
     'Project by default': 'Project by default',
     'Update profile settings': 'Update profile settings',
     Profile: 'Profile',
+    'You must provide your current password in order to change it':
+      'You must provide your current password in order to change it',
+    'Please enter your current password to change your password_':
+      'Please enter your current password to change your password.',
+    'Update password': 'Update password',
+    'Profile has been updated': 'Profile has been updated',
   },
   ProjectCopyWindow: {
     'Enter a project name': 'Enter a project name',
@@ -648,6 +658,9 @@ module.exports = {
     Owner: 'Owner',
     Permit: 'Permit',
     Note: 'Note',
+  },
+  ProjectsMobile: {
+    Projects: 'Projects',
   },
   ProjectWindow: {
     'That name is taken_ Try another_': 'That name is taken. Try another.',
@@ -713,6 +726,11 @@ module.exports = {
     Money: 'Money',
     Projects: 'Projects',
     Settings: 'Settings',
+    'Current project': 'Current project',
+    References: 'References',
+    Profile: 'Profile',
+    'Profile settings': 'Profile settings',
+    'Log out': 'Log out',
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',

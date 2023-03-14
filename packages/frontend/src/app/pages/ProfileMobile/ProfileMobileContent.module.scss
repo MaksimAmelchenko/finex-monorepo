@@ -1,0 +1,45 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  row-gap: 3.2rem;
+  padding: 1.6rem 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+
+  &__header {
+    padding: 0 1.6rem;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.8rem 1.6rem;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.4rem;
+
+  &__title {
+    margin: 0;
+    @include typography.textLGSemibold;
+    color: var(--color-gray-900);
+  }
+  &__description {
+    @include typography.textSM;
+    color: var(--color-gray-600);
+  }
+}
+
+.hidden {
+  visibility: hidden;
+  display: none;
+}

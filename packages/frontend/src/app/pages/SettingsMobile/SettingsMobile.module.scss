@@ -1,0 +1,30 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+  padding-bottom: 4rem;
+}
+
+.section {
+  padding: 1.6rem;
+}
+
+.menuSection {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.2rem;
+
+  &__header {
+    margin: 0;
+    padding: 0 1.6rem;
+    @include typography.textSMMedium;
+    color: var(--color-gray-700);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+}

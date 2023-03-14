@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { Accordion, ChevronRightIcon, chevronRightSvg } from '@finex/ui-kit';
+import { Accordion, ChevronRightIcon } from '@finex/ui-kit';
 import { Category } from '../../../stores/models/category';
 import { CategoryTreeNode } from '../../../stores/categories-repository';
 

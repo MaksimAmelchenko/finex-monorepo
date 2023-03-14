@@ -85,8 +85,8 @@ module.exports = {
   BottomNavigation: {
     Outcome: 'Обзор',
     Operations: 'Операции',
+    Debts: 'Долги',
     Budget: 'Бюджет',
-    Settings: 'Настройки',
     Expense: 'Expense',
     Income: 'Income',
     Transfer: 'Transfer',
@@ -203,6 +203,9 @@ module.exports = {
     Refresh: 'Обновить',
     Name: 'Наименование',
     Note: 'Примечание',
+  },
+  ContractorsMobile: {
+    Contractors: 'Контрагенты',
   },
   ContractorWindow: {
     'Contractor already exists': 'Контрагент уже существует',
@@ -516,6 +519,7 @@ module.exports = {
     Move: 'Перенести',
   },
   Operations: {
+    Operations: 'Операции',
     'Load more': 'Загрузить еще...',
   },
   Pagination: {
@@ -617,6 +621,12 @@ module.exports = {
     'Project by default': 'Проект по умолчанию',
     'Update profile settings': 'Обновить настройки',
     Profile: 'Профиль',
+    'You must provide your current password in order to change it':
+      'Укажите свой текущий пароль, чтобы изменить его',
+    'Please enter your current password to change your password_':
+      'Пожалуйста, введите текущий пароль, чтобы изменить пароль.',
+    'Update password': 'Изменить пароль',
+    'Profile has been updated': 'Профиль обновлен',
   },
   ProjectCopyWindow: {
     'Enter a project name': 'Укажите наименование проекта',
@@ -649,6 +659,9 @@ module.exports = {
     Owner: 'Владелец',
     Permit: 'Права доступа',
     Note: 'Примечание',
+  },
+  ProjectsMobile: {
+    Projects: 'Проекты',
   },
   ProjectWindow: {
     'That name is taken_ Try another_': 'Это имя занято. Попробуй другое.',
@@ -713,6 +726,11 @@ module.exports = {
     Money: 'Валюты',
     Projects: 'Проекты',
     Settings: 'Настройки',
+    'Current project': 'Текущий проект',
+    References: 'Справочники',
+    Profile: 'Аккаунт',
+    'Profile settings': 'Настройки аккаунта',
+    'Log out': 'Выйти',
   },
   SignIn: {
     'Invalid username or password': 'Неверный логин или пароль',

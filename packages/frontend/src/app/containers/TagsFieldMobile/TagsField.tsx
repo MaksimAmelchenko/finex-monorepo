@@ -3,7 +3,7 @@ import { useField, useFormikContext } from 'formik';
 
 import { IOption, LabelInput } from '@finex/ui-kit';
 import { Tag } from '../../stores/models/tag';
-import { TagsMobile } from '../TagsMobile/TagsMobile';
+import { TagsMobile } from '../TagsMobile/TagsMobile_';
 import { TagsRepository } from '../../stores/tags-repository';
 import { useStore } from '../../core/hooks/use-store';
 

@@ -67,8 +67,6 @@ export const App = observer(() => {
                       <Routes>
                         <Route path="/outcome" element={<OutcomeMobileLazy />} />
                         <Route path="/operations" element={<OperationsLazy />} />
-                        <Route path="/settings" element={<SettingsLazy />} />
-                        <Route path="/settings/:tab" element={<SettingsLazy />} />
                         <Route path="*" element={<Navigate to="/operations" />} />
                       </Routes>
                     </MainLayoutMobile>

@@ -4,7 +4,7 @@ import { useField, useFormikContext } from 'formik';
 import { Dropdown, Input } from '@finex/ui-kit';
 import { IFormInputProps } from '../../components/Form';
 import { Money } from '../../stores/models/money';
-import { MoneysMobile } from '../MoneysMobile/MoneysMobile';
+import { MoneysMobile } from '../MoneysMobile/MoneysMobile_';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { round } from '../../lib/round';
 import { useStore } from '../../core/hooks/use-store';
