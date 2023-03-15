@@ -16,7 +16,7 @@ interface DebtRowProps {
 }
 
 export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
-  const { balance, contractor, debtDate, isDeleting, isSelected, note, tags } = debt;
+  const { balance_DEPRECATED: balance, contractor, debtDate, isDeleting, isSelected, note, tags } = debt;
   const moneysRepository = useStore(MoneysRepository);
 
   const handleOnSelect = (event: React.SyntheticEvent) => {

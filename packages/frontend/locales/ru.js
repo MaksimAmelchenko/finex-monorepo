@@ -223,6 +223,15 @@ module.exports = {
   DebtBalancesMobile: {
     Debts: 'Долги',
   },
+  DebtCard: {
+    'Loan amount': 'Сумма займа',
+    'Principal repayment': 'Погашение основного долга',
+    Rest: 'Остаток',
+    'Paid Interest': 'Выплаченные проценты',
+    Fee: 'Комиссия',
+    Fine: 'Пеня',
+    Cost: 'Стоимость',
+  },
   DebtItem: {
     Income: 'Приход',
     Expense: 'Расход',
@@ -293,6 +302,10 @@ module.exports = {
     Fee: 'Комиссия',
     'Cost (overpayment)': 'Стоимость (переплата)',
     Note: 'Примечание',
+  },
+  DebtsMobile: {
+    Debts: 'Долги',
+    'Load more': 'Загрузить еще...',
   },
   DebtWindow: {
     'Please select contractor': 'Пожалуйста, выберите контрагента',
@@ -621,8 +634,7 @@ module.exports = {
     'Project by default': 'Проект по умолчанию',
     'Update profile settings': 'Обновить настройки',
     Profile: 'Профиль',
-    'You must provide your current password in order to change it':
-      'Укажите свой текущий пароль, чтобы изменить его',
+    'You must provide your current password in order to change it': 'Укажите свой текущий пароль, чтобы изменить его',
     'Please enter your current password to change your password_':
       'Пожалуйста, введите текущий пароль, чтобы изменить пароль.',
     'Update password': 'Изменить пароль',

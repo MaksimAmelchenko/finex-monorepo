@@ -222,6 +222,15 @@ module.exports = {
   DebtBalancesMobile: {
     Debts: 'Debts',
   },
+  DebtCard: {
+    'Loan amount': 'Loan amount',
+    'Principal repayment': 'Principal repayment',
+    Rest: 'Rest',
+    'Paid Interest': 'Paid Interest',
+    Fee: 'Fee',
+    Fine: 'Fine',
+    Cost: 'Cost',
+  },
   DebtItem: {
     Income: 'Income',
     Expense: 'Expense',
@@ -292,6 +301,10 @@ module.exports = {
     Fee: 'Fee',
     'Cost (overpayment)': 'Cost (overpayment)',
     Note: 'Note',
+  },
+  DebtsMobile: {
+    Debts: 'Debts',
+    'Load more': 'Load more',
   },
   DebtWindow: {
     'Please select contractor': 'Please select contractor',

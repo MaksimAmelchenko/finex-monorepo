@@ -1,12 +1,24 @@
-import { action, makeObservable, computed, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
+import { parseISO } from 'date-fns';
 
 import { Contractor } from './contractor';
 import { DebtItem } from './debt-item';
+import { IBalance } from '../../types/balance';
 import { IDebt } from '../../types/debt';
 import { IDeletable, ISelectable, TDateTime } from '../../types';
 import { Tag } from './tag';
 import { User } from './user';
-import { formatISO, parseISO } from 'date-fns';
+import { moneyId } from '../../types/money';
+
+export type BalanceType = 'debt' | 'paidDebt' | 'unpaidDebt' | 'paidInterest' | 'fine' | 'fee' | 'cost';
+
+const balanceTypeMap: Record<string, BalanceType> = {
+  '2': 'debt',
+  '3': 'paidDebt',
+  '4': 'paidInterest',
+  '5': 'fine',
+  '6': 'fee',
+};
 
 export class Debt implements IDebt, ISelectable, IDeletable {
   readonly id: string;
@@ -37,6 +49,7 @@ export class Debt implements IDebt, ISelectable, IDeletable {
       isSelected: observable,
       items: observable,
       debtDate: computed,
+      balance: computed,
       toggleSelection: action,
     });
   }
@@ -45,7 +58,7 @@ export class Debt implements IDebt, ISelectable, IDeletable {
     this.isSelected = !this.isSelected;
   }
 
-  get balance(): Record<string, Record<'debt' | 'paidDebt' | 'paidInterest' | 'fine' | 'fee', number>> {
+  get balance_DEPRECATED(): Record<moneyId, Record<'debt' | 'paidDebt' | 'paidInterest' | 'fine' | 'fee', number>> {
     return this.items.reduce<any>((acc, item) => {
       acc[item.money.id] = acc[item.money.id] || {};
       let category = '';
@@ -72,10 +85,51 @@ export class Debt implements IDebt, ISelectable, IDeletable {
     }, {});
   }
 
+  get balance(): Record<BalanceType, Record<moneyId, IBalance>> {
+    return this.items.reduce<Record<BalanceType, Record<moneyId, IBalance>>>(
+      (acc, { category, sign, amount, money }) => {
+        const balanceType: BalanceType | undefined = balanceTypeMap[category.categoryPrototype!.id];
+        if (!balanceType) {
+          return acc;
+        }
+        acc[balanceType][money.id] = acc[balanceType][money.id] || { amount: 0, money };
+        acc[balanceType][money.id].amount += sign * amount;
+
+        switch (balanceType) {
+          case 'debt':
+            acc.unpaidDebt[money.id] = acc.unpaidDebt[money.id] || { amount: 0, money };
+            acc.unpaidDebt[money.id].amount += sign * amount;
+            break;
+          case 'paidDebt':
+            acc.unpaidDebt[money.id] = acc.unpaidDebt[money.id] || { amount: 0, money };
+            acc.unpaidDebt[money.id].amount += sign * amount;
+            break;
+          case 'fee':
+          case 'fine':
+          case 'paidInterest':
+            acc.cost[money.id] = acc.cost[money.id] || { amount: 0, money };
+            acc.cost[money.id].amount += sign * amount;
+            break;
+        }
+
+        return acc;
+      },
+      {
+        debt: {},
+        paidDebt: {},
+        unpaidDebt: {},
+        paidInterest: {},
+        fee: {},
+        fine: {},
+        cost: {},
+      }
+    );
+  }
+
   get debtDate(): TDateTime {
     let maxDate = Math.max(...this.items.map(({ debtItemDate }) => parseISO(debtItemDate).getTime()));
     if (maxDate !== -Infinity) {
-      return formatISO(maxDate);
+      return new Date(maxDate).toISOString();
     }
 
     return this.updatedAt;

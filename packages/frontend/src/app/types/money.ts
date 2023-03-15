@@ -1,6 +1,8 @@
 import { Currency } from '../stores/models/currency';
 import { User } from '../stores/models/user';
 
+export type moneyId = string;
+
 export interface IApiMoney {
   id: string;
   currencyId: string | null;

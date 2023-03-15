@@ -9,6 +9,7 @@ import { BillingLazy } from './pages/Billing/BillingLazy';
 import { CashFlows } from './pages/CashFlows/CashFlows';
 import { DashboardLazy } from './pages/Dashboard/DashboardLazy';
 import { Debts } from './pages/Debts/Debts';
+import { DebtsMobileLazy } from './pages/DebtsMobile/DebtsMobileLazy';
 import { DistributionReportLazy } from './pages/Reports/DistributionReport/DistributionReportLazy';
 import { DynamicsReportLazy } from './pages/Reports/DynamicsReport/DynamicsReportLazy';
 import { Exchanges } from './pages/Exchanges/Exchanges';
@@ -67,6 +68,7 @@ export const App = observer(() => {
                       <Routes>
                         <Route path="/outcome" element={<OutcomeMobileLazy />} />
                         <Route path="/operations" element={<OperationsLazy />} />
+                        <Route path="/debts" element={<DebtsMobileLazy />} />
                         <Route path="*" element={<Navigate to="/operations" />} />
                       </Routes>
                     </MainLayoutMobile>

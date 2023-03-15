@@ -24,6 +24,7 @@ import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { TDate } from '../types';
 import { Tag } from './models/tag';
 import { TagsRepository } from './tags-repository';
 import { UsersRepository } from './users-repository';
@@ -49,6 +50,11 @@ interface IFilter {
   contractors: string[];
   tags: string[];
   more: Array<'isOnlyNotPaid'>;
+}
+
+interface IDebtsByDate {
+  date: TDate;
+  debts: Debt[];
 }
 
 export class DebtsRepository extends ManageableStore {
@@ -81,14 +87,15 @@ export class DebtsRepository extends ManageableStore {
 
     makeObservable<DebtsRepository, '_debts'>(this, {
       _debts: observable,
-      loadState: observable,
       filter: observable,
+      loadState: observable,
       debts: computed,
+      debtsByDates: computed,
       clear: action,
       fetch: action,
-      setFilter: action,
       removeDebt: action,
       removeDebtItem: action,
+      setFilter: action,
     });
 
     reaction(
@@ -99,7 +106,7 @@ export class DebtsRepository extends ManageableStore {
     );
   }
 
-  async fetch(): Promise<void> {
+  async fetch(reset = true): Promise<void> {
     this.loadState = LoadState.pending();
     const {
       isFilter,
@@ -132,7 +139,11 @@ export class DebtsRepository extends ManageableStore {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
-          this._debts = this.decode(debts);
+          if (reset) {
+            this._debts = this.decode(debts);
+          } else {
+            this._debts = [...this._debts, ...this.decode(debts)];
+          }
         })
       )
       .then(
@@ -145,6 +156,11 @@ export class DebtsRepository extends ManageableStore {
   async fetchNextPage(): Promise<void> {
     this.offset = this.offset + this.limit;
     return this.fetch();
+  }
+
+  async fetchMore(): Promise<void> {
+    this.offset = this.offset + this.limit;
+    return this.fetch(false);
   }
 
   async fetchPreviousPage(): Promise<void> {
@@ -407,6 +423,21 @@ export class DebtsRepository extends ManageableStore {
     return this._debts
       .slice()
       .sort((a, b) => parseISO(b.debtDate).getTime() - parseISO(a.debtDate).getTime() || Number(b.id) - Number(a.id));
+  }
+
+  get debtsByDates(): IDebtsByDate[] {
+    const map: Map<string, Debt[]> = new Map();
+    this.debts.forEach(debt => {
+      const date = format(parseISO(debt.debtDate), 'yyyy-MM-dd');
+      let item = map.get(date);
+      if (!item) {
+        map.set(date, [debt]);
+      } else {
+        item.push(debt);
+      }
+    });
+
+    return Array.from(map, ([date, debts]) => ({ date, debts }));
   }
 
   clear(): void {
