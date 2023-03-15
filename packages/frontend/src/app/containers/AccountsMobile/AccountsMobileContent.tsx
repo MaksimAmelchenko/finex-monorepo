@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { Account } from '../../stores/models/account';
 import { AccountRow } from './AccountRow/AccountRow';
+import { AccountWindowMobile } from '../AccountWindowMobile/AccountWindowMobile';
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { BackButton, Header } from '../../components/Header/Header';
+import { AddButton, BackButton, Header } from '../../components/Header/Header';
+import { IAccount } from '../../types/account';
 import { SideSheetBody } from '../../components/SideSheetMobile/SideSheetBody/SideSheetBody';
+import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
+import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
-import { analytics } from '../../lib/analytics';
 
 const t = getT('AccountsMobile');
 
@@ -19,6 +22,8 @@ export interface AccountsMobileContentProps {
 
 export const AccountsMobileContent = observer<AccountsMobileContentProps>(({ onSelect, onClose }) => {
   const accountsRepository = useStore(AccountsRepository);
+  const [account, setAccount] = useState<Partial<IAccount> | Account | null>(null);
+
   const { accounts } = accountsRepository;
   const isSelectMode = Boolean(onSelect);
 
@@ -28,10 +33,16 @@ export const AccountsMobileContent = observer<AccountsMobileContentProps>(({ onS
     });
   }, []);
 
+  const handleAddClick = useCallback(() => {
+    setAccount({});
+  }, []);
+
   const handleClick = useCallback(
     (account: Account, event: React.MouseEvent<HTMLButtonElement>) => {
       if (isSelectMode) {
         onSelect?.(account);
+      } else {
+        setAccount(account);
       }
     },
     [isSelectMode, onSelect]
@@ -39,7 +50,11 @@ export const AccountsMobileContent = observer<AccountsMobileContentProps>(({ onS
 
   return (
     <>
-      <Header title={t('Accounts')} startAdornment={<BackButton onClick={onClose} />} />
+      <Header
+        title={t('Accounts')}
+        startAdornment={<BackButton onClick={onClose} />}
+        endAdornment={<AddButton onClick={handleAddClick} />}
+      />
       <SideSheetBody>
         {accounts
           .filter(({ isEnabled }) => !isSelectMode || (isSelectMode && isEnabled))
@@ -47,6 +62,10 @@ export const AccountsMobileContent = observer<AccountsMobileContentProps>(({ onS
             return <AccountRow account={account} onClick={handleClick} key={account.id} />;
           })}
       </SideSheetBody>
+
+      <SideSheetMobile open={Boolean(account)}>
+        {account && <AccountWindowMobile account={account} onClose={() => setAccount(null)} />}
+      </SideSheetMobile>
     </>
   );
 });

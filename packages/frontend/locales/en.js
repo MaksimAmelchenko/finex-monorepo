@@ -62,6 +62,7 @@ module.exports = {
       'List of users who have the right to add, edit and delete transactions on this account',
     Cancel: 'Cancel',
     Save: 'Save',
+    'There are transactions on this account': 'There are transactions on this account',
   },
   ApiRepository: {
     'Session Timeout': 'Session Timeout',
