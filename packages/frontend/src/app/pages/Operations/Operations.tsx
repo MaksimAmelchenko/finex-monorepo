@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { AppBar } from '../../components/AppBar/AppBar';
 import { AppBarButton } from '../../components/AppBar/AppBarButton/AppBarButton';
 import { Button, SearchMdIcon } from '@finex/ui-kit';
-import { DebtCard } from '../../components/DebtCard/DebtCard';
+import { DebtItemCard } from '../../components/DebtItemCard/DebtItemCard';
 import { DebtItemWindowMobile } from '../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
@@ -109,7 +109,7 @@ export const Operations = observer(() => {
                   }
 
                   if (operation instanceof OperationDebtItem) {
-                    return <DebtCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
+                    return <DebtItemCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
                   }
 
                   if (operation instanceof OperationTransfer) {
