@@ -519,6 +519,8 @@ module.exports = {
       'Sets the currency display order for multicurrency accounts',
     Cancel: 'Cancel',
     Save: 'Save',
+    'There are transactions with this money': 'There are transactions with this money',
+    'Standard currency not specified': 'Standard currency not specified',
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Moved {{count}} transactions',

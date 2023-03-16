@@ -520,6 +520,8 @@ module.exports = {
       'Задает порядок отображения валюты для мультивалютных счетов',
     Cancel: 'Отмена',
     Save: 'Сохранить',
+    'There are transactions with this money': 'Есть операции с этой валютой',
+    'Standard currency not specified': 'Стандартная валюта не указана',
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Перенесено {{count}} операций',
