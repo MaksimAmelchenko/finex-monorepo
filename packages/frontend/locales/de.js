@@ -216,6 +216,7 @@ module.exports = {
     Note: 'Note',
     Cancel: 'Cancel',
     Save: 'Save',
+    "You can't delete contractor with transaction": "You can't delete contractor with transaction",
   },
   Dashboard: {
     Outcome: 'Outcome',

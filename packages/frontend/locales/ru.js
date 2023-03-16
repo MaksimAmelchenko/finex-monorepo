@@ -217,6 +217,7 @@ module.exports = {
     Note: 'Примечание',
     Cancel: 'Отмена',
     Save: 'Сохранить',
+    "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
   },
   Dashboard: {
     Outcome: 'Обзор',
