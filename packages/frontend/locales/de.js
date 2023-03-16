@@ -987,6 +987,7 @@ module.exports = {
     Name: 'Name',
     Cancel: 'Cancel',
     Save: 'Save',
+    "You can't delete unit with transaction": "You can't delete unit with transaction",
   },
   YooKassaButton: {
     Subscribe: 'Subscribe',
