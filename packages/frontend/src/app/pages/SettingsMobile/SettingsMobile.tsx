@@ -72,7 +72,7 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
     });
   }, []);
 
-  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => () => {
+  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const projectId = event.target.value;
     projectsRepository.useProject(projectId).catch(err => {
       let message = '';
