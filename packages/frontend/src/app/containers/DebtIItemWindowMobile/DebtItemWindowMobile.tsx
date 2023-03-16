@@ -225,8 +225,8 @@ export function DebtItemWindowMobile({ debtItem, onClose }: DebtItemWindowMobile
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
-  const defaultMoney = moneysRepository.moneys[0];
-  const defaultAccount = accountsRepository.accounts[0];
+  const defaultMoney = moneysRepository.availableMoneys[0];
+  const defaultAccount = accountsRepository.availableAccounts[0];
 
   return (
     <Form<DebtItemFormValues>

@@ -280,8 +280,8 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
   const { amount, money, accountFrom, accountTo, transferDate, reportPeriod, fee, moneyFee, accountFee, note, tags } =
     transfer;
 
-  const defaultMoney = moneysRepository.moneys[0];
-  const defaultAccount = accountsRepository.accounts[0];
+  const defaultMoney = moneysRepository.availableMoneys[0];
+  const defaultAccount = accountsRepository.availableAccounts[0];
   return (
     <Form<TransferFormValues>
       onSubmit={onSubmit}

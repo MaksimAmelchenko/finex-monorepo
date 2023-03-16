@@ -265,8 +265,8 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
-  const defaultMoney = moneysRepository.moneys[0];
-  const defaultAccount = accountsRepository.accounts[0];
+  const defaultMoney = moneysRepository.availableMoneys[0];
+  const defaultAccount = accountsRepository.availableAccounts[0];
 
   const isPlanned = false;
   return (
