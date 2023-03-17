@@ -1,11 +1,11 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import { parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import { Contractor } from './contractor';
 import { DebtItem } from './debt-item';
 import { IBalance } from '../../types/balance';
 import { IDebt } from '../../types/debt';
-import { IDeletable, ISelectable, TDateTime } from '../../types';
+import { IDeletable, ISelectable, TDate, TDateTime } from '../../types';
 import { Tag } from './tag';
 import { User } from './user';
 import { moneyId } from '../../types/money';
@@ -19,6 +19,11 @@ const balanceTypeMap: Record<string, BalanceType> = {
   '5': 'fine',
   '6': 'fee',
 };
+
+export interface IDebtItemsByDate {
+  date: TDate;
+  debtItems: DebtItem[];
+}
 
 export class Debt implements IDebt, ISelectable, IDeletable {
   readonly id: string;
@@ -48,8 +53,10 @@ export class Debt implements IDebt, ISelectable, IDeletable {
       isDeleting: observable,
       isSelected: observable,
       items: observable,
-      debtDate: computed,
       balance: computed,
+      debtDate: computed,
+      debtItems: computed,
+      debtItemsByDates: computed,
       toggleSelection: action,
     });
   }
@@ -83,6 +90,14 @@ export class Debt implements IDebt, ISelectable, IDeletable {
       acc[item.money.id][category] += item.sign * item.amount;
       return acc;
     }, {});
+  }
+
+  get debtItems(): DebtItem[] {
+    return this.items
+      .slice()
+      .sort(
+        (a, b) => parseISO(b.debtItemDate).getTime() - parseISO(a.debtItemDate).getTime() || Number(b.id) - Number(a.id)
+      );
   }
 
   get balance(): Record<BalanceType, Record<moneyId, IBalance>> {
@@ -124,6 +139,21 @@ export class Debt implements IDebt, ISelectable, IDeletable {
         cost: {},
       }
     );
+  }
+
+  get debtItemsByDates(): IDebtItemsByDate[] {
+    const map: Map<string, DebtItem[]> = new Map();
+    this.debtItems.forEach(debtItem => {
+      const date = format(parseISO(debtItem.debtItemDate), 'yyyy-MM-dd');
+      let item = map.get(date);
+      if (!item) {
+        map.set(date, [debtItem]);
+      } else {
+        item.push(debtItem);
+      }
+    });
+
+    return Array.from(map, ([date, debtItems]) => ({ date, debtItems }));
   }
 
   get debtDate(): TDateTime {

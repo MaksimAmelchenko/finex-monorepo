@@ -53,6 +53,7 @@ export function BottomNavigation({ onMenuItemClick }: BottomNavigationProps): JS
       <BottomSheet open={open} onClose={handleClose}>
         <MenuItem data-menu-item-id="addExpense" onClick={handleMenuItemClick} icon={MinusIcon} label={t('Expense')} />
         <MenuItem data-menu-item-id="addIncome" onClick={handleMenuItemClick} icon={PlusIcon} label={t('Income')} />
+        <MenuItem data-menu-item-id="addDebt" onClick={handleMenuItemClick} icon={CoinsHandIcon} label={t('Debt')} />
         <MenuItem
           data-menu-item-id="addTransfer"
           onClick={handleMenuItemClick}

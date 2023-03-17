@@ -160,8 +160,8 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
       }
     }
 
-    selectedDebtItems.forEach(debtItem => {
-      debtsRepository.removeDebtItem(debtItem).catch(err => {
+    selectedDebtItems.forEach(({ debtId, id }) => {
+      debtsRepository.removeDebtItem(debtId, id).catch(err => {
         enqueueSnackbar(err.message, { variant: 'error' });
       });
     });

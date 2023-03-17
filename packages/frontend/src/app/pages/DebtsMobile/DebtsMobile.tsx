@@ -6,9 +6,11 @@ import { AppBar } from '../../components/AppBar/AppBar';
 import { Button } from '@finex/ui-kit';
 import { Debt } from '../../stores/models/debt';
 import { DebtCard } from '../../components/DebtCard/DebtCard';
+import { DebtWindowMobile } from '../../containers/DebtWindowMobile/DebtWindowMobile';
 import { DebtsRepository } from '../../stores/debts-repository';
 import { LoadState } from '../../core/load-state';
 import { Loader } from '../../components/Loader/Loader';
+import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -99,6 +101,17 @@ export const DebtsMobile = observer(() => {
             </div>
           )}
       </div>
+
+      <SideSheetMobile open={Boolean(debt)}>
+        {debt && (
+          <DebtWindowMobile
+            debt={debt}
+            onClose={() => {
+              setDebt(null);
+            }}
+          />
+        )}
+      </SideSheetMobile>
     </>
   );
 });

@@ -158,7 +158,8 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = debtsRepository.updateDebtItem(debtItem as DebtItem, changes);
+        const { debtId, id } = debtItem as DebtItem;
+        result = debtsRepository.updateDebtItem(debtId, id, changes);
       }
 
       return result

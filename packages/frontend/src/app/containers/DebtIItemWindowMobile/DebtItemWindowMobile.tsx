@@ -11,17 +11,15 @@ import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountFieldMobile/AmountField';
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CategoriesRepository } from '../../stores/categories-repository';
-import { CreateDebtItemData, UpdateDebtItemChanges } from '../../types/debt';
+import { CreateDebtItemData, IDebtItem, UpdateDebtItemChanges } from '../../types/debt';
 import { DateField } from '../../components/DateField/DateField';
+import { DebtItem } from '../../stores/models/debt-item';
 import { Form, FormBody } from '../../components/Form';
 import { FormSegmentedControl } from '../../components/Form/FormSegmentedControl/FormSegmentedControl';
 import { FormSelectNative } from '../../components/Form/FormSelectNative/FormSelectNative';
 import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
-import { IOperationDebtItem } from '../../types/operation';
 import { ITabOption } from '../../components/Tabs/Tabs';
 import { MoneysRepository } from '../../stores/moneys-repository';
-import { OperationDebtItem } from '../../stores/models/operation';
-import { OperationsRepository } from '../../stores/operations-repository';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape, Sign } from '../../types';
 import { TagsField } from '../TagsFieldMobile/TagsField';
@@ -46,8 +44,11 @@ interface DebtItemFormValues {
 }
 
 interface DebtItemWindowMobileProps {
-  debtItem: Partial<IOperationDebtItem> | OperationDebtItem;
+  debtItem: ({ debtId: string } & Partial<IDebtItem>) | DebtItem;
   onClose: () => unknown;
+  onCreate: (debtId: string, data: CreateDebtItemData) => Promise<unknown>;
+  onUpdate: (debtId: string, debtItemId: string, changes: UpdateDebtItemChanges) => Promise<unknown>;
+  onDelete: (debtId: string, debtItemId: string) => Promise<unknown>;
 }
 
 const t = getT('DebtItemWindowMobile');
@@ -82,7 +83,13 @@ function mapValuesToUpdatePayload(values: DebtItemFormValues): UpdateDebtItemCha
   };
 }
 
-export function DebtItemWindowMobile({ debtItem, onClose }: DebtItemWindowMobileProps): JSX.Element {
+export function DebtItemWindowMobile({
+  debtItem,
+  onClose,
+  onCreate,
+  onUpdate,
+  onDelete,
+}: DebtItemWindowMobileProps): JSX.Element {
   const {
     //
     sign,
@@ -107,12 +114,11 @@ export function DebtItemWindowMobile({ debtItem, onClose }: DebtItemWindowMobile
   const accountsRepository = useStore(AccountsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
   const moneysRepository = useStore(MoneysRepository);
-  const operationsRepository = useStore(OperationsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(Boolean(note || tags?.length));
-  const [isNew, setIsNew] = useState<boolean>(!(debtItem instanceof OperationDebtItem));
+  const [isNew, setIsNew] = useState<boolean>(!(debtItem instanceof DebtItem));
 
   const selectCategoriesOptions = useMemo<IOption[]>(() => {
     const { debtCategory } = categoriesRepository;
@@ -145,14 +151,14 @@ export function DebtItemWindowMobile({ debtItem, onClose }: DebtItemWindowMobile
       if (isNew) {
         // create debtItem
         const data: CreateDebtItemData = mapValuesToCreatePayload(values);
-        // result = operationsRepository.createDebtItem(data);
-        throw new Error('Adding is not implemented');
+        result = onCreate(debtItem.debtId, data);
       } else {
         const changes: UpdateDebtItemChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = operationsRepository.updateDebtItem(debtItem as OperationDebtItem, changes);
+        const { debtId, id } = debtItem as DebtItem;
+        result = onUpdate(debtId, id, changes);
       }
 
       return result
@@ -189,12 +195,13 @@ export function DebtItemWindowMobile({ debtItem, onClose }: DebtItemWindowMobile
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, operationsRepository, onClose, debtItem, isNew]
+    [enqueueSnackbar, onCreate, onUpdate, onClose, debtItem, isNew]
   );
 
   const handleDeleteClick = () => {
-    operationsRepository
-      .deleteDebtItem(debtItem as OperationDebtItem)
+    const { debtId, id } = debtItem as DebtItem;
+
+    onDelete(debtId, id)
       .then(() => {
         onClose();
       })
@@ -235,7 +242,7 @@ export function DebtItemWindowMobile({ debtItem, onClose }: DebtItemWindowMobile
         sign: String(sign) as any,
         amount: amount ? String(amount) : '',
         moneyId: money?.id ?? defaultMoney.id,
-        categoryId: category?.id ?? null, // TODO
+        categoryId: category?.id ?? selectCategoriesOptions[0].value,
         accountId: account?.id ?? defaultAccount.id,
         debtItemDate: debtItemDate ? parseISO(debtItemDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),

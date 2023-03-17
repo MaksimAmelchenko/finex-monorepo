@@ -10,13 +10,13 @@ import { CreateTransferData, UpdateTransferChanges } from '../types/transfer';
 import {
   GetOperationsQuery,
   IOperation,
-  IOperationDebtItemDTO,
   IOperationDTO,
+  IOperationDebtItemDTO,
   IOperationExchangeDTO,
-  IOperationsApi,
   IOperationTransaction,
   IOperationTransactionDTO,
   IOperationTransferDTO,
+  IOperationsApi,
 } from '../types/operation';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
@@ -29,8 +29,8 @@ import { TDate } from '../types';
 import { Tag } from './models/tag';
 import { TagsRepository } from './tags-repository';
 import { UnitsRepository } from './units-repository';
-import { UsersRepository } from './users-repository';
 import { UpdateDebtItemChanges } from '../types/debt';
+import { UsersRepository } from './users-repository';
 
 interface IFilter {
   isFilter: boolean;
@@ -266,14 +266,14 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  updateDebtItem(debtItem: OperationDebtItem, changes: UpdateDebtItemChanges): Promise<unknown> {
-    return this.api.updateDebtItem(debtItem.debtId, debtItem.id, changes).then(
+  updateDebtItem(debtId: string, debtItemId: string, changes: UpdateDebtItemChanges): Promise<unknown> {
+    return this.api.updateDebtItem(debtId, debtItemId, changes).then(
       action(response => {
         const updatedDebtItem = this.decodeDebtItem(response.debtItem);
         if (!updatedDebtItem) {
           throw new Error('Debt item entity is corrupted');
         }
-        const indexOf = this._operations.indexOf(debtItem);
+        const indexOf = this._operations.findIndex(({ id }) => debtItemId === id);
         if (indexOf !== -1) {
           this._operations[indexOf] = updatedDebtItem;
         } else {
@@ -283,14 +283,16 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  deleteDebtItem(debtItem: OperationDebtItem): Promise<unknown> {
+  deleteDebtItem(debtId: string, debtItemId: string): Promise<unknown> {
+    /*
     runInAction(() => {
       debtItem.isDeleting = true;
     });
+    */
 
-    return this.api.deleteDebtItem(debtItem.debtId, debtItem.id).then(
+    return this.api.deleteDebtItem(debtId, debtItemId).then(
       action(() => {
-        this._operations = this._operations.filter(operation => operation !== debtItem);
+        this._operations = this._operations.filter(({ id }) => id !== debtItemId);
       })
     );
   }

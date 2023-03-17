@@ -8,6 +8,7 @@ export enum Window {
   AddIncomeTransaction,
   AddTransfer,
   AddExchange,
+  AddDebt,
   None,
 }
 

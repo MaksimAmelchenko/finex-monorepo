@@ -235,8 +235,8 @@ export class DebtsRepository extends ManageableStore {
     );
   }
 
-  updateDebtItem(debtItem: DebtItem, changes: UpdateDebtItemChanges): Promise<unknown> {
-    return this.api.updateDebtItem(debtItem.debtId, debtItem.id, changes).then(
+  updateDebtItem(debtId: string, debtItemId: string, changes: UpdateDebtItemChanges): Promise<unknown> {
+    return this.api.updateDebtItem(debtId, debtItemId, changes).then(
       action(response => {
         const updatedDebtItem = this.decodeDebtItems([response.debtItem])[0];
         if (!updatedDebtItem) {
@@ -244,13 +244,13 @@ export class DebtsRepository extends ManageableStore {
           return;
         }
 
-        const debt = this.getDebt(debtItem.debtId);
+        const debt = this.getDebt(debtId);
         if (!debt) {
           console.error('debt is not found');
           return;
         }
 
-        const indexOf = debt.items.indexOf(debtItem);
+        const indexOf = debt.items.findIndex(({ id }) => id === debtItemId);
         if (indexOf !== -1) {
           debt.items[indexOf] = updatedDebtItem;
         } else {
@@ -270,18 +270,18 @@ export class DebtsRepository extends ManageableStore {
     );
   }
 
-  removeDebtItem(debtItem: DebtItem): Promise<unknown> {
-    debtItem.isDeleting = true;
+  removeDebtItem(debtId: string, debtItemId: string): Promise<unknown> {
+    // debtItem.isDeleting = true;
 
-    return this.api.deleteDebtItem(debtItem.debtId, debtItem.id).then(
+    return this.api.deleteDebtItem(debtId, debtItemId).then(
       action(() => {
-        const debt = this.getDebt(debtItem.debtId);
+        const debt = this.getDebt(debtId);
         if (!debt) {
           console.error('debt is not found');
           return;
         }
 
-        debt.items = debt.items.filter(t => t !== debtItem);
+        debt.items = debt.items.filter(({ id }) => id !== debtItemId);
       })
     );
   }

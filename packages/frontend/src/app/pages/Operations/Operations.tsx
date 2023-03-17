@@ -5,9 +5,9 @@ import { observer } from 'mobx-react-lite';
 import { AppBar } from '../../components/AppBar/AppBar';
 import { AppBarButton } from '../../components/AppBar/AppBarButton/AppBarButton';
 import { Button, SearchMdIcon } from '@finex/ui-kit';
+import { CreateDebtItemData, UpdateDebtItemChanges } from '../../types/debt';
 import { DebtItemCard } from '../../components/DebtItemCard/DebtItemCard';
 import { DebtItemWindowMobile } from '../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
-import { Drawer } from '../../components/Drawer/Drawer';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
 import { ExchangeWindowMobile } from '../../containers/ExchangeWindowMobile/ExchangeWindowMobile';
 import { IOperation } from '../../types/operation';
@@ -20,6 +20,7 @@ import {
   OperationTransfer,
 } from '../../stores/models/operation';
 import { OperationsRepository } from '../../stores/operations-repository';
+import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
 import { TransactionWindowMobile } from '../../containers/TransactionWindowMobile/TransactionWindowMobile';
 import { TransferCard } from '../../components/TransferCard/TransferCard';
@@ -49,6 +50,18 @@ export const Operations = observer(() => {
 
   const handleClose = () => {
     setOperation(null);
+  };
+
+  const handleCreateDebtItem = (debtId: string, data: CreateDebtItemData) => {
+    return Promise.reject('Not implemented');
+  };
+
+  const handleUpdateDebtItem = (debtId: string, debtItemId: string, changes: UpdateDebtItemChanges) => {
+    return operationsRepository.updateDebtItem(debtId, debtItemId, changes);
+  };
+
+  const handleDeleteDebtItem = (debtId: string, debtItemId: string) => {
+    return operationsRepository.deleteDebtItem(debtId, debtItemId);
   };
 
   useEffect(() => {
@@ -139,21 +152,29 @@ export const Operations = observer(() => {
           </div>
         )}
 
-        <Drawer open={operation instanceof OperationTransaction}>
+        <SideSheetMobile open={operation instanceof OperationTransaction}>
           {operation && <TransactionWindowMobile transaction={operation} onClose={handleClose} />}
-        </Drawer>
+        </SideSheetMobile>
 
-        <Drawer open={operation instanceof OperationDebtItem}>
-          {operation && <DebtItemWindowMobile debtItem={operation as OperationDebtItem} onClose={handleClose} />}
-        </Drawer>
+        <SideSheetMobile open={operation instanceof OperationDebtItem}>
+          {operation && (
+            <DebtItemWindowMobile
+              debtItem={operation as OperationDebtItem}
+              onClose={handleClose}
+              onCreate={handleCreateDebtItem}
+              onUpdate={handleUpdateDebtItem}
+              onDelete={handleDeleteDebtItem}
+            />
+          )}
+        </SideSheetMobile>
 
-        <Drawer open={operation instanceof OperationTransfer}>
+        <SideSheetMobile open={operation instanceof OperationTransfer}>
           {operation && <TransferWindowMobile transfer={operation} onClose={handleClose} />}
-        </Drawer>
+        </SideSheetMobile>
 
-        <Drawer open={operation instanceof OperationExchange}>
+        <SideSheetMobile open={operation instanceof OperationExchange}>
           {operation && <ExchangeWindowMobile exchange={operation} onClose={handleClose} />}
-        </Drawer>
+        </SideSheetMobile>
       </div>
     </>
   );

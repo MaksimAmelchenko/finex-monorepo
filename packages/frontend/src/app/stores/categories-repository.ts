@@ -39,10 +39,10 @@ export class CategoriesRepository extends ManageableStore {
     makeObservable<CategoriesRepository, '_categories'>(this, {
       _categories: observable,
       categories: computed,
-      consume: action,
-      clear: action,
-      deleteCategory: action,
       categoriesTree: computed,
+      clear: action,
+      consume: action,
+      deleteCategory: action,
     });
   }
 
