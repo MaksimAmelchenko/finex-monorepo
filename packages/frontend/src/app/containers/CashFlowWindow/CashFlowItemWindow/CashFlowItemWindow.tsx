@@ -375,17 +375,17 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
             <QuantityField data-cy="cfiw-quantity" />
             <div className={styles.notConfirmedField}>
               <FormCheckbox name="isNotConfirmed" data-cy="cfiw-is-not-confirmed">
-                {t('Not confirmed operation')}
+                {t('Not confirmed transaction')}
               </FormCheckbox>
               <HtmlTooltip
                 title={
                   <div>
                     <p>
                       {t(
-                        'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed operation will be marked red.'
+                        'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed transaction will be marked red.'
                       )}
                     </p>
-                    <p>{t('Otherwise, they are no different from ordinary operations.')}</p>
+                    <p>{t('Otherwise, they are no different from ordinary transactions.')}</p>
                   </div>
                 }
               >

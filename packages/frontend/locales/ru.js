@@ -125,10 +125,10 @@ module.exports = {
     'Hide additional fields': 'Скрыть дополнительные поля',
     'Show additional fields': 'Показать дополнительные поля',
     'Quantity, Not confirmed, Note, Tags': 'Количество, Неподтвержденная операция, Примечание, Теги',
-    'Not confirmed operation': 'Неподтвержденная операция',
-    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed operation will be marked red_':
+    'Not confirmed transaction': 'Неподтвержденная операция',
+    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed transaction will be marked red_':
       'Неподтвержденная операция будет отмечена в журнале желтым цветом. Просроченная и не подтвержденная операция будет отмечена красным цветом.',
-    'Otherwise, they are no different from ordinary operations_':
+    'Otherwise, they are no different from ordinary transactions_':
       'В остальном они ничем не отличаются от обычных операций.',
     Note: 'Примечание',
     Tags: 'Теги',
@@ -170,7 +170,7 @@ module.exports = {
     Category: 'Категория',
     Income: 'Приход',
     Expense: 'Расход',
-    'Total for selected operations:': 'Итого по выделенным операциям:',
+    'Total for selected transactions:': 'Итого по выделенным операциям:',
     'Total:': 'Итого:',
   },
   CashFlowWindowMobile: {
@@ -211,7 +211,7 @@ module.exports = {
     Name: 'Наименование',
     'Parent category': 'Родительская категория',
     Prototype: 'Прототип',
-    'Show category when adding or editing an operation':
+    'Show category when adding or editing a transaction':
       'Показывать категорию при добавлении или редактировании операции',
     Active: 'Активная',
     Note: 'Примечание',
@@ -393,7 +393,7 @@ module.exports = {
     Only: 'Только',
     Except: 'Кроме',
     'Use report period': 'Использовать отчетный период',
-    'Consider planned operations': 'Учитывать запланированные операции',
+    'Consider planned transactions': 'Учитывать запланированные операции',
     'Reports — Dynamics': 'Отчеты — Динамика',
     Parameters: 'Параметры',
     Accounts: 'Счета',
@@ -567,13 +567,13 @@ module.exports = {
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Перенесено {{count}} операций',
-    'You cannot move transaction to the same category without using the option "Move operations from subcategories"':
+    'You cannot move transaction to the same category without using the option "Move transactions from subcategories"':
       'Нельзя переносить данные в ту же самую категорию без использования опции "Переносить операции из подкатегорий"',
     'Please select a category to move transaction to': 'Пожалуйста, выберите категорию, в которую переносить данные',
     'Move transactions from one category to another': 'Перенос операций из одной категории в другую',
     From: 'Из',
     To: 'В',
-    'Move operations from subcategories': 'Переносить операции из подкатегорий',
+    'Move transactions from subcategories': 'Переносить операции из подкатегорий',
     Cancel: 'Отмена',
     Move: 'Перенести',
   },
@@ -888,7 +888,7 @@ module.exports = {
     Expense: 'Расход',
     Amount: 'Amount',
     Note: 'Примечание',
-    'Total for selected operations:': 'Итого по выделенным операциям:',
+    'Total for selected transactions:': 'Итого по выделенным операциям:',
   },
   TransactionWindow: {
     Income: 'Доход',
@@ -910,10 +910,10 @@ module.exports = {
     'Hide additional fields': 'Скрыть дополнительные поля',
     'Show additional fields': 'Показать дополнительные поля',
     'Quantity, Not confirmed, Note, Tags': 'Количество, Неподтвержденная операция, Примечание, Теги',
-    'Not confirmed operation': 'Неподтвержденная операция',
-    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed operation will be marked red_':
+    'Not confirmed transaction': 'Неподтвержденная операция',
+    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed transaction will be marked red_':
       'Неподтвержденная операция будет отмечена в журнале желтым цветом. Просроченная и не подтвержденная операция будет отмечена красным цветом.',
-    'Otherwise, they are no different from ordinary operations_':
+    'Otherwise, they are no different from ordinary transactions_':
       'В остальном они ничем не отличаются от обычных операций.',
     Note: 'Примечание',
     Tags: 'Теги',
@@ -924,13 +924,13 @@ module.exports = {
   TransactionWindowMobile: {
     Income: 'Доход',
     Expense: 'Расход',
-    'Transaction has been saved': 'Транзакция успешно сохранена',
+    'Transaction has been saved': 'Операция успешно сохранена',
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select category': 'Пожалуйста, выберите категорию',
-    'Add transaction': 'Добавление',
-    'Edit transaction': 'Редактирование',
+    'Add transaction': 'Добавление операции',
+    'Edit transaction': 'Редактирование операции',
     Amount: 'Сумма',
     Category: 'Категория',
     Account: 'Счет',
@@ -940,7 +940,7 @@ module.exports = {
     'Show additional fields': 'Показать дополнительные поля',
     'Quantity, Not confirmed, Note, Tags': 'Количество, Неподтвержденная операция, Примечание, Теги',
     Quantity: 'Количество',
-    'Not confirmed operation': 'Неподтвержденная операция',
+    'Not confirmed transaction': 'Неподтвержденная операция',
     Note: 'Примечание',
     Tags: 'Теги',
     'Save and Create New': 'Сохранить и создать еще',

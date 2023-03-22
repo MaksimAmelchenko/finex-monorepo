@@ -264,7 +264,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan={4}>{t('Total for selected operations:')}</td>
+                  <td colSpan={4}>{t('Total for selected transactions:')}</td>
                   <td className="text-end numeric">
                     {balancesBySelectedCashFlowItems.map(({ money, income }) => {
                       return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;

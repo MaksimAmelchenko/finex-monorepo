@@ -292,7 +292,7 @@ export const Transactions = observer(() => {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={3}>{t('Total for selected operations:')}</td>
+                <td colSpan={3}>{t('Total for selected transactions:')}</td>
                 <td className="text-end numeric">
                   {balancesBySelectedTransactions.map(({ money, income }) => {
                     return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;

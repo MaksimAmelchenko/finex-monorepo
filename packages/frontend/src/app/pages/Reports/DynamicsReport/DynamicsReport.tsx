@@ -130,7 +130,7 @@ export const DynamicsReport = observer(() => {
       },
       {
         value: 'isUsePlanningOperation',
-        label: t('Consider planned operations'),
+        label: t('Consider planned transactions'),
       },
     ];
   }, []);

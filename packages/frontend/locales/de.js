@@ -125,11 +125,11 @@ module.exports = {
     'Hide additional fields': 'Hide additional fields',
     'Show additional fields': 'Show additional fields',
     'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
-    'Not confirmed operation': 'Not confirmed operation',
-    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed operation will be marked red_':
-      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed operation will be marked red.',
-    'Otherwise, they are no different from ordinary operations_':
-      'Otherwise, they are no different from ordinary operations.',
+    'Not confirmed transaction': 'Not confirmed transaction',
+    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed transaction will be marked red_':
+      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed transaction will be marked red.',
+    'Otherwise, they are no different from ordinary transactions_':
+      'Otherwise, they are no different from ordinary transactions.',
     Note: 'Note',
     Tags: 'Tags',
     Cancel: 'Cancel',
@@ -170,7 +170,7 @@ module.exports = {
     Category: 'Category',
     Income: 'Income',
     Expense: 'Expense',
-    'Total for selected operations:': 'Total for selected operations:',
+    'Total for selected transactions:': 'Total for selected transactions:',
     'Total:': 'Total:',
   },
   CashFlowWindowMobile: {
@@ -211,7 +211,7 @@ module.exports = {
     Name: 'Name',
     'Parent category': 'Parent category',
     Prototype: 'Prototype',
-    'Show category when adding or editing an operation': 'Show category when adding or editing an operation',
+    'Show category when adding or editing a transaction': 'Show category when adding or editing a transaction',
     Active: 'Active',
     Note: 'Note',
     Cancel: 'Cancel',
@@ -392,7 +392,7 @@ module.exports = {
     Only: 'Only',
     Except: 'Except',
     'Use report period': 'Use report period',
-    'Consider planned operations': 'Consider planned operations',
+    'Consider planned transactions': 'Consider planned transactions',
     'Reports — Dynamics': 'Reports — Dynamics',
     Parameters: 'Parameters',
     Accounts: 'Accounts',
@@ -566,13 +566,13 @@ module.exports = {
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Moved {{count}} transactions',
-    'You cannot move transaction to the same category without using the option "Move operations from subcategories"':
-      'You cannot move transaction to the same category without using the option "Move operations from subcategories"',
+    'You cannot move transaction to the same category without using the option "Move transactions from subcategories"':
+      'You cannot move transaction to the same category without using the option "Move transactions from subcategories"',
     'Please select a category to move transaction to': 'Please select a category to move transaction to',
     'Move transactions from one category to another': 'Move transactions from one category to another',
     From: 'From',
     To: 'To',
-    'Move operations from subcategories': 'Move operations from subcategories',
+    'Move transactions from subcategories': 'Move transactions from subcategories',
     Cancel: 'Cancel',
     Move: 'Move',
   },
@@ -889,7 +889,7 @@ module.exports = {
     Expense: 'Expense',
     Amount: 'Amount',
     Note: 'Note',
-    'Total for selected operations:': 'Total for selected operations:',
+    'Total for selected transactions:': 'Total for selected transactions:',
   },
   TransactionWindow: {
     Income: 'Income',
@@ -911,11 +911,11 @@ module.exports = {
     'Hide additional fields': 'Hide additional fields',
     'Show additional fields': 'Show additional fields',
     'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
-    'Not confirmed operation': 'Not confirmed operation',
-    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed operation will be marked red_':
-      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed operation will be marked red.',
-    'Otherwise, they are no different from ordinary operations_':
-      'Otherwise, they are no different from ordinary operations.',
+    'Not confirmed transaction': 'Not confirmed transaction',
+    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed transaction will be marked red_':
+      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed transaction will be marked red.',
+    'Otherwise, they are no different from ordinary transactions_':
+      'Otherwise, they are no different from ordinary transactions.',
     Note: 'Note',
     Tags: 'Tags',
     Cancel: 'Cancel',
@@ -941,7 +941,7 @@ module.exports = {
     'Show additional fields': 'Show additional fields',
     'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
     Quantity: 'Quantity',
-    'Not confirmed operation': 'Not confirmed operation',
+    'Not confirmed transaction': 'Not confirmed transaction',
     Note: 'Note',
     Tags: 'Tags',
     'Save and Create New': 'Save and Create New',

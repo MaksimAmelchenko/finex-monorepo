@@ -341,7 +341,7 @@ export function TransactionWindowMobile({
           </div>
           <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
             <QuantityField quantityFieldName="quantity" unitFieldName="unitId" label={t('Quantity')} />
-            <FormCheckbox name="isNotConfirmed">{t('Not confirmed operation')}</FormCheckbox>
+            <FormCheckbox name="isNotConfirmed">{t('Not confirmed transaction')}</FormCheckbox>
             <FormTextAreaField name="note" label={t('Note')} minRows={1} />
             <TagsField name="tagIds" label={t('Tags')} />
           </Accordion>
