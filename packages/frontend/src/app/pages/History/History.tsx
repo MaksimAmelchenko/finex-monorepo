@@ -6,7 +6,7 @@ import { AppBar } from '../../components/AppBar/AppBar';
 import { AppBarButton } from '../../components/AppBar/AppBarButton/AppBarButton';
 import { CashFlows } from './CashFlows/CashFlows';
 import { IOption, SearchMdIcon, SegmentedControl } from '@finex/ui-kit';
-import { Operations } from '../Operations/Operations';
+import { Operations } from './Operations/Operations';
 import { getT } from '../../lib/core/i18n';
 
 import styles from './History.module.scss';

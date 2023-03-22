@@ -3,31 +3,31 @@ import PullToRefresh from 'pulltorefreshjs';
 import { observer } from 'mobx-react-lite';
 
 import { Button } from '@finex/ui-kit';
-import { CreateDebtItemData, UpdateDebtItemChanges } from '../../types/debt';
-import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
-import { DebtItemCard } from '../../components/DebtItemCard/DebtItemCard';
-import { DebtItemWindowMobile } from '../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
-import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
-import { ExchangeWindowMobile } from '../../containers/ExchangeWindowMobile/ExchangeWindowMobile';
-import { IOperation } from '../../types/operation';
-import { LoadState } from '../../core/load-state';
-import { Loader } from '../../components/Loader/Loader';
+import { CreateDebtItemData, UpdateDebtItemChanges } from '../../../types/debt';
+import { CreateTransactionData, UpdateTransactionChanges } from '../../../types/transaction';
+import { DebtItemCard } from '../../../components/DebtItemCard/DebtItemCard';
+import { DebtItemWindowMobile } from '../../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
+import { ExchangeCard } from '../../../components/ExchangeCard/ExchangeCard';
+import { ExchangeWindowMobile } from '../../../containers/ExchangeWindowMobile/ExchangeWindowMobile';
+import { IOperation } from '../../../types/operation';
+import { LoadState } from '../../../core/load-state';
+import { Loader } from '../../../components/Loader/Loader';
 import {
   OperationDebtItem,
   OperationExchange,
   OperationTransaction,
   OperationTransfer,
-} from '../../stores/models/operation';
-import { OperationsRepository } from '../../stores/operations-repository';
-import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
-import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
-import { TransactionWindowMobile } from '../../containers/TransactionWindowMobile/TransactionWindowMobile';
-import { TransferCard } from '../../components/TransferCard/TransferCard';
-import { TransferWindowMobile } from '../../containers/TransferWindowMobile/TransferWindowMobile';
-import { formatDate, getT } from '../../lib/core/i18n';
-import { useStore } from '../../core/hooks/use-store';
+} from '../../../stores/models/operation';
+import { OperationsRepository } from '../../../stores/operations-repository';
+import { SideSheetMobile } from '../../../components/SideSheetMobile/SideSheetMobile';
+import { TransactionCard } from '../../../components/TransactionCard/TransactionCard';
+import { TransactionWindowMobile } from '../../../containers/TransactionWindowMobile/TransactionWindowMobile';
+import { TransferCard } from '../../../components/TransferCard/TransferCard';
+import { TransferWindowMobile } from '../../../containers/TransferWindowMobile/TransferWindowMobile';
+import { formatDate, getT } from '../../../lib/core/i18n';
+import { useStore } from '../../../core/hooks/use-store';
 
-import styles from '../History/History.module.scss';
+import styles from '../History.module.scss';
 
 const t = getT('Operations');
 
