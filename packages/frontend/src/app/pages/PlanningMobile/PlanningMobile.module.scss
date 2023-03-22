@@ -1,0 +1,41 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 5.7rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  &__text {
+    //flex-grow: 1;
+    align-self: center;
+    padding: 2.4rem 1.6rem;
+    @include typography.displayMD;
+    color: var(--color-gray-900);
+  }
+
+  &__illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      max-width: 32rem;
+      height: 32rem;
+    }
+  }
+
+  &__illustrationAttribution {
+    //margin: 0 auto;
+    align-self: center;
+    max-width: 32rem;
+    @include typography.textXS;
+    color: var(--color-gray-500);
+  }
+}

@@ -564,6 +564,10 @@ module.exports = {
   Plan: {
     'Plan automatically renews until canceled': 'Подписка автоматически продлевается до отмены',
   },
+  PlanningMobile: {
+    Planning: 'Планирование',
+    'Coming soon': 'Скоро...',
+  },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
       'Вы уверены, что хотите удалить несколько запланированных операций?',

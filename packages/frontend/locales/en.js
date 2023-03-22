@@ -563,6 +563,10 @@ module.exports = {
   Plan: {
     'Plan automatically renews until canceled': 'Plan automatically renews until canceled',
   },
+  PlanningMobile: {
+    Planning: 'Planning',
+    'Coming soon': 'Coming soon',
+  },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
       'Are you sure you want to delete several plan transactions?',

@@ -20,6 +20,7 @@ import { MainLayoutMobile } from './containers/MainLayoutMobile/MainLayoutMobile
 import { OperationsLazy } from './pages/Operations/OperationsLazy';
 import { OutcomeMobileLazy } from './pages/OutcomeMobile/OutcomeMobileLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
+import { PlanningMobileLazy } from './pages/PlanningMobile/PlanningMobileLazy';
 import { ProfileLazy } from './pages/Profile/ProfileLazy';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { ResetPasswordConfirmationLazy } from './pages/ResetPasswordConfirmation/ResetPasswordConfirmationLazy';
@@ -69,6 +70,7 @@ export const App = observer(() => {
                         <Route path="/outcome" element={<OutcomeMobileLazy />} />
                         <Route path="/operations" element={<OperationsLazy />} />
                         <Route path="/debts" element={<DebtsMobileLazy />} />
+                        <Route path="/planning" element={<PlanningMobileLazy />} />
                         <Route path="*" element={<Navigate to="/operations" />} />
                       </Routes>
                     </MainLayoutMobile>

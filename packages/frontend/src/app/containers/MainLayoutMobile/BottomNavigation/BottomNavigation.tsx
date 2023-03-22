@@ -47,7 +47,7 @@ export function BottomNavigation({ onMenuItemClick }: BottomNavigationProps): JS
         <BottomNavigationButton href="/operations" label={t('Operations')} icon={SwitchHorizontal01Icon} />
         <CenterBottomNavigationButton onClick={handleAddClick} />
         <BottomNavigationButton href="/debts" label={t('Debts')} icon={CoinsHandIcon} />
-        <BottomNavigationButton href="/budget" label={t('Budget')} icon={CoinsStacked01Icon} />
+        <BottomNavigationButton href="/planning" label={t('Planning')} icon={CoinsStacked01Icon} />
       </nav>
 
       <BottomSheet open={open} onClose={handleClose}>
