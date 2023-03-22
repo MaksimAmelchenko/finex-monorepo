@@ -580,6 +580,9 @@ module.exports = {
   Operations: {
     'Load more': 'Загрузить еще...',
   },
+  OutcomeMobile: {
+    Outcome: 'Обзор',
+  },
   Pagination: {
     of: 'из',
   },

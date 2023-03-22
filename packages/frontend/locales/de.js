@@ -579,6 +579,9 @@ module.exports = {
   Operations: {
     'Load more': 'Load more',
   },
+  OutcomeMobile: {
+    Outcome: 'Outcome',
+  },
   Pagination: {
     of: 'of',
   },

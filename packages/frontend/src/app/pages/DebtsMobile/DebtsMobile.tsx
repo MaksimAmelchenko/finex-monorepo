@@ -40,8 +40,8 @@ export const DebtsMobile = observer(() => {
 
   useEffect(() => {
     PullToRefresh.init({
-      mainElement: `.${styles.layout}`,
-      triggerElement: `.${styles.layout}`,
+      mainElement: `.${styles.root__main}`,
+      triggerElement: `.${styles.root__main}`,
       instructionsReleaseToRefresh: ' ',
       instructionsRefreshing: ' ',
       instructionsPullToRefresh: ' ',
@@ -60,59 +60,46 @@ export const DebtsMobile = observer(() => {
     };
   }, []);
 
-  if (!debtsRepository.debts.length && debtsRepository.loadState.isPending()) {
-    return (
-      <div className={styles.layout}>
-        <Loader />
-      </div>
-    );
-  }
+  const { debts, loadState } = debtsRepository;
 
   return (
-    <>
+    <div className={styles.root}>
       <AppBar title={t('Debts')} />
-      <div className={styles.layout}>
-        {debtsRepository.debtsByDates.map(debtsByDate => {
-          return (
-            <Fragment key={debtsByDate.date}>
-              <div className={styles.section__header}>
-                {formatDate(debtsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
-              </div>
-              <div className={styles.section__content}>
-                {debtsByDate.debts.map(debt => (
-                  <DebtCard debt={debt} onClick={handleCardClick} key={debt.id} />
-                ))}
-              </div>
-            </Fragment>
-          );
-        })}
+      <main className={styles.root__main}>
+        {!debts.length && loadState.isPending() ? (
+          <Loader />
+        ) : (
+          <>
+            {debtsRepository.debtsByDates.map(debtsByDate => {
+              return (
+                <Fragment key={debtsByDate.date}>
+                  <div className={styles.section__header}>
+                    {formatDate(debtsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                  </div>
+                  <div className={styles.section__content}>
+                    {debtsByDate.debts.map(debt => (
+                      <DebtCard debt={debt} onClick={handleCardClick} key={debt.id} />
+                    ))}
+                  </div>
+                </Fragment>
+              );
+            })}
 
-        {debtsRepository.loadState !== LoadState.none() &&
-          debtsRepository.debts.length > 0 &&
-          debtsRepository.debts.length < debtsRepository.total && (
-            <div className={styles.loadMorePanel}>
-              <Button
-                fullSize
-                onClick={() => debtsRepository.fetchMore()}
-                loading={debtsRepository.loadState.isPending()}
-              >
-                {t('Load more')}
-              </Button>
-            </div>
-          )}
-      </div>
+            {loadState !== LoadState.none() && debts.length > 0 && debts.length < debtsRepository.total && (
+              <div className={styles.loadMorePanel}>
+                <Button fullSize onClick={() => debtsRepository.fetchMore()} loading={loadState.isPending()}>
+                  {t('Load more')}
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+      </main>
 
       <SideSheetMobile open={Boolean(debt)}>
-        {debt && (
-          <DebtWindowMobile
-            debt={debt}
-            onClose={() => {
-              setDebt(null);
-            }}
-          />
-        )}
+        {debt && <DebtWindowMobile debt={debt} onClose={handleClose} />}
       </SideSheetMobile>
-    </>
+    </div>
   );
 });
 

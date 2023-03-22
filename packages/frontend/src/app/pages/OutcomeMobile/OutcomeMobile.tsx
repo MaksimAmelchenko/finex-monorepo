@@ -3,6 +3,7 @@ import PullToRefresh from 'pulltorefreshjs';
 import { observer } from 'mobx-react-lite';
 
 import { AccountBalances } from './AccountBalances/AccountBalances';
+import { AppBar } from '../../components/AppBar/AppBar';
 import { BalanceRepository } from '../../stores/balance-repository';
 import { DebtBalances } from './DebtBalances/DebtBalances';
 import { getT } from '../../lib/core/i18n';
@@ -17,8 +18,8 @@ export const OutcomeMobile = observer(() => {
 
   useEffect(() => {
     PullToRefresh.init({
-      mainElement: `.${styles.root}`,
-      triggerElement: `.${styles.root}`,
+      mainElement: `.${styles.root__main}`,
+      triggerElement: `.${styles.root__main}`,
       instructionsReleaseToRefresh: ' ',
       instructionsRefreshing: ' ',
       instructionsPullToRefresh: ' ',
@@ -39,8 +40,11 @@ export const OutcomeMobile = observer(() => {
 
   return (
     <div className={styles.root}>
-      <AccountBalances />
-      <DebtBalances />
+      <AppBar title={t('Outcome')} />
+      <main className={styles.root__main}>
+        <AccountBalances />
+        <DebtBalances />
+      </main>
     </div>
   );
 });

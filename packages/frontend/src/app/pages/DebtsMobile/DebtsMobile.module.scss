@@ -1,9 +1,13 @@
 @use 'packages/theme/src/lib/styles/typography';
 
-.layout {
-  overflow: auto;
+.root {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  padding-bottom: 6rem;
+  padding-bottom: 5.7rem;
+  &__main {
+    overflow: auto;
+  }
 }
 
 .section {
