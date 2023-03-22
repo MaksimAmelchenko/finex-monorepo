@@ -85,11 +85,12 @@ module.exports = {
   },
   BottomNavigation: {
     Outcome: 'Обзор',
-    Operations: 'Операции',
+    History: 'История',
     Debts: 'Долги',
-    Budget: 'Бюджет',
+    Planning: 'Планирование',
     Expense: 'Расход',
     Income: 'Доход',
+    'Cash Flow': 'Денежный поток',
     Debt: 'Долг',
     Transfer: 'Перевод',
     Exchange: 'Обмен валюты',
@@ -98,6 +99,11 @@ module.exports = {
     Overdue: 'Просрочено',
     Planned: 'Запланировано',
     'Not confirmed': 'Не подтверждено',
+  },
+  CashFlowCard: {
+    'Cash Inflows': 'Приток',
+    'Cash Outflows': 'Отток',
+    'Empty Cash Flow': 'Пустой денежный поток',
   },
   CashFlowItem: {
     Income: 'Приход',
@@ -147,6 +153,7 @@ module.exports = {
     Expense: 'Расход',
     Balance: 'Баланс',
     Note: 'Примечание',
+    'Load more': 'Загрузить еще...',
   },
   CashFlowWindow: {
     'Are you sure you want to delete several transactions?': 'Вы уверены, что хотите удалить несколько операций?',
@@ -165,6 +172,20 @@ module.exports = {
     Expense: 'Расход',
     'Total for selected operations:': 'Итого по выделенным операциям:',
     'Total:': 'Итого:',
+  },
+  CashFlowWindowMobile: {
+    'Are you sure you want to delete Cash Flow?': 'Вы уверены, что хотите удалить денежный поток?',
+    'Create new Cash Flow': 'Создание нового потока',
+    'Edit Cash Flow': 'Редактирование потока',
+    Contractor: 'Контрагент',
+    'Hide additional fields': 'Скрыть дополнительные поля',
+    'Show additional fields': 'Показать дополнительные поля',
+    'Note, Tags': 'Примечание, Теги',
+    Note: 'Примечание',
+    Tags: 'Теги',
+    'Create Cash Flow': 'Создать денежный поток',
+    Save: 'Сохранить',
+    'Add record': 'Добавить операцию',
   },
   Categories: {
     "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
@@ -480,6 +501,11 @@ module.exports = {
       'Экспорт данных в файл CSV. Данные будут отправлены на ваш e-mail.',
     Export: 'Выгрузить данные',
   },
+  History: {
+    Operations: 'Операции',
+    'Cash Flows': 'Денежные потоки',
+    History: 'История',
+  },
   Layout: {
     Home: 'На главную',
     Support: 'Поддержка',
@@ -552,7 +578,6 @@ module.exports = {
     Move: 'Перенести',
   },
   Operations: {
-    Operations: 'Операции',
     'Load more': 'Загрузить еще...',
   },
   Pagination: {

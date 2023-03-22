@@ -2,10 +2,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PullToRefresh from 'pulltorefreshjs';
 import { observer } from 'mobx-react-lite';
 
-import { AppBar } from '../../components/AppBar/AppBar';
-import { AppBarButton } from '../../components/AppBar/AppBarButton/AppBarButton';
-import { Button, SearchMdIcon } from '@finex/ui-kit';
+import { Button } from '@finex/ui-kit';
 import { CreateDebtItemData, UpdateDebtItemChanges } from '../../types/debt';
+import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
 import { DebtItemCard } from '../../components/DebtItemCard/DebtItemCard';
 import { DebtItemWindowMobile } from '../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
 import { ExchangeCard } from '../../components/ExchangeCard/ExchangeCard';
@@ -28,7 +27,7 @@ import { TransferWindowMobile } from '../../containers/TransferWindowMobile/Tran
 import { formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './Operations.module.scss';
+import styles from '../History/History.module.scss';
 
 const t = getT('Operations');
 
@@ -64,10 +63,22 @@ export const Operations = observer(() => {
     return operationsRepository.deleteDebtItem(debtId, debtItemId);
   };
 
+  const handleCreateTransaction = (data: CreateTransactionData) => {
+    return operationsRepository.createTransaction(data);
+  };
+
+  const handleUpdateTransaction = (cashFlowId: string, transactionId: string, changes: UpdateTransactionChanges) => {
+    return operationsRepository.updateTransaction(transactionId, changes);
+  };
+
+  const handleDeleteTransaction = (cashFlowId: string, transactionId: string) => {
+    return operationsRepository.deleteTransaction(transactionId);
+  };
+
   useEffect(() => {
     PullToRefresh.init({
-      mainElement: `.${styles.layout}`,
-      triggerElement: `.${styles.layout}`,
+      mainElement: `.${styles.operations}`,
+      triggerElement: `.${styles.operations}`,
       instructionsReleaseToRefresh: ' ',
       instructionsRefreshing: ' ',
       instructionsPullToRefresh: ' ',
@@ -86,98 +97,88 @@ export const Operations = observer(() => {
     };
   }, []);
 
-  if (!operationsRepository.operationsByDates.length && operationsRepository.loadState.isPending()) {
-    return (
-      <div className={styles.layout}>
-        <Loader />
-      </div>
-    );
-  }
+  const { operationsByDates, loadState, operations } = operationsRepository;
 
   return (
-    <>
-      <AppBar
-        title={t('Operations')}
-        endAdornment={
-          <AppBarButton
-            icon={<SearchMdIcon />}
-            onClick={() => {
-              alert('Search');
-            }}
+    <div className={styles.operations}>
+      {!operationsByDates.length && loadState.isPending() ? (
+        <Loader />
+      ) : (
+        <>
+          {operationsByDates.map(operationsByDate => {
+            return (
+              <Fragment key={operationsByDate.date}>
+                <div className={styles.section__header}>
+                  {formatDate(operationsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                </div>
+                <div className={styles.section__content}>
+                  {operationsByDate.operations.map(operation => {
+                    if (operation instanceof OperationTransaction) {
+                      return <TransactionCard transaction={operation} onClick={handleCardClick} key={operation.id} />;
+                    }
+
+                    if (operation instanceof OperationDebtItem) {
+                      return <DebtItemCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
+                    }
+
+                    if (operation instanceof OperationTransfer) {
+                      return <TransferCard transfer={operation} onClick={handleCardClick} key={operation.id} />;
+                    }
+
+                    if (operation instanceof OperationExchange) {
+                      return <ExchangeCard exchange={operation} onClick={handleCardClick} key={operation.id} />;
+                    }
+
+                    return null;
+                  })}
+                </div>
+              </Fragment>
+            );
+          })}
+
+          {loadState !== LoadState.none() &&
+            operations.length > 0 &&
+            operations.length < operationsRepository.total && (
+              <div className={styles.loadMorePanel}>
+                <Button fullSize onClick={() => operationsRepository.fetchNextPage()} loading={loadState.isPending()}>
+                  {t('Load more')}
+                </Button>
+              </div>
+            )}
+        </>
+      )}
+
+      <SideSheetMobile open={operation instanceof OperationTransaction}>
+        {operation && (
+          <TransactionWindowMobile
+            transaction={operation}
+            onClose={handleClose}
+            onCreate={handleCreateTransaction}
+            onUpdate={handleUpdateTransaction}
+            onDelete={handleDeleteTransaction}
           />
-        }
-      />
-
-      <div className={styles.layout}>
-        {operationsRepository.operationsByDates.map(operationsByDate => {
-          return (
-            <Fragment key={operationsByDate.date}>
-              <div className={styles.section__header}>
-                {formatDate(operationsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
-              </div>
-              <div className={styles.section__content}>
-                {operationsByDate.operations.map(operation => {
-                  if (operation instanceof OperationTransaction) {
-                    return <TransactionCard transaction={operation} onClick={handleCardClick} key={operation.id} />;
-                  }
-
-                  if (operation instanceof OperationDebtItem) {
-                    return <DebtItemCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
-                  }
-
-                  if (operation instanceof OperationTransfer) {
-                    return <TransferCard transfer={operation} onClick={handleCardClick} key={operation.id} />;
-                  }
-
-                  if (operation instanceof OperationExchange) {
-                    return <ExchangeCard exchange={operation} onClick={handleCardClick} key={operation.id} />;
-                  }
-
-                  return null;
-                })}
-              </div>
-            </Fragment>
-          );
-        })}
-
-        {operationsRepository.loadState !== LoadState.none() && operationsRepository.operations.length > 0 && (
-          <div className={styles.loadMorePanel}>
-            <Button
-              fullSize
-              onClick={() => operationsRepository.fetchNextPage()}
-              loading={operationsRepository.loadState.isPending()}
-            >
-              {t('Load more')}
-            </Button>
-          </div>
         )}
+      </SideSheetMobile>
 
-        <SideSheetMobile open={operation instanceof OperationTransaction}>
-          {operation && <TransactionWindowMobile transaction={operation} onClose={handleClose} />}
-        </SideSheetMobile>
+      <SideSheetMobile open={operation instanceof OperationDebtItem}>
+        {operation && (
+          <DebtItemWindowMobile
+            debtItem={operation as OperationDebtItem}
+            onClose={handleClose}
+            onCreate={handleCreateDebtItem}
+            onUpdate={handleUpdateDebtItem}
+            onDelete={handleDeleteDebtItem}
+          />
+        )}
+      </SideSheetMobile>
 
-        <SideSheetMobile open={operation instanceof OperationDebtItem}>
-          {operation && (
-            <DebtItemWindowMobile
-              debtItem={operation as OperationDebtItem}
-              onClose={handleClose}
-              onCreate={handleCreateDebtItem}
-              onUpdate={handleUpdateDebtItem}
-              onDelete={handleDeleteDebtItem}
-            />
-          )}
-        </SideSheetMobile>
+      <SideSheetMobile open={operation instanceof OperationTransfer}>
+        {operation && <TransferWindowMobile transfer={operation} onClose={handleClose} />}
+      </SideSheetMobile>
 
-        <SideSheetMobile open={operation instanceof OperationTransfer}>
-          {operation && <TransferWindowMobile transfer={operation} onClose={handleClose} />}
-        </SideSheetMobile>
-
-        <SideSheetMobile open={operation instanceof OperationExchange}>
-          {operation && <ExchangeWindowMobile exchange={operation} onClose={handleClose} />}
-        </SideSheetMobile>
-      </div>
-    </>
+      <SideSheetMobile open={operation instanceof OperationExchange}>
+        {operation && <ExchangeWindowMobile exchange={operation} onClose={handleClose} />}
+      </SideSheetMobile>
+    </div>
   );
 });
-
-export default Operations;

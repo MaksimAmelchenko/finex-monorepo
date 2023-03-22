@@ -135,14 +135,15 @@ export class DebtsRepository extends ManageableStore {
         ...params,
       })
       .then(
-        action(({ debts, metadata }) => {
+        action(({ debts: debtDTOs, metadata }) => {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
+          const debts = this.decode(debtDTOs);
           if (reset) {
-            this._debts = this.decode(debts);
+            this._debts = debts;
           } else {
-            this._debts = [...this._debts, ...this.decode(debts)];
+            this._debts = [...this._debts, ...debts];
           }
         })
       )

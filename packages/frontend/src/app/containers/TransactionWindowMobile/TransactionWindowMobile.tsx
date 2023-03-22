@@ -9,18 +9,15 @@ import { Accordion, ChevronRightIcon } from '@finex/ui-kit';
 import { AccountField } from '../AccountFieldMobile/AccountField';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountFieldMobile/AmountField';
+import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CategoryField } from '../CategoryFieldMobile/CategoryField';
-import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
+import { CreateTransactionData, ITransaction, UpdateTransactionChanges } from '../../types/transaction';
 import { DateField } from '../../components/DateField/DateField';
-import { Form, FormBody, FormButton, FormCheckbox } from '../../components/Form';
+import { Form, FormBody, FormCheckbox } from '../../components/Form';
 import { FormSegmentedControl } from '../../components/Form/FormSegmentedControl/FormSegmentedControl';
 import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
-import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
-import { IOperationTransaction } from '../../types/operation';
 import { ITabOption } from '../../components/Tabs/Tabs';
 import { MoneysRepository } from '../../stores/moneys-repository';
-import { OperationTransaction } from '../../stores/models/operation';
-import { OperationsRepository } from '../../stores/operations-repository';
 import { QuantityField } from '../QuantityFieldMobile/QuantityField';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape, Sign } from '../../types';
@@ -50,8 +47,11 @@ interface TransactionFormValues {
 }
 
 interface TransactionWindowMobileProps {
-  transaction: Partial<IOperationTransaction> | OperationTransaction;
+  transaction: Partial<ITransaction> /*| PlannedTransaction*/;
   onClose: () => unknown;
+  onCreate: (data: CreateTransactionData) => Promise<unknown>;
+  onUpdate: (cashFlowId: string, transactionId: string, changes: UpdateTransactionChanges) => Promise<unknown>;
+  onDelete: (cashFlowId: string, transactionId: string) => Promise<unknown>;
 }
 
 const t = getT('TransactionWindowMobile');
@@ -122,7 +122,13 @@ function mapValuesToUpdatePayload(values: TransactionFormValues): UpdateTransact
   };
 }
 
-export function TransactionWindowMobile({ transaction, onClose }: TransactionWindowMobileProps): JSX.Element {
+export function TransactionWindowMobile({
+  transaction,
+  onClose,
+  onCreate,
+  onUpdate,
+  onDelete,
+}: TransactionWindowMobileProps): JSX.Element {
   const {
     //
     sign,
@@ -148,14 +154,13 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
 
   const accountsRepository = useStore(AccountsRepository);
   const moneysRepository = useStore(MoneysRepository);
-  const operationsRepository = useStore(OperationsRepository);
 
   const { enqueueSnackbar } = useSnackbar();
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
     Boolean(quantity || note || tags?.length)
   );
-  const [isNew, setIsNew] = useState<boolean>(!(transaction instanceof OperationTransaction));
+  const [isNew, setIsNew] = useState<boolean>(!transaction.id);
 
   useEffect(() => {
     analytics.view({
@@ -181,13 +186,14 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
       if (isNew) {
         // create transaction
         const data: CreateTransactionData = mapValuesToCreatePayload(values);
-        result = operationsRepository.createTransaction(transaction, data);
+        result = onCreate({ ...data, cashFlowId: transaction.cashFlowId });
       } else {
         const changes: UpdateTransactionChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = operationsRepository.updateTransaction(transaction as OperationTransaction, changes);
+        const { cashFlowId, id } = transaction;
+        result = onUpdate(cashFlowId!, id!, changes);
       }
 
       return result
@@ -228,12 +234,12 @@ export function TransactionWindowMobile({ transaction, onClose }: TransactionWin
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, operationsRepository, onClose, transaction, isNew]
+    [enqueueSnackbar, onClose, transaction, isNew]
   );
 
   const handleDeleteClick = () => {
-    operationsRepository
-      .deleteTransaction(transaction as OperationTransaction)
+    const { cashFlowId, id } = transaction;
+    onDelete(cashFlowId!, id!)
       .then(() => {
         onClose();
       })

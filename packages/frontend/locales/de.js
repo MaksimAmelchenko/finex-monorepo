@@ -85,11 +85,12 @@ module.exports = {
   },
   BottomNavigation: {
     Outcome: 'Outcome',
-    Operations: 'Operations',
+    History: 'History',
     Debts: 'Debts',
-    Budget: 'Budget',
+    Planning: 'Planning',
     Expense: 'Expense',
     Income: 'Income',
+    'Cash Flow': 'Cash Flow',
     Debt: 'Debt',
     Transfer: 'Transfer',
     Exchange: 'Exchange',
@@ -98,6 +99,11 @@ module.exports = {
     Overdue: 'Overdue',
     Planned: 'Planned',
     'Not confirmed': 'Not confirmed',
+  },
+  CashFlowCard: {
+    'Cash Inflows': 'Cash Inflows',
+    'Cash Outflows': 'Cash Outflows',
+    'Empty Cash Flow': 'Empty Cash Flow',
   },
   CashFlowItem: {
     Income: 'Income',
@@ -147,6 +153,7 @@ module.exports = {
     Expense: 'Expense',
     Balance: 'Balance',
     Note: 'Note',
+    'Load more': 'Load more',
   },
   CashFlowWindow: {
     'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',
@@ -165,6 +172,20 @@ module.exports = {
     Expense: 'Expense',
     'Total for selected operations:': 'Total for selected operations:',
     'Total:': 'Total:',
+  },
+  CashFlowWindowMobile: {
+    'Are you sure you want to delete Cash Flow?': 'Are you sure you want to delete Cash Flow?',
+    'Create new Cash Flow': 'Create new Cash Flow',
+    'Edit Cash Flow': 'Edit Cash Flow',
+    Contractor: 'Contractor',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Note, Tags': 'Note, Tags',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Create Cash Flow': 'Create Cash Flow',
+    Save: 'Save',
+    'Add record': 'Add record',
   },
   Categories: {
     "You can't delete a category with subcategories": "You can't delete a category with subcategories",
@@ -479,6 +500,11 @@ module.exports = {
       'Export data in CSV file. The data will be sent to your e-mail.',
     Export: 'Export',
   },
+  History: {
+    Operations: 'Operations',
+    'Cash Flows': 'Cash Flows',
+    History: 'History',
+  },
   Layout: {
     Home: 'Home',
     Support: 'Support',
@@ -551,7 +577,6 @@ module.exports = {
     Move: 'Move',
   },
   Operations: {
-    Operations: 'Operations',
     'Load more': 'Load more',
   },
   Pagination: {

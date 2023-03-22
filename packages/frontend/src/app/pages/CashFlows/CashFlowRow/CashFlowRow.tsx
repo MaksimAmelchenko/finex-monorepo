@@ -29,10 +29,10 @@ export const CashFlowRow = observer<CashFlowRowProps>(({ cashFlow, onClick }) =>
   };
 
   const balances = useMemo(() => {
-    return cashFlow.balances.sort(
+    return cashFlow.balances_DEPRECATED.sort(
       (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
     );
-  }, [cashFlow.balances]);
+  }, [cashFlow.balances_DEPRECATED]);
 
   return (
     <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>

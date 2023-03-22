@@ -1,0 +1,81 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__main {
+    flex: 1;
+    overflow: auto;
+  }
+}
+
+.cashFlow {
+  &__footer {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.6rem;
+    //border-top: 0.5px solid var(--color-gray-200);
+    border-bottom: 0.5px solid var(--color-gray-200);
+    padding: 0.8rem 1.6rem 1.6rem;
+  }
+}
+
+.section {
+  &__header {
+    position: sticky;
+    top: 0;
+    /* prevent the overlapping of the scrollbar */
+    margin-right: 0.8rem;
+    padding: 0.8rem 1.6rem;
+    background-color: white;
+    @include typography.textMDMedium;
+    color: var(--color-gray-500);
+  }
+
+  &__content {
+    padding: 0.8rem 0;
+  }
+}
+
+.additional {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+
+  &__header {
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    transform: rotate(90deg);
+    color: var(--color-gray-500);
+
+    &_expended {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &__description {
+    @include typography.textSM;
+    color: var(--color-gray-500);
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+
+    margin: -0.4rem;
+    padding: 0.4rem;
+  }
+}

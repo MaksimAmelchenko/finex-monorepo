@@ -157,7 +157,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
 
   const balances =
     cashFlow instanceof CashFlow
-      ? cashFlow.balances.sort(
+      ? cashFlow.balances_DEPRECATED.sort(
           (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
         )
       : [];
@@ -169,8 +169,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
       }
     }
 
-    selectedCashFlowItems.forEach(cashFlowItem => {
-      cashFlowsRepository.removeCashFlowItem(cashFlowItem).catch(err => {
+    selectedCashFlowItems.forEach(({ cashFlowId, id }) => {
+      cashFlowsRepository.removeCashFlowItem(cashFlowId, id).catch(err => {
         enqueueSnackbar(err.message, { variant: 'error' });
       });
     });

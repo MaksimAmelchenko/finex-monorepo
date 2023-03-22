@@ -203,16 +203,17 @@ export class OperationsRepository extends ManageableStore {
     return this._operations.find(({ id }) => id === operationId);
   }
 
-  createTransaction(transaction: Partial<IOperationTransaction>, data: CreateTransactionData): Promise<unknown> {
+  createTransaction(data: CreateTransactionData): Promise<unknown> {
     return this.api.createTransaction(data).then(
       action(response => {
-        const newTransaction = this.decodeTransaction(response.transaction);
-        if (!newTransaction) {
+        const transaction = this.decodeTransaction(response.transaction);
+        if (!transaction) {
           throw new Error('Transaction entity is corrupted');
         }
+        this._operations.push(transaction);
 
+        /*
         if (transaction instanceof PlannedTransaction) {
-          /*
           // need to replace planned transaction
           const indexOf = this._transactions.indexOf(transaction);
           if (indexOf !== -1) {
@@ -220,23 +221,23 @@ export class OperationsRepository extends ManageableStore {
           } else {
             this._transactions.push(newTransaction);
           }
-          */
         } else {
           // just add new transaction
           this._operations.push(newTransaction);
         }
+        */
       })
     );
   }
 
-  updateTransaction(transaction: OperationTransaction, changes: UpdateTransactionChanges): Promise<unknown> {
-    return this.api.updateTransaction(transaction.id, changes).then(
+  updateTransaction(transactionId: string, changes: UpdateTransactionChanges): Promise<unknown> {
+    return this.api.updateTransaction(transactionId, changes).then(
       action(response => {
         const updatedTransaction = this.decodeTransaction(response.transaction);
         if (!updatedTransaction) {
           throw new Error('Transaction entity is corrupted');
         }
-        const indexOf = this._operations.indexOf(transaction);
+        const indexOf = this._operations.findIndex(({ id }) => id === transactionId);
         if (indexOf !== -1) {
           this._operations[indexOf] = updatedTransaction;
         } else {
@@ -246,10 +247,13 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  deleteTransaction(transaction: OperationTransaction | PlannedTransaction): Promise<unknown> {
+  deleteTransaction(transactionId: string): Promise<unknown> {
+    /*
     runInAction(() => {
       transaction.isDeleting = true;
     });
+    */
+    /*
     let operation: Promise<void>;
     if (transaction instanceof PlannedTransaction) {
       operation = this._mainStore
@@ -258,10 +262,11 @@ export class OperationsRepository extends ManageableStore {
     } else {
       operation = this.api.deleteTransaction(transaction.id);
     }
+    */
 
-    return operation.then(
+    return this.api.deleteTransaction(transactionId).then(
       action(() => {
-        this._operations = this._operations.filter(operation => operation !== transaction);
+        this._operations = this._operations.filter(({ id }) => id !== transactionId);
       })
     );
   }

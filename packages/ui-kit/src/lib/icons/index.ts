@@ -24,6 +24,7 @@ export { ReactComponent as CommentIcon, default as commentSvg } from './comment.
 export { ReactComponent as CreditCard01Icon, default as creditCard01Svg } from './credit-card-01.svg';
 export { ReactComponent as CreditCardIcon, default as creditCardSvg } from './credit-card.svg';
 export { ReactComponent as Cryptocurrency01Icon, default as cryptocurrency01Svg } from './cryptocurrency-01.svg';
+export { ReactComponent as DataFlow03Icon, default as dataFlow03Svg } from './dataflow-03.svg';
 export { ReactComponent as FilterIcon, default as filterSvg } from './filter.svg';
 export { ReactComponent as FolderIcon, default as folderSvg } from './folder.svg';
 export { ReactComponent as GearIcon, default as gearSvg } from './gear.svg';

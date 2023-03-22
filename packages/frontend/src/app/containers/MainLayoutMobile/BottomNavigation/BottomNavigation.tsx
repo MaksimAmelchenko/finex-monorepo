@@ -1,25 +1,28 @@
 import React, { useCallback, useState } from 'react';
 
 import { BottomNavigationButton } from './BottomNavigationButton/BottomNavigationButton';
-import { CenterBottomNavigationButton } from './CenterBottomNavigationButton/CenterBottomNavigationButton';
 import {
   BottomSheet,
   CoinsHandIcon,
   CoinsStacked01Icon,
+  DataFlow03Icon,
   MinusIcon,
   PlusIcon,
   RefreshCW03Icon,
   ReverseRightIcon,
   SwitchHorizontal01Icon,
 } from '@finex/ui-kit';
-import { getT } from '../../../lib/core/i18n';
+import { CenterBottomNavigationButton } from './CenterBottomNavigationButton/CenterBottomNavigationButton';
 import { MenuItem } from './MenuItem/MenuItem';
+import { getT } from '../../../lib/core/i18n';
 
 import styles from './BottomNavigation.module.scss';
 
 const t = getT('BottomNavigation');
 interface BottomNavigationProps {
-  onMenuItemClick: (menuItemId: 'addExpense' | 'addIncome' | 'addTransfer' | 'addExchange') => void;
+  onMenuItemClick: (
+    menuItemId: 'addExpense' | 'addIncome' | 'addCashFlow' | 'addDebt' | 'addTransfer' | 'addExchange'
+  ) => void;
 }
 export function BottomNavigation({ onMenuItemClick }: BottomNavigationProps): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
@@ -44,7 +47,7 @@ export function BottomNavigation({ onMenuItemClick }: BottomNavigationProps): JS
     <>
       <nav className={styles.root}>
         <BottomNavigationButton href="/outcome" label={t('Outcome')} icon={OutcomeButtonIcon} />
-        <BottomNavigationButton href="/operations" label={t('Operations')} icon={SwitchHorizontal01Icon} />
+        <BottomNavigationButton href="/history" label={t('History')} icon={SwitchHorizontal01Icon} />
         <CenterBottomNavigationButton onClick={handleAddClick} />
         <BottomNavigationButton href="/debts" label={t('Debts')} icon={CoinsHandIcon} />
         <BottomNavigationButton href="/planning" label={t('Planning')} icon={CoinsStacked01Icon} />
@@ -53,6 +56,12 @@ export function BottomNavigation({ onMenuItemClick }: BottomNavigationProps): JS
       <BottomSheet open={open} onClose={handleClose}>
         <MenuItem data-menu-item-id="addExpense" onClick={handleMenuItemClick} icon={MinusIcon} label={t('Expense')} />
         <MenuItem data-menu-item-id="addIncome" onClick={handleMenuItemClick} icon={PlusIcon} label={t('Income')} />
+        <MenuItem
+          data-menu-item-id="addCashFlow"
+          onClick={handleMenuItemClick}
+          icon={DataFlow03Icon}
+          label={t('Cash Flow')}
+        />
         <MenuItem data-menu-item-id="addDebt" onClick={handleMenuItemClick} icon={CoinsHandIcon} label={t('Debt')} />
         <MenuItem
           data-menu-item-id="addTransfer"

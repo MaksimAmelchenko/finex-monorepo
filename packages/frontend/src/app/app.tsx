@@ -14,10 +14,10 @@ import { DistributionReportLazy } from './pages/Reports/DistributionReport/Distr
 import { DynamicsReportLazy } from './pages/Reports/DynamicsReport/DynamicsReportLazy';
 import { Exchanges } from './pages/Exchanges/Exchanges';
 import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
+import { HistoryLazy } from './pages/History/HistoryLazy';
 import { Loader } from './components/Loader/Loader';
 import { MainLayout } from './containers/MainLayout/MainLayout';
 import { MainLayoutMobile } from './containers/MainLayoutMobile/MainLayoutMobile';
-import { OperationsLazy } from './pages/Operations/OperationsLazy';
 import { OutcomeMobileLazy } from './pages/OutcomeMobile/OutcomeMobileLazy';
 import { PlanningLazy } from './pages/Planning/PlanningLazy';
 import { PlanningMobileLazy } from './pages/PlanningMobile/PlanningMobileLazy';
@@ -68,10 +68,10 @@ export const App = observer(() => {
                     <MainLayoutMobile>
                       <Routes>
                         <Route path="/outcome" element={<OutcomeMobileLazy />} />
-                        <Route path="/operations" element={<OperationsLazy />} />
+                        <Route path="/history" element={<HistoryLazy />} />
                         <Route path="/debts" element={<DebtsMobileLazy />} />
                         <Route path="/planning" element={<PlanningMobileLazy />} />
-                        <Route path="*" element={<Navigate to="/operations" />} />
+                        <Route path="*" element={<Navigate to="/history" />} />
                       </Routes>
                     </MainLayoutMobile>
                   ) : (

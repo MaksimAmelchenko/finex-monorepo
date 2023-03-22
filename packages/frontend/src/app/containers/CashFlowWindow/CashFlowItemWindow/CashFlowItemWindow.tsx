@@ -175,7 +175,8 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
-        result = cashFlowsRepository.updateCashFlowItem(cashFlowItem as CashFlowItem, changes);
+        const { cashFlowId, id } = cashFlowItem as CashFlowItem;
+        result = cashFlowsRepository.updateCashFlowItem(cashFlowId, id, changes);
       }
 
       return result

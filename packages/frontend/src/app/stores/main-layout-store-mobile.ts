@@ -6,9 +6,10 @@ import { ManageableStore } from '../core/manageable-store';
 export enum Window {
   AddExpenseTransaction,
   AddIncomeTransaction,
+  AddCashFlow,
+  AddDebt,
   AddTransfer,
   AddExchange,
-  AddDebt,
   None,
 }
 

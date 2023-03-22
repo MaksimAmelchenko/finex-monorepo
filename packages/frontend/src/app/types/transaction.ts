@@ -78,6 +78,7 @@ export interface GetTransactionsResponse {
 }
 
 export interface CreateTransactionData {
+  cashFlowId?: string;
   sign: Sign;
   amount: number;
   moneyId: string;
