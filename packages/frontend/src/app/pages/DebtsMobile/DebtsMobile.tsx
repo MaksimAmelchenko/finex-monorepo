@@ -10,6 +10,7 @@ import { DebtWindowMobile } from '../../containers/DebtWindowMobile/DebtWindowMo
 import { DebtsRepository } from '../../stores/debts-repository';
 import { LoadState } from '../../core/load-state';
 import { Loader } from '../../components/Loader/Loader';
+import { ProjectsRepository } from '../../stores/projects-repository';
 import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { formatDate, getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -20,12 +21,13 @@ const t = getT('DebtsMobile');
 
 export const DebtsMobile = observer(() => {
   const debtsRepository = useStore(DebtsRepository);
+  const projectsRepository = useStore(ProjectsRepository);
 
   const [debt, setDebt] = useState<Debt | null>(null);
 
   useEffect(() => {
     debtsRepository.refresh();
-  }, []);
+  }, [projectsRepository.currentProject]);
 
   const handleCardClick = (debtId: string) => {
     const debt = debtsRepository.getDebt(debtId);

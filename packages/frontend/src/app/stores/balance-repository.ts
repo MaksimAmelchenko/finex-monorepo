@@ -544,5 +544,7 @@ export class BalanceRepository extends ManageableStore {
     this.accountBalances = [];
     this.debtBalances = [];
     this.dailyBalances = [];
+    this.balancesLoadState = LoadState.none();
+    this.dailyBalancesLoadState = LoadState.none();
   }
 }

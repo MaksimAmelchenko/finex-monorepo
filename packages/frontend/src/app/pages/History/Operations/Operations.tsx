@@ -19,6 +19,7 @@ import {
   OperationTransfer,
 } from '../../../stores/models/operation';
 import { OperationsRepository } from '../../../stores/operations-repository';
+import { ProjectsRepository } from '../../../stores/projects-repository';
 import { SideSheetMobile } from '../../../components/SideSheetMobile/SideSheetMobile';
 import { TransactionCard } from '../../../components/TransactionCard/TransactionCard';
 import { TransactionWindowMobile } from '../../../containers/TransactionWindowMobile/TransactionWindowMobile';
@@ -33,12 +34,13 @@ const t = getT('Operations');
 
 export const Operations = observer(() => {
   const operationsRepository = useStore(OperationsRepository);
+  const projectsRepository = useStore(ProjectsRepository);
 
   const [operation, setOperation] = useState<IOperation | null>(null);
 
   useEffect(() => {
     operationsRepository.refresh();
-  }, []);
+  }, [projectsRepository.currentProject]);
 
   const handleCardClick = (operationId: string) => {
     const operation = operationsRepository.getOperation(operationId);

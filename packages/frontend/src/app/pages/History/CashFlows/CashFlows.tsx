@@ -9,6 +9,7 @@ import { CashFlowsRepository } from '../../../stores/cash-flows-repository';
 import { ICashFlow } from '../../../types/cash-flow';
 import { LoadState } from '../../../core/load-state';
 import { Loader } from '../../../components/Loader/Loader';
+import { ProjectsRepository } from '../../../stores/projects-repository';
 import { SideSheetMobile } from '../../../components/SideSheetMobile/SideSheetMobile';
 import { formatDate, getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
@@ -19,12 +20,13 @@ const t = getT('CashFlows');
 
 export const CashFlows = observer(() => {
   const cashFlowsRepository = useStore(CashFlowsRepository);
+  const projectsRepository = useStore(ProjectsRepository);
 
   const [cashFlow, setCashFlow] = useState<ICashFlow | null>(null);
 
   useEffect(() => {
     cashFlowsRepository.refresh();
-  }, []);
+  }, [projectsRepository.currentProject]);
 
   const handleCardClick = (cashFlowItemId: string) => {
     const cashFlow = cashFlowsRepository.getCashFlow(cashFlowItemId);

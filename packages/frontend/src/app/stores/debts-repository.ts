@@ -442,6 +442,9 @@ export class DebtsRepository extends ManageableStore {
   }
 
   clear(): void {
+    this.offset = 0;
+    this.total = 0;
+    this.loadState = LoadState.none();
     this._debts = [];
   }
 }
