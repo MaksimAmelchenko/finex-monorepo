@@ -32,7 +32,9 @@ export function AppBar({ title, endAdornment: EndAdornment }: AppBarProps): JSX.
         </div>
         {EndAdornment}
         {Boolean(EndAdornment) && <div className={styles.root__separator} />}
+        {/*
         <AppBarButton icon={<MessageQuestionSquareIcon />} href="/help" />
+        */}
         <AppBarButton icon={<Settings02Icon />} onClick={handleSettingsClick} />
       </header>
 

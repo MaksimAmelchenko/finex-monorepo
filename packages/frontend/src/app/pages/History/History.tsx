@@ -47,6 +47,7 @@ export const History = observer(() => {
     <div className={styles.root}>
       <AppBar
         title={t('History')}
+        /*
         endAdornment={
           <AppBarButton
             icon={<SearchMdIcon />}
@@ -55,6 +56,7 @@ export const History = observer(() => {
             }}
           />
         }
+        */
       />
       <main className={styles.main}>
         <div className={styles.main__tabs}>
