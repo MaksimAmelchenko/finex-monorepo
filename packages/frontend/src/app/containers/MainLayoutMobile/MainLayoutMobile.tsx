@@ -1,5 +1,6 @@
 import React, { Suspense, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 import { BottomNavigation } from './BottomNavigation/BottomNavigation';
 import { CashFlowWindowMobile } from '../CashFlowWindowMobile/CashFlowWindowMobile';
@@ -26,11 +27,30 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
   const operationsRepository = useStore(OperationsRepository);
   const profileRepository = useStore(ProfileRepository);
 
+  const navigate = useNavigate();
+
   const { profile } = profileRepository;
 
-  const handleCloseWindow = () => {
+  const handleCloseWindow = useCallback(() => {
+    switch (mainLayoutStore.window) {
+      case Window.AddIncomeTransaction:
+      case Window.AddExpenseTransaction:
+      case Window.AddTransfer:
+      case Window.AddExchange: {
+        navigate('/history#operaions');
+        break;
+      }
+      case Window.AddCashFlow: {
+        navigate('/history#cash-flows');
+        break;
+      }
+      case Window.AddDebt: {
+        navigate('/debts');
+        break;
+      }
+    }
     mainLayoutStore.hideWindow();
-  };
+  }, []);
 
   const handleMenuItemClick = useCallback((menuItemId: string) => {
     const map: Record<string, Window> = {

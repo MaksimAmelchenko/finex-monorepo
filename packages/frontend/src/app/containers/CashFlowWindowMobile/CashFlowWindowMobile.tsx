@@ -2,7 +2,6 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import { Accordion, ChevronRightIcon } from '@finex/ui-kit';
@@ -56,6 +55,7 @@ function mapValuesToUpdatePayload({ contractorId, note, tagIds }: CashFlowFormVa
 }
 
 export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props => {
+  const { onClose } = props;
   const cashFlowsRepository = useStore(CashFlowsRepository);
 
   const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(
@@ -64,7 +64,6 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
   const [cashFlow, setCashFlow] = useState<Partial<ICashFlow> | CashFlow>(props.cashFlow);
   const [cashFlowItem, setCashFlowItem] = useState<Partial<ICashFlowItem> | CashFlowItem | null>(null);
 
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -84,11 +83,6 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
   }, [cashFlow]);
   */
 
-  const handleClose = () => {
-    navigate('/history#cash-flows');
-    props.onClose();
-  };
-
   const handleDeleteClick = () => {
     if (!window.confirm(t('Are you sure you want to delete Cash Flow?'))) {
       return;
@@ -96,7 +90,7 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
     cashFlowsRepository
       .removeCashFlow(cashFlow as CashFlow)
       .then(() => {
-        handleClose();
+        onClose();
       })
       .catch(err => {
         let message = '';
@@ -193,7 +187,7 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
     <div className={styles.root}>
       <Header
         title={isNew ? t('Create new Cash Flow') : t('Edit Cash Flow')}
-        startAdornment={<BackButton onClick={handleClose} />}
+        startAdornment={<BackButton onClick={onClose} />}
         endAdornment={!isNew && <DeleteButton onClick={handleDeleteClick} />}
       />
 

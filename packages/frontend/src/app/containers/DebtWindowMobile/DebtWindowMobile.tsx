@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 import clsx from 'clsx';
 import { FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import { Accordion, ChevronRightIcon } from '@finex/ui-kit';
@@ -66,6 +65,7 @@ function mapValuesToUpdatePayload({ contractorId, note, tagIds }: DebtFormValues
 }
 
 export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
+  const { onClose } = props;
   const debtsRepository = useStore(DebtsRepository);
   const categoriesRepository = useStore(CategoriesRepository);
 
@@ -75,7 +75,6 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
   const [debt, setDebt] = useState<Partial<IDebt> | Debt>(props.debt);
   const [debtItem, setDebtItem] = useState<({ debtId: string } & Partial<IDebtItem>) | DebtItem | null>(null);
 
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -103,11 +102,6 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
     []
   );
 
-  const handleClose = () => {
-    navigate('/debts');
-    props.onClose();
-  };
-
   const handleDeleteClick = () => {
     if (!window.confirm(t('Are you sure you want to delete debt?'))) {
       return;
@@ -115,7 +109,7 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
     debtsRepository
       .removeDebt(debt as Debt)
       .then(() => {
-        handleClose();
+        onClose();
       })
       .catch(err => {
         let message = '';
@@ -217,7 +211,7 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
     <div className={styles.root}>
       <Header
         title={isNew ? t('Add new debt') : t('Edit debt')}
-        startAdornment={<BackButton onClick={handleClose} />}
+        startAdornment={<BackButton onClick={onClose} />}
         endAdornment={!isNew && <DeleteButton onClick={handleDeleteClick} />}
       />
 
