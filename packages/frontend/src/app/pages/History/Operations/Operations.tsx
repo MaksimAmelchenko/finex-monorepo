@@ -1,12 +1,13 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PullToRefresh from 'pulltorefreshjs';
 import { observer } from 'mobx-react-lite';
 
-import { Button } from '@finex/ui-kit';
+import { Button, SwitchHorizontal01Icon } from '@finex/ui-kit';
 import { CreateDebtItemData, UpdateDebtItemChanges } from '../../../types/debt';
 import { CreateTransactionData, UpdateTransactionChanges } from '../../../types/transaction';
 import { DebtItemCard } from '../../../components/DebtItemCard/DebtItemCard';
 import { DebtItemWindowMobile } from '../../../containers/DebtIItemWindowMobile/DebtItemWindowMobile';
+import { EmptyState } from '../../../components/EmptyState/EmptyState';
 import { ExchangeCard } from '../../../components/ExchangeCard/ExchangeCard';
 import { ExchangeWindowMobile } from '../../../containers/ExchangeWindowMobile/ExchangeWindowMobile';
 import { IOperation } from '../../../types/operation';
@@ -27,6 +28,8 @@ import { TransferCard } from '../../../components/TransferCard/TransferCard';
 import { TransferWindowMobile } from '../../../containers/TransferWindowMobile/TransferWindowMobile';
 import { formatDate, getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
+
+import { ReactComponent as HandDrawnArrowIllustration } from '../../../illustrations/hand-drawn-arrow-14.svg';
 
 import styles from '../History.module.scss';
 
@@ -49,9 +52,9 @@ export const Operations = observer(() => {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOperation(null);
-  };
+  }, []);
 
   const handleCreateDebtItem = (debtId: string, data: CreateDebtItemData) => {
     return Promise.reject('Not implemented');
@@ -101,54 +104,74 @@ export const Operations = observer(() => {
 
   const { operationsByDates, loadState, operations } = operationsRepository;
 
+  function renderContent(): JSX.Element {
+    if (!operationsByDates.length && loadState.isPending()) {
+      return <Loader />;
+    }
+
+    if (!operations.length && loadState.isDone()) {
+      return (
+        <div className={styles.root__emptyState}>
+          <EmptyState
+            illustration={<SwitchHorizontal01Icon className={styles.root__emptyStateIllustration} />}
+            text={t('You do not have transactions yet')}
+            supportingText={t(
+              'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"'
+            )}
+          />
+          <div className={styles.root__pointer}>
+            <HandDrawnArrowIllustration />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {operationsByDates.map(operationsByDate => {
+          return (
+            <Fragment key={operationsByDate.date}>
+              <div className={styles.section__header}>
+                {formatDate(operationsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+              </div>
+              <div className={styles.section__content}>
+                {operationsByDate.operations.map(operation => {
+                  if (operation instanceof OperationTransaction) {
+                    return <TransactionCard transaction={operation} onClick={handleCardClick} key={operation.id} />;
+                  }
+
+                  if (operation instanceof OperationDebtItem) {
+                    return <DebtItemCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
+                  }
+
+                  if (operation instanceof OperationTransfer) {
+                    return <TransferCard transfer={operation} onClick={handleCardClick} key={operation.id} />;
+                  }
+
+                  if (operation instanceof OperationExchange) {
+                    return <ExchangeCard exchange={operation} onClick={handleCardClick} key={operation.id} />;
+                  }
+
+                  return null;
+                })}
+              </div>
+            </Fragment>
+          );
+        })}
+
+        {loadState !== LoadState.none() && operations.length > 0 && operations.length < operationsRepository.total && (
+          <div className={styles.loadMorePanel}>
+            <Button fullSize onClick={() => operationsRepository.fetchNextPage()} loading={loadState.isPending()}>
+              {t('Load more')}
+            </Button>
+          </div>
+        )}
+      </>
+    );
+  }
   return (
     <div className={styles.operations}>
-      {!operationsByDates.length && loadState.isPending() ? (
-        <Loader />
-      ) : (
-        <>
-          {operationsByDates.map(operationsByDate => {
-            return (
-              <Fragment key={operationsByDate.date}>
-                <div className={styles.section__header}>
-                  {formatDate(operationsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
-                </div>
-                <div className={styles.section__content}>
-                  {operationsByDate.operations.map(operation => {
-                    if (operation instanceof OperationTransaction) {
-                      return <TransactionCard transaction={operation} onClick={handleCardClick} key={operation.id} />;
-                    }
-
-                    if (operation instanceof OperationDebtItem) {
-                      return <DebtItemCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
-                    }
-
-                    if (operation instanceof OperationTransfer) {
-                      return <TransferCard transfer={operation} onClick={handleCardClick} key={operation.id} />;
-                    }
-
-                    if (operation instanceof OperationExchange) {
-                      return <ExchangeCard exchange={operation} onClick={handleCardClick} key={operation.id} />;
-                    }
-
-                    return null;
-                  })}
-                </div>
-              </Fragment>
-            );
-          })}
-
-          {loadState !== LoadState.none() &&
-            operations.length > 0 &&
-            operations.length < operationsRepository.total && (
-              <div className={styles.loadMorePanel}>
-                <Button fullSize onClick={() => operationsRepository.fetchNextPage()} loading={loadState.isPending()}>
-                  {t('Load more')}
-                </Button>
-              </div>
-            )}
-        </>
-      )}
+      {renderContent()}
 
       <SideSheetMobile open={operation instanceof OperationTransaction}>
         {operation && (

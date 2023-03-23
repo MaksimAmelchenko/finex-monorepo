@@ -7,6 +7,31 @@
   padding-bottom: 5.7rem;
   &__main {
     overflow: auto;
+    height: 100%;
+  }
+
+  &__emptyState {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 3.2rem 3.2rem;
+  }
+
+  &__emptyStateIllustration {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    & path {
+      stroke-width: 1px;
+    }
+  }
+
+  &__pointer {
+    position: absolute;
+    bottom: 1.2rem;
+    transform: scaleX(-1) translateX(40%);
+    color: var(--color-primary-500);
   }
 }
 

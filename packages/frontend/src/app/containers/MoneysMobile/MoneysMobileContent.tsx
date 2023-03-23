@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { AddButton, BackButton, Header } from '../../components/Header/Header';
+import { Button, Coins02Icon, PlusIcon } from '@finex/ui-kit';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { IMoney } from '../../types/money';
 import { Money } from '../../stores/models/money';
 import { MoneyRow } from './MoneyRow/MoneyRow';
@@ -12,6 +14,8 @@ import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobil
 import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
+
+import styles from './MoneysMobileContent.module.scss';
 
 const t = getT('MoneysMobile');
 
@@ -47,7 +51,33 @@ export const MoneysMobileContent = observer<MoneysMobileContentProps>(({ onSelec
     [isSelectMode, onSelect]
   );
 
-  const { moneys } = moneysRepository;
+  const moneys = moneysRepository.moneys.filter(({ isEnabled }) => !isSelectMode || (isSelectMode && isEnabled));
+
+  function renderContent(): JSX.Element {
+    if (!moneys.length) {
+      return (
+        <div className={styles.root__emptyState}>
+          <EmptyState
+            illustration={<Coins02Icon className={styles.root__emptyStateIllustration} />}
+            text={t('You do not have moneys yet')}
+            supportingText={t('Start creating by clicking on\u00A0"Create\u00A0money"')}
+          >
+            <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
+              {t('Create money')}
+            </Button>
+          </EmptyState>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {moneys.map(money => (
+          <MoneyRow money={money} onClick={handleClick} key={money.id} />
+        ))}
+      </>
+    );
+  }
 
   return (
     <>
@@ -56,13 +86,7 @@ export const MoneysMobileContent = observer<MoneysMobileContentProps>(({ onSelec
         startAdornment={<BackButton onClick={onClose} />}
         endAdornment={<AddButton onClick={handleAddClick} />}
       />
-      <SideSheetBody>
-        {moneys
-          .filter(({ isEnabled }) => !isSelectMode || (isSelectMode && isEnabled))
-          .map(money => (
-            <MoneyRow money={money} onClick={handleClick} key={money.id} />
-          ))}
-      </SideSheetBody>
+      <SideSheetBody>{renderContent()}</SideSheetBody>
 
       <SideSheetMobile open={Boolean(money)}>
         {money && <MoneyWindowMobile money={money} onClose={() => setMoney(null)} />}

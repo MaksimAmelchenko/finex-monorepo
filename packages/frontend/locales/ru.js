@@ -40,6 +40,9 @@ module.exports = {
     Edit: 'Изменение',
   },
   AccountsMobile: {
+    'You do not have accounts yet': 'У вас ещё нет счетов',
+    'Start creating by clicking on "Create account"': 'Создайте счёт, кликнув на "Создать счёт"',
+    'Create account': 'Создать счёт',
     Accounts: 'Счета',
   },
   AccountWindow: {
@@ -134,7 +137,7 @@ module.exports = {
     Tags: 'Теги',
     Cancel: 'Отмена',
     Save: 'Сохранить',
-    'Save and Create New': 'Сохранить и создать еще',
+    'Save and Create New': 'Сохранить и создать ещё',
   },
   CashFlows: {
     'Are you sure you want to delete several cash flows?': 'Вы уверены, что хотите удалить несколько денежных потоков?',
@@ -153,6 +156,9 @@ module.exports = {
     Expense: 'Расход',
     Balance: 'Баланс',
     Note: 'Примечание',
+    'You do not have Cash Flows yet': 'У вас пока еще нет денежный потоков',
+    'To create a Cash FLow, click on the "plus" button below and select "Cash Flow"':
+      'Чтобы создать денежный поток, нажмите на кнопку "плюс" ниже и выберите "Денежный поток"',
     'Load more': 'Загрузить еще...',
   },
   CashFlowWindow: {
@@ -228,6 +234,9 @@ module.exports = {
     Note: 'Примечание',
   },
   ContractorsMobile: {
+    'You do not have contractors yet': 'У вас ещё нет контрагентов',
+    'Start creating by clicking on "Create contractor"': 'Добавьте контрагента, нажав нв "Создать контрагента"',
+    'Create contractor': 'Создать контрагента',
     Contractors: 'Контрагенты',
   },
   ContractorWindow: {
@@ -280,7 +289,7 @@ module.exports = {
     Tags: 'Теги',
     Cancel: 'Отмена',
     Save: 'Сохранить',
-    'Save and Create New': 'Сохранить и создать еще',
+    'Save and Create New': 'Сохранить и создать ещё',
   },
   DebtItemWindowMobile: {
     Income: 'Приход',
@@ -302,7 +311,7 @@ module.exports = {
     'Note, Tags': 'Примечание, Теги',
     Note: 'Примечание',
     Tags: 'Теги',
-    'Save and Create New': 'Сохранить и создать еще',
+    'Save and Create New': 'Сохранить и создать ещё',
     Save: 'Сохранить',
   },
   Debts: {
@@ -328,8 +337,11 @@ module.exports = {
     Note: 'Примечание',
   },
   DebtsMobile: {
-    Debts: 'Долги',
+    'You do not have debts yet': 'У вас ещё нет долгов',
+    'To create a debt, click on the "plus" button below and select "Debt"':
+      'Чтобы создать долг, нажмите на кнопку "плюс" ниже и выберите "Долг"',
     'Load more': 'Загрузить еще...',
+    Debts: 'Долги',
   },
   DebtWindow: {
     'Please select contractor': 'Пожалуйста, выберите контрагента',
@@ -539,6 +551,9 @@ module.exports = {
     Currency: 'Валюта',
   },
   MoneysMobile: {
+    'You do not have moneys yet': 'У вас ещё нет валют',
+    'Start creating by clicking on "Create money"': 'Для создания валюты нажмите на "Создать валюту"',
+    'Create money': 'Создать валюту',
     Moneys: 'Валюты',
   },
   MoneyWindow: {
@@ -578,6 +593,9 @@ module.exports = {
     Move: 'Перенести',
   },
   Operations: {
+    'You do not have transactions yet': 'У вас ещё нет операций',
+    'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"':
+      'Чтобы добавить операцию, нажмите на кнопку "плюс" ниже и выберите "Расход", "Доход", "Перевод" или "Обмен валюты"',
     'Load more': 'Загрузить еще...',
   },
   OutcomeMobile: {
@@ -855,7 +873,10 @@ module.exports = {
     Name: 'Наименование',
   },
   TagsMobile: {
-    Tags: 'Tags',
+    'You do not have tags yet': 'У вас ещё нет тегов',
+    'Start creating by clicking on "Create tag"': 'Для создания тега нажмите на  "Создать тег"',
+    'Create tag': 'Создать тег',
+    Tags: 'Теги',
   },
   TagWindow: {
     'Tag already exists': 'Тег уже существует',
@@ -1027,6 +1048,10 @@ module.exports = {
     Name: 'Наименование',
   },
   UnitsMobile: {
+    'You do not have units yet': 'У вас ещё нет единиц измерения',
+    'Start creating by clicking on "Create unit"':
+      'Для добавления единицы измерения нажмите на "Создать единицу измерения "',
+    'Create unit': 'Создать единицу измерения',
     Units: 'Единицы измерения',
   },
   UnitWindow: {

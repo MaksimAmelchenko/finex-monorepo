@@ -40,6 +40,9 @@ module.exports = {
     Edit: 'Edit',
   },
   AccountsMobile: {
+    'You do not have accounts yet': 'You do not have accounts yet',
+    'Start creating by clicking on "Create account"': 'Start creating by clicking on "Create account"',
+    'Create account': 'Create account',
     Accounts: 'Accounts',
   },
   AccountWindow: {
@@ -153,6 +156,9 @@ module.exports = {
     Expense: 'Expense',
     Balance: 'Balance',
     Note: 'Note',
+    'You do not have Cash Flows yet': 'You do not have Cash Flows yet',
+    'To create a Cash FLow, click on the "plus" button below and select "Cash Flow"':
+      'To create a Cash FLow, click on the "plus" button below and select "Cash Flow"',
     'Load more': 'Load more',
   },
   CashFlowWindow: {
@@ -227,6 +233,9 @@ module.exports = {
     Note: 'Note',
   },
   ContractorsMobile: {
+    'You do not have contractors yet': 'You do not have contractors yet',
+    'Start creating by clicking on "Create contractor"': 'Start creating by clicking on "Create contractor"',
+    'Create contractor': 'Create contractor',
     Contractors: 'Contractors',
   },
   ContractorWindow: {
@@ -327,8 +336,11 @@ module.exports = {
     Note: 'Note',
   },
   DebtsMobile: {
-    Debts: 'Debts',
+    'You do not have debts yet': 'You do not have debts yet',
+    'To create a debt, click on the "plus" button below and select "Debt"':
+      'To create a debt, click on the "plus" button below and select "Debt"',
     'Load more': 'Load more',
+    Debts: 'Debts',
   },
   DebtWindow: {
     'Please select contractor': 'Please select contractor',
@@ -538,6 +550,9 @@ module.exports = {
     Currency: 'Currency',
   },
   MoneysMobile: {
+    'You do not have moneys yet': 'You do not have moneys yet',
+    'Start creating by clicking on "Create money"': 'Start creating by clicking on "Create money"',
+    'Create money': 'Create money',
     Moneys: 'Moneys',
   },
   MoneyWindow: {
@@ -577,6 +592,9 @@ module.exports = {
     Move: 'Move',
   },
   Operations: {
+    'You do not have transactions yet': 'You do not have transactions yet',
+    'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"':
+      'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"',
     'Load more': 'Load more',
   },
   OutcomeMobile: {
@@ -856,6 +874,9 @@ module.exports = {
     Name: 'Name',
   },
   TagsMobile: {
+    'You do not have tags yet': 'You do not have tags yet',
+    'Start creating by clicking on "Create tag"': 'Start creating by clicking on "Create tag"',
+    'Create tag': 'Create tag',
     Tags: 'Tags',
   },
   TagWindow: {
@@ -1028,6 +1049,9 @@ module.exports = {
     Name: 'Name',
   },
   UnitsMobile: {
+    'You do not have units yet': 'You do not have units yet',
+    'Start creating by clicking on "Create unit"': 'Start creating by clicking on "Create unit"',
+    'Create unit': 'Create unit',
     Units: 'Units',
   },
   UnitWindow: {

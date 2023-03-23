@@ -2,16 +2,20 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { AddButton, BackButton, Header } from '../../components/Header/Header';
+import { Building02Icon, Button, PlusIcon } from '@finex/ui-kit';
 import { Contractor } from '../../stores/models/contractor';
 import { ContractorRow } from './ContractorRow/ContractorRow';
 import { ContractorWindowMobile } from '../ContractorWindowMobile/ContractorWindowMobile';
 import { ContractorsRepository } from '../../stores/contractors-repository';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { IContractor } from '../../types/contractor';
 import { SideSheetBody } from '../../components/SideSheetMobile/SideSheetBody/SideSheetBody';
 import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
+
+import styles from './ContractorsMobileContent.module.scss';
 
 const t = getT('ContractorsMobile');
 
@@ -48,6 +52,32 @@ export const ContractorsMobileContent = observer<ContractorsMobileContentProps>(
     [isSelectMode, onSelect]
   );
 
+  function renderContent(): JSX.Element {
+    if (!contractors.length) {
+      return (
+        <div className={styles.root__emptyState}>
+          <EmptyState
+            illustration={<Building02Icon className={styles.root__emptyStateIllustration} />}
+            text={t('You do not have contractors yet')}
+            supportingText={t('Start creating by clicking on\u00A0"Create\u00A0contractor"')}
+          >
+            <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
+              {t('Create contractor')}
+            </Button>
+          </EmptyState>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {contractors.map(contractor => (
+          <ContractorRow contractor={contractor} onClick={handleClick} key={contractor.id} />
+        ))}
+      </>
+    );
+  }
+
   return (
     <>
       <Header
@@ -55,11 +85,7 @@ export const ContractorsMobileContent = observer<ContractorsMobileContentProps>(
         startAdornment={<BackButton onClick={onClose} />}
         endAdornment={<AddButton onClick={handleAddClick} />}
       />
-      <SideSheetBody>
-        {contractors.map(contractor => {
-          return <ContractorRow contractor={contractor} onClick={handleClick} key={contractor.id} />;
-        })}
-      </SideSheetBody>
+      <SideSheetBody>{renderContent()}</SideSheetBody>
 
       <SideSheetMobile open={Boolean(contractor)}>
         {contractor && <ContractorWindowMobile contractor={contractor} onClose={() => setContractor(null)} />}
