@@ -30,9 +30,9 @@ import styles from '../OperationWindowMobile/OperationWindowMobile.module.scss';
 
 interface TransferFormValues {
   amount: string;
-  moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  moneyId: string | null;
+  accountFromId: string | null;
+  accountToId: string | null;
   transferDate: Date;
   reportPeriod: Date;
   isFee: boolean;
@@ -68,9 +68,9 @@ function mapValuesToCreatePayload(values: TransferFormValues): CreateTransferDat
   } = values;
   const data: CreateTransferData = {
     amount: Number(amount),
-    moneyId,
-    accountFromId,
-    accountToId,
+    moneyId: moneyId!,
+    accountFromId: accountFromId!,
+    accountToId: accountToId!,
     transferDate: format(transferDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -105,9 +105,9 @@ function mapValuesToUpdatePayload(values: TransferFormValues): UpdateTransferCha
   } = values;
   const changes: UpdateTransferChanges = {
     amount: Number(amount),
-    moneyId,
-    accountFromId,
-    accountToId,
+    moneyId: moneyId!,
+    accountFromId: accountFromId!,
+    accountToId: accountToId!,
     transferDate: format(transferDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -259,6 +259,7 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
+        moneyId: Yup.mixed().test('moneyId', t('Please select money'), value => Boolean(value)),
         transferDate: Yup.date().required(t('Please select date')),
         reportPeriod: Yup.date().required(t('Please select date')),
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
@@ -267,13 +268,16 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
         accountFeeId: Yup.mixed().test('accountFeeId', t('Please select account'), function (value) {
           return !(this.parent.isFee && !value);
         }),
-        accountToId: Yup.mixed().test(
-          'accountToId',
-          t('Please select an account other than the account you are transferring money from'),
-          function (value) {
-            return !(this.parent.accountFromId === value);
-          }
-        ),
+        accountFromId: Yup.mixed().test('accountFromId', t('Please select account'), value => Boolean(value)),
+        accountToId: Yup.mixed()
+          .test('accountToId', t('Please select account'), value => Boolean(value))
+          .test(
+            'accountToId',
+            t('Please select an account other than the account you are transferring money from'),
+            function (value) {
+              return !(this.parent.accountFromId === value);
+            }
+          ),
       }),
     []
   );
@@ -290,14 +294,14 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
       onSubmit={onSubmit}
       initialValues={{
         amount: amount ? String(amount) : '',
-        moneyId: money?.id ?? defaultMoney.id,
-        accountFromId: accountFrom?.id ?? defaultAccount.id,
-        accountToId: accountTo?.id ?? defaultAccount.id,
+        moneyId: money?.id ?? defaultMoney?.id ?? null,
+        accountFromId: accountFrom?.id ?? defaultAccount?.id ?? null,
+        accountToId: accountTo?.id ?? null,
         transferDate: transferDate ? parseISO(transferDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         isFee: Boolean(fee),
         fee: fee ? String(fee) : '',
-        moneyFeeId: moneyFee?.id ?? defaultMoney.id,
+        moneyFeeId: moneyFee?.id ?? defaultMoney?.id ?? null,
         accountFeeId: accountFee?.id ?? null,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],

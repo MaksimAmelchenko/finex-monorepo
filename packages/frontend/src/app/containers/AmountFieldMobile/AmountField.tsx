@@ -21,8 +21,8 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
     const [openMoneys, setOpenMoneys] = useState<boolean>(false);
 
     const { setFieldValue, setFieldTouched } = useFormikContext<any>();
-    const [amountFieldProps, meta] = useField(amountFieldName);
-    const [{ value: moneyId }] = useField(moneyFieldName);
+    const [amountFieldProps, amountFieldMeta] = useField(amountFieldName);
+    const [{ value: moneyId }, moneyFieldMeta] = useField(moneyFieldName);
 
     const money = useMemo(() => moneysRepository.get(moneyId), [moneyId]);
 
@@ -39,7 +39,7 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
           }
         } catch (err) {}
       }
-    }, [amountFieldName, setFieldValue, setFieldTouched, meta.value]);
+    }, [amountFieldName, setFieldValue, setFieldTouched]);
 
     const handleMoneyDropdownClick = useCallback(() => {
       setOpenMoneys(true);
@@ -67,8 +67,8 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
           // type="text"
           // pattern="\d*"
           inputMode="decimal"
-          errorText={meta.error}
-          endAdornment={<Dropdown text={money?.symbol || ''} onClick={handleMoneyDropdownClick} />}
+          errorText={amountFieldMeta.error || moneyFieldMeta.error}
+          endAdornment={<Dropdown text={money?.symbol || money?.name || ''} onClick={handleMoneyDropdownClick} />}
           ref={ref}
           onBlur={handleBlur}
         />

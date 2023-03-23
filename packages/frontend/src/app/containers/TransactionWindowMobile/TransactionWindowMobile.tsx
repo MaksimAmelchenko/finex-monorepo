@@ -32,9 +32,9 @@ import styles from '../OperationWindowMobile/OperationWindowMobile.module.scss';
 interface TransactionFormValues {
   sign: '1' | '-1';
   amount: string;
-  moneyId: string;
+  moneyId: string | null;
   categoryId: string | null;
-  accountId: string;
+  accountId: string | null;
   transactionDate: Date;
   reportPeriod: Date;
   quantity: string;
@@ -75,9 +75,9 @@ function mapValuesToCreatePayload(values: TransactionFormValues): CreateTransact
   return {
     sign: Number(sign) as Sign,
     amount: Number(amount),
-    moneyId,
+    moneyId: moneyId!,
     categoryId: categoryId!,
-    accountId,
+    accountId: accountId!,
     // TODO take contractorId from PlannedTransaction
     contractorId: null,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
@@ -109,9 +109,9 @@ function mapValuesToUpdatePayload(values: TransactionFormValues): UpdateTransact
   return {
     sign: Number(sign) as Sign,
     amount: Number(amount),
-    moneyId,
+    moneyId: moneyId!,
     categoryId: categoryId!,
-    accountId,
+    accountId: accountId!,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     quantity: quantity ? Number(quantity) : null,
@@ -261,7 +261,9 @@ export function TransactionWindowMobile({
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
+        moneyId: Yup.mixed().test('moneyId', t('Please select money'), value => Boolean(value)),
         categoryId: Yup.mixed().test('categoryId', t('Please select category'), value => Boolean(value)),
+        accountId: Yup.mixed().test('accountId', t('Please select account'), value => Boolean(value)),
         quantity: Yup.mixed().test('quantity', t('Please enter a number'), value => !value || (value && !isNaN(value))),
       }),
     []
@@ -281,9 +283,9 @@ export function TransactionWindowMobile({
       initialValues={{
         sign: String(sign) as any,
         amount: amount ? String(amount) : '',
-        moneyId: money?.id ?? defaultMoney.id,
+        moneyId: money?.id ?? defaultMoney?.id ?? null,
         categoryId: category?.id ?? null,
-        accountId: account?.id ?? defaultAccount.id,
+        accountId: account?.id ?? defaultAccount?.id ?? null,
         transactionDate: transactionDate ? parseISO(transactionDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         quantity: quantity ? String(quantity) : '',

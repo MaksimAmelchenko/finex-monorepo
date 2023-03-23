@@ -30,11 +30,11 @@ import styles from '../OperationWindowMobile/OperationWindowMobile.module.scss';
 
 interface ExchangeFormValues {
   amountSell: string;
-  moneySellId: string;
+  moneySellId: string | null;
   amountBuy: string;
   moneyBuyId: string | null;
-  accountSellId: string;
-  accountBuyId: string;
+  accountSellId: string | null;
+  accountBuyId: string | null;
   exchangeDate: Date;
   reportPeriod: Date;
   isFee: boolean;
@@ -72,11 +72,11 @@ function mapValuesToCreatePayload(values: ExchangeFormValues): CreateExchangeDat
   } = values;
   const data: CreateExchangeData = {
     amountSell: Number(amountSell),
-    moneySellId,
+    moneySellId: moneySellId!,
     amountBuy: Number(amountBuy),
     moneyBuyId: moneyBuyId!,
-    accountSellId,
-    accountBuyId,
+    accountSellId: accountSellId!,
+    accountBuyId: accountBuyId!,
     exchangeDate: format(exchangeDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -113,11 +113,11 @@ function mapValuesToUpdatePayload(values: ExchangeFormValues): UpdateExchangeCha
   } = values;
   const changes: UpdateExchangeChanges = {
     amountSell: Number(amountSell),
-    moneySellId,
+    moneySellId: moneySellId!,
     amountBuy: Number(amountBuy),
     moneyBuyId: moneyBuyId!,
-    accountSellId,
-    accountBuyId,
+    accountSellId: accountSellId!,
+    accountBuyId: accountBuyId!,
     exchangeDate: format(exchangeDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -274,7 +274,10 @@ export function ExchangeWindowMobile({ exchange, onClose }: ExchangeWindowMobile
       Yup.object<Shape<ExchangeFormValues>>({
         amountSell: Yup.mixed()
           .required(t('Please fill amount'))
-          .test('amountSell', t('Please enter a number'), value => !isNaN(value)),
+          .test('amountSell', t('Please enter a number'), value => !isNaN(value))
+          .test('amountSell', t('Please select money'), function () {
+            return this.parent.moneySellId;
+          }),
         amountBuy: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amountBuy', t('Please enter a number'), value => !isNaN(value))
@@ -288,6 +291,8 @@ export function ExchangeWindowMobile({ exchange, onClose }: ExchangeWindowMobile
               return !(this.parent.moneySellId === this.parent.moneyBuyId);
             }
           ),
+        accountSellId: Yup.mixed().test('accountSellId', t('Please select account'), value => Boolean(value)),
+        accountBuyId: Yup.mixed().test('accountBuyId', t('Please select account'), value => Boolean(value)),
         exchangeDate: Yup.date().required(t('Please select date')),
         reportPeriod: Yup.date().required(t('Please select date')),
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
@@ -312,11 +317,11 @@ export function ExchangeWindowMobile({ exchange, onClose }: ExchangeWindowMobile
       onSubmit={onSubmit}
       initialValues={{
         amountSell: amountSell ? String(amountSell) : '',
-        moneySellId: moneySell?.id ?? defaultMoney.id,
+        moneySellId: moneySell?.id ?? defaultMoney?.id ?? null,
         amountBuy: amountBuy ? String(amountBuy) : '',
         moneyBuyId: moneyBuy?.id ?? null,
-        accountSellId: accountSell?.id ?? defaultAccount.id,
-        accountBuyId: accountBuy?.id ?? defaultAccount.id,
+        accountSellId: accountSell?.id ?? defaultAccount?.id ?? null,
+        accountBuyId: accountBuy?.id ?? defaultAccount?.id ?? null,
         exchangeDate: exchangeDate ? parseISO(exchangeDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         isFee: Boolean(fee),
