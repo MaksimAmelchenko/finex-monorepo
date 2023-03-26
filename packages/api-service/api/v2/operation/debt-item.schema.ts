@@ -16,10 +16,10 @@ export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
   properties: {
     operationType: {
       type: 'string',
-      enum: ['debt'],
+      enum: ['debtItem'],
     },
     id,
-    cashFlowId: id,
+    debtId: id,
     sign,
     amount: {
       type: 'number',
@@ -46,7 +46,7 @@ export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
   required: [
     'operationType',
     'id',
-    'cashFlowId',
+    'debtId',
     'sign',
     'amount',
     'moneyId',
