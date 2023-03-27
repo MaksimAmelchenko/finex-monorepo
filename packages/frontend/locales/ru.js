@@ -235,7 +235,7 @@ module.exports = {
   },
   ContractorsMobile: {
     'You do not have contractors yet': 'У вас ещё нет контрагентов',
-    'Start creating by clicking on "Create contractor"': 'Добавьте контрагента, нажав нв "Создать контрагента"',
+    'Start creating by clicking on "Create contractor"': 'Добавьте контрагента, нажав на "Создать контрагента"',
     'Create contractor': 'Создать контрагента',
     Contractors: 'Контрагенты',
   },
