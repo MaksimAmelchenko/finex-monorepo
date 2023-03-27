@@ -77,7 +77,7 @@ export const DebtsMobile = observer(() => {
         <div className={styles.root__emptyState}>
           <EmptyState
             illustration={<CoinsHandIcon className={styles.root__emptyStateIllustration} />}
-            text={t('You do not have debts yet')}
+            text={t('Debts and Loans')}
             supportingText={t('To create a debt, click on the "plus" button below and select "Debt"')}
           />
           <div className={styles.root__pointer}>

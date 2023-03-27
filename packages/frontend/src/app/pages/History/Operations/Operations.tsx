@@ -114,9 +114,9 @@ export const Operations = observer(() => {
         <div className={styles.root__emptyState}>
           <EmptyState
             illustration={<SwitchHorizontal01Icon className={styles.root__emptyStateIllustration} />}
-            text={t('You do not have transactions yet')}
+            text={t('Transactions')}
             supportingText={t(
-              'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"'
+              'Here are your expenses, income, transfers between accounts and currency exchange. To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"'
             )}
           />
           <div className={styles.root__pointer}>

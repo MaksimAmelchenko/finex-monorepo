@@ -40,10 +40,10 @@ module.exports = {
     Edit: 'Edit',
   },
   AccountsMobile: {
-    'You do not have accounts yet': 'You do not have accounts yet',
-    'Start creating by clicking on "Create account"': 'Start creating by clicking on "Create account"',
-    'Create account': 'Create account',
     Accounts: 'Accounts',
+    'Here are your cards, bank accounts and deposits_ Start creating by clicking on "Create account"':
+      'Here are your cards, bank accounts and deposits. Start creating by clicking on "Create account"',
+    'Create account': 'Create account',
   },
   AccountWindow: {
     'Account already exists': 'Account already exists',
@@ -156,9 +156,9 @@ module.exports = {
     Expense: 'Expense',
     Balance: 'Balance',
     Note: 'Note',
-    'You do not have Cash Flows yet': 'You do not have Cash Flows yet',
-    'To create a Cash FLow, click on the "plus" button below and select "Cash Flow"':
-      'To create a Cash FLow, click on the "plus" button below and select "Cash Flow"',
+    'Cash Flows': 'Cash Flows',
+    'Cash Flow groups transactions_ To create a Cash Flow, click on the "plus" button below and select "Cash Flow"':
+      'Cash Flow groups transactions. To create a Cash Flow, click on the "plus" button below and select "Cash Flow"',
     'Load more': 'Load more',
   },
   CashFlowWindow: {
@@ -336,7 +336,7 @@ module.exports = {
     Note: 'Note',
   },
   DebtsMobile: {
-    'You do not have debts yet': 'You do not have debts yet',
+    'Debts and Loans': 'Debts and Loans',
     'To create a debt, click on the "plus" button below and select "Debt"':
       'To create a debt, click on the "plus" button below and select "Debt"',
     'Load more': 'Load more',
@@ -592,9 +592,9 @@ module.exports = {
     Move: 'Move',
   },
   Operations: {
-    'You do not have transactions yet': 'You do not have transactions yet',
-    'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"':
-      'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"',
+    Transactions: 'Transactions',
+    'Here are your expenses, income, transfers between accounts and currency exchange_ To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"':
+      'Here are your expenses, income, transfers between accounts and currency exchange. To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"',
     'Load more': 'Load more',
   },
   OutcomeMobile: {

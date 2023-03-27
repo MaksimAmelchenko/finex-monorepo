@@ -40,10 +40,10 @@ module.exports = {
     Edit: 'Изменение',
   },
   AccountsMobile: {
-    'You do not have accounts yet': 'У вас ещё нет счетов',
-    'Start creating by clicking on "Create account"': 'Создайте счёт, кликнув на "Создать счёт"',
-    'Create account': 'Создать счёт',
     Accounts: 'Счета',
+    'Here are your cards, bank accounts and deposits_ Start creating by clicking on "Create account"':
+      'Здесь находятся ваши каты, банковские счета и депозиты. Чтобы создать счет, нажмите на "Создать счёт"',
+    'Create account': 'Создать счёт',
   },
   AccountWindow: {
     'Account already exists': 'Счёт с таким наименованием уже существует',
@@ -156,9 +156,9 @@ module.exports = {
     Expense: 'Расход',
     Balance: 'Баланс',
     Note: 'Примечание',
-    'You do not have Cash Flows yet': 'У вас ещё нет денежный потоков',
-    'To create a Cash FLow, click on the "plus" button below and select "Cash Flow"':
-      'Чтобы создать денежный поток, нажмите на кнопку "плюс" ниже и выберите "Денежный поток"',
+    'Cash Flows': 'Денежные потоки',
+    'Cash Flow groups transactions_ To create a Cash Flow, click on the "plus" button below and select "Cash Flow"':
+      'Денежный поток группирует операции. Чтобы создать денежный поток, нажмите кнопку «плюс» ниже и выберите «Денежный поток»',
     'Load more': 'Загрузить ещё...',
   },
   CashFlowWindow: {
@@ -337,7 +337,7 @@ module.exports = {
     Note: 'Примечание',
   },
   DebtsMobile: {
-    'You do not have debts yet': 'У вас ещё нет долгов',
+    'Debts and Loans': 'Долги и кредиты',
     'To create a debt, click on the "plus" button below and select "Debt"':
       'Чтобы создать долг, нажмите на кнопку "плюс" ниже и выберите "Долг"',
     'Load more': 'Загрузить ещё...',
@@ -593,9 +593,9 @@ module.exports = {
     Move: 'Перенести',
   },
   Operations: {
-    'You do not have transactions yet': 'У вас ещё нет операций',
-    'To create a transaction, click on the "plus" button below and select "Expense", "Income",  "Transfer" or "Exchange"':
-      'Чтобы добавить операцию, нажмите на кнопку "плюс" ниже и выберите "Расход", "Доход", "Перевод" или "Обмен валюты"',
+    Transactions: 'Операции',
+    'Here are your expenses, income, transfers between accounts and currency exchange_ To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"':
+      'Здесь ваши расходы, доходы, переводы между счетами и обмен валют. Чтобы добавить операцию, нажмите "плюс" внизу экрана и выберите "Расход", "Доход", "Перевод" или "Обмен валюты"',
     'Load more': 'Загрузить ещё...',
   },
   OutcomeMobile: {

@@ -76,8 +76,8 @@ export const CashFlows = observer(() => {
         <div className={styles.root__emptyState}>
           <EmptyState
             illustration={<DataFlow03Icon className={styles.root__emptyStateIllustration} />}
-            text={t('You do not have Cash Flows yet')}
-            supportingText={t('To create a Cash FLow, click on the "plus" button below and select "Cash Flow"')}
+            text={t('Cash Flows')}
+            supportingText={t('Cash Flow groups transactions. To create a Cash Flow, click on the "plus" button below and select "Cash Flow"')}
           />
           <div className={styles.root__pointer}>
             <HandDrawnArrowIllustration />

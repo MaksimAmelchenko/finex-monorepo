@@ -59,8 +59,8 @@ export const AccountsMobileContent = observer<AccountsMobileContentProps>(({ onS
         <div className={styles.root__emptyState}>
           <EmptyState
             illustration={<Wallet01Icon className={styles.root__emptyStateIllustration} />}
-            text={t('You do not have accounts yet')}
-            supportingText={t('Start creating by clicking on\u00A0"Create\u00A0account"')}
+            text={t('Accounts')}
+            supportingText={t('Here are your cards, bank accounts and deposits. Start creating by clicking on\u00A0"Create\u00A0account"')}
           >
             <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
               {t('Create account')}
