@@ -19,7 +19,7 @@ export function Header({
   return (
     <header className={styles.root}>
       {StartAdornment}
-      <div className={clsx(styles.root__title, !Boolean(EndAdornment) && styles.root__title_withoutEndAdornment)}>
+      <div className={clsx(styles.root__title, !EndAdornment && styles.root__title_withoutEndAdornment)}>
         {title}
       </div>
       {EndAdornment}

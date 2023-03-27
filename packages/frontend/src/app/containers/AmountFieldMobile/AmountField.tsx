@@ -24,22 +24,25 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
     const [amountFieldProps, amountFieldMeta] = useField(amountFieldName);
     const [{ value: moneyId }, moneyFieldMeta] = useField(moneyFieldName);
 
-    const money = useMemo(() => moneysRepository.get(moneyId), [moneyId]);
+    const money = useMemo(() => moneysRepository.get(moneyId), [moneyId, moneysRepository]);
 
     const handleBlur = useCallback(() => {
       let value: string = amountFieldProps.value.trim();
       if (value) {
         value = value.replace(/[,ю]/g, '.').replace(/\s/g, '');
         try {
+          // eslint-disable-next-line no-eval
           const amount: number = eval(value);
 
           if (!isNaN(amount) && money) {
             setFieldValue(amountFieldName, String(round(amount, money.precision)));
             setFieldTouched(amountFieldName, true, false);
           }
-        } catch (err) {}
+        } catch (err) {
+          /* empty */
+        }
       }
-    }, [amountFieldName, setFieldValue, setFieldTouched]);
+    }, [amountFieldProps.value, money, setFieldValue, amountFieldName, setFieldTouched]);
 
     const handleMoneyDropdownClick = useCallback(() => {
       setOpenMoneys(true);
@@ -51,7 +54,7 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
         setFieldTouched(moneyFieldName, true, false);
         setOpenMoneys(false);
       },
-      [moneyFieldName]
+      [moneyFieldName, setFieldTouched, setFieldValue]
     );
 
     const handleMoneysClose = useCallback(() => {

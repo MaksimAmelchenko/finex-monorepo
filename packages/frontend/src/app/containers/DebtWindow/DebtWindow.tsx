@@ -100,7 +100,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [debt, debtsRepository, enqueueSnackbar, onClose]
+    [debt, debtsRepository, enqueueSnackbar]
   );
 
   const validationSchema = useMemo(
@@ -209,7 +209,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           <div className={clsx(styles.panel)}>
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
-                <Button variant="secondaryGray" disabled={!Boolean(debt.id)} onClick={handleOpenAddDebtItem}>
+                <Button variant="secondaryGray" disabled={!debt.id} onClick={handleOpenAddDebtItem}>
                   {t('New')}
                 </Button>
                 <Button variant="secondaryGray" disabled={!selectedDebtItems.length} onClick={handleDeleteClick}>

@@ -19,7 +19,7 @@ export function FormDateField(props: FormDateFieldProps): JSX.Element {
       setFieldValue(name, value);
       setFieldTouched(name, true, false);
     },
-    [name, setFieldValue]
+    [name, setFieldTouched, setFieldValue]
   );
 
   return <DateField {...joinedProps} onChange={handleChange} error={isError ? meta.error : ''} />;

@@ -18,7 +18,7 @@ export const CategoryField = forwardRef<HTMLInputElement, CategoryFieldProps>(({
   const { setFieldValue, setFieldTouched } = useFormikContext<any>();
   const [{ value: categoryId }, meta] = useField(name);
 
-  const category = useMemo(() => categoriesRepository.get(categoryId), [categoryId]);
+  const category = useMemo(() => categoriesRepository.get(categoryId), [categoriesRepository, categoryId]);
 
   const handleCategoryDropdownClick = useCallback(() => {
     setOpenCategories(true);
@@ -30,7 +30,7 @@ export const CategoryField = forwardRef<HTMLInputElement, CategoryFieldProps>(({
       setFieldTouched(name, true, false);
       setOpenCategories(false);
     },
-    [name]
+    [name, setFieldTouched, setFieldValue]
   );
 
   const handleCategoriesClose = useCallback(() => {

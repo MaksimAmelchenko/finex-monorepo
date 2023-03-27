@@ -50,20 +50,23 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
       }
     }
     mainLayoutStore.hideWindow();
-  }, []);
+  }, [mainLayoutStore, navigate]);
 
-  const handleMenuItemClick = useCallback((menuItemId: string) => {
-    const map: Record<string, Window> = {
-      addExpense: Window.AddExpenseTransaction,
-      addIncome: Window.AddIncomeTransaction,
-      addCashFlow: Window.AddCashFlow,
-      addDebt: Window.AddDebt,
-      addTransfer: Window.AddTransfer,
-      addExchange: Window.AddExchange,
-    };
-    const window = map[menuItemId] ?? Window.None;
-    mainLayoutStore.showWindow(window);
-  }, []);
+  const handleMenuItemClick = useCallback(
+    (menuItemId: string) => {
+      const map: Record<string, Window> = {
+        addExpense: Window.AddExpenseTransaction,
+        addIncome: Window.AddIncomeTransaction,
+        addCashFlow: Window.AddCashFlow,
+        addDebt: Window.AddDebt,
+        addTransfer: Window.AddTransfer,
+        addExchange: Window.AddExchange,
+      };
+      const window = map[menuItemId] ?? Window.None;
+      mainLayoutStore.showWindow(window);
+    },
+    [mainLayoutStore]
+  );
 
   const openExpenseTransactionWindow = mainLayoutStore.window === Window.AddExpenseTransaction;
   const openIncomeTransactionWindow = mainLayoutStore.window === Window.AddIncomeTransaction;

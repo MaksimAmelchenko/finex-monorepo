@@ -39,7 +39,7 @@ export function BalanceCard({
 }: BalanceCardProps): JSX.Element {
   return (
     <button type="button" className={clsx(styles.root, className)} onClick={onClick}>
-      {icon && <img src={icon} className={clsx(styles.root__icon, styles.icon)} loading="lazy" />}
+      {icon && <img src={icon} className={clsx(styles.root__icon, styles.icon)} loading="lazy" alt="icon"/>}
       <div className={clsx(styles.root__header, styles.header)}>
         <div className={styles.header__title}>{title}</div>
         {isAccordion && (

@@ -30,7 +30,7 @@ export const DebtsMobile = observer(() => {
 
   useEffect(() => {
     debtsRepository.refresh();
-  }, [projectsRepository.currentProject]);
+  }, [debtsRepository, projectsRepository.currentProject]);
 
   const handleCardClick = (debtId: string) => {
     const debt = debtsRepository.getDebt(debtId);
@@ -63,7 +63,7 @@ export const DebtsMobile = observer(() => {
     return () => {
       PullToRefresh.destroyAll();
     };
-  }, []);
+  }, [debtsRepository]);
 
   const { debts, loadState } = debtsRepository;
 

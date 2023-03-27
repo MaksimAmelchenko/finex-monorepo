@@ -12,13 +12,13 @@ export interface ILinkBaseProps extends GAOptions, Omit<AnchorHTMLAttributes<HTM
 export const LinkBase = React.forwardRef<HTMLAnchorElement, ILinkBaseProps>(function LinkBase(props, ref) {
   const { href, children, className, ...rest } = props;
 
-  let path = useResolvedPath(href);
-  let location = useLocation();
+  const path = useResolvedPath(href);
+  const location = useLocation();
 
-  let toPathname = path.pathname.toLowerCase();
-  let locationPathname = location.pathname.toLowerCase();
+  const toPathname = path.pathname.toLowerCase();
+  const locationPathname = location.pathname.toLowerCase();
 
-  let isActive =
+  const isActive =
     locationPathname === toPathname ||
     (locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === '/');
 

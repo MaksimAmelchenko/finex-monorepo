@@ -122,7 +122,7 @@ export function AccountWindowMobile({ account, onClose }: AccountWindowProps): J
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [account, accountsRepository, enqueueSnackbar, onClose]
+    [account, accountsRepository, enqueueSnackbar, isNew, onClose]
   );
 
   const handleDeleteClick = () => {

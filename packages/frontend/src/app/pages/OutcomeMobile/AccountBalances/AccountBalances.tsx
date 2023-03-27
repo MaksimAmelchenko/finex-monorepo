@@ -62,7 +62,7 @@ export const AccountBalances = observer(() => {
 
   useEffect(() => {
     balanceRepository.fetchBalance({}).catch(console.error);
-  }, [projectsRepository.currentProject]);
+  }, [balanceRepository, projectsRepository.currentProject]);
 
   const accountTypeBalances = useMemo(() => {
     // remove zero balances

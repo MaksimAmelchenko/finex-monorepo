@@ -27,7 +27,7 @@ export function AppBar({ title, endAdornment: EndAdornment }: AppBarProps): JSX.
   return (
     <>
       <header className={styles.root}>
-        <div className={clsx(styles.root__title, !Boolean(EndAdornment) && styles.root__title_withoutEndAdornment)}>
+        <div className={clsx(styles.root__title, !EndAdornment && styles.root__title_withoutEndAdornment)}>
           {title}
         </div>
         {EndAdornment}

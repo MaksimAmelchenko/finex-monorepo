@@ -78,7 +78,7 @@ export const Exchanges = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [exchangesRepository, projectsRepository.currentProject]);
+  }, [enqueueSnackbar, exchangesRepository, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {

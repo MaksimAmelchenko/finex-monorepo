@@ -60,7 +60,7 @@ export class CashFlow implements ICashFlow, ISelectable, IDeletable {
   }
 
   get cashFlowDate(): TDateTime {
-    let maxDate = Math.max(...this.items.map(({ cashFlowItemDate }) => parseISO(cashFlowItemDate).getTime()));
+    const maxDate = Math.max(...this.items.map(({ cashFlowItemDate }) => parseISO(cashFlowItemDate).getTime()));
     if (maxDate !== -Infinity) {
       return formatISO(maxDate);
     }
@@ -117,7 +117,7 @@ export class CashFlow implements ICashFlow, ISelectable, IDeletable {
     const map: Map<string, CashFlowItem[]> = new Map();
     this.cashFlowItems.forEach(cashFlowItem => {
       const date = format(parseISO(cashFlowItem.cashFlowItemDate), 'yyyy-MM-dd');
-      let item = map.get(date);
+      const item = map.get(date);
       if (!item) {
         map.set(date, [cashFlowItem]);
       } else {

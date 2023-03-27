@@ -25,7 +25,7 @@ export const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
         setFieldTouched(name, true, false);
         setOpenDatePicker(false);
       },
-      [name]
+      [name, setFieldTouched, setFieldValue]
     );
 
     const handleClick = useCallback(() => {

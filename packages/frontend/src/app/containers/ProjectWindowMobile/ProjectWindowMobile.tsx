@@ -101,7 +101,7 @@ export function ProjectWindowMobile({ project, onClose }: ProjectWindowMobilePro
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [project, projectsRepository, enqueueSnackbar, onClose]
+    [isNew, projectsRepository, project, onClose, enqueueSnackbar]
   );
 
   const handleDeleteClick = () => {

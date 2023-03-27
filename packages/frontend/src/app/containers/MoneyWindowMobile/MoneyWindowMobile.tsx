@@ -125,7 +125,7 @@ export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): J
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, money, moneysRepository, onClose]
+    [enqueueSnackbar, isNew, money, moneysRepository, onClose]
   );
 
   const handleDeleteClick = () => {

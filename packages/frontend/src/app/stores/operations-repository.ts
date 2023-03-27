@@ -188,7 +188,7 @@ export class OperationsRepository extends ManageableStore {
   get operationsByDates(): IOperationsByDate[] {
     const map: Map<string, IOperation[]> = new Map();
     this.operations.forEach(operation => {
-      let item = map.get(operation.operationDate);
+      const item = map.get(operation.operationDate);
       if (!item) {
         map.set(operation.operationDate, [operation]);
       } else {

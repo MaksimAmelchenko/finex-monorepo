@@ -29,6 +29,7 @@ export const CashFlows = observer(() => {
 
   useEffect(() => {
     cashFlowsRepository.refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectsRepository.currentProject]);
 
   const handleCardClick = (cashFlowItemId: string) => {
@@ -62,7 +63,7 @@ export const CashFlows = observer(() => {
     return () => {
       PullToRefresh.destroyAll();
     };
-  }, []);
+  }, [cashFlowsRepository]);
 
   const { cashFlowsByDates, loadState, cashFlows } = cashFlowsRepository;
 
@@ -77,7 +78,9 @@ export const CashFlows = observer(() => {
           <EmptyState
             illustration={<DataFlow03Icon className={styles.root__emptyStateIllustration} />}
             text={t('Cash Flows')}
-            supportingText={t('Cash Flow groups transactions. To create a Cash Flow, click on the "plus" button below and select "Cash Flow"')}
+            supportingText={t(
+              'Cash Flow groups transactions. To create a Cash Flow, click on the "plus" button below and select "Cash Flow"'
+            )}
           />
           <div className={styles.root__pointer}>
             <HandDrawnArrowIllustration />

@@ -14,9 +14,9 @@ import { TagsLazy } from '../../containers/Tags/TagsLazy';
 import { UnitsLazy } from '../../containers/Units/UnitsLazy';
 import { getT } from '../../lib/core/i18n';
 
-const t = getT('Settings');
-
 import styles from './Settings.module.scss';
+
+const t = getT('Settings');
 
 export const Settings = observer(() => {
   const options: ITabOption[] = useMemo(

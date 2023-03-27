@@ -101,7 +101,7 @@ export const Projects = observer(() => {
         setSelectedProject(null);
       }
     }
-  }, [projectsRepository.projects]);
+  }, [projectsRepository.projects, selectedProject]);
 
   const isSelectCurrentProject = projectsRepository.currentProject === selectedProject;
   return (
@@ -116,7 +116,7 @@ export const Projects = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="sm"
-                disabled={!Boolean(selectedProject) || isSelectCurrentProject}
+                disabled={!selectedProject || isSelectCurrentProject}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}

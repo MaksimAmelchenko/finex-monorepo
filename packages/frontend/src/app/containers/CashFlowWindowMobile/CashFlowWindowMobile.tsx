@@ -127,7 +127,7 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [cashFlow, cashFlowsRepository, enqueueSnackbar]
+    [cashFlow, cashFlowsRepository, enqueueSnackbar, isNew]
   );
 
   const handleShowAdditionalFieldsClick = () => {

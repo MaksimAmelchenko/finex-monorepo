@@ -80,7 +80,7 @@ export function TagWindowMobile({ tag, onClose }: TagWindowMobileProps): JSX.Ele
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, onClose, tag, tagsRepository]
+    [enqueueSnackbar, isNew, onClose, tag, tagsRepository]
   );
 
   const handleDeleteClick = () => {

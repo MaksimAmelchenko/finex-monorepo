@@ -12,7 +12,7 @@ export function CenterBottomNavigationButton({ onClick }: CenterBottomNavigation
   return (
     <button className={styles.root} type="button" onClick={onClick}>
       <div className={styles.root__icon}>
-        <img src={plusCircleSvg} />
+        <img src={plusCircleSvg} alt="Plus"/>
       </div>
     </button>
   );

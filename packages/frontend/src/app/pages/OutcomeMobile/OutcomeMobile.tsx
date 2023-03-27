@@ -36,7 +36,7 @@ export const OutcomeMobile = observer(() => {
     return () => {
       PullToRefresh.destroyAll();
     };
-  }, []);
+  }, [balanceRepository]);
 
   return (
     <div className={styles.root}>

@@ -43,7 +43,7 @@ export const Operations = observer(() => {
 
   useEffect(() => {
     operationsRepository.refresh();
-  }, [projectsRepository.currentProject]);
+  }, [operationsRepository, projectsRepository.currentProject]);
 
   const handleCardClick = (operationId: string) => {
     const operation = operationsRepository.getOperation(operationId);
@@ -100,7 +100,7 @@ export const Operations = observer(() => {
     return () => {
       PullToRefresh.destroyAll();
     };
-  }, []);
+  }, [operationsRepository]);
 
   const { operationsByDates, loadState, operations } = operationsRepository;
 

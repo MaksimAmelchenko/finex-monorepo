@@ -86,7 +86,7 @@ export const Debts = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [debtsRepository, projectsRepository.currentProject]);
+  }, [debtsRepository, enqueueSnackbar, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {

@@ -421,7 +421,7 @@ export class CashFlowsRepository extends ManageableStore {
     const map: Map<string, CashFlow[]> = new Map();
     this.cashFlows.forEach(cashFlow => {
       const date = format(parseISO(cashFlow.cashFlowDate), 'yyyy-MM-dd');
-      let item = map.get(date);
+      const item = map.get(date);
       if (!item) {
         map.set(date, [cashFlow]);
       } else {

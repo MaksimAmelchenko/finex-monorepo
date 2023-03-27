@@ -218,7 +218,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
         enqueueSnackbar(t('Your subscription has ended.'), { variant: 'info', action, autoHideDuration: 10000 });
       }
     }
-  }, [profile]);
+  }, [closeSnackbar, enqueueSnackbar, profile]);
 
   if (!profile) {
     return <Loader />;

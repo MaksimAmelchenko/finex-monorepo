@@ -77,7 +77,7 @@ export const CashFlows = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [cashFlowsRepository, projectsRepository.currentProject]);
+  }, [cashFlowsRepository, enqueueSnackbar, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {

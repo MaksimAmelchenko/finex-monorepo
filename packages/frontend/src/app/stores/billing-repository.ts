@@ -12,7 +12,7 @@ import { ManageableStore } from '../core/manageable-store';
 
 export class BillingRepository extends ManageableStore {
   static storeName = 'BillingRepository';
-  private isPolling: boolean = false;
+  private isPolling = false;
 
   constructor(mainStore: MainStore, private api: IBillingApi) {
     super(mainStore);

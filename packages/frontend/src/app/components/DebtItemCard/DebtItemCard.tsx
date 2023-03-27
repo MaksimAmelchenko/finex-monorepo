@@ -3,6 +3,10 @@ import clsx from 'clsx';
 
 import { toCurrency } from '../../lib/core/i18n';
 
+import { coinsHandSvg } from '@finex/ui-kit';
+
+import styles from './DebtItemCard.module.scss';
+
 interface DebtItemCardOperationDebt {
   id: string;
   contractor: {
@@ -30,10 +34,6 @@ export interface DebtItemCardProps {
   onClick: (debtItemId: string) => void;
 }
 
-import { coinsHandSvg } from '@finex/ui-kit';
-
-import styles from './DebtItemCard.module.scss';
-
 export function DebtItemCard({ debtItem, onClick }: DebtItemCardProps) {
   const { id, contractor, category, account, sign, amount, money, note } = debtItem;
   const handleClick = () => {
@@ -43,7 +43,7 @@ export function DebtItemCard({ debtItem, onClick }: DebtItemCardProps) {
   return (
     <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
-        <img src={coinsHandSvg} loading="lazy" />
+        <img src={coinsHandSvg} loading="lazy" alt='debt logo'/>
       </div>
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>

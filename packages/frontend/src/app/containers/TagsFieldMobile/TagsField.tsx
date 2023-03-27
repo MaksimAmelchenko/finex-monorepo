@@ -31,7 +31,7 @@ export function TagsField({ name, ...rest }: LabelInputFieldProps): JSX.Element 
       }
       return acc;
     }, []);
-  }, [tagIds]);
+  }, [tagIds, tagsRepository]);
 
   const handleTagsDropdownClick = useCallback(() => {
     setOpenTags(true);
@@ -43,7 +43,7 @@ export function TagsField({ name, ...rest }: LabelInputFieldProps): JSX.Element 
       setFieldTouched(name, true, false);
       setOpenTags(false);
     },
-    [tagIds]
+    [name, setFieldTouched, setFieldValue, tagIds]
   );
 
   const handleTagsClose = useCallback(() => {

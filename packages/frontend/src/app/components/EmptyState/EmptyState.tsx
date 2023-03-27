@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import styles from './EmptyState.module.scss';
+
 export interface EmptyStateProps {
   illustration: React.ReactNode;
   text?: string;
@@ -9,7 +11,6 @@ export interface EmptyStateProps {
   className?: string;
 }
 
-import styles from './EmptyState.module.scss';
 
 export function EmptyState({ illustration, text, supportingText, children, className }: EmptyStateProps): JSX.Element {
   return (

@@ -18,7 +18,7 @@ export const ContractorField = forwardRef<HTMLInputElement, ContractorFieldProps
   const { setFieldValue, setFieldTouched } = useFormikContext<any>();
   const [{ value: contractorId }, meta] = useField(name);
 
-  const contractor = useMemo(() => categoriesRepository.get(contractorId), [contractorId]);
+  const contractor = useMemo(() => categoriesRepository.get(contractorId), [categoriesRepository, contractorId]);
 
   const handleContractorDropdownClick = useCallback(() => {
     setOpenContractors(true);
@@ -30,7 +30,7 @@ export const ContractorField = forwardRef<HTMLInputElement, ContractorFieldProps
       setFieldTouched(name, true, false);
       setOpenContractors(false);
     },
-    [name]
+    [name, setFieldTouched, setFieldValue]
   );
 
   const handleContractorsClose = useCallback(() => {

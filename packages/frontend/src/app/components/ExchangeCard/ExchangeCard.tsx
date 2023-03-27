@@ -5,6 +5,8 @@ import { toCurrency } from '../../lib/core/i18n';
 
 import { refreshCW03Svg } from '@finex/ui-kit';
 
+import styles from './ExchangeCard.module.scss';
+
 interface ExchangeCardCardOperationExchange {
   id: string;
   accountSell: {
@@ -44,8 +46,6 @@ export interface ExchangeCardProps {
   onClick: (exchangeId: string) => void;
 }
 
-import styles from './ExchangeCard.module.scss';
-
 export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
   const { id, accountSell, amountSell, moneySell, accountBuy, amountBuy, moneyBuy, fee, moneyFee, accountFee, note } =
     exchange;
@@ -57,7 +57,7 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
   return (
     <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
-        <img src={refreshCW03Svg} loading="lazy" />
+        <img src={refreshCW03Svg} loading="lazy" alt="Exchange logo" />
       </div>
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>

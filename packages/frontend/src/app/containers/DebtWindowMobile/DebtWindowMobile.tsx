@@ -146,7 +146,7 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [debt, debtsRepository, enqueueSnackbar]
+    [debt, debtsRepository, enqueueSnackbar, isNew]
   );
 
   const handleShowAdditionalFieldsClick = () => {

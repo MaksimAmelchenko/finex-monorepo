@@ -99,7 +99,7 @@ interface MapValuesResponse {
 
 function mapValues(values: MapValuesParams): MapValuesResponse {
   const { repetitionDaysOfWeek, repetitionDaysOfMonth } = values;
-  let repetitionType = Number(values.repetitionType);
+  const repetitionType = Number(values.repetitionType);
   let repetitionDays: number[] | null = null;
   let terminationType: number | null = values.terminationType ? Number(values.terminationType) : null;
   let repetitionCount: number | null = null;

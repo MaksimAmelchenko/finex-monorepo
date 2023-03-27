@@ -13,7 +13,7 @@ interface DrawerProps {
 export function Drawer({ open, children, className }: DrawerProps): JSX.Element {
   return (
     <MuiDrawer anchor="right" disableEscapeKeyDown={true} open={open}>
-      <div className={clsx(styles.container, className)}>{open && <>{children}</>}</div>
+      <div className={clsx(styles.container, className)}>{open && children}</div>
     </MuiDrawer>
   );
 }

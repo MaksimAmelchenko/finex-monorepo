@@ -5,6 +5,8 @@ import { toCurrency } from '../../lib/core/i18n';
 
 import { reverseRightSvg } from '@finex/ui-kit';
 
+import styles from './TransferCard.module.scss';
+
 interface TransferCardOperationTransfer {
   id: string;
   accountFrom: {
@@ -37,8 +39,6 @@ export interface TransferCardProps {
   onClick: (transferId: string) => void;
 }
 
-import styles from './TransferCard.module.scss';
-
 export function TransferCard({ transfer, onClick }: TransferCardProps) {
   const { id, accountFrom, accountTo, amount, money, fee, moneyFee, accountFee, note } = transfer;
   const handleClick = () => {
@@ -48,7 +48,7 @@ export function TransferCard({ transfer, onClick }: TransferCardProps) {
   return (
     <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
-        <img src={reverseRightSvg} loading="lazy" />
+        <img src={reverseRightSvg} loading="lazy" alt="Transfer logo" />
       </div>
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>

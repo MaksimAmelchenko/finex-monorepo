@@ -86,7 +86,7 @@ export function ContractorWindowMobile({ contractor, onClose }: ContractorWindow
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [contractor, contractorsRepository, enqueueSnackbar, onClose]
+    [contractor, contractorsRepository, enqueueSnackbar, isNew, onClose]
   );
 
   const handleDeleteClick = () => {

@@ -55,7 +55,7 @@ export const PlanTransactions = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [planTransactionsRepository, projectsRepository.currentProject]);
+  }, [enqueueSnackbar, planTransactionsRepository, projectsRepository.currentProject]);
 
   const handleRefreshClick = () => {
     planTransactionsRepository.refresh();

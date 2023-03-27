@@ -145,7 +145,7 @@ export class Debt implements IDebt, ISelectable, IDeletable {
     const map: Map<string, DebtItem[]> = new Map();
     this.debtItems.forEach(debtItem => {
       const date = format(parseISO(debtItem.debtItemDate), 'yyyy-MM-dd');
-      let item = map.get(date);
+      const item = map.get(date);
       if (!item) {
         map.set(date, [debtItem]);
       } else {
@@ -157,7 +157,7 @@ export class Debt implements IDebt, ISelectable, IDeletable {
   }
 
   get debtDate(): TDateTime {
-    let maxDate = Math.max(...this.items.map(({ debtItemDate }) => parseISO(debtItemDate).getTime()));
+    const maxDate = Math.max(...this.items.map(({ debtItemDate }) => parseISO(debtItemDate).getTime()));
     if (maxDate !== -Infinity) {
       return new Date(maxDate).toISOString();
     }

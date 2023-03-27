@@ -4,11 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { PlanTransactions } from './PlanTransactions/PlanTransactions';
 
 export const Planning = observer(() => {
-  return (
-    <>
-      <PlanTransactions />
-    </>
-  );
+  return <PlanTransactions />;
 });
 
 export default Planning;

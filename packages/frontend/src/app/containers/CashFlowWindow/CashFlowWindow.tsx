@@ -101,7 +101,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [cashFlow, cashFlowsRepository, enqueueSnackbar, onClose]
+    [cashFlow, cashFlowsRepository, enqueueSnackbar]
   );
 
   const validationSchema = useMemo(() => {}, []);
@@ -225,7 +225,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
               <div className={styles.toolbar__buttons}>
                 <Button
                   variant="secondaryGray"
-                  disabled={!Boolean(cashFlow.id)}
+                  disabled={!cashFlow.id}
                   onClick={handleOpenAddCashFlowItem}
                   data-cy="cfw-create-cash-flow-item-button"
                 >

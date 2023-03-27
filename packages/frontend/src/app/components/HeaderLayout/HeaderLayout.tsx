@@ -1,13 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import styles from './HeaderLayout.module.scss';
+
 export interface HeaderLayoutProps {
   title: string;
   subtitle?: string;
   className?: string;
 }
-
-import styles from './HeaderLayout.module.scss';
 
 export function HeaderLayout({ title, subtitle, className, ...rest }: HeaderLayoutProps): JSX.Element {
   return (

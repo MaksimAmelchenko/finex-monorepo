@@ -430,7 +430,7 @@ export class DebtsRepository extends ManageableStore {
     const map: Map<string, Debt[]> = new Map();
     this.debts.forEach(debt => {
       const date = format(parseISO(debt.debtDate), 'yyyy-MM-dd');
-      let item = map.get(date);
+      const item = map.get(date);
       if (!item) {
         map.set(date, [debt]);
       } else {

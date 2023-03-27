@@ -18,7 +18,7 @@ export const AccountField = forwardRef<HTMLInputElement, AccountFieldProps>(({ n
   const { setFieldValue, setFieldTouched } = useFormikContext<any>();
   const [{ value: accountId }, meta] = useField(name);
 
-  const account = useMemo(() => categoriesRepository.get(accountId), [accountId]);
+  const account = useMemo(() => categoriesRepository.get(accountId), [accountId, categoriesRepository]);
 
   const handleAccountDropdownClick = useCallback(() => {
     setOpenAccounts(true);
@@ -30,7 +30,7 @@ export const AccountField = forwardRef<HTMLInputElement, AccountFieldProps>(({ n
       setFieldTouched(name, true, false);
       setOpenAccounts(false);
     },
-    [name]
+    [name, setFieldTouched, setFieldValue]
   );
 
   const handleAccountsClose = useCallback(() => {

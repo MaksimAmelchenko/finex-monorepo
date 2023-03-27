@@ -78,7 +78,7 @@ export const Transfers = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [transfersRepository, projectsRepository.currentProject]);
+  }, [transfersRepository, projectsRepository.currentProject, enqueueSnackbar]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {

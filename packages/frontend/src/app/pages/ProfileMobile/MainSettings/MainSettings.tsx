@@ -50,7 +50,7 @@ export const MainSettings = observer(() => {
         enqueueSnackbar(t('Profile has been updated'), { variant: 'success' });
       });
     },
-    [profileRepository, profile]
+    [profile, profileRepository, enqueueSnackbar]
   );
 
   const validationSchema = useMemo(

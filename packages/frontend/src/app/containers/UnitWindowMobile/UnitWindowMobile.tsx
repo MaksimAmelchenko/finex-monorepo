@@ -79,7 +79,7 @@ export function UnitWindowMobile({ unit, onClose }: UnitWindowProps): JSX.Elemen
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, onClose, unit, unitsRepository]
+    [enqueueSnackbar, isNew, onClose, unit, unitsRepository]
   );
 
   const handleDeleteClick = () => {

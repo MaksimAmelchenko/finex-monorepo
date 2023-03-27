@@ -197,7 +197,13 @@ export const DynamicsReport = observer(() => {
         ].map(({ id }) => id),
       });
     }
-  }, [projectsRepository.currentProject]);
+  }, [
+    categoriesRepository,
+    filter.money,
+    moneysRepository.moneys,
+    projectsRepository.currentProject,
+    reportsRepository,
+  ]);
 
   return (
     <div className={styles.layout}>
@@ -318,7 +324,7 @@ export const DynamicsReport = observer(() => {
 
         {dynamicsReportLoadState.isPending() && (
           <div className={styles.loader}>
-            <img src={loadingSvg} />
+            <img src={loadingSvg} alt="Loading" />
           </div>
         )}
 

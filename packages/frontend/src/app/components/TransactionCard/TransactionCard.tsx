@@ -5,6 +5,8 @@ import { toCurrency } from '../../lib/core/i18n';
 
 import { miscellaneousSvg } from '@finex/ui-kit';
 
+import styles from './TransactionCard.module.scss';
+
 interface TransactionCardOperationTransaction {
   id: string;
   category: {
@@ -28,8 +30,6 @@ export interface TransactionCardProps {
   onClick: (transactionId: string) => void;
 }
 
-import styles from './TransactionCard.module.scss';
-
 export function TransactionCard({ transaction, onClick }: TransactionCardProps) {
   const { id, category, account, sign, amount, money, note } = transaction;
   const handleClick = () => {
@@ -39,7 +39,7 @@ export function TransactionCard({ transaction, onClick }: TransactionCardProps) 
   return (
     <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
-        <img src={miscellaneousSvg} loading="lazy" />
+        <img src={miscellaneousSvg} loading="lazy" alt="Transaction logo" />
       </div>
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>

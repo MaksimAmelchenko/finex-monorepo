@@ -24,7 +24,7 @@ export const QuantityField = forwardRef<HTMLInputElement, QuantityFieldProps>(
     const [quantityFieldProps, meta] = useField(quantityFieldName);
     const [{ value: unitId }] = useField(unitFieldName);
 
-    const unit = useMemo(() => unitsRepository.get(unitId), [unitId]);
+    const unit = useMemo(() => unitsRepository.get(unitId), [unitId, unitsRepository]);
 
     const handleUnitDropdownClick = useCallback(() => {
       setOpenUnits(true);
@@ -36,7 +36,7 @@ export const QuantityField = forwardRef<HTMLInputElement, QuantityFieldProps>(
         setFieldTouched(unitFieldName, true, false);
         setOpenUnits(false);
       },
-      [unitFieldName]
+      [setFieldTouched, setFieldValue, unitFieldName]
     );
 
     const handleUnitsClose = useCallback(() => {

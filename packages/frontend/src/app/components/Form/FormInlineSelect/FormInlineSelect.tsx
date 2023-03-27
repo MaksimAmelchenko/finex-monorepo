@@ -22,7 +22,7 @@ export function FormInlineSelect(props: FormInlineSelectProps): JSX.Element {
       setFieldValue(name, option.value);
       setFieldTouched(name, true, false);
     },
-    [name, setFieldValue]
+    [name, setFieldTouched, setFieldValue]
   );
 
   return <InlineSelect {...joinedProps} label={option ? option.label : ''} onChange={handleChange} />;

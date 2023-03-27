@@ -282,7 +282,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
           isEnabled || [exchange.accountSell?.id, exchange.accountBuy?.id, exchange.accountFee?.id].includes(id)
       )
       .map(({ id: value, name: label }) => ({ value, label }));
-  }, [accountsRepository.accounts]);
+  }, [accountsRepository.accounts, exchange.accountBuy?.id, exchange.accountFee?.id, exchange.accountSell?.id]);
 
   const selectTagsOptions = useMemo<ISelectOption[]>(() => {
     return tagsRepository.tags.map(({ id: value, name: label }) => ({ value, label }));

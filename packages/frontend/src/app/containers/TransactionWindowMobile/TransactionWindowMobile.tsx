@@ -234,7 +234,7 @@ export function TransactionWindowMobile({
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [enqueueSnackbar, onClose, transaction, isNew]
+    [enqueueSnackbar, onCreate, onUpdate, onClose, transaction, isNew]
   );
 
   const handleDeleteClick = () => {

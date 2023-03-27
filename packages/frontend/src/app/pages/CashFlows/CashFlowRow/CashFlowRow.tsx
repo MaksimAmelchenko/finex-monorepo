@@ -32,7 +32,7 @@ export const CashFlowRow = observer<CashFlowRowProps>(({ cashFlow, onClick }) =>
     return cashFlow.balances_DEPRECATED.sort(
       (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
     );
-  }, [cashFlow.balances_DEPRECATED]);
+  }, [cashFlow.balances_DEPRECATED, moneysRepository.moneys]);
 
   return (
     <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
