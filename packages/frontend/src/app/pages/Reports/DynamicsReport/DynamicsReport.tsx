@@ -130,7 +130,7 @@ export const DynamicsReport = observer(() => {
       },
       {
         value: 'isUsePlanningOperation',
-        label: t('Consider planned operations'),
+        label: t('Consider planned transactions'),
       },
     ];
   }, []);
@@ -197,7 +197,13 @@ export const DynamicsReport = observer(() => {
         ].map(({ id }) => id),
       });
     }
-  }, [projectsRepository.currentProject]);
+  }, [
+    categoriesRepository,
+    filter.money,
+    moneysRepository.moneys,
+    projectsRepository.currentProject,
+    reportsRepository,
+  ]);
 
   return (
     <div className={styles.layout}>
@@ -228,7 +234,7 @@ export const DynamicsReport = observer(() => {
                 </ToggleButton>
               </ToggleButtonGroup>
 
-              <Button variant="outlined" onClick={handleToggleParams}>
+              <Button variant="secondaryGray" onClick={handleToggleParams}>
                 {t('Parameters')}
               </Button>
             </div>
@@ -318,7 +324,7 @@ export const DynamicsReport = observer(() => {
 
         {dynamicsReportLoadState.isPending() && (
           <div className={styles.loader}>
-            <img src={loadingSvg} />
+            <img src={loadingSvg} alt="Loading" />
           </div>
         )}
 

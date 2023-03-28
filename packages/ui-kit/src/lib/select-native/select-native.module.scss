@@ -1,0 +1,122 @@
+@use 'packages/theme/src/lib/styles/shadow';
+@use 'packages/theme/src/lib/styles/typography';
+
+%transition-styles {
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+
+  &__label {
+    @include typography.textSMMedium;
+    color: var(--color-gray-700);
+  }
+
+  &__select {
+  }
+
+  &__helperText {
+    @include typography.textSM;
+    color: var(--color-gray-600);
+    .root_error & {
+      color: var(--color-error-500);
+    }
+  }
+}
+
+.select {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  @extend %transition-styles;
+  transition-property: border-color, box-shadow;
+
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.8rem;
+  @include shadow.shadowXS;
+  cursor: pointer;
+
+  &:focus-within {
+    border: 1px solid var(--color-primary-300);
+    @include shadow.shadowXSFocused4pxPrimary100;
+  }
+
+  &_error,
+  &_error:focus-within,
+  &_error:hover {
+    border: 1px solid var(--color-error-300);
+    @include shadow.shadowXSFocused4pxError100;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1 1 0;
+    width: 0;
+  }
+
+  &__icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    pointer-events: none;
+    color: var(--color-gray-500);
+
+    &_startIcon {
+      padding: 0 0.8rem 0 1.2rem;
+    }
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  &__field {
+    all: unset;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 0.7rem 4.4rem 0.7rem 1.1rem;
+    background-color: inherit;
+    @include typography.textMD;
+    color: var(--color-gray-900);
+
+    //option[value=''][disabled] {
+    //  display: none;
+    //}
+    &_withStartIcon {
+      padding-left: 4rem;
+    }
+
+    &_placeholder {
+      color: var(--color-gray-500);
+    }
+  }
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 1.2rem;
+  height: 100%;
+  pointer-events: none;
+
+  &__arrow {
+    transform: rotate(90deg);
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-gray-500);
+  }
+}

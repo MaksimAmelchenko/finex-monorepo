@@ -1,5 +1,5 @@
-@use '../../../../../theme/src/lib/styles/typography';
-@use '../../../../../theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
 
 .layout {
   display: grid;
@@ -9,7 +9,7 @@
 }
 
 .header {
-  box-shadow: 0 0 4px var(--color-neutral200);
+  box-shadow: 0 0 4px var(--color-gray-200);
 }
 
 .content {
@@ -21,7 +21,7 @@
 
   &__freeSubscriptionImage {
     margin-top: 3.2rem;
-    color: var(--color-alternative700);
+    color: var(--color-delft-blue-500);
   }
 }
 
@@ -40,7 +40,7 @@
     row-gap: 1.6rem;
   }
 
-  @include media.md {
+  @include media.down(md) {
     flex-direction: column;
     justify-content: center;
   }
@@ -55,14 +55,14 @@
   &__accessUntil {
     font-weight: bold;
     &__expired {
-      color: var(--color-danger600);
+      color: var(--color-error-600);
     }
   }
 
   &__name {
     font-weight: bold;
     &_noSubscription {
-      color: var(--color-danger600);
+      color: var(--color-error-600);
     }
   }
 }

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { FormikHelpers } from 'formik';
 import { format, isDate, parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
@@ -10,6 +10,7 @@ import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
+import { CircleQuestionIcon, IconButton, ISelectOption, Target } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import {
   CreatePlanTransactionData,
@@ -28,16 +29,15 @@ import {
   FormTabs,
   FormTextAreaField,
   FormTextField,
-  IFormButton,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
-import { IconButton, ISelectOption, CircleQuestionIcon, Target } from '@finex/ui-kit';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { PlanTransaction } from '../../stores/models/plan-transaction';
 import { PlanTransactionsRepository } from '../../stores/plan-transactions-repository';
 import { QuantityField } from '../QuantityField/QuantityField';
 import { RepetitionType, TerminationType } from '../../types/plan';
+import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape, Sign, TDate } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { analytics } from '../../lib/analytics';
@@ -99,7 +99,7 @@ interface MapValuesResponse {
 
 function mapValues(values: MapValuesParams): MapValuesResponse {
   const { repetitionDaysOfWeek, repetitionDaysOfMonth } = values;
-  let repetitionType = Number(values.repetitionType);
+  const repetitionType = Number(values.repetitionType);
   let repetitionDays: number[] | null = null;
   let terminationType: number | null = values.terminationType ? Number(values.terminationType) : null;
   let repetitionCount: number | null = null;
@@ -674,11 +674,11 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
           </FormBody>
 
           <FormFooter className={styles.footer}>
-            <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+            <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
               {t('Cancel')}
             </FormButton>
             <div className={styles.footer__rightButtons}>
-              <SaveButton variant="outlined" isIgnoreValidation>
+              <SaveButton variant="secondaryGray" isIgnoreValidation>
                 {t('Save')}
               </SaveButton>
               <FormButton type="submit" color="primary" isIgnoreValidation>
@@ -691,13 +691,3 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
     </Form>
   );
 }
-
-export const SaveButton = (props: IFormButton): JSX.Element => {
-  const { setFieldValue, handleSubmit } = useFormikContext();
-  const handleClick = () => {
-    setFieldValue('isOnlySave', true);
-    handleSubmit();
-  };
-
-  return <FormButton {...props} onClick={handleClick} />;
-};

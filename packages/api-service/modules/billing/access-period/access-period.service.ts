@@ -5,11 +5,7 @@ import { accessPeriodMapper } from './access-period.mapper';
 import { accessPeriodRepository } from './access-period.repository';
 
 class AccessPeriodImpl implements AccessPeriodService {
-  async getAccessPeriod(
-    ctx: IRequestContext,
-    userId: string,
-    accessPeriodId: string
-  ): Promise<IAccessPeriod> {
+  async getAccessPeriod(ctx: IRequestContext, userId: string, accessPeriodId: string): Promise<IAccessPeriod> {
     const accessPeriodDAO = await accessPeriodRepository.getAccessPeriod(ctx, userId, accessPeriodId);
     if (!accessPeriodDAO) {
       throw new NotFoundError('Access period not found');

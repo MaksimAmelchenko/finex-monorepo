@@ -1,0 +1,76 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 5.7rem;
+
+  &__emptyState {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 3.2rem 3.2rem;
+  }
+
+  &__emptyStateIllustration {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    & path {
+      stroke-width: 1px;
+    }
+  }
+
+  &__pointer {
+    position: absolute;
+    bottom: 1.2rem;
+    transform: scaleX(-1) translateX(40%);
+    color: var(--color-primary-500);
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+
+  &__tabs {
+    padding: 0.4rem 1.6rem;
+  }
+
+  &__content {
+    overflow: auto;
+    height: 100%;
+  }
+}
+
+.operations,
+.cashFlows {
+  position: relative;
+  overflow: auto;
+  height: 100%;
+}
+
+.section {
+  &__header {
+    position: sticky;
+    top: 0;
+    /* prevent the overlapping of the scrollbar */
+    margin-right: 0.8rem;
+    padding: 0.4rem 1.6rem 0.8rem;
+    background-color: white;
+    @include typography.textMDMedium;
+    color: var(--color-gray-500);
+  }
+
+  &__content {
+    padding: 0.8rem 0;
+  }
+}
+
+.loadMorePanel {
+  padding: 1.6rem;
+}

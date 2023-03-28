@@ -15,11 +15,13 @@ import * as en from '../locales/en.js';
 const locales = [Locale.Ru, Locale.En, Locale.De];
 
 const searchParams = new URLSearchParams(window.location.search);
-const locale: Locale | null = searchParams.get('locale') as Locale;
+const locale = searchParams.get('locale') as Locale | null;
 
-// TODO use localStorage to save default locale
-const defaultLocale = locales[0] as Locale;
-const currentLocale: Locale = locale && locales.includes(locale) ? locale : defaultLocale;
+const defaultLocale = 'en';
+const currentLocale: Locale =
+  locale && locales.includes(locale) ? locale : (window.localStorage.getItem('locale') as Locale) ?? locales[0];
+
+window.localStorage.setItem('locale', currentLocale);
 
 const SENTRY_DSN = process.env.NX_SENTRY_DSN;
 
@@ -44,6 +46,8 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
+                // 4 March 2023, Sa
+                fullDateWithDayOfWeek: 'd MMMM yyyy, EEEEEE',
               },
             },
             time: {
@@ -70,6 +74,8 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
+                // 4 марта 2023, сб
+                fullDateWithDayOfWeek: 'd MMMM yyyy, EEEEEE',
               },
             },
             time: {
@@ -96,6 +102,8 @@ async function initI18n(): Promise<void> {
                 full: 'dd.MM.yyyy hh:mi',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
+                // 4 März 2023, Sa
+                fullDateWithDayOfWeek: 'd MMMM yyyy, EEEEEE',
               },
             },
             time: {

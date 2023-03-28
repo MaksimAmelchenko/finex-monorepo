@@ -1,0 +1,50 @@
+@use 'packages/theme/src/lib/styles/mixins';
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  box-shadow: 0 0 4px var(--color-gray-200);
+  height: 5.6rem;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    @include typography.textLGSemibold;
+
+    &_withoutEndAdornment {
+      padding-right: 5.2rem;
+    }
+  }
+}
+
+.button {
+  @include mixins.resetButton;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 100%;
+  padding: 1.6rem;
+  color: var(--color-gray-900);
+
+  &_startAdornment {
+    padding-left: 1.2rem;
+  }
+
+  &_endAdornment {
+    padding-right: 1.2rem;
+  }
+
+  svg {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  &_delete {
+    color: var(--color-error-500);
+  }
+}

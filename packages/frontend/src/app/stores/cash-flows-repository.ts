@@ -20,6 +20,7 @@ import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { TDate } from '../types';
 import { Tag } from './models/tag';
 import { TagsRepository } from './tags-repository';
 import { UnitsRepository } from './units-repository';
@@ -32,6 +33,11 @@ interface IFilter {
   accounts: string[];
   contractors: string[];
   tags: string[];
+}
+
+interface ICashFlowsByDate {
+  date: TDate;
+  cashFlows: CashFlow[];
 }
 
 export class CashFlowsRepository extends ManageableStore {
@@ -64,14 +70,16 @@ export class CashFlowsRepository extends ManageableStore {
 
     makeObservable<CashFlowsRepository, '_cashFlows'>(this, {
       _cashFlows: observable,
-      loadState: observable,
       filter: observable,
+      loadState: observable,
       cashFlows: computed,
+      cashFlowsByDates: computed,
       clear: action,
       fetch: action,
-      setFilter: action,
+      fetchMore: action,
       removeCashFlow: action,
       removeCashFlowItem: action,
+      setFilter: action,
     });
 
     reaction(
@@ -82,7 +90,7 @@ export class CashFlowsRepository extends ManageableStore {
     );
   }
 
-  async fetch(): Promise<void> {
+  async fetch(reset = true): Promise<void> {
     this.loadState = LoadState.pending();
     const {
       isFilter,
@@ -111,11 +119,16 @@ export class CashFlowsRepository extends ManageableStore {
         ...params,
       })
       .then(
-        action(({ cashFlows, metadata }) => {
+        action(({ cashFlows: cashFlowDTOs, metadata }) => {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
-          this._cashFlows = this.decode(cashFlows);
+          const cashFlows = this.decode(cashFlowDTOs);
+          if (reset) {
+            this._cashFlows = cashFlows;
+          } else {
+            this._cashFlows = [...this._cashFlows, ...cashFlows];
+          }
         })
       )
       .then(
@@ -133,6 +146,11 @@ export class CashFlowsRepository extends ManageableStore {
   async fetchPreviousPage(): Promise<void> {
     this.offset = Math.max(this.offset - this.limit, 0);
     return this.fetch();
+  }
+
+  async fetchMore(): Promise<void> {
+    this.offset = this.offset + this.limit;
+    return this.fetch(false);
   }
 
   async refresh(): Promise<void> {
@@ -202,8 +220,8 @@ export class CashFlowsRepository extends ManageableStore {
     );
   }
 
-  updateCashFlowItem(cashFlowItem: CashFlowItem, changes: UpdateCashFlowItemChanges): Promise<unknown> {
-    return this.api.updateCashFlowItem(cashFlowItem.cashFlowId, cashFlowItem.id, changes).then(
+  updateCashFlowItem(cashFlowId: string, cashFlowItemId: string, changes: UpdateCashFlowItemChanges): Promise<unknown> {
+    return this.api.updateCashFlowItem(cashFlowId, cashFlowItemId, changes).then(
       action(response => {
         const updatedCashFlowItem = this.decodeCashFlowItems([response.cashFlowItem])[0];
         if (!updatedCashFlowItem) {
@@ -211,13 +229,13 @@ export class CashFlowsRepository extends ManageableStore {
           return;
         }
 
-        const cashFlow = this.getCashFlow(cashFlowItem.cashFlowId);
+        const cashFlow = this.getCashFlow(cashFlowId);
         if (!cashFlow) {
           console.error('cashFlow is not found');
           return;
         }
 
-        const indexOf = cashFlow.items.indexOf(cashFlowItem);
+        const indexOf = cashFlow.items.findIndex(({ id }) => id === cashFlowItemId);
         if (indexOf !== -1) {
           cashFlow.items[indexOf] = updatedCashFlowItem;
         } else {
@@ -237,18 +255,20 @@ export class CashFlowsRepository extends ManageableStore {
     );
   }
 
-  removeCashFlowItem(cashFlowItem: CashFlowItem): Promise<unknown> {
+  removeCashFlowItem(cashFlowId: string, cashFlowItemId: string): Promise<unknown> {
+    /*
     cashFlowItem.isDeleting = true;
+    */
 
-    return this.api.deleteCashFlowItem(cashFlowItem.cashFlowId, cashFlowItem.id).then(
+    return this.api.deleteCashFlowItem(cashFlowId, cashFlowItemId).then(
       action(() => {
-        const cashFlow = this.getCashFlow(cashFlowItem.cashFlowId);
+        const cashFlow = this.getCashFlow(cashFlowId);
         if (!cashFlow) {
           console.error('Cash flow is not found');
           return;
         }
 
-        cashFlow.items = cashFlow.items.filter(t => t !== cashFlowItem);
+        cashFlow.items = cashFlow.items.filter(({ id }) => id !== cashFlowItemId);
       })
     );
   }
@@ -397,7 +417,25 @@ export class CashFlowsRepository extends ManageableStore {
       );
   }
 
+  get cashFlowsByDates(): ICashFlowsByDate[] {
+    const map: Map<string, CashFlow[]> = new Map();
+    this.cashFlows.forEach(cashFlow => {
+      const date = format(parseISO(cashFlow.cashFlowDate), 'yyyy-MM-dd');
+      const item = map.get(date);
+      if (!item) {
+        map.set(date, [cashFlow]);
+      } else {
+        item.push(cashFlow);
+      }
+    });
+
+    return Array.from(map, ([date, cashFlows]) => ({ date, cashFlows }));
+  }
+
   clear(): void {
+    this.offset = 0;
+    this.total = 0;
+    this.loadState = LoadState.none();
     this._cashFlows = [];
   }
 }

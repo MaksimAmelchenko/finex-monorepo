@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CashFlow } from '../../stores/models/cash-flow';
 import { CashFlowRow } from './CashFlowRow/CashFlowRow';
@@ -77,7 +77,7 @@ export const CashFlows = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [cashFlowsRepository, projectsRepository.currentProject]);
+  }, [cashFlowsRepository, enqueueSnackbar, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {
@@ -141,18 +141,22 @@ export const CashFlows = observer(() => {
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
               <Button
-                variant="contained"
-                size="small"
-                color="primary"
+                size="sm"
+                startIcon={<PlusIcon />}
                 onClick={handleOpenAddCashFlow}
                 data-cy="cf-create-cash-flow-button"
               >
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedCashFlows.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="sm"
+                disabled={!selectedCashFlows.length}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

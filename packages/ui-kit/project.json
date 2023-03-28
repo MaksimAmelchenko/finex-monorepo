@@ -1,5 +1,5 @@
 {
-  "root": "packages/ui-kit",
+  "name": "ui-kit",
   "sourceRoot": "packages/ui-kit/src",
   "projectType": "library",
   "tags": [],
@@ -24,9 +24,7 @@
       "options": {
         "uiFramework": "@storybook/react",
         "port": 4400,
-        "config": {
-          "configFolder": "packages/ui-kit/.storybook"
-        }
+        "configDir": "packages/ui-kit/.storybook"
       },
       "configurations": {
         "ci": {
@@ -36,13 +34,11 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "uiFramework": "@storybook/react",
-        "outputPath": "dist/storybook/ui-kit",
-        "config": {
-          "configFolder": "packages/ui-kit/.storybook"
-        }
+        "outputDir": "dist/storybook/ui-kit",
+        "configDir": "packages/ui-kit/.storybook"
       },
       "configurations": {
         "ci": {

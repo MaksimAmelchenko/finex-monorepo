@@ -17,6 +17,7 @@ class DebtItemMapperImpl implements DebtItemMapper {
     tags,
     permit,
     userId,
+    contractorId,
   }: IDebtItem): IDebtItemDTO {
     return {
       id,
@@ -32,6 +33,7 @@ class DebtItemMapperImpl implements DebtItemMapper {
       permit,
       debtId,
       userId,
+      contractorId,
     };
   }
 
@@ -49,6 +51,7 @@ class DebtItemMapperImpl implements DebtItemMapper {
     tags,
     userId,
     permit,
+    contractorId,
   }: ICashFlowItem): IDebtItem {
     return new DebtItem({
       id,
@@ -64,6 +67,7 @@ class DebtItemMapperImpl implements DebtItemMapper {
       tags,
       permit,
       userId,
+      contractorId: contractorId!,
     });
   }
 }

@@ -87,8 +87,11 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
                cfi.unit_id,
                cfi.is_not_confirmed,
                cfi.note,
-               cfi.tags
+               cfi.tags,
+               cf.contractor_id
           from cf$.v_cashflow_item cfi
+                 join cf$.v_cashflow_v2 cf
+                      on (cf.project_id = cfi.project_id and cf.id = cfi.cashflow_id)
          where cfi.project_id = :projectId::int
            and cfi.id = :cashFlowItemId::int
       `,
@@ -130,8 +133,11 @@ class CashFlowItemRepositoryImpl implements CashFlowItemRepository {
                cfi.unit_id,
                cfi.is_not_confirmed,
                cfi.note,
-               cfi.tags
+               cfi.tags,
+               cf.contractor_id
           from cf$.v_cashflow_item cfi
+                 join cf$.v_cashflow_v2 cf
+                      on (cf.project_id = cfi.project_id and cf.id = cfi.cashflow_id)
          where cfi.project_id = :projectId::int
            and cfi.cashflow_id in (select unnest(:cashFlowIds::int[]))
          order by cfi.cashflow_id,

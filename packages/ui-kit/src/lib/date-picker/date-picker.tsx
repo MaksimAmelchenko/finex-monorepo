@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import './date-picker.css';
+import './date-picker.scss';
 
 export { ReactDatePickerProps as DatePickerProps };
 
@@ -11,11 +11,11 @@ export function DatePicker<WithRange extends boolean | undefined = undefined>(
 ): JSX.Element {
   return (
     <ReactDatePicker<never, WithRange>
-      {...props}
       showPopperArrow={false}
       showMonthDropdown
       showYearDropdown
       dropdownMode="select"
+      {...props}
     />
   );
 }

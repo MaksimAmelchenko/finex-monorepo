@@ -1,38 +1,342 @@
-@use './media';
+@mixin display2XL {
+  /* Display 2xl/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 7.2rem;
+  line-height: 9.0rem;
+  /* or 125% */
+  letter-spacing: -0.02em;
+}
+
+@mixin display2XLMedium {
+  /* Display 2xl/Medium */
+  @include display2XL;
+  font-weight: 500;
+}
+
+@mixin display2XLSemibold {
+  /* Display 2xl/Semibold */
+  @include display2XL;
+  font-weight: 600;
+}
+
+@mixin display2XLBold {
+  /* Display 2xl/Bold */
+  @include display2XL;
+  font-weight: 700;
+}
+
+@mixin displayXL {
+  /* Display xl/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 6.0rem;
+  line-height: 7.2rem;
+  /* or 120% */
+  letter-spacing: -0.02em;
+}
+
+@mixin displayXLMedium {
+  /* Display xl/Medium */
+  @include displayXL;
+  font-weight: 500;
+}
+
+@mixin displayXLSemibold {
+  /* Display xl/Semibold */
+  @include displayXL;
+  font-weight: 600;
+}
+
+@mixin displayXLBold {
+  /* Display xl/Bold */
+  @include displayXL;
+  font-weight: 700;
+}
+
+@mixin displayLG {
+  /* Display lg/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 4.8rem;
+  line-height: 6.0rem;
+  /* or 125% */
+  letter-spacing: -0.02em;
+}
+
+@mixin displayLGMedium {
+  /* Display lg/Medium */
+  @include displayLG;
+  font-weight: 500;
+}
+
+@mixin displayLGSemibold {
+  /* Display lg/Semibold */
+  @include displayLG;
+  font-weight: 600;
+}
+
+@mixin displayLGBold {
+  /* Display lg/Bold */
+  @include displayLG;
+  font-weight: 700;
+}
+
+@mixin displayMD {
+  /* Display md/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3.6rem;
+  line-height: 4.4rem;
+  /* or 122% */
+  letter-spacing: -0.02em;
+}
+
+@mixin displayMDMedium {
+  /* Display md/Medium */
+  @include displayMD;
+  font-weight: 500;
+}
+
+@mixin displayMDSemibold {
+  /* Display md/Semibold */
+  @include displayMD;
+  font-weight: 600;
+}
+
+@mixin displayMDBold {
+  /* Display md/Bold */
+  @include displayMD;
+  font-weight: 700;
+}
+
+@mixin displaySM {
+  /* Display sm/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3.0rem;
+  line-height: 3.8rem;
+  /* or 127% */
+}
+
+@mixin displaySMMedium {
+  /* Display sm/Medium */
+  @include displaySM;
+  font-weight: 500;
+}
+
+@mixin displaySMSemibold {
+  /* Display sm/Semibold */
+  @include displaySM;
+  font-weight: 600;
+}
+
+@mixin displaySMBold {
+  /* Display sm/Bold */
+  @include displaySM;
+  font-weight: 700;
+}
+
+@mixin displayXS {
+  /* Display xs/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 3.2rem;
+  /* or 133% */
+}
+
+@mixin displayXSMedium {
+  /* Display xs/Medium */
+  @include displayXS;
+  font-weight: 500;
+}
+
+@mixin displayXSSemibold {
+  /* Display xs/Semibold */
+  @include displayXS;
+  font-weight: 600;
+}
+
+@mixin displayXSBold {
+  /* Display xs/Bold */
+  @include displayXS;
+  font-weight: 700;
+}
+
+@mixin textXL {
+  /* Text xl/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2.0rem;
+  line-height: 3.0rem;
+  /* or 150% */
+}
+
+@mixin textXLMedium {
+  /* Text xl/Medium */
+  @include textXL;
+  font-weight: 500;
+}
+
+@mixin textXLSemibold {
+  /* Text xl/Semibold */
+  @include textXL;
+  font-weight: 600;
+}
+
+@mixin textXLBold {
+  /* Text xl/Bold */
+  @include textXL;
+  font-weight: 700;
+}
+
+@mixin textLG {
+  /* Text lg/Regular */
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+  /* or 156% */
+}
+
+@mixin textLGMedium {
+  /* Text lg/Medium */
+  @include textLG;
+  font-weight: 500;
+}
+
+@mixin textLGSemibold {
+  /* Text lg/Semibold */
+  @include textLG;
+  font-weight: 600;
+}
+
+@mixin textLGBold {
+  /* Text lg/Bold */
+  @include textLG;
+  font-weight: 700;
+}
+
+@mixin textMD {
+  /* Text md/Regular */
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  /* or 150% */
+}
+
+@mixin textMDMedium {
+  /* Text md/Medium */
+  @include textMD;
+  font-weight: 500;
+}
+
+@mixin textMDSemibold {
+  /* Text md/Semibold */
+  @include textMD;
+  font-weight: 600;
+}
+
+@mixin textMDBold {
+  /* Text md/Bold */
+  @include textMD;
+  font-weight: 700;
+}
+
+@mixin textSM {
+  /* Text sm/Regular */
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 2.0rem;
+  /* or 143% */
+}
+
+@mixin textSMMedium {
+  /* Text sm/Medium */
+  @include textSM;
+  font-weight: 500;
+}
+
+@mixin textSMSemibold {
+  /* Text sm/Semibold */
+  @include textSM;
+  font-weight: 600;
+}
+
+@mixin textSMBold {
+  /* Text sm/Bold */
+  @include textSM;
+  font-weight: 700;
+}
+
+@mixin textXS {
+  /* Text xs/Regular */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  /* or 150% */
+}
+
+@mixin textXSMedium {
+  /* Text xs/Medium */
+  @include textXS;
+  font-weight: 500;
+}
+
+@mixin textXSSemibold {
+  /* Text xs/Semibold */
+  @include textXS;
+  font-weight: 600;
+}
+
+@mixin textXSBold {
+  /* Text xs/Bold */
+  @include textXS;
+  font-weight: 700;
+}
+
+// deprecated
 
 @mixin h1 {
   font-size: 3.2rem;
   font-weight: 600;
   line-height: 4rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin h2 {
   font-size: 2.4rem;
   font-weight: 400;
   line-height: 3rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin h3 {
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 2.2rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin subtitle {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.4rem;
-  color: var(--color-neutral600);
+  color: var(--color-gray-600);
 }
 
 @mixin body {
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 2rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin bodyHighlight {
@@ -49,7 +353,7 @@
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.6rem;
-  color: var(--color-neutral800);
+  color: var(--color-gray-900);
 }
 
 @mixin smallButtonText {

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button } from '@finex/ui-kit';
+import { Button, PlusIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { IMoney } from '../../types/money';
 import { Money } from '../../stores/models/money';
@@ -73,13 +73,13 @@ export const Moneys = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedMoneys.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="sm" disabled={!selectedMoneys.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -105,7 +105,7 @@ export const Moneys = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedMoneyWindow}>
+      <Drawer open={isOpenedMoneyWindow}>
         {money && <MoneyWindow money={money} onClose={handleCloseMoneyWindow} />}
       </Drawer>
     </>

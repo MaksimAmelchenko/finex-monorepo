@@ -1,11 +1,11 @@
-@use '../../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .accountBalances {
   border-radius: 0.4rem;
 }
 
 .row {
-  background-color: var(--color-neutral0);
+  background-color: var(--color-white);
   @include typography.body();
   font-weight: bold;
   line-height: 1;
@@ -19,7 +19,7 @@
   }
 
   &__currency_symbol {
-    color: var(--color-neutral500);
+    color: var(--color-gray-500);
 
     .row_group & {
     }
@@ -28,7 +28,7 @@
 
 .header {
   padding: 1.6rem 2.4rem;
-  background-color: var(--color-neutral0);
+  background-color: var(--color-white);
 
   &__title {
     @include typography.h3;

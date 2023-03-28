@@ -1,11 +1,10 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
 import { contractorId } from '../../../common/schemas/fields/contractor-id';
+import { dateTime } from '../../../common/schemas/fields/date-time';
 import { debtItemSchema } from './debt-item.schema';
 import { id } from '../../../common/schemas/fields/id';
 import { userId } from '../../../common/schemas/fields/user-id';
-import { dateTime } from '../../../common/schemas/fields/date-time';
-import { date } from '../../../common/schemas/fields/date';
 
 export const debtSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',

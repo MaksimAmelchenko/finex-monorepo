@@ -2,12 +2,13 @@ import { OpenAPIV3_1 } from 'openapi-types';
 
 import { accountId } from '../../../common/schemas/fields/account-id';
 import { categoryId } from '../../../common/schemas/fields/category-id';
+import { contractorId } from '../../../common/schemas/fields/contractor-id';
 import { date } from '../../../common/schemas/fields/date';
 import { id } from '../../../common/schemas/fields/id';
 import { moneyId } from '../../../common/schemas/fields/money-id';
+import { permit } from '../../../common/schemas/fields/permit';
 import { sign } from '../../../common/schemas/fields/sign';
 import { userId } from '../../../common/schemas/fields/user-id';
-import { permit } from '../../../common/schemas/fields/permit';
 
 export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -34,6 +35,7 @@ export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
     },
     permit,
     userId,
+    contractorId,
   },
   additionalProperties: false,
   required: [
@@ -50,5 +52,6 @@ export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
     'tags',
     'permit',
     'userId',
+    'contractorId',
   ],
 };

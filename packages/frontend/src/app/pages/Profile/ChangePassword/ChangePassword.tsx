@@ -95,7 +95,7 @@ export const ChangePassword = observer(({ username }: ChangePasswordProps) => {
             />
           </FormLayout>
           <footer className={styles.form__footer}>
-            <FormButton type="submit" size="small" color="primary" isIgnoreValidation>
+            <FormButton type="submit" size="sm" isIgnoreValidation>
               {t('Save password')}
             </FormButton>
           </footer>

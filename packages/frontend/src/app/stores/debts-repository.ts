@@ -24,6 +24,7 @@ import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { TDate } from '../types';
 import { Tag } from './models/tag';
 import { TagsRepository } from './tags-repository';
 import { UsersRepository } from './users-repository';
@@ -49,6 +50,11 @@ interface IFilter {
   contractors: string[];
   tags: string[];
   more: Array<'isOnlyNotPaid'>;
+}
+
+interface IDebtsByDate {
+  date: TDate;
+  debts: Debt[];
 }
 
 export class DebtsRepository extends ManageableStore {
@@ -81,14 +87,15 @@ export class DebtsRepository extends ManageableStore {
 
     makeObservable<DebtsRepository, '_debts'>(this, {
       _debts: observable,
-      loadState: observable,
       filter: observable,
+      loadState: observable,
       debts: computed,
+      debtsByDates: computed,
       clear: action,
       fetch: action,
-      setFilter: action,
       removeDebt: action,
       removeDebtItem: action,
+      setFilter: action,
     });
 
     reaction(
@@ -99,7 +106,7 @@ export class DebtsRepository extends ManageableStore {
     );
   }
 
-  async fetch(): Promise<void> {
+  async fetch(reset = true): Promise<void> {
     this.loadState = LoadState.pending();
     const {
       isFilter,
@@ -128,11 +135,16 @@ export class DebtsRepository extends ManageableStore {
         ...params,
       })
       .then(
-        action(({ debts, metadata }) => {
+        action(({ debts: debtDTOs, metadata }) => {
           this.limit = metadata.limit;
           this.offset = metadata.offset;
           this.total = metadata.total;
-          this._debts = this.decode(debts);
+          const debts = this.decode(debtDTOs);
+          if (reset) {
+            this._debts = debts;
+          } else {
+            this._debts = [...this._debts, ...debts];
+          }
         })
       )
       .then(
@@ -145,6 +157,11 @@ export class DebtsRepository extends ManageableStore {
   async fetchNextPage(): Promise<void> {
     this.offset = this.offset + this.limit;
     return this.fetch();
+  }
+
+  async fetchMore(): Promise<void> {
+    this.offset = this.offset + this.limit;
+    return this.fetch(false);
   }
 
   async fetchPreviousPage(): Promise<void> {
@@ -219,8 +236,8 @@ export class DebtsRepository extends ManageableStore {
     );
   }
 
-  updateDebtItem(debtItem: DebtItem, changes: UpdateDebtItemChanges): Promise<unknown> {
-    return this.api.updateDebtItem(debtItem.debtId, debtItem.id, changes).then(
+  updateDebtItem(debtId: string, debtItemId: string, changes: UpdateDebtItemChanges): Promise<unknown> {
+    return this.api.updateDebtItem(debtId, debtItemId, changes).then(
       action(response => {
         const updatedDebtItem = this.decodeDebtItems([response.debtItem])[0];
         if (!updatedDebtItem) {
@@ -228,13 +245,13 @@ export class DebtsRepository extends ManageableStore {
           return;
         }
 
-        const debt = this.getDebt(debtItem.debtId);
+        const debt = this.getDebt(debtId);
         if (!debt) {
           console.error('debt is not found');
           return;
         }
 
-        const indexOf = debt.items.indexOf(debtItem);
+        const indexOf = debt.items.findIndex(({ id }) => id === debtItemId);
         if (indexOf !== -1) {
           debt.items[indexOf] = updatedDebtItem;
         } else {
@@ -254,18 +271,18 @@ export class DebtsRepository extends ManageableStore {
     );
   }
 
-  removeDebtItem(debtItem: DebtItem): Promise<unknown> {
-    debtItem.isDeleting = true;
+  removeDebtItem(debtId: string, debtItemId: string): Promise<unknown> {
+    // debtItem.isDeleting = true;
 
-    return this.api.deleteDebtItem(debtItem.debtId, debtItem.id).then(
+    return this.api.deleteDebtItem(debtId, debtItemId).then(
       action(() => {
-        const debt = this.getDebt(debtItem.debtId);
+        const debt = this.getDebt(debtId);
         if (!debt) {
           console.error('debt is not found');
           return;
         }
 
-        debt.items = debt.items.filter(t => t !== debtItem);
+        debt.items = debt.items.filter(({ id }) => id !== debtItemId);
       })
     );
   }
@@ -319,6 +336,7 @@ export class DebtsRepository extends ManageableStore {
   private decodeDebtItems(debtItems: IDebtItemDTO[]): DebtItem[] {
     const accountsRepository = this.getStore(AccountsRepository);
     const categoriesRepository = this.getStore(CategoriesRepository);
+    const contractorsRepository = this.getStore(ContractorsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
     const tagsRepository = this.getStore(TagsRepository);
     const usersRepository = this.getStore(UsersRepository);
@@ -338,6 +356,7 @@ export class DebtsRepository extends ManageableStore {
         tags: tagIds,
         userId,
         permit,
+        contractorId,
       } = debtItem;
 
       const money = moneysRepository.get(moneyId);
@@ -355,6 +374,12 @@ export class DebtsRepository extends ManageableStore {
       const account = accountsRepository.get(accountId);
       if (!account) {
         console.warn('Account not found', { debtItem });
+        return acc;
+      }
+
+      const contractor = contractorsRepository.get(contractorId);
+      if (!contractor) {
+        console.warn('Contractor not found', { debtItem });
         return acc;
       }
 
@@ -387,6 +412,7 @@ export class DebtsRepository extends ManageableStore {
           tags,
           user,
           permit,
+          contractor,
         })
       );
 
@@ -400,7 +426,25 @@ export class DebtsRepository extends ManageableStore {
       .sort((a, b) => parseISO(b.debtDate).getTime() - parseISO(a.debtDate).getTime() || Number(b.id) - Number(a.id));
   }
 
+  get debtsByDates(): IDebtsByDate[] {
+    const map: Map<string, Debt[]> = new Map();
+    this.debts.forEach(debt => {
+      const date = format(parseISO(debt.debtDate), 'yyyy-MM-dd');
+      const item = map.get(date);
+      if (!item) {
+        map.set(date, [debt]);
+      } else {
+        item.push(debt);
+      }
+    });
+
+    return Array.from(map, ([date, debts]) => ({ date, debts }));
+  }
+
   clear(): void {
+    this.offset = 0;
+    this.total = 0;
+    this.loadState = LoadState.none();
     this._debts = [];
   }
 }

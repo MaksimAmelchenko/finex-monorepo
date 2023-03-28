@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
@@ -161,23 +161,23 @@ export const Transactions = observer(() => {
 
   return (
     <div className={styles.layout}>
-      <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header"/>
+      <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header" />
       <main className={styles.content}>
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddTransaction}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddTransaction}>
                 {t('New')}
               </Button>
               <Button
-                variant="outlined"
-                size="small"
+                variant="secondaryGray"
+                size="sm"
                 disabled={!selectedTransactions.length}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -267,17 +267,18 @@ export const Transactions = observer(() => {
                   {t('Counterparty')}
                 </th>
                 <th>{t('Category')}</th>
+
                 <th className="hidden-sm hidden-md" colSpan={2}>
                   {t('Income')}
                 </th>
                 <th className="hidden-sm hidden-md" colSpan={2}>
                   {t('Expense')}
                 </th>
-                {/*<th className="hidden-lg" colSpan={2}>*/}
-                {/*  {t('Amount')}*/}
-                {/*</th>*/}
-                <th className="hidden-sm">{t('Note')}</th>
-                <th className="hidden-sm">{t('Tags')}</th>
+                <th className="hidden-lg" colSpan={2}>
+                  {t('Amount')}
+                </th>
+                <th>{t('Note')}</th>
+                <th>{t('Tags')}</th>
               </tr>
             </thead>
             <tbody>
@@ -291,7 +292,7 @@ export const Transactions = observer(() => {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={3}>{t('Total for selected operations:')}</td>
+                <td colSpan={3}>{t('Total for selected transactions:')}</td>
                 <td className="text-end numeric">
                   {balancesBySelectedTransactions.map(({ money, income }) => {
                     return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
@@ -323,7 +324,7 @@ export const Transactions = observer(() => {
         </div>
       </main>
 
-      <Drawer isOpened={isOpenedTransactionWindow}>
+      <Drawer open={isOpenedTransactionWindow}>
         {transaction && <TransactionWindow transaction={transaction} onClose={handleCloseTransactionWindow} />}
       </Drawer>
     </div>

@@ -1,4 +1,4 @@
-@use '../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .layout {
   display: grid;
@@ -8,7 +8,7 @@
 }
 
 .header {
-  box-shadow: 0 0 4px var(--color-neutral200);
+  box-shadow: 0 0 4px var(--color-gray-200);
 }
 
 .content {
@@ -27,7 +27,7 @@
   &__title {
     @include typography.h3;
     &_danger {
-      color: var(--color-danger700);
+      color: var(--color-error-700);
     }
   }
 
@@ -46,5 +46,5 @@
 
 .delimiter {
   margin: 2.4rem 0;
-  border-top: 1px solid var(--color-neutral200);
+  border-top: 1px solid var(--color-gray-200);
 }

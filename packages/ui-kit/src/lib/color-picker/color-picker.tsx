@@ -13,12 +13,12 @@ interface ItemProps {
 }
 
 function Item({ color, isActive, onClick }: ItemProps): JSX.Element {
-  const handleOnClick = () => {
+  const handleClick = () => {
     onClick(color);
   };
 
   return (
-    <div className={clsx(styles.item, color, color === '' && styles.item_empty)} onClick={handleOnClick}>
+    <div className={clsx(styles.item, color, color === '' && styles.item_empty)} onClick={handleClick}>
       {isActive && <Image src={checkSvg} alt="active" />}
     </div>
   );

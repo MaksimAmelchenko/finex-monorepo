@@ -8,7 +8,7 @@ class AccessPeriodRepositoryImpl implements AccessPeriodRepository {
   async getAccessPeriod(
     ctx: IRequestContext,
     userId: string,
-    accessPeriodId: string,
+    accessPeriodId: string
   ): Promise<IAccessPeriodDAO | undefined> {
     ctx.log.trace({ accessPeriodId }, 'try to get access period');
 

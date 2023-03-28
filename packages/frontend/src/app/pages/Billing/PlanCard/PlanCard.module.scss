@@ -1,5 +1,4 @@
-@use '../../../../../../theme/src/lib/styles/media';
-@use '../../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .root {
   container-type: inline-size;
@@ -16,7 +15,7 @@
 
   &__description {
     @include typography.body;
-    color: var(--color-neutral600);
+    color: var(--color-gray-600);
   }
 
   &__price {
@@ -24,7 +23,7 @@
   }
 
   &__cancelText {
-    color: var(--color-neutral600);
+    color: var(--color-gray-600);
     margin: 0.8rem 0 3.2rem;
   }
 

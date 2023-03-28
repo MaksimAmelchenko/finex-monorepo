@@ -1,40 +1,74 @@
-@use '../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 %transition-styles {
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
 }
 
-.label {
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-
-  &_disabled * {
-    cursor: not-allowed;
-  }
-}
-
-.content {
-  padding-left: 0.8rem;
-  line-height: 2rem;
-}
-
-.container {
+.root {
   position: relative;
   display: flex;
   align-items: stretch;
   flex-direction: column;
 
+  &__label {
+    display: flex;
+    cursor: pointer;
+
+    &_disabled * {
+      cursor: not-allowed;
+    }
+  }
+
+  &__content {
+    color: var(--color-gray-700);
+  }
+
   &__helperText {
-    margin-top: 4px;
-    @include typography.smallText;
-    color: var(--color-neutral500);
+    color: var(--color-gray-600);
+  }
+
+  &_size_sm {
+    .root__label {
+      column-gap: 0.8rem;
+    }
+
+    .root__checkbox {
+      top: 1px;
+    }
+
+    .root__content {
+      @include typography.textSMMedium;
+    }
+
+    .root__helperText {
+      @include typography.textSM;
+    }
+  }
+
+  &_size_md {
+    row-gap: 0.2rem;
+
+    .root__label {
+      column-gap: 1.2rem;
+    }
+
+    .root__checkbox {
+      top: 2px;
+    }
+
+    .root__content {
+      @include typography.textMDMedium;
+    }
+
+    .root__helperText {
+      @include typography.textMD;
+    }
   }
 
   &_error &__helperText {
     @extend %transition-styles;
     transition-property: color;
-    color: var(--color-danger600);
+    color: var(--color-error-600);
   }
 }

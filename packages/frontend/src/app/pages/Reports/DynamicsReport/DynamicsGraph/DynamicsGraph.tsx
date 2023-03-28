@@ -43,7 +43,7 @@ export const DynamicsGraph = observer<DynamicsTableProps>(({ valueType }) => {
       result.push(item);
     });
     return result;
-  }, [reportsRepository.dynamicsReport, valueType]);
+  }, [months, reportsRepository.dynamicsReport, valueType]);
 
   const keys = useMemo<string[]>(() => {
     const categories: any[] = [];

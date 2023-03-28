@@ -8,6 +8,10 @@ module.exports = {
     'show zero balance': 'show zero balance',
     Total: 'Total',
   },
+  AccountBalancesMobile: {
+    Balance: 'Balance',
+    Total: 'Total',
+  },
   AccountDailyBalances: {
     'in original currency': 'in original currency',
     Total: 'Total',
@@ -35,6 +39,12 @@ module.exports = {
     Read: 'Read',
     Edit: 'Edit',
   },
+  AccountsMobile: {
+    Accounts: 'Accounts',
+    'Here are your cards, bank accounts and deposits_ Start creating by clicking on "Create account"':
+      'Here are your cards, bank accounts and deposits. Start creating by clicking on "Create account"',
+    'Create account': 'Create account',
+  },
   AccountWindow: {
     'Account already exists': 'Account already exists',
     'Please fill name': 'Please fill name',
@@ -55,6 +65,7 @@ module.exports = {
       'List of users who have the right to add, edit and delete transactions on this account',
     Cancel: 'Cancel',
     Save: 'Save',
+    'There are transactions on this account': 'There are transactions on this account',
   },
   ApiRepository: {
     'Session Timeout': 'Session Timeout',
@@ -75,10 +86,27 @@ module.exports = {
     Unsubscribe: 'Unsubscribe',
     'Pay Now': 'Pay Now',
   },
+  BottomNavigation: {
+    Outcome: 'Outcome',
+    History: 'History',
+    Debts: 'Debts',
+    Planning: 'Planning',
+    Expense: 'Expense',
+    Income: 'Income',
+    'Cash Flow': 'Cash Flow',
+    Debt: 'Debt',
+    Transfer: 'Transfer',
+    Exchange: 'Exchange',
+  },
   CashFlow: {
     Overdue: 'Overdue',
     Planned: 'Planned',
     'Not confirmed': 'Not confirmed',
+  },
+  CashFlowCard: {
+    'Cash Inflows': 'Cash Inflows',
+    'Cash Outflows': 'Cash Outflows',
+    'Empty Cash Flow': 'Empty Cash Flow',
   },
   CashFlowItem: {
     Income: 'Income',
@@ -100,11 +128,11 @@ module.exports = {
     'Hide additional fields': 'Hide additional fields',
     'Show additional fields': 'Show additional fields',
     'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
-    'Not confirmed operation': 'Not confirmed operation',
-    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed operation will be marked red_':
-      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed operation will be marked red.',
-    'Otherwise, they are no different from ordinary operations_':
-      'Otherwise, they are no different from ordinary operations.',
+    'Not confirmed transaction': 'Not confirmed transaction',
+    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed transaction will be marked red_':
+      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed transaction will be marked red.',
+    'Otherwise, they are no different from ordinary transactions_':
+      'Otherwise, they are no different from ordinary transactions.',
     Note: 'Note',
     Tags: 'Tags',
     Cancel: 'Cancel',
@@ -128,6 +156,10 @@ module.exports = {
     Expense: 'Expense',
     Balance: 'Balance',
     Note: 'Note',
+    'Cash Flows': 'Cash Flows',
+    'Cash Flow groups transactions_ To create a Cash Flow, click on the "plus" button below and select "Cash Flow"':
+      'Cash Flow groups transactions. To create a Cash Flow, click on the "plus" button below and select "Cash Flow"',
+    'Load more': 'Load more',
   },
   CashFlowWindow: {
     'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',
@@ -144,8 +176,22 @@ module.exports = {
     Category: 'Category',
     Income: 'Income',
     Expense: 'Expense',
-    'Total for selected operations:': 'Total for selected operations:',
+    'Total for selected transactions:': 'Total for selected transactions:',
     'Total:': 'Total:',
+  },
+  CashFlowWindowMobile: {
+    'Are you sure you want to delete Cash Flow?': 'Are you sure you want to delete Cash Flow?',
+    'Create new Cash Flow': 'Create new Cash Flow',
+    'Edit Cash Flow': 'Edit Cash Flow',
+    Contractor: 'Contractor',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Note, Tags': 'Note, Tags',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Create Cash Flow': 'Create Cash Flow',
+    Save: 'Save',
+    'Add record': 'Add record',
   },
   Categories: {
     "You can't delete a category with subcategories": "You can't delete a category with subcategories",
@@ -159,6 +205,9 @@ module.exports = {
     Active: 'Active',
     Note: 'Note',
   },
+  CategoriesMobile: {
+    Categories: 'Categories',
+  },
   CategoryWindow: {
     'There is a cycle in the hierarchy': 'There is a cycle in the hierarchy',
     'Please fill name': 'Please fill name',
@@ -168,10 +217,25 @@ module.exports = {
     Name: 'Name',
     'Parent category': 'Parent category',
     Prototype: 'Prototype',
-    'Show category when adding or editing an operation': 'Show category when adding or editing an operation',
+    'Show category when adding or editing a transaction': 'Show category when adding or editing a transaction',
     Active: 'Active',
     Note: 'Note',
     Cancel: 'Cancel',
+    Save: 'Save',
+  },
+  CategoryWindowMobile: {
+    'There is a cycle in the hierarchy': 'There is a cycle in the hierarchy',
+    'There are transactions with this category': 'There are transactions with this category',
+    'Please fill name': 'Please fill name',
+    'Add new category': 'Add new category',
+    'Edit category': 'Edit category',
+    Name: 'Name',
+    'Parent category': 'Parent category',
+    Prototype: 'Prototype',
+    'Used for analytics': 'Used for analytics',
+    'Show category when adding or editing a transaction': 'Show category when adding or editing a transaction',
+    Active: 'Active',
+    Note: 'Note',
     Save: 'Save',
   },
   Contractors: {
@@ -183,6 +247,12 @@ module.exports = {
     Name: 'Name',
     Note: 'Note',
   },
+  ContractorsMobile: {
+    'You do not have contractors yet': 'You do not have contractors yet',
+    'Start creating by clicking on "Create contractor"': 'Start creating by clicking on "Create contractor"',
+    'Create contractor': 'Create contractor',
+    Contractors: 'Contractors',
+  },
   ContractorWindow: {
     'Contractor already exists': 'Contractor already exists',
     'Please fill name': 'Please fill name',
@@ -192,9 +262,22 @@ module.exports = {
     Note: 'Note',
     Cancel: 'Cancel',
     Save: 'Save',
+    "You can't delete contractor with transaction": "You can't delete contractor with transaction",
   },
   Dashboard: {
     Outcome: 'Outcome',
+  },
+  DebtBalancesMobile: {
+    Debts: 'Debts',
+  },
+  DebtCard: {
+    'Loan amount': 'Loan amount',
+    'Principal repayment': 'Principal repayment',
+    Rest: 'Rest',
+    'Paid Interest': 'Paid Interest',
+    Fee: 'Fee',
+    Fine: 'Fine',
+    Cost: 'Cost',
   },
   DebtItem: {
     Income: 'Income',
@@ -222,6 +305,29 @@ module.exports = {
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
   },
+  DebtItemWindowMobile: {
+    Income: 'Income',
+    Expense: 'Expense',
+    'Debt has been saved': 'Debt has been saved',
+    'Please select date': 'Please select date',
+    'Please fill amount': 'Please fill amount',
+    'Please enter a number': 'Please enter a number',
+    'Please select category': 'Please select category',
+    'Add debt record': 'Add debt record',
+    'Edit debt record': 'Edit debt record',
+    Amount: 'Amount',
+    Category: 'Category',
+    Account: 'Account',
+    Date: 'Date',
+    Period: 'Period',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Note, Tags': 'Note, Tags',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Save and Create New': 'Save and Create New',
+    Save: 'Save',
+  },
   Debts: {
     'Only debts with a non-zero balance': 'Only debts with a non-zero balance',
     'Are you sure you want to delete several debts?': 'Are you sure you want to delete several debts?',
@@ -244,6 +350,13 @@ module.exports = {
     'Cost (overpayment)': 'Cost (overpayment)',
     Note: 'Note',
   },
+  DebtsMobile: {
+    'Debts and Loans': 'Debts and Loans',
+    'To create a debt, click on the "plus" button below and select "Debt"':
+      'To create a debt, click on the "plus" button below and select "Debt"',
+    'Load more': 'Load more',
+    Debts: 'Debts',
+  },
   DebtWindow: {
     'Please select contractor': 'Please select contractor',
     'Are you sure you want to delete several debts?': 'Are you sure you want to delete several debts?',
@@ -259,6 +372,21 @@ module.exports = {
     Account: 'Account',
     Category: 'Category',
     Amount: 'Amount',
+  },
+  DebtWindowMobile: {
+    'Please select contractor': 'Please select contractor',
+    'Are you sure you want to delete debt?': 'Are you sure you want to delete debt?',
+    'Add new debt': 'Add new debt',
+    'Edit debt': 'Edit debt',
+    Contractor: 'Contractor',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Note, Tags': 'Note, Tags',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Create debt': 'Create debt',
+    Save: 'Save',
+    'Add debt record': 'Add debt record',
   },
   DistributionGraph: {
     Others: 'Others',
@@ -291,7 +419,7 @@ module.exports = {
     Only: 'Only',
     Except: 'Except',
     'Use report period': 'Use report period',
-    'Consider planned operations': 'Consider planned operations',
+    'Consider planned transactions': 'Consider planned transactions',
     'Reports — Dynamics': 'Reports — Dynamics',
     Parameters: 'Parameters',
     Accounts: 'Accounts',
@@ -363,6 +491,34 @@ module.exports = {
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
   },
+  ExchangeWindowMobile: {
+    'Exchange has been saved': 'Exchange has been saved',
+    'Please fill amount': 'Please fill amount',
+    'Please enter a number': 'Please enter a number',
+    'Please select money': 'Please select money',
+    'Please select a money other than the money you are exchanging money from':
+      'Please select a money other than the money you are exchanging money from',
+    'Please select account': 'Please select account',
+    'Please select date': 'Please select date',
+    'Please fill fee': 'Please fill fee',
+    'Add exchange': 'Add exchange',
+    'Edit exchange': 'Edit exchange',
+    Sell: 'Sell',
+    Buy: 'Buy',
+    'Sell account': 'Sell account',
+    'Buy account': 'Buy account',
+    Date: 'Date',
+    Period: 'Period',
+    Fee: 'Fee',
+    'Fee account': 'Fee account',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Note, Tags': 'Note, Tags',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Save and Create New': 'Save and Create New',
+    Save: 'Save',
+  },
   ExportData: {
     'Data export started_ In a few minutes you will receive the file by e-mail':
       'Data export started. In a few minutes you will receive the file by e-mail',
@@ -370,6 +526,11 @@ module.exports = {
     'Export data in CSV file_ The data will be sent to your e-mail_':
       'Export data in CSV file. The data will be sent to your e-mail.',
     Export: 'Export',
+  },
+  History: {
+    Operations: 'Operations',
+    'Cash Flows': 'Cash Flows',
+    History: 'History',
   },
   Layout: {
     Home: 'Home',
@@ -403,6 +564,12 @@ module.exports = {
     Active: 'Active',
     Currency: 'Currency',
   },
+  MoneysMobile: {
+    'You do not have moneys yet': 'You do not have moneys yet',
+    'Start creating by clicking on "Create money"': 'Start creating by clicking on "Create money"',
+    'Create money': 'Create money',
+    Moneys: 'Moneys',
+  },
   MoneyWindow: {
     'Money already exists': 'Money already exists',
     "You can't delete money with transaction": "You can't delete money with transaction",
@@ -424,18 +591,29 @@ module.exports = {
       'Sets the currency display order for multicurrency accounts',
     Cancel: 'Cancel',
     Save: 'Save',
+    'There are transactions with this money': 'There are transactions with this money',
+    'Standard currency not specified': 'Standard currency not specified',
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Moved {{count}} transactions',
-    'You cannot move transaction to the same category without using the option "Move operations from subcategories"':
-      'You cannot move transaction to the same category without using the option "Move operations from subcategories"',
+    'You cannot move transaction to the same category without using the option "Move transactions from subcategories"':
+      'You cannot move transaction to the same category without using the option "Move transactions from subcategories"',
     'Please select a category to move transaction to': 'Please select a category to move transaction to',
     'Move transactions from one category to another': 'Move transactions from one category to another',
     From: 'From',
     To: 'To',
-    'Move operations from subcategories': 'Move operations from subcategories',
+    'Move transactions from subcategories': 'Move transactions from subcategories',
     Cancel: 'Cancel',
     Move: 'Move',
+  },
+  Operations: {
+    Transactions: 'Transactions',
+    'Here are your expenses, income, transfers between accounts and currency exchange_ To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"':
+      'Here are your expenses, income, transfers between accounts and currency exchange. To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"',
+    'Load more': 'Load more',
+  },
+  OutcomeMobile: {
+    Outcome: 'Outcome',
   },
   Pagination: {
     of: 'of',
@@ -445,6 +623,10 @@ module.exports = {
   },
   Plan: {
     'Plan automatically renews until canceled': 'Plan automatically renews until canceled',
+  },
+  PlanningMobile: {
+    Planning: 'Planning',
+    'Coming soon': 'Coming soon',
   },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
@@ -536,6 +718,12 @@ module.exports = {
     'Project by default': 'Project by default',
     'Update profile settings': 'Update profile settings',
     Profile: 'Profile',
+    'You must provide your current password in order to change it':
+      'You must provide your current password in order to change it',
+    'Please enter your current password to change your password_':
+      'Please enter your current password to change your password.',
+    'Update password': 'Update password',
+    'Profile has been updated': 'Profile has been updated',
   },
   ProjectCopyWindow: {
     'Enter a project name': 'Enter a project name',
@@ -569,6 +757,9 @@ module.exports = {
     Permit: 'Permit',
     Note: 'Note',
   },
+  ProjectsMobile: {
+    Projects: 'Projects',
+  },
   ProjectWindow: {
     'That name is taken_ Try another_': 'That name is taken. Try another.',
     'Enter a project name': 'Enter a project name',
@@ -583,6 +774,7 @@ module.exports = {
     Cancel: 'Cancel',
     Save: 'Save',
     'Create project': 'Create project',
+    'Are you sure you want to delete this project?': 'Are you sure you want to delete this project?',
   },
   QuantityField: {
     Quantity: 'Quantity',
@@ -633,6 +825,11 @@ module.exports = {
     Money: 'Money',
     Projects: 'Projects',
     Settings: 'Settings',
+    'Current project': 'Current project',
+    References: 'References',
+    Profile: 'Profile',
+    'Profile settings': 'Profile settings',
+    'Log out': 'Log out',
   },
   SignIn: {
     'Invalid username or password': 'Invalid username or password',
@@ -691,6 +888,12 @@ module.exports = {
     Refresh: 'Refresh',
     Name: 'Name',
   },
+  TagsMobile: {
+    'You do not have tags yet': 'You do not have tags yet',
+    'Start creating by clicking on "Create tag"': 'Start creating by clicking on "Create tag"',
+    'Create tag': 'Create tag',
+    Tags: 'Tags',
+  },
   TagWindow: {
     'Tag already exists': 'Tag already exists',
     'Please fill name': 'Please fill name',
@@ -720,8 +923,9 @@ module.exports = {
     Category: 'Category',
     Income: 'Income',
     Expense: 'Expense',
+    Amount: 'Amount',
     Note: 'Note',
-    'Total for selected operations:': 'Total for selected operations:',
+    'Total for selected transactions:': 'Total for selected transactions:',
   },
   TransactionWindow: {
     Income: 'Income',
@@ -743,16 +947,43 @@ module.exports = {
     'Hide additional fields': 'Hide additional fields',
     'Show additional fields': 'Show additional fields',
     'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
-    'Not confirmed operation': 'Not confirmed operation',
-    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed operation will be marked red_':
-      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed operation will be marked red.',
-    'Otherwise, they are no different from ordinary operations_':
-      'Otherwise, they are no different from ordinary operations.',
+    'Not confirmed transaction': 'Not confirmed transaction',
+    'A not confirmed transaction will be marked in a journal yellow color_ The overdue and not confirmed transaction will be marked red_':
+      'A not confirmed transaction will be marked in a journal yellow color. The overdue and not confirmed transaction will be marked red.',
+    'Otherwise, they are no different from ordinary transactions_':
+      'Otherwise, they are no different from ordinary transactions.',
     Note: 'Note',
     Tags: 'Tags',
     Cancel: 'Cancel',
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
+  },
+  TransactionWindowMobile: {
+    Income: 'Income',
+    Expense: 'Expense',
+    'Transaction has been saved': 'Transaction has been saved',
+    'Please select date': 'Please select date',
+    'Please fill amount': 'Please fill amount',
+    'Please enter a number': 'Please enter a number',
+    'Please select money': 'Please select money',
+    'Please select category': 'Please select category',
+    'Please select account': 'Please select account',
+    'Add transaction': 'Add transaction',
+    'Edit transaction': 'Edit transaction',
+    Amount: 'Amount',
+    Category: 'Category',
+    Account: 'Account',
+    Date: 'Date',
+    Period: 'Period',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Quantity, Not confirmed, Note, Tags': 'Quantity, Not confirmed, Note, Tags',
+    Quantity: 'Quantity',
+    'Not confirmed transaction': 'Not confirmed transaction',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Save and Create New': 'Save and Create New',
+    Save: 'Save',
   },
   Transfers: {
     'Are you sure you want to delete several transfers?': 'Are you sure you want to delete several transfers?',
@@ -800,6 +1031,33 @@ module.exports = {
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
   },
+  TransferWindowMobile: {
+    'Transfer has been saved': 'Transfer has been saved',
+    'Please fill amount': 'Please fill amount',
+    'Please enter a number': 'Please enter a number',
+    'Please select money': 'Please select money',
+    'Please select date': 'Please select date',
+    'Please fill fee': 'Please fill fee',
+    'Please select account': 'Please select account',
+    'Please select an account other than the account you are transferring money from':
+      'Please select an account other than the account you are transferring money from',
+    'Add transfer': 'Add transfer',
+    'Edit transfer': 'Edit transfer',
+    Amount: 'Amount',
+    'From account': 'From account',
+    'To account': 'To account',
+    Date: 'Date',
+    Period: 'Period',
+    Fee: 'Fee',
+    'Fee account': 'Fee account',
+    'Hide additional fields': 'Hide additional fields',
+    'Show additional fields': 'Show additional fields',
+    'Note, Tags': 'Note, Tags',
+    Note: 'Note',
+    Tags: 'Tags',
+    'Save and Create New': 'Save and Create New',
+    Save: 'Save',
+  },
   Units: {
     'Are you sure you want to delete several units?': 'Are you sure you want to delete several units?',
     "You can't delete unit with transaction": "You can't delete unit with transaction",
@@ -807,6 +1065,12 @@ module.exports = {
     Delete: 'Delete',
     Refresh: 'Refresh',
     Name: 'Name',
+  },
+  UnitsMobile: {
+    'You do not have units yet': 'You do not have units yet',
+    'Start creating by clicking on "Create unit"': 'Start creating by clicking on "Create unit"',
+    'Create unit': 'Create unit',
+    Units: 'Units',
   },
   UnitWindow: {
     'Unit already exists': 'Unit already exists',
@@ -816,6 +1080,7 @@ module.exports = {
     Name: 'Name',
     Cancel: 'Cancel',
     Save: 'Save',
+    "You can't delete unit with transaction": "You can't delete unit with transaction",
   },
   YooKassaButton: {
     Subscribe: 'Subscribe',

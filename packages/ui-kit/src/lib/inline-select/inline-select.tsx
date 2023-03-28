@@ -2,12 +2,8 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItemBase from '@mui/material/MenuItem';
 
+import { IOption } from '../types';
 import { Target } from '../target/target';
-
-export interface IOption {
-  value: string;
-  label: string;
-}
 
 export interface InlineSelectProps {
   label: string;

@@ -21,6 +21,7 @@ class CashFlowItemMapperImpl implements CashFlowItemMapper {
       note,
       tags,
       userId,
+      contractorId,
     }: ICashFlowItemDAO,
     { accounts }: Permissions
   ): ICashFlowItem {
@@ -41,6 +42,7 @@ class CashFlowItemMapperImpl implements CashFlowItemMapper {
       isNotConfirmed,
       note: note ?? '',
       tags: tags ? tags.map(String) : [],
+      contractorId: contractorId ? String(contractorId) : null,
     });
   }
 

@@ -6,7 +6,7 @@ import styles from './Loader.module.scss';
 
 export function Loader(): JSX.Element {
   return (
-    <div className={styles.loader}>
+    <div className={styles.root}>
       <CircularIndeterminate />
     </div>
   );

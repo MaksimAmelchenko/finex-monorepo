@@ -1,19 +1,19 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 
-import { Button, IButtonProps } from '@finex/ui-kit';
+import { Button, ButtonProps } from '@finex/ui-kit';
 
-export interface IFormButton extends IButtonProps {
+export interface FormButtonProps extends ButtonProps {
   isIgnoreValidation?: boolean;
 }
 
 /**
  * Use this button in Forms to auto-disable when form is not valid, or validating, or submitting
- * @param {IFormButton} props
+ * @param {FormButtonProps} props
  * @constructor
  */
 
-export const FormButton = (props: IFormButton): JSX.Element => {
+export function FormButton(props: FormButtonProps): JSX.Element {
   const { isValid, isValidating, isSubmitting } = useFormikContext();
   const { disabled = false, isIgnoreValidation = false, ...rest } = props;
 
@@ -21,4 +21,4 @@ export const FormButton = (props: IFormButton): JSX.Element => {
   const loading = isValidating || isSubmitting;
 
   return <Button {...rest} disabled={disable || loading} />;
-};
+}

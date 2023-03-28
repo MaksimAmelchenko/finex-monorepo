@@ -15,6 +15,7 @@ export class DebtItem implements IDebtItem {
   note: string;
   tags: string[];
   permit: Permit;
+  contractorId: string;
 
   constructor({
     id,
@@ -30,6 +31,7 @@ export class DebtItem implements IDebtItem {
     note,
     tags,
     permit,
+    contractorId
   }: IDebtItemEntity) {
     this.id = id;
     this.debtId = debtId;
@@ -44,5 +46,6 @@ export class DebtItem implements IDebtItem {
     this.note = note;
     this.tags = tags;
     this.permit = permit;
+    this.contractorId = contractorId;
   }
 }

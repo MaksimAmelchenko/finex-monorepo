@@ -34,14 +34,19 @@ export class AccountsRepository extends ManageableStore {
     makeObservable<AccountsRepository, '_accounts'>(this, {
       _accounts: observable.shallow,
       accounts: computed,
-      consume: action,
+      availableAccounts: computed,
       clear: action,
+      consume: action,
       deleteAccount: action,
     });
   }
 
   get accounts(): Account[] {
     return this._accounts.slice().sort(AccountsRepository.sort);
+  }
+
+  get availableAccounts(): Account[] {
+    return this.accounts.filter(({ isEnabled }) => isEnabled);
   }
 
   private static sort(a: Account, b: Account): number {

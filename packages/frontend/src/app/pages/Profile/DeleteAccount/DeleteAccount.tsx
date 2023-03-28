@@ -84,7 +84,7 @@ export const DeleteAccount = observer(({ username }: DeleteAccountProps) => {
             />
           </FormLayout>
           <footer className={styles.form__footer}>
-            <FormButton type="submit" size="small" color="danger" isIgnoreValidation>
+            <FormButton type="submit" size="sm" destructive isIgnoreValidation>
               {t('Delete account')}
             </FormButton>
           </footer>

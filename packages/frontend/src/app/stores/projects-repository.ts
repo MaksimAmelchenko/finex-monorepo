@@ -1,6 +1,8 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 
 import { AccountsRepository } from './accounts-repository';
+import { BalanceRepository } from './balance-repository';
+import { CashFlowsRepository } from './cash-flows-repository';
 import { CategoriesRepository } from './categories-repository';
 import { ContractorsRepository } from './contractors-repository';
 import {
@@ -16,12 +18,17 @@ import {
   UpdateProjectResponse,
   UseProjectResponse,
 } from '../types/project';
+import { DebtsRepository } from './debts-repository';
+import { ExchangesRepository } from './exchanges-repository';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
 import { MoneysRepository } from './moneys-repository';
+import { OperationsRepository } from './operations-repository';
 import { ParamsStore } from './params-store';
 import { Project } from './models/project';
 import { TagsRepository } from './tags-repository';
+import { TransactionsRepository } from './transactions-repository';
+import { TransfersRepository } from './transfers-repository';
 import { UnitsRepository } from './units-repository';
 import { User } from './models/user';
 import { UsersRepository } from './users-repository';
@@ -186,6 +193,14 @@ export class ProjectsRepository extends ManageableStore {
     paramsStore.consume(params);
 
     this.setCurrentProject(projectId!);
+
+    this.getStore(BalanceRepository).clear();
+    this.getStore(CashFlowsRepository).clear();
+    this.getStore(DebtsRepository).clear();
+    this.getStore(ExchangesRepository).clear();
+    this.getStore(OperationsRepository).clear();
+    this.getStore(TransactionsRepository).clear();
+    this.getStore(TransfersRepository).clear();
   }
 
   async copyProject(projectId: string, params: CopyProjectParams): Promise<void> {

@@ -1,12 +1,12 @@
-@use '../../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 5px var(--color-neutral100);
+  box-shadow: 0 2px 5px var(--color-gray-100);
   padding: 1.6rem 3.2rem;
-  background-color: var(--color-neutral100);
+  background-color: var(--color-gray-100);
 
   &__title {
     @include typography.h2();

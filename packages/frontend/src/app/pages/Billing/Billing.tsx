@@ -42,7 +42,7 @@ export const Billing = observer(() => {
     billingRepository.getPlans().then(plans => {
       setPlans(plans);
     });
-  }, []);
+  }, [billingRepository]);
 
   useEffect(() => {
     return () => {
@@ -82,97 +82,95 @@ export const Billing = observer(() => {
   const isFreeSubscription = currentPlan?.id === 'free';
 
   return (
-    <>
-      <div className={styles.layout}>
-        <HeaderLayout title={t('Billing settings')} className={styles.header} />
-        <main className={styles.content}>
-          <section className={styles.currentPlanInfo}>
-            {!isFreeSubscription && (
-              <div>
-                {t('Access until')}:{' '}
-                <span
-                  className={clsx(
-                    styles.currentPlanInfo__accessUntil,
-                    isExpired && styles.currentPlanInfo__accessUntil__expired
-                  )}
-                >
-                  {formatDate(profile.accessUntil)}
-                </span>
-              </div>
-            )}
+    <div className={styles.layout}>
+      <HeaderLayout title={t('Billing settings')} className={styles.header} />
+      <main className={styles.content}>
+        <section className={styles.currentPlanInfo}>
+          {!isFreeSubscription && (
             <div>
-              {currentPlan ? (
-                <>
-                  {t('Your plan')}: <span className={styles.currentPlanInfo__name}>{currentPlan.name}</span>
-                </>
-              ) : (
-                <span className={clsx(styles.currentPlanInfo__name, styles.currentPlanInfo__name_noSubscription)}>
-                  {t('No active subscription')}
-                </span>
-              )}
-            </div>
-          </section>
-
-          {!isFreeSubscription ? (
-            <section className={styles.priceSection}>
-              {availablePlans.map(plan => {
-                const { id, availablePaymentGateways } = plan;
-                const isCurrentPlan = id === currentPlan?.id;
-                const isExpired = isCurrentPlan && parseISO(profile.accessUntil) < new Date() && false;
-
-                return (
-                  <PlanCard plan={plan} className={styles.priceSection__priceCard} key={plan.id}>
-                    {!isCurrentPlan ? (
-                      <div className={styles.priceSection__priceCardButtons}>
-                        {availablePaymentGateways.includes('yookassa') && (
-                          <YooKassaButton plan={plan} onAfter={onAfter} />
-                        )}
-                        {availablePaymentGateways.includes('paypal') && <PayPalButton plan={plan} onAfter={onAfter} />}
-                      </div>
-                    ) : (
-                      <>
-                        <Form
-                          onSubmit={handleUnsubscribe}
-                          initialValues={{}}
-                          className={styles.root__form}
-                          name="unsubscription"
-                        >
-                          <FormButton type="submit" color="danger" className={styles.root__button}>
-                            {t('Unsubscribe')}
-                          </FormButton>
-                        </Form>
-
-                        {isExpired && (
-                          <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
-                            <FormButton
-                              type="submit"
-                              variant="outlined"
-                              color="primary"
-                              fullSize
-                              className={styles.root__button}
-                            >
-                              {t('Pay Now')}
-                            </FormButton>
-                          </Form>
-                        )}
-                      </>
-                    )}
-                  </PlanCard>
-                );
-              })}
-            </section>
-          ) : (
-            <div className={clsx(styles.content__freeSubscriptionImage, styles.freeSubscriptionImage)}>
-              <img
-                className={styles.freeSubscriptionImage__image}
-                src={financialManagementSvg}
-                alt="Financial management"
-              />
+              {t('Access until')}:{' '}
+              <span
+                className={clsx(
+                  styles.currentPlanInfo__accessUntil,
+                  isExpired && styles.currentPlanInfo__accessUntil__expired
+                )}
+              >
+                {formatDate(profile.accessUntil)}
+              </span>
             </div>
           )}
-        </main>
-      </div>
-    </>
+          <div>
+            {currentPlan ? (
+              <>
+                {t('Your plan')}: <span className={styles.currentPlanInfo__name}>{currentPlan.name}</span>
+              </>
+            ) : (
+              <span className={clsx(styles.currentPlanInfo__name, styles.currentPlanInfo__name_noSubscription)}>
+                {t('No active subscription')}
+              </span>
+            )}
+          </div>
+        </section>
+
+        {!isFreeSubscription ? (
+          <section className={styles.priceSection}>
+            {availablePlans.map(plan => {
+              const { id, availablePaymentGateways } = plan;
+              const isCurrentPlan = id === currentPlan?.id;
+              const isExpired = isCurrentPlan && parseISO(profile.accessUntil) < new Date() && false;
+
+              return (
+                <PlanCard plan={plan} className={styles.priceSection__priceCard} key={plan.id}>
+                  {!isCurrentPlan ? (
+                    <div className={styles.priceSection__priceCardButtons}>
+                      {availablePaymentGateways.includes('yookassa') && (
+                        <YooKassaButton plan={plan} onAfter={onAfter} />
+                      )}
+                      {availablePaymentGateways.includes('paypal') && <PayPalButton plan={plan} onAfter={onAfter} />}
+                    </div>
+                  ) : (
+                    <>
+                      <Form
+                        onSubmit={handleUnsubscribe}
+                        initialValues={{}}
+                        className={styles.root__form}
+                        name="unsubscription"
+                      >
+                        <FormButton type="submit" color="danger" className={styles.root__button}>
+                          {t('Unsubscribe')}
+                        </FormButton>
+                      </Form>
+
+                      {isExpired && (
+                        <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
+                          <FormButton
+                            type="submit"
+                            variant="secondaryGray"
+                            color="primary"
+                            fullSize
+                            className={styles.root__button}
+                          >
+                            {t('Pay Now')}
+                          </FormButton>
+                        </Form>
+                      )}
+                    </>
+                  )}
+                </PlanCard>
+              );
+            })}
+          </section>
+        ) : (
+          <div className={clsx(styles.content__freeSubscriptionImage, styles.freeSubscriptionImage)}>
+            <img
+              className={styles.freeSubscriptionImage__image}
+              src={financialManagementSvg}
+              alt="Financial management"
+            />
+          </div>
+        )}
+      </main>
+    </div>
   );
 });
 

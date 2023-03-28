@@ -1,0 +1,11 @@
+.main {
+  padding-bottom: 4rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.6rem;
+  border-top: 0.5px solid var(--color-gray-200);
+  padding: 1.6rem;
+}

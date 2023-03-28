@@ -1,4 +1,6 @@
-.main {
+@use 'packages/theme/src/lib/styles/media';
+
+.root {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -6,4 +8,9 @@
   flex: 1;
   overflow: auto;
   padding: 2.4rem 3.2rem;
+
+  @include media.only(sm) {
+    row-gap: 1.6rem;
+    padding: 0.8rem 1.6rem;
+  }
 }

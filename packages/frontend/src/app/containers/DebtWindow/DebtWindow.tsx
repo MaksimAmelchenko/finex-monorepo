@@ -100,7 +100,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [debt, debtsRepository, enqueueSnackbar, onClose]
+    [debt, debtsRepository, enqueueSnackbar]
   );
 
   const validationSchema = useMemo(
@@ -160,8 +160,8 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
       }
     }
 
-    selectedDebtItems.forEach(debtItem => {
-      debtsRepository.removeDebtItem(debtItem).catch(err => {
+    selectedDebtItems.forEach(({ debtId, id }) => {
+      debtsRepository.removeDebtItem(debtId, id).catch(err => {
         enqueueSnackbar(err.message, { variant: 'error' });
       });
     });
@@ -195,7 +195,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
             </div>
 
             <div className={styles.debt__footer}>
-              <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+              <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
                 {t('Close')}
               </FormButton>
               <FormButton type="submit" color="primary" isIgnoreValidation>
@@ -209,15 +209,10 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           <div className={clsx(styles.panel)}>
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
-                <Button variant="outlined" size="small" disabled={!Boolean(debt.id)} onClick={handleOpenAddDebtItem}>
+                <Button variant="secondaryGray" disabled={!debt.id} onClick={handleOpenAddDebtItem}>
                   {t('New')}
                 </Button>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  disabled={!selectedDebtItems.length}
-                  onClick={handleDeleteClick}
-                >
+                <Button variant="secondaryGray" disabled={!selectedDebtItems.length} onClick={handleDeleteClick}>
                   {t('Delete')}
                 </Button>
               </div>
@@ -247,7 +242,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
         </section>
       </main>
 
-      <Drawer isOpened={isOpenedDebtItemWindow}>
+      <Drawer open={isOpenedDebtItemWindow}>
         {debtItem && <DebtItemWindow debtItem={debtItem} onClose={handleCloseDebtItemWindow} />}
       </Drawer>
     </div>

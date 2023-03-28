@@ -16,7 +16,7 @@ interface DebtRowProps {
 }
 
 export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
-  const { balance, contractor, debtDate, isDeleting, isSelected, note, tags } = debt;
+  const { balance_DEPRECATED: balance, contractor, debtDate, isDeleting, isSelected, note, tags } = debt;
   const moneysRepository = useStore(MoneysRepository);
 
   const handleOnSelect = (event: React.SyntheticEvent) => {
@@ -24,12 +24,12 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
     debt.toggleSelection();
   };
 
-  const handleOnClick = (event: React.SyntheticEvent) => {
+  const handleClick = (event: React.SyntheticEvent) => {
     onClick(debt);
   };
 
   return (
-    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <td className={clsx(styles.firstColumn, 'min-width')}>
         <div className={clsx(styles.dateColumn)} onClick={handleOnSelect}>
           <div className={clsx(styles.dateColumn__colorMark)} />

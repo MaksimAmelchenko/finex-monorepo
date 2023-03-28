@@ -9,6 +9,7 @@ export * from './FormFieldSet/FormFieldSet';
 export * from './FormFooter/FormFooter';
 export * from './FormHeader/FormHeader';
 export * from './FormInlineSelect/FormInlineSelect';
+export * from './FormInput/FormInput';
 export * from './FormLayout/FormLayout';
 export * from './FormSelect/FormSelect';
 export * from './FormSelectPopup/FormSelectPopup';

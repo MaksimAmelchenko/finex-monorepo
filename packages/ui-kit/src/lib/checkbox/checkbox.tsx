@@ -17,6 +17,7 @@ export function Checkbox({
   onChange,
   helperText,
   children,
+  size = 'sm',
   ...rest
 }: ICheckboxProps): JSX.Element {
   const isError = Boolean(error);
@@ -24,12 +25,12 @@ export function Checkbox({
   const message = isError ? error : helperText;
 
   return (
-    <div className={clsx(styles.container, isError && styles.container_error)}>
-      <label className={clsx(styles.label, disabled && styles.label_disabled)}>
-        <BaseCheckbox {...rest} className={styles.checkbox} onChange={onChange} disabled={disabled} />
-        <div className={styles.content}>{children} </div>
+    <div className={clsx(styles.root, styles[`root_size_${size}`], isError && styles.root_error)}>
+      <label className={clsx(styles.root__label, disabled && styles.root__label_disabled)}>
+        <BaseCheckbox {...rest} size={size} className={styles.root__checkbox} onChange={onChange} disabled={disabled} />
+        <div className={styles.root__content}>{children} </div>
       </label>
-      {message && <p className={styles.container__helperText}>{message}</p>}
+      {message && <p className={styles.root__helperText}>{message}</p>}
     </div>
   );
 }

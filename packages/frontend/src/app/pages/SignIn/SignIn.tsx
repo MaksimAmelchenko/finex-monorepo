@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { CommonStorageStore } from '../../core/other-stores/common-storage-store';
-import { Form, FormButton, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormInput, FormLayout } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
 import { Loader } from '../../components/Loader/Loader';
@@ -87,26 +87,26 @@ export function SignIn(): JSX.Element {
     return <Loader />;
   }
 
+  const isThereUsername = Boolean(username);
   return (
     <Layout title={t('Sign in')}>
       <div className={styles.container}>
         <Form<ISignInFormValues>
           onSubmit={onSubmit}
-          // afterSubmit={afterSubmit}
           initialValues={{ username, password: '' }}
           validationSchema={validationSchema}
           name="sign-in"
         >
           <FormLayout>
-            <FormTextField name="username" type="text" label={t('E-mail')} autoFocusOnEmpty={true} />
-            <FormTextField
+            <FormInput name="username" type="email" label={t('E-mail')} autoFocus={!isThereUsername} />
+            <FormInput
               name="password"
               type="password"
               label={t('Password')}
-              autoFocusOnEmpty={true}
+              autoFocus={isThereUsername}
               autoComplete="current-password"
             />
-            <FormButton type="submit" size="medium" color="primary" fullSize isIgnoreValidation>
+            <FormButton type="submit" variant="primary" size="lg" fullSize isIgnoreValidation>
               {t('Continue')}
             </FormButton>
             <Link href="/reset-password">{t('Forgot your password?')}</Link>

@@ -1,0 +1,44 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4rem;
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+
+  &__illustration {
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  &__text {
+    text-align: center;
+    @include typography.textXLSemibold;
+    color: var(--color-gray-900);
+  }
+
+  &__supportingText {
+    text-align: center;
+    @include typography.textMD;
+    color: var(--color-gray-600);
+  }
+}

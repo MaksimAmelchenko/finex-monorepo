@@ -8,6 +8,6 @@ interface FormBodyProps {
   className?: string;
 }
 
-export const FormBody: React.FC<FormBodyProps> = ({ children, className }): JSX.Element => {
-  return <main className={clsx(styles.main, className)}>{children}</main>;
-};
+export function FormBody({ children, className }: FormBodyProps): JSX.Element {
+  return <main className={clsx(styles.root, className)}>{children}</main>;
+}

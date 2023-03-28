@@ -1,8 +1,8 @@
-@use '../../../../../theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/media';
 
 .container {
   padding: 2rem 6.4rem 4rem;
-  @include media.sm {
+  @include media.only(sm) {
     padding: 2rem;
   }
 }

@@ -1,0 +1,25 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  //box-shadow: 0 0 4px var(--color-gray-200);
+  height: 4.8rem;
+
+  &__title {
+    flex: 1 1 0;
+    width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 1.6rem;
+    @include typography.textXLSemibold;
+  }
+
+  &__separator {
+    width: 1px;
+    height: 2.4rem;
+    margin: 0 0.4rem;
+    background-color: var(--color-gray-300);
+  }
+}

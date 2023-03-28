@@ -189,7 +189,13 @@ export const DistributionReport = observer(() => {
         ].map(({ id }) => id),
       });
     }
-  }, [projectsRepository.currentProject]);
+  }, [
+    categoriesRepository,
+    filter.money,
+    moneysRepository.moneys,
+    projectsRepository.currentProject,
+    reportsRepository,
+  ]);
 
   return (
     <div className={styles.layout}>
@@ -220,7 +226,7 @@ export const DistributionReport = observer(() => {
                 </ToggleButton>
               </ToggleButtonGroup>
 
-              <Button variant="outlined" onClick={handleToggleParams}>
+              <Button variant="secondaryGray" onClick={handleToggleParams}>
                 {t('Parameters')}
               </Button>
             </div>
@@ -310,7 +316,7 @@ export const DistributionReport = observer(() => {
 
         {distributionReportLoadState.isPending() && (
           <div className={styles.loader}>
-            <img src={loadingSvg} />
+            <img src={loadingSvg} alt="Loading" />
           </div>
         )}
 

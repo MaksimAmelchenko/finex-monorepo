@@ -1,31 +1,67 @@
+@use '~inter-ui/default' with (
+  $inter-font-display: swap,
+  $inter-font-path: '~inter-ui/Inter (web)'
+);
+@use '~inter-ui/variable' with (
+  $inter-font-display: swap,
+  $inter-font-path: '~inter-ui/Inter (web)'
+);
+
+@use './colors';
 @use './media';
 @use './typography';
+
 @import '~normalize.css';
 @import './table';
+//@import './debug';
+
+@include default.all;
+@include variable.all;
 
 html {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', 'system-ui', sans-serif;
   font-size: 62.5%; /* 62.5% of 16px = 10px */
+  -webkit-tap-highlight-color: transparent;
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', 'system-ui', sans-serif;
+  }
 }
 
 body {
+  overflow: hidden;
   height: 100%;
   width: 100%;
-  @include typography.body;
+  @include typography.textMD;
+  color: var(--color-gray-900);
 }
 
-* {
+:root {
   box-sizing: border-box;
 }
 
+*:not(img):not(video):not(svg),
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
 .hidden-sm {
-  @include media.sm {
+  @include media.only(sm) {
     display: none;
   }
 }
 
 .hidden-md {
-  @include media.md {
+  @include media.down(lg) {
+    display: none;
+  }
+}
+
+.hidden-lg {
+  @include media.only(lg) {
     display: none;
   }
 }
@@ -92,59 +128,7 @@ p {
   border: 0;
 }
 
-:root {
-  --color-neutral0: #ffffff;
-  --color-neutral100: #f6f6f9;
-  --color-neutral150: #eaeaef;
-  --color-neutral200: #dcdce4;
-  --color-neutral300: #c0c0cf;
-  --color-neutral400: #a5a5ba;
-  --color-neutral500: #8e8ea9;
-  --color-neutral600: #666687;
-  --color-neutral700: #4a4a6a;
-  --color-neutral800: #32324d;
-  --color-neutral900: #212134;
-  --color-neutral1000: #181826;
-
-  --color-primary100: #f0f0ff;
-  --color-primary200: #d9d8ff;
-  --color-primary500: #7b79ff;
-  --color-primary600: #4945ff;
-  --color-primary700: #271fe0;
-
-  //--color-primary100: #c0e1ff;
-  //--color-primary200: #81c4ff;
-  //--color-primary500: #41a6ff;
-  //--color-primary600: #0289ff;
-  //--color-primary700: #0066bf;
-
-  --color-secondary100: #eaf5ff;
-  --color-secondary200: #b8e1ff;
-  --color-secondary500: #66b7f1;
-  --color-secondary600: #0c75af;
-  --color-secondary700: #006096;
-
-  --color-success100: #eafbe7;
-  --color-success200: #c6f0c2;
-  --color-success500: #5cb176;
-  --color-success600: #328048;
-  --color-success700: #2f6846;
-
-  --color-warning100: #fbe4d1;
-  --color-warning200: #f7c9a3;
-  --color-warning500: #f3ae75;
-  --color-warning600: #ef9347;
-  --color-warning700: #eb7517;
-
-  --color-danger100: #fcecea;
-  --color-danger200: #f5c0b8;
-  --color-danger500: #ee5e52;
-  --color-danger600: #d02b20;
-  --color-danger700: #b72b1a;
-
-  --color-alternative100: #f6ecfc;
-  --color-alternative200: #e0c1f4;
-  --color-alternative500: #ac73e6;
-  --color-alternative600: #9736e8;
-  --color-alternative700: #8312d1;
+// pulltorefreshjs
+.ptr--ptr {
+  box-shadow: none !important;
 }

@@ -1,50 +1,68 @@
-import React, { HTMLAttributes } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import clsx from 'clsx';
 
-// import { Link } from '../Link/Link';
+import { Link } from 'react-router-dom';
+
 import styles from './button.module.scss';
 
-export interface IButtonProps extends Omit<HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>, 'css'> {
+export interface ButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>, 'css'> {
   children?: React.ReactNode; //  The content of the component.
   className?: string; // Override or extend the styles applied to the component.
-  color?: 'primary' | 'secondary' | 'danger';
+  destructive?: boolean;
   disabled?: boolean; // If true, the component is disabled.
   loading?: boolean; // If true, the component is disabled.
   fullSize?: boolean; // If true, the button will take up the full width of its container
   href?: string; // The URL to link to when the button is clicked. If defined, an a element will be used as the root node.
-  size?: 'small' | 'medium' | 'large'; // The size of the component.
-  variant?: 'contained' | 'outlined';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  variant?:
+    | 'primary'
+    | 'secondaryColor'
+    | 'secondaryGray'
+    | 'tertiaryColor'
+    | 'tertiaryGray'
+    | 'linkColor'
+    | 'linkGray';
   type?: 'button' | 'submit';
 }
 
-export const Button = ({ children, ...rest }: IButtonProps) => {
-  return <ButtonStyledInner {...rest}>{children}</ButtonStyledInner>;
-};
-
-const ButtonStyledInner = ({
+export function Button({
   type = 'button',
-  size = 'medium',
-  variant = 'contained',
-  color = 'primary',
+  size = 'md',
+  variant = 'primary',
   fullSize = false,
   loading = false,
   disabled = false,
+  destructive = false,
+  startIcon: StartIcon,
+  endIcon: EndIcon,
   className,
   href,
+  children,
   ...props
-}: IButtonProps): JSX.Element => {
-  const classNameStyles = clsx(styles.button, className, {
-    [styles[`button_size_${size}`]]: size,
-    [styles[`button_disabled`]]: loading || disabled,
-    [styles[`button_variant_${variant}`]]: true,
-    [styles[`button_color_${color}`]]: true,
-    [styles['button_fullSize']]: fullSize,
-  });
+}: ButtonProps) {
+  const isDisabled = loading || disabled;
+  const classNameStyles = clsx(
+    styles.root,
+    [styles[`root_size_${size}`]],
+    [styles[`root_variant_${variant}`]],
+    destructive && styles.root_destructive,
+    fullSize && styles.root_fullSize,
+    className
+  );
 
   return href ? (
-    <Link className={classNameStyles} to={href} {...props} />
+    <Link className={classNameStyles} to={href} {...props}>
+      {StartIcon}
+      {children}
+      {EndIcon}
+    </Link>
   ) : (
-    <button className={classNameStyles} {...props} type={type} disabled={disabled || loading} />
+    <button className={classNameStyles} {...props} type={type} disabled={isDisabled}>
+      {StartIcon}
+      {children}
+      {EndIcon}
+    </button>
   );
-};
+}

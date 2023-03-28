@@ -2,7 +2,7 @@
   cursor: pointer;
 
   &_is_deleting {
-    background-color: var(--color-danger200);
+    background-color: var(--color-error-200);
   }
 }
 
@@ -12,5 +12,5 @@
 }
 
 .categoryPath {
-  color: var(--color-neutral400);
+  color: var(--color-gray-400);
 }

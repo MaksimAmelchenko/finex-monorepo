@@ -84,7 +84,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
 
   useEffect(() => {
     analytics.view({
-      page_title: 'categories',
+      page_title: 'category',
     });
   }, []);
 
@@ -179,14 +179,14 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
           options={selectCategoryPrototypesOptions}
           isClearable
         />
-        <FormCheckbox name="isEnabled" helperText={t('Show category when adding or editing an operation')}>
+        <FormCheckbox name="isEnabled" helperText={t('Show category when adding or editing a transaction')}>
           {t('Active')}
         </FormCheckbox>
         <FormTextAreaField name="note" label={t('Note')} />
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
         <FormButton type="submit" color="primary" isIgnoreValidation>

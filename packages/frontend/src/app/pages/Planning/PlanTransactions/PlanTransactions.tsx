@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button } from '@finex/ui-kit';
+import { Button, PlusIcon } from '@finex/ui-kit';
 import { Drawer } from '../../../components/Drawer/Drawer';
 import { IPlanTransaction } from '../../../types/plan-transaction';
 import { PlanTransaction } from '../../../stores/models/plan-transaction';
@@ -55,7 +55,7 @@ export const PlanTransactions = observer(() => {
 
       enqueueSnackbar(message, { variant: 'error' });
     });
-  }, [planTransactionsRepository, projectsRepository.currentProject]);
+  }, [enqueueSnackbar, planTransactionsRepository, projectsRepository.currentProject]);
 
   const handleRefreshClick = () => {
     planTransactionsRepository.refresh();
@@ -82,13 +82,13 @@ export const PlanTransactions = observer(() => {
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleOpenAddPlanTransaction}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddPlanTransaction}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedPlans.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="sm" disabled={!selectedPlans.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -125,7 +125,7 @@ export const PlanTransactions = observer(() => {
         </div>
       </main>
 
-      <Drawer isOpened={isOpenedPlanTransactionWindow}>
+      <Drawer open={isOpenedPlanTransactionWindow}>
         {planTransaction && (
           <PlanTransactionWindow planTransaction={planTransaction} onClose={handleClosePlanTransactionWindow} />
         )}

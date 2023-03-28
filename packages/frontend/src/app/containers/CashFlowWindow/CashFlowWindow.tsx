@@ -101,7 +101,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [cashFlow, cashFlowsRepository, enqueueSnackbar, onClose]
+    [cashFlow, cashFlowsRepository, enqueueSnackbar]
   );
 
   const validationSchema = useMemo(() => {}, []);
@@ -157,7 +157,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
 
   const balances =
     cashFlow instanceof CashFlow
-      ? cashFlow.balances.sort(
+      ? cashFlow.balances_DEPRECATED.sort(
           (a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money)
         )
       : [];
@@ -169,8 +169,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
       }
     }
 
-    selectedCashFlowItems.forEach(cashFlowItem => {
-      cashFlowsRepository.removeCashFlowItem(cashFlowItem).catch(err => {
+    selectedCashFlowItems.forEach(({ cashFlowId, id }) => {
+      cashFlowsRepository.removeCashFlowItem(cashFlowId, id).catch(err => {
         enqueueSnackbar(err.message, { variant: 'error' });
       });
     });
@@ -209,7 +209,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
             </div>
 
             <div className={styles.cashFlow__footer}>
-              <FormButton variant="outlined" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
+              <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
                 {t('Close')}
               </FormButton>
               <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfw-save-button">
@@ -224,17 +224,15 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
                 <Button
-                  variant="outlined"
-                  size="small"
-                  disabled={!Boolean(cashFlow.id)}
+                  variant="secondaryGray"
+                  disabled={!cashFlow.id}
                   onClick={handleOpenAddCashFlowItem}
                   data-cy="cfw-create-cash-flow-item-button"
                 >
                   {t('New')}
                 </Button>
                 <Button
-                  variant="outlined"
-                  size="small"
+                  variant="secondaryGray"
                   disabled={!selectedCashFlowItems.length}
                   onClick={handleDeleteClick}
                   data-cy="cfw-delete-cash-flow-item-button"
@@ -266,7 +264,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan={4}>{t('Total for selected operations:')}</td>
+                  <td colSpan={4}>{t('Total for selected transactions:')}</td>
                   <td className="text-end numeric">
                     {balancesBySelectedCashFlowItems.map(({ money, income }) => {
                       return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
@@ -327,7 +325,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
         </section>
       </main>
 
-      <Drawer isOpened={isOpenedCashFlowItemWindow}>
+      <Drawer open={isOpenedCashFlowItemWindow}>
         {cashFlowItem && <CashFlowItemWindow cashFlowItem={cashFlowItem} onClose={handleCloseCashFlowItemWindow} />}
       </Drawer>
     </div>

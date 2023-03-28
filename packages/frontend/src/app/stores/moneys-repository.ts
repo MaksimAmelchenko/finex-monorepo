@@ -33,15 +33,20 @@ export class MoneysRepository extends ManageableStore {
 
     makeObservable<MoneysRepository, '_moneys'>(this, {
       _moneys: observable.shallow,
+      availableMoneys: computed,
       moneys: computed,
-      consume: action,
       clear: action,
+      consume: action,
       deleteMoney: action,
     });
   }
 
   get moneys(): Money[] {
     return this._moneys.slice().sort(MoneysRepository.sort);
+  }
+
+  get availableMoneys(): Money[] {
+    return this.moneys.filter(({ isEnabled }) => isEnabled);
   }
 
   private static sort(a: Money, b: Money): number {

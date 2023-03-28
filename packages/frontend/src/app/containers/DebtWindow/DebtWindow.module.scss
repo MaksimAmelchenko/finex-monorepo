@@ -1,4 +1,4 @@
-@use '../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .layout {
   display: grid;
@@ -17,7 +17,7 @@
 }
 
 .debt {
-  border-bottom: solid 1px var(--color-neutral200);
+  border-bottom:  1px solid var(--color-gray-200);
 
   &__form {
     padding: 2.4rem 0;

@@ -1,0 +1,29 @@
+@use 'packages/theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/mixins';
+
+.root {
+  @include mixins.resetButton;
+  padding: 0 1.6rem;
+  width: 100%;
+
+  &__content {
+    display: flex;
+    align-items: center;
+
+    border-bottom: 0.5px solid var(--color-gray-300);
+    padding: 1rem 0;
+    @include typography.textMD;
+    color: var(--color-gray-900);
+
+    .root_disabled & {
+      color: var(--color-gray-400);
+    }
+  }
+
+  &__name {
+    flex-grow: 1;
+  }
+
+  &_disabled {
+  }
+}

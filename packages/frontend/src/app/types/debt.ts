@@ -74,6 +74,7 @@ export interface IDebtItemDTO {
   moneyId: string;
   accountId: string;
   categoryId: string;
+  contractorId: string;
   debtItemDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -90,6 +91,7 @@ export interface IDebtItem {
   money: Money;
   account: Account;
   category: Category;
+  contractor: Contractor;
   debtItemDate: TDate;
   reportPeriod: TDate;
   note: string;

@@ -26,7 +26,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
     transaction.toggleSelection();
   };
 
-  const handleOnClick = (event: React.SyntheticEvent) => {
+  const handleClick = (event: React.SyntheticEvent) => {
     onClick(transaction);
   };
 
@@ -35,7 +35,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
     (isPlanned || transaction.isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
-    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
         <div
           className={clsx(
@@ -86,7 +86,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
           <td className="hidden-sm hidden-md currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
         </>
       ) : (
-        <td colSpan={2} />
+        <td className="hidden-sm hidden-md" colSpan={2} />
       )}
 
       {sign === -1 ? (
@@ -95,11 +95,11 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
           <td className="hidden-sm hidden-md currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
         </>
       ) : (
-        <td colSpan={2} />
+        <td className="hidden-sm hidden-md" colSpan={2} />
       )}
 
-      {/*<td className="text-end hidden-lg numeric">{toCurrency(sign * amount, money.precision)}</td>*/}
-      {/*<td className="hidden-lg currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />*/}
+      <td className="text-end hidden-lg numeric">{toCurrency(sign * amount, money.precision)}</td>
+      <td className="hidden-lg currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
 
       <td className="hidden-sm min-width">{note}</td>
       <td className="hidden-sm min-width">

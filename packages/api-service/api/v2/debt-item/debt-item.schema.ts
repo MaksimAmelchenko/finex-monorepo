@@ -8,6 +8,7 @@ import { moneyId } from '../../../common/schemas/fields/money-id';
 import { sign } from '../../../common/schemas/fields/sign';
 import { userId } from '../../../common/schemas/fields/user-id';
 import { permit } from '../../../common/schemas/fields/permit';
+import { contractorId } from '../../../common/schemas/fields/contractor-id';
 
 export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -34,6 +35,7 @@ export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
     },
     permit,
     userId,
+    contractorId,
   },
   additionalProperties: false,
   required: [
@@ -50,5 +52,6 @@ export const debtItemSchema: OpenAPIV3_1.SchemaObject = {
     'tags',
     'permit',
     'userId',
+    'contractorId',
   ],
 };

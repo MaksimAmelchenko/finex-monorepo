@@ -17,7 +17,7 @@ export const FormColorPickerField = (props: FormColorPickerFieldProps): JSX.Elem
   const handleChange = useCallback(
     (value: string) => {
       setFieldValue(props.name, value);
-      setFieldTouched(props.name);
+      setFieldTouched(props.name, true, false);
     },
     [props.name, setFieldValue, setFieldTouched]
   );

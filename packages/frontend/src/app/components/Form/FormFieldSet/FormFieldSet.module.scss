@@ -1,4 +1,4 @@
-@use '../../../../../../theme/src/lib/styles/typography';
+@use 'packages/theme/src/lib/styles/typography';
 
 .fieldset {
   display: flex;
@@ -11,7 +11,7 @@
 
 .legend {
   @include typography.subtitle;
-  border-bottom: 1px dashed var(--color-neutral400);
+  border-bottom: 1px dashed var(--color-gray-400);
   margin: 0 0 2.4rem;
   padding: 0.8rem 0;
   width: 100%;

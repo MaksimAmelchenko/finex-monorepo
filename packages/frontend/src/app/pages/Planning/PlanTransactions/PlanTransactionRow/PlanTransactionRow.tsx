@@ -37,12 +37,12 @@ export const PlanTransactionRow = observer<PlanTransactionRowProps>(({ planTrans
     planTransaction.toggleSelection();
   };
 
-  const handleOnClick = (event: React.SyntheticEvent) => {
+  const handleClick = (event: React.SyntheticEvent) => {
     onClick(planTransaction);
   };
 
   return (
-    <tr onClick={handleOnClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+    <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
       <SelectableDateCell
         date={startDate}
         isSelected={isSelected}

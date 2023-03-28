@@ -71,7 +71,7 @@ export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<vo
            ) as tags
       from cf$_account.permit($1, $2) p
              join cf$.cashflow_detail cfd
-                  on (cfd.id_project = p.id_project and cfd.id_account = p.id_account)
+                  on (cfd.id_project = p.project_id and cfd.id_account = p.account_id)
              join cf$.cashflow cf
                   on (cf.id_project = cfd.id_project and cf.id_cashflow = cfd.id_cashflow)
              join cf$.account a

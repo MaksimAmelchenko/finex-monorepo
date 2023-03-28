@@ -21,12 +21,12 @@ function MoneySelect({ name, className }: MoneySelectProps): JSX.Element {
 
   const selectMoneysOptions = useMemo<IOption[]>(() => {
     return moneysRepository.moneys
-      .filter(({ id, isEnabled }) => isEnabled || id == value)
+      .filter(({ id, isEnabled }) => isEnabled || id === value)
       .map(({ id: value, symbol: label }) => ({
         value,
         label,
       }));
-  }, [moneysRepository.moneys]);
+  }, [moneysRepository.moneys, value]);
 
   return (
     <div className={clsx(styles.moneySelect, className)}>
@@ -64,6 +64,7 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
       if (value) {
         value = value.replace(/[,ю]/g, '.').replace(/\s/g, '');
         try {
+          // eslint-disable-next-line no-eval
           const amount: number = eval(value);
           const money = moneysRepository.get(moneyId);
 
@@ -71,9 +72,11 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
             setFieldValue(amountFieldName, String(round(amount, money.precision)));
             setFieldTouched(amountFieldName, true, false);
           }
-        } catch (err) {}
+        } catch (err) {
+          /* empty */
+        }
       }
-    }, [amountFieldName, setFieldValue, setFieldTouched, meta.value]);
+    }, [amountFieldProps.value, moneysRepository, moneyId, setFieldValue, amountFieldName, setFieldTouched]);
 
     return <TextField {...joinedProps} error={meta.error} endAdornment={moneySelect} ref={ref} onBlur={handleBlur} />;
   }

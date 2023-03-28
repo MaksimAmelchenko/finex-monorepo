@@ -1,9 +1,10 @@
 import React, { Fragment, Suspense, useEffect, useMemo, useState } from 'react';
-import clsx from 'clsx';
-import { SnackbarKey, useSnackbar } from 'notistack';
+import { CSSObject, styled, Theme } from '@mui/material/styles';
 import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
-
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { SnackbarKey, useSnackbar } from 'notistack';
+import clsx from 'clsx';
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -11,8 +12,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MuiDrawer from '@mui/material/Drawer';
-import { CSSObject, styled, Theme } from '@mui/material/styles';
 
+import { BillingLazy } from '../../pages/Billing/BillingLazy';
+import { CashFlows } from '../../pages/CashFlows/CashFlows';
 import {
   ChevronRightIcon,
   Logo,
@@ -28,12 +30,23 @@ import {
   shuffleSvg,
 } from '@finex/ui-kit';
 import { AccountMenu } from './AccountMenu/AccountMenu';
+import { DashboardLazy } from '../../pages/Dashboard/DashboardLazy';
+import { Debts } from '../../pages/Debts/Debts';
+import { DistributionReportLazy } from '../../pages/Reports/DistributionReport/DistributionReportLazy';
+import { DynamicsReportLazy } from '../../pages/Reports/DynamicsReport/DynamicsReportLazy';
+import { Exchanges } from '../../pages/Exchanges/Exchanges';
+import { getT } from '../../lib/core/i18n';
 import { Link } from '../../components/Link/Link';
 import { LinkBase } from '../../components/LinkBase/LinkBase';
 import { Loader } from '../../components/Loader/Loader';
+import { PlanningLazy } from '../../pages/Planning/PlanningLazy';
+import { ProfileLazy } from '../../pages/Profile/ProfileLazy';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { ProjectMenu } from './ProjectMenu/ProjectMenu';
-import { getT } from '../../lib/core/i18n';
+import { SettingsLazy } from '../../pages/Settings/SettingsLazy';
+import { ToolsLazy } from '../../pages/Tools/ToolsLazy';
+import { Transactions } from '../../pages/Transactions/Transactions';
+import { Transfers } from '../../pages/Transfers/Transfers';
 import { useStore } from '../../core/hooks/use-store';
 
 import styles from './MainLayout.module.scss';
@@ -81,7 +94,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
       paddingLeft: theme.spacing(3),
     },
     '&.active': {
-      backgroundColor: 'var(--color-neutral100)',
+      backgroundColor: 'var(--color-gray-100)',
     },
   },
   '& .MuiListItemIcon-root': {
@@ -102,7 +115,7 @@ interface IMenuItem {
 
 const t = getT('MainLayout');
 
-export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ children }) => {
+export const MainLayout = observer(() => {
   const profileRepository = useStore(ProfileRepository);
 
   const [isOpened, setIsOpened] = useState(true);
@@ -218,7 +231,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
         enqueueSnackbar(t('Your subscription has ended.'), { variant: 'info', action, autoHideDuration: 10000 });
       }
     }
-  }, [profile]);
+  }, [closeSnackbar, enqueueSnackbar, profile]);
 
   if (!profile) {
     return <Loader />;
@@ -277,8 +290,33 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = observer(({ c
       </Drawer>
 
       <div className={styles.content}>
-        <Suspense fallback={<Loader />}>{children}</Suspense>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/outcome" element={<DashboardLazy />} />
+            <Route path="/cash-flows" element={<CashFlows />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/debts" element={<Debts />} />
+            <Route path="/transfers" element={<Transfers />} />
+            <Route path="/exchanges" element={<Exchanges />} />
+            <Route path="/planning" element={<PlanningLazy />} />
+            <Route path="/reports" element={<Navigate to={'/reports/dynamics'} replace={true} />} />
+            <Route path="/reports/dynamics" element={<DynamicsReportLazy />} />
+            <Route path="/reports/distribution" element={<DistributionReportLazy />} />
+
+            <Route path="/settings/billing" element={<BillingLazy />} />
+
+            <Route path="/settings" element={<SettingsLazy />} />
+            <Route path="/settings/:tab" element={<SettingsLazy />} />
+
+            <Route path="/profile" element={<ProfileLazy />} />
+            <Route path="/tools" element={<ToolsLazy />} />
+
+            <Route path="*" element={<Navigate to="/transactions" />} />
+          </Routes>
+        </Suspense>
       </div>
     </div>
   );
 });
+
+export default MainLayout;

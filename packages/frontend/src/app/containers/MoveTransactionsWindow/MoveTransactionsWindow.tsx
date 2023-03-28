@@ -48,7 +48,7 @@ export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProp
           switch (err.code) {
             case 'sameCategory': {
               message = t(
-                'You cannot move transaction to the same category without using the option "Move operations from subcategories"'
+                'You cannot move transaction to the same category without using the option "Move transactions from subcategories"'
               );
               break;
             }
@@ -69,7 +69,7 @@ export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProp
           .test(
             'categoryIdTo',
             t(
-              'You cannot move transaction to the same category without using the option "Move operations from subcategories"'
+              'You cannot move transaction to the same category without using the option "Move transactions from subcategories"'
             ),
             function (value) {
               return !(this.parent.categoryId === value && !this.parent.isRecursive);
@@ -102,11 +102,11 @@ export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProp
       <FormBody>
         <FormSelect name="categoryId" label={t('From')} options={selectCategoriesOptions} />
         <FormSelect name="categoryIdTo" label={t('To')} options={selectCategoriesOptions} isClearable autoFocus />
-        <FormCheckbox name="isRecursive">{t('Move operations from subcategories')}</FormCheckbox>
+        <FormCheckbox name="isRecursive">{t('Move transactions from subcategories')}</FormCheckbox>
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="outlined" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
         <FormButton type="submit" color="primary" isIgnoreValidation>

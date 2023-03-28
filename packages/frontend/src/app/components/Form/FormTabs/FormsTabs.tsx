@@ -18,7 +18,7 @@ export function FormTabs(props: FormTabsProps): JSX.Element {
   const handleChange = useCallback(
     (value: string) => {
       setFieldValue(name, value);
-      setFieldTouched(name);
+      setFieldTouched(name, true, false);
     },
     [name, setFieldValue, setFieldTouched]
   );

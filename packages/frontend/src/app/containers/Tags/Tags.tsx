@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button } from '@finex/ui-kit';
+import { Button, PlusIcon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ITag } from '../../types/tag';
 import { Tag as TagModel } from '../../stores/models/tag';
@@ -69,13 +69,13 @@ export const Tags = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button variant="contained" size="small" color="primary" onClick={handleAddClick}>
+              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="outlined" size="small" disabled={!selectedTags.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="sm" disabled={!selectedTags.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -98,7 +98,7 @@ export const Tags = observer(() => {
         </div>
       </article>
 
-      <Drawer isOpened={isOpenedTagWindow}>{tag && <TagWindow tag={tag} onClose={handleCloseTagWindow} />}</Drawer>
+      <Drawer open={isOpenedTagWindow}>{tag && <TagWindow tag={tag} onClose={handleCloseTagWindow} />}</Drawer>
     </>
   );
 });

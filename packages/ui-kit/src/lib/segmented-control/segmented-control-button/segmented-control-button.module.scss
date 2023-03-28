@@ -1,0 +1,36 @@
+@use 'packages/theme/src/lib/styles/mixins';
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  @include mixins.resetButton;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  overflow: hidden;
+  padding: 0;
+  transition: background 0.3s ease-in-out;
+  cursor: pointer;
+
+  &__label {
+    @include typography.textSMMedium;
+    color: var(--color-gray-700);
+  }
+
+  &_size_md {
+    border-radius: 0.6rem;
+    .root__label {
+      padding: 3px 3px;
+    }
+  }
+
+  //&_size_lg {
+  //  .root__label {
+  //    padding: 3px 15px;
+  //  }
+  //}
+
+  &_active {
+    background-color: var(--color-white);
+  }
+}

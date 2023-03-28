@@ -20,10 +20,7 @@ class PaymentServiceImpl implements PaymentService {
     return paymentMapper.toDomain(paymentDAO);
   }
 
-  async getPaymentByGatewayPaymentId(
-    ctx: IRequestContext,
-    gatewayPaymentId: string
-  ): Promise<IPayment> {
+  async getPaymentByGatewayPaymentId(ctx: IRequestContext, gatewayPaymentId: string): Promise<IPayment> {
     const paymentDAO = await paymentRepository.getPaymentByGatewayPaymentId(ctx, gatewayPaymentId);
     if (!paymentDAO) {
       throw new NotFoundError('Payment not found');
