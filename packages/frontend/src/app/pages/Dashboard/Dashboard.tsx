@@ -5,9 +5,9 @@ import { AccountBalances } from './AccountBalances/AccountBalances';
 import { AccountDailyBalances } from './AccountDailyBalances/AccountDailyBalances';
 import { DebtBalances } from './DebtBalances/DebtBalances';
 import { getT } from '../../lib/core/i18n';
+import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 
 import styles from './Dashboard.module.scss';
-import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 
 const t = getT('Dashboard');
 
