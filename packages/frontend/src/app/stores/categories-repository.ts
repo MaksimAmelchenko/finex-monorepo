@@ -61,7 +61,11 @@ export class CategoriesRepository extends ManageableStore {
   get categories(): Category[] {
     return this._categories
       .slice()
-      .sort((a, b) => a.fullPath(true).localeCompare(b.fullPath(true), 'en', { sensitivity: 'base' }));
+      .sort(
+        (a, b) =>
+          Number(b.isEnabled) - Number(a.isEnabled) ||
+          a.fullPath(true).localeCompare(b.fullPath(true), 'en', { sensitivity: 'base' })
+      );
   }
 
   private getChildren(

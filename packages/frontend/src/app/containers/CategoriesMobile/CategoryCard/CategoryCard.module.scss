@@ -50,5 +50,9 @@
     padding: 1rem 1.6rem 1rem 0;
     @include typography.textMD;
     color: var(--color-gray-900);
+
+    .root_disabled & {
+      color: var(--color-gray-400);
+    }
   }
 }

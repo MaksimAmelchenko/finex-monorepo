@@ -3,29 +3,22 @@ import * as Yup from 'yup';
 import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
 
-import { ApiErrors } from '../../core/errors';
+import { analytics } from '../../lib/analytics';
+import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
 import { CategoryPrototypesRepository } from '../../stores/category-prototypes-repository';
 import { CreateCategoryData, ICategory, UpdateCategoryChanges } from '../../types/category';
-import {
-  Form,
-  FormBody,
-  FormButton,
-  FormCheckbox,
-  FormFooter,
-  FormHeader,
-  FormSelect,
-  FormTextAreaField,
-  FormTextField,
-} from '../../components/Form';
-import { ISelectOption } from '@finex/ui-kit';
-import { Shape } from '../../types';
-import { analytics } from '../../lib/analytics';
+import { Form, FormBody, FormButton, FormCheckbox, FormInput } from '../../components/Form';
+import { FormSelectNative } from '../../components/Form/FormSelectNative/FormSelectNative';
+import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
-import { useCloseOnEscape } from '../../hooks/use-close-on-escape';
+import { ISelectOption } from '@finex/ui-kit';
+import { Shape } from '../../types';
 import { useStore } from '../../core/hooks/use-store';
+
+import styles from './CategoryWindowMobile.module.scss';
 
 interface CategoryFormValues {
   name: string;
@@ -35,12 +28,12 @@ interface CategoryFormValues {
   note: string;
 }
 
-interface CategoryWindowProps {
+interface CategoryWindowMobileProps {
   category: Partial<ICategory> | Category;
   onClose: () => unknown;
 }
 
-const t = getT('CategoryWindow');
+const t = getT('CategoryWindowMobile');
 
 function mapValuesToCreatePayload({
   name,
@@ -74,38 +67,39 @@ function mapValuesToUpdatePayload({
   };
 }
 
-export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.Element {
+export function CategoryWindowMobile({ category, onClose }: CategoryWindowMobileProps): JSX.Element {
   const categoriesRepository = useStore(CategoriesRepository);
   const categoryPrototypesRepository = useStore(CategoryPrototypesRepository);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { onCanCloseChange } = useCloseOnEscape({ onClose });
+  const isNew = !(category instanceof Category);
 
   useEffect(() => {
     analytics.view({
-      page_title: 'category',
+      page_title: 'category-mobile',
     });
   }, []);
 
   const nameFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
-      node.focus();
+      // node.focus();
+      requestAnimationFrame(() => node.focus());
     }
   }, []);
 
   const onSubmit = useCallback(
     (values: CategoryFormValues, _: FormikHelpers<CategoryFormValues>, initialValues: CategoryFormValues) => {
       let result: Promise<unknown>;
-      if (category instanceof Category) {
+      if (isNew) {
+        const data: CreateCategoryData = mapValuesToCreatePayload(values);
+        result = categoriesRepository.createCategory(category, data);
+      } else {
         const changes: UpdateCategoryChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
           mapValuesToUpdatePayload(values)
         );
         result = categoriesRepository.updateCategory(category, changes);
-      } else {
-        const data: CreateCategoryData = mapValuesToCreatePayload(values);
-        result = categoriesRepository.createCategory(category, data);
       }
 
       return result
@@ -124,9 +118,28 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
           enqueueSnackbar(message, { variant: 'error' });
         });
     },
-    [categoriesRepository, category, enqueueSnackbar, onClose]
+    [enqueueSnackbar, isNew, category, categoriesRepository, onClose]
   );
 
+  const handleDeleteClick = () => {
+    categoriesRepository
+      .deleteCategory(category as Category)
+      .then(() => {
+        onClose();
+      })
+      .catch((err: any) => {
+        let message = '';
+        switch (err.code) {
+          case 'cashflow_detail_2_category': {
+            message = t('There are transactions with this category');
+            break;
+          }
+          default:
+            message = err.message;
+        }
+        enqueueSnackbar(message, { variant: 'error' });
+      });
+  };
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<CategoryFormValues>>({
@@ -136,16 +149,22 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
   );
 
   const selectCategoryPrototypesOptions = useMemo<ISelectOption[]>(() => {
-    return categoryPrototypesRepository.categoryPrototypes
-      .map(categoryPrototype => ({
-        value: categoryPrototype.id,
-        label: categoryPrototype.fullPath(true),
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }));
+    return [
+      { value: '', label: '' },
+      ...categoryPrototypesRepository.categoryPrototypes
+        .map(categoryPrototype => ({
+          value: categoryPrototype.id,
+          label: categoryPrototype.fullPath(true),
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' })),
+    ];
   }, [categoryPrototypesRepository.categoryPrototypes]);
 
   const selectParentsOptions = useMemo<ISelectOption[]>(() => {
-    return categoriesRepository.categories.map(category => ({ value: category.id, label: category.fullPath(true) }));
+    return [
+      { value: '', label: '' },
+      ...categoriesRepository.categories.map(category => ({ value: category.id, label: category.fullPath(true) })),
+    ];
   }, [categoriesRepository.categories]);
 
   const { name, parent, categoryPrototype, isEnabled, note } = category;
@@ -155,44 +174,41 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
       onSubmit={onSubmit}
       initialValues={{
         name: name ?? '',
-        parent: parent?.id ?? null,
-        categoryPrototypeId: categoryPrototype?.id ?? null,
+        parent: parent?.id ?? '',
+        categoryPrototypeId: categoryPrototype?.id ?? '',
         isEnabled: isEnabled ?? true,
         note: note ?? '',
       }}
       validationSchema={validationSchema}
-      errorsHR={[
-        //
-        [ApiErrors.InvalidRequest, t('Check data and try again')],
-      ]}
-      onDirtyChange={dirty => onCanCloseChange(!dirty)}
-      name="category"
+      name="category-mobile"
     >
-      <FormHeader title={category instanceof Category ? t('Edit category') : t('Add new category')} onClose={onClose} />
+      <Header
+        title={isNew ? t('Add new category') : t('Edit category')}
+        startAdornment={<BackButton onClick={onClose} />}
+        endAdornment={!isNew && <DeleteButton onClick={handleDeleteClick} />}
+      />
 
-      <FormBody>
-        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
-        <FormSelect name="parent" label={t('Parent category')} options={selectParentsOptions} isClearable />
-        <FormSelect
+      <FormBody className={styles.main}>
+        <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormSelectNative name="parent" label={t('Parent category')} options={selectParentsOptions} />
+        <FormSelectNative
           name="categoryPrototypeId"
           label={t('Prototype')}
           options={selectCategoryPrototypesOptions}
-          isClearable
+          helperText={t('Used for analytics')}
         />
+
         <FormCheckbox name="isEnabled" helperText={t('Show category when adding or editing a transaction')}>
           {t('Active')}
         </FormCheckbox>
         <FormTextAreaField name="note" label={t('Note')} />
       </FormBody>
 
-      <FormFooter>
-        <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
-          {t('Cancel')}
-        </FormButton>
+      <footer className={styles.footer}>
         <FormButton type="submit" color="primary" isIgnoreValidation>
           {t('Save')}
         </FormButton>
-      </FormFooter>
+      </footer>
     </Form>
   );
 }

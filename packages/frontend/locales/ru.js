@@ -224,6 +224,22 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
   },
+  CategoryWindowMobile: {
+    'There is a cycle in the hierarchy': 'Есть зацикливание в иерархии',
+    'There are transactions with this category': 'Есть операции с этой категорией',
+    'Please fill name': 'Пожалуйста, введите наименование',
+    'Add new category': 'Добавление категории',
+    'Edit category': 'Редактирование категории',
+    Name: 'Наименование',
+    'Parent category': 'Родительская категория',
+    Prototype: 'Категория-прототип',
+    'Used for analytics': 'Используется для аналитики',
+    'Show category when adding or editing a transaction':
+      'Показывать категорию при добавлении или редактировании операции',
+    Active: 'Активная',
+    Note: 'Примечание',
+    Save: 'Сохранить',
+  },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Вы уверены, что хотите удалить несколько контрагентов?',
     "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
