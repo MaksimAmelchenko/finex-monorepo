@@ -15,6 +15,7 @@
   &__text {
     //flex-grow: 1;
     align-self: center;
+    
     padding: 2.4rem 1.6rem;
     @include typography.displayMD;
     color: var(--color-gray-900);
@@ -25,7 +26,8 @@
     align-items: center;
     justify-content: center;
 
-    svg {
+    svg,
+    img {
       max-width: 32rem;
       height: 32rem;
     }

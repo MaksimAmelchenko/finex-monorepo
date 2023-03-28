@@ -1,15 +1,19 @@
 import React, { Suspense, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { BottomNavigation } from './BottomNavigation/BottomNavigation';
 import { CashFlowWindowMobile } from '../CashFlowWindowMobile/CashFlowWindowMobile';
 import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
+import { DebtsMobileLazy } from '../../pages/DebtsMobile/DebtsMobileLazy';
 import { DebtWindowMobile } from '../DebtWindowMobile/DebtWindowMobile';
 import { ExchangeWindowMobile } from '../ExchangeWindowMobile/ExchangeWindowMobile';
+import { HistoryLazy } from '../../pages/History/HistoryLazy';
 import { Loader } from '../../components/Loader/Loader';
 import { MainLayoutStoreMobile, Window } from '../../stores/main-layout-store-mobile';
 import { OperationsRepository } from '../../stores/operations-repository';
+import { OutcomeMobileLazy } from '../../pages/OutcomeMobile/OutcomeMobileLazy';
+import { PlanningMobileLazy } from '../../pages/PlanningMobile/PlanningMobileLazy';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { TransactionWindowMobile } from '../TransactionWindowMobile/TransactionWindowMobile';
@@ -18,11 +22,7 @@ import { useStore } from '../../core/hooks/use-store';
 
 import styles from './MainLayoutMobile.module.scss';
 
-interface MainLayoutMobileProps {
-  children: React.ReactNode;
-}
-
-export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) => {
+export const MainLayoutMobile = observer(() => {
   const mainLayoutStore = useStore(MainLayoutStoreMobile);
   const operationsRepository = useStore(OperationsRepository);
   const profileRepository = useStore(ProfileRepository);
@@ -93,7 +93,15 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
 
   return (
     <div className={styles.root}>
-      <Suspense fallback={<Loader />}>{children}</Suspense>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/outcome" element={<OutcomeMobileLazy />} />
+          <Route path="/history" element={<HistoryLazy />} />
+          <Route path="/debts" element={<DebtsMobileLazy />} />
+          <Route path="/planning" element={<PlanningMobileLazy />} />
+          <Route path="*" element={<Navigate to="/history" />} />
+        </Routes>
+      </Suspense>
 
       <BottomNavigation onMenuItemClick={handleMenuItemClick} />
 
@@ -125,3 +133,5 @@ export const MainLayoutMobile = observer<MainLayoutMobileProps>(({ children }) =
     </div>
   );
 });
+
+export default MainLayoutMobile;

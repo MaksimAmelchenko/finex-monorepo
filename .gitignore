@@ -40,3 +40,4 @@ Thumbs.db
 
 .env.local
 cypress.env.json
+./statoscope
