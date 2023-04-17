@@ -264,6 +264,14 @@ module.exports = {
     Save: 'Save',
     "You can't delete contractor with transaction": "You can't delete contractor with transaction",
   },
+  CookieConsent: {
+    'We use cookies to improve your experience and for marketing_':
+      'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern und für Marketingzwecke.',
+    'Learn more in our ': 'Erfahren Sie mehr in unserer ',
+    'Cookie Policy': 'Cookie-Richtlinie',
+    Decline: 'Ablehnen',
+    Allow: 'Erlauben',
+  },
   Dashboard: {
     Outcome: 'Outcome',
   },

@@ -2,6 +2,10 @@ declare interface Window {
   gtag: any;
   YooMoneyCheckoutWidget: any;
   paypal: any;
+
+  GDPRCookiesGoogleAnalyticsAdded: boolean;
+  GDPRCookiesGoogleAnalyticsInitialized: boolean;
+  dataLayer: any[];
 }
 
 //
