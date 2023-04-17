@@ -308,7 +308,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
         <>
           <FormHeader title={isNew ? t('Add new transfer record') : t('Edit transfer record')} onClose={onClose} />
 
-          <FormBody className={styles.form__body}>
+          <FormBody>
             <AmountField
               amountFieldName="amount"
               moneyFieldName="moneyId"

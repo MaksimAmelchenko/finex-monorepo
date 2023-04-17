@@ -1,7 +1,3 @@
-@use '~inter-ui/default' with (
-  $inter-font-display: swap,
-  $inter-font-path: '~inter-ui/Inter (web)'
-);
 @use '~inter-ui/variable' with (
   $inter-font-display: swap,
   $inter-font-path: '~inter-ui/Inter (web)'
@@ -15,8 +11,7 @@
 @import './table';
 //@import './debug';
 
-@include default.all;
-@include variable.all;
+@include variable.normal;
 
 html {
   font-family: 'Inter', 'system-ui', sans-serif;

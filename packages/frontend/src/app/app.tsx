@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
 import { theme } from '@finex/theme';
-import { GoogleAnalytics } from './components/GoogleAnalytics/GoogleAnalytics';
+import { CookieConsent } from './containers/CookieConsent/CookieConsent';
 import { Loader } from './components/Loader/Loader';
 import { RequireAuth } from './components/RequireAuth/RequireAuth';
 import { SnackbarUtilsConfigurator } from './components/SnackbarUtilsConfigurator/SnackbarUtilsConfigurator';
@@ -19,14 +19,11 @@ import { SignInLazy } from './pages/SignIn/SignInLazy';
 import { SignUpLazy } from './pages/SignUp/SignUpLazy';
 import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirmationLazy';
 
-const TRACKING_ID = process.env.NX_TRACKING_ID;
-
 export const App = observer(() => {
   const { isSmall } = useDeviceSize();
 
   return (
     <Suspense fallback={<Loader />}>
-      {TRACKING_ID && <GoogleAnalytics trackingId={TRACKING_ID} />}
       <ThemeProvider theme={theme}>
         <SnackbarProvider
           anchorOrigin={{
@@ -50,6 +47,7 @@ export const App = observer(() => {
           </Routes>
         </SnackbarProvider>
       </ThemeProvider>
+      <CookieConsent />
     </Suspense>
   );
 });

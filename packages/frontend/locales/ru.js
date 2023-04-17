@@ -266,6 +266,14 @@ module.exports = {
     Save: 'Сохранить',
     "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
   },
+  CookieConsent: {
+    'We use cookies to improve your experience and for marketing_':
+      'Мы используем файлы cookie, чтобы улучшить ваш опыт и для маркетинга.',
+    'Learn more in our ': 'Узнайте больше в нашей ',
+    'Cookie Policy': 'Политике в отношении файлов cookie',
+    Decline: 'Отклонить',
+    Allow: 'Принять',
+  },
   Dashboard: {
     Outcome: 'Обзор',
   },
