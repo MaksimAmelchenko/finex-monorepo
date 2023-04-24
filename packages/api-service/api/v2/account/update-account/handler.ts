@@ -8,9 +8,10 @@ export async function handler(
 ): Promise<IResponse<{ account: IPublicAccount }>> {
   const {
     projectId,
+    userId,
     params: { accountId, ...changes },
   } = ctx;
-  const account = await AccountService.updateAccount(ctx, projectId, accountId, changes);
+  const account = await AccountService.updateAccount(ctx, projectId, userId, accountId, changes);
 
   return {
     body: {

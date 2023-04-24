@@ -1,4 +1,8 @@
 module.exports = {
+  defaults: {
+    projectName: 'Мои финансы',
+    accountName: 'Наличные',
+  },
   export: {
     header: {
       date: 'Дата',

@@ -1,4 +1,8 @@
 module.exports = {
+  defaults: {
+    projectName: 'My Finances',
+    accountName: 'Cash',
+  },
   export: {
     header: {
       date: 'Date',

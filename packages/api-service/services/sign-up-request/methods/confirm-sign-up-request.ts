@@ -1,5 +1,7 @@
 import * as moment from 'moment';
+import * as i18n from 'i18n';
 
+import { AccountService } from '../../account';
 import { ConflictError, GoneError, NotFoundError } from '../../../libs/errors';
 import { CurrencyRateSource } from '../../../types/currency-rate-source';
 import { Household } from '../../household';
@@ -43,12 +45,20 @@ export async function confirmSignUpRequest(ctx: IRequestContext<unknown, true>, 
   });
 
   const userId: string = String(user.idUser);
-  const project: Project = await ProjectService.createProject(ctx, userId, { name: 'Моя бухгалтерия' });
-
-  await userRepository.updateUser(ctx, userId, { projectId: String(project.idProject) });
+  const project: Project = await ProjectService.createProject(ctx, userId, {
+    name: i18n.__({ phrase: 'defaults.projectName', locale: ctx.params.locale }),
+  });
+  const projectId: string = String(project.idProject);
+  await userRepository.updateUser(ctx, userId, { projectId });
 
   await SignUpRequestGateway.update(ctx, signUpRequest.id, {
     confirmed_at: new Date().toISOString(),
+  });
+
+  // create the first account to make life easier
+  await AccountService.createAccount(ctx, projectId, userId, {
+    accountTypeId: '1',
+    name: i18n.__({ phrase: 'defaults.accountName', locale: ctx.params.locale }),
   });
 
   const plan = await planService.getPlan(ctx, 'trial');

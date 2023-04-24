@@ -9,8 +9,9 @@ export async function handler(
   const {
     params: { accountId },
     projectId,
+    userId,
   } = ctx;
-  const account = await AccountService.getAccount(ctx, projectId, accountId);
+  const account = await AccountService.getAccount(ctx, projectId, userId, accountId);
 
   return {
     body: {

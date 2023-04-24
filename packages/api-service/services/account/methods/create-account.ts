@@ -11,8 +11,6 @@ export async function createAccount(
   userId: string,
   data: CreateAccountServiceData
 ): Promise<Account> {
-  ctx.log.trace({ projectId, userId, data }, 'service: try to create account');
-
   const { accountTypeId, name, note, isEnabled } = data;
   const editors = data.editors ? data.editors.filter(editorId => editorId !== userId) : [];
   const viewers = data.viewers
@@ -68,5 +66,5 @@ export async function createAccount(
     await query;
   }
 
-  return getAccount(ctx, projectId, String(account.idAccount));
+  return getAccount(ctx, projectId, userId, String(account.idAccount));
 }
