@@ -1,6 +1,6 @@
 import { IRequestContext } from '../../../types/app';
 import { bucket, TContent } from '../../../types/file';
-import { S3 } from '../../../libs/s3';
+// import { S3 } from '../../../libs/s3';
 
 export default async function uploadContent(
   ctx: IRequestContext,
@@ -8,5 +8,5 @@ export default async function uploadContent(
   fileId: number,
   content: TContent
 ): Promise<void> {
-  await S3.put(ctx, bucket, `${projectId}/${fileId}`, content);
+  // await S3.put(ctx, bucket, `${projectId}/${fileId}`, content);
 }
