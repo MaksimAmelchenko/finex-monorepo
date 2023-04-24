@@ -1,8 +1,10 @@
-import config from '../../../libs/config';
+import { Locale } from '../../../types/app';
 
-const appDomain = config.get('appDomain');
+interface IOptions {
+  origin: string;
+  locale: Locale;
+}
 
-export function getResetPasswordConfirmationUrl(token: string): string {
-  // return `https://${appDomain}/reset-password/${token}/confirm`;
-  return `https://${appDomain}/reset-password/confirmation?token=${token}`;
+export function getResetPasswordConfirmationUrl(token: string, { origin, locale }: IOptions): string {
+  return `${origin}/reset-password/confirmation?token=${token}&locale=${locale}`;
 }

@@ -2,12 +2,11 @@ import { Locale } from '../types/app';
 
 export default {
   appName: 'api.finex.io',
-  appDomain: 'app.finex.io',
   port: 3000,
   log: {
     level: 'trace',
   },
-  locales: [Locale.En, Locale.Ru, Locale.De],
+  locales: [Locale.Ru, Locale.En, Locale.De],
   db: {
     client: 'pg',
     connection: {
@@ -40,7 +39,7 @@ export default {
       resourcePath: './emails',
     },
     transport: 'ses',
-    from: 'FINEX.io <no-reply@finex.io>',
+    from: 'FINEX <no-reply@finex.io>',
     service: {
       region: 'MAIL__SERVICE__REGION',
       credentials: {

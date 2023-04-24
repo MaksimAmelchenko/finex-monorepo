@@ -4,7 +4,9 @@ import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(ctx: IRequestContext<any, false>): Promise<IResponse> {
   const { signUpRequestId } = ctx.params;
-  await SignUpRequest.resend(ctx, signUpRequestId);
+  const { ip, origin } = ctx.additionalParams;
+
+  await SignUpRequest.resend(ctx, signUpRequestId, origin);
   return {
     body: {},
   };

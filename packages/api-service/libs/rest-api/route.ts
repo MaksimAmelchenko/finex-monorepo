@@ -86,6 +86,7 @@ export class RestRoute<P extends unknown, IsAuthorized extends boolean> implemen
 
       if (options.onEnter) {
         await options.onEnter(routerContext, ctx as any);
+        ctx.log.trace({ additionalParams: ctx.additionalParams });
       }
 
       const response: IResponse = await options.handler(ctx as any, routerContext, next);

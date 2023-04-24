@@ -1,6 +1,5 @@
 export default {
   env: 'dev-local',
-  appDomain: 'localhost:8080',
   log: {
     level: 'trace',
   },

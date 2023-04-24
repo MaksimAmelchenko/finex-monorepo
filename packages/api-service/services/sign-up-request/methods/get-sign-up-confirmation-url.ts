@@ -1,7 +1,10 @@
-import config from '../../../libs/config';
+import { Locale } from '../../../types/app';
 
-const appDomain = config.get('appDomain');
+interface IOptions {
+  origin: string;
+  locale: Locale;
+}
 
-export function getSignUpConfirmationUrl(token: string): string {
-  return `https://${appDomain}/sign-up/confirmation?token=${token}`;
+export function getSignUpConfirmationUrl(token: string, { origin, locale }: IOptions): string {
+  return `${origin}/sign-up/confirmation?token=${token}&locale=${locale}`;
 }

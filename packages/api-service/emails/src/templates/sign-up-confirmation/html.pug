@@ -2,16 +2,15 @@ extends ../../layout
 
 block content
   p
-    | Здравствуйте, #{locals.name}
+    | #{t('transactionalEmails.greeting', {name: locals.name})}
     |
   p
-    | Для завершения регистрации подтвердите, что e-mail адрес действительно ваш.
-    | Для этого перейдите по ссылке:
+    | #{t('transactionalEmails.signUpConfirmation.message')}
+    | #{t('transactionalEmails.signUpConfirmation.instruction')}
     |
     br
     a(href=locals.url || "#") #{locals.url}
-
   br
   p
-    | Если вы не регистрировались на сайте домашней бухгалтерии finex.io, то просто проигнорируйте это сообщение.
+    | #{t('transactionalEmails.signUpConfirmation.ignore')}
     br

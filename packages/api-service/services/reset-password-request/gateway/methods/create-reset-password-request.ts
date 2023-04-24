@@ -4,7 +4,7 @@ import { normalizeEmail } from '../../../../libs/utility';
 
 import { IRequestContext } from '../../../../types/app';
 import {
-  ICreateParams,
+  CreateResetPasswordRequestRepositoryData,
   IDBResetPasswordRequest,
   IResetPasswordRequest,
 } from '../../../../types/reset-password-request';
@@ -12,7 +12,7 @@ import { decodeDBResetPasswordRequest } from './decode-db-reset-password-request
 
 export async function createResetPasswordRequest(
   ctx: IRequestContext,
-  params: ICreateParams
+  params: CreateResetPasswordRequestRepositoryData
 ): Promise<IResetPasswordRequest> {
   const { ip } = params;
   const email: string = normalizeEmail(params.email);

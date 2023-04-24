@@ -5,11 +5,12 @@ import { IResponse } from '../../../../libs/rest-api/types';
 
 export async function handler(ctx: IRequestContext<any, false>): Promise<IResponse> {
   const { email } = ctx.params;
-  const { ip } = ctx.additionalParams;
+  const { ip, origin } = ctx.additionalParams;
 
   const resetPasswordRequest: IResetPasswordRequest = await ResetPasswordRequest.create(ctx, {
     email,
     ip,
+    origin,
   });
 
   return {

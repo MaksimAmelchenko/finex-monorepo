@@ -24,11 +24,14 @@ export interface ISignUpRequestResponse {
   id: string;
 }
 
-export interface ICreateParams {
+export interface ICreateSingUpRequestServiceParams {
   name: string;
   email: string;
   password: string;
+  origin: string;
 }
+
+export interface ICreateSingUpRequestRepositoryParams extends Omit<ICreateSingUpRequestServiceParams, 'origin'> {}
 
 export interface IUpdateParams {
   confirmed_at: string;

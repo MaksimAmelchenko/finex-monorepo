@@ -1,4 +1,4 @@
-import { ICreateParams, IResetPasswordRequest } from '../../../types/reset-password-request';
+import { CreateResetPasswordRequestServiceData, IResetPasswordRequest } from '../../../types/reset-password-request';
 import { IRequestContext } from '../../../types/app';
 import { NotFoundError } from '../../../libs/errors';
 import { ResetPasswordRequestGateway } from '../gateway';
@@ -9,9 +9,9 @@ import { userRepository } from '../../../modules/user/user.repository';
 
 export async function createResetPasswordRequest(
   ctx: IRequestContext,
-  params: ICreateParams
+  params: CreateResetPasswordRequestServiceData
 ): Promise<IResetPasswordRequest> {
-  const { email, ip } = params;
+  const { email, ip, origin } = params;
 
   const user = await userRepository.getUserByUsername(ctx, email);
 
@@ -28,7 +28,7 @@ export async function createResetPasswordRequest(
     template: Template.PasswordReset,
     email,
     locals: {
-      url: getResetPasswordConfirmationUrl(resetPasswordRequest.token),
+      url: getResetPasswordConfirmationUrl(resetPasswordRequest.token, { origin, locale: ctx.params.locale }),
     },
   }).catch(err => ctx.log.fatal({ err }));
 

@@ -1,17 +1,23 @@
 import * as EmailTemplates from 'email-templates';
-import * as path from 'path';
+import * as path from 'node:path';
 
 import config from '../../../libs/config';
 
 import { IRequestContext } from '../../../types/app';
 import { ISendParams } from '../../../types/transactional-email';
-import { transport } from '../../../libs/mail';
 import { saveToLog } from './save-to-log';
+import { transport } from '../../../libs/mail';
+
+import * as de from '../../../locales/de.js';
+import * as en from '../../../locales/en.js';
+import * as ru from '../../../locales/ru.js';
 
 const {
   from,
   templates: { resourcePath, viewsPath },
 } = config.get('mail');
+
+const locales = config.get('locales');
 
 const isTest = config.get('nodeEnv').includes('test');
 
@@ -31,7 +37,24 @@ const emailTemplates = new EmailTemplates({
   send: !isTest,
   // preview: true,
   transport,
+  // https://github.com/mashpie/i18n-node#list-of-all-configuration-options
+  i18n: {
+    locales,
+    defaultLocale: locales[0],
+    objectNotation: true,
+    staticCatalog: {
+      en,
+      de,
+      ru,
+    },
+  },
 });
+
+// example of usage in template:
+// | !{t('invoice.subject', {orderNumber: order.orderNumber, fullName})}
+// | #{t('invoice.text', {orderNumber: order.orderNumber})}
+// h2.title !{t('order.issuer', { fullName })}
+// h3.subtitle #{t('order.number', { orderNumber: order.orderNumber })}
 
 export async function send(ctx: IRequestContext, params: ISendParams): Promise<void> {
   const { email, template, locals, attachments } = params;
@@ -42,7 +65,10 @@ export async function send(ctx: IRequestContext, params: ISendParams): Promise<v
       to: email,
       attachments,
     },
-    locals,
+    locals: {
+      ...locals,
+      locale: ctx.params.locale,
+    },
   });
 
   response.message = '<removed>';
