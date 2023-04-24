@@ -1,4 +1,27 @@
 module.exports = {
+  export: {
+    header: {
+      date: 'Datum',
+      accountName: 'Konto',
+      type: 'Typ',
+      categoryName1: 'Kategorie1',
+      categoryName2: 'Kategorie2',
+      categoryName3: 'Kategorie3',
+      quantity: 'Menge',
+      unitName: 'Einheit',
+      sum: 'Summe',
+      currencyName: 'Währung',
+      contractorName: 'Gegenpartei',
+      note: 'Anmerkung',
+      tags: 'Tags',
+    },
+    operationType: {
+      IncomeExpense: 'Einnahme/Ausgabe',
+      Debt: 'Schuld',
+      Transfer: 'Überweisung',
+      Exchange: 'Währungsumtausch',
+    },
+  },
   transactionalEmails: {
     greeting: 'Hallo, {{name}}',
     signatureLine1: 'Mit freundlichen Grüßen,',

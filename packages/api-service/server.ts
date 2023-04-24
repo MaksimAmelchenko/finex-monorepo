@@ -2,6 +2,7 @@
 import 'source-map-support/register';
 import * as Koa from 'koa';
 import { Model } from 'objection';
+import * as i18n from 'i18n';
 import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
 import * as helmet from 'koa-helmet';
@@ -60,6 +61,12 @@ import { cashFlowApi } from './api/v2/cash-flow';
 import { cashFlowItemApi } from './api/v2/cash-flow-item';
 import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
+
+import * as de from './locales/de';
+import * as en from './locales/en';
+import * as ru from './locales/ru';
+
+const locales = config.get('locales');
 
 const app: Koa = new Koa();
 
@@ -158,6 +165,17 @@ if (require.main === module) {
   const port: number = config.get('port');
   const http = require('http');
   const server = http.createServer(app.callback());
+
+  i18n.configure({
+    locales,
+    defaultLocale: locales[0],
+    objectNotation: true,
+    staticCatalog: {
+      ru,
+      en,
+      de,
+    },
+  });
 
   gracefulShutdown(server, {
     log,

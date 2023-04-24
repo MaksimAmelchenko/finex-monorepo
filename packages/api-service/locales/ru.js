@@ -1,4 +1,27 @@
 module.exports = {
+  export: {
+    header: {
+      date: 'Дата',
+      accountName: 'Счет',
+      type: 'Тип',
+      categoryName1: 'Категория1',
+      categoryName2: 'Категория2',
+      categoryName3: 'Категория3',
+      quantity: 'Количество',
+      unitName: 'Ед. изм.',
+      sum: 'Сумма',
+      currencyName: 'Валюта',
+      contractorName: 'Контрагент',
+      note: 'Примечание',
+      tags: 'Теги',
+    },
+    operationType: {
+      IncomeExpense: 'Доход/Расход',
+      Debt: 'Долг',
+      Transfer: 'Перевод',
+      Exchange: 'Обмен валюты',
+    },
+  },
   transactionalEmails: {
     greeting: 'Здравствуйте, {{name}}',
     signatureLine1: 'С уважением,',

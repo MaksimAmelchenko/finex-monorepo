@@ -1,20 +1,21 @@
 import { format } from 'date-fns';
 import * as zlib from 'zlib';
 import * as numeral from 'numeral';
+import * as i18n from 'i18n';
 import 'numeral/locales/ru';
-import { ru } from 'date-fns/locale';
+import 'numeral/locales/de';
+
+import { ru, de } from 'date-fns/locale';
 
 import { createObjectCsvStringifier } from 'csv-writer';
 
-import { IRequestContext } from '../../../types/app';
+import { IRequestContext, Locale } from '../../../types/app';
 import { DB } from '../../../libs/db';
 import { TransactionalEmail } from '../../transactional-email';
 import { Template } from '../../../types/transactional-email';
 import { AccessDeniedError } from '../../../libs/errors';
 import { SessionService } from '../../session';
 import { userService } from '../../../modules/user/user.service';
-
-numeral.locale('ru');
 
 function formatCurrency(value: string | number): string {
   return numeral(value).format('0.00[0000000000]');
@@ -24,7 +25,10 @@ function formatQuantity(value: string | number): string {
   return numeral(value).format('0.[0000000000]');
 }
 
-export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<void> {
+export async function exportToCsv(ctx: IRequestContext<unknown, true>): Promise<void> {
+  numeral.locale(ctx.params.locale);
+  i18n.setLocale(ctx.params.locale);
+
   const { sessionId, userId } = ctx;
   if (!sessionId) {
     throw new AccessDeniedError('Unauthorized access');
@@ -37,19 +41,19 @@ export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<vo
 
   const csvStringifier = createObjectCsvStringifier({
     header: [
-      { id: 'date', title: 'Дата' },
-      { id: 'accountName', title: 'Счет' },
-      { id: 'type', title: 'Тип' },
-      { id: 'categoryName1', title: 'Категория1' },
-      { id: 'categoryName2', title: 'Категория2' },
-      { id: 'categoryName3', title: 'Категория3' },
-      { id: 'quantity', title: 'Количество' },
-      { id: 'unitName', title: 'Ед.изм.' },
-      { id: 'sum', title: 'Сумма' },
-      { id: 'currency', title: 'Валюта' },
-      { id: 'contractorName', title: 'Контрагент' },
-      { id: 'note', title: 'Примечание' },
-      { id: 'tags', title: 'Теги' },
+      { id: 'date', title: i18n.__('export.header.date') },
+      { id: 'accountName', title: i18n.__('export.header.accountName') },
+      { id: 'type', title: i18n.__('export.header.type') },
+      { id: 'categoryName1', title: i18n.__('export.header.categoryName1') },
+      { id: 'categoryName2', title: i18n.__('export.header.categoryName2') },
+      { id: 'categoryName3', title: i18n.__('export.header.categoryName3') },
+      { id: 'quantity', title: i18n.__('export.header.quantity') },
+      { id: 'unitName', title: i18n.__('export.header.unitName') },
+      { id: 'sum', title: i18n.__('export.header.sum') },
+      { id: 'currency', title: i18n.__('export.header.currencyName') },
+      { id: 'contractorName', title: i18n.__('export.header.contractorName') },
+      { id: 'note', title: i18n.__('export.header.note') },
+      { id: 'tags', title: i18n.__('export.header.tags') },
     ],
   });
 
@@ -57,7 +61,7 @@ export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<vo
     select cfd.dcashflow_detail as date,
            a.name as account_name,
            cf.id_cashflow_type,
-           cf$_category.full_name(cfd.id_category, '/', cfd.id_project) as category_full_name,
+           cf$_category.full_name(cfd.id_category, '$$$', cfd.id_project) as category_full_name,
            cfd.quantity,
            u.name as unit_name,
            cfd.sum * cfd.sign as sum,
@@ -92,11 +96,21 @@ export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<vo
   const table = await DB.query(ctx.log, sqlText, [session.idProject, Number(userId)]);
 
   const records = table.map(item => {
-    const [categoryName1, categoryName2, categoryName3] = item.category_full_name.split('/');
+    const [categoryName1, categoryName2, categoryName3] = item.category_full_name.split('$$$');
     return {
-      date: format(item.date, 'P', { locale: ru }),
+      date: format(item.date, 'P', {
+        locale: {
+          [Locale.Ru]: ru,
+          [Locale.De]: de,
+        }[ctx.params.locale],
+      }),
       accountName: item.account_name,
-      type: { 1: 'Доход\\Расход', 2: 'Долг', 3: 'Перевод', 4: 'Обмен валюты' }[item.id_cashflow_type],
+      type: {
+        1: i18n.__('export.operationType.IncomeExpense'),
+        2: i18n.__('export.operationType.Debt'),
+        3: i18n.__('export.operationType.Transfer'),
+        4: i18n.__('export.operationType.Exchange'),
+      }[item.id_cashflow_type],
       categoryName1,
       categoryName2,
       categoryName3,
@@ -117,7 +131,9 @@ export async function exportToCsv(ctx: IRequestContext<never, true>): Promise<vo
       TransactionalEmail.send(ctx, {
         template: Template.Export,
         email: user.email,
-        locals: {},
+        locals: {
+          name: user.name,
+        },
         attachments: [
           {
             filename: `transactions_export_${format(new Date(), 'yyyy-MM-dd')}.csv.zip`,
