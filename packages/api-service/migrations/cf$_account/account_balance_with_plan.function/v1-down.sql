@@ -1,0 +1,1 @@
+drop function "cf$_account".account_balance_with_plan(integer, integer, date);

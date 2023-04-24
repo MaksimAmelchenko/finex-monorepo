@@ -11,7 +11,7 @@ interface MoneyRowProps {
 }
 
 export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }: MoneyRowProps) => {
-  const { currency, name, symbol, precision, isEnabled, isSelected, isDeleting } = money;
+  const { currencyCode, name, symbol, precision, isEnabled, isSelected, isDeleting } = money;
 
   const handleOnSelect = () => {
     money.toggleSelection();
@@ -35,7 +35,7 @@ export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }: MoneyRowPro
         <span dangerouslySetInnerHTML={{ __html: symbol }} />
       </td>
       <td className="tickCell">{isEnabled && <Image src={checkSvg} alt="active" />}</td>
-      <td>{currency?.name}</td>
+      <td>{currencyCode}</td>
     </tr>
   );
 });

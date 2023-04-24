@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
-import { FormikHelpers } from 'formik';
+import { FormikHelpers, useField, useFormikContext } from 'formik';
+import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CreateMoneyData, IMoney, UpdateMoneyChanges } from '../../types/money';
 import { CurrenciesRepository } from '../../stores/currency-repository';
 import { Form, FormBody, FormButton, FormCheckbox, FormInput } from '../../components/Form';
-import { FormSelectNative } from '../../components/Form/FormSelectNative/FormSelectNative';
-import { ISelectOption } from '@finex/ui-kit';
+import { ISelectOption, Select, SelectNative } from '@finex/ui-kit';
 import { Money } from '../../stores/models/money';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { Shape } from '../../types';
@@ -20,7 +20,7 @@ import { useStore } from '../../core/hooks/use-store';
 import styles from './MoneyWindowMobile.module.scss';
 
 interface MoneyFormValues {
-  currencyId: string;
+  currencyCode: string;
   name: string;
   symbol: string;
   precision: string;
@@ -36,7 +36,7 @@ interface MoneyWindowMobileProps {
 const t = getT('MoneyWindow');
 
 function mapValuesToCreatePayload({
-  currencyId,
+  currencyCode,
   name,
   symbol,
   precision,
@@ -44,7 +44,7 @@ function mapValuesToCreatePayload({
   sorting,
 }: MoneyFormValues): CreateMoneyData {
   return {
-    currencyId: currencyId ? currencyId : null,
+    currencyCode: currencyCode ? currencyCode : null,
     name,
     symbol,
     precision: precision ? Number(precision) : null,
@@ -54,7 +54,7 @@ function mapValuesToCreatePayload({
 }
 
 function mapValuesToUpdatePayload({
-  currencyId,
+  currencyCode,
   name,
   symbol,
   precision,
@@ -62,7 +62,7 @@ function mapValuesToUpdatePayload({
   sorting,
 }: MoneyFormValues): CreateMoneyData {
   return {
-    currencyId: currencyId ? currencyId : null,
+    currencyCode: currencyCode ? currencyCode : null,
     name,
     symbol,
     precision: precision ? Number(precision) : null,
@@ -72,7 +72,6 @@ function mapValuesToUpdatePayload({
 }
 
 export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): JSX.Element {
-  const currenciesRepository = useStore(CurrenciesRepository);
   const moneysRepository = useStore(MoneysRepository);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -157,14 +156,7 @@ export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): J
     []
   );
 
-  const selectCurrencyOptions = useMemo<ISelectOption[]>(() => {
-    return [
-      { value: '', label: t('Standard currency not specified') },
-      ...currenciesRepository.currencies.map(({ id: value, name: label }) => ({ value, label })),
-    ];
-  }, [currenciesRepository.currencies]);
-
-  const { currency, name, symbol, precision, isEnabled, sorting } = money;
+  const { currencyCode, name, symbol, precision, isEnabled, sorting } = money;
 
   return (
     <Form<MoneyFormValues>
@@ -173,7 +165,7 @@ export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): J
         name: name ?? '',
         symbol: symbol ?? '',
         precision: precision ? String(precision) : '',
-        currencyId: currency?.id ?? '',
+        currencyCode: currencyCode ?? '',
         isEnabled: isEnabled ?? true,
         sorting: sorting ? String(sorting) : '',
       }}
@@ -187,7 +179,7 @@ export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): J
       />
 
       <FormBody className={styles.main}>
-        <FormSelectNative name="currencyId" label={t('Ordinary currency')} options={selectCurrencyOptions} />
+        <CurrencyField />
         <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
         <FormInput name="symbol" label={t('Symbol')} helperText={t('Displayed currency sign')} />
         <FormInput
@@ -218,3 +210,57 @@ export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): J
     </Form>
   );
 }
+
+const CurrencyField = observer(() => {
+  const currenciesRepository = useStore(CurrenciesRepository);
+
+  useEffect(() => {
+    if (!currenciesRepository.currencies.length) {
+      currenciesRepository.getCurrencies();
+    }
+  }, [currenciesRepository]);
+
+  const selectCurrencyOptions = useMemo<ISelectOption[]>(() => {
+    return [
+      { value: '', label: t('Select currency') },
+      ...currenciesRepository.currencies.map(({ code, name }) => ({ value: code, label: `${name} [${code}]` })),
+    ];
+  }, [currenciesRepository.currencies]);
+
+  const [formikProps] = useField<string>('currencyCode');
+  const { setFieldValue, setFieldTouched } = useFormikContext<MoneyFormValues>();
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const currencyCode = e.target.value;
+
+      setFieldValue('currencyCode', currencyCode);
+      setFieldTouched('currencyCode', true, false);
+
+      // if currency has changed, reset other fields
+      if (currencyCode) {
+        const currency = currenciesRepository.get(currencyCode);
+        if (currency) {
+          setFieldValue('name', currency.name);
+          setFieldTouched('name', true, false);
+
+          setFieldValue('symbol', currency.symbol);
+          setFieldTouched('symbol', true, false);
+
+          setFieldValue('precision', String(currency.precision));
+          setFieldTouched('precision', true, false);
+        }
+      }
+    },
+    [setFieldValue, setFieldTouched]
+  );
+
+  return (
+    <SelectNative
+      {...formikProps}
+      label={t('Standard currency')}
+      options={selectCurrencyOptions}
+      onChange={handleChange}
+    />
+  );
+});

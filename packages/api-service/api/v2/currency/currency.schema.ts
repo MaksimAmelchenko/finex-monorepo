@@ -1,27 +1,24 @@
 import { OpenAPIV3_1 } from 'openapi-types';
-import { currencyId } from '../../../common/schemas/fields/currency-id';
 
 export const currencySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
-    id: currencyId,
+    code: {
+      type: 'string',
+      example: 'USD',
+    },
     name: {
       type: 'string',
-      example: 'Доллар США',
+      example: 'United States Dollar',
     },
-    shortName: {
-      type: 'string',
-      example: 'дол',
+    precision: {
+      type: 'number',
     },
     symbol: {
       type: 'string',
       example: '$',
     },
-    code: {
-      type: 'string',
-      example: 'USD',
-    },
   },
   additionalProperties: false,
-  required: ['id', 'name', 'shortName', 'symbol', 'code'],
+  required: ['code', 'name', 'precision', 'symbol'],
 };

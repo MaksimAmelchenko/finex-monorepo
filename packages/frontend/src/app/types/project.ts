@@ -1,7 +1,7 @@
 import { IApiAccount } from './account';
 import { IApiCategory } from './category';
 import { IApiContractor } from './contractor';
-import { IApiMoney } from './money';
+import { IMoneyDTO } from './money';
 import { IApiTag } from './tag';
 import { Permit, TDate } from './index';
 import { User } from '../stores/models/user';
@@ -70,6 +70,6 @@ export interface UseProjectResponse {
   categories: IApiCategory[];
   tags: IApiTag[];
   units: IApiUnit[];
-  moneys: IApiMoney[];
+  moneys: IMoneyDTO[];
   params: IParamsDTO;
 }

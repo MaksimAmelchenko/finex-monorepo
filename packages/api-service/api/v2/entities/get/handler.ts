@@ -1,5 +1,4 @@
 import { AccountTypeService } from '../../../../services/account-type';
-import { CurrencyService } from '../../../../services/currency';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 import { ProjectService } from '../../../../services/project';
@@ -22,7 +21,6 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
     //
     accountTypes,
     categoryPrototypes,
-    currencies,
     dependencies,
     projects,
     users,
@@ -30,7 +28,6 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
   ] = await Promise.all([
     //
     AccountTypeService.getAccountTypes(ctx),
-    CurrencyService.getCurrencies(ctx),
     categoryPrototypeService.getCategoryPrototypes(ctx),
     ProjectService.getDependencies(ctx, projectId, userId),
     ProjectService.getProjects(ctx, userId),
@@ -41,7 +38,6 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
   return {
     body: {
       accountTypes: accountTypes.map(accountType => accountType.toPublicModel()),
-      currencies: currencies.map(currency => currency.toPublicModel()),
       categoryPrototypes: categoryPrototypes.map(categoryPrototype =>
         categoryPrototypeMapper.toDTO(categoryPrototype, locale)
       ),

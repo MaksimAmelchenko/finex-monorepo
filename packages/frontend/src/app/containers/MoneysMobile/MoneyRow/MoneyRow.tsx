@@ -12,7 +12,7 @@ interface MoneyRowProps {
 }
 
 export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }) => {
-  const { name, isEnabled, symbol } = money;
+  const { currencyCode, name, isEnabled, symbol } = money;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClick(money, event);
@@ -21,8 +21,11 @@ export const MoneyRow = observer<MoneyRowProps>(({ money, onClick }) => {
   return (
     <button type="button" className={clsx(styles.root, !isEnabled && styles.root_disabled)} onClick={handleClick}>
       <div className={styles.root__content}>
-        <div className={styles.root__name}>{name}</div>
-        <div className={styles.root__symbol} dangerouslySetInnerHTML={{ __html: symbol }} />
+        <div className={styles.root__name}>
+          {name}
+          {currencyCode && <span className={styles.root__currencyCode}> [{currencyCode}]</span>}
+        </div>
+        <div className={styles.root__symbol}>{symbol}</div>
       </div>
     </button>
   );

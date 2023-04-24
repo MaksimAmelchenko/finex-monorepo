@@ -84,6 +84,20 @@ export type UpdateDebtServiceChanges = UpdateDebtRepositoryChanges & {
   items?: Array<{ id: string } & UpdateDebtItemServiceChanges>;
 };
 
+export interface IDebtsBalancesParams {
+  balanceDate: TDate;
+  moneyId: string | null;
+}
+
+export interface IDebtBalances {
+  contractorId: string;
+  debtType: 1 | 2;
+  balances: Array<{
+    moneyId: string;
+    amount: number;
+  }>;
+}
+
 export interface DebtRepository {
   findDebts(
     ctx: IRequestContext,
@@ -91,6 +105,13 @@ export interface DebtRepository {
     userId: string,
     query: FindDebtsServiceQuery
   ): Promise<FindDebtsRepositoryResponse>;
+
+  getBalances(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    params: IDebtsBalancesParams
+  ): Promise<IDebtBalances[]>;
 }
 
 export interface DebtService {
@@ -114,6 +135,14 @@ export interface DebtService {
   ): Promise<IDebt>;
 
   deleteDebt(ctx: IRequestContext<unknown, true>, projectId: string, userId: string, debtId: string): Promise<void>;
+
+  getBalances(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    params: IDebtsBalancesParams
+  ): Promise<IDebtBalances[]>;
+
 }
 
 export interface DebtMapper {

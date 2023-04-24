@@ -17,6 +17,7 @@ import { CategoryPrototypesRepository } from '../stores/category-prototypes-repo
 import { CommonStorageStore } from './other-stores/common-storage-store';
 import { ContractorsApi } from '../stores/api/contractors-api';
 import { ContractorsRepository } from '../stores/contractors-repository';
+import { CurrenciesApi } from '../stores/api/currencies-api';
 import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-store';
 import { CurrenciesRepository } from '../stores/currency-repository';
 import { DebtsApi } from '../stores/api/debts-api';
@@ -75,7 +76,7 @@ export function initializeMainStore(): MainStore {
   new CategoriesRepository(mainStore, new CategoriesApi(mainStore));
   new TagsRepository(mainStore, new TagsApi(mainStore));
   new ProjectsRepository(mainStore, new ProjectsApi(mainStore));
-  new CurrenciesRepository(mainStore);
+  new CurrenciesRepository(mainStore, new CurrenciesApi(mainStore));
   new CurrenciesRateSourceStore(mainStore);
   new MoneysRepository(mainStore, new MoneysApi(mainStore));
   new ProfileRepository(mainStore, new ProfileApi(mainStore));

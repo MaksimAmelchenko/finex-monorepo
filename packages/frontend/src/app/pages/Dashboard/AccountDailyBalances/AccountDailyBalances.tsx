@@ -88,7 +88,7 @@ export const AccountDailyBalances = observer(() => {
       .slice()
       .sort((a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money))
 
-      .forEach(({ money, account, dBalance, sum }) => {
+      .forEach(({ money, account, balanceDate, amount }) => {
         if (!obj.has(money)) {
           obj.set(money, {
             money,
@@ -103,7 +103,7 @@ export const AccountDailyBalances = observer(() => {
           });
         }
 
-        obj.get(money)!.accountMap.get(account)!.data.push({ x: dBalance, y: sum });
+        obj.get(money)!.accountMap.get(account)!.data.push({ x: balanceDate, y: amount });
       });
 
     return Array.from(obj.values()).map(({ money, accountMap }) => {

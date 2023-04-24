@@ -1,74 +1,102 @@
-CREATE OR REPLACE FUNCTION "cf$_plan".schedule(iid_plan integer, idbegin date, idend date)
- RETURNS TABLE(id_plan integer, dplan date, report_period date, nrepeat integer)
- LANGUAGE sql
- SECURITY DEFINER ROWS 100
-AS $function$
-  with 
-    p as (select p.dBegin,
-                 p.Report_Period,
-                 p.Repeat_Type,
-                 p.Repeat_Days,
-                 p.End_Type,
-                 p.Repeat_Count,
-                 p.DEnd
-            from cf$.plan p
-           where p.Id_Plan = iId_Plan
-         ),
-    o as (select (generate_series(p.DBegin, case when p.Repeat_Type = 0 
-                                              then p.DBegin 
-                                              else iDEnd 
-                                            end, '1 day'))::date as DPlan
-            from p
-         ),
-    f as (select DPlan, 
-                 row_number() over (order by DPlan) as NRepeat
-            from p, o
-           where case when p.Repeat_Type = 0 
-                 then
-                   DPlan = p.DBegin 
-                 else
-                  case when p.Repeat_Type = 1
-                  then
-                    -- еженедельно
-                    extract(isodow from o.DPlan) = any (p.Repeat_Days)
-                  else
-                    case when p.Repeat_Type = 2
-                    then
-                      -- ежемесячно
-                      extract(day from o.DPlan) = any (p.Repeat_Days)
-                    else
-                      case when p.Repeat_Type = 3
-                      then
-                        -- ежеквартально
-                            extract(day from p.DBegin) = extract(day from o.DPlan)
-                        and extract(month from p.DBegin)::int % 3 = extract(month from o.DPlan)::int % 3
-                      else
-                        case when p.Repeat_Type = 4
-                        then
-                          to_char(p.DBegin, 'MMDD') = to_char(o.DPlan, 'MMDD')
-                        else
-                          false
-                        end
-                      end
-                    end
-                  end
-                 end 
-         )
-  select iid_Plan, 
-         f.DPlan,
-         (date_trunc('month', f.DPlan)
-           + ((  (extract (year from p.Report_Period) * 12 + extract (month from p.Report_Period))::int 
-               - (extract (year from p.DBegin) * 12 + extract (month from p.DBegin))::int)::text || ' months'
-             )::interval
-         )::date as Report_Period,
-         NRepeat::int
-    from f, p
-   where (   coalesce(p.End_Type, 0) = 0
-          or (p.End_Type = 1 and NRepeat <= p.Repeat_Count)
-          or (p.End_Type = 2 and f.DPlan <= p.DEnd)
-         ) 
-     and f.DPlan between iDBegin and iDEnd
-     and f.DPlan not in (select pe.DExclude
-                           from cf$.v_Plan_Exclude pe
-                          where pe.Id_Plan = iId_Plan);
+create or replace function "cf$_plan".schedule(p_project_id integer,
+                                               p_plan_id integer,
+                                               p_begin_date date,
+                                               p_end_date date)
+  returns table
+          (
+            project_id        integer,
+            plan_id           integer,
+            plan_date         date,
+            report_period     date,
+            repetition_number integer
+          )
+  language sql
+  security definer rows 100
+as
+$function$
+  with
+    --
+    p as (
+      select p.id,
+             p.start_date,
+             p.report_period,
+             p.repetition_type,
+             p.repetition_days,
+             p.termination_type,
+             p.repetition_count,
+             p.end_date
+        from cf$.v_plan_v2 p
+       where p.project_id = p_project_id
+         and p.id = p_plan_id
+    ),
+    o as (
+      select (generate_series(p.start_date,
+                              case
+                                when p.repetition_type = 0 then
+                                  -- do not repeat
+                                  p.start_date
+                                else
+                                  p_end_date
+                                end,
+                              '1 day'))::date as plan_date
+        from p
+    ),
+    f as (
+      select o.plan_date,
+             row_number() over (order by o.plan_date) as repetition_number
+        from p,
+             o
+       where case
+               when p.repetition_type = 0 then
+                   o.plan_date = p.start_date
+               else
+                 case
+                   when p.repetition_type = 1 then
+                     -- daily
+                       extract(isodow from o.plan_date) = any (p.repetition_days)
+                   else
+                     case
+                       when p.repetition_type = 2 then
+                         -- monthly
+                           extract(day from o.plan_date) = any (p.repetition_days)
+                       else
+                         case
+                           when p.repetition_type = 3 then
+                             -- quarterly
+                                 extract(day from p.start_date) = extract(day from o.plan_date)
+                               and extract(month from p.start_date)::int % 3 = extract(month from o.plan_date)::int % 3
+                           else
+                             case
+                               when p.repetition_type = 4 then
+                                 -- yearly
+                                   to_char(p.start_date, 'MMDD') = to_char(o.plan_date, 'MMDD')
+                               else
+                                 false
+                               end
+                           end
+                       end
+                   end
+               end
+    )
+select p_project_id,
+       p.id as plan_id,
+       f.plan_date,
+       (date_trunc('month', f.plan_date)
+         + (((extract(year from p.report_period) * 12 + extract(month from p.report_period))::int
+           - (extract(year from p.start_date) * 12 + extract(month from p.start_date))::int)::text || ' months'
+          )::interval
+         )::date as report_period,
+       f.repetition_number
+  from f,
+       p
+ where (
+       coalesce(p.termination_type, 0) = 0
+     or (p.termination_type = 1 and f.repetition_number <= p.repetition_count)
+     or (p.termination_type = 2 and f.plan_date <= p.end_date)
+   )
+   and f.plan_date between p_begin_date and p_end_date
+   and f.plan_date not in (select pe.dexclude
+                             from cf$.plan_exclude pe
+                            where pe.id_project = p_project_id
+                              and pe.Id_Plan = p_plan_id);
 $function$

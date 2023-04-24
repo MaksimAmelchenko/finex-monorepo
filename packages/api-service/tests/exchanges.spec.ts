@@ -69,9 +69,9 @@ describe('Exchanges', function (): void {
       const { accounts, moneys } = userData;
       const data: CreateExchangeServiceData = {
         amountSell: 100,
-        moneySellId: String(moneys[0].idMoney),
+        moneySellId: moneys[0].moneyId,
         amountBuy: 10,
-        moneyBuyId: String(moneys[1].idMoney),
+        moneyBuyId: moneys[1].moneyId,
         accountSellId: String(accounts[0].idAccount),
         accountBuyId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
@@ -95,15 +95,15 @@ describe('Exchanges', function (): void {
       const { accounts, moneys } = userData;
       const data: CreateExchangeServiceData = {
         amountSell: 100,
-        moneySellId: String(moneys[0].idMoney),
+        moneySellId: moneys[0].moneyId,
         amountBuy: 10,
-        moneyBuyId: String(moneys[1].idMoney),
+        moneyBuyId: moneys[1].moneyId,
         accountSellId: String(accounts[0].idAccount),
         accountBuyId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
         fee: 10,
-        moneyFeeId: String(moneys[0].idMoney),
+        moneyFeeId: moneys[0].moneyId,
         accountFeeId: String(accounts[0].idAccount),
       };
 
@@ -127,9 +127,9 @@ describe('Exchanges', function (): void {
 
       const data: CreateExchangeServiceData = {
         amountSell: 100,
-        moneySellId: String(moneys[0].idMoney),
+        moneySellId: moneys[0].moneyId,
         amountBuy: 10,
-        moneyBuyId: String(moneys[1].idMoney),
+        moneyBuyId: moneys[1].moneyId,
         accountSellId: String(accounts[0].idAccount),
         accountBuyId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
@@ -148,7 +148,7 @@ describe('Exchanges', function (): void {
         amountSell: 50,
         accountSellId: String(accounts[1].idAccount),
         fee: 10,
-        moneyFeeId: String(moneys[0].idMoney),
+        moneyFeeId: moneys[0].moneyId,
         accountFeeId: String(accounts[0].idAccount),
       };
 
@@ -171,9 +171,9 @@ describe('Exchanges', function (): void {
       const { accounts, moneys } = userData;
       const data: CreateExchangeServiceData = {
         amountSell: 100,
-        moneySellId: String(moneys[0].idMoney),
+        moneySellId: moneys[0].moneyId,
         amountBuy: 10,
-        moneyBuyId: String(moneys[1].idMoney),
+        moneyBuyId: moneys[1].moneyId,
         accountSellId: String(accounts[0].idAccount),
         accountBuyId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),

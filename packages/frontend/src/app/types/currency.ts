@@ -1,15 +1,16 @@
-export interface IApiCurrency {
-  id: string;
+export interface ICurrencyDTO {
   code: string;
   name: string;
-  shortName: string;
+  precision: number;
   symbol: string;
 }
 
-export interface ICurrency {
-  id: string;
-  code: string;
-  name: string;
-  shortName: string;
-  symbol: string;
+export interface ICurrency extends ICurrencyDTO {}
+
+export interface GetCurrenciesResponse {
+  currencies: ICurrencyDTO[];
+}
+
+export interface ICurrenciesApi {
+  getCurrencies: () => Promise<GetCurrenciesResponse>;
 }

@@ -7,14 +7,14 @@ import { AccountsRepository } from './accounts-repository';
 import { Contractor } from './models/contractor';
 import { ContractorsRepository } from './contractors-repository';
 import {
-  IAccountBalance,
-  IApiAccountBalance,
-  IApiBalance,
-  IApiDailyBalance,
-  IApiDebtBalance,
+  IAccountBalances,
+  IAccountBalancesDTO,
   IBalance,
+  IBalanceDTO,
   IDailyBalance,
-  IDebtBalance,
+  IDailyBalanceDTO,
+  IDebtBalances,
+  IDebtBalancesDTO,
   IGetBalanceParams,
   IGetBalanceResponse,
   IGetDailyBalanceParams,
@@ -110,8 +110,8 @@ const t = getT('BalanceRepository');
 export class BalanceRepository extends ManageableStore {
   static storeName = 'DashboardRepository';
 
-  accountBalances: IAccountBalance[] = [];
-  debtBalances: IDebtBalance[] = [];
+  accountsBalances: IAccountBalances[] = [];
+  debtsBalances: IDebtBalances[] = [];
   balancesLoadState: LoadState = LoadState.none();
 
   dailyBalances: IDailyBalance[] = [];
@@ -121,11 +121,11 @@ export class BalanceRepository extends ManageableStore {
     super(mainStore);
 
     makeObservable(this, {
-      accountBalances: observable,
+      accountsBalances: observable,
       balancesLoadState: observable,
       dailyBalances: observable,
       dailyBalancesLoadState: observable,
-      debtBalances: observable,
+      debtsBalances: observable,
       accountTypeBalances: computed,
       debtTypeBalances: computed,
       totalBalance: computed,
@@ -140,13 +140,13 @@ export class BalanceRepository extends ManageableStore {
     try {
       this.balancesLoadState = LoadState.pending();
       const response = await this.api.getBalance({
-        dBalance: format(date, 'yyyy-MM-dd'),
+        balanceDate: format(date, 'yyyy-MM-dd'),
         moneyId,
       });
-      const { accountBalances, debtBalances } = response;
+      const { accountsBalances, debtsBalances } = response;
       runInAction(() => {
-        this.accountBalances = this.decodeAccountBalances(accountBalances);
-        this.debtBalances = this.decodeDebtBalances(debtBalances);
+        this.accountsBalances = this.decodeAccountBalances(accountsBalances);
+        this.debtsBalances = this.decodeDebtBalances(debtsBalances);
       });
     } catch (e) {
       console.error(e);
@@ -159,16 +159,16 @@ export class BalanceRepository extends ManageableStore {
 
   async fetchDailyBalance({ moneyId, range }: { moneyId?: string; range: [Date, Date] }): Promise<void> {
     try {
-      const [dBegin, dEnd] = range;
+      const [startDate, endDate] = range;
       this.dailyBalancesLoadState = LoadState.pending();
       const response = await this.api.getDailyBalance({
+        startDate: format(startDate, 'yyyy-MM-dd'),
+        endDate: format(endDate, 'yyyy-MM-dd'),
         moneyId,
-        dBegin: format(dBegin, 'yyyy-MM-dd'),
-        dEnd: format(dEnd, 'yyyy-MM-dd'),
       });
-      const { balances } = response;
+      const { accountDailyBalances } = response;
       runInAction(() => {
-        this.dailyBalances = this.decodeDailyBalances(balances);
+        this.dailyBalances = this.decodeDailyBalances(accountDailyBalances);
       });
     } catch (e) {
       console.error(e);
@@ -179,11 +179,11 @@ export class BalanceRepository extends ManageableStore {
     }
   }
 
-  private decodeAccountBalances(accountBalances: IApiAccountBalance[]): IAccountBalance[] {
+  private decodeAccountBalances(accountsBalances: IAccountBalancesDTO[]): IAccountBalances[] {
     const accountsRepository = this.getStore(AccountsRepository);
 
-    return accountBalances.map(({ idAccount, balances }) => {
-      const account = accountsRepository.get(String(idAccount))!;
+    return accountsBalances.map(({ accountId, balances }) => {
+      const account = accountsRepository.get(accountId)!;
       return {
         account,
         balances: this.decodeBalances(balances),
@@ -191,11 +191,11 @@ export class BalanceRepository extends ManageableStore {
     });
   }
 
-  private decodeDebtBalances(debtBalances: IApiDebtBalance[]): IDebtBalance[] {
+  private decodeDebtBalances(debtsBalances: IDebtBalancesDTO[]): IDebtBalances[] {
     const contractorsRepository = this.getStore(ContractorsRepository);
 
-    return debtBalances.map(({ debtType, idContractor, balances }) => {
-      const contractor = contractorsRepository.get(String(idContractor))!;
+    return debtsBalances.map(({ debtType, contractorId, balances }) => {
+      const contractor = contractorsRepository.get(contractorId)!;
       return {
         contractor,
         debtType,
@@ -204,30 +204,27 @@ export class BalanceRepository extends ManageableStore {
     });
   }
 
-  private decodeDailyBalances(dailyBalances: IApiDailyBalance[]): IDailyBalance[] {
+  private decodeDailyBalances(dailyBalances: IDailyBalanceDTO[]): IDailyBalance[] {
     const accountsRepository = this.getStore(AccountsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
 
-    return dailyBalances.map(({ dBalance, idAccount, idMoney, sum }) => {
-      const accountId = idAccount === 0 ? null : String(idAccount);
-      const moneyId = String(idMoney);
-
+    return dailyBalances.map(({ moneyId, balanceDate, accountId, amount }) => {
       const account = accountId ? accountsRepository.get(accountId)! : null;
       const money = moneysRepository.get(moneyId)!;
 
       return {
-        dBalance,
-        account,
         money,
-        sum,
+        balanceDate,
+        account,
+        amount,
       };
     });
   }
 
-  private decodeBalances(balances: IApiBalance[]): IBalance[] {
+  private decodeBalances(balances: IBalanceDTO[]): IBalance[] {
     const moneysRepository = this.getStore(MoneysRepository);
-    return balances.map(({ idMoney, sum: amount }) => {
-      const money = moneysRepository.get(String(idMoney))!;
+    return balances.map(({ moneyId, amount }) => {
+      const money = moneysRepository.get(moneyId)!;
       return {
         amount,
         money,
@@ -238,7 +235,7 @@ export class BalanceRepository extends ManageableStore {
   get totalBalance(): IBalance[] {
     const moneysRepository = this.getStore(MoneysRepository);
 
-    const total = this.accountBalances.reduce<Map<moneyId, IBalance>>((acc, { balances }) => {
+    const total = this.accountsBalances.reduce<Map<moneyId, IBalance>>((acc, { balances }) => {
       balances.forEach(({ amount, money }) => {
         if (!acc.has(money.id)) {
           acc.set(money.id, { money, amount });
@@ -258,7 +255,7 @@ export class BalanceRepository extends ManageableStore {
     const treeBalanceMap: TreeBalanceMap = new Map();
     const moneysRepository = this.getStore(MoneysRepository);
     // sort by accountType.name, account.name
-    const accountBalances = this.accountBalances
+    const accountsBalances = this.accountsBalances
       .slice()
       .sort(
         (a, b) =>
@@ -274,7 +271,7 @@ export class BalanceRepository extends ManageableStore {
         };
       });
 
-    accountBalances.forEach(({ account, balances }) => {
+    accountsBalances.forEach(({ account, balances }) => {
       const { accountType } = account;
       if (!treeBalanceMap.has(accountType.id)) {
         treeBalanceMap.set(accountType.id, {
@@ -322,7 +319,7 @@ export class BalanceRepository extends ManageableStore {
     const moneysRepository = this.getStore(MoneysRepository);
 
     // sort by accountType.name, account.name
-    const accountBalances = this.accountBalances
+    const accountsBalances = this.accountsBalances
       .slice()
       .sort(
         (a, b) =>
@@ -338,7 +335,7 @@ export class BalanceRepository extends ManageableStore {
         };
       });
 
-    accountBalances.forEach(({ account, balances }) => {
+    accountsBalances.forEach(({ account, balances }) => {
       const { accountType } = account;
       if (!accountTypeBalancesMap.has(accountType.id)) {
         accountTypeBalancesMap.set(accountType.id, {
@@ -407,7 +404,7 @@ export class BalanceRepository extends ManageableStore {
       });
     });
     // sort by debtType, contractor.name
-    const debtBalances = this.debtBalances
+    const debtBalances = this.debtsBalances
       .slice()
       .sort(
         (a, b) =>
@@ -481,7 +478,7 @@ export class BalanceRepository extends ManageableStore {
     const moneysRepository = this.getStore(MoneysRepository);
 
     // sort by debtType, contractor.name
-    const debtBalances = this.debtBalances
+    const debtBalances = this.debtsBalances
       .slice()
       .sort(
         (a, b) =>
@@ -541,8 +538,8 @@ export class BalanceRepository extends ManageableStore {
   }
 
   clear(): void {
-    this.accountBalances = [];
-    this.debtBalances = [];
+    this.accountsBalances = [];
+    this.debtsBalances = [];
     this.dailyBalances = [];
     this.balancesLoadState = LoadState.none();
     this.dailyBalancesLoadState = LoadState.none();

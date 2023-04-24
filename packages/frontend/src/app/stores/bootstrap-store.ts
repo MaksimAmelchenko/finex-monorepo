@@ -3,8 +3,6 @@ import { AccountsRepository } from './accounts-repository';
 import { CategoriesRepository } from './categories-repository';
 import { CategoryPrototypesRepository } from './category-prototypes-repository';
 import { ContractorsRepository } from './contractors-repository';
-import { CurrenciesRateSourceStore } from './currencies-rate-source-store';
-import { CurrenciesRepository } from './currency-repository';
 import { IApiBootstrap } from '../types/bootstrap';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
@@ -44,7 +42,6 @@ export class BootstrapStore extends ManageableStore {
       categories,
       categoryPrototypes,
       contractors,
-      currencies,
       // currencyRateSources,
       // invitations,
       // messages,
@@ -73,7 +70,6 @@ export class BootstrapStore extends ManageableStore {
     projectsRepository.consume(projects);
     this.getStore(ProjectsRepository).setCurrentProject(session.projectId);
 
-    this.getStore(CurrenciesRepository).consume(currencies);
     // this.getStore(CurrenciesRateSourceStore).consume(currencyRateSources);
     this.getStore(MoneysRepository).consume(moneys);
     this.getStore(ProfileRepository).consume(profile);

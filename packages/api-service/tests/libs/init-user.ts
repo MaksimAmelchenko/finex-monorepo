@@ -5,8 +5,9 @@ import { CategoryService } from '../../services/category';
 import { CreateUser, createUser } from './create-user';
 import { IRequestContext } from '../../types/app';
 import { IUser } from '../../modules/user/types';
-import { Money } from '../../services/money/model/money';
-import { MoneyGateway } from '../../services/money/gateway';
+import { Money } from '../../modules/money/models/money';
+import { moneyRepository } from '../../modules/money/money.repository';
+import { moneyMapper } from '../../modules/money/money.mapper';
 
 export interface UserData {
   user: IUser;
@@ -49,8 +50,8 @@ export async function initUser(ctx: IRequestContext, { username, password }: Cre
       isEnabled: true,
     },
   ];
-  const moneys = await Promise.all(
-    moneyFixtures.map(moneyFixture => MoneyGateway.createMoney(ctx, user.projectId!, user.id, moneyFixture))
+  const moneysDAOs = await Promise.all(
+    moneyFixtures.map(moneyFixture => moneyRepository.createMoney(ctx, user.projectId!, user.id, moneyFixture))
   );
 
   const categories = await CategoryService.getCategories(ctx, user.projectId!);
@@ -58,7 +59,7 @@ export async function initUser(ctx: IRequestContext, { username, password }: Cre
   return {
     user,
     accounts,
-    moneys,
+    moneys: moneysDAOs.map(moneyMapper.toDomain),
     categories,
   };
 }

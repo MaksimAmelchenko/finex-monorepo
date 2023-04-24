@@ -1,10 +1,12 @@
 import { CreateProjectServiceData } from '../types';
-import { CurrencyGateway } from '../../currency/gateway';
-import { IRequestContext } from '../../../types/app';
-import { MoneyService } from '../../money';
+
+import { IRequestContext, Locale } from '../../../types/app';
 import { Project } from '../model/project';
 import { ProjectGateway } from '../gateway';
+import { currencyRepository } from '../../../modules/currency/currency.repository';
 import { getProject } from './get-project';
+import { moneyService } from '../../../modules/money/money.service';
+import { t } from '../../../libs/t';
 
 export async function createProject(
   ctx: IRequestContext,
@@ -75,14 +77,23 @@ export async function createProject(
   }
   await query;
 
-  const currencies = await CurrencyGateway.getCurrencies(ctx);
-  // TODO create money according to locale
+  const { locale } = ctx.params;
+
+  const currencyCodes = {
+    [Locale.Ru]: ['RUB', 'USD', 'EUR'],
+    [Locale.En]: ['USD'],
+    [Locale.De]: ['EUR'],
+  }[locale];
+
+  const currencies = await currencyRepository.getCurrencies(ctx);
+
   await Promise.all(
-    [643, 978, 840].map((currencyId, index) => {
-      const currency = currencies.find(({ idCurrency }) => idCurrency === currencyId)!;
-      return MoneyService.createMoney(ctx, String(project.idProject), userId, {
-        name: currency.name,
-        currencyId: String(currency.idCurrency),
+    currencyCodes.map((currencyCode, index) => {
+      const currency = currencies.find(({ code }) => code === currencyCode)!;
+
+      return moneyService.createMoney(ctx, projectId, userId, {
+        name: t(currency.name, locale),
+        currencyCode,
         isEnabled: true,
         symbol: currency.symbol,
         sorting: index + 1,

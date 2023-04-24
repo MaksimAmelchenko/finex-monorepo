@@ -3,9 +3,9 @@ import { User } from '../stores/models/user';
 
 export type moneyId = string;
 
-export interface IApiMoney {
+export interface IMoneyDTO {
   id: string;
-  currencyId: string | null;
+  currencyCode: string | null;
   name: string;
   symbol: string;
   precision: number | null;
@@ -16,7 +16,7 @@ export interface IApiMoney {
 
 export interface IMoney {
   id: string;
-  currency: Currency | null;
+  currencyCode: string | null;
   name: string;
   symbol: string;
   precision?: number;
@@ -26,11 +26,11 @@ export interface IMoney {
 }
 
 export interface GetMoneysResponse {
-  moneys: IApiMoney[];
+  moneys: IMoneyDTO[];
 }
 
 export interface CreateMoneyData {
-  currencyId: string | null;
+  currencyCode: string | null;
   name: string;
   symbol: string;
   precision: number | null;
@@ -39,11 +39,11 @@ export interface CreateMoneyData {
 }
 
 export interface CreateMoneyResponse {
-  money: IApiMoney;
+  money: IMoneyDTO;
 }
 
 export type UpdateMoneyChanges = Partial<{
-  currencyId: string | null;
+  currencyCode: string | null;
   name: string;
   symbol: string;
   precision: number | null;
@@ -52,5 +52,5 @@ export type UpdateMoneyChanges = Partial<{
 }>;
 
 export interface UpdateMoneyResponse {
-  money: IApiMoney;
+  money: IMoneyDTO;
 }

@@ -58,4 +58,10 @@ export default {
     shopId: 'YOOKASSA__SHOP_ID',
     secretKey: 'YOOKASSA__SECRET_KEY',
   },
+  currencyRate: {
+    secret: 'CURRENCY_RATE__SECRET',
+    openExchangeRates: {
+      appId: 'CURRENCY_RATE__OPEN_EXCHANGE_RATES__APP_ID',
+    },
+  },
 };

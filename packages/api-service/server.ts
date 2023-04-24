@@ -18,7 +18,6 @@ import { accountsApi } from './api/v1/accounts';
 import { accountsBalancesApi } from './api/v1/accounts-balances';
 import { categoriesApi } from './api/v1/categories';
 import { contractorsApi } from './api/v1/contractors';
-import { currenciesApi } from './api/v1/currencies';
 import { dashboardApi } from './api/v1/dashboard';
 import { debtsApi } from './api/v1/debts';
 import { exchangesApi } from './api/v1/exchanges';
@@ -61,6 +60,7 @@ import { cashFlowApi } from './api/v2/cash-flow';
 import { cashFlowItemApi } from './api/v2/cash-flow-item';
 import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
+import { currencyApi } from './api/v2/currency';
 
 import * as de from './locales/de';
 import * as en from './locales/en';
@@ -90,7 +90,6 @@ app.use(accountsBalancesApi);
 app.use(accountsApi);
 app.use(categoriesApi);
 app.use(contractorsApi);
-app.use(currenciesApi);
 app.use(dashboardApi);
 app.use(debtsApi);
 app.use(exchangesApi);
@@ -131,6 +130,7 @@ app.use(cashFlowApi);
 app.use(cashFlowItemApi);
 app.use(billingApi);
 app.use(operationApi);
+app.use(currencyApi);
 
 // serve docs
 app.use(async (ctx, next) => {

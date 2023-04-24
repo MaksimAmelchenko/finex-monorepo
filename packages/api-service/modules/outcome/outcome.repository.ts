@@ -29,9 +29,9 @@ class OutcomeRepositoryImpl implements OutcomeRepository {
                                  and cfi.account_id = p.account_id)
                   where cfi.project_id = :projectId::int),
                b as (
-                 select max(s.dplan) last_plan_date
+                 select max(s.plan_date) last_plan_date
                    from cf$.v_plan_v2 p,
-                        cf$_plan.schedule(p.id, p.start_date, (now() + interval '5 months')::date) s
+                        cf$_plan.schedule(p.project_id, p.id, p.start_date, (now() + interval '5 months')::date) s
                   where p.project_id = :projectId::int
                )
         select to_char(date_trunc('month', start_date), 'YYYY-MM-DD') as "startDate",

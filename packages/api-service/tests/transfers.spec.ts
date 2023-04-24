@@ -69,7 +69,7 @@ describe('Transfers', function (): void {
       const { accounts, moneys } = userData;
       const data: CreateTransferServiceData = {
         amount: 100,
-        moneyId: String(moneys[0].idMoney),
+        moneyId: moneys[0].moneyId,
         accountFromId: String(accounts[0].idAccount),
         accountToId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
@@ -93,13 +93,13 @@ describe('Transfers', function (): void {
       const { accounts, moneys } = userData;
       const data: CreateTransferServiceData = {
         amount: 100,
-        moneyId: String(moneys[0].idMoney),
+        moneyId: moneys[0].moneyId,
         accountFromId: String(accounts[0].idAccount),
         accountToId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
         fee: 10,
-        moneyFeeId: String(moneys[0].idMoney),
+        moneyFeeId: moneys[0].moneyId,
         accountFeeId: String(accounts[0].idAccount),
       };
 
@@ -123,7 +123,7 @@ describe('Transfers', function (): void {
 
       const data: CreateTransferServiceData = {
         amount: 100,
-        moneyId: String(moneys[0].idMoney),
+        moneyId: moneys[0].moneyId,
         accountFromId: String(accounts[0].idAccount),
         accountToId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
@@ -140,9 +140,9 @@ describe('Transfers', function (): void {
 
       const changes: UpdateTransferServiceChanges = {
         amount: 50,
-        moneyId: String(moneys[0].idMoney),
+        moneyId: moneys[0].moneyId,
         fee: 10,
-        moneyFeeId: String(moneys[0].idMoney),
+        moneyFeeId: moneys[0].moneyId,
         accountFeeId: String(accounts[0].idAccount),
       };
 
@@ -165,7 +165,7 @@ describe('Transfers', function (): void {
       const { accounts, moneys } = userData;
       const data: CreateTransferServiceData = {
         amount: 100,
-        moneyId: String(moneys[0].idMoney),
+        moneyId: moneys[0].moneyId,
         accountFromId: String(accounts[0].idAccount),
         accountToId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),

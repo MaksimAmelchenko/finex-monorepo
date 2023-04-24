@@ -1,31 +1,22 @@
-CREATE OR REPLACE FUNCTION "cf$_currency".get_rate(iid_currency integer, idrate date, iid_currency_rate_source smallint)
- RETURNS numeric
- LANGUAGE plpgsql
- STABLE SECURITY DEFINER COST 1000
-AS $function$
+create or replace function "cf$_currency".get_rate(p_currency_code text, p_rate_date date,
+                                                   p_currency_rate_source_id smallint)
+  returns numeric
+  language plpgsql
+  stable security definer cost 1000
+as
+$function$
 declare
-  vRate cf$.Currency_Rate.Rate%type;
+  v_rate cf$.currency_rate.rate%type;
 begin
-/*
-  with o as (select row_number() over (order by cr.DRate desc) as rn, 
-                    cr.Rate
-               from cf$.Currency_Rate cr
-              where cr.Id_Currency = iId_Currency
-                and cr.DRate <= iDRate)
-  select o.Rate
-    into vRate
-    from o
-   where rn = 1;
-*/
-  select cr.Rate
-    into vRate
-    from cf$.Currency_Rate cr
-   where cr.Id_Currency_Rate_Source = iId_Currency_Rate_Source
-     and cr.Id_Currency = iId_Currency
-     and cr.DRate <= iDRate
-   order by cr.DRate desc
+  select cr.rate
+    into v_rate
+    from cf$.currency_rate cr
+   where cr.currency_rate_source_id = p_currency_rate_source_id
+     and cr.currency_code = p_currency_code
+     and cr.rate_date <= p_rate_date
+   order by cr.rate_date desc
    limit 1;
-   
-   return coalesce(vRate, 1);
+
+  return coalesce(v_rate, 1);
 end;
 $function$
