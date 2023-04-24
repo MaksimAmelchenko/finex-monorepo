@@ -15,6 +15,7 @@ export async function createProject(
   const editors = data.editors ? data.editors.filter(id => id !== userId) : [];
 
   const project = await ProjectGateway.createProject(ctx, userId, { name, note });
+  const projectId = String(project.idProject);
 
   // create category tree
   const knex = Project.knex();
@@ -49,12 +50,12 @@ export async function createProject(
                                              on (cp.parent = cpt.id_category_prototype)
                                 where cp.is_enabled
         )
-      select :id_project,
+      select :projectId::int,
              cpt1.id_category,
-             :id_user,
+             :userId::int,
              cpt2.id_category as parent,
              null as id_unit,
-             cpt1.name,
+             cpt1.name ->> :locale as name,
              true as is_enabled,
              cpt1.is_system,
              null as note,
@@ -64,8 +65,9 @@ export async function createProject(
                          on cpt1.parent = cpt2.id_category_prototype
     `,
     {
-      id_project: project.idProject,
-      id_user: Number(userId),
+      projectId: Number(projectId),
+      userId: Number(userId),
+      locale: ctx.params.locale,
     }
   );
   if (ctx.trx) {
@@ -93,13 +95,13 @@ export async function createProject(
       `
         insert into cf$.project_permit ( id_project, id_user, permit )
           (select distinct
-                  :id_project::int,
+                  :projectId::int,
                   value::int,
                   3
              from jsonb_array_elements_text(:editors));
       `,
       {
-        id_project: project.idProject,
+        projectId: Number(projectId),
         editors: JSON.stringify(editors),
       }
     );
@@ -109,5 +111,5 @@ export async function createProject(
     await query;
   }
 
-  return getProject(ctx, String(project.idProject), userId);
+  return getProject(ctx, projectId, userId);
 }
