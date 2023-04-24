@@ -12,6 +12,7 @@ import {
 } from '@table-library/react-table-library/table';
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
+import { TableNode } from '@table-library/react-table-library/types/table';
 import { observer } from 'mobx-react-lite';
 import { useTheme } from '@table-library/react-table-library/theme';
 
@@ -122,7 +123,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
         sort={sort}
         layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
       >
-        {tableList => (
+        {(tableNodes: TableNode[]) => (
           <>
             <Header>
               <HeaderRow>
@@ -135,11 +136,11 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
               </HeaderRow>
             </Header>
             <Body>
-              {tableList.map(item => {
-                const amount = getValue(item.amount, valueType);
+              {tableNodes.map(tableNode => {
+                const amount = getValue(tableNode.amount, valueType);
                 return (
-                  <Row item={item} key={item.id}>
-                    <CellTree item={item}>{item.category?.name || t('Others')}</CellTree>
+                  <Row item={tableNode} key={tableNode.id}>
+                    <CellTree item={tableNode}>{tableNode.category?.name || t('Others')}</CellTree>
                     <Cell className={styles.cell__textAlignRight}>
                       {amount && toCurrency(amount, (filter.money?.precision ?? 2) - 2)}
                     </Cell>

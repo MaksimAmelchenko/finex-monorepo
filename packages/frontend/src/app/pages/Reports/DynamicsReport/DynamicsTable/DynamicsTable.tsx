@@ -13,6 +13,7 @@ import {
 } from '@table-library/react-table-library/table';
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
+import { TableNode } from '@table-library/react-table-library/types/table';
 import { add, differenceInMonths, format, formatISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import { useTheme } from '@table-library/react-table-library/theme';
@@ -128,7 +129,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
         sort={sort}
         layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
       >
-        {tableList => (
+        {(tableNodes: TableNode[]) => (
           <>
             <Header>
               <HeaderRow>
@@ -142,13 +143,13 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
               </HeaderRow>
             </Header>
             <Body>
-              {tableList.map(item => {
-                const total = getValue(item.total, valueType);
+              {tableNodes.map(tableNode => {
+                const total = getValue(tableNode.total, valueType);
                 return (
-                  <Row item={item} key={item.id}>
-                    <CellTree item={item}>{item.category?.name || t('Others')}</CellTree>
+                  <Row item={tableNode} key={tableNode.id}>
+                    <CellTree item={tableNode}>{tableNode.category?.name || t('Others')}</CellTree>
                     {months.map(month => {
-                      const value = getValue(item[format(month, 'yyyyMM')], valueType);
+                      const value = getValue(tableNode[format(month, 'yyyyMM')], valueType);
                       return (
                         <Cell className={styles.cell__textAlignRight} key={month.getTime()}>
                           {value && toCurrency(value, (filter.money?.precision ?? 2) - 2)}

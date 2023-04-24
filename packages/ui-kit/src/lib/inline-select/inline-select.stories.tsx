@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 
-import { InlineSelect, IOption } from './inline-select';
+import { InlineSelect } from './inline-select';
+import { IOption } from '../types';
 
 export default {
   title: 'Components/InlineSelect',

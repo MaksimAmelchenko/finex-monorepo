@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
 
-const SignUp = lazy(() => import(/* webpackChunkName: "sign-up-confirmation" */ './SignUpConfirmation'));
+const SignUpConfirmation = lazy(() => import(/* webpackChunkName: "sign-up-confirmation" */ './SignUpConfirmation'));
 
-export const SignUpConfirmationLazy = () => <SignUp />;
+export const SignUpConfirmationLazy = () => <SignUpConfirmation />;

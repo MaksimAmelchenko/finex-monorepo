@@ -3,9 +3,9 @@ import 'source-map-support/register';
 import * as Koa from 'koa';
 import { Model } from 'objection';
 import * as i18n from 'i18n';
+import * as helmet from 'koa-helmet';
 import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
-import * as helmet from 'koa-helmet';
 
 import config from './libs/config';
 import { knex } from './knex';

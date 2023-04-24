@@ -27,6 +27,8 @@ import { ExchangesRepository } from '../stores/exchanges-repository';
 import { MainStore } from './main-store';
 import { MoneysApi } from '../stores/api/moneys-api';
 import { MoneysRepository } from '../stores/moneys-repository';
+import { OperationsApi } from '../stores/api/operation-api';
+import { OperationsRepository } from '../stores/operations-repository';
 import { ParamsStore } from '../stores/params-store';
 import { PlanTransactionsApi } from '../stores/api/plan-transaction-api';
 import { PlanTransactionsRepository } from '../stores/plan-transactions-repository';
@@ -49,8 +51,6 @@ import { UnitsApi } from '../stores/api/units-api';
 import { UnitsRepository } from '../stores/units-repository';
 import { UsersApi } from '../stores/api/users-api';
 import { UsersRepository } from '../stores/users-repository';
-import { OperationsRepository } from '../stores/operations-repository';
-import { OperationsApi } from '../stores/api/operation-api';
 
 /**
  * Helper to initialize DI

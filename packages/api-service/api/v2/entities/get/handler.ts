@@ -4,9 +4,9 @@ import { IResponse } from '../../../../libs/rest-api/types';
 import { ProjectService } from '../../../../services/project';
 import { categoryPrototypeMapper } from '../../../../modules/category-prototype/category-prototype.mapper';
 import { categoryPrototypeService } from '../../../../modules/category-prototype/category-prototype.service';
+import { subscriptionService } from '../../../../modules/billing/subscription/subscription.service';
 import { userMapper } from '../../../../modules/user/user.mapper';
 import { userService } from '../../../../modules/user/user.service';
-import { subscriptionService } from '../../../../modules/billing/subscription/subscription.service';
 
 export async function handler(ctx: IRequestContext<unknown, true>): Promise<IResponse> {
   const {
