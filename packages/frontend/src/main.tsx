@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { BrowserRouter } from 'react-router-dom';
-import { BrowserTracing } from '@sentry/tracing';
 
 import { App } from './app/app';
 import { Locale } from './app/types';
@@ -28,7 +27,7 @@ const SENTRY_DSN = process.env.NX_SENTRY_DSN;
 if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
-    integrations: [new BrowserTracing()],
+    integrations: [new Sentry.BrowserTracing()],
     tracesSampleRate: 1.0,
   });
 }
