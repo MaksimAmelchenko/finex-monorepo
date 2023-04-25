@@ -1,9 +1,8 @@
 import { TDate } from './index';
 import { IAccountTypeDTO } from './account-type';
 import { IApiAccount } from './account';
-import { IApiCategoryPrototype, IApiCategory } from './category';
+import { ICategoryPrototypeDTO, ICategoryDTO } from './category';
 import { IApiContractor } from './contractor';
-import { ICurrencyDTO } from './currency';
 import { IMoneyDTO } from './money';
 import { IApiProject } from './project';
 import { IApiTag } from './tag';
@@ -18,8 +17,8 @@ export interface IApiBootstrap {
   accountTypes: IAccountTypeDTO[];
   accounts: IApiAccount[];
   badges: IBadgeRaw[];
-  categories: IApiCategory[];
-  categoryPrototypes: IApiCategoryPrototype[];
+  categories: ICategoryDTO[];
+  categoryPrototypes: ICategoryPrototypeDTO[];
   contractors: IApiContractor[];
   // currencyRateSources: ICurrencyRateSourceRaw[];
   // invitations: IInvitationRaw[];

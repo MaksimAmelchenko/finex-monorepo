@@ -137,6 +137,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
 
   const selectCategoryPrototypesOptions = useMemo<ISelectOption[]>(() => {
     return categoryPrototypesRepository.categoryPrototypes
+      .filter(categoryPrototype => !categoryPrototype.isSystem)
       .map(categoryPrototype => ({
         value: categoryPrototype.id,
         label: categoryPrototype.fullPath(true),

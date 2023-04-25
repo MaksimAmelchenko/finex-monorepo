@@ -7,8 +7,8 @@ import {
   CreateCategoryData,
   CreateCategoryResponse,
   GetCategoriesResponse,
-  IApiCategory,
   ICategory,
+  ICategoryDTO,
   UpdateCategoryChanges,
   UpdateCategoryResponse,
 } from '../types/category';
@@ -102,7 +102,7 @@ export class CategoriesRepository extends ManageableStore {
     return this.categoryMap.get(categoryId);
   }
 
-  consume(categories: IApiCategory[]): void {
+  consume(categories: ICategoryDTO[]): void {
     this._categories = categories.map(category => this.decode(category));
 
     categories.forEach(({ id, parent }) => {
@@ -171,7 +171,7 @@ export class CategoriesRepository extends ManageableStore {
     return this.api.moveTransactions(categoryIdFrom, categoryIdTo, isRecursive);
   }
 
-  private decode({ id, name, parent, categoryPrototypeId, isEnabled, note, userId, isSystem }: IApiCategory): Category {
+  private decode({ id, name, parent, categoryPrototypeId, isEnabled, note, userId, isSystem }: ICategoryDTO): Category {
     const categoryPrototypesRepository = this.getStore(CategoryPrototypesRepository);
     const usersRepository = this.getStore(UsersRepository);
 

@@ -1,11 +1,11 @@
 import { IApiAccount } from './account';
-import { IApiCategory } from './category';
 import { IApiContractor } from './contractor';
 import { IMoneyDTO } from './money';
 import { IApiTag } from './tag';
 import { Permit, TDate } from './index';
 import { User } from '../stores/models/user';
 import { IApiUnit } from './unit';
+import { ICategoryDTO } from './category';
 import { IParamsDTO } from './params';
 
 export interface IApiProject {
@@ -67,7 +67,7 @@ export interface MergeProjectResponse {}
 export interface UseProjectResponse {
   accounts: IApiAccount[];
   contractors: IApiContractor[];
-  categories: IApiCategory[];
+  categories: ICategoryDTO[];
   tags: IApiTag[];
   units: IApiUnit[];
   moneys: IMoneyDTO[];
