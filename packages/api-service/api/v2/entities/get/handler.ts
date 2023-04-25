@@ -1,7 +1,8 @@
-import { AccountTypeService } from '../../../../services/account-type';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 import { ProjectService } from '../../../../services/project';
+import { accountTypeMapper } from '../../../../modules/account-type/account-type.mapper';
+import { accountTypeService } from '../../../../modules/account-type/account-type.service';
 import { categoryPrototypeMapper } from '../../../../modules/category-prototype/category-prototype.mapper';
 import { categoryPrototypeService } from '../../../../modules/category-prototype/category-prototype.service';
 import { subscriptionService } from '../../../../modules/billing/subscription/subscription.service';
@@ -26,8 +27,7 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
     users,
     subscription,
   ] = await Promise.all([
-    //
-    AccountTypeService.getAccountTypes(ctx),
+    accountTypeService.getAccountTypes(ctx),
     categoryPrototypeService.getCategoryPrototypes(ctx),
     ProjectService.getDependencies(ctx, projectId, userId),
     ProjectService.getProjects(ctx, userId),
@@ -37,7 +37,7 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
 
   return {
     body: {
-      accountTypes: accountTypes.map(accountType => accountType.toPublicModel()),
+      accountTypes: accountTypes.map(accountType => accountTypeMapper.toDTO(accountType, locale)),
       categoryPrototypes: categoryPrototypes.map(categoryPrototype =>
         categoryPrototypeMapper.toDTO(categoryPrototype, locale)
       ),

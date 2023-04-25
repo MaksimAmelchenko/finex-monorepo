@@ -1,6 +1,6 @@
 import { TDate } from './index';
+import { IAccountTypeDTO } from './account-type';
 import { IApiAccount } from './account';
-import { IApiAccountType } from './account-type';
 import { IApiCategoryPrototype, IApiCategory } from './category';
 import { IApiContractor } from './contractor';
 import { ICurrencyDTO } from './currency';
@@ -15,7 +15,7 @@ import { IProfileDTO } from './profile';
 import { IParamsDTO } from './params';
 
 export interface IApiBootstrap {
-  accountTypes: IApiAccountType[];
+  accountTypes: IAccountTypeDTO[];
   accounts: IApiAccount[];
   badges: IBadgeRaw[];
   categories: IApiCategory[];

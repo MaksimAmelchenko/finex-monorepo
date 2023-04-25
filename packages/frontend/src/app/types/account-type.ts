@@ -1,11 +1,6 @@
-export interface IApiAccountType {
+export interface IAccountTypeDTO {
   id: string;
   name: string;
-  shortName: string;
 }
 
-export interface IAccountType {
-  id: string;
-  name: string;
-  shortName: string;
-}
+export interface IAccountType extends IAccountTypeDTO {}
