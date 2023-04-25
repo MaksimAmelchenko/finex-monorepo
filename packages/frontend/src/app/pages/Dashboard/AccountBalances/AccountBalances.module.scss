@@ -1,28 +1,16 @@
 @use 'packages/theme/src/lib/styles/typography';
 
-.accountBalances {
-  border-radius: 0.4rem;
-}
-
-.row {
-  background-color: var(--color-white);
-  @include typography.body();
-  font-weight: bold;
-  line-height: 1;
-
-  td.row__firstCell {
-    padding-left: 2.4rem;
+.root {
+  &__totalCard {
+    border-bottom: 0.5px solid var(--color-gray-200);
   }
 
-  td.row__lastCell {
-    padding-right: 2.4rem;
+  &__accountTypeBalancePanel {
+    border-bottom: 0.5px solid var(--color-gray-200);
   }
 
-  &__currency_symbol {
-    color: var(--color-gray-500);
-
-    .row_group & {
-    }
+  &__accountTypeBalanceCard {
+    cursor: pointer;
   }
 }
 
@@ -31,7 +19,7 @@
   background-color: var(--color-white);
 
   &__title {
-    @include typography.h3;
+    @include typography.textXLSemibold;
     margin: 0;
   }
 
@@ -44,4 +32,9 @@
     display: inline-flex;
     gap: 1.6rem;
   }
+}
+
+.accountBalances {
+  border-radius: 0.4rem;
+  background-color: var(--color-white);
 }

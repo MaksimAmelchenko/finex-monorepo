@@ -1,13 +1,27 @@
-.layout {
+.root {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
-}
 
-.dashboard {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-column-gap: 1.6rem;
-  padding: 0 1.6rem 1.6rem 2.4rem;
-  overflow: auto;
+  &__dashboard {
+    overflow: auto;
+    display: flex;
+    gap: 1.6rem;
+    padding: 0 1.6rem 1.6rem 2.4rem;
+  }
+
+  &__balances {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    min-width: 40rem;
+  }
+
+  &__charts {
+    overflow: auto;
+    flex: 1 0 0;
+    width: 0;
+    min-width: 40rem;
+  }
 }

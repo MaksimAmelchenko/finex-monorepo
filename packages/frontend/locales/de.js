@@ -273,10 +273,13 @@ module.exports = {
     Allow: 'Erlauben',
   },
   Dashboard: {
-    Outcome: 'Outcome',
+    Outcome: 'Ergebnis',
+  },
+  DebtBalances: {
+    Debts: 'Schulden',
   },
   DebtBalancesMobile: {
-    Debts: 'Debts',
+    Debts: 'Schulden',
   },
   DebtCard: {
     'Loan amount': 'Loan amount',

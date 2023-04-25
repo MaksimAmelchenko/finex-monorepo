@@ -277,6 +277,9 @@ module.exports = {
   Dashboard: {
     Outcome: 'Обзор',
   },
+  DebtBalances: {
+    Debts: 'Долги',
+  },
   DebtBalancesMobile: {
     Debts: 'Долги',
   },
