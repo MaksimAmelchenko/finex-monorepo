@@ -1,9 +1,9 @@
 @use 'packages/theme/src/lib/styles/typography';
 
-.link {
+.root {
   text-decoration: none;
-  @include typography.bodyHighlight;
   color: var(--color-primary-600);
+
   &:hover {
     text-decoration: underline;
   }

@@ -14,8 +14,6 @@ import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './SignIn.module.scss';
-
 interface ISignInFormValues {
   username: string;
   password: string;
@@ -89,33 +87,31 @@ export function SignIn(): JSX.Element {
 
   const isThereUsername = Boolean(username);
   return (
-    <Layout title={t('Sign in')}>
-      <div className={styles.container}>
-        <Form<ISignInFormValues>
-          onSubmit={onSubmit}
-          initialValues={{ username, password: '' }}
-          validationSchema={validationSchema}
-          name="sign-in"
-        >
-          <FormLayout>
-            <FormInput name="username" type="email" label={t('E-mail')} autoFocus={!isThereUsername} />
-            <FormInput
-              name="password"
-              type="password"
-              label={t('Password')}
-              autoFocus={isThereUsername}
-              autoComplete="current-password"
-            />
-            <FormButton type="submit" variant="primary" size="lg" fullSize isIgnoreValidation>
-              {t('Continue')}
-            </FormButton>
-            <Link href="/reset-password">{t('Forgot your password?')}</Link>
-            <div>
-              <span>{t('New to FINEX?')}</span> <Link href="/sign-up">{t('Create an account')}</Link>
-            </div>
-          </FormLayout>
-        </Form>
-      </div>
+    <Layout title={t('Log in')}>
+      <Form<ISignInFormValues>
+        onSubmit={onSubmit}
+        initialValues={{ username, password: '' }}
+        validationSchema={validationSchema}
+        name="log-in"
+      >
+        <FormLayout>
+          <FormInput name="username" type="email" label={t('E-mail')} autoFocus={!isThereUsername} />
+          <FormInput
+            name="password"
+            type="password"
+            label={t('Password')}
+            autoFocus={isThereUsername}
+            autoComplete="current-password"
+          />
+          <FormButton type="submit" variant="primary" size="lg" fullSize isIgnoreValidation>
+            {t('Continue')}
+          </FormButton>
+          <Link href="/reset-password">{t('Forgot your password?')}</Link>
+          <div>
+            <span>{t('New to FINEX?')}</span> <Link href="/sign-up">{t('Create an account')}</Link>
+          </div>
+        </FormLayout>
+      </Form>
     </Layout>
   );
 }

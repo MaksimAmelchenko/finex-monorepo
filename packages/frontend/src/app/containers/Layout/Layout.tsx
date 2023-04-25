@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { Link } from '../../components/Link/Link';
@@ -14,26 +14,27 @@ export interface LayoutProps {
 
 const t = getT('Layout');
 
-export const Layout: FC<LayoutProps> = ({ title, children }) => {
+export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
-    <div className={styles.page}>
-      {title && <h1 className={styles.page__header}> {title} </h1>}
-      <div className={styles.page__body}>
-        <div className={styles.page__logo}>
-          <Logo />
+    <div className={styles.root}>
+      <div className={styles.root__content}>
+        <div className={styles.root__header}>{title && <h1 className={styles.root__headerText}>{title}</h1>}</div>
+        <div className={styles.root__body}>
+          <div className={styles.root__logomark}>
+            <Logo />
+          </div>
+          {children}
         </div>
-
-        {children}
+        <footer className={clsx(styles.root__footer, styles.footer)}>
+          <Link href="https://finex.io" className={styles.footer__link}>
+            {t('Home')}
+          </Link>
+          |
+          <Link href="mailto:support@finex.io" className={styles.footer__link}>
+            {t('Support')}
+          </Link>
+        </footer>
       </div>
-      <footer className={clsx(styles.page__footer, styles.footer)}>
-        <Link href="https://finex.io" className={styles.footer__link}>
-          {t('Home')}
-        </Link>
-        |
-        <Link href="mailto:support@finex.io" className={styles.footer__link}>
-          {t('Support')}
-        </Link>
-      </footer>
     </div>
   );
 };
