@@ -5,7 +5,7 @@ import { NotFoundError } from '../../libs/errors';
 import { moneyMapper } from './money.mapper';
 import { moneyRepository } from './money.repository';
 
-class MoneyServiceIml implements MoneyService {
+class MoneyServiceImpl implements MoneyService {
   async createMoney(
     ctx: IRequestContext,
     projectId: string,
@@ -51,4 +51,4 @@ class MoneyServiceIml implements MoneyService {
   }
 }
 
-export const moneyService = new MoneyServiceIml();
+export const moneyService = new MoneyServiceImpl();

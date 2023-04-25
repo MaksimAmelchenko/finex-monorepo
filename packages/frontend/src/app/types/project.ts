@@ -1,12 +1,12 @@
 import { IApiAccount } from './account';
 import { IApiContractor } from './contractor';
-import { IMoneyDTO } from './money';
 import { IApiTag } from './tag';
-import { Permit, TDate } from './index';
-import { User } from '../stores/models/user';
 import { IApiUnit } from './unit';
 import { ICategoryDTO } from './category';
+import { IMoneyDTO } from './money';
 import { IParamsDTO } from './params';
+import { Permit, TDate } from './index';
+import { User } from '../stores/models/user';
 
 export interface IApiProject {
   id: string;

@@ -1,17 +1,16 @@
-import { TDate } from './index';
 import { IAccountTypeDTO } from './account-type';
 import { IApiAccount } from './account';
 import { ICategoryPrototypeDTO, ICategoryDTO } from './category';
 import { IApiContractor } from './contractor';
-import { IMoneyDTO } from './money';
 import { IApiProject } from './project';
 import { IApiTag } from './tag';
 import { IApiUnit } from './unit';
 import { IApiUser } from './user';
 import { ICurrencyRateSourceRaw } from './currencies-rate-source';
 import { IInvitationRaw } from './invitation';
-import { IProfileDTO } from './profile';
+import { IMoneyDTO } from './money';
 import { IParamsDTO } from './params';
+import { IProfileDTO } from './profile';
 
 export interface IApiBootstrap {
   accountTypes: IAccountTypeDTO[];

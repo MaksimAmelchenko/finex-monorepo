@@ -4,7 +4,7 @@ import { NotFoundError } from '../../libs/errors';
 import { categoryPrototypeMapper } from './category-prototype.mapper';
 import { categoryPrototypeRepository } from './category-prototype.repository';
 
-class CategoryPrototypeServiceIml implements CategoryPrototypeService {
+class CategoryPrototypeServiceImpl implements CategoryPrototypeService {
   async getCategoryPrototype(ctx: IRequestContext, categoryPrototypeId: string): Promise<ICategoryPrototype> {
     const categoryPrototypeDAO = await categoryPrototypeRepository.getCategoryPrototype(ctx, categoryPrototypeId);
 
@@ -22,4 +22,4 @@ class CategoryPrototypeServiceIml implements CategoryPrototypeService {
   }
 }
 
-export const categoryPrototypeService = new CategoryPrototypeServiceIml();
+export const categoryPrototypeService = new CategoryPrototypeServiceImpl();
