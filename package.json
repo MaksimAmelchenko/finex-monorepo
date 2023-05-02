@@ -97,5 +97,8 @@
     "react-textarea-autosize": "^8.4.0",
     "regenerator-runtime": "^0.13.9",
     "yup": "^0.32.11"
+  },
+  "optionalDependencies": {
+    "@nrwl/nx-linux-x64-musl": "^15.9.3"
   }
 }
