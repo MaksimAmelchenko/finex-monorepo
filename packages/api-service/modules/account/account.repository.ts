@@ -18,7 +18,6 @@ class AccountRepositoryImpl implements AccountRepository {
     ctx.log.trace({ params }, 'try to get accounts balances');
 
     const { balanceDate, moneyId } = params;
-    console.log({ balanceDate, moneyId, projectId, userId });
 
     let query = knex.raw(
       `
