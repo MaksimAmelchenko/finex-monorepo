@@ -36,7 +36,6 @@ import { account_balance_w_p_v1 } from './cf$_account/account_balance_w_p.functi
 import { account_balance_with_plan_v1 } from './cf$_account/account_balance_with_plan.function/v1';
 
 export async function up(knex: Knex): Promise<void> {
-
   await knex.schema.raw(account_balance_w_p_v1.up);
   await knex.schema.raw(account_balance_with_plan_v1.up);
 
@@ -132,6 +131,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.raw(cf$_plan_cancel_v1.down);
   await knex.schema.raw(cf$_plan_create_v1.down);
   await knex.schema.raw(cf$_plan_update_v1.down);
+
+  await knex.schema.raw('GRANT INSERT, SELECT ON TABLE "cf$".plan_exclude TO web');
 
   await knex.schema.raw(cf$_plan_schedule_v1.up);
   await knex.schema.raw(cf$_plan_schedule_v2.up);

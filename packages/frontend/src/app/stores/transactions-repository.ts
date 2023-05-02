@@ -209,7 +209,7 @@ export class TransactionsRepository extends ManageableStore {
     if (transaction instanceof PlannedTransaction) {
       operation = this._mainStore
         .get(PlansRepository)
-        .cancelPlan(transaction.planId, { excludedDate: transaction.transactionDate });
+        .cancelPlan(transaction.planId, { exclusionDate: transaction.transactionDate });
     } else {
       operation = this.api.remove(transaction.id);
     }

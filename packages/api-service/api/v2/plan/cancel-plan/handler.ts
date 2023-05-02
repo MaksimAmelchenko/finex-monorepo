@@ -1,15 +1,18 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { CancelPlanServiceParams } from '../../../../services/plan/types';
 import { INoContent, IResponse } from '../../../../libs/rest-api/types';
 import { IRequestContext } from '../../../../types/app';
-import { PlanService } from '../../../../services/plan';
+import { planExcludeService } from '../../../../modules/plan-exclude/plan-exclude.service';
 
 export async function handler(
-  ctx: IRequestContext<CancelPlanServiceParams & { planId: string }, true>
+  ctx: IRequestContext<{ planId: string; exclusionDate: string }, true>
 ): Promise<IResponse<INoContent>> {
-  const { planId, ...params } = ctx.params;
-  await PlanService.cancelPlan(ctx, planId, params);
+  const {
+    projectId,
+    userId,
+    params: { planId, exclusionDate },
+  } = ctx;
+  await planExcludeService.cancelPlan(ctx, projectId, userId, planId, exclusionDate);
 
   return {
     body: {

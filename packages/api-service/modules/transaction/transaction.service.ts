@@ -15,6 +15,7 @@ import { Transaction } from './models/transaction';
 import { cashFlowItemRepository } from '../cash-flow-item/cash-flow-item.repository';
 import { cashFlowItemService } from '../cash-flow-item/cash-flow-item.service';
 import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
+import { planExcludeService } from '../plan-exclude/plan-exclude.service';
 import { transactionMapper } from './transaction.mapper';
 import { transactionRepository } from './transaction.repository';
 
@@ -62,6 +63,7 @@ class TransactionServiceImpl implements TransactionService {
       isNotConfirmed,
       note,
       tags,
+      planId,
     } = data;
 
     let _cashFlowId: string | null = cashFlowId;
@@ -87,6 +89,10 @@ class TransactionServiceImpl implements TransactionService {
       note,
       tags,
     });
+
+    if (planId) {
+      await planExcludeService.usePlan(ctx, projectId, userId, planId, transactionDate);
+    }
 
     return this.getTransaction(ctx, projectId, cashFlowItem.id);
   }
