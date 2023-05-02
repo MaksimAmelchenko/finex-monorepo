@@ -14,8 +14,7 @@ module.exports = {
   },
   AccountDailyBalances: {
     'in original currency': 'in original currency',
-    Total: 'Total',
-    'Daily Balance': 'Daily Balance',
+    'Daily balance including planned transactions': 'Daily balance including planned transactions',
     Today: 'Today',
   },
   AccountMenu: {

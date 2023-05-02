@@ -128,8 +128,7 @@ class AccountRepositoryImpl implements AccountRepository {
                         ab.account_id,
                         ab.amount_in,
                         ab.amount_out
-                   from p,
-                        cf$_account.account_balance_with_plan(:projectId::int, :userId::int, :endDate::date) ab
+                   from cf$_account.account_balance_with_plan(:projectId::int, :userId::int, :endDate::date) ab
                           join cf$.money m
                                on (m.id_project = ab.project_id
                                  and m.id_money = ab.money_id)
@@ -202,22 +201,6 @@ class AccountRepositoryImpl implements AccountRepository {
                   group by b.balance_date,
                            b.account_id
                ),
-               -- add total chart for all accounts for each currency
-               ot as (
-                 select o.money_id,
-                        o.balance_date,
-                        o.account_id,
-                        o.amount
-                   from o
-                  union all
-                 select o.money_id,
-                        o.balance_date,
-                        0 as account_id,
-                        sum(o.amount) as amount
-                   from o
-                  group by o.balance_date,
-                           o.money_id
-               ),
                ofl as (
                  select money_id,
                         balance_date,
@@ -225,21 +208,29 @@ class AccountRepositoryImpl implements AccountRepository {
                         amount,
                         lag(amount) over (partition by money_id, account_id order by balance_date) prev_amount,
                         lead(amount) over (partition by money_id, account_id order by balance_date) next_amount
-                   from ot
+                   from o
+               ),
+               account_balances as (
+                 select ofl.money_id,
+                        ofl.account_id,
+                        json_agg(json_build_object(
+                          'date', to_char(ofl.balance_date, 'YYYY-MM-DD'),
+                          'amount', ofl.amount)) as balances
+                   from ofl
+                        -- delete redundant information
+                  where ofl.prev_amount is null
+                     or ofl.next_amount is null
+                     or ofl.prev_amount != ofl.amount
+                     or ofl.next_amount != ofl.amount
+                  group by ofl.money_id,
+                           ofl.account_id
                )
-               -- delete redundant information
-        select ofl.money_id::text as "moneyId",
-               to_char(ofl.balance_date, 'YYYY-MM-DD') as "balanceDate",
-               ofl.account_id::text as "accountId",
-               ofl.amount
-          from ofl
-         where ofl.next_amount is null
-            or ofl.prev_amount is null
-            or ofl.next_amount != ofl.amount
-            or ofl.prev_amount != ofl.amount
-         order by ofl.money_id,
-                  ofl.balance_date,
-                  ofl.account_id
+        select money_id::text as "moneyId",
+               json_agg(json_build_object(
+                 'accountId', account_id::text,
+                 'balances', balances)) as accounts
+          from account_balances
+         group by money_id
       `,
       {
         projectId: Number(projectId),

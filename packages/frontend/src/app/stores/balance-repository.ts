@@ -208,15 +208,20 @@ export class BalanceRepository extends ManageableStore {
     const accountsRepository = this.getStore(AccountsRepository);
     const moneysRepository = this.getStore(MoneysRepository);
 
-    return dailyBalances.map(({ moneyId, balanceDate, accountId, amount }) => {
-      const account = accountId ? accountsRepository.get(accountId)! : null;
-      const money = moneysRepository.get(moneyId)!;
+    return dailyBalances.map(dailyBalanceDTO => {
+      const money = moneysRepository.get(dailyBalanceDTO.moneyId)!;
+      const accounts = dailyBalanceDTO.accounts.map(accountDTO => {
+        const account = accountsRepository.get(accountDTO.accountId)!;
+        const balances = accountDTO.balances.map(({ date, amount }) => ({ date, amount }));
+        return {
+          account,
+          balances,
+        };
+      });
 
       return {
         money,
-        balanceDate,
-        account,
-        amount,
+        accounts,
       };
     });
   }

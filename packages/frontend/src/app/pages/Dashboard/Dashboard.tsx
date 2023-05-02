@@ -18,9 +18,8 @@ export const Dashboard = observer(() => {
       <main className={styles.root__dashboard}>
         <div className={styles.root__balances}>
           <AccountBalances />
-
-          <DebtBalances />
         </div>
+
         <div className={styles.root__charts}>
           <AccountDailyBalances />
         </div>

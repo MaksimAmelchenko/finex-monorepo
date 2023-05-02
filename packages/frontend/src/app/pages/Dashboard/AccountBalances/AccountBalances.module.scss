@@ -1,6 +1,25 @@
 @use 'packages/theme/src/lib/styles/typography';
 
 .root {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-radius: 0.4rem;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-white);
+
+  &__header {
+    border-bottom: 0.5px solid var(--color-gray-200);
+  }
+
+  &__content {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+
   &__totalCard {
     border-bottom: 0.5px solid var(--color-gray-200);
   }
@@ -12,6 +31,7 @@
   &__accountTypeBalanceCard {
     cursor: pointer;
   }
+
 }
 
 .header {
@@ -32,9 +52,4 @@
     display: inline-flex;
     gap: 1.6rem;
   }
-}
-
-.accountBalances {
-  border-radius: 0.4rem;
-  background-color: var(--color-white);
 }

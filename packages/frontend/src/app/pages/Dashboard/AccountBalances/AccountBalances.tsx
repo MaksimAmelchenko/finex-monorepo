@@ -20,6 +20,7 @@ import {
 } from '@finex/ui-kit';
 import { BalanceCard } from '../../OutcomeMobile/BalanceCard/BalanceCard';
 import { BalanceRepository } from '../../../stores/balance-repository';
+import { DebtBalances } from '../DebtBalances/DebtBalances';
 import { IMoney } from '../../../types/money';
 import { Loader } from '../../../components/Loader/Loader';
 import { MoneysRepository } from '../../../stores/moneys-repository';
@@ -104,8 +105,8 @@ export const AccountBalances = observer(() => {
   const balanceDate = isToday(date) ? t('today') : formatDate(date.toISOString());
 
   return (
-    <section className={clsx(styles.accountBalances)}>
-      <div className={clsx(styles.accountBalances__header, styles.header)}>
+    <section className={clsx(styles.root)}>
+      <div className={clsx(styles.root__header, styles.header)}>
         <h2 className={styles.header__title}>
           {t('Balance')}
           <div className={styles.header__date}>
@@ -127,40 +128,44 @@ export const AccountBalances = observer(() => {
         </div>
       </div>
 
-      {!balanceRepository.balancesLoadState.isDone() ? (
-        <Loader />
-      ) : (
-        <>
-          <BalanceCard
-            icon={coinsStacked03Svg}
-            title={t('Total')}
-            balances={balanceRepository.totalBalance}
-            className={styles.root__totalCard}
-          />
+      <div className={styles.root__content}>
+        {!balanceRepository.balancesLoadState.isDone() ? (
+          <Loader />
+        ) : (
+          <>
+            <BalanceCard
+              icon={coinsStacked03Svg}
+              title={t('Total')}
+              balances={balanceRepository.totalBalance}
+              className={styles.root__totalCard}
+            />
 
-          {accountTypeBalances.map(({ accountType, balances, accountBalances }) => {
-            const isExpanded = openedAccordionIds.includes(accountType.id);
-            return (
-              <div className={styles.root__accountTypeBalancePanel} key={accountType.id}>
-                <BalanceCard
-                  icon={accountTypeIconMap[accountType.id] ?? coinsStacked03Svg}
-                  title={accountType.name}
-                  isAccordion
-                  isExpanded={isExpanded}
-                  balances={balances}
-                  onClick={toggleAccordion(accountType.id)}
-                  className={styles.root__accountTypeBalanceCard}
-                />
-                <Accordion isExpanded={isExpanded}>
-                  {accountBalances.map(({ account, balances }) => {
-                    return <BalanceCard title={account.name} balances={balances} key={account.id} />;
-                  })}
-                </Accordion>
-              </div>
-            );
-          })}
-        </>
-      )}
+            {accountTypeBalances.map(({ accountType, balances, accountBalances }) => {
+              const isExpanded = openedAccordionIds.includes(accountType.id);
+              return (
+                <div className={styles.root__accountTypeBalancePanel} key={accountType.id}>
+                  <BalanceCard
+                    icon={accountTypeIconMap[accountType.id] ?? coinsStacked03Svg}
+                    title={accountType.name}
+                    isAccordion
+                    isExpanded={isExpanded}
+                    balances={balances}
+                    onClick={toggleAccordion(accountType.id)}
+                    className={styles.root__accountTypeBalanceCard}
+                  />
+                  <Accordion isExpanded={isExpanded}>
+                    {accountBalances.map(({ account, balances }) => {
+                      return <BalanceCard title={account.name} balances={balances} key={account.id} />;
+                    })}
+                  </Accordion>
+                </div>
+              );
+            })}
+
+            <DebtBalances />
+          </>
+        )}
+      </div>
     </section>
   );
 });

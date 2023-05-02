@@ -14,8 +14,7 @@ module.exports = {
   },
   AccountDailyBalances: {
     'in original currency': 'в исходной валюте',
-    Total: 'Всего',
-    'Daily Balance': 'Дневной остаток',
+    'Daily balance including planned transactions': 'Ежедневный баланс с учетом запланированных операций',
     Today: 'Сегодня',
   },
   AccountMenu: {
@@ -935,7 +934,7 @@ module.exports = {
     Category: 'Категория',
     Income: 'Доход',
     Expense: 'Расход',
-    Amount: 'Amount',
+    Amount: 'Сумма',
     Note: 'Примечание',
     'Total for selected transactions:': 'Итого по выделенным операциям:',
   },

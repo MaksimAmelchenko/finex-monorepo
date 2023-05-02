@@ -41,16 +41,24 @@ export interface IGetDailyBalanceResponse {
 
 export interface IDailyBalanceDTO {
   moneyId: string;
-  balanceDate: TDate;
-  accountId: string;
-  amount: number;
+  accounts: Array<{
+    accountId: string;
+    balances: Array<{
+      date: TDate;
+      amount: number;
+    }>;
+  }>;
 }
 
 export interface IDailyBalance {
   money: Money;
-  balanceDate: TDate;
-  account: Account | null;
-  amount: number;
+  accounts: Array<{
+    account: Account;
+    balances: Array<{
+      date: TDate;
+      amount: number;
+    }>;
+  }>;
 }
 
 export interface IAccountBalances {

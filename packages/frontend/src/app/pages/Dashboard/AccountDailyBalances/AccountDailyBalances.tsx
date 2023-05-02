@@ -1,42 +1,27 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { PointTooltipProps, ResponsiveLine } from '@nivo/line';
-import { linearGradientDef } from '@nivo/core';
 import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
+import { LineSeriesOption } from 'echarts/charts';
 
 import { BalanceRepository } from '../../../stores/balance-repository';
 import { IAccount } from '../../../types/account';
 import { IMoney } from '../../../types/money';
 import { InlineDateRangePicker, InlineSelect, IOption } from '@finex/ui-kit';
-import { Loader } from '../../../components/Loader/Loader';
 import { MoneysRepository } from '../../../stores/moneys-repository';
 import { ParamsStore } from '../../../stores/params-store';
 import { ProjectsRepository } from '../../../stores/projects-repository';
-import { TDate, TDateTime } from '../../../types';
-import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
+import { TDate } from '../../../types';
+import { colors, ECharts } from '../../../components/ECharts/ECharts';
+import { formatDate, getT } from '../../../lib/core/i18n';
+import { tooltipFormatter, transformAccountsBalances } from './helpers';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './AccountDailyBalances.module.scss';
 
+type Amount = number;
+
 const t = getT('AccountDailyBalances');
-
-function Tooltip({ point }: PointTooltipProps): JSX.Element {
-  const {
-    serieId,
-    data: { xFormatted, yFormatted },
-  } = point;
-
-  return (
-    <div className={styles.tooltip}>
-      <div className={styles.tooltip__name}>{serieId}</div>
-      <div className={styles.tooltip__date}>{formatDate(xFormatted as TDateTime)}</div>
-      <div className={styles.tooltip__amount}>{yFormatted}</div>
-    </div>
-  );
-}
-
-type AccountMap = Map<IAccount | null, { account: IAccount | null; data: { x: TDateTime; y: number }[] }>;
 
 export const AccountDailyBalances = observer(() => {
   const balanceRepository = useStore(BalanceRepository);
@@ -72,70 +57,75 @@ export const AccountDailyBalances = observer(() => {
     ];
   }, [moneysRepository.moneys]);
 
-  const dataByMoney: { money: IMoney; series: { id: string; data: { x: TDate; y: number }[] }[] }[] = useMemo(() => {
+  const sourceByMoney: Array<{
+    money: IMoney;
+    accounts: IAccount[];
+    dataset: {
+      dimensions: string[];
+      source: Array<Array<TDate | Amount>>;
+    };
+  }> = useMemo(() => {
     if (!dailyBalances.length) {
       return [];
     }
-    const obj = new Map<
-      IMoney,
-      {
-        money: IMoney;
-        accountMap: AccountMap;
-      }
-    >();
 
-    dailyBalances
+    /*
+    [
+      {
+        money: ...
+        accounts: [...]
+        dataset: {
+          dimensions: ['date', [account.id], [account.id], [account.id], [account.id], [account.id]]
+          source: [
+            ["2023-01-01", 1.2, 0, 1, 1.52, 1.6]
+            ["2023-01-02", 1.5, 1, 2, 1.5, 1.3]
+            ...
+            ["2023-21-31", 2.5, 1, -1, 1.5, 0]
+          ]
+        }
+      },
+      ...
+    ]
+    */
+
+    return dailyBalances
       .slice()
       .sort((a, b) => moneysRepository.moneys.indexOf(a.money) - moneysRepository.moneys.indexOf(b.money))
+      .reduce<any>((acc, dailyBalance) => {
+        const accountsBalances = dailyBalance.accounts.filter(
+          ({ account, balances }) =>
+            balances.length > 2 || (balances.length === 2 && balances[0].amount !== 0 && balances[1].amount !== 0)
+        );
+        if (accountsBalances.length) {
+          const accounts = accountsBalances.map(({ account }) => account);
 
-      .forEach(({ money, account, balanceDate, amount }) => {
-        if (!obj.has(money)) {
-          obj.set(money, {
-            money,
-            accountMap: new Map(),
+          acc.push({
+            money: dailyBalance.money,
+            accounts,
+            dataset: {
+              dimensions: ['date', ...accounts.map(account => account.id)],
+              source: transformAccountsBalances(accountsBalances),
+            },
           });
         }
 
-        if (!obj.get(money)!.accountMap.has(account)) {
-          obj.get(money)!.accountMap.set(account, {
-            account,
-            data: [],
-          });
-        }
-
-        obj.get(money)!.accountMap.get(account)!.data.push({ x: balanceDate, y: amount });
-      });
-
-    return Array.from(obj.values()).map(({ money, accountMap }) => {
-      return {
-        money,
-        series: Array.from(accountMap.values())
-          .filter(({ data }) => data.length > 2 || (data.length === 2 && data[0].y !== 0 && data[1].y !== 0))
-          .map(({ account, data }) => ({
-            id: account ? account.name : t('Total'),
-            data,
-          })),
-      };
-    });
+        return acc;
+      }, []);
   }, [dailyBalances, moneysRepository.moneys]);
 
   return (
-    <section className={styles.container}>
-      <div className={clsx(styles.accountDailyBalances__header, styles.header)}>
-        <h2 className={styles.header__title}>
-          {t('Daily Balance')}
-
-          <div className={styles.header__date}>
-            <InlineDateRangePicker
-              values={range}
-              labels={[formatDate(range[0].toISOString()), formatDate(range[1].toISOString())]}
-              onChange={setRange}
-              todayButton={t('Today')}
-            />
-          </div>
-        </h2>
+    <section className={styles.root}>
+      <div className={clsx(styles.root__header, styles.header)}>
+        <h2 className={styles.header__title}>{t('Daily balance including planned transactions')}</h2>
 
         <div className={styles.header__options}>
+          <InlineDateRangePicker
+            values={range}
+            labels={[formatDate(range[0].toISOString()), formatDate(range[1].toISOString())]}
+            onChange={setRange}
+            todayButton={t('Today')}
+          />
+
           <InlineSelect
             label={moneysOptions.find(option => option.value === (selectedMoney ? selectedMoney.id : 'null'))!.label}
             options={moneysOptions}
@@ -143,84 +133,135 @@ export const AccountDailyBalances = observer(() => {
           />
         </div>
       </div>
-      {!dailyBalancesLoadState.isDone() ? (
-        <Loader />
-      ) : (
-        <>
-          {dataByMoney.map(({ money, series }) => {
-            return (
-              <article className={styles.chart} key={money.id}>
-                <ResponsiveLine
-                  // margin={{ top: 24, right: 24, bottom: 56, left: 24 }}
-                  margin={{ top: 0, right: 32, bottom: 56, left: 80 }}
-                  data={series}
-                  animate
-                  useMesh
-                  xScale={{
-                    type: 'time',
-                    format: '%Y-%m-%d',
-                    useUTC: false,
-                    precision: 'day',
+      <div className={styles.root__content}>
+        {sourceByMoney.map(({ money, accounts, dataset: { dimensions, source } }) => {
+          // check is there series with negative values
+          const isNegative = source.some(row => row.some((value, index) => index > 0 && value < 0));
+
+          return (
+            <article className={styles.chart} key={`${money.id}${isNegative}`}>
+              <h4 className={styles.chart__title}>
+                {money.name}, {money.symbol}
+              </h4>
+              <main className={clsx(styles.chart__main, isNegative && styles.chart__main_negative)}>
+                <ECharts
+                  loading={!dailyBalancesLoadState.isDone()}
+                  option={{
+                    legend: {
+                      padding: [0, 0, 0, 0],
+                    },
+                    grid: isNegative
+                      ? [
+                          { bottom: '55%', right: '12px' },
+                          { top: '55%', right: '12px' },
+                        ]
+                      : [{ right: '12px' }],
+                    xAxis: isNegative
+                      ? [
+                          { type: 'time', gridIndex: 0 },
+                          { type: 'time', gridIndex: 1 },
+                        ]
+                      : [{ type: 'time' }],
+                    yAxis: isNegative
+                      ? [
+                          { gridIndex: 0, type: 'value' },
+                          { gridIndex: 1, type: 'value' },
+                        ]
+                      : [{ type: 'value' }],
+                    dataZoom: isNegative
+                      ? [
+                          { type: 'inside', xAxisIndex: [0, 1] },
+                          { type: 'slider', xAxisIndex: [0, 1] },
+                        ]
+                      : [{ type: 'inside' }, { type: 'slider' }],
+                    tooltip: {
+                      trigger: 'axis',
+                      axisPointer: {
+                        type: 'cross',
+                      },
+                      formatter: tooltipFormatter,
+                    },
+                    axisPointer: {
+                      link: [{ xAxisIndex: 'all' }],
+                    },
+                    dataset: [
+                      {
+                        dimensions,
+                        source,
+                      },
+                      {
+                        dimensions,
+                        // leave only positive values
+                        source: source.map(row =>
+                          row.map((_, index) => (index === 0 ? row[index] : row[index] > 0 ? row[index] : 0))
+                        ),
+                      },
+                      {
+                        dimensions,
+                        // leave only negative values
+                        source: source.map(row =>
+                          row.map((_, index) => (index === 0 ? row[index] : row[index] < 0 ? row[index] : 0))
+                        ),
+                      },
+                    ],
+
+                    series: [
+                      ...accounts.map<LineSeriesOption>(({ id, name }, index) => {
+                        return {
+                          type: 'line',
+                          name,
+                          symbol: 'none',
+                          stack: 'positive',
+                          step: 'end',
+                          lineStyle: {
+                            width: 1,
+                          },
+                          areaStyle: {},
+                          emphasis: {
+                            focus: 'series',
+                          },
+                          encode: {
+                            x: 'date',
+                            y: id,
+                          },
+                          datasetIndex: 1,
+                        };
+                      }),
+                      // generate next series only if there are negative values
+                      ...(isNegative
+                        ? accounts.map<LineSeriesOption>(({ id, name }, index) => {
+                            return {
+                              type: 'line',
+                              name,
+                              xAxisIndex: 1,
+                              yAxisIndex: 1,
+                              symbol: 'none',
+                              stack: 'negative',
+                              step: 'end',
+                              lineStyle: {
+                                width: 1,
+                              },
+                              areaStyle: {},
+                              emphasis: {
+                                focus: 'series',
+                              },
+                              encode: {
+                                x: 'date',
+                                y: id,
+                              },
+                              datasetIndex: 2,
+                            };
+                          })
+                        : []),
+                    ],
+                    color: colors,
                   }}
-                  xFormat="time:%Y-%m-%d"
-                  yFormat={value => toCurrency(value as number, money.precision)}
-                  yScale={{
-                    type: 'linear',
-                    stacked: false,
-                    min: 'auto',
-                  }}
-                  axisLeft={{
-                    legend: money.name,
-                    legendOffset: 8,
-                  }}
-                  axisBottom={{
-                    format: '%b %d',
-                    tickValues: 'every 1 month',
-                    legendOffset: -12,
-                  }}
-                  curve="linear"
-                  pointSize={0}
-                  tooltip={Tooltip}
-                  // legends={[
-                  //   {
-                  //     anchor: 'bottom-right',
-                  //     direction: 'column',
-                  //     justify: false,
-                  //     translateX: 100,
-                  //     translateY: 0,
-                  //     itemsSpacing: 0,
-                  //     itemDirection: 'left-to-right',
-                  //     itemWidth: 80,
-                  //     itemHeight: 20,
-                  //     itemOpacity: 0.75,
-                  //     symbolSize: 12,
-                  //     symbolShape: 'circle',
-                  //     symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                  //     effects: [
-                  //       {
-                  //         on: 'hover',
-                  //         style: {
-                  //           itemBackground: 'rgba(0, 0, 0, .03)',
-                  //           itemOpacity: 1,
-                  //         },
-                  //       },
-                  //     ],
-                  //   },
-                  // ]}
-                  enableArea={true}
-                  defs={[
-                    linearGradientDef('gradientA', [
-                      { offset: 0, color: 'inherit' },
-                      { offset: 40, color: 'inherit', opacity: 0 },
-                    ]),
-                  ]}
-                  fill={[{ match: '*', id: 'gradientA' }]}
                 />
-              </article>
-            );
-          })}
-        </>
-      )}
+              </main>
+            </article>
+          );
+        })}
+      </div>
     </section>
   );
 });
