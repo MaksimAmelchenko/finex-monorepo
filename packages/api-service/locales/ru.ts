@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   defaults: {
     projectName: 'Мои финансы',
     accountName: 'Наличные',

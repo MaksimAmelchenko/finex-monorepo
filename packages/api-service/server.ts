@@ -62,9 +62,9 @@ import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
 import { currencyApi } from './api/v2/currency';
 
-import * as de from './locales/de';
-import * as en from './locales/en';
-import * as ru from './locales/ru';
+import de  from './locales/de';
+import en from './locales/en';
+import ru from './locales/ru';
 
 const locales = config.get('locales');
 
@@ -169,7 +169,7 @@ i18n.configure({
     ru,
     en,
     de,
-  },
+  } as any,
 });
 
 if (require.main === module) {
