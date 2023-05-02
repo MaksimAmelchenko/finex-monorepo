@@ -34,6 +34,7 @@ describe('SignUp', function (): void {
     email: username,
     password,
     isAcceptTerms: true,
+    locale: 'en',
   };
 
   let token: string;
@@ -68,6 +69,7 @@ describe('SignUp', function (): void {
   it('should create sign-up request', async () => {
     const response: supertest.Response = await request
       .post(`/v2/sign-up`)
+      .set({ origin: 'https://app.finex.io' })
       .send(signUpRequest)
       .expect('Content-Type', /json/)
       .expect(StatusCodes.OK);
@@ -94,7 +96,7 @@ describe('SignUp', function (): void {
     transactionalEmail = await getLastTransactionalEmail(ctx, signUpRequest.email, 60);
 
     token = transactionalEmail.originalMessage.html.match(
-      /\>https:\/\/app.finex.io\/sign-up\/confirmation\?token=(.*)\<\/a>/
+      /\>https:\/\/app.finex.io\/sign-up\/confirmation\?token=(.*)&amp;locale=en\<\/a>/
     )[1];
     if (!token) {
       throw new Error('Token is not found in email');
@@ -106,6 +108,10 @@ describe('SignUp', function (): void {
 
     const response: supertest.Response = await request
       .post(`/v2/sign-up/${signUpRequestId}/resend-confirmation`)
+      .send({
+        locale: 'en'
+      })
+      .set({ origin: 'https://app.finex.io' })
       .expect('Content-Type', /json/)
       .expect(StatusCodes.OK);
 
@@ -116,7 +122,7 @@ describe('SignUp', function (): void {
     expect(transactionalEmailAgain.messageId).be.not.equal(transactionalEmail.messageId);
 
     const tokenAgain = transactionalEmailAgain.originalMessage.html.match(
-      /\>https:\/\/app.finex.io\/sign-up\/confirmation\?token=(.*)\<\/a>/
+      /\>https:\/\/app.finex.io\/sign-up\/confirmation\?token=(.*)&amp;locale=en\<\/a>/
     )[1];
 
     if (!tokenAgain) {
