@@ -75,7 +75,7 @@ describe('PlanTransaction', function (): void {
       const data: CreatePlanTransactionAPIData = {
         sign: -1,
         amount: 100,
-        moneyId: moneys[0].moneyId,
+        moneyId: moneys[0].id,
         categoryId: String(categories[0].idCategory),
         accountId: String(accounts[0].idAccount),
         startDate: format(new Date(), 'yyyy-MM-dd'),
@@ -107,7 +107,7 @@ describe('PlanTransaction', function (): void {
       const data: CreatePlanTransactionAPIData = {
         sign: -1,
         amount: 100,
-        moneyId: moneys[0].moneyId,
+        moneyId: moneys[0].id,
         categoryId: String(categories[0].idCategory),
         accountId: String(accounts[0].idAccount),
         startDate: format(new Date(), 'yyyy-MM-dd'),
@@ -139,7 +139,7 @@ describe('PlanTransaction', function (): void {
       const data: CreatePlanTransactionAPIData = {
         sign: -1,
         amount: 100,
-        moneyId: moneys[0].moneyId,
+        moneyId: moneys[0].id,
         categoryId: String(categories[0].idCategory),
         accountId: String(accounts[0].idAccount),
         startDate: format(new Date(), 'yyyy-MM-dd'),
@@ -171,7 +171,7 @@ describe('PlanTransaction', function (): void {
       const data: CreatePlanTransactionAPIData = {
         sign: -1,
         amount: 100,
-        moneyId: moneys[0].moneyId,
+        moneyId: moneys[0].id,
         categoryId: String(categories[0].idCategory),
         accountId: String(accounts[0].idAccount),
         startDate: format(new Date(), 'yyyy-MM-dd'),
@@ -204,7 +204,7 @@ describe('PlanTransaction', function (): void {
       const data: CreatePlanTransactionAPIData = {
         sign: -1,
         amount: 100,
-        moneyId: moneys[0].moneyId,
+        moneyId: moneys[0].id,
         categoryId: String(categories[0].idCategory),
         accountId: String(accounts[0].idAccount),
         startDate: format(new Date(), 'yyyy-MM-dd'),
@@ -247,7 +247,7 @@ describe('PlanTransaction', function (): void {
       const data: CreatePlanTransactionAPIData = {
         sign: -1,
         amount: 100,
-        moneyId: moneys[0].moneyId,
+        moneyId: moneys[0].id,
         categoryId: String(categories[0].idCategory),
         accountId: String(accounts[0].idAccount),
         startDate: format(new Date(), 'yyyy-MM-dd'),

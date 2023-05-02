@@ -62,9 +62,9 @@ import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
 import { currencyApi } from './api/v2/currency';
 
-import * as de from './locales/de';
-import * as en from './locales/en';
-import * as ru from './locales/ru';
+import de  from './locales/de';
+import en from './locales/en';
+import ru from './locales/ru';
 
 const locales = config.get('locales');
 
@@ -161,21 +161,21 @@ app.use(async (ctx, next) => {
 });
 //
 
+i18n.configure({
+  locales,
+  defaultLocale: locales[0],
+  objectNotation: true,
+  staticCatalog: {
+    ru,
+    en,
+    de,
+  } as any,
+});
+
 if (require.main === module) {
   const port: number = config.get('port');
   const http = require('http');
   const server = http.createServer(app.callback());
-
-  i18n.configure({
-    locales,
-    defaultLocale: locales[0],
-    objectNotation: true,
-    staticCatalog: {
-      ru,
-      en,
-      de,
-    },
-  });
 
   gracefulShutdown(server, {
     log,

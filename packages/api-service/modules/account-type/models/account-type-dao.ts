@@ -1,11 +1,11 @@
 import { JSONSchema, Model, Validator } from 'objection';
 
-import { IAccountType } from '../types';
+import { IAccountTypeDAO } from '../types';
 import { accountTypeDAOSchema } from './account-type-dao.schema';
 import { ajvValidator } from '../../../libs/ajv';
 import { TI18nField } from '../../../types/app';
 
-export class AccountTypeDAO extends Model implements IAccountType {
+export class AccountTypeDAO extends Model implements IAccountTypeDAO {
   static tableName = 'cf$.account_type';
   static jsonSchema = accountTypeDAOSchema as JSONSchema;
   static jsonAttributes = ['name'];

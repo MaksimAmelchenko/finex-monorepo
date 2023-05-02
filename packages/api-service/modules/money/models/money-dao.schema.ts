@@ -32,5 +32,5 @@ export const moneyDAOSchema: OpenAPIV3_1.SchemaObject = {
     },
   },
   additionalProperties: false,
-  required: ['idProject', 'currencyCode', 'name', 'symbol', 'isEnabled'],
+  required: ['idProject', 'name', 'symbol', 'isEnabled'],
 };

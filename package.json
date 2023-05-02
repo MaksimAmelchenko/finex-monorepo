@@ -1,6 +1,6 @@
 {
   "name": "finex-monorepo",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "author": "Maksim Amelchenko <m.amelchenko@gmail.com>",
   "description": "",
   "scripts": {
@@ -97,5 +97,8 @@
     "react-textarea-autosize": "^8.4.0",
     "regenerator-runtime": "^0.13.9",
     "yup": "^0.32.11"
+  },
+  "optionalDependencies": {
+    "@nrwl/nx-linux-x64-musl": "^15.9.3"
   }
 }
