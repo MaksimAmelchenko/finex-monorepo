@@ -16,7 +16,7 @@ const locales = [Locale.Ru, Locale.En, Locale.De];
 const searchParams = new URLSearchParams(window.location.search);
 const locale = searchParams.get('locale') as Locale | null;
 
-const defaultLocale = 'en';
+const defaultLocale = 'ru';
 const currentLocale: Locale =
   locale && locales.includes(locale) ? locale : (window.localStorage.getItem('locale') as Locale) ?? locales[0];
 
