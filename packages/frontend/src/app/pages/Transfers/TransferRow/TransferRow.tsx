@@ -46,16 +46,12 @@ export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) =>
       </td>
 
       <td className="text-end numeric">
-        <div>{toCurrency(amount, money.precision)}</div>
+        <div>{toCurrency(amount, { unit: money.symbol, precision: money.precision })}</div>
       </td>
 
-      <td className="currency">
-        <div dangerouslySetInnerHTML={{ __html: money.symbol }} />
+      <td className="text-end numeric">
+        {fee && moneyFee && <div>{toCurrency(fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}</div>}
       </td>
-
-      <td className="text-end numeric">{fee && moneyFee && <div>{toCurrency(fee, moneyFee.precision)}</div>}</td>
-
-      <td className="currency">{moneyFee && <div dangerouslySetInnerHTML={{ __html: moneyFee.symbol }} />}</td>
 
       <td className="hidden-sm min-width">{note}</td>
       <td className="hidden-sm min-width">

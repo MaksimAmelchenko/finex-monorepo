@@ -226,7 +226,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
                   <th style={{ paddingLeft: '1.6rem' }}>{t('Date')}</th>
                   <th>{t('Account')}</th>
                   <th>{t('Category')}</th>
-                  <th colSpan={2}>{t('Amount')}</th>
+                  <th>{t('Amount')}</th>
                   <th className="hidden-sm">{t('Note')}</th>
                   <th className="hidden-sm">{t('Tags')}</th>
                 </tr>

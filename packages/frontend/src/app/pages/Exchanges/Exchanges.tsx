@@ -228,10 +228,10 @@ export const Exchanges = observer(() => {
                 <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
                 <th>{t('Sell account')}</th>
                 <th>{t('Buy account')}</th>
-                <th colSpan={2}>{t('Sell')}</th>
-                <th colSpan={2}>{t('Buy')}</th>
+                <th>{t('Sell')}</th>
+                <th>{t('Buy')}</th>
                 <th>{t('Rate')}</th>
-                <th colSpan={2}>{t('Fee')}</th>
+                <th>{t('Fee')}</th>
                 <th className="hidden-sm">{t('Note')}</th>
                 <th className="hidden-sm">{t('Tags')}</th>
               </tr>

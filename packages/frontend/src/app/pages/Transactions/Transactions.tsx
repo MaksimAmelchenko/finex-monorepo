@@ -268,15 +268,9 @@ export const Transactions = observer(() => {
                 </th>
                 <th>{t('Category')}</th>
 
-                <th className="hidden-sm hidden-md" colSpan={2}>
-                  {t('Income')}
-                </th>
-                <th className="hidden-sm hidden-md" colSpan={2}>
-                  {t('Expense')}
-                </th>
-                <th className="hidden-lg" colSpan={2}>
-                  {t('Amount')}
-                </th>
+                <th className="hidden-sm hidden-md">{t('Income')}</th>
+                <th className="hidden-sm hidden-md">{t('Expense')}</th>
+                <th className="hidden-lg">{t('Amount')}</th>
                 <th>{t('Note')}</th>
                 <th>{t('Tags')}</th>
               </tr>
@@ -295,27 +289,22 @@ export const Transactions = observer(() => {
                 <td colSpan={3}>{t('Total for selected transactions:')}</td>
                 <td className="text-end numeric">
                   {balancesBySelectedTransactions.map(({ money, income }) => {
-                    return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
-                  })}
-                </td>
-
-                <td className="currency">
-                  {balancesBySelectedTransactions.map(({ money, income }) => {
-                    return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                    return income ? (
+                      <div key={money.id}>{toCurrency(income, { unit: money.symbol, precision: money.precision })}</div>
+                    ) : null;
                   })}
                 </td>
 
                 <td className="text-end numeric">
                   {balancesBySelectedTransactions.map(({ money, expense }) => {
-                    return expense ? <div key={money.id}>{toCurrency(-expense, money.precision)}</div> : null;
+                    return expense ? (
+                      <div key={money.id}>
+                        {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                      </div>
+                    ) : null;
                   })}
                 </td>
 
-                <td className="currency">
-                  {balancesBySelectedTransactions.map(({ money, expense }) => {
-                    return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
-                  })}
-                </td>
                 <td />
                 <td />
               </tr>

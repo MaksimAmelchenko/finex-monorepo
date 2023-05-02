@@ -23,7 +23,7 @@ export function Pagination({ count, offset, total, onPreviousPage, onNextPage }:
   return (
     <div className={styles.pagination}>
       <span className={styles.pagination__label}>
-        {toNumber(offset + 1)}–{toNumber(offset + count)} {t('of')} {toNumber(total)}
+        {toNumber(offset + 1, { precision: 0 })}–{toNumber(offset + count, { precision: 0 })} {t('of')} {toNumber(total, { precision: 0 })}
       </span>
       <div className={styles.pagination__buttons}>
         <IconButton onClick={onPreviousPage} size="small" disabled={offset === 0}>

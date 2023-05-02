@@ -344,14 +344,14 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
           <FormDateField
             name="transactionDate"
             label={t('Date')}
-            dateFormat={getFormat('date.formats.default')}
+            dateFormat={getFormat('date.format.default')}
             className={styles.dateFields__date}
           />
           <div className={styles.reportPeriod}>
             <FormDateField
               name="reportPeriod"
               label={t('Period')}
-              dateFormat={getFormat('date.formats.month')}
+              dateFormat={getFormat('date.format.month')}
               showMonthYearPicker
               className={styles.reportPeriod__input}
             />

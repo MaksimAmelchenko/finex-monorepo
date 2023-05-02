@@ -93,7 +93,7 @@ export const DebtsMobile = observer(() => {
           return (
             <Fragment key={debtsByDate.date}>
               <div className={styles.section__header}>
-                {formatDate(debtsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                {formatDate(debtsByDate.date, 'date.format.fullDateWithDayOfWeek')}
               </div>
               <div className={styles.section__content}>
                 {debtsByDate.debts.map(debt => (

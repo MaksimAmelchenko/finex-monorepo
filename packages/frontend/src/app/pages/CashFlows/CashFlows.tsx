@@ -228,9 +228,9 @@ export const CashFlows = observer(() => {
                   {t('Counterparty')}
                 </th>
                 <th>{t('Categories')}</th>
-                <th colSpan={2}>{t('Income')}</th>
-                <th colSpan={2}>{t('Expense')}</th>
-                <th colSpan={2}>{t('Balance')}</th>
+                <th>{t('Income')}</th>
+                <th>{t('Expense')}</th>
+                <th>{t('Balance')}</th>
                 <th className="hidden-sm">{t('Note')}</th>
                 <th className="hidden-sm">{t('Tags')}</th>
               </tr>

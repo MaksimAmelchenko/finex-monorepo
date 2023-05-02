@@ -58,7 +58,7 @@ export function TransferCard({ transfer, onClick }: TransferCardProps) {
               <div className={styles.mainContent__accountName}>{accountFrom.name}</div>
             </div>
             <div className={styles.mainContent__amount}>
-              {toCurrency(amount, money.precision)} <span dangerouslySetInnerHTML={{ __html: money.symbol }} />
+              {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
             </div>
           </div>
 
@@ -68,7 +68,7 @@ export function TransferCard({ transfer, onClick }: TransferCardProps) {
                 {accountFee.name}
               </div>
               <div className={clsx(styles.mainContent__amount, styles.mainContent__amount_fee)}>
-                {toCurrency(-fee, moneyFee.precision)} <span dangerouslySetInnerHTML={{ __html: moneyFee.symbol }} />
+                {toCurrency(-fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}
               </div>
             </div>
           )}

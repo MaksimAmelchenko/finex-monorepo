@@ -251,7 +251,7 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
             return (
               <Fragment key={cashFlowItemsByDate.date}>
                 <div className={styles.section__header}>
-                  {formatDate(cashFlowItemsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                  {formatDate(cashFlowItemsByDate.date, 'date.format.fullDateWithDayOfWeek')}
                 </div>
                 <div className={styles.section__content}>
                   {cashFlowItemsByDate.cashFlowItems.map(cashFlowItem => (

@@ -137,7 +137,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
                   {t('Category')}
                 </HeaderCellSort>
                 {months.map(month => (
-                  <HeaderCell key={month.getTime()}>{formatDate(formatISO(month), 'date.formats.month')}</HeaderCell>
+                  <HeaderCell key={month.getTime()}>{formatDate(formatISO(month), 'date.format.month')}</HeaderCell>
                 ))}
                 <HeaderCellSort sortKey="TOTAL">{t('Total')}</HeaderCellSort>
               </HeaderRow>
@@ -152,13 +152,11 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
                       const value = getValue(tableNode[format(month, 'yyyyMM')], valueType);
                       return (
                         <Cell className={styles.cell__textAlignRight} key={month.getTime()}>
-                          {value && toCurrency(value, (filter.money?.precision ?? 2) - 2)}
+                          {value && toCurrency(value, { precision: 0 })}
                         </Cell>
                       );
                     })}
-                    <Cell className={styles.cell__textAlignRight}>
-                      {total && toCurrency(total, (filter.money?.precision ?? 2) - 2)}
-                    </Cell>
+                    <Cell className={styles.cell__textAlignRight}>{total && toCurrency(total, { precision: 0 })}</Cell>
                   </Row>
                 );
               })}
@@ -170,12 +168,12 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
                   const value = getValue(dynamicsReport.footer[format(month, 'yyyyMM')], valueType);
                   return (
                     <FooterCell className={styles.cell__textAlignRight} key={month.getTime()}>
-                      {value && toCurrency(value, (filter.money?.precision ?? 2) - 2)}
+                      {value && toCurrency(value, { precision: 0 })}
                     </FooterCell>
                   );
                 })}
                 <FooterCell className={styles.cell__textAlignRight}>
-                  {toCurrency(getValue(dynamicsReport.footer.total, valueType), (filter.money?.precision ?? 2) - 2)}
+                  {toCurrency(getValue(dynamicsReport.footer.total, valueType), { precision: 0 })}
                 </FooterCell>
               </FooterRow>
             </Footer>

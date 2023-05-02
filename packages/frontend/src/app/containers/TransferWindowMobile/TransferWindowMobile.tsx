@@ -330,12 +330,12 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
             <AccountField name="accountToId" label={t('To account')} />
 
             <div className={styles.dateFields}>
-              <DateField name="transferDate" label={t('Date')} dateFormat="date.formats.fullDateWithDayOfWeek" />
+              <DateField name="transferDate" label={t('Date')} dateFormat="date.format.fullDateWithDayOfWeek" />
 
               <DateField
                 name="reportPeriod"
                 label={t('Period')}
-                dateFormat="date.formats.month"
+                dateFormat="date.format.month"
                 showMonthYearPicker
                 className={styles.dateFields__reportPeriod}
               />

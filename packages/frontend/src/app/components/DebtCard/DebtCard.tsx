@@ -74,7 +74,7 @@ export const DebtCard = observer<DebtCardProps>(({ debt, onClick }) => {
                     )}
                     key={money.id}
                   >
-                    {toCurrency(amount, money.precision)} <span dangerouslySetInnerHTML={{ __html: money.symbol }} />
+                    {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
                   </div>
                 );
               })}
@@ -98,8 +98,7 @@ export const DebtCard = observer<DebtCardProps>(({ debt, onClick }) => {
                       const { amount, money } = balanceByMoney;
                       return (
                         <div className={clsx(styles.mainContent__amount)} key={money.id}>
-                          {toCurrency(amount, money.precision)}{' '}
-                          <span dangerouslySetInnerHTML={{ __html: money.symbol }} />
+                          {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
                         </div>
                       );
                     })}

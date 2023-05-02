@@ -228,8 +228,8 @@ export const Transfers = observer(() => {
                 <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
                 <th>{t('From account')}</th>
                 <th>{t('To account')}</th>
-                <th colSpan={2}>{t('Amount')}</th>
-                <th colSpan={2}>{t('Fee')}</th>
+                <th>{t('Amount')}</th>
+                <th>{t('Fee')}</th>
                 <th className="hidden-sm">{t('Note')}</th>
                 <th className="hidden-sm">{t('Tags')}</th>
               </tr>

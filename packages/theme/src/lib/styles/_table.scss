@@ -1,7 +1,6 @@
 @use '../styles/typography';
 
 .numeric {
-  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
@@ -35,17 +34,7 @@
 
   &-sm {
     td {
-      padding: 4px;
-
-      &.numeric {
-        padding-right: 1px;
-        font-size: 15px;
-      }
-
-      &.currency {
-        padding-left: 1px;
-        color: var(--color-gray-400);
-      }
+      padding: 0.4rem 0.8rem;
     }
   }
 

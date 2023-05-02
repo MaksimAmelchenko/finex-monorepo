@@ -43,14 +43,14 @@ export function DebtItemCard({ debtItem, onClick }: DebtItemCardProps) {
   return (
     <button type="button" className={styles.root} onClick={handleClick}>
       <div className={clsx(styles.root__icon, styles.icon)}>
-        <img src={coinsHandSvg} loading="lazy" alt='debt logo'/>
+        <img src={coinsHandSvg} loading="lazy" alt="debt logo" />
       </div>
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>
           <div className={styles.mainContent__header}>
             <div className={styles.mainContent__contractorName}>{contractor.name}</div>
             <div className={clsx(styles.mainContent__amount, sign === 1 && styles.mainContent__amount_income)}>
-              {toCurrency(sign * amount, money.precision)} <span dangerouslySetInnerHTML={{ __html: money.symbol }} />
+              {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
             </div>
           </div>
           <div className={styles.mainContent__categoryName}>{category.name}</div>

@@ -56,7 +56,7 @@ body {
 }
 
 .hidden-lg {
-  @include media.only(lg) {
+  @include media.up(lg) {
     display: none;
   }
 }

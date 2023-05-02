@@ -39,8 +39,27 @@ async function initI18n(): Promise<void> {
         {
           en: {
             ...en,
+            number: {
+              format: {
+                precision: 2,
+                separator: '.',
+                delimiter: ',',
+                strip_insignificant_zeros: false,
+              },
+              percentage: { format: {} },
+              currency: {
+                format: {
+                  unit: '$',
+                  precision: 2,
+                  format: '%u%n',
+                  delimiter: ',',
+                  separator: '.',
+                  strip_insignificant_zeros: true,
+                },
+              },
+            },
             date: {
-              formats: {
+              format: {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
@@ -50,7 +69,7 @@ async function initI18n(): Promise<void> {
               },
             },
             time: {
-              formats: {
+              format: {
                 short: 'HH:mm',
               },
             },
@@ -67,8 +86,27 @@ async function initI18n(): Promise<void> {
         {
           ru: {
             ...ru,
+            number: {
+              format: {
+                precision: 2,
+                separator: '.',
+                delimiter: ' ',
+                strip_insignificant_zeros: false,
+              },
+              percentage: { format: {} },
+              currency: {
+                format: {
+                  unit: '₽',
+                  precision: 2,
+                  format: '%n %u',
+                  delimiter: ' ',
+                  separator: ',',
+                  strip_insignificant_zeros: true,
+                },
+              },
+            },
             date: {
-              formats: {
+              format: {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh:mm',
                 short: 'dd.MM.yy',
@@ -78,7 +116,7 @@ async function initI18n(): Promise<void> {
               },
             },
             time: {
-              formats: {
+              format: {
                 short: 'HH:mm',
               },
             },
@@ -95,8 +133,27 @@ async function initI18n(): Promise<void> {
         {
           de: {
             ...de,
+            number: {
+              format: {
+                precision: 2,
+                separator: '.',
+                delimiter: ',',
+                strip_insignificant_zeros: false,
+              },
+              percentage: { format: {} },
+              currency: {
+                format: {
+                  unit: '€',
+                  precision: 2,
+                  format: '%n %u',
+                  delimiter: ',',
+                  separator: '.',
+                  strip_insignificant_zeros: true,
+                },
+              },
+            },
             date: {
-              formats: {
+              format: {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh:mi',
                 short: 'dd.MM.yy',
@@ -106,7 +163,7 @@ async function initI18n(): Promise<void> {
               },
             },
             time: {
-              formats: {
+              format: {
                 short: 'HH:mm',
               },
             },

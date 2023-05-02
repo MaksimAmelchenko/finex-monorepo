@@ -320,12 +320,12 @@ export function TransactionWindowMobile({
         <AccountField name="accountId" label={t('Account')} />
 
         <div className={styles.dateFields}>
-          <DateField name="transactionDate" label={t('Date')} dateFormat="date.formats.fullDateWithDayOfWeek" />
+          <DateField name="transactionDate" label={t('Date')} dateFormat="date.format.fullDateWithDayOfWeek" />
 
           <DateField
             name="reportPeriod"
             label={t('Period')}
-            dateFormat="date.formats.month"
+            dateFormat="date.format.month"
             showMonthYearPicker
             className={styles.dateFields__reportPeriod}
           />

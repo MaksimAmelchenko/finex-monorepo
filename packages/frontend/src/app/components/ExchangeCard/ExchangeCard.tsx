@@ -64,16 +64,14 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
           <div className={styles.mainContent__header}>
             <div className={styles.mainContent__accountName}>{accountBuy.name}</div>
             <div className={styles.mainContent__amount}>
-              +{toCurrency(amountBuy, moneyBuy.precision)}{' '}
-              <span dangerouslySetInnerHTML={{ __html: moneyBuy.symbol }} />
+              +{toCurrency(amountBuy, { unit: moneyBuy.symbol, precision: moneyBuy.precision })}
             </div>
           </div>
 
           <div className={styles.mainContent__header}>
             <div className={styles.mainContent__accountName}>{accountSell.name}</div>
             <div className={styles.mainContent__amount}>
-              {toCurrency(-amountSell, moneySell.precision)}{' '}
-              <span dangerouslySetInnerHTML={{ __html: moneySell.symbol }} />
+              {toCurrency(-amountSell, { unit: moneySell.symbol, precision: moneySell.precision })}
             </div>
           </div>
 
@@ -83,7 +81,7 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
                 {accountFee.name}
               </div>
               <div className={clsx(styles.mainContent__amount, styles.mainContent__amount_fee)}>
-                {toCurrency(-fee, moneyFee.precision)} <span dangerouslySetInnerHTML={{ __html: moneyFee.symbol }} />
+                {toCurrency(-fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}
               </div>
             </div>
           )}

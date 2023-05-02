@@ -57,37 +57,25 @@ export const CashFlowRow = observer<CashFlowRowProps>(({ cashFlow, onClick }) =>
 
       <td className="text-end numeric">
         {balances.map(({ money, income }) => {
-          return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
-        })}
-      </td>
-
-      <td className="currency">
-        {balances.map(({ money, income }) => {
-          return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+          return income ? (
+            <div key={money.id}>{toCurrency(income, { unit: money.symbol, precision: money.precision })}</div>
+          ) : null;
         })}
       </td>
 
       <td className="text-end numeric">
         {balances.map(({ money, expense }) => {
-          return expense ? <div key={money.id}>{toCurrency(expense, money.precision)}</div> : null;
-        })}
-      </td>
-
-      <td className="currency">
-        {balances.map(({ money, expense }) => {
-          return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+          return expense ? (
+            <div key={money.id}>{toCurrency(expense, { unit: money.symbol, precision: money.precision })}</div>
+          ) : null;
         })}
       </td>
 
       <td className="text-end numeric">
         {balances.map(({ money, income, expense }) => {
-          return <div key={money.id}>{toCurrency(income - expense, money.precision)}</div>;
-        })}
-      </td>
-
-      <td className="currency">
-        {balances.map(({ money }) => {
-          return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+          return (
+            <div key={money.id}>{toCurrency(income - expense, { unit: money.symbol, precision: money.precision })}</div>
+          );
         })}
       </td>
 

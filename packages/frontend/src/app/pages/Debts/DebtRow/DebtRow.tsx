@@ -47,16 +47,11 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
       <td className="text-end numeric">
         {moneysRepository.moneys.map(money => {
           if (balance[money.id]?.['debt']) {
-            return <div key={money.id}>{toCurrency(balance[money.id]['debt'], money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          if (balance[money.id]?.['debt']) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return (
+              <div key={money.id}>
+                {toCurrency(balance[money.id]['debt'], { unit: money.symbol, precision: money.precision })}
+              </div>
+            );
           }
           return null;
         })}
@@ -65,16 +60,11 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
       <td className="text-end numeric">
         {moneysRepository.moneys.map(money => {
           if (balance[money.id]?.['paidDebt']) {
-            return <div key={money.id}>{toCurrency(balance[money.id]['paidDebt'], money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          if (balance[money.id]?.['paidDebt']) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return (
+              <div key={money.id}>
+                {toCurrency(balance[money.id]['paidDebt'], { unit: money.symbol, precision: money.precision })}
+              </div>
+            );
           }
           return null;
         })}
@@ -84,17 +74,9 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
         {moneysRepository.moneys.map(money => {
           const remainingDebt = (balance[money.id]?.['debt'] ?? 0) + (balance[money.id]?.['paidDebt'] ?? 0);
           if (remainingDebt) {
-            return <div key={money.id}>{toCurrency(remainingDebt, money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          const remainingDebt = (balance[money.id]?.['debt'] ?? 0) + (balance[money.id]?.['paidDebt'] ?? 0);
-          if (remainingDebt) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return (
+              <div key={money.id}>{toCurrency(remainingDebt, { unit: money.symbol, precision: money.precision })}</div>
+            );
           }
           return null;
         })}
@@ -103,16 +85,11 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
       <td className="text-end numeric">
         {moneysRepository.moneys.map(money => {
           if (balance[money.id]?.['paidInterest']) {
-            return <div key={money.id}>{toCurrency(balance[money.id]['paidInterest'], money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          if (balance[money.id]?.['paidInterest']) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return (
+              <div key={money.id}>
+                {toCurrency(balance[money.id]['paidInterest'], { unit: money.symbol, precision: money.precision })}
+              </div>
+            );
           }
           return null;
         })}
@@ -121,16 +98,11 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
       <td className="text-end numeric">
         {moneysRepository.moneys.map(money => {
           if (balance[money.id]?.['fine']) {
-            return <div key={money.id}>{toCurrency(balance[money.id]['fine'], money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          if (balance[money.id]?.['fine']) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return (
+              <div key={money.id}>
+                {toCurrency(balance[money.id]['fine'], { unit: money.symbol, precision: money.precision })}
+              </div>
+            );
           }
           return null;
         })}
@@ -139,16 +111,11 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
       <td className="text-end numeric">
         {moneysRepository.moneys.map(money => {
           if (balance[money.id]?.['fee']) {
-            return <div key={money.id}>{toCurrency(balance[money.id]['fee'], money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          if (balance[money.id]?.['fee']) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return (
+              <div key={money.id}>
+                {toCurrency(balance[money.id]['fee'], { unit: money.symbol, precision: money.precision })}
+              </div>
+            );
           }
           return null;
         })}
@@ -166,21 +133,7 @@ export const DebtRow = observer<DebtRowProps>(({ debt, onClick }) => {
             balance[money.id]?.['fee'] === undefined
           );
           if (cost && isThere) {
-            return <div key={money.id}>{toCurrency(cost, money.precision)}</div>;
-          }
-          return null;
-        })}
-      </td>
-
-      <td className="currency">
-        {moneysRepository.moneys.map(money => {
-          const isThere = !(
-            balance[money.id]?.['paidInterest'] === undefined &&
-            balance[money.id]?.['fine'] === undefined &&
-            balance[money.id]?.['fee'] === undefined
-          );
-          if (isThere) {
-            return <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} />;
+            return <div key={money.id}>{toCurrency(cost, { unit: money.symbol, precision: money.precision })}</div>;
           }
           return null;
         })}

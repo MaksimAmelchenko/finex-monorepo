@@ -105,7 +105,7 @@ export const PlanTransactions = observer(() => {
                   {t('Counterparty')}
                 </th>
                 <th>{t('Category')}</th>
-                <th colSpan={2}>{t('Amount')}</th>
+                <th>{t('Amount')}</th>
                 <th>{t('Schedule')}</th>
                 <th>{t('Note')}</th>
               </tr>

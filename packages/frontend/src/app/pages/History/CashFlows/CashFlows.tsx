@@ -95,7 +95,7 @@ export const CashFlows = observer(() => {
           return (
             <Fragment key={cashFlowsByDate.date}>
               <div className={styles.section__header}>
-                {formatDate(cashFlowsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                {formatDate(cashFlowsByDate.date, 'date.format.fullDateWithDayOfWeek')}
               </div>
               <div className={styles.section__content}>
                 {cashFlowsByDate.cashFlows.map(cashFlow => (
