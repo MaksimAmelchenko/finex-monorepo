@@ -1,4 +1,4 @@
 export enum CurrencyRateSource {
-  Cbr = 1,
-  OpenExchangeRates = 2,
+  OpenExchangeRates = 1,
+  Cbr = 2,
 }
