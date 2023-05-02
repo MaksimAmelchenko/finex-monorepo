@@ -17,10 +17,14 @@ export interface IDBResetPasswordRequest {
   reset_at: string | null;
 }
 
-export interface ICreateParams {
+export interface CreateResetPasswordRequestServiceData {
   email: string;
   ip: string;
+  origin: string;
 }
+
+export interface CreateResetPasswordRequestRepositoryData
+  extends Omit<CreateResetPasswordRequestServiceData, 'origin'> {}
 
 export interface IUpdateParams {
   reset_at: string;

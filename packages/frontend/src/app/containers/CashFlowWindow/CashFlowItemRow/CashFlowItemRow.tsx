@@ -65,21 +65,15 @@ export const CashFlowItemRow = observer<CashFlowItemRowProps>(({ cashFlowItem, o
       </td>
 
       {sign === 1 ? (
-        <>
-          <td className="text-end numeric">{toCurrency(amount, money.precision)}</td>
-          <td className="currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
-        </>
+        <td className="text-end numeric">{toCurrency(amount, { unit: money.symbol, precision: money.precision })}</td>
       ) : (
-        <td colSpan={2} />
+        <td />
       )}
 
       {sign === -1 ? (
-        <>
-          <td className="text-end numeric">{toCurrency(-amount, money.precision)}</td>
-          <td className="currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
-        </>
+        <td className="text-end numeric">{toCurrency(-amount, { unit: money.symbol, precision: money.precision })}</td>
       ) : (
-        <td colSpan={2} />
+        <td />
       )}
 
       <td className="hidden-sm">{note}</td>

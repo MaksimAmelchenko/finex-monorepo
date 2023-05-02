@@ -152,6 +152,7 @@ export function CategoryWindowMobile({ category, onClose }: CategoryWindowMobile
     return [
       { value: '', label: '' },
       ...categoryPrototypesRepository.categoryPrototypes
+        .filter(categoryPrototype => !categoryPrototype.isSystem)
         .map(categoryPrototype => ({
           value: categoryPrototype.id,
           label: categoryPrototype.fullPath(true),

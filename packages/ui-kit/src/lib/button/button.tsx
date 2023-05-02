@@ -13,7 +13,7 @@ export interface ButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement
   loading?: boolean; // If true, the component is disabled.
   fullSize?: boolean; // If true, the button will take up the full width of its container
   href?: string; // The URL to link to when the button is clicked. If defined, an a element will be used as the root node.
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   variant?:

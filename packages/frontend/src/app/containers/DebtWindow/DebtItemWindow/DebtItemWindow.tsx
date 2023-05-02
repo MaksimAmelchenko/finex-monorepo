@@ -283,14 +283,14 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
           <FormDateField
             name="debtItemDate"
             label={t('Date')}
-            dateFormat={getFormat('date.formats.default')}
+            dateFormat={getFormat('date.format.default')}
             className={styles.dateFields__dTransaction}
           />
           <div className={styles.reportPeriod}>
             <FormDateField
               name="reportPeriod"
               label={t('Period')}
-              dateFormat={getFormat('date.formats.month')}
+              dateFormat={getFormat('date.format.month')}
               showMonthYearPicker
               className={styles.reportPeriod__input}
             />

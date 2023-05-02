@@ -235,13 +235,13 @@ export const Debts = observer(() => {
               <tr>
                 <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
                 <th>{t('Counterparty')}</th>
-                <th colSpan={2}>{t('Debt')}</th>
-                <th colSpan={2}>{t('Repayment')}</th>
-                <th colSpan={2}>{t('Debt balance')}</th>
-                <th colSpan={2}>{t('Interest')}</th>
-                <th colSpan={2}>{t('Fine')}</th>
-                <th colSpan={2}>{t('Fee')}</th>
-                <th colSpan={2}>{t('Cost (overpayment)')}</th>
+                <th >{t('Debt')}</th>
+                <th >{t('Repayment')}</th>
+                <th >{t('Debt balance')}</th>
+                <th >{t('Interest')}</th>
+                <th >{t('Fine')}</th>
+                <th >{t('Fee')}</th>
+                <th >{t('Cost (overpayment)')}</th>
                 <th className="hidden-sm">{t('Note')}</th>
                 <th className="hidden-sm">{t('Tags')}</th>
               </tr>

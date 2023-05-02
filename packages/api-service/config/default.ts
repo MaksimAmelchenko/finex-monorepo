@@ -2,12 +2,11 @@ import { Locale } from '../types/app';
 
 export default {
   appName: 'api.finex.io',
-  appDomain: 'app.finex.io',
   port: 3000,
   log: {
     level: 'trace',
   },
-  locales: [Locale.En, Locale.Ru, Locale.De],
+  locales: [Locale.Ru, Locale.En, Locale.De],
   db: {
     client: 'pg',
     connection: {
@@ -40,7 +39,7 @@ export default {
       resourcePath: './emails',
     },
     transport: 'ses',
-    from: 'FINEX.io <no-reply@finex.io>',
+    from: 'FINEX <no-reply@finex.io>',
     service: {
       region: 'MAIL__SERVICE__REGION',
       credentials: {
@@ -58,5 +57,11 @@ export default {
   yookassa: {
     shopId: 'YOOKASSA__SHOP_ID',
     secretKey: 'YOOKASSA__SECRET_KEY',
+  },
+  currencyRate: {
+    secret: 'CURRENCY_RATE__SECRET',
+    openExchangeRates: {
+      appId: 'CURRENCY_RATE__OPEN_EXCHANGE_RATES__APP_ID',
+    },
   },
 };

@@ -1,9 +1,8 @@
 import { IModel } from './app';
-import { S3Types } from '../libs/s3';
 
 const bucket: string = process.env.FILE_BUCKET!;
 
-export type TContent = S3Types.Body;
+export type TContent = any;
 
 export interface IFile extends IModel {
   userId: number;

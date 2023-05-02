@@ -46,7 +46,7 @@ export async function up(knex: Knex): Promise<void> {
         .boolean('is_enabled')
         .notNullable()
         .defaultTo(true)
-        .comment('Видимость статьи при редикторовании транзакции');
+        .comment('Видимость статьи при редактировании транзакции');
 
       table.boolean('is_system').notNullable().defaultTo(false);
 
@@ -55,7 +55,7 @@ export async function up(knex: Knex): Promise<void> {
       table
         .integer('id_category_prototype')
         .comment(
-          "Для представления некоторых статей как одна. Например есть категории ''Мой автомобиль'', ''Автомобиль жены''. Для них можно указать один прототоп ''Автомобиль''"
+          "Для представления некоторых статей как одна. Например есть категории ''Мой автомобиль'', ''Автомобиль жены''. Для них можно указать один прототип ''Автомобиль''"
         );
 
       table

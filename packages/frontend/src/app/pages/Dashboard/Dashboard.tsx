@@ -13,16 +13,17 @@ const t = getT('Dashboard');
 
 export const Dashboard = observer(() => {
   return (
-    <div className={styles.layout}>
+    <div className={styles.root}>
       <HeaderLayout title={t('Outcome')} data-cy="outcome-header" />
-      <article className={styles.dashboard}>
-        <div style={{ overflow: 'auto', minWidth: '40rem' }}>
+      <main className={styles.root__dashboard}>
+        <div className={styles.root__balances}>
           <AccountBalances />
         </div>
-        <div style={{ overflow: 'auto', minWidth: '40rem' }}>
+
+        <div className={styles.root__charts}>
           <AccountDailyBalances />
         </div>
-      </article>
+      </main>
     </div>
   );
 });

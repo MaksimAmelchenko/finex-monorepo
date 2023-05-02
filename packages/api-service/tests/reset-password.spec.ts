@@ -50,9 +50,6 @@ describe('Reset password', function (): void {
 
     projectId = userData.user.projectId!;
     userId = userData.user.id;
-
-    signInResponse = <ISessionResponse>await signIn(request, username, password);
-    await authorize(ctx, `Bearer ${signInResponse.authorization}`, '');
   });
 
   after(async () => {
@@ -63,8 +60,10 @@ describe('Reset password', function (): void {
   it('should create reset-password request', async () => {
     const response: supertest.Response = await request
       .post(`/v2/reset-password`)
+      .set({ origin: 'https://app.finex.io' })
       .send({
         email: username,
+        locale: 'en',
       })
       .expect('Content-Type', /json/)
       .expect(StatusCodes.OK);
@@ -91,8 +90,9 @@ describe('Reset password', function (): void {
     transactionalEmail = await getLastTransactionalEmail(ctx, username, 60);
 
     token = transactionalEmail.originalMessage.html.match(
-      /\>https:\/\/app.finex.io\/reset-password\/confirmation\?token=(.*)\<\/a>/
+      /\>https:\/\/app.finex.io\/reset-password\/confirmation\?token=(.*)&amp;locale=en\<\/a>/
     )[1];
+
     if (!token) {
       throw new Error('Token is not found in email');
     }

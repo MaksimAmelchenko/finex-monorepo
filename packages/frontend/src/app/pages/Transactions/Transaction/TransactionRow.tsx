@@ -58,7 +58,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
               <>
                 <div className={styles.dateColumn__date}>{formatDate(transactionDate)}</div>
                 <div className={styles.dateColumn__label}>
-                  <span className="txt-color-red">{t('Not confirmed')}</span>
+                  <span className={styles.dateColumn_not_confirmed}>{t('Not confirmed')}</span>
                   <br />
                   {isOverdue && <span>{t('Overdue')}</span>}
                 </div>
@@ -81,25 +81,24 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
       </td>
 
       {sign === 1 ? (
-        <>
-          <td className="text-end hidden-sm hidden-md numeric">{toCurrency(amount, money.precision)}</td>
-          <td className="hidden-sm hidden-md currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
-        </>
+        <td className="text-end hidden-sm hidden-md">
+          {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
+        </td>
       ) : (
-        <td className="hidden-sm hidden-md" colSpan={2} />
+        <td className="hidden-sm hidden-md" />
       )}
 
       {sign === -1 ? (
-        <>
-          <td className="text-end hidden-sm hidden-md numeric">{toCurrency(-amount, money.precision)}</td>
-          <td className="hidden-sm hidden-md currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
-        </>
+        <td className="text-end hidden-sm hidden-md">
+          {toCurrency(-amount, { unit: money.symbol, precision: money.precision })}
+        </td>
       ) : (
-        <td className="hidden-sm hidden-md" colSpan={2} />
+        <td className="hidden-sm hidden-md" />
       )}
 
-      <td className="text-end hidden-lg numeric">{toCurrency(sign * amount, money.precision)}</td>
-      <td className="hidden-lg currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
+      <td className="text-end hidden-lg">
+        {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
+      </td>
 
       <td className="hidden-sm min-width">{note}</td>
       <td className="hidden-sm min-width">

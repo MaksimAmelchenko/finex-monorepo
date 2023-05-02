@@ -366,14 +366,14 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
               <FormDateField
                 name="exchangeDate"
                 label={t('Date')}
-                dateFormat={getFormat('date.formats.default')}
+                dateFormat={getFormat('date.format.default')}
                 className={styles.dateFields__date}
               />
               <div className={styles.reportPeriod}>
                 <FormDateField
                   name="reportPeriod"
                   label={t('Period')}
-                  dateFormat={getFormat('date.formats.month')}
+                  dateFormat={getFormat('date.format.month')}
                   showMonthYearPicker
                   className={styles.reportPeriod__input}
                 />
@@ -392,7 +392,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
               </div>
             </div>
 
-            <FormCheckbox name="isFee">label={t('Fee')}</FormCheckbox>
+            <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
 
             <div className={clsx(styles.fee__fields, !values.isFee && styles.fee__fields_hidden)}>
               <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />

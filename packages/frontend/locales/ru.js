@@ -14,8 +14,7 @@ module.exports = {
   },
   AccountDailyBalances: {
     'in original currency': 'в исходной валюте',
-    Total: 'Всего',
-    'Daily Balance': 'Дневной остаток',
+    'Daily balance including planned transactions': 'Ежедневный баланс с учетом запланированных операций',
     Today: 'Сегодня',
   },
   AccountMenu: {
@@ -276,6 +275,9 @@ module.exports = {
   },
   Dashboard: {
     Outcome: 'Обзор',
+  },
+  DebtBalances: {
+    Debts: 'Долги',
   },
   DebtBalancesMobile: {
     Debts: 'Долги',
@@ -587,7 +589,6 @@ module.exports = {
     'Please enter a number': 'Пожалуйста, введите число',
     'Edit money': 'Редактирование валюты',
     'Add new money': 'Добавление валюты',
-    'Ordinary currency': 'Стандартная валюта',
     Name: 'Наименование',
     Symbol: 'Символ',
     'Displayed currency sign': 'Отображаемый знак валюты',
@@ -601,8 +602,10 @@ module.exports = {
       'Задает порядок отображения валюты для мультивалютных счетов',
     Cancel: 'Отмена',
     Save: 'Сохранить',
+    'Select currency': 'Select currency',
+    'Ordinary currency': 'Стандартная валюта',
     'There are transactions with this money': 'Есть операции с этой валютой',
-    'Standard currency not specified': 'Стандартная валюта не указана',
+    'Standard currency': 'Standard currency',
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Перенесено {{count}} операций',
@@ -844,7 +847,7 @@ module.exports = {
     'Please enter your e-mail': 'Укажите e-mail',
     'Invalid e-mail address': 'Проверьте, правильно ли введён e-mail',
     'Please enter your password': 'Укажите пароль',
-    'Sign in': 'Авторизация',
+    'Log in': 'Авторизация',
     'E-mail': 'E-mail',
     Password: 'Пароль',
     Continue: 'Войти',
@@ -866,14 +869,14 @@ module.exports = {
     Password: 'Пароль',
     'Your password needs to be at least 8 characters_ Include multiple words and phrases to make it more secure_':
       'Ваш пароль должен быть не менее 8 символов. Включите несколько слов и фраз, чтобы сделать его более безопасным.',
-    'By clicking Create account, you agree to FINEX': 'Регистрируясь вы соглашаетесь с ',
+    'By clicking Get started, you agree to FINEX': 'Регистрируясь вы соглашаетесь с ',
     'User Agreement': 'Пользовательским соглашением',
     'Terms of Use': 'Правилами использования',
     'and ': 'и ',
     'Privacy Policy': 'Политикой конфиденциальности',
-    'Create account': 'Регистрация',
+    'Get started': 'Регистрация',
     'Already have an account?': 'Уже зарегистрировались?',
-    'Sign in': 'Войти',
+    'Log in': 'Войти',
   },
   SignUpAcknowledgment: {
     'Please confirm your e-mail address': 'Пожалуйста, подтвердите свой электронный адрес',
@@ -931,7 +934,7 @@ module.exports = {
     Category: 'Категория',
     Income: 'Доход',
     Expense: 'Расход',
-    Amount: 'Amount',
+    Amount: 'Сумма',
     Note: 'Примечание',
     'Total for selected transactions:': 'Итого по выделенным операциям:',
   },

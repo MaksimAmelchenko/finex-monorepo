@@ -60,8 +60,9 @@ export const PlanTransactionRow = observer<PlanTransactionRowProps>(({ planTrans
         <div className={styles.categoryPath}>{category.fullPath()}</div>
       </td>
 
-      <td className="text-end hidden-sm hidden-md numeric">{toCurrency(sign * amount, money.precision)}</td>
-      <td className="hidden-sm hidden-md currency" dangerouslySetInnerHTML={{ __html: money.symbol }} />
+      <td className="text-end  numeric">
+        {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
+      </td>
 
       <td dangerouslySetInnerHTML={{ __html: schedule }} />
 

@@ -8,12 +8,18 @@ export const categoryPrototypeSchema: OpenAPIV3_1.SchemaObject = {
     id,
     parent: {
       ...id,
-      type: ['integer', 'null'],
+      type: ['string', 'null'],
     },
     name: {
       type: 'string',
     },
+    isEnabled: {
+      type: 'boolean',
+    },
+    isSystem: {
+      type: 'boolean',
+    },
   },
   additionalProperties: false,
-  required: ['id', 'parent', 'name'],
+  required: ['id', 'parent', 'name', 'isEnabled', 'isSystem'],
 };

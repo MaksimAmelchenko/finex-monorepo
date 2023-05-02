@@ -47,7 +47,7 @@ export function TransactionCard({ transaction, onClick }: TransactionCardProps) 
             <div className={styles.mainContent__categoryName}>{category.fullPath(true)}</div>
             <div className={clsx(styles.mainContent__amount, sign === 1 && styles.mainContent__amount_income)}>
               {sign === 1 ? '+' : ''}
-              {toCurrency(amount, money.precision)} <span dangerouslySetInnerHTML={{ __html: money.symbol }} />
+              {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
             </div>
           </div>
           <div className={styles.mainContent__accountName}>{account.name}</div>

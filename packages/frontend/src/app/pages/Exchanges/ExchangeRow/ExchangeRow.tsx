@@ -60,32 +60,24 @@ export const ExchangeRow = observer<ExchangeRowProps>(({ exchange, onClick }) =>
       </td>
 
       <td className="text-end numeric">
-        <div>{toCurrency(amountSell, moneySell.precision)}</div>
-      </td>
-
-      <td className="currency">
-        <div dangerouslySetInnerHTML={{ __html: moneySell.symbol }} />
+        <div>{toCurrency(amountSell, { unit: moneySell.symbol, precision: moneySell.precision })}</div>
       </td>
 
       <td className="text-end numeric">
-        <div>{toCurrency(amountBuy, moneyBuy.precision)}</div>
-      </td>
-
-      <td className="currency">
-        <div dangerouslySetInnerHTML={{ __html: moneyBuy.symbol }} />
+        <div>{toCurrency(amountBuy, { unit: moneyBuy.symbol, precision: moneyBuy.precision })}</div>
       </td>
 
       <td className="text-end numeric">
         <div>
           {amountBuy > amountSell
-            ? toCurrency(amountBuy / amountSell, moneyBuy.precision)
-            : toCurrency(amountSell / amountBuy, moneySell.precision)}
+            ? toCurrency(amountBuy / amountSell, { unit: moneyBuy.symbol, precision: moneyBuy.precision })
+            : toCurrency(amountSell / amountBuy, { unit: moneySell.symbol, precision: moneySell.precision })}
         </div>
       </td>
 
-      <td className="text-end numeric">{fee && moneyFee && <div>{toCurrency(fee, moneyFee.precision)}</div>}</td>
-
-      <td className="currency">{moneyFee && <div dangerouslySetInnerHTML={{ __html: moneyFee.symbol }} />}</td>
+      <td className="text-end numeric">
+        {fee && moneyFee && <div>{toCurrency(fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}</div>}
+      </td>
 
       <td className="hidden-sm min-width">{note}</td>
       <td className="hidden-sm min-width">

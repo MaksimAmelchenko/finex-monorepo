@@ -3,10 +3,17 @@ import { DB, knex } from '../../../../libs/db';
 import { normalizeEmail } from '../../../../libs/utility';
 
 import { IRequestContext } from '../../../../types/app';
-import { ICreateParams, IDBSignUpRequest, ISignUpRequest } from '../../../../types/sign-up-request';
+import {
+  ICreateSingUpRequestRepositoryParams,
+  IDBSignUpRequest,
+  ISignUpRequest,
+} from '../../../../types/sign-up-request';
 import { decodeDBSignUpRequest } from './decode-db-sign-up-request';
 
-export async function createSignUpRequest(ctx: IRequestContext, params: ICreateParams): Promise<ISignUpRequest> {
+export async function createSignUpRequest(
+  ctx: IRequestContext,
+  params: ICreateSingUpRequestRepositoryParams
+): Promise<ISignUpRequest> {
   const { name, password } = params;
   const email: string = normalizeEmail(params.email);
 

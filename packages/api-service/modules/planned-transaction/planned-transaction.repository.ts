@@ -59,13 +59,13 @@ class PlannedTransactionRepositoryImpl implements PlannedTransactionRepository {
               select pcfi.id_plan as plan_id,
                      pcfi.id_contractor as contractor_id,
                      p.color_mark as marker_color,
-                     s.nrepeat as repetition_number,
+                     s.repetition_number,
                      pcfi.sign,
                      pcfi.sum as amount,
                      pcfi.id_money as money_id,
                      pcfi.id_account as account_id,
                      pcfi.id_category as category_id,
-                     s.dplan as transaction_date,
+                     s.plan_date as transaction_date,
                      s.report_period,
                      pcfi.quantity,
                      pcfi.id_unit as unit_id,
@@ -78,7 +78,7 @@ class PlannedTransactionRepositoryImpl implements PlannedTransactionRepository {
                             on (pcfi.id_project = permit.project_id and pcfi.id_account = permit.account_id)
                        join cf$.plan p
                             on (p.id_project = permit.project_id and p.id_plan = pcfi.id_plan)
-                       join cf$_plan.schedule(pcfi.id_plan, p.dbegin, (now() + interval '1 day')::date) s
+                       join cf$_plan.schedule(p.id_project, pcfi.id_plan, p.dbegin, (now() + interval '1 day')::date) s
                             on (true)
             )
         select pt.plan_id::text as plan_id,

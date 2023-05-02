@@ -1,19 +1,18 @@
 import { AccountType } from './models/account-type';
 import { ManageableStore } from '../core/manageable-store';
-import { IApiAccountType } from '../types/account-type';
+import { IAccountTypeDTO } from '../types/account-type';
 
 export class AccountTypesStore extends ManageableStore {
   static storeName = 'AccountTypesStore';
 
   accountTypes: AccountType[] = [];
 
-  consume(accountTypes: IApiAccountType[]): void {
+  consume(accountTypes: IAccountTypeDTO[]): void {
     this.accountTypes = accountTypes.map(
-      ({ id, name, shortName }) =>
+      ({ id, name }) =>
         new AccountType({
           id,
           name,
-          shortName,
         })
     );
   }

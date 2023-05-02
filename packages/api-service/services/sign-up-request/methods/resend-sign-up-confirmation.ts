@@ -6,7 +6,7 @@ import { TransactionalEmail } from '../../transactional-email';
 import { Template } from '../../../types/transactional-email';
 import { getSignUpConfirmationUrl } from './get-sign-up-confirmation-url';
 
-export async function resendSignUpConfirmation(ctx: IRequestContext, id: string): Promise<void> {
+export async function resendSignUpConfirmation(ctx: IRequestContext, id: string, origin: string): Promise<void> {
   const signUpRequest: ISignUpRequest = await SignUpRequestGateway.get(ctx, id);
   if (!signUpRequest) {
     throw new NotFoundError();
@@ -16,12 +16,14 @@ export async function resendSignUpConfirmation(ctx: IRequestContext, id: string)
   //   throw new InvalidParametersError(`The username ${signUpRequest.name} has already been activated`);
   // }
 
+  const locale = ctx.params.locale;
+
   TransactionalEmail.send(ctx, {
     template: Template.SignUpConfirmation,
     email: signUpRequest.email,
     locals: {
       name: signUpRequest.name,
-      url: getSignUpConfirmationUrl(signUpRequest.token),
+      url: getSignUpConfirmationUrl(signUpRequest.token, { origin, locale }),
     },
   }).catch(err => ctx.log.fatal({ err }));
 }

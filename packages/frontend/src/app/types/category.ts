@@ -2,19 +2,19 @@ import { Category } from '../stores/models/category';
 import { CategoryPrototype } from '../stores/models/category-prototype';
 import { User } from '../stores/models/user';
 
-export interface IApiCategoryPrototype {
+export interface ICategoryPrototypeDTO {
   id: string;
   name: string;
   parent: string | null;
+  isEnabled: boolean;
+  isSystem: boolean;
 }
 
-export interface ICategoryPrototype {
-  id: string;
-  name: string;
+export interface ICategoryPrototype extends Omit<ICategoryPrototypeDTO, 'parent'> {
   parent: CategoryPrototype | null;
 }
 
-export interface IApiCategory {
+export interface ICategoryDTO {
   id: string;
   name: string;
   parent: string | null;
@@ -23,23 +23,17 @@ export interface IApiCategory {
   note: string;
 
   isSystem: boolean;
-  unitId: string | null;
   userId: string;
 }
 
-export interface ICategory {
-  id: string;
-  name: string;
+export interface ICategory extends Omit<ICategoryDTO, 'parent' | 'categoryPrototypeId' | 'userId'> {
   parent: Category | null;
   categoryPrototype: CategoryPrototype | null;
-  isEnabled: boolean;
-  note: string;
-  isSystem: boolean;
   user: User;
 }
 
 export interface GetCategoriesResponse {
-  categories: IApiCategory[];
+  categories: ICategoryDTO[];
 }
 
 export interface CreateCategoryData {
@@ -51,7 +45,7 @@ export interface CreateCategoryData {
 }
 
 export interface CreateCategoryResponse {
-  category: IApiCategory;
+  category: ICategoryDTO;
 }
 
 export type UpdateCategoryChanges = Partial<{
@@ -63,5 +57,5 @@ export type UpdateCategoryChanges = Partial<{
 }>;
 
 export interface UpdateCategoryResponse {
-  category: IApiCategory;
+  category: ICategoryDTO;
 }

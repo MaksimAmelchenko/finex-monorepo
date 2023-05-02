@@ -1,8 +1,15 @@
 import { snakeCaseMappers } from 'objection';
 
 import { CashFlowDAO } from '../cash-flow/models/cash-flow-dao';
-import { DebtRepository, FindDebtsRepositoryResponse, FindDebtsServiceQuery } from './types';
+import {
+  DebtRepository,
+  FindDebtsRepositoryResponse,
+  FindDebtsServiceQuery,
+  IDebtBalances,
+  IDebtsBalancesParams,
+} from './types';
 import { IRequestContext } from '../../types/app';
+import { knex } from '../../knex';
 
 const { parse } = snakeCaseMappers();
 
@@ -143,6 +150,110 @@ class DebtRepositoryImpl implements DebtRepository {
       },
       debts,
     };
+  }
+
+  async getBalances(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    params: IDebtsBalancesParams
+  ): Promise<IDebtBalances[]> {
+    ctx.log.trace({ params }, 'try to get debts balances');
+
+    const { balanceDate, moneyId } = params;
+    console.log({ balanceDate, moneyId, projectId, userId });
+
+    let query = knex.raw(
+      `
+          with --
+               params as (
+                 select u.id_currency_rate_source as currency_rate_source_id,
+                        cf$_category.get_category_by_prototype(2) as principal_amount_category_id,
+                        cf$_category.get_category_by_prototype(3) as principal_repayment_category_id
+                   from core$.user u
+                  where u.id_user = :userId::int
+               ),
+               permit as (
+                 select project_id,
+                        account_id,
+                        permit
+                   from cf$_account.permit(:projectId::int, :userId::int)
+               ),
+               d as (
+                 select cf.contractor_id,
+                        cfi.money_id,
+                        sum(cfi.sign * cfi.amount) as amount
+                   from params
+                          join permit p
+                               on (true)
+                          join cf$.v_cashflow_v2 cf
+                               using (project_id)
+                          join cf$.v_cashflow_item cfi
+                               on (cfi.project_id = cf.project_id
+                                 and cfi.cashflow_id = cf.id
+                                 and cfi.account_id = p.account_id)
+                  where cf.cashflow_type_id = 2
+                    and cfi.cashflow_item_date <= :balanceDate::date
+                    and cfi.category_id in (params.principal_amount_category_id, params.principal_repayment_category_id)
+                  group by cf.id,
+                           cf.contractor_id,
+                           cfi.money_id
+                 having sum(cfi.sign * cfi.amount) != 0
+               ),
+               b as (
+                 select contractor_id,
+                        money_id,
+                        sum(d.amount) as amount
+                   from d
+                  group by d.contractor_id,
+                           d.money_id,
+                           sign(d.amount)
+               ),
+               cb as (
+                 select b.contractor_id::text,
+                        b.money_id::text,
+                        b.amount
+                   from b
+                  where :moneyId::int is null
+                  union all
+                 select b.contractor_id::text,
+                        :moneyId::text,
+                        sum(cf$_money.exchange(p_project_id => :projectId::int,
+                                               p_amount => b.amount,
+                                               p_from_money_id => b.money_id,
+                                               p_to_money_id => :moneyId::int,
+                                               p_rate_date => :balanceDate::date,
+                                               p_currency_rate_source_id => params.currency_rate_source_id,
+                                               p_is_round => true)) as amount
+                   from b,
+                        params
+                  where :moneyId::int is not null
+                  group by b.contractor_id,
+                           :moneyId::int)
+        select json_build_object('contractorId', cb.contractor_id,
+                                 'debtType', case when sign(amount) = -1 then 1 else 2 end,
+                                 'balances', json_agg(
+                                   json_build_object(
+                                     'moneyId', money_id,
+                                     'amount', amount
+                                     ))) as "debtBalances"
+          from cb
+         group by contractor_id, sign(amount)
+      `,
+      {
+        projectId: Number(projectId),
+        userId: Number(userId),
+        balanceDate,
+        moneyId: moneyId ? Number(moneyId) : null,
+      }
+    );
+
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    const { rows } = await query;
+
+    return rows.map(row => row.debtBalances);
   }
 }
 

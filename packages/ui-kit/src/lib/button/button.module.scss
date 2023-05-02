@@ -36,6 +36,12 @@
     @include typography.textMDSemibold;
   }
 
+  &_size_2xl {
+    gap: 1.2rem;
+    padding: 1.6rem 2.8rem;
+    @include typography.textLGSemibold;
+  }
+
   &_variant_primary {
     @include shadow.shadowXS;
     border: 1px solid var(--color-primary-600);
@@ -165,9 +171,35 @@
     }
   }
 
+  &_variant_linkGray {
+    border: none;
+    padding: 0;
+    color: var(--color-gray-600);
+    background: none;
+
+    &:hover {
+      color: var(--color-gray-700);
+    }
+
+    &:active,
+    &:focus {
+      color: var(--color-gray-600);
+    }
+
+    &:disabled,
+    &[disabled] {
+      color: var(--color-gray-300);
+    }
+  }
+
   & svg {
     width: 2rem;
     height: 2rem;
+  }
+
+  &_size_2xl svg {
+    width: 2.4rem;
+    height: 2.4rem;
   }
 
   &_fullSize {

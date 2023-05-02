@@ -1,5 +1,5 @@
 import { ConflictError } from '../../../libs/errors';
-import { ICreateParams, ISignUpRequest } from '../../../types/sign-up-request';
+import { ICreateSingUpRequestServiceParams, ISignUpRequest } from '../../../types/sign-up-request';
 import { IRequestContext } from '../../../types/app';
 import { SignUpRequestGateway } from '../gateway';
 import { Template } from '../../../types/transactional-email';
@@ -8,8 +8,11 @@ import { getSignUpConfirmationUrl } from './get-sign-up-confirmation-url';
 import { hashPassword } from '../../auth/methods/hash-password';
 import { userRepository } from '../../../modules/user/user.repository';
 
-export async function createSignUpRequest(ctx: IRequestContext, params: ICreateParams): Promise<ISignUpRequest> {
-  const { name, email, password } = params;
+export async function createSignUpRequest(
+  ctx: IRequestContext,
+  params: ICreateSingUpRequestServiceParams
+): Promise<ISignUpRequest> {
+  const { name, email, password, origin } = params;
 
   const user = await userRepository.getUserByUsername(ctx, email);
 
@@ -30,7 +33,7 @@ export async function createSignUpRequest(ctx: IRequestContext, params: ICreateP
     email,
     locals: {
       name,
-      url: getSignUpConfirmationUrl(signUpRequest.token),
+      url: getSignUpConfirmationUrl(signUpRequest.token, { origin, locale: ctx.params.locale }),
     },
   }).catch(err => ctx.log.fatal({ err }));
 

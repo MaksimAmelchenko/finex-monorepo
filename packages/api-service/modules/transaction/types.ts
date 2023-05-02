@@ -78,7 +78,9 @@ export interface CreateTransactionRepositoryData {
   tags?: string[];
 }
 
-export type CreateTransactionServiceData = CreateTransactionRepositoryData;
+export interface CreateTransactionServiceData extends CreateTransactionRepositoryData {
+  planId?: string | null;
+}
 
 export type CreateTransactionAPIData = CreateTransactionRepositoryData & {
   cashFlowId?: string | null;

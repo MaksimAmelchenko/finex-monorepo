@@ -102,7 +102,7 @@ export const DynamicsGraph = observer<DynamicsTableProps>(({ valueType }) => {
           }}
           axisBottom={{
             format: function (value: number) {
-              return formatDate(formatISO(new Date(value)), 'date.formats.month');
+              return formatDate(formatISO(new Date(value)), 'date.format.month');
             },
           }}
         />

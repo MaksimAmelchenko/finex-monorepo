@@ -1,32 +1,48 @@
-import { IApiCurrency, ICurrency } from '../types/currency';
-import { Currency } from './models/currency';
-import { ManageableStore } from '../core/manageable-store';
+import { makeObservable, observable } from 'mobx';
 
-export interface ICurrenciesApi {}
+import { Currency } from './models/currency';
+import { ICurrenciesApi, ICurrency, ICurrencyDTO } from '../types/currency';
+import { MainStore } from '../core/main-store';
+import { ManageableStore } from '../core/manageable-store';
 
 export class CurrenciesRepository extends ManageableStore {
   static storeName = 'CurrenciesRepository';
 
   currencies: ICurrency[] = [];
 
-  consume(currencies: IApiCurrency[]): void {
-    this.currencies = currencies.map(
-      ({ id, code, name, shortName, symbol }) =>
-        new Currency({
-          id,
-          code,
-          name,
-          shortName,
-          symbol,
-        })
-    );
+  constructor(mainStore: MainStore, private api: ICurrenciesApi) {
+    super(mainStore);
+
+    makeObservable(this, {
+      currencies: observable.shallow,
+    });
   }
 
-  get(currencyId: string): ICurrency | undefined {
-    return this.currencies.find(({ id }) => id === currencyId);
+  getCurrencies(): Promise<void> {
+    return this.api.getCurrencies().then(({ currencies }) => {
+      this.consume(currencies);
+    });
+  }
+
+  get(currencyCode: string): ICurrency | undefined {
+    return this.currencies.find(({ code }) => code === currencyCode);
   }
 
   clear(): void {
     this.currencies = [];
+  }
+
+  private consume(currencies: ICurrencyDTO[]): void {
+    this.currencies = currencies
+      .map(
+        ({ code, name, precision, symbol }) =>
+          new Currency({
+            code,
+            name,
+            precision,
+            symbol,
+          })
+      )
+      .sort((a, b) => a.code.localeCompare(b.code));
   }
 }

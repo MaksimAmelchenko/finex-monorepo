@@ -570,7 +570,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
               <FormDateField
                 name="startDate"
                 label={t('Start date')}
-                dateFormat={getFormat('date.formats.default')}
+                dateFormat={getFormat('date.format.default')}
                 className={styles.dateFields__dTransaction}
               />
 
@@ -578,7 +578,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
                 <FormDateField
                   name="reportPeriod"
                   label={t('Period')}
-                  dateFormat={getFormat('date.formats.month')}
+                  dateFormat={getFormat('date.format.month')}
                   showMonthYearPicker
                   className={styles.reportPeriod__input}
                 />
@@ -634,7 +634,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
                   <FormDateField
                     name="endDate"
                     label={t('End date')}
-                    dateFormat={getFormat('date.formats.default')}
+                    dateFormat={getFormat('date.format.default')}
                     className={styles.dateFields__dTransaction}
                   />
                 )}

@@ -14,8 +14,7 @@ module.exports = {
   },
   AccountDailyBalances: {
     'in original currency': 'in original currency',
-    Total: 'Total',
-    'Daily Balance': 'Daily Balance',
+    'Daily balance including planned transactions': 'Daily balance including planned transactions',
     Today: 'Today',
   },
   AccountMenu: {
@@ -274,6 +273,9 @@ module.exports = {
   },
   Dashboard: {
     Outcome: 'Outcome',
+  },
+  DebtBalances: {
+    Debts: 'Debts',
   },
   DebtBalancesMobile: {
     Debts: 'Debts',
@@ -585,7 +587,6 @@ module.exports = {
     'Please enter a number': 'Please enter a number',
     'Edit money': 'Edit money',
     'Add new money': 'Add new money',
-    'Ordinary currency': 'Ordinary currency',
     Name: 'Name',
     Symbol: 'Symbol',
     'Displayed currency sign': 'Displayed currency sign',
@@ -599,8 +600,10 @@ module.exports = {
       'Sets the currency display order for multicurrency accounts',
     Cancel: 'Cancel',
     Save: 'Save',
+    'Select currency': 'Select currency',
+    'Ordinary currency': 'Ordinary currency',
     'There are transactions with this money': 'There are transactions with this money',
-    'Standard currency not specified': 'Standard currency not specified',
+    'Standard currency': 'Standard currency',
   },
   MoveTransactionsWindow: {
     'Moved {{count}} transactions': 'Moved {{count}} transactions',
@@ -844,7 +847,7 @@ module.exports = {
     'Please enter your e-mail': 'Please enter your e-mail',
     'Invalid e-mail address': 'Invalid e-mail address',
     'Please enter your password': 'Please enter your password',
-    'Sign in': 'Sign in',
+    'Log in': 'Log in',
     'E-mail': 'E-mail',
     Password: 'Password',
     Continue: 'Continue',
@@ -866,14 +869,14 @@ module.exports = {
     Password: 'Password',
     'Your password needs to be at least 8 characters_ Include multiple words and phrases to make it more secure_':
       'Your password needs to be at least 8 characters. Include multiple words and phrases to make it more secure.',
-    'By clicking Create account, you agree to FINEX': 'By clicking Create account, you agree to FINEX',
+    'By clicking Get started, you agree to FINEX': 'By clicking Create account, you agree to FINEX',
     'User Agreement': 'User Agreement',
     'Terms of Use': 'Terms of Use',
     'and ': 'and ',
     'Privacy Policy': 'Privacy Policy',
-    'Create account': 'Create account',
+    'Get started': 'Get started',
     'Already have an account?': 'Already have an account?',
-    'Sign in': 'Sign in',
+    'Log in': 'Log in',
   },
   SignUpAcknowledgment: {
     'Please confirm your e-mail address': 'Please confirm your e-mail address',

@@ -8,13 +8,13 @@ export const cancelPlanParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     planId: id,
-    excludedDate: date,
+    exclusionDate: date,
     locale,
   },
   additionalProperties: false,
   required: [
     //
     'planId',
-    'excludedDate',
+    'exclusionDate',
   ],
 };

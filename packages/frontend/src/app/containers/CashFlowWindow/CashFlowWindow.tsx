@@ -251,8 +251,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   <th>{t('Account')}</th>
                   <th>{t('Category')}</th>
                   <th />
-                  <th colSpan={2}>{t('Income')}</th>
-                  <th colSpan={2}>{t('Expense')}</th>
+                  <th>{t('Income')}</th>
+                  <th>{t('Expense')}</th>
                   <th className="hidden-sm">{t('Note')}</th>
                   <th className="hidden-sm">{t('Tags')}</th>
                 </tr>
@@ -267,27 +267,24 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   <td colSpan={4}>{t('Total for selected transactions:')}</td>
                   <td className="text-end numeric">
                     {balancesBySelectedCashFlowItems.map(({ money, income }) => {
-                      return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
-                    })}
-                  </td>
-
-                  <td className="currency">
-                    {balancesBySelectedCashFlowItems.map(({ money, income }) => {
-                      return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                      return income ? (
+                        <div key={money.id}>
+                          {toCurrency(income, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
                     })}
                   </td>
 
                   <td className="text-end numeric">
                     {balancesBySelectedCashFlowItems.map(({ money, expense }) => {
-                      return expense ? <div key={money.id}>{toCurrency(-expense, money.precision)}</div> : null;
+                      return expense ? (
+                        <div key={money.id}>
+                          {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
                     })}
                   </td>
 
-                  <td className="currency">
-                    {balancesBySelectedCashFlowItems.map(({ money, expense }) => {
-                      return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
-                    })}
-                  </td>
                   <td />
                   <td />
                 </tr>
@@ -295,27 +292,24 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   <td colSpan={4}>{t('Total:')}</td>
                   <td className="text-end numeric">
                     {balances.map(({ money, income }) => {
-                      return income ? <div key={money.id}>{toCurrency(income, money.precision)}</div> : null;
-                    })}
-                  </td>
-
-                  <td className="currency">
-                    {balances.map(({ money, income }) => {
-                      return income ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
+                      return income ? (
+                        <div key={money.id}>
+                          {toCurrency(income, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
                     })}
                   </td>
 
                   <td className="text-end numeric">
                     {balances.map(({ money, expense }) => {
-                      return expense ? <div key={money.id}>{toCurrency(-expense, money.precision)}</div> : null;
+                      return expense ? (
+                        <div key={money.id}>
+                          {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
                     })}
                   </td>
 
-                  <td className="currency">
-                    {balances.map(({ money, expense }) => {
-                      return expense ? <div dangerouslySetInnerHTML={{ __html: money.symbol }} key={money.id} /> : null;
-                    })}
-                  </td>
                   <td />
                   <td />
                 </tr>

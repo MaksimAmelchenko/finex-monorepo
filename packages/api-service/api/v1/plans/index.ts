@@ -1,6 +1,5 @@
 import { getRestApi } from '../../../libs/rest-api';
 
-import { cancelPlan } from './cancel-plan';
 import { createExchangePlan } from './create-exchange-plan';
 import { createIePlan } from './create-ie-plan';
 import { createTransferPlan } from './create-transfer-plan';
@@ -15,7 +14,6 @@ import { updateIePlan } from './update-ie-plan';
 import { updateTransferPlan } from './update-transfer-plan';
 
 export const plansApi = getRestApi([
-  cancelPlan,
   createExchangePlan,
   createIePlan,
   createTransferPlan,

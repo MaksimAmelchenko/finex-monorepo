@@ -17,6 +17,7 @@ import { CategoryPrototypesRepository } from '../stores/category-prototypes-repo
 import { CommonStorageStore } from './other-stores/common-storage-store';
 import { ContractorsApi } from '../stores/api/contractors-api';
 import { ContractorsRepository } from '../stores/contractors-repository';
+import { CurrenciesApi } from '../stores/api/currencies-api';
 import { CurrenciesRateSourceStore } from '../stores/currencies-rate-source-store';
 import { CurrenciesRepository } from '../stores/currency-repository';
 import { DebtsApi } from '../stores/api/debts-api';
@@ -26,6 +27,8 @@ import { ExchangesRepository } from '../stores/exchanges-repository';
 import { MainStore } from './main-store';
 import { MoneysApi } from '../stores/api/moneys-api';
 import { MoneysRepository } from '../stores/moneys-repository';
+import { OperationsApi } from '../stores/api/operation-api';
+import { OperationsRepository } from '../stores/operations-repository';
 import { ParamsStore } from '../stores/params-store';
 import { PlanTransactionsApi } from '../stores/api/plan-transaction-api';
 import { PlanTransactionsRepository } from '../stores/plan-transactions-repository';
@@ -48,8 +51,6 @@ import { UnitsApi } from '../stores/api/units-api';
 import { UnitsRepository } from '../stores/units-repository';
 import { UsersApi } from '../stores/api/users-api';
 import { UsersRepository } from '../stores/users-repository';
-import { OperationsRepository } from '../stores/operations-repository';
-import { OperationsApi } from '../stores/api/operation-api';
 
 /**
  * Helper to initialize DI
@@ -75,7 +76,7 @@ export function initializeMainStore(): MainStore {
   new CategoriesRepository(mainStore, new CategoriesApi(mainStore));
   new TagsRepository(mainStore, new TagsApi(mainStore));
   new ProjectsRepository(mainStore, new ProjectsApi(mainStore));
-  new CurrenciesRepository(mainStore);
+  new CurrenciesRepository(mainStore, new CurrenciesApi(mainStore));
   new CurrenciesRateSourceStore(mainStore);
   new MoneysRepository(mainStore, new MoneysApi(mainStore));
   new ProfileRepository(mainStore, new ProfileApi(mainStore));

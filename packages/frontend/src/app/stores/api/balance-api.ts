@@ -12,11 +12,11 @@ export class BalanceApi extends ApiRepository implements IBalanceApi {
   static override storeName = 'DashboardApi';
 
   getBalance(params: IGetBalanceParams): Promise<IGetBalanceResponse> {
-    const { dBalance, moneyId } = params;
+    const { balanceDate, moneyId } = params;
     const queryString = stringify(
       {
-        dBalance,
-        idMoney: moneyId,
+        balanceDate,
+        moneyId,
       },
       { skipNull: true }
     );
@@ -26,12 +26,12 @@ export class BalanceApi extends ApiRepository implements IBalanceApi {
   }
 
   getDailyBalance(params: IGetDailyBalanceParams): Promise<IGetDailyBalanceResponse> {
-    const { dBegin, dEnd, moneyId } = params;
+    const { startDate, endDate, moneyId } = params;
     const queryString = stringify(
       {
-        dBegin,
-        dEnd,
-        idMoney: moneyId,
+        startDate,
+        endDate,
+        moneyId,
       },
       { skipNull: true }
     );

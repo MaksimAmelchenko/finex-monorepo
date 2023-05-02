@@ -7,6 +7,8 @@ import {
   FindDebtsRepositoryQuery,
   FindDebtsServiceResponse,
   IDebt,
+  IDebtBalances,
+  IDebtsBalancesParams,
   UpdateDebtServiceChanges,
 } from './types';
 import { DebtItemService, IDebtItem } from '../debt-item/types';
@@ -148,6 +150,15 @@ class DebtServiceImpl implements DebtService {
     if (!cashFlowItemDOAs.length) {
       await this.cashFlowRepository.deleteCashFlow(ctx, projectId, debtId);
     }
+  }
+
+  getBalances(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    params: IDebtsBalancesParams
+  ): Promise<IDebtBalances[]> {
+    return this.debtRepository.getBalances(ctx, projectId, userId, params);
   }
 }
 

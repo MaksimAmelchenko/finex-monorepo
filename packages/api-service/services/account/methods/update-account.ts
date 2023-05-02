@@ -8,17 +8,17 @@ import { getAccount } from './get-account';
 export async function updateAccount(
   ctx: IRequestContext<unknown, true>,
   projectId: string,
+  userId: string,
   accountId: string,
   changes: UpdateAccountServiceChanges
 ): Promise<Account> {
-  const { userId } = ctx;
   const { accountTypeId, name, note, isEnabled } = changes;
   const editors = changes.editors ? changes.editors.filter(editorId => editorId !== userId) : undefined;
   const viewers = changes.viewers
     ? changes.viewers.filter(viewerId => viewerId !== userId && !editors?.includes(viewerId))
     : undefined;
 
-  const account = await getAccount(ctx, projectId, accountId);
+  const account = await getAccount(ctx, projectId, userId, accountId);
 
   if (account.permit !== Permit.Owner) {
     throw new AccessDeniedError();
@@ -127,5 +127,5 @@ export async function updateAccount(
     }
   }
 
-  return getAccount(ctx, projectId, accountId);
+  return getAccount(ctx, projectId, userId, accountId);
 }

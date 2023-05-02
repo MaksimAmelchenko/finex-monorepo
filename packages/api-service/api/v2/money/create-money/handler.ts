@@ -1,16 +1,17 @@
-import { IPublicMoney } from '../../../../services/money/types';
+import { IMoneyDTO } from '../../../../modules/money/types';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
-import { MoneyService } from '../../../../services/money';
+import { moneyService } from '../../../../modules/money/money.service';
+import { moneyMapper } from '../../../../modules/money/money.mapper';
 
-export async function handler(ctx: IRequestContext<any, true>): Promise<IResponse<{ money: IPublicMoney }>> {
+export async function handler(ctx: IRequestContext<any, true>): Promise<IResponse<{ money: IMoneyDTO }>> {
   const {
-    params: { currencyId, isEnabled, name, precision, sorting, symbol },
+    params: { currencyCode, isEnabled, name, precision, sorting, symbol },
     projectId,
     userId,
   } = ctx;
-  const money = await MoneyService.createMoney(ctx, projectId, userId, {
-    currencyId,
+  const money = await moneyService.createMoney(ctx, projectId, userId, {
+    currencyCode,
     isEnabled,
     name,
     precision,
@@ -20,7 +21,7 @@ export async function handler(ctx: IRequestContext<any, true>): Promise<IRespons
 
   return {
     body: {
-      money: money.toPublicModel(),
+      money: moneyMapper.toDTO(money),
     },
   };
 }

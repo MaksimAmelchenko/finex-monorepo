@@ -1,5 +1,3 @@
-import got from 'got';
-
 import { IRequestContext, TDateTime } from '../../../../types/app';
 import { SignUpRequest } from '../../../../services/sign-up-request';
 import { ISignUpRequest } from '../../../../types/sign-up-request';
@@ -16,12 +14,14 @@ interface IRecaptchaResponse {
 }
 
 export async function handler(ctx: IRequestContext<any, false>): Promise<IResponse> {
-  const { name, email, password, isAcceptTerms, recaptcha } = ctx.params;
-  const { ip } = ctx.additionalParams;
+  const { name, email, password, isAcceptTerms } = ctx.params;
+  const { ip, origin } = ctx.additionalParams;
 
+  /*
   const response: IRecaptchaResponse = await got(
     `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&remoteip=${ip}&response=${recaptcha}`
   ).json();
+  */
 
   // if (!response.success) {
   //   throw new InvalidParametersError('Invalid reCAPTCHA');
@@ -31,6 +31,7 @@ export async function handler(ctx: IRequestContext<any, false>): Promise<IRespon
     name,
     email,
     password,
+    origin,
   });
 
   return {

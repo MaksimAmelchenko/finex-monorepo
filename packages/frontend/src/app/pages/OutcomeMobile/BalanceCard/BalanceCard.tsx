@@ -39,7 +39,7 @@ export function BalanceCard({
 }: BalanceCardProps): JSX.Element {
   return (
     <button type="button" className={clsx(styles.root, className)} onClick={onClick}>
-      {icon && <img src={icon} className={clsx(styles.root__icon, styles.icon)} loading="lazy" alt="icon"/>}
+      {icon && <img src={icon} className={clsx(styles.root__icon, styles.icon)} loading="lazy" alt="icon" />}
       <div className={clsx(styles.root__header, styles.header)}>
         <div className={styles.header__title}>{title}</div>
         {isAccordion && (
@@ -56,7 +56,7 @@ export function BalanceCard({
                 className={clsx(styles.root__amount, Math.sign(amount) === -1 && styles.root__amount_minus)}
                 key={money.id}
               >
-                {toCurrency(amount, money.precision)} <span dangerouslySetInnerHTML={{ __html: money.symbol }} />
+                {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
               </div>
             );
           })

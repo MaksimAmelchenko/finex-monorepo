@@ -276,7 +276,7 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
             return (
               <Fragment key={debtItemsByDate.date}>
                 <div className={styles.section__header}>
-                  {formatDate(debtItemsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                  {formatDate(debtItemsByDate.date, 'date.format.fullDateWithDayOfWeek')}
                 </div>
                 <div className={styles.section__content}>
                   {debtItemsByDate.debtItems.map(debtItem => (

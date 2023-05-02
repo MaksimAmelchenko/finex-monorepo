@@ -8,12 +8,11 @@ import {
   CreateMoneyData,
   CreateMoneyResponse,
   GetMoneysResponse,
-  IApiMoney,
   IMoney,
+  IMoneyDTO,
   UpdateMoneyChanges,
   UpdateMoneyResponse,
 } from '../types/money';
-import { CurrenciesRepository } from './currency-repository';
 
 export interface IMoneysApi {
   getMoneys: () => Promise<GetMoneysResponse>;
@@ -60,7 +59,7 @@ export class MoneysRepository extends ManageableStore {
     return this._moneys.find(({ id }) => id === moneyId);
   }
 
-  consume(moneys: IApiMoney[]): void {
+  consume(moneys: IMoneyDTO[]): void {
     this._moneys = moneys.map(money => this.decode(money));
   }
 
@@ -112,20 +111,18 @@ export class MoneysRepository extends ManageableStore {
       );
   }
 
-  private decode(money: IApiMoney): Money {
-    const { id, currencyId, name, symbol, precision, isEnabled, sorting, userId } = money;
-    const currenciesRepository = this.getStore(CurrenciesRepository);
+  private decode(money: IMoneyDTO): Money {
+    const { id, currencyCode, name, symbol, precision, isEnabled, sorting, userId } = money;
     const usersRepository = this.getStore(UsersRepository);
 
     const user = usersRepository.get(userId);
     if (!user) {
       throw new Error('User is not found');
     }
-    const currency = (currencyId && currenciesRepository.get(currencyId)) || null;
 
     return new Money({
       id,
-      currency,
+      currencyCode,
       name,
       symbol,
       precision: precision ?? undefined,

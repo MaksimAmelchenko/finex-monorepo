@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { BrowserRouter } from 'react-router-dom';
-import { BrowserTracing } from '@sentry/tracing';
 
 import { App } from './app/app';
 import { Locale } from './app/types';
@@ -17,7 +16,7 @@ const locales = [Locale.Ru, Locale.En, Locale.De];
 const searchParams = new URLSearchParams(window.location.search);
 const locale = searchParams.get('locale') as Locale | null;
 
-const defaultLocale = 'en';
+const defaultLocale = 'ru';
 const currentLocale: Locale =
   locale && locales.includes(locale) ? locale : (window.localStorage.getItem('locale') as Locale) ?? locales[0];
 
@@ -28,7 +27,7 @@ const SENTRY_DSN = process.env.NX_SENTRY_DSN;
 if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
-    integrations: [new BrowserTracing()],
+    integrations: [new Sentry.BrowserTracing()],
     tracesSampleRate: 1.0,
   });
 }
@@ -40,8 +39,27 @@ async function initI18n(): Promise<void> {
         {
           en: {
             ...en,
+            number: {
+              format: {
+                precision: 2,
+                separator: '.',
+                delimiter: ',',
+                strip_insignificant_zeros: false,
+              },
+              percentage: { format: {} },
+              currency: {
+                format: {
+                  unit: '$',
+                  precision: 2,
+                  format: '%u%n',
+                  delimiter: ',',
+                  separator: '.',
+                  strip_insignificant_zeros: true,
+                },
+              },
+            },
             date: {
-              formats: {
+              format: {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh24:mi',
                 short: 'dd.MM.yy',
@@ -51,7 +69,7 @@ async function initI18n(): Promise<void> {
               },
             },
             time: {
-              formats: {
+              format: {
                 short: 'HH:mm',
               },
             },
@@ -68,8 +86,27 @@ async function initI18n(): Promise<void> {
         {
           ru: {
             ...ru,
+            number: {
+              format: {
+                precision: 2,
+                separator: '.',
+                delimiter: ' ',
+                strip_insignificant_zeros: false,
+              },
+              percentage: { format: {} },
+              currency: {
+                format: {
+                  unit: '₽',
+                  precision: 2,
+                  format: '%n %u',
+                  delimiter: ' ',
+                  separator: ',',
+                  strip_insignificant_zeros: true,
+                },
+              },
+            },
             date: {
-              formats: {
+              format: {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh:mm',
                 short: 'dd.MM.yy',
@@ -79,7 +116,7 @@ async function initI18n(): Promise<void> {
               },
             },
             time: {
-              formats: {
+              format: {
                 short: 'HH:mm',
               },
             },
@@ -96,8 +133,27 @@ async function initI18n(): Promise<void> {
         {
           de: {
             ...de,
+            number: {
+              format: {
+                precision: 2,
+                separator: '.',
+                delimiter: ',',
+                strip_insignificant_zeros: false,
+              },
+              percentage: { format: {} },
+              currency: {
+                format: {
+                  unit: '€',
+                  precision: 2,
+                  format: '%n %u',
+                  delimiter: ',',
+                  separator: '.',
+                  strip_insignificant_zeros: true,
+                },
+              },
+            },
             date: {
-              formats: {
+              format: {
                 default: 'dd.MM.yyyy',
                 full: 'dd.MM.yyyy hh:mi',
                 short: 'dd.MM.yy',
@@ -107,7 +163,7 @@ async function initI18n(): Promise<void> {
               },
             },
             time: {
-              formats: {
+              format: {
                 short: 'HH:mm',
               },
             },

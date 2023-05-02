@@ -2,8 +2,8 @@ extends ../../layout
 
 block content
   p
-    | Здравствуйте,
+    | #{t('transactionalEmails.greeting', {name: locals.name})}
     |
   p
-    | Во вложении вы найдете экспорт ваших данных.
+    | #{t('transactionalEmails.export.message')}
     |

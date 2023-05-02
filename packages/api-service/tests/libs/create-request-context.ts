@@ -7,9 +7,14 @@ import { IRequestContext } from '../../types/app';
 export async function createRequestContext(
   trx?: Knex.Transaction,
   requestId: string = uuid.v4()
-): Promise<IRequestContext<never, false>> {
+): Promise<IRequestContext<any, false>> {
   return {
-    params: {} as never,
+    params: {
+      locale: 'en',
+    },
+    additionalParams: {
+      origin: 'https://app.finex.io',
+    },
     cookies: {} as any,
     log: log.child(
       {

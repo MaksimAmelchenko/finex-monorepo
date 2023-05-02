@@ -10,13 +10,9 @@ export const accountTypeSchema: OpenAPIV3_1.SchemaObject = {
       type: 'string',
       example: 'Электронные деньги',
     },
-    shortName: {
-      type: 'string',
-      example: 'Электронные деньги',
-    },
   },
   additionalProperties: false,
-  required: ['id', 'name', 'shortName'],
+  required: ['id', 'name'],
 };
 
 export const accountsTypeSchema: OpenAPIV3_1.SchemaObject = {

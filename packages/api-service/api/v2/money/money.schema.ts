@@ -7,7 +7,7 @@ export const moneySchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     id: moneyId,
-    currencyId: {
+    currencyCode: {
       type: ['string', 'null'],
     },
     name: {
@@ -31,7 +31,7 @@ export const moneySchema: OpenAPIV3_1.SchemaObject = {
   required: [
     //
     'id',
-    'currencyId',
+    'currencyCode',
     'name',
     'symbol',
     'precision',

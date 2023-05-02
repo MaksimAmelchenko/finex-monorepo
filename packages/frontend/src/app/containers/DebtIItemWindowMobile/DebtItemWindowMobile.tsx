@@ -273,12 +273,12 @@ export function DebtItemWindowMobile({
         <AccountField name="accountId" label={t('Account')} />
 
         <div className={styles.dateFields}>
-          <DateField name="debtItemDate" label={t('Date')} dateFormat="date.formats.fullDateWithDayOfWeek" />
+          <DateField name="debtItemDate" label={t('Date')} dateFormat="date.format.fullDateWithDayOfWeek" />
 
           <DateField
             name="reportPeriod"
             label={t('Period')}
-            dateFormat="date.formats.month"
+            dateFormat="date.format.month"
             showMonthYearPicker
             className={styles.dateFields__reportPeriod}
           />

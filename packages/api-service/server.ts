@@ -2,9 +2,10 @@
 import 'source-map-support/register';
 import * as Koa from 'koa';
 import { Model } from 'objection';
+import * as i18n from 'i18n';
+import * as helmet from 'koa-helmet';
 import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
-import * as helmet from 'koa-helmet';
 
 import config from './libs/config';
 import { knex } from './knex';
@@ -17,7 +18,6 @@ import { accountsApi } from './api/v1/accounts';
 import { accountsBalancesApi } from './api/v1/accounts-balances';
 import { categoriesApi } from './api/v1/categories';
 import { contractorsApi } from './api/v1/contractors';
-import { currenciesApi } from './api/v1/currencies';
 import { dashboardApi } from './api/v1/dashboard';
 import { debtsApi } from './api/v1/debts';
 import { exchangesApi } from './api/v1/exchanges';
@@ -60,6 +60,13 @@ import { cashFlowApi } from './api/v2/cash-flow';
 import { cashFlowItemApi } from './api/v2/cash-flow-item';
 import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
+import { currencyApi } from './api/v2/currency';
+
+import de  from './locales/de';
+import en from './locales/en';
+import ru from './locales/ru';
+
+const locales = config.get('locales');
 
 const app: Koa = new Koa();
 
@@ -83,7 +90,6 @@ app.use(accountsBalancesApi);
 app.use(accountsApi);
 app.use(categoriesApi);
 app.use(contractorsApi);
-app.use(currenciesApi);
 app.use(dashboardApi);
 app.use(debtsApi);
 app.use(exchangesApi);
@@ -124,6 +130,7 @@ app.use(cashFlowApi);
 app.use(cashFlowItemApi);
 app.use(billingApi);
 app.use(operationApi);
+app.use(currencyApi);
 
 // serve docs
 app.use(async (ctx, next) => {
@@ -153,6 +160,17 @@ app.use(async (ctx, next) => {
   return next();
 });
 //
+
+i18n.configure({
+  locales,
+  defaultLocale: locales[0],
+  objectNotation: true,
+  staticCatalog: {
+    ru,
+    en,
+    de,
+  } as any,
+});
 
 if (require.main === module) {
   const port: number = config.get('port');

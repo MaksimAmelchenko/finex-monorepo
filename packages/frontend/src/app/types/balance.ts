@@ -4,63 +4,71 @@ import { Contractor } from '../stores/models/contractor';
 import { Money } from '../stores/models/money';
 
 export interface IGetBalanceParams {
-  dBalance: TDate;
+  balanceDate: TDate;
   moneyId?: string;
 }
 
 export interface IGetBalanceResponse {
-  accountBalances: IApiAccountBalance[];
-  debtBalances: IApiDebtBalance[];
+  accountsBalances: IAccountBalancesDTO[];
+  debtsBalances: IDebtBalancesDTO[];
 }
 
-export interface IApiAccountBalance {
-  idAccount: number;
-  balances: IApiBalance[];
+export interface IAccountBalancesDTO {
+  accountId: string;
+  balances: IBalanceDTO[];
 }
 
-export interface IApiDebtBalance {
-  debtType: number;
-  idContractor: number;
-  balances: IApiBalance[];
+export interface IDebtBalancesDTO {
+  contractorId: string;
+  debtType: 1 | 2;
+  balances: IBalanceDTO[];
 }
 
-export interface IApiBalance {
-  idMoney: number;
-  sum: number;
+export interface IBalanceDTO {
+  moneyId: string;
+  amount: number;
 }
 
 export interface IGetDailyBalanceParams {
-  dBegin: TDate;
-  dEnd: TDate;
+  startDate: TDate;
+  endDate: TDate;
   moneyId?: string;
 }
 
 export interface IGetDailyBalanceResponse {
-  balances: IApiDailyBalance[];
+  accountDailyBalances: IDailyBalanceDTO[];
 }
 
-export interface IApiDailyBalance {
-  dBalance: TDate;
-  idAccount: number;
-  idMoney: number;
-  sum: number;
+export interface IDailyBalanceDTO {
+  moneyId: string;
+  accounts: Array<{
+    accountId: string;
+    balances: Array<{
+      date: TDate;
+      amount: number;
+    }>;
+  }>;
 }
 
 export interface IDailyBalance {
-  dBalance: TDate;
-  account: Account | null;
   money: Money;
-  sum: number;
+  accounts: Array<{
+    account: Account;
+    balances: Array<{
+      date: TDate;
+      amount: number;
+    }>;
+  }>;
 }
 
-export interface IAccountBalance {
+export interface IAccountBalances {
   account: Account;
   balances: IBalance[];
 }
 
-export interface IDebtBalance {
-  debtType: number;
+export interface IDebtBalances {
   contractor: Contractor;
+  debtType: 1 | 2;
   balances: IBalance[];
 }
 

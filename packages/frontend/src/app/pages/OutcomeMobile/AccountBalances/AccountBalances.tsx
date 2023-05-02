@@ -5,11 +5,12 @@ import { observer } from 'mobx-react-lite';
 import {
   Accordion,
   bankSvg,
+  coinsHandSvg,
   coinsStacked03Svg,
-  creditCard01Svg,
   cryptocurrency01Svg,
-  gift01Svg,
+  piggyBank01Svg,
   safeSvg,
+  trendUp01Svg,
   wallet03Svg,
 } from '@finex/ui-kit';
 import { BalanceCard } from '../BalanceCard/BalanceCard';
@@ -24,26 +25,24 @@ import styles from './AccountBalances.module.scss';
 
 const t = getT('AccountBalancesMobile');
 
-// 1,Наличные
-// 2,Карта
-// 3,Банковский счет
-// 4,Банковский вклад
-// 5,Другое
-// 6,Кредитная карта
-// 7,Долг
-// 8,Электронные деньги
-// 9,Депозитная карта
+// 1,Cash
+// 3,Current account
+// 4,Deposit
+// 6,Credit account
+// 8,E-wallet
+// 10,Savings account
+// 11,Investment account
+// 12,Pension account
 
 const accountTypeIconMap: Record<string, TUrl> = {
   '1': wallet03Svg,
-  '2': creditCard01Svg,
   '3': bankSvg,
   '4': safeSvg,
-  '5': coinsStacked03Svg,
-  '6': creditCard01Svg,
-  '7': gift01Svg,
+  '6': coinsHandSvg,
   '8': cryptocurrency01Svg,
-  '9': creditCard01Svg,
+  '10': piggyBank01Svg,
+  '11': trendUp01Svg,
+  '12': coinsStacked03Svg,
 };
 
 export const AccountBalances = observer(() => {

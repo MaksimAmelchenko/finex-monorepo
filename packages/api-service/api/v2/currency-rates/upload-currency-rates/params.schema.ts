@@ -8,7 +8,11 @@ export const uploadCurrencyRatesParamsSchema: OpenAPIV3_1.SchemaObject = {
   properties: {
     dateFrom: date,
     dateTo: date,
+    secret: {
+      type: 'string',
+    },
     locale,
   },
   additionalProperties: false,
+  required: ['secret'],
 };

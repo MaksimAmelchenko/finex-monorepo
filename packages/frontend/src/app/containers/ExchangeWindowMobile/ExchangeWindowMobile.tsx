@@ -357,12 +357,12 @@ export function ExchangeWindowMobile({ exchange, onClose }: ExchangeWindowMobile
             <AccountField name="accountBuyId" label={t('Buy account')} />
 
             <div className={styles.dateFields}>
-              <DateField name="exchangeDate" label={t('Date')} dateFormat="date.formats.fullDateWithDayOfWeek" />
+              <DateField name="exchangeDate" label={t('Date')} dateFormat="date.format.fullDateWithDayOfWeek" />
 
               <DateField
                 name="reportPeriod"
                 label={t('Period')}
-                dateFormat="date.formats.month"
+                dateFormat="date.format.month"
                 showMonthYearPicker
                 className={styles.dateFields__reportPeriod}
               />

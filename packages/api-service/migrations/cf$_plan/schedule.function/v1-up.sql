@@ -3,7 +3,11 @@ CREATE OR REPLACE FUNCTION "cf$_plan".schedule(iid_plan integer, idbegin date, i
  LANGUAGE sql
  SECURITY DEFINER ROWS 100
 AS $function$
-  with 
+  with
+       --
+    ctx as (
+      select context.get('Id_Project')::int as Id_Project
+    ),
     p as (select p.dBegin,
                  p.Report_Period,
                  p.Repeat_Type,
@@ -11,21 +15,22 @@ AS $function$
                  p.End_Type,
                  p.Repeat_Count,
                  p.DEnd
-            from cf$.plan p
-           where p.Id_Plan = iId_Plan
+            from ctx, cf$.plan p
+           where p.id_project = ctx.Id_Project
+             and p.Id_Plan = iId_Plan
          ),
-    o as (select (generate_series(p.DBegin, case when p.Repeat_Type = 0 
-                                              then p.DBegin 
-                                              else iDEnd 
+    o as (select (generate_series(p.DBegin, case when p.Repeat_Type = 0
+                                              then p.DBegin
+                                              else iDEnd
                                             end, '1 day'))::date as DPlan
             from p
          ),
-    f as (select DPlan, 
+    f as (select DPlan,
                  row_number() over (order by DPlan) as NRepeat
             from p, o
-           where case when p.Repeat_Type = 0 
+           where case when p.Repeat_Type = 0
                  then
-                   DPlan = p.DBegin 
+                   DPlan = p.DBegin
                  else
                   case when p.Repeat_Type = 1
                   then
@@ -52,12 +57,12 @@ AS $function$
                       end
                     end
                   end
-                 end 
+                 end
          )
-  select iid_Plan, 
+  select iid_Plan,
          f.DPlan,
          (date_trunc('month', f.DPlan)
-           + ((  (extract (year from p.Report_Period) * 12 + extract (month from p.Report_Period))::int 
+           + ((  (extract (year from p.Report_Period) * 12 + extract (month from p.Report_Period))::int
                - (extract (year from p.DBegin) * 12 + extract (month from p.DBegin))::int)::text || ' months'
              )::interval
          )::date as Report_Period,
@@ -66,7 +71,7 @@ AS $function$
    where (   coalesce(p.End_Type, 0) = 0
           or (p.End_Type = 1 and NRepeat <= p.Repeat_Count)
           or (p.End_Type = 2 and f.DPlan <= p.DEnd)
-         ) 
+         )
      and f.DPlan between iDBegin and iDEnd
      and f.DPlan not in (select pe.DExclude
                            from cf$.v_Plan_Exclude pe

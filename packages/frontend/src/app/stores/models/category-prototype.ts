@@ -4,11 +4,16 @@ export class CategoryPrototype implements ICategoryPrototype {
   readonly id: string;
   readonly name: string;
   readonly parent: CategoryPrototype | null;
+  isEnabled: boolean;
+  isSystem: boolean;
 
-  constructor({ id, name, parent }: ICategoryPrototype) {
+
+  constructor({ id, name, parent, isEnabled, isSystem }: ICategoryPrototype) {
     this.id = id;
     this.name = name;
     this.parent = parent;
+    this.isEnabled = isEnabled;
+    this.isSystem = isSystem;
   }
 
   get namePath(): string[] {

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
+    "target": "ESNext",
     "noImplicitAny": false,
     "sourceMap": true,
     "noEmitOnError": true,
@@ -10,7 +10,7 @@
     "types": ["node", "mocha"],
     "typeRoots": ["node_modules/@types", "types"],
     "strictPropertyInitialization": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
-  "exclude": ["node_modules", "aws"]
+  "exclude": ["node_modules"]
 }

@@ -3,7 +3,7 @@ import { Tag } from '../stores/models/tag';
 import { User } from '../stores/models/user';
 
 export interface CancelPlanParams {
-  excludedDate: TDate;
+  exclusionDate: TDate;
 }
 
 export enum RepetitionType {

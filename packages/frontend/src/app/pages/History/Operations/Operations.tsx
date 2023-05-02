@@ -132,7 +132,7 @@ export const Operations = observer(() => {
           return (
             <Fragment key={operationsByDate.date}>
               <div className={styles.section__header}>
-                {formatDate(operationsByDate.date, 'date.formats.fullDateWithDayOfWeek')}
+                {formatDate(operationsByDate.date, 'date.format.fullDateWithDayOfWeek')}
               </div>
               <div className={styles.section__content}>
                 {operationsByDate.operations.map(operation => {

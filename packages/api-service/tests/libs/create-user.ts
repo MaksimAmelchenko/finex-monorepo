@@ -6,7 +6,6 @@ import { IUser } from '../../modules/user/types';
 import { ProjectService } from '../../services/project';
 import { hashPassword } from '../../services/auth/methods/hash-password';
 import { userRepository } from '../../modules/user/user.repository';
-import { userService } from '../../modules/user/user.service';
 import { userMapper } from '../../modules/user/user.mapper';
 
 export interface CreateUser {
