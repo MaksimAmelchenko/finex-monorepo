@@ -161,21 +161,21 @@ app.use(async (ctx, next) => {
 });
 //
 
+i18n.configure({
+  locales,
+  defaultLocale: locales[0],
+  objectNotation: true,
+  staticCatalog: {
+    ru,
+    en,
+    de,
+  },
+});
+
 if (require.main === module) {
   const port: number = config.get('port');
   const http = require('http');
   const server = http.createServer(app.callback());
-
-  i18n.configure({
-    locales,
-    defaultLocale: locales[0],
-    objectNotation: true,
-    staticCatalog: {
-      ru,
-      en,
-      de,
-    },
-  });
 
   gracefulShutdown(server, {
     log,
