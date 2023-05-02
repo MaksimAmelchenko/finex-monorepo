@@ -58,7 +58,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
               <>
                 <div className={styles.dateColumn__date}>{formatDate(transactionDate)}</div>
                 <div className={styles.dateColumn__label}>
-                  <span className="txt-color-red">{t('Not confirmed')}</span>
+                  <span className={styles.dateColumn_not_confirmed}>{t('Not confirmed')}</span>
                   <br />
                   {isOverdue && <span>{t('Overdue')}</span>}
                 </div>

@@ -39,6 +39,10 @@
     font-size: 1.2rem;
   }
 
+  &_not_confirmed {
+    white-space: nowrap;
+  }
+
   &_planned {
     background-color: var(--color-success-50);
 
@@ -62,5 +66,5 @@
 }
 
 .categoryPath {
-  color: var(--color-gray-400);
+  color: var(--color-gray-500);
 }
