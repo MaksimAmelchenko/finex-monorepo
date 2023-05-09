@@ -239,6 +239,15 @@ module.exports = {
     Note: 'Примечание',
     Save: 'Сохранить',
   },
+  Connections: {
+    'Bank connections': 'Подключение к банкам',
+    'Banking connection management': 'Управление банковскими подключениями',
+    'Synchronize transactions with your bank accounts for automatic accounting of your finances_':
+      'Синхронизируйте транзакции с вашими банковскими счетами для автоматического учета ваших финансов.',
+    'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
+      'Ваши данные в безопасности. Мы не храним ваши логины и пароли, имеем только доступ на чтение данных и не можем совершать платежи от вашего имени. Вы можете отозвать разрешение на доступ к своим данным в любое время.',
+    'Connect bank': 'Подключить банк',
+  },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Вы уверены, что хотите удалить несколько контрагентов?',
     "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
@@ -838,6 +847,8 @@ module.exports = {
     Settings: 'Настройки',
     'Current project': 'Текущий проект',
     References: 'Справочники',
+    'Integrations and connected apps': 'Интеграции и подключенные приложения',
+    'Bank connections': 'Подключение к банкам',
     Profile: 'Аккаунт',
     'Profile settings': 'Настройки аккаунта',
     'Log out': 'Выйти',

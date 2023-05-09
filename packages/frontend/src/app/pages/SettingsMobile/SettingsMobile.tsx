@@ -7,6 +7,7 @@ import { AppStore } from '../../stores/app-store';
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { BackButton, Header } from '../../components/Header/Header';
 import {
+  BankIcon,
   Building02Icon,
   Coins02Icon,
   FolderIcon,
@@ -20,6 +21,7 @@ import {
   Wallet01Icon,
 } from '@finex/ui-kit';
 import { CategoriesMobile } from '../../containers/CategoriesMobile/CategoriesMobile';
+import { ConnectionsMobile } from '../ConnectionsMobile/ConnectionsMobile';
 import { ContractorsMobile } from '../../containers/ContractorsMobile/ContractorsMobile';
 import { MenuItem } from './MenuItem/MenuItem';
 import { MoneysMobile } from '../../containers/MoneysMobile/MoneysMobile';
@@ -134,6 +136,18 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
         </section>
 
         <section className={styles.menuSection}>
+          <h2 className={styles.menuSection__header}>{t('Integrations and connected apps')}</h2>
+          <div className={styles.menuSection__content}>
+            <MenuItem
+              menuItemId={SideSheet.Connections}
+              icon={<BankIcon />}
+              text={t('Bank connections')}
+              onClick={handleMenuItemClick}
+            />
+          </div>
+        </section>
+
+        <section className={styles.menuSection}>
           <h2 className={styles.menuSection__header}>{t('Profile')}</h2>
           <div className={styles.menuSection__content}>
             <MenuItem
@@ -168,6 +182,8 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
       <ProjectsMobile open={sideSheet === SideSheet.Projects} onClose={handleCloseSideSheet} />
 
       <ProfileMobile open={sideSheet === SideSheet.Profile} onClose={handleCloseSideSheet} />
+
+      <ConnectionsMobile open={sideSheet === SideSheet.Connections} onClose={handleCloseSideSheet} />
     </>
   );
 });

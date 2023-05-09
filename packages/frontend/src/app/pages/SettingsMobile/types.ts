@@ -11,5 +11,6 @@ export enum SideSheet {
   Moneys = 'moneys',
   Projects = 'projects',
   Profile = 'profile',
+  Connections = 'connections',
   None = 'none',
 }

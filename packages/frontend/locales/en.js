@@ -237,6 +237,15 @@ module.exports = {
     Note: 'Note',
     Save: 'Save',
   },
+  Connections: {
+    'Bank connections': 'Bank connections',
+    'Banking connection management': 'Banking connection management',
+    'Synchronize transactions with your bank accounts for automatic accounting of your finances_':
+      'Synchronize transactions with your bank accounts for automatic accounting of your finances.',
+    'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
+      'Your data is safe. We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf. You can revoke permission to access your data at any time.',
+    'Connect bank': 'Connect bank',
+  },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Are you sure you want to delete several contractors?',
     "You can't delete contractor with transaction": "You can't delete contractor with transaction",
@@ -838,6 +847,8 @@ module.exports = {
     Settings: 'Settings',
     'Current project': 'Current project',
     References: 'References',
+    'Integrations and connected apps': 'Integrations and connected apps',
+    'Bank connections': 'Bank connections',
     Profile: 'Profile',
     'Profile settings': 'Profile settings',
     'Log out': 'Log out',
