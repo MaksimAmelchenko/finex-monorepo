@@ -39,7 +39,7 @@
   }
 
   &-hover > tbody > tr:hover {
-    background-color: var(--color-primary-50);
+    background: linear-gradient(135deg, var(--color-primary-100) 50%, var(--color-primary-50));
   }
 
   &-borderless > tbody > tr > td {

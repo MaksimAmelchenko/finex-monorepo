@@ -44,22 +44,18 @@
 
   &_variant_primary {
     @include shadow.shadowXS;
-    border: 1px solid var(--color-primary-600);
-    background: var(--color-primary-600);
+    background: linear-gradient(135deg, var(--color-primary-600) 50%, var(--color-primary-500));
     color: var(--color-white);
 
     &.root_destructive {
-      border: 1px solid var(--color-error-600);
-      background-color: var(--color-error-600);
+      background: linear-gradient(135deg, var(--color-error-600) 50%, var(--color-error-500));
     }
 
     &:hover:enabled {
-      border: 1px solid var(--color-primary-700);
-      background: var(--color-primary-700);
+      background: linear-gradient(135deg, var(--color-primary-700) 50%, var(--color-primary-600));
 
       &.root_destructive {
-        border: 1px solid var(--color-error-700);
-        background-color: var(--color-error-700);
+        background: linear-gradient(135deg, var(--color-error-700) 50%, var(--color-error-600));
       }
     }
 
@@ -74,11 +70,9 @@
 
     &:disabled,
     &[disabled] {
-      border: 1px solid var(--color-primary-200);
       background: var(--color-primary-200);
 
       &.root_destructive {
-        border: 1px solid var(--color-error-200);
         background: var(--color-error-200);
       }
     }
