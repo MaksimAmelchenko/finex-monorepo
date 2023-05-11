@@ -7,7 +7,7 @@ import { SideSheet } from '../pages/SettingsMobile/types';
 export class AppStore extends ManageableStore {
   static storeName = 'AppStore';
 
-  isOpenedSettings: boolean = false;
+  isOpenedSettings = false;
   settingSideSheet: SideSheet = SideSheet.None;
   settingSideSheetParams: any = null;
 

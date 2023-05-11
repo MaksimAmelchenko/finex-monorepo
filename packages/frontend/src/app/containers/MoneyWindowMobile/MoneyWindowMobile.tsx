@@ -252,7 +252,7 @@ const CurrencyField = observer(() => {
         }
       }
     },
-    [setFieldValue, setFieldTouched]
+    [currenciesRepository, setFieldValue, setFieldTouched]
   );
 
   return (

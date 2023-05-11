@@ -32,9 +32,11 @@ export function RangeSelect<IsStrict extends boolean = false>({
   const startDate: Value<IsStrict> = values[0];
   const endDate: Value<IsStrict> = values[1];
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const onStartDateReset = isStrict ? undefined : () => onChange([null, endDate]);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const onEndDateReset = isStrict ? undefined : () => onChange([startDate, null]);
 

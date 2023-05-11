@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
 
-import { Accordion } from '../../../../../../ui-kit/src';
+import { Accordion } from '@finex/ui-kit';
 import { BalanceCard } from '../../OutcomeMobile/BalanceCard/BalanceCard';
 import { BalanceRepository } from '../../../stores/balance-repository';
 import { getT } from '../../../lib/core/i18n';

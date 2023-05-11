@@ -22,11 +22,11 @@ export const AppBar = observer<AppBarProps>(({ title, endAdornment: EndAdornment
 
   const handleSettingsClick = useCallback(() => {
     appStore.openSettings(SideSheet.None);
-  }, []);
+  }, [appStore]);
 
   const handleSettingsClose = useCallback(() => {
     appStore.closeSettings();
-  }, []);
+  }, [appStore]);
 
   return (
     <>

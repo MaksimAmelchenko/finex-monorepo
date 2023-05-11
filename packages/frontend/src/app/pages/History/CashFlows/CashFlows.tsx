@@ -54,6 +54,7 @@ export const CashFlows = observer(() => {
         cashFlowsRepository.refresh();
       },
       shouldPullToRefresh() {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return !this.mainElement.scrollTop;
       },
