@@ -38,15 +38,15 @@ export default {
       viewsPath: './emails/templates',
       resourcePath: './emails',
     },
-    transport: 'ses',
-    from: 'FINEX <no-reply@finex.io>',
-    service: {
-      region: 'MAIL__SERVICE__REGION',
-      credentials: {
-        accessKeyId: 'MAIL__SERVICE__CREDENTIALS__ACCESS_KEY_ID',
-        secretAccessKey: 'MAIL__SERVICE__CREDENTIALS__SECRET_ACCESS_KEY',
+    transport: 'smtp',
+    smtp: {
+      host: 'MAIL__SMTP__HOST',
+      auth: {
+        user: 'MAIL__SMTP__AUTH__USERNAME',
+        pass: 'MAIL__SMTP__AUTH__PASSWORD',
       },
     },
+    from: 'FINEX <no-reply@finex.io>',
   },
   paypal: {
     baseUrl: 'PAYPAL__BASE_URL',

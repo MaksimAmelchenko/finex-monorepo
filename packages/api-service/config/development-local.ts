@@ -19,6 +19,5 @@ export default {
       viewsPath: './emails/src/templates',
       resourcePath: './emails/src',
     },
-    transport: 'ses',
   },
 };

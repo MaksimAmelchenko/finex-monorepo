@@ -8,9 +8,9 @@ import { ISendParams } from '../../../types/transactional-email';
 import { saveToLog } from './save-to-log';
 import { transport } from '../../../libs/mail';
 
-import * as de from '../../../locales/de.js';
-import * as en from '../../../locales/en.js';
-import * as ru from '../../../locales/ru.js';
+import de from '../../../locales/de';
+import en from '../../../locales/en';
+import ru from '../../../locales/ru';
 
 const {
   from,
@@ -35,7 +35,7 @@ const emailTemplates = new EmailTemplates({
   },
   htmlToText: false,
   send: !isTest,
-  // preview: true,
+  // preview: { openSimulator: false },
   transport,
   // https://github.com/mashpie/i18n-node#list-of-all-configuration-options
   i18n: {
