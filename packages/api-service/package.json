@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@a2seven/yoo-checkout": "^1.1.4",
+    "@sentry/node": "^7.50.0",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
     "bcryptjs": "^2.4.3",

@@ -13,6 +13,7 @@ import { knex } from '../../knex';
 import { log } from '../log';
 import { send, isContent } from './send';
 import { sendError } from './send-error';
+import { sentryErrorHandler } from '../sentry';
 
 const locales: Locale[] = config.get('locales');
 
@@ -111,6 +112,7 @@ export class RestRoute<P extends unknown, IsAuthorized extends boolean> implemen
     } catch (err: any) {
       await ctx.trx.rollback();
       routerContext.log.error({ err });
+      sentryErrorHandler(err, routerContext);
       sendError(routerContext, err);
     }
   }
