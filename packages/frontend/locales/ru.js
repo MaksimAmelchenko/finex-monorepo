@@ -66,6 +66,11 @@ module.exports = {
     Save: 'Сохранить',
     'There are transactions on this account': 'Есть операции по данному счёту',
   },
+  AddConnectionWindow: {
+    'Connect a bank': 'Подключить банк',
+    Country: 'Страна',
+    Search: 'Поиск',
+  },
   ApiRepository: {
     'Session Timeout': 'Время ожидания сессии истекло. Требуется повторный вход в систему.',
     'Session closed': 'Сессия завершина',
@@ -239,6 +244,26 @@ module.exports = {
     Note: 'Примечание',
     Save: 'Сохранить',
   },
+  ConnectionAccountCard: {
+    'No linked account': 'Нет привязанного счёта',
+  },
+  ConnectionAccountWindow: {
+    'The account is already linked_ Please choose another account or unlink this one first_':
+      'Счёт уже привязан. Пожалуйста, выберите другой счёт или сначала отвяжите этот.',
+    'Please select account': 'Пожалуйста, выберите счёт',
+    'Please select date': 'Пожалуйста, выберите дату',
+    'Link accounts': 'Связать счета',
+    'Bank account': 'Банковский счёт',
+    'Linked account': 'Привязанный счёт',
+    'Sync transactions from': 'Синхронизировать операции с',
+    Save: 'Сохранить',
+  },
+  ConnectionNordigenCompleteMobile: {
+    'Connection failed': 'Connection failed',
+    'Something went wrong_ Please try again_ If the problem persists, please contact our support team':
+      'Something went wrong. Please try again. If the problem persists, please contact our support team',
+    'Try again': 'Try again',
+  },
   Connections: {
     'Bank connections': 'Подключение к банкам',
     'Banking connection management': 'Управление банковскими подключениями',
@@ -247,6 +272,10 @@ module.exports = {
     'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
       'Ваши данные в безопасности. Мы не храним ваши логины и пароли, имеем только доступ на чтение данных и не можем совершать платежи от вашего имени. Вы можете отозвать разрешение на доступ к своим данным в любое время.',
     'Connect bank': 'Подключить банк',
+  },
+  ConnectionWindow: {
+    'Are you sure you want to delete connection?': 'Вы уверены, что хотите удалить подключение?',
+    'Connection setup': 'Настройка подключения',
   },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Вы уверены, что хотите удалить несколько контрагентов?',

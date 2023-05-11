@@ -1,10 +1,11 @@
 import React, { Suspense, useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate, matchPath } from 'react-router-dom';
 
 import { AppStore } from '../../stores/app-store';
 import { BottomNavigation } from './BottomNavigation/BottomNavigation';
 import { CashFlowWindowMobile } from '../CashFlowWindowMobile/CashFlowWindowMobile';
+import { ConnectionNordigenCompleteMobileLazy } from '../../pages/ConnectionNordigenCompleteMobile/ConnectionNordigenCompleteMobileLazy';
 import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
 import { DebtWindowMobile } from '../DebtWindowMobile/DebtWindowMobile';
 import { DebtsMobileLazy } from '../../pages/DebtsMobile/DebtsMobileLazy';
@@ -74,12 +75,25 @@ export const MainLayoutMobile = observer(() => {
 
   useEffect(() => {
     const { pathname } = location;
-    const parts = pathname.split('/');
-    if (parts[1] === 'settings') {
-      const sideSheet = parts[2];
-      appStore.openSettings(sideSheet as SideSheet, { pathname });
+    {
+      const match = matchPath('/settings/connections/:connectionId', pathname);
+      if (match) {
+        const { connectionId } = match.params;
+        appStore.openSettings(SideSheet.Connections, { pathname, connectionId });
+        return;
+      }
     }
-  }, [location]);
+
+    {
+      const match = matchPath('/settings/:sideSheet', pathname);
+
+      if (match && match.params.sideSheet) {
+        const { sideSheet } = match.params;
+        appStore.openSettings(sideSheet as SideSheet, { pathname });
+        return;
+      }
+    }
+  }, [appStore, location]);
 
   const openExpenseTransactionWindow = mainLayoutStore.window === Window.AddExpenseTransaction;
   const openIncomeTransactionWindow = mainLayoutStore.window === Window.AddIncomeTransaction;
@@ -112,6 +126,11 @@ export const MainLayoutMobile = observer(() => {
           <Route path="/history" element={<HistoryLazy />} />
           <Route path="/debts" element={<DebtsMobileLazy />} />
           <Route path="/planning" element={<PlanningMobileLazy />} />
+          <Route
+            path="/connections/nordigen/requisitions/complete"
+            element={<ConnectionNordigenCompleteMobileLazy />}
+          />
+
           <Route path="*" element={<Navigate to="/history" />} />
         </Routes>
       </Suspense>

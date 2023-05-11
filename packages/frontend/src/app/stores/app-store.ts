@@ -20,6 +20,7 @@ export class AppStore extends ManageableStore {
 
       openSettings: action,
       closeSettings: action,
+      clearSettingSideSheetParams: action,
       clear: action,
     });
   }
@@ -35,6 +36,10 @@ export class AppStore extends ManageableStore {
   closeSettings(): void {
     this.isOpenedSettings = false;
     this.settingSideSheet = SideSheet.None;
+    this.settingSideSheetParams = null;
+  }
+
+  clearSettingSideSheetParams(): void {
     this.settingSideSheetParams = null;
   }
 

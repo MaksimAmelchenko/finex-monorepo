@@ -61,6 +61,8 @@ import { cashFlowItemApi } from './api/v2/cash-flow-item';
 import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
 import { currencyApi } from './api/v2/currency';
+import { connectionApi } from './api/v2/connection';
+import { connectionNordigenApi } from './api/v2/connection-nordigen';
 
 import de  from './locales/de';
 import en from './locales/en';
@@ -131,6 +133,8 @@ app.use(cashFlowItemApi);
 app.use(billingApi);
 app.use(operationApi);
 app.use(currencyApi);
+app.use(connectionApi);
+app.use(connectionNordigenApi);
 
 // serve docs
 app.use(async (ctx, next) => {

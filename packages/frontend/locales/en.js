@@ -66,6 +66,11 @@ module.exports = {
     Save: 'Save',
     'There are transactions on this account': 'There are transactions on this account',
   },
+  AddConnectionWindow: {
+    'Connect a bank': 'Connect a bank',
+    Country: 'Country',
+    Search: 'Search',
+  },
   ApiRepository: {
     'Session Timeout': 'Session Timeout',
     'Session closed': 'Session closed',
@@ -237,6 +242,26 @@ module.exports = {
     Note: 'Note',
     Save: 'Save',
   },
+  ConnectionAccountCard: {
+    'No linked account': 'No linked account',
+  },
+  ConnectionAccountWindow: {
+    'The account is already linked_ Please choose another account or unlink this one first_':
+      'The account is already linked. Please choose another account or unlink this one first.',
+    'Please select account': 'Please select account',
+    'Please select date': 'Please select date',
+    'Link accounts': 'Link accounts',
+    'Bank account': 'Bank account',
+    'Linked account': 'Linked account',
+    'Sync transactions from': 'Sync transactions from',
+    Save: 'Save',
+  },
+  ConnectionNordigenCompleteMobile: {
+    'Connection failed': 'Connection failed',
+    'Something went wrong_ Please try again_ If the problem persists, please contact our support team':
+      'Something went wrong. Please try again. If the problem persists, please contact our support team',
+    'Try again': 'Try again',
+  },
   Connections: {
     'Bank connections': 'Bank connections',
     'Banking connection management': 'Banking connection management',
@@ -245,6 +270,10 @@ module.exports = {
     'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
       'Your data is safe. We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf. You can revoke permission to access your data at any time.',
     'Connect bank': 'Connect bank',
+  },
+  ConnectionWindow: {
+    'Are you sure you want to delete connection?': 'Are you sure you want to delete connection?',
+    'Connection setup': 'Connection setup',
   },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Are you sure you want to delete several contractors?',

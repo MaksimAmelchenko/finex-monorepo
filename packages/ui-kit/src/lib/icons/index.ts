@@ -31,6 +31,8 @@ export { ReactComponent as GearIcon, default as gearSvg } from './gear.svg';
 export { ReactComponent as Gift01Icon, default as gift01Svg } from './gift-01.svg';
 export { ReactComponent as GiftIcon, default as giftSvg } from './gift.svg';
 export { ReactComponent as LeftRightIcon, default as leftRightSvg } from './left-right.svg';
+export { ReactComponent as Ling01Icon, default as ling01Svg } from './link-01.svg';
+export { ReactComponent as LingBroken01Icon, default as lingBroken01Svg } from './link-broken-01.svg';
 export { ReactComponent as LoadingIcon, default as loadingSvg } from './loading.svg';
 export { ReactComponent as LogOut01Icon, default as logOut01Svg } from './log-out-01.svg';
 export { ReactComponent as Logo, default as logoSvg } from './logo.svg';
