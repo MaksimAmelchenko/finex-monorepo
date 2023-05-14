@@ -44,18 +44,18 @@
 
   &_variant_primary {
     @include shadow.shadowXS;
-    background: linear-gradient(135deg, var(--color-primary-600) 50%, var(--color-primary-500));
+    background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
     color: var(--color-white);
 
     &.root_destructive {
-      background: linear-gradient(135deg, var(--color-error-600) 50%, var(--color-error-500));
+      background: linear-gradient(135deg, var(--color-error-500) 50%, var(--color-error-600));
     }
 
     &:hover:enabled {
-      background: linear-gradient(135deg, var(--color-primary-700) 50%, var(--color-primary-600));
+      background: linear-gradient(135deg, var(--color-primary-600) 50%, var(--color-primary-700));
 
       &.root_destructive {
-        background: linear-gradient(135deg, var(--color-error-700) 50%, var(--color-error-600));
+        background: linear-gradient(135deg, var(--color-error-600) 50%, var(--color-error-700));
       }
     }
 
