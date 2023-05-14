@@ -577,6 +577,12 @@ module.exports = {
       'Экспорт данных в файл CSV. Данные будут отправлены на ваш e-mail.',
     Export: 'Выгрузить данные',
   },
+  FAQSection: {
+    'Still have questions?': 'Всё ещё есть вопросы?',
+    'Can’t find the answer you’re looking for? Please chat to our friendly team_':
+      'Не можете найти ответ на свой вопрос? Пожалуйста, напишите нам в чат.',
+    'Get in touch': 'Написать в чат',
+  },
   History: {
     Operations: 'Операции',
     'Cash Flows': 'Денежные потоки',
