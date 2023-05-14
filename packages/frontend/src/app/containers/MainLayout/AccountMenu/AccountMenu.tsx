@@ -5,7 +5,7 @@ import { AuthRepository } from '../../../core/other-stores/auth-repository';
 import { Divider, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { LinkBase } from '../../../components/LinkBase/LinkBase';
 
-import { arrowRightFromBracketSvg, creditCardSvg, userSvg } from '@finex/ui-kit';
+import { arrowRightFromBracketSvg, creditCard01Svg, userSvg } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -55,7 +55,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
         </MenuItem>
         <MenuItem href="/settings/billing" component={LinkBase}>
           <ListItemIcon>
-            <img src={creditCardSvg} alt="" />
+            <img src={creditCard01Svg} alt="" />
           </ListItemIcon>
           {t('Billing & plans')}
         </MenuItem>

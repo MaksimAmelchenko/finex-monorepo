@@ -22,7 +22,6 @@ export { ReactComponent as CoinsStacked01Icon, default as coinsStacked01Svg } fr
 export { ReactComponent as CoinsStacked03Icon, default as coinsStacked03Svg } from './coins-stacked-03.svg';
 export { ReactComponent as CommentIcon, default as commentSvg } from './comment.svg';
 export { ReactComponent as CreditCard01Icon, default as creditCard01Svg } from './credit-card-01.svg';
-export { ReactComponent as CreditCardIcon, default as creditCardSvg } from './credit-card.svg';
 export { ReactComponent as Cryptocurrency01Icon, default as cryptocurrency01Svg } from './cryptocurrency-01.svg';
 export { ReactComponent as DataFlow03Icon, default as dataFlow03Svg } from './dataflow-03.svg';
 export { ReactComponent as FilterIcon, default as filterSvg } from './filter.svg';

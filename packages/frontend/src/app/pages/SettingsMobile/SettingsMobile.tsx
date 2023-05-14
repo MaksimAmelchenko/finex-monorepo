@@ -10,6 +10,7 @@ import {
   BankIcon,
   Building02Icon,
   Coins02Icon,
+  CreditCard01Icon,
   FolderIcon,
   IOption,
   LogOut01Icon,
@@ -20,6 +21,7 @@ import {
   User01Icon,
   Wallet01Icon,
 } from '@finex/ui-kit';
+import { BillingMobile } from '../BillingMobile/BillingMobile';
 import { CategoriesMobile } from '../../containers/CategoriesMobile/CategoriesMobile';
 import { ConnectionsMobile } from '../ConnectionsMobile/ConnectionsMobile';
 import { ContractorsMobile } from '../../containers/ContractorsMobile/ContractorsMobile';
@@ -157,6 +159,12 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
               onClick={handleMenuItemClick}
             />
             <MenuItem
+              menuItemId={SideSheet.Billing}
+              icon={<CreditCard01Icon />}
+              text={t('Billing & plans')}
+              onClick={handleMenuItemClick}
+            />
+            <MenuItem
               menuItemId="signOut"
               icon={<LogOut01Icon />}
               text={t('Log out')}
@@ -184,6 +192,8 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
       <ProfileMobile open={sideSheet === SideSheet.Profile} onClose={handleCloseSideSheet} />
 
       <ConnectionsMobile open={sideSheet === SideSheet.Connections} onClose={handleCloseSideSheet} />
+
+      <BillingMobile open={sideSheet === SideSheet.Billing} onClose={handleCloseSideSheet} />
     </>
   );
 });

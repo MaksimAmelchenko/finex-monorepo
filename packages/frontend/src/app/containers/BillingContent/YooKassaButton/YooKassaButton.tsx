@@ -68,7 +68,9 @@ export function YooKassaButton({ plan, onAfter }: PayPalButtonProps): JSX.Elemen
       </Helmet>
 
       <Form onSubmit={handleSubmit} initialValues={{}} name="subscription">
-        <FormButton type="submit">{t('Subscribe')}</FormButton>
+        <FormButton type="submit" size="xl" fullSize>
+          {t('Subscribe')}
+        </FormButton>
       </Form>
     </>
   );
