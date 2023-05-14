@@ -43,7 +43,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
         <ListItemIcon>
           <img src={userSvg} alt="" />
         </ListItemIcon>
-        <ListItemText primary={name} />
+        <ListItemText primary={name} primaryTypographyProps={{ overflow: 'hidden', textOverflow: 'ellipsis' }} />
       </ListItemButton>
 
       <Menu anchorEl={anchorEl} id="account-menu" open={isOpened} onClose={handleClose} onClick={handleClose}>
