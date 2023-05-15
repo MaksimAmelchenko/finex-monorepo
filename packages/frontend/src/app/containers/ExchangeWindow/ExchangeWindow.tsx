@@ -425,7 +425,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
               <SaveButton variant="secondaryGray" isIgnoreValidation>
                 {t('Save')}
               </SaveButton>
-              <FormButton type="submit" color="primary" isIgnoreValidation>
+              <FormButton type="submit" variant="primary" isIgnoreValidation>
                 {t('Save and Create New')}
               </FormButton>
             </div>

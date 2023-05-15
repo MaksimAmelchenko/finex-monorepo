@@ -131,7 +131,7 @@ export function UnitWindowMobile({ unit, onClose }: UnitWindowProps): JSX.Elemen
       </FormBody>
 
       <footer className={styles.footer}>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Save')}
         </FormButton>
       </footer>

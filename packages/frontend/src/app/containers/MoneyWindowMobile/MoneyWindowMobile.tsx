@@ -203,7 +203,7 @@ export function MoneyWindowMobile({ money, onClose }: MoneyWindowMobileProps): J
       </FormBody>
 
       <footer className={styles.footer}>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Save')}
         </FormButton>
       </footer>

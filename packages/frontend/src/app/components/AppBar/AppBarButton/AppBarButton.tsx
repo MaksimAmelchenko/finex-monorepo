@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import clsx from 'clsx';
 
-import { LinkBase } from '../../LinkBase/LinkBase';
+import { Link as LinkBase } from '@finex/ui-kit';
 import { TUrl } from '../../../types';
 
 import styles from './AppBarButton.module.scss';

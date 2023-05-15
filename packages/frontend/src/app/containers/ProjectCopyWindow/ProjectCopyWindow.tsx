@@ -93,7 +93,7 @@ export function ProjectCopyWindow({ project, onClose }: ProjectCopyWindowProps):
         <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Copy project')}
         </FormButton>
       </FormFooter>

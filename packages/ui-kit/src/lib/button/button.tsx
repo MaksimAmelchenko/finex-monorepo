@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-
-import { Link } from 'react-router-dom';
+import { Link } from '../link/link';
 
 import styles from './button.module.scss';
 
@@ -49,11 +48,12 @@ export function Button({
     [styles[`root_variant_${variant}`]],
     destructive && styles.root_destructive,
     fullSize && styles.root_fullSize,
+    isDisabled && 'disabled',
     className
   );
 
   return href ? (
-    <Link className={classNameStyles} to={href} {...props}>
+    <Link className={classNameStyles} href={href} {...props}>
       {StartIcon}
       {children}
       {EndIcon}

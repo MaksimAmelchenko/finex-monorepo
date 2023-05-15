@@ -109,7 +109,7 @@ export function MoveTransactionsWindow({ category, onClose }: CategoryWindowProp
         <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Move')}
         </FormButton>
       </FormFooter>

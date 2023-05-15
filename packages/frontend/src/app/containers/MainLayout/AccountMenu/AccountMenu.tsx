@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { AuthRepository } from '../../../core/other-stores/auth-repository';
 import { Divider, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { LinkBase } from '../../../components/LinkBase/LinkBase';
+import { Link as LinkBase } from '@finex/ui-kit';
 
 import { arrowRightFromBracketSvg, creditCard01Svg, userSvg } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';

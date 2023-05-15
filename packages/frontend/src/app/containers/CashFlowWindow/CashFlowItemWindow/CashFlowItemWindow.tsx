@@ -408,7 +408,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
           <SaveButton variant="secondaryGray" isIgnoreValidation data-cy="cfiw-save-button">
             {t('Save')}
           </SaveButton>
-          <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfiw-save-and-create-more-button">
+          <FormButton type="submit" variant="primary" isIgnoreValidation data-cy="cfiw-save-and-create-more-button">
             {t('Save and Create New')}
           </FormButton>
         </div>

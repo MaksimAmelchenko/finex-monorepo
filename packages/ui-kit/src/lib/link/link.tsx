@@ -1,15 +1,13 @@
 import React, { AnchorHTMLAttributes } from 'react';
 import clsx from 'clsx';
-import { Link, useLocation, useResolvedPath } from 'react-router-dom';
+import { Link as ReactRouterLink, useLocation, useResolvedPath } from 'react-router-dom';
 
-import { GAOptions } from '../../types';
-
-export interface ILinkBaseProps extends GAOptions, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'css'> {
+export interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'css'> {
   href: string;
   className?: string;
 }
 
-export const LinkBase = React.forwardRef<HTMLAnchorElement, ILinkBaseProps>(function LinkBase(props, ref) {
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function LinkBase(props, ref) {
   const { href, children, className, ...rest } = props;
 
   const path = useResolvedPath(href);
@@ -27,8 +25,8 @@ export const LinkBase = React.forwardRef<HTMLAnchorElement, ILinkBaseProps>(func
       {children}
     </a>
   ) : (
-    <Link to={href} {...rest} ref={ref} className={clsx(className, isActive && 'active')}>
+    <ReactRouterLink to={href} {...rest} ref={ref} className={clsx(className, isActive && 'active')}>
       {children}
-    </Link>
+    </ReactRouterLink>
   );
 });

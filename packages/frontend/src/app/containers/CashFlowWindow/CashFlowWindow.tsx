@@ -212,7 +212,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
               <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose} data-cy="cfw-close-button">
                 {t('Close')}
               </FormButton>
-              <FormButton type="submit" color="primary" isIgnoreValidation data-cy="cfw-save-button">
+              <FormButton type="submit" variant="primary" isIgnoreValidation data-cy="cfw-save-button">
                 {t('Save')}
               </FormButton>
             </div>

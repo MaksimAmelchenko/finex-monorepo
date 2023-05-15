@@ -141,7 +141,7 @@ export function ContractorWindowMobile({ contractor, onClose }: ContractorWindow
       </FormBody>
 
       <footer className={styles.footer}>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Save')}
         </FormButton>
       </footer>

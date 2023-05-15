@@ -204,7 +204,7 @@ export const BillingContent = observer(() => {
                       className={styles.root__form}
                       name="unsubscription"
                     >
-                      <FormButton type="submit" size="xl" color="danger" fullSize className={styles.root__button}>
+                      <FormButton type="submit" size="xl" destructive fullSize className={styles.root__button}>
                         {t('Unsubscribe')}
                       </FormButton>
                     </Form>
@@ -215,7 +215,6 @@ export const BillingContent = observer(() => {
                           type="submit"
                           size="xl"
                           variant="secondaryGray"
-                          color="primary"
                           fullSize
                           className={styles.root__button}
                         >
