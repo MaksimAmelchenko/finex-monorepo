@@ -102,6 +102,7 @@ module.exports = {
     'Unfortunately, we do not offer refunds for any unused portion of your subscription term_ Once you cancel, you will have access to your subscription plan until the end of your current paid term_':
       'Leider bieten wir keine Rückerstattung für nicht genutzte Teile Ihrer Abonnementlaufzeit an. Nach der Kündigung haben Sie bis zum Ende Ihrer aktuellen bezahlten Laufzeit Zugang zu Ihrem Abonnementplan.',
     'Subscription successful': 'Subscription successful',
+    'Subscription canceled': 'Subscription canceled',
     'Access until': 'Zugang bis',
     'Your plan': 'Ihr Plan',
     'No active subscription': 'Kein aktives Abonnement',

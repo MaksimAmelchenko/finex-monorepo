@@ -25,7 +25,7 @@
 .priceSection {
   &__priceCards {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     gap: 3.2rem;
 
     @include media.only(sm) {

@@ -94,6 +94,6 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 1.2rem;
-    flex: 1 0 auto;
+    flex-shrink: 0;
   }
 }

@@ -15,7 +15,7 @@ import { Plan } from '../../types/billing';
 import { PriceCard } from './PriceCard/PriceCard';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { YooKassaButton } from './YooKassaButton/YooKassaButton';
-import { currentLocale, formatDate, getT, toCurrency } from '../../lib/core/i18n';
+import { currentLocale, defaultLocale, formatDate, getT, toCurrency } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
 import { default as financialManagementSvg } from '../../containers/BillingContent/assets/financial-management.svg';
@@ -43,7 +43,7 @@ export const BillingContent = observer(() => {
 
   const { enqueueSnackbar } = useSnackbar();
   const [plans, setPlans] = useState<Plan[]>([]);
-  const locale = currentLocale();
+  const locale = currentLocale() === defaultLocale() ? '' : `${currentLocale()}/`;
   const { profile } = profileRepository;
 
   const faqItems: IFAQItem[] = [
@@ -112,7 +112,10 @@ export const BillingContent = observer(() => {
   };
 
   const handleUnsubscribe = async () => {
-    return billingRepository.cancelSubscription().then(() => profileRepository.getProfile());
+    return billingRepository.cancelSubscription().then(() => {
+      enqueueSnackbar(t('Subscription canceled'), { variant: 'success' });
+      profileRepository.getProfile();
+    });
   };
 
   const handlePayNow = async () => {};
@@ -252,7 +255,7 @@ export const BillingContent = observer(() => {
         supportingText={
           <>
             {t('Everything you need to know about the billing. Can’t find the answer you’re looking for? Please ')}
-            <a href="https://t.me/finex_support">{t('chat to our friendly team.')}</a>
+            <Link href="https://t.me/finex_support">{t('chat to our friendly team.')}</Link>
           </>
         }
         faqItems={faqItems}

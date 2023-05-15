@@ -103,6 +103,7 @@ module.exports = {
     'Unfortunately, we do not offer refunds for any unused portion of your subscription term_ Once you cancel, you will have access to your subscription plan until the end of your current paid term_':
       'К сожалению, мы не возвращаем деньги за неиспользованную часть вашего срока подписки. После отмены у вас будет доступ к плану подписки до конца вашего текущего оплаченного срока.',
     'Subscription successful': 'Подписка оформлена успешно',
+    'Subscription canceled': 'Подписка отменена',
     'Access until': 'Доступ до',
     'Your plan': 'Ваш план',
     'No active subscription': 'Нет активной подписки',
