@@ -36,17 +36,22 @@ interface TransferCardOperationTransfer {
 }
 export interface TransferCardProps {
   transfer: TransferCardOperationTransfer;
+  isHighlighted: boolean;
   onClick: (transferId: string) => void;
 }
 
-export function TransferCard({ transfer, onClick }: TransferCardProps) {
+export function TransferCard({ transfer, isHighlighted, onClick }: TransferCardProps) {
   const { id, accountFrom, accountTo, amount, money, fee, moneyFee, accountFee, note } = transfer;
   const handleClick = () => {
     onClick(id);
   };
 
   return (
-    <button type="button" className={styles.root} onClick={handleClick}>
+    <button
+      type="button"
+      className={clsx(styles.root, isHighlighted && styles.root_isHighlighted)}
+      onClick={handleClick}
+    >
       <div className={clsx(styles.root__icon, styles.icon)}>
         <img src={reverseRightSvg} loading="lazy" alt="Transfer logo" />
       </div>

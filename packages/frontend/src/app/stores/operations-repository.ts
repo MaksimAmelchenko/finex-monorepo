@@ -53,6 +53,9 @@ export class OperationsRepository extends ManageableStore {
   offset: number;
   total: number;
 
+  // used to highlight the last operation
+  lastOperationId: string | null = null;
+
   filter: IFilter = {
     range: [null, null],
     isFilter: false,
@@ -79,6 +82,7 @@ export class OperationsRepository extends ManageableStore {
     makeObservable<OperationsRepository, '_operations'>(this, {
       _operations: observable,
       filter: observable,
+      lastOperationId: observable,
       loadState: observable,
       operations: computed,
       operationsByDates: computed,
@@ -86,6 +90,7 @@ export class OperationsRepository extends ManageableStore {
       fetch: action,
       refresh: action,
       setFilter: action,
+      setLastOperationId: action,
     });
 
     reaction(
@@ -203,7 +208,7 @@ export class OperationsRepository extends ManageableStore {
     return this._operations.find(({ id }) => id === operationId);
   }
 
-  createTransaction(data: CreateTransactionData): Promise<unknown> {
+  createTransaction(data: CreateTransactionData): Promise<OperationTransaction> {
     return this.api.createTransaction(data).then(
       action(response => {
         const transaction = this.decodeTransaction(response.transaction);
@@ -211,6 +216,7 @@ export class OperationsRepository extends ManageableStore {
           throw new Error('Transaction entity is corrupted');
         }
         this._operations.push(transaction);
+        return transaction;
 
         /*
         if (transaction instanceof PlannedTransaction) {
@@ -230,7 +236,7 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  updateTransaction(transactionId: string, changes: UpdateTransactionChanges): Promise<unknown> {
+  updateTransaction(transactionId: string, changes: UpdateTransactionChanges): Promise<OperationTransaction> {
     return this.api.updateTransaction(transactionId, changes).then(
       action(response => {
         const updatedTransaction = this.decodeTransaction(response.transaction);
@@ -243,6 +249,7 @@ export class OperationsRepository extends ManageableStore {
         } else {
           this._operations.push(updatedTransaction);
         }
+        return updatedTransaction;
       })
     );
   }
@@ -302,7 +309,7 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  createTransfer(data: CreateTransferData): Promise<unknown> {
+  createTransfer(data: CreateTransferData): Promise<OperationTransfer> {
     return this.api.createTransfer(data).then(
       action(response => {
         const transfer = this.decodeTransfer(response.transfer);
@@ -311,11 +318,12 @@ export class OperationsRepository extends ManageableStore {
         }
 
         this._operations.push(transfer);
+        return transfer;
       })
     );
   }
 
-  updateTransfer(transfer: OperationTransfer, changes: UpdateTransferChanges): Promise<unknown> {
+  updateTransfer(transfer: OperationTransfer, changes: UpdateTransferChanges): Promise<OperationTransfer> {
     return this.api.updateTransfer(transfer.id, changes).then(
       action(response => {
         const updatedTransfer = this.decodeTransfer(response.transfer);
@@ -328,6 +336,7 @@ export class OperationsRepository extends ManageableStore {
         } else {
           this._operations.push(updatedTransfer);
         }
+        return updatedTransfer;
       })
     );
   }
@@ -343,7 +352,7 @@ export class OperationsRepository extends ManageableStore {
     );
   }
 
-  createExchange(data: CreateExchangeData): Promise<unknown> {
+  createExchange(data: CreateExchangeData): Promise<OperationExchange> {
     return this.api.createExchange(data).then(
       action(response => {
         const exchange = this.decodeExchange(response.exchange);
@@ -352,11 +361,12 @@ export class OperationsRepository extends ManageableStore {
         }
 
         this._operations.push(exchange);
+        return exchange;
       })
     );
   }
 
-  updateExchange(exchange: OperationExchange, changes: UpdateExchangeChanges): Promise<unknown> {
+  updateExchange(exchange: OperationExchange, changes: UpdateExchangeChanges): Promise<OperationExchange> {
     return this.api.updateExchange(exchange.id, changes).then(
       action(response => {
         const updatedExchange = this.decodeExchange(response.exchange);
@@ -370,6 +380,7 @@ export class OperationsRepository extends ManageableStore {
         } else {
           this._operations.push(updatedExchange);
         }
+        return updatedExchange;
       })
     );
   }
@@ -734,10 +745,15 @@ export class OperationsRepository extends ManageableStore {
     });
   }
 
+  setLastOperationId(operationId: string | null): void {
+    this.lastOperationId = operationId;
+  }
+
   clear(): void {
     this.offset = 0;
     this.total = 0;
     this.loadState = LoadState.none();
     this._operations = [];
+    this.lastOperationId = null;
   }
 }

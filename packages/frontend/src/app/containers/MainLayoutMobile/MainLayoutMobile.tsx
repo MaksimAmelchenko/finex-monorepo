@@ -103,7 +103,9 @@ export const MainLayoutMobile = observer(() => {
   const openExchangeWindow = mainLayoutStore.window === Window.AddExchange;
 
   const handleCreateTransaction = (data: CreateTransactionData) => {
-    return operationsRepository.createTransaction(data);
+    return operationsRepository.createTransaction(data).then(({ id }) => {
+      operationsRepository.setLastOperationId(id);
+    });
   };
 
   const handleUpdateTransaction = (cashFlowId: string, transactionId: string, changes: UpdateTransactionChanges) => {

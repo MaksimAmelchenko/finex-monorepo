@@ -14,10 +14,11 @@ const t = getT('CashFlow');
 
 interface TransactionRowProps {
   transaction: PlannedTransaction | Transaction;
+  isHighlighted: boolean;
   onClick: (transaction: PlannedTransaction | Transaction) => void;
 }
 
-export const TransactionRow = observer<TransactionRowProps>(({ transaction, onClick }) => {
+export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHighlighted, onClick }) => {
   const { transactionDate, account, contractor, category, sign, amount, money, note, tags, isSelected, isDeleting } =
     transaction;
 
@@ -35,7 +36,10 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, onCl
     (isPlanned || transaction.isNotConfirmed) && isBefore(parseISO(transactionDate), new Date().setHours(0, 0, 0));
 
   return (
-    <tr onClick={handleClick} className={clsx(styles.row, isDeleting && styles.row_is_deleting)}>
+    <tr
+      onClick={handleClick}
+      className={clsx(styles.row, isDeleting && styles.row_is_deleting, isHighlighted && styles.row_isHighlighted)}
+    >
       <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
         <div
           className={clsx(

@@ -5,6 +5,10 @@
     background-color: var(--color-error-200);
   }
 
+  &_isHighlighted {
+    background-color: var(--color-primary-50);
+  }
+
   td.firstColumn {
     padding-left: 0;
     padding-right: 0;

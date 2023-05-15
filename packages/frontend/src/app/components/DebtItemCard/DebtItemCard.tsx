@@ -31,17 +31,22 @@ interface DebtItemCardOperationDebt {
 
 export interface DebtItemCardProps {
   debtItem: DebtItemCardOperationDebt;
+  isHighlighted: boolean;
   onClick: (debtItemId: string) => void;
 }
 
-export function DebtItemCard({ debtItem, onClick }: DebtItemCardProps) {
+export function DebtItemCard({ debtItem, isHighlighted, onClick }: DebtItemCardProps) {
   const { id, contractor, category, account, sign, amount, money, note } = debtItem;
   const handleClick = () => {
     onClick(id);
   };
 
   return (
-    <button type="button" className={styles.root} onClick={handleClick}>
+    <button
+      type="button"
+      className={clsx(styles.root, isHighlighted && styles.root_isHighlighted)}
+      onClick={handleClick}
+    >
       <div className={clsx(styles.root__icon, styles.icon)}>
         <img src={coinsHandSvg} loading="lazy" alt="debt logo" />
       </div>

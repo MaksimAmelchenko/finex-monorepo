@@ -193,11 +193,14 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       { resetForm }: FormikHelpers<TransactionFormValues>,
       initialValues: TransactionFormValues
     ) => {
-      let result: Promise<unknown>;
+      let result: Promise<Transaction>;
       if (isNew) {
         // create transaction
         const data: CreateTransactionData = mapValuesToCreatePayload(values);
-        result = transactionsRepository.createTransaction(transaction, data);
+        result = transactionsRepository.createTransaction(transaction, data).then(transaction => {
+          transactionsRepository.setLastTransactionId(transaction.id);
+          return transaction;
+        });
       } else {
         const changes: UpdateTransactionChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),
@@ -299,6 +302,10 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
 
   const isPlanned = isPlannedTransaction(transaction);
 
+  const handleClose = () => {
+    onClose();
+  };
+
   return (
     <Form<TransactionFormValues>
       onSubmit={onSubmit}
@@ -322,7 +329,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       onDirtyChange={dirty => onCanCloseChange(!dirty)}
       name="transaction"
     >
-      <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={onClose} />
+      <FormHeader title={isNew ? t('Add new transaction') : t('Edit transaction')} onClose={handleClose} />
 
       <FormBody className={styles.form__body}>
         <FormTabs name="sign" options={signOptions} />
@@ -407,7 +414,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
       </FormBody>
 
       <FormFooter>
-        <FormButton variant="tertiaryGray" isIgnoreValidation onClick={onClose}>
+        <FormButton variant="tertiaryGray" isIgnoreValidation onClick={handleClose}>
           {t('Cancel')}
         </FormButton>
         <div className={styles.footer__rightButtons}>
