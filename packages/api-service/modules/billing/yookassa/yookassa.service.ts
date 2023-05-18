@@ -6,6 +6,7 @@ import { YooCheckout } from '@a2seven/yoo-checkout';
 import config from '../../../libs/config';
 import { IRequestContext, Locale } from '../../../types/app';
 import { InternalError } from '../../../libs/errors';
+import { userService } from '../../user/user.service';
 
 const { shopId, secretKey } = config.get('yookassa');
 
@@ -39,6 +40,8 @@ class YookassaServiceImpl {
       currency,
     };
 
+    const user = await userService.getUser(ctx, userId);
+
     const createPayload: ICreatePayment = {
       amount,
       description,
@@ -53,6 +56,9 @@ class YookassaServiceImpl {
         userId,
       },
       receipt: {
+        customer: {
+          email: user.email,
+        },
         items: [
           {
             description,
