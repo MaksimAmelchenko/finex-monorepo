@@ -76,24 +76,24 @@ class ConnectionServiceImpl implements ConnectionService {
   }
 
   async createAccount(
-    cx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     connectionId: string,
     data: CreateAccountServiceData
   ): Promise<IAccount> {
-    const account = await connectionRepository.createAccount(cx, projectId, userId, connectionId, data);
+    const account = await connectionRepository.createAccount(ctx, projectId, userId, connectionId, data);
     return connectionMapper.toAccount(account);
   }
 
   async updateAccount(
-    cx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     accountId: string,
     changes: UpdateAccountServiceChanges
   ): Promise<IAccount> {
-    const account = await connectionRepository.updateAccount(cx, projectId, userId, accountId, changes);
+    const account = await connectionRepository.updateAccount(ctx, projectId, userId, accountId, changes);
     return connectionMapper.toAccount(account);
   }
 }

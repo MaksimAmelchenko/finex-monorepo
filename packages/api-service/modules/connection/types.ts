@@ -223,7 +223,7 @@ export interface ConnectionService {
   ): Promise<void>;
 
   createAccount(
-    cx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     connectionId: string,
@@ -231,7 +231,7 @@ export interface ConnectionService {
   ): Promise<IAccount>;
 
   updateAccount(
-    cx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     accountId: string,
