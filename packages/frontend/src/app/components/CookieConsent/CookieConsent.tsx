@@ -29,7 +29,7 @@ export function CookieConsent({ googleAnalytics }: CookieConsentProps): JSX.Elem
         analytics.initializeAndTrack({ trackingId: googleAnalytics.trackingId });
       }
     }
-  }, []);
+  }, [googleAnalytics.trackingId]);
 
   const handleAcceptCookies = () => {
     localStorage.setItem('gdpr_cookie_consent', 'accepted');

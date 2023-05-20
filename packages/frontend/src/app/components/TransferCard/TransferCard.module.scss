@@ -13,6 +13,10 @@
 
   color: var(--color-gray-900);
 
+  &_isHighlighted {
+    background: var(--color-primary-25);
+  }
+
   &__icon {
     flex-shrink: 0;
   }

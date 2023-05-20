@@ -681,7 +681,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
               <SaveButton variant="secondaryGray" isIgnoreValidation>
                 {t('Save')}
               </SaveButton>
-              <FormButton type="submit" color="primary" isIgnoreValidation>
+              <FormButton type="submit" variant="primary" isIgnoreValidation>
                 {t('Save and Create New')}
               </FormButton>
             </div>

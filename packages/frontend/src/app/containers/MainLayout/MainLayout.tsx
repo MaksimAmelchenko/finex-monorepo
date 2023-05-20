@@ -37,7 +37,7 @@ import { DynamicsReportLazy } from '../../pages/Reports/DynamicsReport/DynamicsR
 import { Exchanges } from '../../pages/Exchanges/Exchanges';
 import { getT } from '../../lib/core/i18n';
 import { Link } from '../../components/Link/Link';
-import { LinkBase } from '../../components/LinkBase/LinkBase';
+import { Link as LinkBase } from '@finex/ui-kit';
 import { Loader } from '../../components/Loader/Loader';
 import { PlanningLazy } from '../../pages/Planning/PlanningLazy';
 import { ProfileLazy } from '../../pages/Profile/ProfileLazy';
@@ -59,7 +59,6 @@ const openedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
-  borderRight: 'none',
   width: drawerWidth,
 });
 

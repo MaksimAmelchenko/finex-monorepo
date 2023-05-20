@@ -55,6 +55,9 @@ export const Transactions = observer(() => {
   };
 
   const handleClickOnTransaction = (transaction: Transaction | PlannedTransaction) => {
+    if (transaction instanceof Transaction) {
+      transactionsRepository.setLastTransactionId(transaction.id);
+    }
     setTransaction(transaction);
     setIsOpenedTransactionWindow(true);
   };
@@ -281,7 +284,16 @@ export const Transactions = observer(() => {
                   transaction instanceof Transaction
                     ? transaction.id
                     : `${transaction.planId}-${transaction.repetitionNumber}`;
-                return <TransactionRow transaction={transaction} onClick={handleClickOnTransaction} key={key} />;
+                const isHighlighted =
+                  transaction instanceof Transaction && transactionsRepository.lastTransactionId === transaction.id;
+                return (
+                  <TransactionRow
+                    transaction={transaction}
+                    isHighlighted={isHighlighted}
+                    onClick={handleClickOnTransaction}
+                    key={key}
+                  />
+                );
               })}
             </tbody>
             <tfoot>

@@ -66,6 +66,11 @@ module.exports = {
     Save: 'Save',
     'There are transactions on this account': 'There are transactions on this account',
   },
+  AddConnectionWindow: {
+    'Connect a bank': 'Connect a bank',
+    Country: 'Country',
+    Search: 'Search',
+  },
   ApiRepository: {
     'Session Timeout': 'Session Timeout',
     'Session closed': 'Session closed',
@@ -77,13 +82,43 @@ module.exports = {
     'I owe': 'Ich schulde',
   },
   Billing: {
+    'What subscription plans are available at FINEX?': 'Welche Abonnementpläne sind bei FINEX verfügbar?',
+    'We offer two subscription plans: monthly and yearly_ The yearly plan allows you to save 20% compared to the monthly subscription':
+      'Wir bieten zwei Abonnementpläne an: monatlich und jährlich. Mit dem jährlichen Plan können Sie im Vergleich zum monatlichen Abonnement 20% sparen.',
+    'Can I cancel my subscription at any time?': 'Kann ich mein Abonnement jederzeit kündigen?',
+    'Yes, you can cancel your subscription at any time_ However, please note that changes will only take effect after the completion of the already paid term_':
+      'Ja, Sie können Ihr Abonnement jederzeit kündigen. Bitte beachten Sie jedoch, dass Änderungen erst nach Ablauf der bereits bezahlten Laufzeit wirksam werden.',
+    'Can I switch between plans?': 'Kann ich zwischen den Plänen wechseln?',
+    'Yes, you can switch between the plans at any time_ Changes will only take effect after the end of your current billing period_':
+      'Ja, Sie können jederzeit zwischen den Plänen wechseln. Änderungen treten jedoch erst nach Ende Ihres aktuellen Abrechnungszeitraums in Kraft.',
+    'Do you offer a free trial?': 'Bieten Sie eine kostenlose Testphase an?',
+    'Yes, we offer a 14-day free trial_ It has full functionality and does not differ from the paid version in any way_':
+      'Ja, wir bieten eine 14-tägige kostenlose Testversion an. Sie verfügt über volle Funktionalität und unterscheidet sich in keiner Weise von der kostenpflichtigen Version.',
+    'What happens after my 14-day free trial ends?': 'Was passiert nach meiner kostenlosen Testphase?',
+    'If you do not choose a plan during your free trial, you will be placed on a read-only plan_ This means you can view your data, but you will not be able to add or edit anything until you subscribe to a paid plan_':
+      'Wenn Sie während Ihrer kostenlosen Testphase keinen Plan auswählen, werden Sie auf einen Nur-Lese-Plan umgestellt. Das bedeutet, dass Sie Ihre Daten einsehen können, aber nichts hinzufügen oder bearbeiten können, bis Sie ein kostenpflichtiges Abonnement abschließen.',
+    'Can I get a refund if I cancel my subscription before the end of the paid term?':
+      'Kann ich eine Rückerstattung erhalten, wenn ich mein Abonnement vor Ende der bezahlten Laufzeit kündige?',
+    'Unfortunately, we do not offer refunds for any unused portion of your subscription term_ Once you cancel, you will have access to your subscription plan until the end of your current paid term_':
+      'Leider bieten wir keine Rückerstattung für nicht genutzte Teile Ihrer Abonnementlaufzeit an. Nach der Kündigung haben Sie bis zum Ende Ihrer aktuellen bezahlten Laufzeit Zugang zu Ihrem Abonnementplan.',
     'Subscription successful': 'Subscription successful',
-    'Billing settings': 'Billing settings',
-    'Access until': 'Access until',
-    'Your plan': 'Your plan',
-    'No active subscription': 'No active subscription',
+    'Subscription canceled': 'Subscription canceled',
+    'Access until': 'Zugang bis',
+    'Your plan': 'Ihr Plan',
+    'No active subscription': 'Kein aktives Abonnement',
     Unsubscribe: 'Unsubscribe',
-    'Pay Now': 'Pay Now',
+    'Pay Now': 'Zahlen Sie jetzt',
+    'Monthly or annual subscription will be automatically renewed after the end of the paid period_ You can cancel the automatic renewal at any time_ When you cancel, the subscription will remain active until the end of the paid period_ After that, the data will be available for reading only_':
+      'Das Monats- oder Jahresabonnement verlängert sich automatisch nach Ablauf des bezahlten Zeitraums. Sie können die automatische Verlängerung jederzeit kündigen. Wenn Sie kündigen, bleibt das Abonnement bis zum Ende des bezahlten Zeitraums aktiv. Danach stehen die Daten nur noch zum Lesen zur Verfügung.',
+    'By subscribing, you agree to the': 'Mit der Anmeldung stimmen Sie dem zu',
+    'Terms of Use': 'Nutzungsbedingungen',
+    'and the ': 'und ',
+    'Privacy Policy': 'Datenschutz-Bestimmungen',
+    FAQs: 'FAQs',
+    'Everything you need to know about the billing_ Can’t find the answer you’re looking for? Please ':
+      'Alles Wissenswerte zur Abrechnung. Sie können die Antwort, die Sie suchen, nicht finden? Bitte ',
+    'chat to our friendly team_': 'chatten Sie mit unserem freundlichen Team',
+    'Billing settings': 'Abrechnungseinstellungen',
   },
   BottomNavigation: {
     Outcome: 'Outcome',
@@ -236,6 +271,39 @@ module.exports = {
     Active: 'Active',
     Note: 'Note',
     Save: 'Save',
+  },
+  ConnectionAccountCard: {
+    'No linked account': 'No linked account',
+  },
+  ConnectionAccountWindow: {
+    'The account is already linked_ Please choose another account or unlink this one first_':
+      'The account is already linked. Please choose another account or unlink this one first.',
+    'Please select account': 'Please select account',
+    'Please select date': 'Please select date',
+    'Link accounts': 'Link accounts',
+    'Bank account': 'Bank account',
+    'Linked account': 'Linked account',
+    'Sync transactions from': 'Sync transactions from',
+    Save: 'Save',
+  },
+  ConnectionNordigenCompleteMobile: {
+    'Connection failed': 'Connection failed',
+    'Something went wrong_ Please try again_ If the problem persists, please contact our support team':
+      'Something went wrong. Please try again. If the problem persists, please contact our support team',
+    'Try again': 'Try again',
+  },
+  Connections: {
+    'Bank connections': 'Bank connections',
+    'Banking connection management': 'Banking connection management',
+    'Synchronize transactions with your bank accounts for automatic accounting of your finances_':
+      'Synchronize transactions with your bank accounts for automatic accounting of your finances.',
+    'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
+      'Your data is safe. We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf. You can revoke permission to access your data at any time.',
+    'Connect bank': 'Connect bank',
+  },
+  ConnectionWindow: {
+    'Are you sure you want to delete connection?': 'Are you sure you want to delete connection?',
+    'Connection setup': 'Connection setup',
   },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Are you sure you want to delete several contractors?',
@@ -537,6 +605,12 @@ module.exports = {
       'Export data in CSV file. The data will be sent to your e-mail.',
     Export: 'Export',
   },
+  FAQSection: {
+    'Still have questions?': 'Still have questions?',
+    'Can’t find the answer you’re looking for? Please chat to our friendly team_':
+      'Can’t find the answer you’re looking for? Please chat to our friendly team.',
+    'Get in touch': 'Get in touch',
+  },
   History: {
     Operations: 'Operations',
     'Cash Flows': 'Cash Flows',
@@ -632,9 +706,6 @@ module.exports = {
   PayPalButton: {
     'Something went wrong, please try again late': 'Something went wrong, please try again late',
   },
-  Plan: {
-    'Plan automatically renews until canceled': 'Plan automatically renews until canceled',
-  },
   PlanningMobile: {
     Planning: 'Planning',
     'Coming soon': 'Coming soon',
@@ -704,6 +775,9 @@ module.exports = {
     Cancel: 'Cancel',
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
+  },
+  PriceCard: {
+    'Most popular!': 'Most popular!',
   },
   Profile: {
     'Password has been change': 'Password has been change',
@@ -838,8 +912,11 @@ module.exports = {
     Settings: 'Settings',
     'Current project': 'Current project',
     References: 'References',
+    'Integrations and connected apps': 'Integrations and connected apps',
+    'Bank connections': 'Bank connections',
     Profile: 'Profile',
     'Profile settings': 'Profile settings',
+    'Billing & plans': 'Billing & plans',
     'Log out': 'Log out',
   },
   SignIn: {

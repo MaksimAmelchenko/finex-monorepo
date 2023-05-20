@@ -1,30 +1,8 @@
 import config from './config';
 import * as nodemailer from 'nodemailer';
 
-import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
-
-const { region, credentials } = config.get('mail:service');
-
-const sesClient = new SESv2Client({ region, credentials });
-
-class SendRawEmailCommand extends SendEmailCommand {
-  constructor(params) {
-    const input = {
-      Content: {
-        Raw: {
-          Data: params.RawMessage.Data,
-        },
-      },
-      FromEmailAddress: params.Source,
-      Destination: {
-        ToAddresses: params.Destinations,
-      },
-    };
-    super(input);
-  }
-}
-
 const transportType: string = config.get('mail:transport');
+const smtp: string = config.get('mail:smtp');
 let options;
 
 switch (transportType) {
@@ -33,15 +11,8 @@ switch (transportType) {
     break;
   }
 
-  case 'ses': {
-    options = {
-      SES: {
-        ses: sesClient,
-        aws: {
-          SendRawEmailCommand,
-        },
-      },
-    };
+  case 'smtp': {
+    options = smtp;
     break;
   }
 }

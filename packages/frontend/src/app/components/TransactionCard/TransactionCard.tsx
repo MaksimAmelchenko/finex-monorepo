@@ -27,17 +27,22 @@ interface TransactionCardOperationTransaction {
 
 export interface TransactionCardProps {
   transaction: TransactionCardOperationTransaction;
+  isHighlighted?: boolean;
   onClick: (transactionId: string) => void;
 }
 
-export function TransactionCard({ transaction, onClick }: TransactionCardProps) {
+export function TransactionCard({ transaction, isHighlighted, onClick }: TransactionCardProps) {
   const { id, category, account, sign, amount, money, note } = transaction;
   const handleClick = () => {
     onClick(id);
   };
 
   return (
-    <button type="button" className={styles.root} onClick={handleClick}>
+    <button
+      type="button"
+      className={clsx(styles.root, isHighlighted && styles.root_isHighlighted)}
+      onClick={handleClick}
+    >
       <div className={clsx(styles.root__icon, styles.icon)}>
         <img src={miscellaneousSvg} loading="lazy" alt="Transaction logo" />
       </div>

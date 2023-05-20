@@ -9,7 +9,6 @@ import { Link } from '../../components/Link/Link';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './SignUpConfirmation.module.scss';
 
 const t = getT('SignUpConfirmation');
 
@@ -47,16 +46,14 @@ export function SignUpConfirmation(): JSX.Element {
 
   return (
     <Layout title={t('E-mail confirmation')}>
-      <div className={styles.container}>
-        {status === 'pending' && <p>{t('Processing...')}</p>}
-        {status === 'success' && (
-          <>
-            <p>{t('Your e-mail has been confirmed.')}</p>
-            <Link href="/">{t('Start to use')}</Link>
-          </>
-        )}
-        {status === 'error' && <p>{translateErrorToHR(error, errorsHR)}</p>}
-      </div>
+      {status === 'pending' && <p>{t('Processing...')}</p>}
+      {status === 'success' && (
+        <>
+          <p>{t('Your e-mail has been confirmed.')}</p>
+          <Link href="/">{t('Start to use')}</Link>
+        </>
+      )}
+      {status === 'error' && <p>{translateErrorToHR(error, errorsHR)}</p>}
     </Layout>
   );
 }

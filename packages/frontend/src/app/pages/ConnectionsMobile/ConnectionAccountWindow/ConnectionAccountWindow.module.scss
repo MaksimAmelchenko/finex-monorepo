@@ -1,0 +1,30 @@
+@use 'packages/theme/src/lib/styles/mixins';
+
+.main {
+  padding-bottom: 4rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.6rem;
+  border-top: 0.5px solid var(--color-gray-200);
+  padding: 1.6rem;
+}
+
+.unlinkButton {
+  @include mixins.resetButton;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 100%;
+  padding: 1.6rem;
+  padding-right: 1.2rem;
+  color: var(--color-error-500);
+
+  svg {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}

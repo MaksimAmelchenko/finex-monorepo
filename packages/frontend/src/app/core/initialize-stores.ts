@@ -15,6 +15,8 @@ import { CategoriesApi } from '../stores/api/categories-api';
 import { CategoriesRepository } from '../stores/categories-repository';
 import { CategoryPrototypesRepository } from '../stores/category-prototypes-repository';
 import { CommonStorageStore } from './other-stores/common-storage-store';
+import { ConnectionsApi } from '../stores/api/connections-api';
+import { ConnectionsRepository } from '../stores/connections-repository';
 import { ContractorsApi } from '../stores/api/contractors-api';
 import { ContractorsRepository } from '../stores/contractors-repository';
 import { CurrenciesApi } from '../stores/api/currencies-api';
@@ -96,6 +98,7 @@ export function initializeMainStore(): MainStore {
   new ReportsRepository(mainStore, new ReportsApi(mainStore));
 
   new BillingRepository(mainStore, new BillingApi(mainStore));
+  new ConnectionsRepository(mainStore, new ConnectionsApi(mainStore));
 
   (window as any).mainStore = mainStore;
   return mainStore;

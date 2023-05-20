@@ -1,0 +1,68 @@
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  width: 100%;
+  overflow: auto;
+  background-color: var(--color-white);
+}
+
+.root__freeSubscriptionImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 3.2rem;
+
+  img {
+    max-width: min(100%, 40rem);
+  }
+}
+
+.priceSection {
+  &__priceCards {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 3.2rem;
+
+    @include media.only(sm) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @include media.down(md) {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.currentPlanInfo {
+  padding: 2.4rem 0;
+
+  &__accessUntil {
+    font-weight: bold;
+    &__expired {
+      color: var(--color-error-600);
+    }
+  }
+
+  &__name {
+    font-weight: bold;
+    &_noSubscription {
+      color: var(--color-error-600);
+    }
+  }
+}
+
+.root__legalSection {
+}
+
+.root__legalText {
+  border-radius: 1.6rem;
+  padding: 3.2rem;
+  background-color: var(--color-primary-50);
+}

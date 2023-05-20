@@ -1,5 +1,4 @@
 import { JSONSchema, Model, Validator } from 'objection';
-import { format } from 'date-fns';
 
 import { IPlanDAO } from '../types';
 import { TDate } from '../../../types/app';
@@ -33,13 +32,5 @@ export class PlanDAO extends Model implements IPlanDAO {
 
   static createValidator(): Validator {
     return ajvValidator;
-  }
-
-  $parseDatabaseJson(json) {
-    const plan = super.$formatJson(json);
-    plan.startDate = plan.startDate ? format(plan.startDate, 'yyyy-MM-dd') : null;
-    plan.reportPeriod = plan.reportPeriod ? format(plan.reportPeriod, 'yyyy-MM-dd') : null;
-    plan.endDate = plan.endDate === null ? null : plan.endDate ? format(plan.endDate, 'yyyy-MM-dd') : null;
-    return plan;
   }
 }

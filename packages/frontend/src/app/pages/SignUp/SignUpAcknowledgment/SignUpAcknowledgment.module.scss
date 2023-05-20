@@ -1,13 +1,8 @@
-@use 'packages/theme/src/lib/styles/media';
 @use 'packages/theme/src/lib/styles/typography';
 
-.container {
-  padding: 0 4rem 4rem;
-  @include media.only(sm) {
-    padding: 0 2rem 2rem;
-  }
-
-  h1 {
-    @include typography.h3;
+.root {
+  &__title {
+    margin: 0 0 2.4rem 0;
+    @include typography.textXLSemibold;
   }
 }

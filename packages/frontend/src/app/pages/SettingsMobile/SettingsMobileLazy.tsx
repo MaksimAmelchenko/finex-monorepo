@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 
-import { SettingsMobileProps } from './SettingsMobile';
+import { SettingsMobileProps } from './types';
 
 const SettingsMobile = lazy(() => import(/* webpackChunkName: "settings-mobile" */ './SettingsMobile'));
 

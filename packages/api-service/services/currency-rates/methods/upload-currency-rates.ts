@@ -22,7 +22,7 @@ export async function uploadCurrencyRates(
         `http://openexchangerates.org/api/historical/${format(
           date,
           'yyyy-MM-dd'
-        )}.json?app_id=${openExchangeRatesAppId}`
+        )}.json?app_id=${openExchangeRatesAppId}&show_alternative=true`
       );
 
       let query = knex.raw(

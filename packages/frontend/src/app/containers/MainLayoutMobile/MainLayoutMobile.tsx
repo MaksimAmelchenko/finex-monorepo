@@ -1,12 +1,14 @@
-import React, { Suspense, useCallback } from 'react';
+import React, { Suspense, useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate, matchPath } from 'react-router-dom';
 
+import { AppStore } from '../../stores/app-store';
 import { BottomNavigation } from './BottomNavigation/BottomNavigation';
 import { CashFlowWindowMobile } from '../CashFlowWindowMobile/CashFlowWindowMobile';
+import { ConnectionNordigenCompleteMobileLazy } from '../../pages/ConnectionNordigenCompleteMobile/ConnectionNordigenCompleteMobileLazy';
 import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
-import { DebtsMobileLazy } from '../../pages/DebtsMobile/DebtsMobileLazy';
 import { DebtWindowMobile } from '../DebtWindowMobile/DebtWindowMobile';
+import { DebtsMobileLazy } from '../../pages/DebtsMobile/DebtsMobileLazy';
 import { ExchangeWindowMobile } from '../ExchangeWindowMobile/ExchangeWindowMobile';
 import { HistoryLazy } from '../../pages/History/HistoryLazy';
 import { Loader } from '../../components/Loader/Loader';
@@ -15,6 +17,7 @@ import { OperationsRepository } from '../../stores/operations-repository';
 import { OutcomeMobileLazy } from '../../pages/OutcomeMobile/OutcomeMobileLazy';
 import { PlanningMobileLazy } from '../../pages/PlanningMobile/PlanningMobileLazy';
 import { ProfileRepository } from '../../stores/profile-repository';
+import { SideSheet } from '../../pages/SettingsMobile/types';
 import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { TransactionWindowMobile } from '../TransactionWindowMobile/TransactionWindowMobile';
 import { TransferWindowMobile } from '../TransferWindowMobile/TransferWindowMobile';
@@ -24,10 +27,12 @@ import styles from './MainLayoutMobile.module.scss';
 
 export const MainLayoutMobile = observer(() => {
   const mainLayoutStore = useStore(MainLayoutStoreMobile);
+  const appStore = useStore(AppStore);
   const operationsRepository = useStore(OperationsRepository);
   const profileRepository = useStore(ProfileRepository);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { profile } = profileRepository;
 
@@ -68,6 +73,28 @@ export const MainLayoutMobile = observer(() => {
     [mainLayoutStore]
   );
 
+  useEffect(() => {
+    const { pathname } = location;
+    {
+      const match = matchPath('/settings/connections/:connectionId', pathname);
+      if (match) {
+        const { connectionId } = match.params;
+        appStore.openSettings(SideSheet.Connections, { pathname, connectionId });
+        return;
+      }
+    }
+
+    {
+      const match = matchPath('/settings/:sideSheet', pathname);
+
+      if (match && match.params.sideSheet) {
+        const { sideSheet } = match.params;
+        appStore.openSettings(sideSheet as SideSheet, { pathname });
+        return;
+      }
+    }
+  }, [appStore, location]);
+
   const openExpenseTransactionWindow = mainLayoutStore.window === Window.AddExpenseTransaction;
   const openIncomeTransactionWindow = mainLayoutStore.window === Window.AddIncomeTransaction;
   const openCashFlowWindow = mainLayoutStore.window === Window.AddCashFlow;
@@ -76,7 +103,9 @@ export const MainLayoutMobile = observer(() => {
   const openExchangeWindow = mainLayoutStore.window === Window.AddExchange;
 
   const handleCreateTransaction = (data: CreateTransactionData) => {
-    return operationsRepository.createTransaction(data);
+    return operationsRepository.createTransaction(data).then(({ id }) => {
+      operationsRepository.setLastOperationId(id);
+    });
   };
 
   const handleUpdateTransaction = (cashFlowId: string, transactionId: string, changes: UpdateTransactionChanges) => {
@@ -99,6 +128,11 @@ export const MainLayoutMobile = observer(() => {
           <Route path="/history" element={<HistoryLazy />} />
           <Route path="/debts" element={<DebtsMobileLazy />} />
           <Route path="/planning" element={<PlanningMobileLazy />} />
+          <Route
+            path="/connections/nordigen/requisitions/complete"
+            element={<ConnectionNordigenCompleteMobileLazy />}
+          />
+
           <Route path="*" element={<Navigate to="/history" />} />
         </Routes>
       </Suspense>

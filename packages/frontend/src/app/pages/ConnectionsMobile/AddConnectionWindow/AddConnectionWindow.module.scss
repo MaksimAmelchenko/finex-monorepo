@@ -1,0 +1,21 @@
+.main {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+
+  row-gap: 3.2rem;
+  padding-top: 3.2rem;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding-bottom: 4.8rem;
+  }
+}

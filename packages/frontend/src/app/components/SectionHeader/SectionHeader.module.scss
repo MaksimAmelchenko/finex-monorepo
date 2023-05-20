@@ -1,0 +1,42 @@
+@use 'packages/theme/src/lib/styles/media';
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  &__textAndSupportingText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__text {
+    margin: 0;
+    @include typography.textLGSemibold;
+    color: var(--color-gray-900);
+  }
+
+  &__supportingText {
+    @include typography.textSM;
+    color: var(--color-gray-600);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  &__divider {
+    height: 1px;
+    background-color: var(--color-gray-200);
+  }
+}

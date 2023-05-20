@@ -161,7 +161,6 @@ class DebtRepositoryImpl implements DebtRepository {
     ctx.log.trace({ params }, 'try to get debts balances');
 
     const { balanceDate, moneyId } = params;
-    console.log({ balanceDate, moneyId, projectId, userId });
 
     let query = knex.raw(
       `

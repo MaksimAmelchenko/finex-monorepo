@@ -190,7 +190,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
         <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Save')}
         </FormButton>
       </FormFooter>

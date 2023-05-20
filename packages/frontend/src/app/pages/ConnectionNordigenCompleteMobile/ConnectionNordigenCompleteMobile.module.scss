@@ -1,0 +1,21 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  &__errorState {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 3.2rem 3.2rem;
+  }
+
+  &__errorStateIllustration {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    & path {
+      stroke-width: 1px;
+      color: var(--color-error-600);
+    }
+  }
+}

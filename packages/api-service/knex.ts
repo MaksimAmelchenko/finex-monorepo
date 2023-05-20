@@ -11,7 +11,7 @@ pg.types.setTypeParser(pg.types.builtins.INT8, parseInt);
 pg.types.setTypeParser(pg.types.builtins.NUMERIC, parseFloat);
 
 pg.types.setTypeParser(pg.types.builtins.TIMESTAMPTZ, (value: string) => parseISO(value).toISOString());
-// pg.types.setTypeParser(pg.types.builtins.DATE, (value: string) => format(parseISO(value), 'yyyy-MM-dd'));
+pg.types.setTypeParser(pg.types.builtins.DATE, (value: string) => format(parseISO(value), 'yyyy-MM-dd'));
 
 // Initialize knex
 export const knex: Knex = knexInstance({

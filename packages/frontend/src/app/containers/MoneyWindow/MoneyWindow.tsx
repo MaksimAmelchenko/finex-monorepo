@@ -175,7 +175,7 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
         <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
           {t('Cancel')}
         </FormButton>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {t('Save')}
         </FormButton>
       </FormFooter>
@@ -226,7 +226,7 @@ const CurrencyField = observer(() => {
         }
       }
     },
-    [setFieldValue, setFieldTouched]
+    [currenciesRepository, setFieldValue, setFieldTouched]
   );
 
   return (

@@ -174,7 +174,7 @@ export function ProjectWindowMobile({ project, onClose }: ProjectWindowMobilePro
       </FormBody>
 
       <footer className={styles.footer}>
-        <FormButton type="submit" color="primary" isIgnoreValidation>
+        <FormButton type="submit" variant="primary" isIgnoreValidation>
           {isNew ? t('Create project') : t('Save')}
         </FormButton>
       </footer>

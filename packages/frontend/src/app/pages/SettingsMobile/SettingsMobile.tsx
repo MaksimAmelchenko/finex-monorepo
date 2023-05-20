@@ -3,11 +3,14 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsMobile } from '../../containers/AccountsMobile/AccountsMobile';
+import { AppStore } from '../../stores/app-store';
 import { AuthRepository } from '../../core/other-stores/auth-repository';
 import { BackButton, Header } from '../../components/Header/Header';
 import {
+  BankIcon,
   Building02Icon,
   Coins02Icon,
+  CreditCard01Icon,
   FolderIcon,
   IOption,
   LogOut01Icon,
@@ -18,13 +21,16 @@ import {
   User01Icon,
   Wallet01Icon,
 } from '@finex/ui-kit';
+import { BillingMobile } from '../BillingMobile/BillingMobile';
 import { CategoriesMobile } from '../../containers/CategoriesMobile/CategoriesMobile';
+import { ConnectionsMobile } from '../ConnectionsMobile/ConnectionsMobile';
 import { ContractorsMobile } from '../../containers/ContractorsMobile/ContractorsMobile';
 import { MenuItem } from './MenuItem/MenuItem';
 import { MoneysMobile } from '../../containers/MoneysMobile/MoneysMobile';
 import { ProfileMobile } from '../ProfileMobile/ProfileMobile';
 import { ProjectsMobile } from '../../containers/ProjectsMobile/ProjectsMobile';
 import { ProjectsRepository } from '../../stores/projects-repository';
+import { SettingsMobileProps, SideSheet } from './types';
 import { SideSheetBody } from '../../components/SideSheetMobile/SideSheetBody/SideSheetBody';
 import { TagsMobile } from '../../containers/TagsMobile/TagsMobile';
 import { UnitsMobile } from '../../containers/UnitsMobile/UnitsMobile';
@@ -36,22 +42,6 @@ import styles from './SettingsMobile.module.scss';
 
 const t = getT('Settings');
 
-export interface SettingsMobileProps {
-  onClose: () => void;
-}
-
-export enum SideSheet {
-  Accounts,
-  Categories,
-  Contractors,
-  Units,
-  Tags,
-  Moneys,
-  Projects,
-  Profile,
-  None,
-}
-
 interface IMenuItem {
   menuItemId: string;
   icon: React.ReactNode;
@@ -60,8 +50,9 @@ interface IMenuItem {
 
 export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
   const authRepository = useStore(AuthRepository);
+  const appStore = useStore(AppStore);
   const projectsRepository = useStore(ProjectsRepository);
-  const [sideSheet, setSideSheet] = useState<SideSheet>(SideSheet.None);
+  const [sideSheet, setSideSheet] = useState<SideSheet>(appStore.settingSideSheet);
   const { enqueueSnackbar } = useSnackbar();
 
   const { currentProject, projects } = projectsRepository;
@@ -90,29 +81,19 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
 
   const references: IMenuItem[] = useMemo(
     () => [
-      { menuItemId: 'accounts', icon: <Wallet01Icon />, text: t('Accounts') },
-      { menuItemId: 'categories', icon: <MiscellaneousIcon />, text: t('Categories') },
-      { menuItemId: 'contractors', icon: <Building02Icon />, text: t('Contractors') },
-      { menuItemId: 'units', icon: <SpacingWidth01Icon />, text: t('Units') },
-      { menuItemId: 'tags', icon: <Tag01Icon />, text: t('Tags') },
-      { menuItemId: 'moneys', icon: <Coins02Icon />, text: t('Money') },
-      { menuItemId: 'projects', icon: <FolderIcon />, text: t('Projects') },
+      { menuItemId: SideSheet.Accounts, icon: <Wallet01Icon />, text: t('Accounts') },
+      { menuItemId: SideSheet.Categories, icon: <MiscellaneousIcon />, text: t('Categories') },
+      { menuItemId: SideSheet.Contractors, icon: <Building02Icon />, text: t('Contractors') },
+      { menuItemId: SideSheet.Units, icon: <SpacingWidth01Icon />, text: t('Units') },
+      { menuItemId: SideSheet.Tags, icon: <Tag01Icon />, text: t('Tags') },
+      { menuItemId: SideSheet.Moneys, icon: <Coins02Icon />, text: t('Money') },
+      { menuItemId: SideSheet.Projects, icon: <FolderIcon />, text: t('Projects') },
     ],
     []
   );
 
   const handleMenuItemClick = useCallback((menuItemId: string) => {
-    const map: Record<string, SideSheet> = {
-      accounts: SideSheet.Accounts,
-      categories: SideSheet.Categories,
-      contractors: SideSheet.Contractors,
-      units: SideSheet.Units,
-      tags: SideSheet.Tags,
-      moneys: SideSheet.Moneys,
-      projects: SideSheet.Projects,
-      profile: SideSheet.Profile,
-    };
-    const sideSheet = map[menuItemId] ?? SideSheet.None;
+    const sideSheet = menuItemId as SideSheet;
     setSideSheet(sideSheet);
   }, []);
 
@@ -157,12 +138,30 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
         </section>
 
         <section className={styles.menuSection}>
+          <h2 className={styles.menuSection__header}>{t('Integrations and connected apps')}</h2>
+          <div className={styles.menuSection__content}>
+            <MenuItem
+              menuItemId={SideSheet.Connections}
+              icon={<BankIcon />}
+              text={t('Bank connections')}
+              onClick={handleMenuItemClick}
+            />
+          </div>
+        </section>
+
+        <section className={styles.menuSection}>
           <h2 className={styles.menuSection__header}>{t('Profile')}</h2>
           <div className={styles.menuSection__content}>
             <MenuItem
-              menuItemId="profile"
+              menuItemId={SideSheet.Profile}
               icon={<User01Icon />}
               text={t('Profile settings')}
+              onClick={handleMenuItemClick}
+            />
+            <MenuItem
+              menuItemId={SideSheet.Billing}
+              icon={<CreditCard01Icon />}
+              text={t('Billing & plans')}
               onClick={handleMenuItemClick}
             />
             <MenuItem
@@ -191,6 +190,10 @@ export const SettingsMobile = observer<SettingsMobileProps>(({ onClose }) => {
       <ProjectsMobile open={sideSheet === SideSheet.Projects} onClose={handleCloseSideSheet} />
 
       <ProfileMobile open={sideSheet === SideSheet.Profile} onClose={handleCloseSideSheet} />
+
+      <ConnectionsMobile open={sideSheet === SideSheet.Connections} onClose={handleCloseSideSheet} />
+
+      <BillingMobile open={sideSheet === SideSheet.Billing} onClose={handleCloseSideSheet} />
     </>
   );
 });

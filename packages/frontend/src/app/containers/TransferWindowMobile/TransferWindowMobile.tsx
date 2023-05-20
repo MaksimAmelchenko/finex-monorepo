@@ -173,11 +173,14 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
       { resetForm }: FormikHelpers<TransferFormValues>,
       initialValues: TransferFormValues
     ) => {
-      let result: Promise<unknown>;
+      let result: Promise<OperationTransfer>;
       if (isNew) {
         // create transfer
         const data: CreateTransferData = mapValuesToCreatePayload(values);
-        result = operationsRepository.createTransfer(data);
+        result = operationsRepository.createTransfer(data).then(transfer => {
+          operationsRepository.setLastOperationId(transfer.id);
+          return transfer;
+        });
       } else {
         const changes: UpdateTransferChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),

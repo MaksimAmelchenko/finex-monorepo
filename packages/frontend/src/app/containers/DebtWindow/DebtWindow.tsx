@@ -198,7 +198,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
               <FormButton variant="secondaryGray" isIgnoreValidation onClick={onClose}>
                 {t('Close')}
               </FormButton>
-              <FormButton type="submit" color="primary" isIgnoreValidation>
+              <FormButton type="submit" variant="primary" isIgnoreValidation>
                 {t('Save')}
               </FormButton>
             </div>

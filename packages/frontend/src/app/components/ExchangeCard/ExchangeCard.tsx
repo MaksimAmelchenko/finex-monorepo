@@ -43,10 +43,11 @@ interface ExchangeCardCardOperationExchange {
 }
 export interface ExchangeCardProps {
   exchange: ExchangeCardCardOperationExchange;
+  isHighlighted: boolean;
   onClick: (exchangeId: string) => void;
 }
 
-export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
+export function ExchangeCard({ exchange, isHighlighted, onClick }: ExchangeCardProps) {
   const { id, accountSell, amountSell, moneySell, accountBuy, amountBuy, moneyBuy, fee, moneyFee, accountFee, note } =
     exchange;
 
@@ -55,7 +56,11 @@ export function ExchangeCard({ exchange, onClick }: ExchangeCardProps) {
   };
 
   return (
-    <button type="button" className={styles.root} onClick={handleClick}>
+    <button
+      type="button"
+      className={clsx(styles.root, isHighlighted && styles.root_isHighlighted)}
+      onClick={handleClick}
+    >
       <div className={clsx(styles.root__icon, styles.icon)}>
         <img src={refreshCW03Svg} loading="lazy" alt="Exchange logo" />
       </div>

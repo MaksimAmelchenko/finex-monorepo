@@ -30,12 +30,14 @@ export class PlanDAO extends Model implements IPlanDAO {
     return ajvValidator;
   }
 
-  $beforeInsert() {
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext);
     this.createdAt = new Date().toISOString();
     this.updatedAt = new Date().toISOString();
   }
 
-  $beforeUpdate() {
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
     this.updatedAt = new Date().toISOString();
   }
 }

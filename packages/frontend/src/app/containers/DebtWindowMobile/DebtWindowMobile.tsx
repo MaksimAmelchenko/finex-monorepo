@@ -280,7 +280,12 @@ export const DebtWindowMobile = observer<DebtWindowMobileProps>(props => {
                 </div>
                 <div className={styles.section__content}>
                   {debtItemsByDate.debtItems.map(debtItem => (
-                    <DebtItemCard debtItem={debtItem} onClick={handleClickOnDebt} key={debtItem.id} />
+                    <DebtItemCard
+                      debtItem={debtItem}
+                      onClick={handleClickOnDebt}
+                      isHighlighted={false}
+                      key={debtItem.id}
+                    />
                   ))}
                 </div>
               </Fragment>

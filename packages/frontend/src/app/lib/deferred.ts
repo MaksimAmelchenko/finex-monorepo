@@ -1,7 +1,9 @@
 export class Deferred<T> {
   private readonly _promise: Promise<T>;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private _resolve: (value: T | PromiseLike<T>) => void;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   private _reject: (reason?: any) => void;
 

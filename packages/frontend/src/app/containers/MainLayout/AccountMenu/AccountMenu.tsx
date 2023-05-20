@@ -3,9 +3,9 @@ import { observer } from 'mobx-react-lite';
 
 import { AuthRepository } from '../../../core/other-stores/auth-repository';
 import { Divider, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { LinkBase } from '../../../components/LinkBase/LinkBase';
+import { Link as LinkBase } from '@finex/ui-kit';
 
-import { arrowRightFromBracketSvg, creditCardSvg, userSvg } from '@finex/ui-kit';
+import { arrowRightFromBracketSvg, creditCard01Svg, userSvg } from '@finex/ui-kit';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -43,7 +43,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
         <ListItemIcon>
           <img src={userSvg} alt="" />
         </ListItemIcon>
-        <ListItemText primary={name} />
+        <ListItemText primary={name} primaryTypographyProps={{ overflow: 'hidden', textOverflow: 'ellipsis' }} />
       </ListItemButton>
 
       <Menu anchorEl={anchorEl} id="account-menu" open={isOpened} onClose={handleClose} onClick={handleClose}>
@@ -55,7 +55,7 @@ export const AccountMenu = observer(({ name, className }: UserMenuProps) => {
         </MenuItem>
         <MenuItem href="/settings/billing" component={LinkBase}>
           <ListItemIcon>
-            <img src={creditCardSvg} alt="" />
+            <img src={creditCard01Svg} alt="" />
           </ListItemIcon>
           {t('Billing & plans')}
         </MenuItem>

@@ -1,0 +1,28 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.4rem;
+  }
+
+  &__textAndSupportingText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  &__text {
+    margin: 0;
+    @include typography.textLGMedium;
+    color: var(--color-gray-900);
+  }
+
+  &__supportingText {
+    @include typography.textMD;
+    color: var(--color-gray-600);
+  }
+}

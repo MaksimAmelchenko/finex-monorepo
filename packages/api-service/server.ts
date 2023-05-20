@@ -8,10 +8,10 @@ import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
 
 import config from './libs/config';
-import { knex } from './knex';
-
-import { log, logMiddleware, requestLogMiddleware } from './libs/log';
 import { gracefulShutdown } from './libs/graceful-shutdown';
+import { knex } from './knex';
+import { log, logMiddleware, requestLogMiddleware } from './libs/log';
+import { sentryErrorHandler } from './libs/sentry';
 
 import { entitiesApiV1 } from './api/v1/entities';
 import { accountsApi } from './api/v1/accounts';
@@ -61,8 +61,10 @@ import { cashFlowItemApi } from './api/v2/cash-flow-item';
 import { billingApi } from './api/v2/billing';
 import { operationApi } from './api/v2/operation';
 import { currencyApi } from './api/v2/currency';
+import { connectionApi } from './api/v2/connection';
+import { connectionNordigenApi } from './api/v2/connection-nordigen';
 
-import de  from './locales/de';
+import de from './locales/de';
 import en from './locales/en';
 import ru from './locales/ru';
 
@@ -131,6 +133,8 @@ app.use(cashFlowItemApi);
 app.use(billingApi);
 app.use(operationApi);
 app.use(currencyApi);
+app.use(connectionApi);
+app.use(connectionNordigenApi);
 
 // serve docs
 app.use(async (ctx, next) => {
@@ -183,6 +187,8 @@ if (require.main === module) {
       log.info('Server is shutting down');
     },
   });
+
+  app.on('error', (err, ctx) => sentryErrorHandler(err, ctx));
 
   server.listen(port, () => log.info(`Server started on ${port}`));
 }

@@ -22,7 +22,6 @@ export { ReactComponent as CoinsStacked01Icon, default as coinsStacked01Svg } fr
 export { ReactComponent as CoinsStacked03Icon, default as coinsStacked03Svg } from './coins-stacked-03.svg';
 export { ReactComponent as CommentIcon, default as commentSvg } from './comment.svg';
 export { ReactComponent as CreditCard01Icon, default as creditCard01Svg } from './credit-card-01.svg';
-export { ReactComponent as CreditCardIcon, default as creditCardSvg } from './credit-card.svg';
 export { ReactComponent as Cryptocurrency01Icon, default as cryptocurrency01Svg } from './cryptocurrency-01.svg';
 export { ReactComponent as DataFlow03Icon, default as dataFlow03Svg } from './dataflow-03.svg';
 export { ReactComponent as FilterIcon, default as filterSvg } from './filter.svg';
@@ -31,6 +30,8 @@ export { ReactComponent as GearIcon, default as gearSvg } from './gear.svg';
 export { ReactComponent as Gift01Icon, default as gift01Svg } from './gift-01.svg';
 export { ReactComponent as GiftIcon, default as giftSvg } from './gift.svg';
 export { ReactComponent as LeftRightIcon, default as leftRightSvg } from './left-right.svg';
+export { ReactComponent as Ling01Icon, default as ling01Svg } from './link-01.svg';
+export { ReactComponent as LingBroken01Icon, default as lingBroken01Svg } from './link-broken-01.svg';
 export { ReactComponent as LoadingIcon, default as loadingSvg } from './loading.svg';
 export { ReactComponent as LogOut01Icon, default as logOut01Svg } from './log-out-01.svg';
 export { ReactComponent as Logo, default as logoSvg } from './logo.svg';

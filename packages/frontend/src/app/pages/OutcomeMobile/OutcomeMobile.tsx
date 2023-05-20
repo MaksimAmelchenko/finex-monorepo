@@ -27,6 +27,7 @@ export const OutcomeMobile = observer(() => {
         balanceRepository.fetchBalance({}).catch(console.error);
       },
       shouldPullToRefresh() {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return !this.mainElement.scrollTop;
       },

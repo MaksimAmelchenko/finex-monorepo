@@ -66,6 +66,11 @@ module.exports = {
     Save: 'Сохранить',
     'There are transactions on this account': 'Есть операции по данному счёту',
   },
+  AddConnectionWindow: {
+    'Connect a bank': 'Подключить банк',
+    Country: 'Страна',
+    Search: 'Поиск',
+  },
   ApiRepository: {
     'Session Timeout': 'Время ожидания сессии истекло. Требуется повторный вход в систему.',
     'Session closed': 'Сессия завершина',
@@ -77,13 +82,44 @@ module.exports = {
     'I owe': 'Я должен',
   },
   Billing: {
+    'What subscription plans are available at FINEX?': 'Какие тарифные планы доступны в FINEX?',
+    'We offer two subscription plans: monthly and yearly_ The yearly plan allows you to save 20% compared to the monthly subscription':
+      'Мы предлагаем два тарифных плана: ежемесячный и годовой. Годовой план позволяет вам сэкономить 20% по сравнению с ежемесячной подпиской.',
+    'Can I cancel my subscription at any time?': 'Могу ли я отменить подписку в любое время?',
+    'Yes, you can cancel your subscription at any time_ However, please note that changes will only take effect after the completion of the already paid term_':
+      'Да, вы можете отменить подписку в любое время. Однако обратите внимание, что изменения вступят в силу только после завершения уже оплаченного периода.',
+    'Can I switch between plans?': 'Могу ли я изменить свой план подписки?',
+    'Yes, you can switch between the plans at any time_ Changes will only take effect after the end of your current billing period_':
+      'Да, вы можете переключаться между планами в любое время. Изменения вступят в силу только после окончания текущего платежного периода.',
+    'Do you offer a free trial?': 'Предлагаете ли вы бесплатный пробный период?',
+    'Yes, we offer a 14-day free trial_ It has full functionality and does not differ from the paid version in any way_':
+      'Да, мы предлагаем 14-дневный бесплатный пробный период. Он обладает полной функциональностью и ничем не отличается от платной версии.',
+    'What happens after my 14-day free trial ends?':
+      'Что произойдет после окончания моего 14-дневного бесплатного пробного периода?',
+    'If you do not choose a plan during your free trial, you will be placed on a read-only plan_ This means you can view your data, but you will not be able to add or edit anything until you subscribe to a paid plan_':
+      'Если вы не выберете план во время бесплатного пробного периода, ваш аккаунт будет переведен в режим "только для чтения". Вы сможете просматривать свои данные, но добавление и редактирование будет недоступно до подписки на платный план.',
+    'Can I get a refund if I cancel my subscription before the end of the paid term?':
+      'Могу ли я получить возврат средств, если отменю подписку до окончания оплаченного срока?',
+    'Unfortunately, we do not offer refunds for any unused portion of your subscription term_ Once you cancel, you will have access to your subscription plan until the end of your current paid term_':
+      'К сожалению, мы не возвращаем деньги за неиспользованную часть вашего срока подписки. После отмены у вас будет доступ к плану подписки до конца вашего текущего оплаченного срока.',
     'Subscription successful': 'Подписка оформлена успешно',
-    'Billing settings': 'Оплата и подписка',
+    'Subscription canceled': 'Подписка отменена',
     'Access until': 'Доступ до',
     'Your plan': 'Ваш план',
     'No active subscription': 'Нет активной подписки',
     Unsubscribe: 'Отписаться',
     'Pay Now': 'Заплатить сейчас',
+    'Monthly or annual subscription will be automatically renewed after the end of the paid period_ You can cancel the automatic renewal at any time_ When you cancel, the subscription will remain active until the end of the paid period_ After that, the data will be available for reading only_':
+      'Подписка автоматически продлится после завершения оплаченного периода. Отменить автоматическое продление можно в любой момент. При отмене подписка будет действовать до конца оплаченного периода. После этого данные будет доступны только для чтения.',
+    'By subscribing, you agree to the': 'Оформляя подписку, вы соглашаетесь с',
+    'Terms of Use': 'Правилами использования',
+    'and the ': 'и ',
+    'Privacy Policy': 'Политикой конфиденциальности',
+    FAQs: 'Часто задаваемые вопросы',
+    'Everything you need to know about the billing_ Can’t find the answer you’re looking for? Please ':
+      'Все, что вам нужно знать о платежах. Не можете найти ответ на свой вопрос? Пожалуйста, ',
+    'chat to our friendly team_': 'обратитесь к нашей дружелюбной команде.',
+    'Billing settings': 'Оплата и подписка',
   },
   BottomNavigation: {
     Outcome: 'Обзор',
@@ -238,6 +274,39 @@ module.exports = {
     Active: 'Активная',
     Note: 'Примечание',
     Save: 'Сохранить',
+  },
+  ConnectionAccountCard: {
+    'No linked account': 'Нет привязанного счёта',
+  },
+  ConnectionAccountWindow: {
+    'The account is already linked_ Please choose another account or unlink this one first_':
+      'Счёт уже привязан. Пожалуйста, выберите другой счёт или сначала отвяжите этот.',
+    'Please select account': 'Пожалуйста, выберите счёт',
+    'Please select date': 'Пожалуйста, выберите дату',
+    'Link accounts': 'Связать счета',
+    'Bank account': 'Банковский счёт',
+    'Linked account': 'Привязанный счёт',
+    'Sync transactions from': 'Синхронизировать операции с',
+    Save: 'Сохранить',
+  },
+  ConnectionNordigenCompleteMobile: {
+    'Connection failed': 'Connection failed',
+    'Something went wrong_ Please try again_ If the problem persists, please contact our support team':
+      'Something went wrong. Please try again. If the problem persists, please contact our support team',
+    'Try again': 'Try again',
+  },
+  Connections: {
+    'Bank connections': 'Подключение к банкам',
+    'Banking connection management': 'Управление банковскими подключениями',
+    'Synchronize transactions with your bank accounts for automatic accounting of your finances_':
+      'Синхронизируйте транзакции с вашими банковскими счетами для автоматического учета ваших финансов.',
+    'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
+      'Ваши данные в безопасности. Мы не храним ваши логины и пароли, имеем только доступ на чтение данных и не можем совершать платежи от вашего имени. Вы можете отозвать разрешение на доступ к своим данным в любое время.',
+    'Connect bank': 'Подключить банк',
+  },
+  ConnectionWindow: {
+    'Are you sure you want to delete connection?': 'Вы уверены, что хотите удалить подключение?',
+    'Connection setup': 'Настройка подключения',
   },
   Contractors: {
     'Are you sure you want to delete several contractors?': 'Вы уверены, что хотите удалить несколько контрагентов?',
@@ -539,6 +608,12 @@ module.exports = {
       'Экспорт данных в файл CSV. Данные будут отправлены на ваш e-mail.',
     Export: 'Выгрузить данные',
   },
+  FAQSection: {
+    'Still have questions?': 'Всё ещё есть вопросы?',
+    'Can’t find the answer you’re looking for? Please chat to our friendly team_':
+      'Не можете найти ответ на свой вопрос? Пожалуйста, напишите нам в чат.',
+    'Get in touch': 'Написать в чат',
+  },
   History: {
     Operations: 'Операции',
     'Cash Flows': 'Денежные потоки',
@@ -634,9 +709,6 @@ module.exports = {
   PayPalButton: {
     'Something went wrong, please try again late': 'Something went wrong, please try again late',
   },
-  Plan: {
-    'Plan automatically renews until canceled': 'Подписка автоматически продлевается до отмены',
-  },
   PlanningMobile: {
     Planning: 'Планирование',
     'Coming soon': 'Скоро...',
@@ -706,6 +778,9 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
     'Save and Create New': 'Сохранить и создать ещё',
+  },
+  PriceCard: {
+    'Most popular!': 'Most popular!',
   },
   Profile: {
     'Password has been change': 'Пароль успешно изменен',
@@ -838,8 +913,11 @@ module.exports = {
     Settings: 'Настройки',
     'Current project': 'Текущий проект',
     References: 'Справочники',
+    'Integrations and connected apps': 'Интеграции и подключенные приложения',
+    'Bank connections': 'Подключение к банкам',
     Profile: 'Аккаунт',
     'Profile settings': 'Настройки аккаунта',
+    'Billing & plans': 'Оплата и подписка',
     'Log out': 'Выйти',
   },
   SignIn: {

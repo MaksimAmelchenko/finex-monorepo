@@ -56,6 +56,9 @@ export class TransactionsRepository extends ManageableStore {
 
   loadState: LoadState;
 
+  // used to highlight the last transaction
+  lastTransactionId: string | null = null;
+
   constructor(mainStore: MainStore, private api: ITransactionsApi) {
     super(mainStore);
     this.limit = 50;
@@ -72,8 +75,9 @@ export class TransactionsRepository extends ManageableStore {
       transactions: computed,
       clear: action,
       fetch: action,
-      setFilter: action,
       removeTransaction: action,
+      setFilter: action,
+      setLastTransactionId: action,
     });
 
     reaction(
@@ -163,12 +167,12 @@ export class TransactionsRepository extends ManageableStore {
   createTransaction(
     transaction: Partial<ITransaction> | PlannedTransaction,
     data: CreateTransactionData
-  ): Promise<unknown> {
+  ): Promise<Transaction> {
     return this.api.create(data).then(
       action(response => {
-        const newTransaction = this.decode([response.transaction])[0];
+        const newTransaction = this.decode([response.transaction])[0] as Transaction;
         if (!newTransaction) {
-          return;
+          throw new Error('Failed to decode transaction');
         }
 
         if (transaction instanceof PlannedTransaction) {
@@ -183,22 +187,25 @@ export class TransactionsRepository extends ManageableStore {
           // just add new transaction
           this._transactions.push(newTransaction);
         }
+        return newTransaction;
       })
     );
   }
 
-  updateTransaction(transaction: Transaction, changes: UpdateTransactionChanges): Promise<unknown> {
+  updateTransaction(transaction: Transaction, changes: UpdateTransactionChanges): Promise<Transaction> {
     return this.api.update(transaction.id, changes).then(
       action(response => {
-        const updatedTransaction = this.decode([response.transaction])[0];
-        if (updatedTransaction) {
-          const indexOf = this._transactions.indexOf(transaction);
-          if (indexOf !== -1) {
-            this._transactions[indexOf] = updatedTransaction;
-          } else {
-            this._transactions.push(updatedTransaction);
-          }
+        const updatedTransaction = this.decode([response.transaction])[0] as Transaction;
+        if (!updatedTransaction) {
+          throw new Error('Failed to decode transaction');
         }
+        const indexOf = this._transactions.indexOf(transaction);
+        if (indexOf !== -1) {
+          this._transactions[indexOf] = updatedTransaction;
+        } else {
+          this._transactions.push(updatedTransaction);
+        }
+        return updatedTransaction;
       })
     );
   }
@@ -349,7 +356,12 @@ export class TransactionsRepository extends ManageableStore {
       );
   }
 
+  setLastTransactionId(transactionId: string | null): void {
+    this.lastTransactionId = transactionId;
+  }
+
   clear(): void {
     this._transactions = [];
+    this.lastTransactionId = null;
   }
 }

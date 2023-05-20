@@ -185,11 +185,14 @@ export function ExchangeWindowMobile({ exchange, onClose }: ExchangeWindowMobile
       { resetForm }: FormikHelpers<ExchangeFormValues>,
       initialValues: ExchangeFormValues
     ) => {
-      let result: Promise<unknown>;
+      let result: Promise<OperationExchange>;
       if (isNew) {
         // create exchange
         const data: CreateExchangeData = mapValuesToCreatePayload(values);
-        result = operationsRepository.createExchange(data);
+        result = operationsRepository.createExchange(data).then(exchange => {
+          operationsRepository.setLastOperationId(exchange.id);
+          return exchange;
+        });
       } else {
         const changes: UpdateExchangeChanges = getPatch(
           mapValuesToUpdatePayload(initialValues),

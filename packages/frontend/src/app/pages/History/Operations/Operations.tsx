@@ -46,6 +46,7 @@ export const Operations = observer(() => {
   }, [operationsRepository, projectsRepository.currentProject]);
 
   const handleCardClick = (operationId: string) => {
+    operationsRepository.setLastOperationId(operationId);
     const operation = operationsRepository.getOperation(operationId);
     if (operation) {
       setOperation(operation);
@@ -69,7 +70,9 @@ export const Operations = observer(() => {
   };
 
   const handleCreateTransaction = (data: CreateTransactionData) => {
-    return operationsRepository.createTransaction(data);
+    return operationsRepository.createTransaction(data).then(({ id }) => {
+      operationsRepository.setLastOperationId(id);
+    });
   };
 
   const handleUpdateTransaction = (cashFlowId: string, transactionId: string, changes: UpdateTransactionChanges) => {
@@ -91,6 +94,7 @@ export const Operations = observer(() => {
         operationsRepository.refresh();
       },
       shouldPullToRefresh() {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return !this.mainElement.scrollTop;
       },
@@ -102,7 +106,7 @@ export const Operations = observer(() => {
     };
   }, [operationsRepository]);
 
-  const { operationsByDates, loadState, operations } = operationsRepository;
+  const { operationsByDates, loadState, operations, lastOperationId } = operationsRepository;
 
   function renderContent(): JSX.Element {
     if (!operationsByDates.length && loadState.isPending()) {
@@ -136,20 +140,49 @@ export const Operations = observer(() => {
               </div>
               <div className={styles.section__content}>
                 {operationsByDate.operations.map(operation => {
+                  const isHighlighted = operation.id === lastOperationId;
                   if (operation instanceof OperationTransaction) {
-                    return <TransactionCard transaction={operation} onClick={handleCardClick} key={operation.id} />;
+                    return (
+                      <TransactionCard
+                        transaction={operation}
+                        isHighlighted={isHighlighted}
+                        onClick={handleCardClick}
+                        key={operation.id}
+                      />
+                    );
                   }
 
                   if (operation instanceof OperationDebtItem) {
-                    return <DebtItemCard debtItem={operation} onClick={handleCardClick} key={operation.id} />;
+                    return (
+                      <DebtItemCard
+                        debtItem={operation}
+                        onClick={handleCardClick}
+                        isHighlighted={isHighlighted}
+                        key={operation.id}
+                      />
+                    );
                   }
 
                   if (operation instanceof OperationTransfer) {
-                    return <TransferCard transfer={operation} onClick={handleCardClick} key={operation.id} />;
+                    return (
+                      <TransferCard
+                        transfer={operation}
+                        onClick={handleCardClick}
+                        isHighlighted={isHighlighted}
+                        key={operation.id}
+                      />
+                    );
                   }
 
                   if (operation instanceof OperationExchange) {
-                    return <ExchangeCard exchange={operation} onClick={handleCardClick} key={operation.id} />;
+                    return (
+                      <ExchangeCard
+                        exchange={operation}
+                        onClick={handleCardClick}
+                        isHighlighted={isHighlighted}
+                        key={operation.id}
+                      />
+                    );
                   }
 
                   return null;

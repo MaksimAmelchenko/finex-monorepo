@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 
-import { LinkBase } from '../../../../components/LinkBase/LinkBase';
+import { Link as LinkBase } from '@finex/ui-kit';
 
 import { TUrl } from '../../../../types';
 

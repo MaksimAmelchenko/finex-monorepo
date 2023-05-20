@@ -16,7 +16,7 @@ td.firstColumn {
   align-items: center;
   border-radius: 0 0.4rem 0.4rem 0;
   height: 100%;
-  background-color: var(--color-primary-50);
+  background: linear-gradient(135deg, var(--color-primary-50) 50%, var(--color-primary-100));
   cursor: pointer;
 
   &__colorMark {
