@@ -21,6 +21,7 @@ export interface IConnectionDAO {
   projectId: number;
   userId: number;
   id: string;
+  institutionId: string;
   institutionName: string;
   institutionLogo: TUrl;
   provider: ConnectionProvider;
@@ -37,7 +38,7 @@ export interface IConnectionEntity extends Omit<IConnectionDAO, 'projectId' | 'u
 export interface IConnection extends IConnectionEntity {}
 
 export interface IConnectionDTO
-  extends Omit<IConnection, 'projectId' | 'userId' | 'accounts' | 'createdAt' | 'updatedAt'> {
+  extends Omit<IConnection, 'projectId' | 'userId' | 'accounts' | 'createdAt' | 'updatedAt' | 'institutionId'> {
   accounts: IAccountDTO[];
 }
 
@@ -86,6 +87,7 @@ export interface IProviderAccount {
 }
 
 export interface CreateConnectionRepositoryData {
+  institutionId: string;
   institutionName: string;
   institutionLogo: TUrl;
   provider: ConnectionProvider;

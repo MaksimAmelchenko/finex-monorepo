@@ -53,13 +53,15 @@ class ConnectionMapperImpl implements ConnectionMapper {
   }
 
   toConnection(connectionDAO: IConnectionDAO, connectionAccount: IAccountDAO[]): IConnection {
-    const { projectId, userId, id, provider, institutionLogo, institutionName, createdAt, updatedAt } = connectionDAO;
+    const { projectId, userId, id, provider, institutionId, institutionLogo, institutionName, createdAt, updatedAt } =
+      connectionDAO;
 
     return new Connection({
       projectId: String(projectId),
       userId: String(userId),
       id,
       provider,
+      institutionId,
       institutionLogo,
       institutionName,
       accounts: connectionAccount.map(account => this.toAccount(account)),

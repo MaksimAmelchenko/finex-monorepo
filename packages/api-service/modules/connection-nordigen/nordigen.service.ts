@@ -122,6 +122,7 @@ class NordigenServiceImpl implements NordigenService {
     const institution = await this.getInstitution(ctx, requisition.institutionId);
 
     const connection = await connectionService.createConnection(ctx, projectId, userId, {
+      institutionId: institution.id,
       institutionName: institution.name,
       institutionLogo: institution.logo,
       provider: ConnectionProvider.Nordigen,

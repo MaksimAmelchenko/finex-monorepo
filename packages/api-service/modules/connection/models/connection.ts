@@ -5,6 +5,7 @@ export class Connection implements IConnection {
   projectId: string;
   userId: string;
   id: string;
+  institutionId: string;
   institutionName: string;
   institutionLogo: string;
   provider: ConnectionProvider;
@@ -16,6 +17,7 @@ export class Connection implements IConnection {
     projectId,
     userId,
     id,
+    institutionId,
     institutionName,
     institutionLogo,
     provider,
@@ -26,6 +28,7 @@ export class Connection implements IConnection {
     this.projectId = projectId;
     this.userId = userId;
     this.id = id;
+    this.institutionId = institutionId;
     this.institutionName = institutionName;
     this.institutionLogo = institutionLogo;
     this.provider = provider;

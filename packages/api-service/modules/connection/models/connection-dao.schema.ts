@@ -14,6 +14,9 @@ export const connectionDAOSchema: OpenAPIV3_1.SchemaObject = {
       type: 'number',
     },
     id,
+    institutionId: {
+      type: 'string',
+    },
     institutionName: {
       type: 'string',
     },
@@ -34,6 +37,7 @@ export const connectionDAOSchema: OpenAPIV3_1.SchemaObject = {
     'projectId',
     'userId',
     'id',
+    'institutionId',
     'institutionName',
     'institutionLogo',
     'provider',

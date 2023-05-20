@@ -71,6 +71,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('project_id').notNullable();
     table.integer('user_id').notNullable();
     table.uuid('id').defaultTo(knex.raw('uuid_generate_v4()'));
+    table.text('institution_id').notNullable();
     table.text('institution_name').notNullable();
     table.text('institution_logo').notNullable();
     table.text('provider').notNullable();

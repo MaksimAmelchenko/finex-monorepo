@@ -13,6 +13,7 @@ export class ConnectionDAO extends Model implements IConnectionDAO {
   readonly projectId: number;
   readonly userId: number;
   readonly id: string;
+  readonly institutionId: string;
   readonly institutionName: string;
   readonly institutionLogo: string;
   readonly provider: ConnectionProvider;
