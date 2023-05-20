@@ -1,3 +1,5 @@
+import { raw } from 'objection';
+
 import { IRequestContext } from '../../../../types/app';
 import { Session } from '../../model/session';
 import { UpdateSessionGatewayChanges } from '../../types';
@@ -13,5 +15,6 @@ export async function updateSession(
   return Session.query(ctx.trx).patchAndFetchById(sessionId, {
     idProject: projectId ? Number(projectId) : undefined,
     ...rest,
+    requestsCount: raw('requests_count + 1'),
   });
 }
