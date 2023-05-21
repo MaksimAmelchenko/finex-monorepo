@@ -2,9 +2,9 @@ import React, { createElement, forwardRef } from 'react';
 
 import { CalendarDaysIcon } from '../icons';
 import { DatePicker } from '../date-picker/date-picker';
-import { ITextFieldProps, TextField } from '../text-field/text-field';
+import { Input, InputProps } from '../input/input';
 
-export interface DateFieldProps extends Omit<ITextFieldProps, 'value' | 'onChange'> {
+export interface DateFieldProps extends Omit<InputProps, 'value' | 'onChange'> {
   value: Date | null;
   onChange: (value: Date | null) => unknown;
   dateFormat?: string | string[];
@@ -27,5 +27,5 @@ export function DateField({ value, onChange, dateFormat, showMonthYearPicker, cl
 }
 
 const CustomInput = forwardRef<HTMLElement, any>((props, ref) => {
-  return <TextField {...props} startAdornment={CalendarDaysIcon} />;
+  return <Input {...props} startIcon={<CalendarDaysIcon />} />;
 });

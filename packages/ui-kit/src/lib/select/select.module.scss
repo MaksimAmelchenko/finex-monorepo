@@ -14,37 +14,22 @@
 
 .root {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
   width: 100%;
 
   &__label {
-    position: absolute;
-    z-index: 0;
-    top: -8px;
-    left: 10px;
-    padding: 0 5px;
-    @include typography.smallText;
-
-    .root:focus-within > & {
-      color: var(--color-gray-800);
-    }
-
-    /* background for label */
-    &:after {
-      position: absolute;
-      z-index: -1;
-      top: 7px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      content: '';
-      background: var(--color-white);
-    }
+    @include typography.textSMMedium;
+    color: var(--color-gray-700);
   }
 
   &__helperText {
-    margin: 4px 16px 0;
-    @include typography.smallText;
-    color: var(--color-gray-500);
+    @include typography.textSM;
+    color: var(--color-gray-600);
+    .root_error & {
+      color: var(--color-error-500);
+    }
   }
 
   &_error &__label,

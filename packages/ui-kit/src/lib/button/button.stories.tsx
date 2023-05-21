@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
 import { Button, ButtonProps } from './button';
-import { CalendarIcon, MagnifyingGlassIcon } from '../icons';
+import { CalendarIcon, SearchMdIcon } from '../icons';
 
 export default {
   title: 'Components/Button',
@@ -14,33 +14,33 @@ export default {
     },
     size: { options: ['sm', 'md', 'lg', 'xl'], control: { type: 'select' } },
     startIcon: {
-      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      options: ['Empty', 'SearchIcon', 'CalendarIcon'],
       mapping: {
         Empty: undefined,
-        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        SearchIcon: <SearchMdIcon />,
         CalendarIcon: <CalendarIcon />,
       },
       control: {
         type: 'select',
         labels: {
           Empty: 'Empty',
-          MagnifyingGlassIcon: 'MagnifyingGlass',
+          SearchIcon: 'SearchIcon',
           CalendarIcon: 'Calendar',
         },
       },
     },
     endIcon: {
-      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      options: ['Empty', 'SearchIcon', 'CalendarIcon'],
       mapping: {
         Empty: undefined,
-        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        SearchIcon: <SearchMdIcon />,
         CalendarIcon: <CalendarIcon />,
       },
       control: {
         type: 'select',
         labels: {
           Empty: 'Empty',
-          MagnifyingGlassIcon: 'MagnifyingGlass',
+          SearchIcon: 'SearchMdIcon',
           CalendarIcon: 'Calendar',
         },
       },

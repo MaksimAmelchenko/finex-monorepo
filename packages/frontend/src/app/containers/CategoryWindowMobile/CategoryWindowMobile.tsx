@@ -9,9 +9,8 @@ import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
 import { CategoryPrototypesRepository } from '../../stores/category-prototypes-repository';
 import { CreateCategoryData, ICategory, UpdateCategoryChanges } from '../../types/category';
-import { Form, FormBody, FormButton, FormCheckbox, FormInput } from '../../components/Form';
+import { Form, FormBody, FormButton, FormCheckbox, FormInput, FormTextArea } from '../../components/Form';
 import { FormSelectNative } from '../../components/Form/FormSelectNative/FormSelectNative';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
 import { ISelectOption } from '@finex/ui-kit';
@@ -202,7 +201,7 @@ export function CategoryWindowMobile({ category, onClose }: CategoryWindowMobile
         <FormCheckbox name="isEnabled" helperText={t('Show category when adding or editing a transaction')}>
           {t('Active')}
         </FormCheckbox>
-        <FormTextAreaField name="note" label={t('Note')} />
+        <FormTextArea name="note" label={t('Note')} />
       </FormBody>
 
       <footer className={styles.footer}>

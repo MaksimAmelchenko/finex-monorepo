@@ -12,8 +12,7 @@ import { CashFlowsRepository } from '../../stores/cash-flows-repository';
 import { ContractorField } from '../ContractorFieldMobile/ContractorField';
 import { CreateCashFlowData, ICashFlow, ICashFlowItem, UpdateCashFlowChanges } from '../../types/cash-flow';
 import { CreateTransactionData, UpdateTransactionChanges } from '../../types/transaction';
-import { Form, FormBody, FormButton } from '../../components/Form';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+import { Form, FormBody, FormButton, FormTextArea } from '../../components/Form';
 import { SideSheetMobile } from '../../components/SideSheetMobile/SideSheetMobile';
 import { TagsField } from '../TagsFieldMobile/TagsField';
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard';
@@ -222,7 +221,7 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
                       <div className={styles.additional__description}>{t('Note, Tags')}</div>
                     </div>
                     <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
-                      <FormTextAreaField name="note" label={t('Note')} minRows={1} />
+                      <FormTextArea name="note" label={t('Note')} minRows={1} />
                       <TagsField name="tagIds" label={t('Tags')} />
                     </Accordion>
                   </div>

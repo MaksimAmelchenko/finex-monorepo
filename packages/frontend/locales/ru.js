@@ -1080,7 +1080,7 @@ module.exports = {
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
-    'Enter search request': 'Enter search request',
+    'Enter search request': 'Поиск',
     'From accounts': 'Со счетов',
     'To accounts': 'На счета',
     Tags: 'Теги',

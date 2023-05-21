@@ -4,7 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
 
 import { CreateUnitData, IUnit, UpdateUnitChanges } from '../../types/unit';
-import { Form, FormBody, FormButton, FormFooter, FormHeader, FormTextField } from '../../components/Form';
+import { Form, FormBody, FormButton, FormFooter, FormHeader, FormInput } from '../../components/Form';
 import { Shape } from '../../types';
 import { Unit } from '../../stores/models/unit';
 import { UnitsRepository } from '../../stores/units-repository';
@@ -101,7 +101,7 @@ export function UnitWindow({ unit, onClose }: UnitWindowProps): JSX.Element {
       <FormHeader title={unit instanceof Unit ? t('Edit unit') : t('Add new unit')} onClose={onClose} />
 
       <FormBody>
-        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
       </FormBody>
 
       <FormFooter>

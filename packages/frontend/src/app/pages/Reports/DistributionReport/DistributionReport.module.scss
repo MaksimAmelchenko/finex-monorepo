@@ -21,8 +21,7 @@
 .panel {
   display: grid;
   z-index: 4;
-
-  background-color: var(--color-gray-100);
+  padding-top: 0.4rem;
 
   &__toolbar {
   }

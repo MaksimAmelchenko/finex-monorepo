@@ -25,7 +25,7 @@ import {
   FormHeader,
   FormSelect,
   FormTabs,
-  FormTextAreaField,
+  FormTextArea,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
@@ -407,7 +407,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
                 </IconButton>
               </HtmlTooltip>
             </div>
-            <FormTextAreaField name="note" label={t('Note')} />
+            <FormTextArea name="note" label={t('Note')} />
             <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
           </div>
         </div>

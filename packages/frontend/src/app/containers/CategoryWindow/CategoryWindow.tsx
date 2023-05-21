@@ -16,8 +16,8 @@ import {
   FormFooter,
   FormHeader,
   FormSelect,
-  FormTextAreaField,
-  FormTextField,
+  FormTextArea,
+  FormInput,
 } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { Shape } from '../../types';
@@ -172,7 +172,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
       <FormHeader title={category instanceof Category ? t('Edit category') : t('Add new category')} onClose={onClose} />
 
       <FormBody>
-        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
         <FormSelect name="parent" label={t('Parent category')} options={selectParentsOptions} isClearable />
         <FormSelect
           name="categoryPrototypeId"
@@ -183,7 +183,7 @@ export function CategoryWindow({ category, onClose }: CategoryWindowProps): JSX.
         <FormCheckbox name="isEnabled" helperText={t('Show category when adding or editing a transaction')}>
           {t('Active')}
         </FormCheckbox>
-        <FormTextAreaField name="note" label={t('Note')} />
+        <FormTextArea name="note" label={t('Note')} />
       </FormBody>
 
       <FormFooter>

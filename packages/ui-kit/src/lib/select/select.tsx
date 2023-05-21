@@ -13,10 +13,29 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
     width: '100%',
   }),
 
+  multiValue: provided => {
+    return {
+      ...provided,
+      borderRadius: 6,
+      color: 'var(--color-primary-600)',
+      backgroundColor: 'var(--color-primary-200)',
+    };
+  },
+
   multiValueLabel: provided => {
     return {
       ...provided,
       fontSize: 'inherit',
+      color: 'var(--color-primary-700)',
+      paddingLeft: '0.9rem',
+      padding: '0.3rem 0.9rem',
+    };
+  },
+
+  multiValueRemove: provided => {
+    return {
+      ...provided,
+      padding: '0.6rem',
     };
   },
 
@@ -24,28 +43,19 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
     const isError = Boolean((selectProps as any)['data-is-error']);
     return {
       ...provided,
-      borderRadius: 4,
+      borderRadius: 8,
       paddingLeft: 4,
       minHeight: 40,
-      boxShadow: 'none',
-      ...(isFocused
-        ? {
-            borderColor: 'var(--color-primary-800)',
-            '&:hover': {
-              borderColor: 'var(--color-primary-800)',
-            },
-          }
-        : {
-            borderColor: '#dcdce4',
-            '&:hover': {
-              borderColor: '#949db1',
-            },
-          }),
+      // boxShadow: 'none',
+      border: '1px solid var(--color-gray-300)',
+      boxShadow: '0 1px 2px rgba(16, 24, 40, 0.05)',
+      ...(isFocused && {
+        border: '1px solid var(--color-primary-300)',
+        boxShadow: '0 1px 2px rgba(16, 24, 40, 0.05), 0 0 0 4px var(--color-primary-100)',
+      }),
       ...(isError && {
-        borderColor: 'var(--color-error-800)',
-        '&:hover': {
-          borderColor: 'var(--color-error-800)',
-        },
+        border: '1px solid var(--color-error-300)',
+        boxShadow: '0 1px 2px rgba(16, 24, 40, 0.05), 0 0 0 4px var(--color-primary-100)',
       }),
     };
   },
@@ -56,7 +66,7 @@ const selectStyles: StylesConfig<ISelectOption, any> = {
     }
     return {
       ...provided,
-      borderRadius: 3,
+      borderRadius: 8,
     };
   },
 };
@@ -127,6 +137,7 @@ export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
 
   return (
     <div className={clsx(styles.root, isError && styles.root_error, className)} data-cy={rest['data-cy']}>
+      {label && <label className={styles.root__label}>{label}</label>}
       <ReactSelect
         {...rest}
         data-is-popup={isPopup}
@@ -135,8 +146,8 @@ export function Select<IsMulti extends boolean>(props: SelectProps<IsMulti>) {
         styles={selectStyles}
         components={{ IndicatorSeparator: null, DropdownIndicator, ...components }}
         noOptionsMessage={noOptionsMessage}
+        // menuPortalTarget={document.querySelector('body')}
       />
-      {label && <label className={styles.root__label}>{label}</label>}
       {message && <p className={styles.root__helperText}>{message}</p>}
     </div>
   );

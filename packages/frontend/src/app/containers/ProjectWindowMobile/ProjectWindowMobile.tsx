@@ -5,8 +5,7 @@ import { useSnackbar } from 'notistack';
 
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CreateProjectData, IProject, UpdateProjectChanges } from '../../types/project';
-import { Form, FormBody, FormButton, FormInput } from '../../components/Form';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+import { Form, FormBody, FormButton, FormInput, FormTextArea } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
 import { Project } from '../../stores/models/project';
@@ -158,7 +157,7 @@ export function ProjectWindowMobile({ project, onClose }: ProjectWindowMobilePro
       />
       <FormBody className={styles.main}>
         <FormInput name="name" label={t('Project name')} ref={nameFieldRefCallback} />
-        <FormTextAreaField name="note" label={t('Project description (optional)')} />
+        <FormTextArea name="note" label={t('Project description (optional)')} />
 
         {/*
         <FormFieldSet legend={t('Permissions')}>

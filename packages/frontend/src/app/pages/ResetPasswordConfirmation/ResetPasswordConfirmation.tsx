@@ -4,7 +4,7 @@ import { Navigate, useSearchParams } from 'react-router-dom';
 
 import { ApiErrors } from '../../core/errors';
 import { AuthRepository } from '../../core/other-stores/auth-repository';
-import { Form, FormButton, FormError, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormError, FormInput, FormLayout } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { ResetPasswordConfirmationAcknowledgment } from './ResetPasswordConfirmationAcknowledgment/ResetPasswordConfirmationAcknowledgment';
 import { getT } from '../../lib/core/i18n';
@@ -71,11 +71,10 @@ export function ResetPasswordConfirmation(): JSX.Element {
           name="reset-password-confirmation"
         >
           <FormLayout className={styles.formLayout}>
-            <FormTextField
+            <FormInput
               name="password"
               type="password"
               label={t('New password')}
-              autoFocusOnEmpty={true}
               autoComplete="new-password"
               helperText={t('Use 8 or more characters with a mix of letters, numbers & symbols')}
             />

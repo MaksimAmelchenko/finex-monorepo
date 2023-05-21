@@ -12,8 +12,7 @@ import { AmountField } from '../AmountFieldMobile/AmountField';
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CreateTransferData, UpdateTransferChanges } from '../../types/transfer';
 import { DateField } from '../../components/DateField/DateField';
-import { Form, FormBody, FormCheckbox } from '../../components/Form';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+import { Form, FormBody, FormCheckbox, FormTextArea } from '../../components/Form';
 import { IOperationTransfer } from '../../types/operation';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { OperationTransfer } from '../../stores/models/operation';
@@ -366,7 +365,7 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
                 <div className={styles.additional__description}>{t('Note, Tags')}</div>
               </div>
               <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
-                <FormTextAreaField name="note" label={t('Note')} minRows={1} />
+                <FormTextArea name="note" label={t('Note')} minRows={1} />
                 <TagsField name="tagIds" label={t('Tags')} />
               </Accordion>
             </div>

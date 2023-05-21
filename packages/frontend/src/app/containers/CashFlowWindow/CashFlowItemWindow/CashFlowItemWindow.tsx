@@ -22,7 +22,7 @@ import {
   FormHeader,
   FormSelect,
   FormTabs,
-  FormTextAreaField,
+  FormTextArea,
 } from '../../../components/Form';
 import { HtmlTooltip } from '../../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../../components/Tabs/Tabs';
@@ -394,7 +394,7 @@ export function CashFlowItemWindow({ cashFlowItem, onClose }: CashFlowItemWindow
                 </IconButton>
               </HtmlTooltip>
             </div>
-            <FormTextAreaField name="note" label={t('Note')} data-cy="cfiw-note" />
+            <FormTextArea name="note" label={t('Note')} data-cy="cfiw-note" />
             <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfiw-tags" />
           </div>
         </div>

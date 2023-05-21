@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AuthRepository } from '../../../core/other-stores/auth-repository';
-import { Form, FormButton, FormLayout, FormTextField } from '../../../components/Form';
+import { Form, FormButton, FormLayout, FormInput } from '../../../components/Form';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -77,25 +77,18 @@ export const ChangePassword = observer(({ username }: ChangePasswordProps) => {
         >
           <FormLayout>
             <input name="username" value={username} readOnly autoComplete="off" className={styles.hidden} />
-            <FormTextField
+            <FormInput
               name="password"
               type="password"
               label={t('Current password')}
-              autoFocusOnEmpty={true}
               autoComplete="current-password"
               helperText={t('You must provide your current password in order to change it.')}
             />
 
-            <FormTextField
-              name="newPassword"
-              type="password"
-              label={t('New password')}
-              autoFocusOnEmpty={true}
-              autoComplete="new-password"
-            />
+            <FormInput name="newPassword" type="password" label={t('New password')} autoComplete="new-password" />
           </FormLayout>
           <footer className={styles.form__footer}>
-            <FormButton type="submit" size="sm" isIgnoreValidation>
+            <FormButton type="submit" size="md" isIgnoreValidation>
               {t('Save password')}
             </FormButton>
           </footer>

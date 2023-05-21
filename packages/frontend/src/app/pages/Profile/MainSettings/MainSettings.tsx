@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import * as Yup from 'yup';
 import { observer } from 'mobx-react-lite';
 
-import { Form, FormButton, FormLayout, FormSelect, FormTextField } from '../../../components/Form';
+import { Form, FormButton, FormLayout, FormSelect, FormInput } from '../../../components/Form';
 import { IProfile, UpdateProfileChanges } from '../../../types/profile';
 import { ISelectOption } from '@finex/ui-kit';
 import { Permit, Shape } from '../../../types';
@@ -75,15 +75,15 @@ export const MainSettings = observer(({ profile }: MainSettingsProps) => {
           name="main-settings"
         >
           <FormLayout>
-            <FormTextField name="email" type="email" label={t('E-mail')} readOnly disabled />
+            <FormInput name="email" type="email" label={t('E-mail')} readOnly disabled />
 
-            <FormTextField name="name" type="text" label={t('Name')} />
+            <FormInput name="name" type="text" label={t('Name')} />
 
             <FormSelect name="projectId" label={t('Project by default')} options={selectProjectsOptions} />
           </FormLayout>
 
           <footer className={styles.form__footer}>
-            <FormButton type="submit" variant="primary" size="sm">
+            <FormButton type="submit" variant="primary" size="md">
               {t('Update profile settings')}
             </FormButton>
           </footer>

@@ -18,7 +18,7 @@ import {
   FormFooter,
   FormHeader,
   FormSelect,
-  FormTextAreaField,
+  FormTextArea,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { Link } from '../../components/Link/Link';
@@ -367,7 +367,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
               <div
                 className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}
               >
-                <FormTextAreaField name="note" label={t('Note')} />
+                <FormTextArea name="note" label={t('Note')} />
                 <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
               </div>
             </div>

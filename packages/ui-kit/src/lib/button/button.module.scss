@@ -38,11 +38,31 @@
 
   &_size_2xl {
     gap: 1.2rem;
-    padding: 1.6rem 2.8rem;
+    padding: 1.5rem 2.7rem;
     @include typography.textLGSemibold;
   }
 
   &_variant_primary {
+    &.root_size_sm {
+      padding: 0.8rem 1.4rem;
+    }
+
+    &.root_size_md {
+      padding: 1rem 1.6rem;
+    }
+
+    &.root_size_lg {
+      padding: 1rem 1.8rem;
+    }
+
+    &.root_size_xl {
+      padding: 1.2rem 2rem;
+    }
+
+    &.root_size_2xl {
+      padding: 1.6rem 2.8rem;
+    }
+
     @include shadow.shadowXS;
     background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
     color: var(--color-white);

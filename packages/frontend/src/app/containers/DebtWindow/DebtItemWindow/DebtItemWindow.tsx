@@ -21,7 +21,7 @@ import {
   FormHeader,
   FormSelect,
   FormTabs,
-  FormTextAreaField,
+  FormTextArea,
 } from '../../../components/Form';
 import { HtmlTooltip } from '../../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../../components/Tabs/Tabs';
@@ -319,7 +319,7 @@ export function DebtItemWindow({ debtItem, onClose }: DebtItemWindowProps): JSX.
           </div>
 
           <div className={clsx(styles.additional__fields, !isShowAdditionalFields && styles.additional__fields_hidden)}>
-            <FormTextAreaField name="note" label={t('Note')} />
+            <FormTextArea name="note" label={t('Note')} />
             <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
           </div>
         </div>

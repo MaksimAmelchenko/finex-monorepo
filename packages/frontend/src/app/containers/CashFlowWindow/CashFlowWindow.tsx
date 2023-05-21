@@ -14,7 +14,7 @@ import { CashFlowsRepository } from '../../stores/cash-flows-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CreateCashFlowData, ICashFlow, ICashFlowItem, UpdateCashFlowChanges } from '../../types/cash-flow';
 import { Drawer } from '../../components/Drawer/Drawer';
-import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
+import { Form, FormButton, FormSelect, FormTextArea } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { TagsRepository } from '../../stores/tags-repository';
@@ -204,7 +204,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                 <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfw-tags" />
               </div>
               <div className={styles.cashFlow__right}>
-                <FormTextAreaField name="note" label={t('Note')} minRows={4} data-cy="cfw-note" />
+                <FormTextArea name="note" label={t('Note')} minRows={4} data-cy="cfw-note" />
               </div>
             </div>
 

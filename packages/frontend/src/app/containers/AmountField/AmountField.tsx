@@ -2,8 +2,8 @@ import React, { forwardRef, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import { useField, useFormikContext } from 'formik';
 
-import { FormInlineSelect, IFormTextFieldProps } from '../../components/Form';
-import { IOption, TextField } from '@finex/ui-kit';
+import { FormInlineSelect, IFormInputProps } from '../../components/Form';
+import { Input, IOption } from '@finex/ui-kit';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { round } from '../../lib/round';
 import { useStore } from '../../core/hooks/use-store';
@@ -36,7 +36,7 @@ function MoneySelect({ name, className }: MoneySelectProps): JSX.Element {
   );
 }
 
-interface AmountFieldProps extends IFormTextFieldProps {
+interface AmountFieldProps extends IFormInputProps {
   amountFieldName: string;
   moneyFieldName: string;
 }
@@ -52,8 +52,8 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
       [moneyFieldName]
     );
 
-    const [amountFieldProps, meta] = useField(amountFieldName);
-    const [{ value: moneyId }] = useField(moneyFieldName);
+    const [amountFieldProps, amountFieldMeta] = useField(amountFieldName);
+    const [{ value: moneyId }, moneyFieldMeta] = useField(moneyFieldName);
 
     const joinedProps = { ...props, ...amountFieldProps };
 
@@ -78,6 +78,17 @@ export const AmountField = forwardRef<HTMLInputElement, Omit<AmountFieldProps, '
       }
     }, [amountFieldProps.value, moneysRepository, moneyId, setFieldValue, amountFieldName, setFieldTouched]);
 
-    return <TextField {...joinedProps} error={meta.error} endAdornment={moneySelect} ref={ref} onBlur={handleBlur} />;
+    return (
+      <Input
+        {...joinedProps}
+        // type="text"
+        // pattern="\d*"
+        inputMode="decimal"
+        errorText={amountFieldMeta.error || moneyFieldMeta.error}
+        endAdornment={<MoneySelect name={moneyFieldName} />}
+        ref={ref}
+        onBlur={handleBlur}
+      />
+    );
   }
 );

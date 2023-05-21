@@ -10,6 +10,7 @@ import { useStore } from '../../core/hooks/use-store';
 
 import styles from './Profile.module.scss';
 import { DeleteAccount } from './DeleteAccount/DeleteAccount';
+import { Container } from '../../components/Container/Container';
 
 const t = getT('Profile');
 
@@ -26,11 +27,13 @@ export const Profile = observer(() => {
     <div className={styles.layout}>
       <HeaderLayout title={t('Profile')} className={styles.header} />
       <main className={styles.content}>
-        <MainSettings profile={profile} />
-        <hr className={styles.delimiter} />
-        <ChangePassword username={profile.email} />
-        <hr className={styles.delimiter} />
-        <DeleteAccount username={profile.email} />
+        <Container className={styles.container}>
+          <MainSettings profile={profile} />
+          <hr className={styles.delimiter} />
+          <ChangePassword username={profile.email} />
+          <hr className={styles.delimiter} />
+          <DeleteAccount username={profile.email} />
+        </Container>
       </main>
     </div>
   );

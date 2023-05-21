@@ -35,7 +35,6 @@ export { ReactComponent as LingBroken01Icon, default as lingBroken01Svg } from '
 export { ReactComponent as LoadingIcon, default as loadingSvg } from './loading.svg';
 export { ReactComponent as LogOut01Icon, default as logOut01Svg } from './log-out-01.svg';
 export { ReactComponent as Logo, default as logoSvg } from './logo.svg';
-export { ReactComponent as MagnifyingGlassIcon, default as magnifyingGlassSvg } from './magnifying-glass.svg';
 export {
   ReactComponent as MessageQuestionSquareIcon,
   default as messageQuestionSquareSvg,
