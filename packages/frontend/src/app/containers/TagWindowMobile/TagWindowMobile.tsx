@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack';
 
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CreateTagData, ITag, UpdateTagChanges } from '../../types/tag';
-import { Form, FormBody, FormButton, FormFooter, FormHeader, FormInput, FormTextField } from '../../components/Form';
+import { Form, FormBody, FormButton, FormInput } from '../../components/Form';
 import { Shape } from '../../types';
 import { Tag } from '../../stores/models/tag';
 import { TagsRepository } from '../../stores/tags-repository';

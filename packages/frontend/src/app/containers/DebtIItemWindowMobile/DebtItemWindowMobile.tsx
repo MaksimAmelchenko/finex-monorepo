@@ -14,10 +14,9 @@ import { CategoriesRepository } from '../../stores/categories-repository';
 import { CreateDebtItemData, IDebtItem, UpdateDebtItemChanges } from '../../types/debt';
 import { DateField } from '../../components/DateField/DateField';
 import { DebtItem } from '../../stores/models/debt-item';
-import { Form, FormBody } from '../../components/Form';
+import { Form, FormBody, FormTextArea } from '../../components/Form';
 import { FormSegmentedControl } from '../../components/Form/FormSegmentedControl/FormSegmentedControl';
 import { FormSelectNative } from '../../components/Form/FormSelectNative/FormSelectNative';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
 import { ITabOption } from '../../components/Tabs/Tabs';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
@@ -295,7 +294,7 @@ export function DebtItemWindowMobile({
             <div className={styles.additional__description}>{t('Note, Tags')}</div>
           </div>
           <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
-            <FormTextAreaField name="note" label={t('Note')} minRows={1} />
+            <FormTextArea name="note" label={t('Note')} minRows={1} />
             <TagsField name="tagIds" label={t('Tags')} />
           </Accordion>
         </div>

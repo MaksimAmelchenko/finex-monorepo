@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 
-import { CalendarIcon, MagnifyingGlassIcon } from '../icons';
+import { CalendarIcon, SearchMdIcon } from '../icons';
 import { IOption } from '../types';
 import { SelectNative, SelectNativeProps } from './select-native';
 
@@ -14,17 +14,17 @@ export default {
     helperText: { control: { type: 'text' } },
     error: { control: { type: 'text' } },
     startIcon: {
-      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      options: ['Empty', 'SearchIcon', 'CalendarIcon'],
       mapping: {
         Empty: undefined,
-        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        SearchIcon: <SearchMdIcon />,
         CalendarIcon: <CalendarIcon />,
       },
       control: {
         type: 'select',
         labels: {
           Empty: 'Empty',
-          MagnifyingGlassIcon: 'MagnifyingGlass',
+          SearchIcon: 'SearchIcon',
           CalendarIcon: 'Calendar',
         },
       },

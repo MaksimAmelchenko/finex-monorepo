@@ -12,8 +12,8 @@ import {
   FormFooter,
   FormHeader,
   FormSelect,
-  FormTextAreaField,
-  FormTextField,
+  FormTextArea,
+  FormInput,
 } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
@@ -141,8 +141,8 @@ export function ProjectWindow({ project, onClose }: ProjectWindowProps): JSX.Ele
       <FormHeader title={isEdit ? t('Edit project') : t('New project')} onClose={onClose} />
 
       <FormBody>
-        <FormTextField name="name" label={t('Project name')} ref={nameFieldRefCallback} />
-        <FormTextAreaField name="note" label={t('Project description (optional)')} />
+        <FormInput name="name" label={t('Project name')} ref={nameFieldRefCallback} />
+        <FormTextArea name="note" label={t('Project description (optional)')} />
         <FormFieldSet legend={t('Permissions')}>
           <FormSelect
             name="editors"

@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 import { ApiErrors } from '../../core/errors';
 import { AuthRepository } from '../../core/other-stores/auth-repository';
-import { Form, FormButton, FormError, FormInput, FormLayout, FormTextField } from '../../components/Form';
+import { Form, FormButton, FormError, FormInput, FormLayout } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
 import { SignUpAcknowledgment } from './SignUpAcknowledgment/SignUpAcknowledgment';

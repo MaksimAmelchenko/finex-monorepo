@@ -22,5 +22,5 @@ export function FormDateField(props: FormDateFieldProps): JSX.Element {
     [name, setFieldTouched, setFieldValue]
   );
 
-  return <DateField {...joinedProps} onChange={handleChange} error={isError ? meta.error : ''} />;
+  return <DateField {...joinedProps} onChange={handleChange} errorText={isError ? meta.error : ''} />;
 }

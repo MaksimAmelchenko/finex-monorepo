@@ -26,9 +26,10 @@
   justify-content: center;
 
   margin-right: 10px;
+  color: var(--color-gray-500);
 
   &__icon {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2rem;
+    height: 2rem;
   }
 }

@@ -8,9 +8,9 @@ import { AccountTypesStore } from '../../stores/account-types-store';
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CreateAccountData, IAccount, UpdateAccountChanges } from '../../types/account';
-import { Form, FormBody, FormButton, FormCheckbox, FormInput } from '../../components/Form';
+import { Form, FormBody, FormButton, FormCheckbox, FormInput, FormTextArea } from '../../components/Form';
 import { FormSelectNative } from '../../components/Form/FormSelectNative/FormSelectNative';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+
 import { IOption } from '@finex/ui-kit';
 import { Shape } from '../../types';
 import { analytics } from '../../lib/analytics';
@@ -195,7 +195,7 @@ export function AccountWindowMobile({ account, onClose }: AccountWindowProps): J
         >
           {t('Active')}
         </FormCheckbox>
-        <FormTextAreaField name="note" label={t('Note')} />
+        <FormTextArea name="note" label={t('Note')} />
 
         {/*
           <FormFieldSet legend={t('Permissions')}>

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Meta, Story } from '@storybook/react';
 
 import { Dropdown, Input, InputProps } from './input';
-import { MagnifyingGlassIcon, CalendarIcon } from '../icons';
+import { SearchMdIcon, CalendarIcon } from '../icons';
 
 export default {
   title: 'Components/Input',
@@ -17,33 +17,33 @@ export default {
     label: { control: { type: 'text' } },
     helperText: { control: { type: 'text' } },
     startIcon: {
-      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      options: ['Empty', 'SearchIcon', 'CalendarIcon'],
       mapping: {
         Empty: undefined,
-        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        SearchIcon: <SearchMdIcon />,
         CalendarIcon: <CalendarIcon />,
       },
       control: {
         type: 'select',
         labels: {
           Empty: 'Empty',
-          MagnifyingGlassIcon: 'MagnifyingGlass',
+          SearchIcon: 'SearchIcon',
           CalendarIcon: 'Calendar',
         },
       },
     },
     endIcon: {
-      options: ['Empty', 'MagnifyingGlassIcon', 'CalendarIcon'],
+      options: ['Empty', 'SearchIcon', 'CalendarIcon'],
       mapping: {
         Empty: undefined,
-        MagnifyingGlassIcon: <MagnifyingGlassIcon />,
+        SearchIcon: <SearchMdIcon />,
         CalendarIcon: <CalendarIcon />,
       },
       control: {
         type: 'select',
         labels: {
           Empty: 'Empty',
-          MagnifyingGlassIcon: 'MagnifyingGlass',
+          SearchIcon: 'SearchIcon',
           CalendarIcon: 'Calendar',
         },
       },
@@ -72,7 +72,6 @@ Default.args = {
   size: 'sm',
   label: 'Label',
   placeholder: 'Placeholder',
-  // endAdornment: 'MagnifyingGlassIcon' as any,
   errorText: 'Error',
   helperText: 'Helper Text',
 };

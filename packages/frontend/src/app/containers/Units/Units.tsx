@@ -73,13 +73,13 @@ export const Units = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
+              <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="sm" disabled={!selectedUnits.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="md" disabled={!selectedUnits.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -102,9 +102,7 @@ export const Units = observer(() => {
         </div>
       </article>
 
-      <Drawer open={isOpenedUnitWindow}>
-        {unit && <UnitWindow unit={unit} onClose={handleCloseUnitWindow} />}
-      </Drawer>
+      <Drawer open={isOpenedUnitWindow}>{unit && <UnitWindow unit={unit} onClose={handleCloseUnitWindow} />}</Drawer>
     </>
   );
 });

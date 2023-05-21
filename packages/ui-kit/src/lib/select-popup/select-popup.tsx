@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode, useCallback, useState } from 'reac
 import { PropsValue } from 'react-select';
 import { ActionMeta, OnChangeValue } from 'react-select/dist/declarations/src/types';
 
-import { MagnifyingGlassIcon } from '../icons';
+import { SearchMdIcon } from '../icons';
 import { Select, ISelectOption, SelectProps } from '../select/select';
 
 import styles from './select-popup.module.scss';
@@ -79,7 +79,7 @@ function Dropdown({ children, isOpen, target, onClose }: DropdownProps) {
 function DropdownIndicator(): JSX.Element {
   return (
     <div className={styles.dropdownIndicator}>
-      <MagnifyingGlassIcon className={styles.dropdownIndicator__icon} />
+      <SearchMdIcon className={styles.dropdownIndicator__icon} />
     </div>
   );
 }

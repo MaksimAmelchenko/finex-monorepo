@@ -15,9 +15,9 @@ import {
   FormFieldSet,
   FormFooter,
   FormHeader,
+  FormInput,
   FormSelect,
-  FormTextAreaField,
-  FormTextField,
+  FormTextArea,
 } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { ProfileRepository } from '../../stores/profile-repository';
@@ -173,7 +173,7 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
       <FormHeader title={account instanceof Account ? t('Edit account') : t('Add new account')} onClose={onClose} />
 
       <FormBody>
-        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
         <FormSelect
           name="accountTypeId"
           label={t('Account type')}
@@ -186,7 +186,7 @@ export function AccountWindow({ account, onClose }: AccountWindowProps): JSX.Ele
         >
           {t('Active')}
         </FormCheckbox>
-        <FormTextAreaField name="note" label={t('Note')} />
+        <FormTextArea name="note" label={t('Note')} />
         {/*<FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />*/}
         <FormFieldSet legend={t('Permissions')}>
           <FormSelect

@@ -73,18 +73,18 @@ export const Contractors = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
+              <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
               <Button
                 variant="secondaryGray"
-                size="sm"
+                size="md"
                 disabled={!selectedContractors.length}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

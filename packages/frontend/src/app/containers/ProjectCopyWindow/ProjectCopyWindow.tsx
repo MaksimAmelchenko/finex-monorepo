@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 
-import { Form, FormBody, FormButton, FormFooter, FormHeader, FormSelect, FormTextField } from '../../components/Form';
+import { Form, FormBody, FormButton, FormFooter, FormHeader, FormSelect, FormInput } from '../../components/Form';
 import { ISelectOption } from '@finex/ui-kit';
 import { Project } from '../../stores/models/project';
 import { ProjectsRepository } from '../../stores/projects-repository';
@@ -86,7 +86,7 @@ export function ProjectCopyWindow({ project, onClose }: ProjectCopyWindowProps):
 
       <FormBody>
         <FormSelect name="projectId" label={t('Project to be copied')} options={selectProjectsOptions} />
-        <FormTextField name="name" label={t('Project name')} ref={nameFieldRefCallback} />
+        <FormInput name="name" label={t('Project name')} ref={nameFieldRefCallback} />
       </FormBody>
 
       <FormFooter>

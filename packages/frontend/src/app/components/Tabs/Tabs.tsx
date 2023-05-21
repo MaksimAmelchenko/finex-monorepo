@@ -21,6 +21,8 @@ const MuiTabsStyled = styled(MuiTabs)(({ theme }) => ({
 
 const MuiTabStyled = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
+  fontFamily: 'inherit',
+  fontSize: 'inherit',
   '&.Mui-selected': {
     color: 'var(--color-primary-600)',
   },
@@ -32,7 +34,7 @@ export function Tabs({ value, options, onChange }: TabsProps): JSX.Element {
   };
 
   return (
-    <MuiTabsStyled value={value} onChange={handleChange} variant="scrollable" scrollButtons>
+    <MuiTabsStyled value={value} onChange={handleChange}>
       {options.map(({ value, label }) => (
         <MuiTabStyled disableRipple value={value} label={label} key={value} />
       ))}

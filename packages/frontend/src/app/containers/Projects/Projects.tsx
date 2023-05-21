@@ -110,26 +110,26 @@ export const Projects = observer(() => {
         <div className={clsx(styles.article__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button size="sm" startIcon={<PlusIcon />} onClick={handleAddClick}>
+              <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New project')}
               </Button>
               <Button
                 variant="secondaryGray"
-                size="sm"
+                size="md"
                 disabled={!selectedProject || isSelectCurrentProject}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
 
-              <Button variant="secondaryGray" size="sm" onClick={handleCopyClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleCopyClick}>
                 {t('Copy')}
               </Button>
 
-              <Button variant="secondaryGray" size="sm" onClick={handleMergeClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleMergeClick}>
                 {t('Merge')}
               </Button>
             </div>

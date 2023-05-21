@@ -7,8 +7,7 @@ import { BackButton, DeleteButton, Header } from '../../components/Header/Header
 import { Contractor } from '../../stores/models/contractor';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CreateContractorData, IContractor, UpdateContractorChanges } from '../../types/contractor';
-import { Form, FormBody, FormButton, FormInput } from '../../components/Form';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+import { Form, FormBody, FormButton, FormInput, FormTextArea } from '../../components/Form';
 import { Shape } from '../../types';
 import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
@@ -137,7 +136,7 @@ export function ContractorWindowMobile({ contractor, onClose }: ContractorWindow
       <FormBody className={styles.main}>
         <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} autoComplete="off" />
 
-        <FormTextAreaField name="note" label={t('Note')} />
+        <FormTextArea name="note" label={t('Note')} />
       </FormBody>
 
       <footer className={styles.footer}>

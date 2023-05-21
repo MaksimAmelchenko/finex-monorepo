@@ -82,13 +82,13 @@ export const PlanTransactions = observer(() => {
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddPlanTransaction}>
+              <Button size="md" startIcon={<PlusIcon />} onClick={handleOpenAddPlanTransaction}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="sm" disabled={!selectedPlans.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="md" disabled={!selectedPlans.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

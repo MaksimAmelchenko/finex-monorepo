@@ -15,7 +15,7 @@ import { DebtItemRow } from './DebtItemRow/DebtItemRow';
 import { DebtItemWindow } from './DebtItemWindow/DebtItemWindow';
 import { DebtsRepository } from '../../stores/debts-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
-import { Form, FormButton, FormSelect, FormTextAreaField } from '../../components/Form';
+import { Form, FormButton, FormSelect, FormTextArea } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
@@ -190,7 +190,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
                 <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} />
               </div>
               <div className={styles.debt__right}>
-                <FormTextAreaField name="note" label={t('Note')} minRows={4} />
+                <FormTextArea name="note" label={t('Note')} minRows={4} />
               </div>
             </div>
 

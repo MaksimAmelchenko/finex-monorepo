@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
-import { ContractorsRepository } from '../../stores/contractors-repository';
+import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
 import { CashFlow } from '../../stores/models/cash-flow';
 import { CashFlowRow } from './CashFlowRow/CashFlowRow';
 import { CashFlowWindow } from '../../containers/CashFlowWindow/CashFlowWindow';
 import { CashFlowsRepository } from '../../stores/cash-flows-repository';
-import { Form, FormTextField } from '../../components/Form';
+import { ContractorsRepository } from '../../stores/contractors-repository';
+import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ICashFlow } from '../../types/cash-flow';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
@@ -141,7 +141,7 @@ export const CashFlows = observer(() => {
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
               <Button
-                size="sm"
+                size="md"
                 startIcon={<PlusIcon />}
                 onClick={handleOpenAddCashFlow}
                 data-cy="cf-create-cash-flow-button"
@@ -150,13 +150,13 @@ export const CashFlows = observer(() => {
               </Button>
               <Button
                 variant="secondaryGray"
-                size="sm"
+                size="md"
                 disabled={!selectedCashFlows.length}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -174,12 +174,12 @@ export const CashFlows = observer(() => {
                 initialValues={{ searchText: filter.searchText }}
                 name="cash-flows-search"
               >
-                <FormTextField
+                <FormInput
                   name="searchText"
-                  size="small"
+                  size="sm"
                   placeholder={t('Enter search request')}
                   className={styles.toolbar__search}
-                  startAdornment={MagnifyingGlassIcon}
+                  startIcon={<SearchMdIcon />}
                 />
               </Form>
             </div>

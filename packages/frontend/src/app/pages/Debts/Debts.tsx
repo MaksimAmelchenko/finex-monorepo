@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, MagnifyingGlassIcon, PlusIcon } from '@finex/ui-kit';
+import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Debt } from '../../stores/models/debt';
 import { DebtRow } from './DebtRow/DebtRow';
 import { DebtWindow } from '../../containers/DebtWindow/DebtWindow';
 import { DebtsRepository } from '../../stores/debts-repository';
-import { Form, FormTextField } from '../../components/Form';
+import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { IDebt } from '../../types/debt';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
@@ -153,13 +153,13 @@ export const Debts = observer(() => {
         <div className={clsx(styles.content__panel, styles.panel)}>
           <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
             <div className={styles.toolbar__buttons}>
-              <Button size="sm" startIcon={<PlusIcon />} onClick={handleOpenAddDebt}>
+              <Button size="md" startIcon={<PlusIcon />} onClick={handleOpenAddDebt}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="sm" disabled={!selectedDebts.length} onClick={handleDeleteClick}>
+              <Button variant="secondaryGray" size="md" disabled={!selectedDebts.length} onClick={handleDeleteClick}>
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="sm" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -177,12 +177,12 @@ export const Debts = observer(() => {
                 initialValues={{ searchText: filter.searchText }}
                 name="debts-search"
               >
-                <FormTextField
+                <FormInput
                   name="searchText"
-                  size="small"
+                  size="sm"
                   placeholder={t('Enter search request')}
                   className={styles.toolbar__search}
-                  startAdornment={MagnifyingGlassIcon}
+                  startIcon={<SearchMdIcon />}
                 />
               </Form>
             </div>
@@ -235,13 +235,13 @@ export const Debts = observer(() => {
               <tr>
                 <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
                 <th>{t('Counterparty')}</th>
-                <th >{t('Debt')}</th>
-                <th >{t('Repayment')}</th>
-                <th >{t('Debt balance')}</th>
-                <th >{t('Interest')}</th>
-                <th >{t('Fine')}</th>
-                <th >{t('Fee')}</th>
-                <th >{t('Cost (overpayment)')}</th>
+                <th>{t('Debt')}</th>
+                <th>{t('Repayment')}</th>
+                <th>{t('Debt balance')}</th>
+                <th>{t('Interest')}</th>
+                <th>{t('Fine')}</th>
+                <th>{t('Fee')}</th>
+                <th>{t('Cost (overpayment)')}</th>
                 <th className="hidden-sm">{t('Note')}</th>
                 <th className="hidden-sm">{t('Tags')}</th>
               </tr>

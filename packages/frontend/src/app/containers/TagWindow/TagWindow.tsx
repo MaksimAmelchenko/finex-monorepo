@@ -4,7 +4,7 @@ import { FormikHelpers } from 'formik';
 import { useSnackbar } from 'notistack';
 
 import { CreateTagData, ITag, UpdateTagChanges } from '../../types/tag';
-import { Form, FormBody, FormButton, FormFooter, FormHeader, FormTextField } from '../../components/Form';
+import { Form, FormBody, FormButton, FormFooter, FormHeader, FormInput } from '../../components/Form';
 import { Shape } from '../../types';
 import { Tag } from '../../stores/models/tag';
 import { TagsRepository } from '../../stores/tags-repository';
@@ -101,7 +101,7 @@ export function TagWindow({ tag, onClose }: TagWindowProps): JSX.Element {
       <FormHeader title={tag instanceof Tag ? t('Edit tag') : t('Add new tag')} onClose={onClose} />
 
       <FormBody>
-        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
       </FormBody>
 
       <FormFooter>

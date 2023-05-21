@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 
 import { CreateMoneyData, IMoney, UpdateMoneyChanges } from '../../types/money';
 import { CurrenciesRepository } from '../../stores/currency-repository';
-import { Form, FormBody, FormButton, FormCheckbox, FormFooter, FormHeader, FormTextField } from '../../components/Form';
+import { Form, FormBody, FormButton, FormCheckbox, FormFooter, FormHeader, FormInput } from '../../components/Form';
 import { ISelectOption, Select } from '@finex/ui-kit';
 import { Money } from '../../stores/models/money';
 import { MoneysRepository } from '../../stores/moneys-repository';
@@ -155,16 +155,16 @@ export function MoneyWindow({ money, onClose }: MoneyWindowProps): JSX.Element {
 
       <FormBody>
         <CurrencyField />
-        <FormTextField name="name" label={t('Name')} ref={nameFieldRefCallback} />
-        <FormTextField name="symbol" label={t('Symbol')} helperText={t('Displayed currency sign')} />
-        <FormTextField name="precision" label={t('Precision')} helperText={t('A number of symbols after comma')} />
+        <FormInput name="name" label={t('Name')} ref={nameFieldRefCallback} />
+        <FormInput name="symbol" label={t('Symbol')} helperText={t('Displayed currency sign')} />
+        <FormInput name="precision" label={t('Precision')} helperText={t('A number of symbols after comma')} />
         <FormCheckbox
           name="isEnabled"
           helperText={t('Inactive money is hidden when creating or editing a transaction')}
         >
           {t('Active')}
         </FormCheckbox>
-        <FormTextField
+        <FormInput
           name="sorting"
           label={t('Sorting')}
           helperText={t('Sets the currency display order for multicurrency accounts')}

@@ -23,20 +23,23 @@
   grid-template-areas:
     'toolbar pagination'
     'filter filter';
+  gap: 0.8rem 1.1rem;
+  // for button shadow
+  padding-top: 0.4rem;
+
 
   &__toolbar {
-    margin-right: 1.2rem;
     grid-area: toolbar;
   }
 
   &__pagination {
     grid-area: pagination;
-    place-self: end;
+    display: flex;
+    align-items: center;
   }
 
   &__filter {
     grid-area: filter;
-    margin-top: 0.8rem;
   }
 }
 
@@ -48,7 +51,9 @@
 
 .toolbar {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 1.6rem;
 
   &__buttons {
     display: flex;
@@ -57,12 +62,14 @@
 
   &__rightColumn {
     display: flex;
+    align-items: center;
     gap: 0.8rem;
-    margin-left: 0.8rem;
+    flex: 1 0 0;
+    width: 0;
+    max-width: 24rem;
   }
 
   &__search {
-    min-width: 9.6rem;
   }
 }
 
@@ -70,10 +77,6 @@
   &_active {
     color: var(--color-gray-1000);
   }
-}
-
-.multiSelect {
-  min-width: 32rem;
 }
 
 .tableWrapper {
@@ -86,4 +89,8 @@
   td {
     height: 1px;
   }
+}
+
+.multiSelect {
+  min-width: 32rem;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { MagnifyingGlassIcon } from '../icons';
+import { SearchMdIcon } from '../icons';
 import { IconButton, IconButtonProps } from './icon-button';
 
 export default {
@@ -17,7 +17,7 @@ export default {
 
 const Template: Story<IconButtonProps> = args => (
   <IconButton {...args}>
-    <MagnifyingGlassIcon />
+    <SearchMdIcon />
   </IconButton>
 );
 

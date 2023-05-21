@@ -27,8 +27,8 @@ import {
   FormHeader,
   FormSelect,
   FormTabs,
-  FormTextAreaField,
-  FormTextField,
+  FormTextArea,
+  FormInput,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
@@ -626,9 +626,7 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
                   options={selectTerminationTypeOptions}
                 />
 
-                {values.terminationType === '1' && (
-                  <FormTextField name="repetitionCount" label={t('Repetition count')} />
-                )}
+                {values.terminationType === '1' && <FormInput name="repetitionCount" label={t('Repetition count')} />}
 
                 {values.terminationType === '2' && (
                   <FormDateField
@@ -662,11 +660,11 @@ export function PlanTransactionWindow({ planTransaction, onClose }: PlanTransact
                   isClearable
                 />
 
-                <FormTextAreaField name="operationNote" label={t('Transaction note')} minRows={1} />
+                <FormTextArea name="operationNote" label={t('Transaction note')} minRows={1} />
 
                 <FormSelect isMulti name="operationTagIds" label={t('Transaction tags')} options={selectTagsOptions} />
 
-                <FormTextAreaField name="note" label={t('Note')} minRows={1} />
+                <FormTextArea name="note" label={t('Note')} minRows={1} />
 
                 <FormColorPickerField name="markerColor" colors={markerColors} />
               </div>

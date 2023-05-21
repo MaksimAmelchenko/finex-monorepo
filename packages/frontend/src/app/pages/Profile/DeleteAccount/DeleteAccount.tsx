@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Form, FormButton, FormLayout, FormTextField } from '../../../components/Form';
+import { Form, FormButton, FormLayout, FormInput } from '../../../components/Form';
 import { ProfileRepository } from '../../../stores/profile-repository';
 import { Shape } from '../../../types';
 import { getT } from '../../../lib/core/i18n';
@@ -74,17 +74,16 @@ export const DeleteAccount = observer(({ username }: DeleteAccountProps) => {
           <FormLayout>
             <p>{t('This action deletes the account and all data it contains. There is no going back.')}</p>
             <input name="username" value={username} readOnly autoComplete="off" className={styles.hidden} />
-            <FormTextField
+            <FormInput
               name="password"
               type="password"
               label={t('Current password')}
-              autoFocusOnEmpty={true}
               autoComplete="current-password"
               helperText={t('You must provide your current password in order to delete account.')}
             />
           </FormLayout>
           <footer className={styles.form__footer}>
-            <FormButton type="submit" size="sm" destructive isIgnoreValidation>
+            <FormButton type="submit" size="md" destructive isIgnoreValidation>
               {t('Delete account')}
             </FormButton>
           </footer>

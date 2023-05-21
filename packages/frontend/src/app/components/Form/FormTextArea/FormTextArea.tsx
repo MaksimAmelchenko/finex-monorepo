@@ -1,19 +1,18 @@
 import React, { forwardRef } from 'react';
 import { useField } from 'formik';
 
-import { TextAreaField, TextAreaFieldProps } from '@finex/ui-kit';
+import { TextArea, TextAreaProps } from '@finex/ui-kit';
 
-export interface FormAreaFieldProps extends Omit<TextAreaFieldProps, 'value'> {
+export interface FormTextAreaProps extends Omit<TextAreaProps, 'value'> {
   name: string;
-  className?: string;
 }
 
-export const FormTextAreaField = forwardRef<HTMLTextAreaElement, FormAreaFieldProps>((props, ref) => {
+export const FormTextArea = forwardRef<HTMLTextAreaElement, FormTextAreaProps>((props, ref) => {
   const [formikProps, meta] = useField(props.name);
   const joinedProps = { ...props, ...formikProps };
   const isError = Boolean(meta.error);
 
-  return <TextAreaField {...joinedProps} error={isError ? meta.error : ''} />;
+  return <TextArea {...joinedProps} errorText={isError ? meta.error : ''} />;
 });
 
-FormTextAreaField.displayName = 'FormTextAreaField';
+FormTextArea.displayName = 'FormTextArea';

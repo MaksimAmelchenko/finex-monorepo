@@ -12,8 +12,7 @@ import { AmountField } from '../AmountFieldMobile/AmountField';
 import { BackButton, DeleteButton, Header } from '../../components/Header/Header';
 import { CreateExchangeData, UpdateExchangeChanges } from '../../types/exchange';
 import { DateField } from '../../components/DateField/DateField';
-import { Form, FormBody, FormCheckbox } from '../../components/Form';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+import { Form, FormBody, FormCheckbox, FormTextArea } from '../../components/Form';
 import { IOperationExchange } from '../../types/operation';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { OperationExchange } from '../../stores/models/operation';
@@ -393,7 +392,7 @@ export function ExchangeWindowMobile({ exchange, onClose }: ExchangeWindowMobile
                 <div className={styles.additional__description}>{t('Note, Tags')}</div>
               </div>
               <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
-                <FormTextAreaField name="note" label={t('Note')} minRows={1} />
+                <FormTextArea name="note" label={t('Note')} minRows={1} />
                 <TagsField name="tagIds" label={t('Tags')} />
               </Accordion>
             </div>

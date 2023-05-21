@@ -13,9 +13,7 @@ import { BackButton, DeleteButton, Header } from '../../components/Header/Header
 import { CategoryField } from '../CategoryFieldMobile/CategoryField';
 import { CreateTransactionData, ITransaction, UpdateTransactionChanges } from '../../types/transaction';
 import { DateField } from '../../components/DateField/DateField';
-import { Form, FormBody, FormCheckbox } from '../../components/Form';
-import { FormSegmentedControl } from '../../components/Form/FormSegmentedControl/FormSegmentedControl';
-import { FormTextAreaField } from '../../components/Form/FormTextArea2/FormTextArea';
+import { Form, FormBody, FormCheckbox, FormTextArea, FormSegmentedControl } from '../../components/Form';
 import { ITabOption } from '../../components/Tabs/Tabs';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { QuantityField } from '../QuantityFieldMobile/QuantityField';
@@ -344,7 +342,7 @@ export function TransactionWindowMobile({
           <Accordion isExpanded={isShowAdditionalFields} className={styles.additional__fields}>
             <QuantityField quantityFieldName="quantity" unitFieldName="unitId" label={t('Quantity')} />
             <FormCheckbox name="isNotConfirmed">{t('Not confirmed transaction')}</FormCheckbox>
-            <FormTextAreaField name="note" label={t('Note')} minRows={1} />
+            <FormTextArea name="note" label={t('Note')} minRows={1} />
             <TagsField name="tagIds" label={t('Tags')} />
           </Accordion>
         </div>
