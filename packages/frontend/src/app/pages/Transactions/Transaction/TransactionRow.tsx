@@ -80,8 +80,8 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
       </td>
 
       <td>
-        <div>{category.name}</div>
-        <div className={styles.categoryPath}>{category.fullPath()}</div>
+        <div>{category?.name || t('Uncategorized')} </div>
+        <div className={styles.categoryPath}>{category?.fullPath()}</div>
       </td>
 
       {sign === 1 ? (

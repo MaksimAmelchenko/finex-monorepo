@@ -356,11 +356,7 @@ export class CashFlowsRepository extends ManageableStore {
         return acc;
       }
 
-      const category = categoriesRepository.get(categoryId);
-      if (!category) {
-        console.warn('Category not found', { cashFlowItem });
-        return acc;
-      }
+      const category = (categoryId && categoriesRepository.get(categoryId)) || null;
 
       const account = accountsRepository.get(accountId);
       if (!account) {

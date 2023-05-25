@@ -1,5 +1,12 @@
-import { IRequestContext, TDateTime, TUrl } from '../../types/app';
-import { ProviderAccountStatus, IConnection, IProviderAccount } from '../connection/types';
+import { ILogger, IRequestContext, TDateTime, TUrl } from '../../types/app';
+import {
+  ProviderAccountStatus,
+  IConnection,
+  IProviderAccount,
+  IAccount,
+  INormalizedTransaction,
+} from '../connection/types';
+import { ITransaction } from '../transaction/types';
 
 export interface NordigenService {}
 
@@ -79,23 +86,6 @@ SU	SUSPENDED	Requisition is suspended due to numerous consecutive errors that ha
 EX	EXPIRED	Access to accounts has expired as set in End User Agreement	9
 * */
 
-/*
-{
-  "id":"8126e9fb-93c9-4228-937c-68f0383c2df7",
-  "redirect":"http://www.yourwebpage.com",
-  "status":{
-  "short":"CR",
-    "long":"CREATED",
-    "description":"Requisition has been succesfully created"
-},
-  "agreements":"2dea1b84-97b0-4cb4-8805-302c227587c8",
-  "accounts":[],
-  "reference":"124151",
-  "user_language":"EN",
-  "link":"https://ob.nordigen.com/psd2/start/3fa85f64-5717-4562-b3fc-2c963f66afa6/{$INSTITUTION_ID}"
-}
-*/
-
 export interface IRequisitionNordigen {
   id: string;
   created: TDateTime;
@@ -135,42 +125,70 @@ export interface IAccountNordigen {
 }
 
 // https://nordigen.com/en/docs/account-information/output/transactions/
-export interface ITransactionNordigen {
+export interface INordigenTransaction {
+  // Unique transaction identifier given by financial institution
+  transactionId?: string;
+  // Transaction identifier given by Nordigen
+  internalTransactionId: string;
+  bookingDate?: string;
+  valueDate?: string;
+  transactionAmount: INordigenTransactionAmount;
+  // Name of the creditor if a "Debited" transaction
+  creditorName?: string;
+  // Name of the debtor if a "Credited" transaction
+  debtorName?: string;
+  remittanceInformationStructured?: string;
+  remittanceInformationStructuredArray?: string[];
+  remittanceInformationUnstructured?: string;
+  remittanceInformationUnstructuredArray?: string[];
   additionalInformation?: string;
+  bankTransactionCode: string;
+  debtorAccount?: INordigenDebtorAccount;
+  mandateId?: string;
+  creditorId?: string;
+  creditorAccount?: INordigenCreditorAccount;
+  currencyExchange?: INordigenCurrencyExchange[];
+
   additionalInformationStructured?: string;
   balanceAfterTransaction?: string;
-  bankTransactionCode?: string;
-  bookingDate?: string;
   bookingDateTime?: string;
   checkId?: string;
-  creditorAccount?: string;
   creditorAgent?: string;
-  creditorId?: string;
-  creditorName?: string;
-  currencyExchange?: string;
-  debtorAccount?: string;
   debtorAgent?: string;
-  debtorName?: string;
   endToEndId?: string;
   entryReference?: string;
-  internalTransactionId?: string;
-  mandateId?: string;
   merchantCategoryCode?: string;
   proprietaryBankTransactionCode?: string;
   purposeCode?: string;
-  remittanceInformationStructured?: string;
-  remittanceInformationStructuredArray?: string;
-  remittanceInformationUnstructured?: string;
-  remittanceInformationUnstructuredArray?: string;
-  transactionAmount: {
-    amount: number;
-    currency: string;
-  };
-  transactionId?: string;
   ultimateCreditor?: string;
   ultimateDebtor?: string;
-  valueDate?: string;
   valueDateTime?: string;
+}
+
+export interface INordigenDebtorAccount {
+  iban: string;
+}
+
+export interface INordigenCreditorAccount {
+  iban: string;
+}
+
+export interface INordigenCurrencyExchange {
+  sourceCurrency: string;
+  exchangeRate: string;
+  unitCurrency: string;
+  targetCurrency: string;
+  quotationDate: string;
+}
+export interface INordigenTransactionAmount {
+  amount: string;
+  currency: string;
+}
+
+//
+export interface INordigenTransactions {
+  booked: INordigenTransaction[];
+  pending: INordigenTransaction[];
 }
 
 export interface CreateRequisitionRepositoryData {
@@ -191,6 +209,19 @@ export interface UpdateRequisitionRepositoryChanges {
   status?: string;
   response?: IRequisitionNordigen;
 }
+
+export type TransformationFunction = (
+  log: ILogger,
+  account: IAccount,
+  transactions: INordigenTransactions,
+  options: {
+    cashAccountId?: string;
+    accounts: Array<{
+      providerAccountName: string;
+      accountId: string;
+    }>;
+  }
+) => INormalizedTransaction[];
 
 export interface NordigenRepository {
   createRequisition(
@@ -281,4 +312,16 @@ export interface NordigenService {
 export interface NordigenMapper {
   toInstitutionDTO(institution: IInstitution): IInstitutionDTO;
   toRequisition(requisitionDAO: IRequisitionDAO): IRequisition;
+}
+
+export interface NordigenETL {
+  transform(
+    log: ILogger,
+    connection: IConnection,
+    account: IAccount,
+    transactions: INordigenTransactions,
+    options: {
+      cashAccountId?: string;
+    }
+  ): INormalizedTransaction[];
 }

@@ -9,7 +9,7 @@ export interface ICashFlowItemDAO {
   amount: number;
   moneyId: number;
   accountId: number;
-  categoryId: number;
+  categoryId: number | null;
   cashflowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -28,7 +28,7 @@ export interface ICashFlowItemEntity {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -47,7 +47,7 @@ export interface CreateCashFlowItemRepositoryData {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId?: string | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity?: number | null;
@@ -64,7 +64,7 @@ export type UpdateCashFlowItemRepositoryChanges = Partial<{
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;

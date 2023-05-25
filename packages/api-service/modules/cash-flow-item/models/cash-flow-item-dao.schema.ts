@@ -31,7 +31,7 @@ export const cashFlowItemDAOSchema: OpenAPIV3_1.SchemaObject = {
       type: 'number',
     },
     categoryId: {
-      type: 'number',
+      type: ['number', 'null'],
     },
     quantity: {
       type: ['number', 'null'],
@@ -63,7 +63,6 @@ export const cashFlowItemDAOSchema: OpenAPIV3_1.SchemaObject = {
     'amount',
     'moneyId',
     'accountId',
-    'categoryId',
     'cashflowItemDate',
     'reportPeriod',
     'isNotConfirmed',

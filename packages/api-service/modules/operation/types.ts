@@ -8,7 +8,7 @@ export interface IOperationTransactionDAO {
   amount: number;
   moneyId: number;
   accountId: number;
-  categoryId: number;
+  categoryId: number | null;
   operationDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -29,7 +29,7 @@ export interface IOperationTransactionDTO {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;

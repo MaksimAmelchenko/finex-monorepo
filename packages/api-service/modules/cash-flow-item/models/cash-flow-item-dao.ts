@@ -22,7 +22,7 @@ export class CashFlowItemDAO extends Model implements ICashFlowItemDAO {
   cashflowItemDate: TDate;
   reportPeriod: TDate;
   accountId: number;
-  categoryId: number;
+  categoryId: number | null;
   quantity: number | null;
   unitId: number | null;
   isNotConfirmed: boolean;

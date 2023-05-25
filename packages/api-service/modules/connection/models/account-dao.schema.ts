@@ -31,6 +31,7 @@ export const accountDAOSchema: OpenAPIV3_1.SchemaObject = {
     },
     createdAt: dateTime,
     updatedAt: dateTime,
+    lastSyncedAt: dateTime,
   },
   additionalProperties: false,
   required: [

@@ -19,6 +19,7 @@ export class AccountDAO extends Model implements IAccountDAO {
   providerAccountProduct: string | null;
   accountId: number | null;
   syncFrom: TDate | null;
+  lastSyncedAt: TDateTime | null;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 

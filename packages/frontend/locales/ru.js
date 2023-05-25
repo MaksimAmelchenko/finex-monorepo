@@ -137,11 +137,13 @@ module.exports = {
     Overdue: 'Просрочено',
     Planned: 'Запланировано',
     'Not confirmed': 'Не подтверждено',
+    Uncategorized: 'Без категории',
   },
   CashFlowCard: {
     'Cash Inflows': 'Приток',
     'Cash Outflows': 'Отток',
     'Empty Cash Flow': 'Пустой денежный поток',
+    Uncategorized: 'Без категории',
   },
   CashFlowItem: {
     Income: 'Приход',
@@ -173,6 +175,9 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
     'Save and Create New': 'Сохранить и создать ещё',
+  },
+  CashFlowItemRow: {
+    Uncategorized: 'Без категории',
   },
   CashFlows: {
     'Are you sure you want to delete several cash flows?': 'Вы уверены, что хотите удалить несколько денежных потоков?',
@@ -994,6 +999,9 @@ module.exports = {
   },
   Tools: {
     Tools: 'Инструменты',
+  },
+  TransactionCard: {
+    Uncategorized: 'Без категории',
   },
   Transactions: {
     'Are you sure you want to delete several transactions?': 'Вы уверены, что хотите удалить несколько операций?',

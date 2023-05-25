@@ -44,6 +44,10 @@ export const getConnectionsResponseSchema: OpenAPIV3_1.SchemaObject = {
                   type: ['string', 'null'],
                   format: 'date',
                 },
+                lastSyncedAt: {
+                  type: ['string', 'null'],
+                  format: 'date-time',
+                },
               },
               additionalProperties: false,
               required: [
@@ -54,6 +58,7 @@ export const getConnectionsResponseSchema: OpenAPIV3_1.SchemaObject = {
                 'providerAccountProduct',
                 'accountId',
                 'syncFrom',
+                'lastSyncedAt',
               ],
             },
           },

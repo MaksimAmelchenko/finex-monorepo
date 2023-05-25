@@ -11,7 +11,7 @@ export class CashFlowItem implements ICashFlowItem {
   cashFlowItemDate: string;
   reportPeriod: TDate;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   quantity: number | null;
   unitId: string | null;
   isNotConfirmed: boolean;

@@ -50,7 +50,7 @@ export interface ICashFlowItemDTO {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;

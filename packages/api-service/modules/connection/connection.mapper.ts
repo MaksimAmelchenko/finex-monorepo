@@ -9,6 +9,8 @@ import {
   ICountry,
   ICountryDAO,
   ICountryDTO,
+  ITransaction,
+  ITransactionDAO,
 } from './types';
 import { Connection } from './models/connection';
 import { Country } from './models/country';
@@ -79,6 +81,16 @@ class ConnectionMapperImpl implements ConnectionMapper {
       institutionLogo,
       provider,
       accounts: accounts.map(account => this.toAccountDTO(account)),
+    };
+  }
+
+  toTransaction(transactionDAO: ITransactionDAO): ITransaction {
+    const { projectId, userId, cashFlowId, ...rest } = transactionDAO;
+    return {
+      projectId: String(projectId),
+      userId: String(userId),
+      cashFlowId: String(cashFlowId),
+      ...rest,
     };
   }
 }

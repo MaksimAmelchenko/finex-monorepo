@@ -9,7 +9,7 @@ export interface ITransactionDAO {
   moneyId: number;
   accountId: number;
   contractorId: number | null;
-  categoryId: number;
+  categoryId: number | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -29,7 +29,7 @@ export interface ITransactionEntity {
   moneyId: string;
   accountId: string;
   contractorId: string | null;
-  categoryId: string;
+  categoryId: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -51,7 +51,7 @@ export type ITransactionDTO = {
   moneyId: string;
   accountId: string;
   contractorId: string | null;
-  categoryId: string;
+  categoryId: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -68,7 +68,7 @@ export interface CreateTransactionRepositoryData {
   moneyId: string;
   accountId: string;
   contractorId?: string | null;
-  categoryId: string;
+  categoryId?: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity?: number | null;
@@ -137,7 +137,7 @@ export type UpdateTransactionRepositoryChanges = Partial<{
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;

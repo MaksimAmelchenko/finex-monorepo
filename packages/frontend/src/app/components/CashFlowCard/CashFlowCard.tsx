@@ -10,7 +10,7 @@ import { getT, toCurrency } from '../../lib/core/i18n';
 import { moneyId } from '../../types/money';
 import { useStore } from '../../core/hooks/use-store';
 
-import styles from './CashFlow.module.scss';
+import styles from './CashFlowCard.module.scss';
 
 const t = getT('CashFlowCard');
 
@@ -59,7 +59,9 @@ export const CashFlowCard = observer<CashFlowCardProps>(({ cashFlow, onClick }) 
         <div className={styles.root__contentWrapper}>
           <div className={styles.mainContent}>
             <div className={styles.mainContent__header}>
-              <div className={styles.mainContent__text}>{categories.map(({ name }) => name).join(', ')}</div>
+              <div className={styles.mainContent__text}>
+                {categories.length ? categories.map(({ name }) => name).join(', ') : t('Uncategorized')}
+              </div>
               <div className={styles.mainContent__amounts}>
                 {moneys.map(money => {
                   const total = balance.total[money.id];

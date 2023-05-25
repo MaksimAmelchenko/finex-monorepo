@@ -17,9 +17,10 @@ import {
   IInstitution,
   IRequisition,
   IRequisitionNordigen,
+  INordigenTransactions,
   NordigenService,
 } from './types';
-import { IRequestContext } from '../../types/app';
+import { IRequestContext, TDate } from '../../types/app';
 import { connectionService } from '../connection/connection.service';
 import { nordigenMapper } from './mordigen.mapper';
 import { nordigenRepository } from './nordigen.repository';
@@ -203,6 +204,14 @@ class NordigenServiceImpl implements NordigenService {
     );
 
     return accounts.filter(account => account.status !== ProviderAccountStatus.Deleted);
+  }
+
+  async getTransactions(
+    ctx: IRequestContext<unknown, true>,
+    providerAccountId: string,
+    dateFrom: TDate
+  ): Promise<{ transactions: INordigenTransactions }> {
+    return this.client.account(providerAccountId).getTransactions({ dateFrom, dateTo: '', country: '' });
   }
 }
 

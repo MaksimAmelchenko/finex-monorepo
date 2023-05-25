@@ -451,11 +451,7 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const category = categoriesRepository.get(categoryId);
-    if (!category) {
-      console.warn('Category not found', { transaction });
-      return null;
-    }
+    const category = (categoryId && categoriesRepository.get(categoryId)) || null;
 
     const account = accountsRepository.get(accountId);
     if (!account) {

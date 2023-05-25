@@ -90,7 +90,7 @@ function mapValuesToCreatePayload({
     sign: Number(sign) as Sign,
     amount: Number(amount),
     moneyId,
-    categoryId: categoryId!,
+    categoryId,
     accountId,
     // TODO take contractorId from PlannedTransaction
     contractorId: null,
@@ -123,7 +123,7 @@ function mapValuesToUpdatePayload({
     sign: Number(sign) as Sign,
     amount: Number(amount),
     moneyId,
-    categoryId: categoryId!,
+    categoryId,
     accountId,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
@@ -257,7 +257,6 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
         amount: Yup.mixed()
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
-        categoryId: Yup.mixed().test('categoryId', t('Please select category'), value => Boolean(value)),
         quantity: Yup.mixed().test('quantity', t('Please enter a number'), value => !value || (value && !isNaN(value))),
       }),
     []
@@ -341,7 +340,13 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
           tabIndex={1}
         />
         <div className={styles.categoryField}>
-          <FormSelect name="categoryId" label={t('Category')} options={selectCategoriesOptions} tabIndex={2} />
+          <FormSelect
+            name="categoryId"
+            label={t('Category')}
+            isClearable
+            options={selectCategoriesOptions}
+            tabIndex={2}
+          />
           {/*<IconButton onClick={noop} tabIndex={-1}>*/}
           {/*  <PlusIcon />*/}
           {/*</IconButton>*/}

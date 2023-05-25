@@ -6,7 +6,7 @@ import { planTransactionMapper } from '../../../../modules/plan-transaction/plan
 import { planTransactionService } from '../../../../modules/plan-transaction/plan-transaction.service';
 
 export async function handler(
-  ctx: IRequestContext<UpdateTransactionServiceChanges & { planId: string }, true>
+  ctx: IRequestContext<UpdateTransactionServiceChanges & { planId: string; categoryId: string }, true>
 ): Promise<IResponse<{ planTransaction: IPlanTransactionDTO }>> {
   const {
     projectId,

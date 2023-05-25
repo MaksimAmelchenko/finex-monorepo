@@ -136,11 +136,13 @@ module.exports = {
     Overdue: 'Overdue',
     Planned: 'Planned',
     'Not confirmed': 'Not confirmed',
+    Uncategorized: 'Nicht kategorisiert',
   },
   CashFlowCard: {
     'Cash Inflows': 'Cash Inflows',
     'Cash Outflows': 'Cash Outflows',
     'Empty Cash Flow': 'Empty Cash Flow',
+    Uncategorized: 'Nicht kategorisiert',
   },
   CashFlowItem: {
     Income: 'Income',
@@ -172,6 +174,9 @@ module.exports = {
     Cancel: 'Cancel',
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
+  },
+  CashFlowItemRow: {
+    Uncategorized: 'Nicht kategorisiert',
   },
   CashFlows: {
     'Are you sure you want to delete several cash flows?': 'Are you sure you want to delete several cash flows?',
@@ -993,6 +998,9 @@ module.exports = {
   },
   Tools: {
     Tools: 'Tools',
+  },
+  TransactionCard: {
+    Uncategorized: 'Nicht kategorisiert',
   },
   Transactions: {
     'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',

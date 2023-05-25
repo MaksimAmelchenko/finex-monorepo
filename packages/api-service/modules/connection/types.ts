@@ -1,4 +1,6 @@
-import { IRequestContext, Locale, TDate, TDateTime, TI18nField, TUrl } from '../../types/app';
+import { IRequestContext, Locale, Sign, TDate, TDateTime, TI18nField, TUrl } from '../../types/app';
+import { CashFlowType } from '../cash-flow/types';
+import { IPlannedTransactionDTO, ITransactionDTO } from '../../../frontend/src/app/types/transaction';
 
 export enum ConnectionProvider {
   Nordigen = 'nordigen',
@@ -52,6 +54,7 @@ export interface IAccountDAO {
   providerAccountProduct: string | null;
   accountId: number | null;
   syncFrom: TDate | null;
+  lastSyncedAt: TDateTime | null;
   createdAt: TDateTime;
   updatedAt: TDateTime;
 }
@@ -116,6 +119,7 @@ export interface CreateAccountServiceData extends CreateAccountRepositoryData {}
 export interface UpdateAccountRepositoryChanges {
   accountId?: string | null;
   syncFrom?: TDate | null;
+  lastSyncedAt?: TDateTime;
 }
 
 export interface UpdateAccountServiceChanges extends UpdateAccountRepositoryChanges {}
@@ -146,6 +150,84 @@ export enum ProviderAccountStatus {
   Enabled = 'enabled',
   Deleted = 'deleted',
   Blocked = 'blocked',
+}
+
+export interface INormalizedTransaction {
+  // nordigen transaction id
+  transactionId: string;
+  transactionDate: TDate;
+  amount: number;
+  currency: string;
+  cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer;
+  transformationName: string;
+  source: any;
+}
+
+export interface INormalizedTransactionCashFlow {
+  cashFlowType: CashFlowType;
+  contractorName?: string;
+  note?: string;
+  items: Array<{
+    sign: Sign;
+    accountId: string;
+    cashFlowItemDate: TDate;
+    amount: number;
+    currency: string;
+    note?: string;
+  }>;
+}
+
+export interface INormalizedTransactionTransfer {
+  cashFlowType: CashFlowType;
+  amount: number;
+  currency: string;
+  fromAccountId: string;
+  toAccountId: string;
+  transferDate: TDate;
+  note?: string;
+}
+export function isTransactionCashFlow(
+  cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer
+): cashFlow is INormalizedTransactionCashFlow {
+  return cashFlow.cashFlowType === CashFlowType.IncomeExpense;
+}
+
+export function isTransactionTransfer(
+  cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer
+): cashFlow is INormalizedTransactionTransfer {
+  return cashFlow.cashFlowType === CashFlowType.Transfer;
+}
+
+export interface ITransactionDAO {
+  projectId: number;
+  userId: number;
+  providerTransactionId: string;
+  cashFlowId: number | null;
+  amount: number;
+  currency: string;
+  transactionDate: TDate;
+  transformationName: string;
+  source: any;
+  createdAt: TDateTime;
+  updatedAt: TDateTime;
+}
+
+export interface ITransactionEntity extends Omit<ITransactionDAO, 'projectId' | 'userId' | 'cashFlowId'> {
+  projectId: string;
+  userId: string;
+  cashFlowId: string | null;
+}
+
+export interface ITransaction extends ITransactionEntity {}
+
+export interface ICreateTransactionData {
+  providerTransactionId: string;
+  cashFlowId: string | null;
+  transactionDate: TDate;
+  amount: number;
+  currency: string;
+  transformationName: string;
+  source: any;
 }
 
 export interface ConnectionRepository {
@@ -189,6 +271,13 @@ export interface ConnectionRepository {
     connectionId: string
   ): Promise<IAccountDAO[]>;
 
+  getAccount(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    accountId: string
+  ): Promise<IAccountDAO | undefined>;
+
   updateAccount(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
@@ -196,6 +285,19 @@ export interface ConnectionRepository {
     accountId: string,
     changes: UpdateAccountRepositoryChanges
   ): Promise<IAccountDAO>;
+
+  createTransaction(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    data: ICreateTransactionData
+  ): Promise<ITransactionDAO>;
+
+  getTransaction(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    transactionId: string
+  ): Promise<ITransactionDAO | undefined>;
 }
 
 export interface ConnectionService {
@@ -239,6 +341,14 @@ export interface ConnectionService {
     accountId: string,
     changes: UpdateAccountServiceChanges
   ): Promise<IAccount>;
+
+  syncAccount(
+    ctx: IRequestContext<unknown, true>,
+    projectId: string,
+    userId: string,
+    connectionId: string,
+    accountId: string
+  ): Promise<void>;
 }
 
 export interface ConnectionMapper {
@@ -250,4 +360,6 @@ export interface ConnectionMapper {
 
   toConnection(connectionDAO: IConnectionDAO, connectionAccount: IAccountDAO[]): IConnection;
   toConnectionDTO(connection: IConnection): IConnectionDTO;
+
+  toTransaction(transactionDAO: ITransactionDAO): ITransaction;
 }
