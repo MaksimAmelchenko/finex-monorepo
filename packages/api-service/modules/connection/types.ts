@@ -1,6 +1,5 @@
 import { IRequestContext, Locale, Sign, TDate, TDateTime, TI18nField, TUrl } from '../../types/app';
 import { CashFlowType } from '../cash-flow/types';
-import { IPlannedTransactionDTO, ITransactionDTO } from '../../../frontend/src/app/types/transaction';
 
 export enum ConnectionProvider {
   Nordigen = 'nordigen',
@@ -21,8 +20,8 @@ export interface ICountryDTO extends Omit<ICountryEntity, 'name'> {
 
 export interface IConnectionDAO {
   projectId: number;
-  userId: number;
   id: string;
+  userId: number;
   institutionId: string;
   institutionName: string;
   institutionLogo: TUrl;
@@ -46,8 +45,8 @@ export interface IConnectionDTO
 
 export interface IAccountDAO {
   projectId: number;
-  userId: number;
   id: string;
+  userId: number;
   connectionId: string;
   providerAccountId: string;
   providerAccountName: string;
@@ -61,8 +60,8 @@ export interface IAccountDAO {
 
 export interface IAccount extends Omit<IAccountDAO, 'projectId' | 'userId' | 'accountId'> {
   projectId: string;
-  userId: string;
   accountId: string | null;
+  userId: string;
 }
 
 export interface IAccountDTO
@@ -200,8 +199,8 @@ export function isTransactionTransfer(
 
 export interface ITransactionDAO {
   projectId: number;
-  userId: number;
   providerTransactionId: string;
+  userId: number;
   cashFlowId: number | null;
   amount: number;
   currency: string;
@@ -233,12 +232,11 @@ export interface ICreateTransactionData {
 export interface ConnectionRepository {
   getCountries(ctx: IRequestContext<unknown, true>): Promise<ICountryDAO[]>;
 
-  getConnections(ctx: IRequestContext<unknown, true>, projectId: string, userId: string): Promise<IConnectionDAO[]>;
+  getConnections(ctx: IRequestContext<unknown, true>, projectId: string): Promise<IConnectionDAO[]>;
 
   getConnection(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     connectionId: string
   ): Promise<IConnectionDAO | undefined>;
 
@@ -249,12 +247,7 @@ export interface ConnectionRepository {
     data: CreateConnectionRepositoryData
   ): Promise<IConnectionDAO>;
 
-  deleteConnection(
-    ctx: IRequestContext<unknown, true>,
-    projectId: string,
-    userId: string,
-    connectionId: string
-  ): Promise<void>;
+  deleteConnection(ctx: IRequestContext<unknown, true>, projectId: string, connectionId: string): Promise<void>;
 
   createAccount(
     ctx: IRequestContext<unknown, true>,
@@ -264,24 +257,17 @@ export interface ConnectionRepository {
     data: CreateAccountRepositoryData
   ): Promise<IAccountDAO>;
 
-  getAccounts(
-    ctx: IRequestContext<unknown, true>,
-    projectId: string,
-    userId: string,
-    connectionId: string
-  ): Promise<IAccountDAO[]>;
+  getAccounts(ctx: IRequestContext<unknown, true>, projectId: string, connectionId: string): Promise<IAccountDAO[]>;
 
   getAccount(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     accountId: string
   ): Promise<IAccountDAO | undefined>;
 
   updateAccount(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     accountId: string,
     changes: UpdateAccountRepositoryChanges
   ): Promise<IAccountDAO>;

@@ -36,23 +36,20 @@ class NordigenRepositoryImpl implements NordigenRepository {
   async getRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     requisitionId: string
   ): Promise<IRequisitionDAO | undefined> {
     ctx.log.trace({ requisitionId }, 'try to get requisition');
-    return RequisitionDAO.query(ctx.trx).findById([Number(projectId), Number(userId), requisitionId]);
+    return RequisitionDAO.query(ctx.trx).findById([Number(projectId), requisitionId]);
   }
 
   async getRequisitionByConnectionId(
     cx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     connectionId: string
   ): Promise<IRequisitionDAO | undefined> {
     cx.log.trace({ connectionId }, 'try to get requisition by connectionId');
     return RequisitionDAO.query(cx.trx).findOne({
       projectId: Number(projectId),
-      userId: Number(userId),
       connectionId: connectionId,
     });
   }
@@ -60,7 +57,6 @@ class NordigenRepositoryImpl implements NordigenRepository {
   async updateRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     requisitionId: string,
     changes: UpdateRequisitionRepositoryChanges
   ): Promise<IRequisitionDAO> {
@@ -69,7 +65,6 @@ class NordigenRepositoryImpl implements NordigenRepository {
     // instance is used due to the insert/update PaymentDAO model triggers are used to create access period record
     const requisition = await RequisitionDAO.query(ctx.trx).findOne({
       projectId: Number(projectId),
-      userId: Number(userId),
       id: requisitionId,
     });
 
@@ -87,17 +82,16 @@ class NordigenRepositoryImpl implements NordigenRepository {
 
     ctx.log.info({ requisitionId }, 'updated requisition');
 
-    return (await this.getRequisition(ctx, projectId, userId, requisitionId)) as IRequisitionDAO;
+    return (await this.getRequisition(ctx, projectId, requisitionId)) as IRequisitionDAO;
   }
 
   async deleteRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     requisitionId: string
   ): Promise<void> {
     ctx.log.trace({ requisitionId }, 'try to delete requisition');
-    await RequisitionDAO.query(ctx.trx).deleteById([Number(projectId), Number(userId), requisitionId]);
+    await RequisitionDAO.query(ctx.trx).deleteById([Number(projectId), requisitionId]);
     ctx.log.info({ requisitionId }, 'deleted requisition');
   }
 }

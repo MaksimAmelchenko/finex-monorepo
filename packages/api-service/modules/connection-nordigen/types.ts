@@ -30,8 +30,8 @@ export interface IInstitutionDTO {
 
 export interface IRequisitionDAO {
   projectId: number;
-  userId: number;
   id: string;
+  userId: number;
   institutionId: string;
   requisitionId: string;
   connectionId: string | null;
@@ -234,31 +234,23 @@ export interface NordigenRepository {
   getRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     requisitionId: string
   ): Promise<IRequisitionDAO | undefined>;
 
   getRequisitionByConnectionId(
     cx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     connectionId: string
   ): Promise<IRequisitionDAO | undefined>;
 
   updateRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     requisitionId: string,
     changes: UpdateRequisitionRepositoryChanges
   ): Promise<IRequisitionDAO>;
 
-  deleteRequisition(
-    ctx: IRequestContext<unknown, true>,
-    projectId: string,
-    userId: string,
-    requisitionId: string
-  ): Promise<void>;
+  deleteRequisition(ctx: IRequestContext<unknown, true>, projectId: string, requisitionId: string): Promise<void>;
 }
 
 export interface NordigenService {

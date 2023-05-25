@@ -23,26 +23,20 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
     return CountryDAO.query(ctx.trx);
   }
 
-  async getConnections(
-    ctx: IRequestContext<unknown, true>,
-    projectId: string,
-    userId: string
-  ): Promise<IConnectionDAO[]> {
+  async getConnections(ctx: IRequestContext<unknown, true>, projectId: string): Promise<IConnectionDAO[]> {
     ctx.log.trace('try to get connections');
     return ConnectionDAO.query(ctx.trx).where({
       projectId: Number(projectId),
-      userId: Number(userId),
     });
   }
 
   async getConnection(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     connectionId: string
   ): Promise<IConnectionDAO | undefined> {
     ctx.log.trace({ connectionId }, 'try to get connection');
-    return ConnectionDAO.query(ctx.trx).findById([Number(projectId), Number(userId), connectionId]);
+    return ConnectionDAO.query(ctx.trx).findById([Number(projectId), connectionId]);
   }
 
   async createConnection(
@@ -63,14 +57,9 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
       .returning('*');
   }
 
-  async deleteConnection(
-    ctx: IRequestContext<unknown, true>,
-    projectId: string,
-    userId: string,
-    connectionId: string
-  ): Promise<void> {
+  async deleteConnection(ctx: IRequestContext<unknown, true>, projectId: string, connectionId: string): Promise<void> {
     ctx.log.trace({ connectionId }, 'try to delete connection');
-    await ConnectionDAO.query(ctx.trx).deleteById([Number(projectId), Number(userId), connectionId]);
+    await ConnectionDAO.query(ctx.trx).deleteById([Number(projectId), connectionId]);
   }
 
   async createAccount(
@@ -100,13 +89,11 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
   async getAccounts(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     connectionId: string
   ): Promise<IAccountDAO[]> {
     ctx.log.trace({ connectionId }, 'try to get accounts');
     return AccountDAO.query(ctx.trx).where({
       projectId: Number(projectId),
-      userId: Number(userId),
       connectionId,
     });
   }
@@ -114,24 +101,22 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
   async getAccount(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     accountId: string
   ): Promise<IAccountDAO | undefined> {
     ctx.log.trace({ accountId }, 'try to get account');
-    return AccountDAO.query(ctx.trx).findById([Number(projectId), Number(userId), accountId]);
+    return AccountDAO.query(ctx.trx).findById([Number(projectId), accountId]);
   }
 
   async updateAccount(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
-    userId: string,
     connectionAccountId: string,
     changes: UpdateAccountRepositoryChanges
   ): Promise<IAccountDAO> {
     ctx.log.trace({ connectionAccountId, changes }, 'try to update account');
     const { accountId, syncFrom, lastSyncedAt } = changes;
 
-    return AccountDAO.query(ctx.trx).patchAndFetchById([Number(projectId), Number(userId), connectionAccountId], {
+    return AccountDAO.query(ctx.trx).patchAndFetchById([Number(projectId), connectionAccountId], {
       accountId: accountId === undefined ? undefined : accountId === null ? null : Number(accountId),
       syncFrom,
       lastSyncedAt,

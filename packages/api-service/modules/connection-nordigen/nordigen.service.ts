@@ -90,7 +90,7 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     requisitionId: string
   ): Promise<IRequisition> {
-    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, userId, requisitionId);
+    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, requisitionId);
     if (!requisitionDAO) {
       throw new NotFoundError('Requisition not found');
     }
@@ -103,7 +103,7 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     connectionId: string
   ): Promise<IRequisition> {
-    const requisitionDAO = await nordigenRepository.getRequisitionByConnectionId(ctx, projectId, userId, connectionId);
+    const requisitionDAO = await nordigenRepository.getRequisitionByConnectionId(ctx, projectId, connectionId);
     if (!requisitionDAO) {
       throw new NotFoundError('Requisition not found');
     }
@@ -139,7 +139,7 @@ class NordigenServiceImpl implements NordigenService {
       provider: ConnectionProvider.Nordigen,
     });
 
-    await nordigenRepository.updateRequisition(ctx, projectId, userId, requisitionId, {
+    await nordigenRepository.updateRequisition(ctx, projectId, requisitionId, {
       status: requisitionNordigen.status,
       response: requisitionNordigen,
       connectionId: connection.id,
@@ -172,7 +172,7 @@ class NordigenServiceImpl implements NordigenService {
   ): Promise<void> {
     const requisition = await this.getRequisition(ctx, projectId, userId, requisitionId);
 
-    await nordigenRepository.deleteRequisition(ctx, projectId, userId, requisitionId);
+    await nordigenRepository.deleteRequisition(ctx, projectId, requisitionId);
     await this.client.requisition.deleteRequisition(requisition.requisitionId);
   }
 
@@ -182,7 +182,7 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     requisitionId: string
   ): Promise<IProviderAccount[]> {
-    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, userId, requisitionId);
+    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, requisitionId);
     if (!requisitionDAO) {
       throw new NotFoundError('Requisition not found');
     }

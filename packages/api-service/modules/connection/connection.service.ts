@@ -34,7 +34,7 @@ class ConnectionServiceImpl implements ConnectionService {
   }
 
   async getConnections(ctx: IRequestContext<unknown, true>, projectId: string, userId: string): Promise<IConnection[]> {
-    const connectionDAOs = await connectionRepository.getConnections(ctx, projectId, userId);
+    const connectionDAOs = await connectionRepository.getConnections(ctx, projectId);
 
     return Promise.all(
       connectionDAOs.map(connectionDAO => this.getConnection(ctx, projectId, userId, connectionDAO.id))
@@ -48,8 +48,8 @@ class ConnectionServiceImpl implements ConnectionService {
     connectionId: string
   ): Promise<IConnection> {
     const [connectionDAO, accountDAOs] = await Promise.all([
-      connectionRepository.getConnection(ctx, projectId, userId, connectionId),
-      connectionRepository.getAccounts(ctx, projectId, userId, connectionId),
+      connectionRepository.getConnection(ctx, projectId, connectionId),
+      connectionRepository.getAccounts(ctx, projectId, connectionId),
     ]);
 
     if (!connectionDAO) {
@@ -75,7 +75,7 @@ class ConnectionServiceImpl implements ConnectionService {
     userId: string,
     connectionId: string
   ): Promise<void> {
-    const connection = await connectionRepository.getConnection(ctx, projectId, userId, connectionId);
+    const connection = await connectionRepository.getConnection(ctx, projectId, connectionId);
     if (!connection) {
       throw new NotFoundError('Connection not found');
     }
@@ -85,7 +85,7 @@ class ConnectionServiceImpl implements ConnectionService {
       await nordigenService.deleteRequisition(ctx, projectId, userId, requisition.id);
     }
 
-    await connectionRepository.deleteConnection(ctx, projectId, userId, connectionId);
+    await connectionRepository.deleteConnection(ctx, projectId, connectionId);
   }
 
   async createAccount(
@@ -106,7 +106,7 @@ class ConnectionServiceImpl implements ConnectionService {
     accountId: string,
     changes: UpdateAccountServiceChanges
   ): Promise<IAccount> {
-    const account = await connectionRepository.updateAccount(ctx, projectId, userId, accountId, changes);
+    const account = await connectionRepository.updateAccount(ctx, projectId, accountId, changes);
     return connectionMapper.toAccount(account);
   }
 

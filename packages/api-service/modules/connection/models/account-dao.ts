@@ -8,7 +8,7 @@ import { accountDAOSchema } from './account-dao.schema';
 export class AccountDAO extends Model implements IAccountDAO {
   static tableName = 'cf$_connection.account';
   static jsonSchema = accountDAOSchema as JSONSchema;
-  static idColumn = ['projectId', 'userId', 'id'];
+  static idColumn = ['projectId', 'id'];
 
   projectId: number;
   userId: number;

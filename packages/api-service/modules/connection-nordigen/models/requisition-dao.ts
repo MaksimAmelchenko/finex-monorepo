@@ -10,7 +10,7 @@ export class RequisitionDAO extends Model implements IRequisitionDAO {
   static tableName = 'cf$_nordigen.requisition';
   static jsonSchema = requisitionDAOSchema as JSONSchema;
   static jsonAttributes = [];
-  static idColumn = ['projectId', 'userId', 'id'];
+  static idColumn = ['projectId', 'id'];
 
   projectId: number;
   userId: number;

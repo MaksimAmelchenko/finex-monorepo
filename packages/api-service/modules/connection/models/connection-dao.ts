@@ -8,7 +8,7 @@ import { connectionDAOSchema } from './connection-dao.schema';
 export class ConnectionDAO extends Model implements IConnectionDAO {
   static tableName = 'cf$_connection.connection';
   static jsonSchema = connectionDAOSchema as JSONSchema;
-  static idColumn = ['projectId', 'userId', 'id'];
+  static idColumn = ['projectId', 'id'];
 
   readonly projectId: number;
   readonly userId: number;

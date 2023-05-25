@@ -39,6 +39,37 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.withSchema('cf$_connection').alterTable('account', table => {
     table.datetime('last_synced_at', { useTz: true });
+    table.dropPrimary('account_pk');
+    table.primary(['project_id', 'id'], { constraintName: 'account_pk' });
+    table.dropForeign(['project_id', 'user_id', 'connection_id'], 'account_x_connection_fk');
+  });
+
+  await knex.schema.withSchema('cf$_nordigen').alterTable('requisition', table => {
+    table.dropForeign(['project_id', 'user_id', 'connection_id'], 'requisition_x_connection_fk');
+
+    table.dropPrimary('requisition_pk');
+    table.primary(['project_id', 'id'], { constraintName: 'requisition_pk' });
+  });
+
+  await knex.schema.withSchema('cf$_connection').alterTable('connection', table => {
+    table.dropPrimary('connection_pk');
+    table.primary(['project_id', 'id'], { constraintName: 'connection_pk' });
+  });
+
+  await knex.schema.withSchema('cf$_nordigen').alterTable('requisition', table => {
+    table
+      .foreign(['project_id', 'connection_id'], 'requisition_x_connection_fk')
+      .references(['project_id', 'id'])
+      .inTable('cf$_connection.connection')
+      .onDelete('CASCADE');
+  });
+
+  await knex.schema.withSchema('cf$_connection').alterTable('account', table => {
+    table
+      .foreign(['project_id', 'connection_id'], 'account_x_connection_fk')
+      .references(['project_id', 'id'])
+      .inTable('cf$_connection.connection')
+      .onDelete('CASCADE');
   });
 
   await knex.schema.raw(v_cashflow_v1.down);
