@@ -1,6 +1,7 @@
 import * as NordigenClient from 'nordigen-node';
 import * as uuid from 'uuid';
 import type NordigenClientType from 'nordigen-node';
+import { format } from 'date-fns';
 
 import config from '../../libs/config';
 import {
@@ -54,13 +55,22 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     data: CreateRequisitionServiceData
   ): Promise<IRequisition> {
+    const { locale } = ctx.params;
     const { institutionId, origin } = data;
     const requisitionId = uuid.v4();
+
+    // Nordigen API requires maxHistoricalDays to be between 0 and 365
+    // take 6 months as a default value
+    const date = new Date();
+    const beginningOfMonth = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+    const maxHistoricalDays = Math.round((date.getTime() - beginningOfMonth.getTime()) / (1000 * 3600 * 24)) + 1;
 
     const requisitionNordigen: IRequisitionNordigen = await this.client.initSession({
       redirectUrl: `${origin}/connections/nordigen/requisitions/complete`,
       institutionId,
       referenceId: requisitionId,
+      maxHistoricalDays,
+      userLanguage: locale,
     } as any);
 
     const requisitionDAO = await nordigenRepository.createRequisition(ctx, projectId, userId, {
@@ -135,6 +145,9 @@ class NordigenServiceImpl implements NordigenService {
       connectionId: connection.id,
     });
 
+    const date = new Date();
+    const beginningOfMonth = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+
     const nordigenAccounts = await this.getAccounts(ctx, projectId, userId, requisition.id);
     await Promise.all(
       nordigenAccounts.map(({ id, name, product }) =>
@@ -143,8 +156,7 @@ class NordigenServiceImpl implements NordigenService {
           providerAccountName: name,
           providerAccountProduct: product,
           accountId: null,
-          // TODO: set the earliest available date
-          syncFrom: null,
+          syncFrom: format(beginningOfMonth, 'yyyy-MM-dd'),
         })
       )
     );
