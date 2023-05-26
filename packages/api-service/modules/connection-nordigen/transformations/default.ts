@@ -76,6 +76,22 @@ export const defaultTransformation: TransformationFunction = (
       }
     }
 
+    const isCashDeposit = additionalInformation === 'BARGELDEINZAHLUNG SB' || bankTransactionCode === 'PMNT-CCRD-CDPT';
+    if (isCashDeposit) {
+      const { cashAccountId } = options;
+      if (cashAccountId) {
+        cashFlow = {
+          cashFlowType: CashFlowType.Transfer,
+          note,
+          amount: Math.abs(amount),
+          currency,
+          fromAccountId: cashAccountId,
+          toAccountId: accountId,
+          transferDate: transactionDate,
+        };
+      }
+    }
+
     // default
     if (!cashFlow) {
       cashFlow = {
