@@ -25,7 +25,10 @@ export type DynamicsReportTableNode = {
   [prop: string]: any;
 } & {
   id: string;
-  category?: Category;
+  category?: {
+    id: string;
+    name: string;
+  };
   nodes?: DynamicsReportTableNode[] | null;
 };
 
@@ -64,7 +67,10 @@ export interface IDistributionReport {
 
 export type DistributionReportTableNode = {
   id: string;
-  category?: Category;
+  category?: {
+    id: string;
+    name: string;
+  };
   amount: [number, number];
   nodes?: DistributionReportTableNode[] | null;
 };

@@ -273,7 +273,13 @@ export class ReportsRepository extends ManageableStore {
 
   private decodeItems(items: IDynamicsReportItemDTO[]): DynamicsReportTableNode[] {
     return items.map(({ idCategory, items, ...rest }) => {
-      const category = this.getStore(CategoriesRepository).get(String(idCategory));
+      const category =
+        idCategory === 0
+          ? {
+              id: '0',
+              name: t('Uncategorized'),
+            }
+          : this.getStore(CategoriesRepository).get(String(idCategory));
       const total = Object.keys(rest).reduce<[number, number]>(
         (acc, key) => {
           if (key.match(/^\d{6}$/) && Array.isArray(rest[key]) && rest[key].length === 2) {
@@ -309,7 +315,13 @@ export class ReportsRepository extends ManageableStore {
 
   private decodeDistributionReportItems(items: IDistributionReportItemDTO[]): DistributionReportTableNode[] {
     return items.map(({ idCategory, items, sum }) => {
-      const category = this.getStore(CategoriesRepository).get(String(idCategory));
+      const category =
+        idCategory === 0
+          ? {
+              id: '0',
+              name: t('Uncategorized'),
+            }
+          : this.getStore(CategoriesRepository).get(String(idCategory));
 
       return {
         id: String(this.i++),

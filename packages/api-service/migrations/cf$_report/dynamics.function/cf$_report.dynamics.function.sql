@@ -5,8 +5,8 @@ CREATE OR REPLACE FUNCTION "cf$_report".dynamics(iparams jsonb, OUT oresult text
 AS $function$
 declare
   vLevel    int;
-  vCategory hstore;  
-  
+  vCategory hstore;
+
   vDBegin                   date;
   vDEnd                     date;
   vIs_Use_Report_Period     boolean;
@@ -20,7 +20,7 @@ declare
   vCategories               int[];
   vTags_Using_Type          int;
   vTags                     int[];
-  
+
 begin
   begin
     vDBegin := sanitize$.to_Date (iParams->>'dBegin');
@@ -43,7 +43,7 @@ begin
   if vDEnd is null then
     perform error$.raise ('invalid_parameters', iDev_Message := '"dEnd" is required');
   end if;
-  
+
   if vDBegin > vDEnd then
     perform error$.raise ('invalid_parameters', iDev_Message := '"dBegin" must be less than "dEnd"');
   end if;
@@ -58,7 +58,7 @@ begin
   begin
     vIs_Use_Plan := coalesce ((iParams->>'isUsePlan')::boolean, true);
   exception
-    when others 
+    when others
     then
       perform error$.raise ('invalid_parameters', iDev_Message := '"isUsePlan" must be true or false');
   end;
@@ -73,7 +73,7 @@ begin
   if vId_Money is null then
     perform error$.raise ('invalid_parameters', iDev_Message := '"idMoney" is required');
   end if;
-  
+
 
   begin
     vContractors_Using_Type := coalesce((iParams->>'contractorsUsingType')::int, 1);
@@ -81,7 +81,7 @@ begin
     when others then
       perform error$.raise ('invalid_parameters', iDev_Message := '"contractorsUsingType" must be a int');
   end;
-  
+
   if (iParams \? 'contractors') then
     begin
       vContractors := string_to_array (nullif ( trim (iParams->>'contractors'), ''), ',')::int[];
@@ -147,31 +147,31 @@ begin
     sum_in      numeric,
     sum_out     numeric,
     level       smallint
-  ) 
+  )
   on commit drop;
-   
+
   -- Кешируем уровни категорий
-  with recursive 
-    ct as (select c.Id_Category, 
+  with recursive
+    ct as (select c.Id_Category,
                   c.Parent,
-                  1 as level   
+                  1 as level
              from cf$.v_Category c
             where c.parent is null
             union all
-            select c.Id_Category, 
-                   c.Parent, 
-                   ct.level + 1 
-              from      ct 
-                   join cf$.v_Category c 
+            select c.Id_Category,
+                   c.Parent,
+                   ct.level + 1
+              from      ct
+                   join cf$.v_Category c
                      on (c.Parent = ct.Id_Category)
           )
-  select coalesce (hstore (array_agg (ct.Id_Category::text order by ct.Id_Category), 
+  select coalesce (hstore (array_agg (ct.Id_Category::text order by ct.Id_Category),
                            array_agg (ct.Level::text order by ct.Id_Category)), ''::hstore)
     into vCategory
     from ct;
 
   insert into cf$_report_dynamics (Id_Category, Parent, level, month, Sum_In, Sum_Out)
-    with recursive 
+    with recursive
       ct (Id_Category) as (select c.Id_Category
                              from cf$.v_Category c
                             where vCategories is not null
@@ -185,7 +185,7 @@ begin
                      cf$_Category.get_Category_by_Prototype(12) as Id_Category_Transfer_Fee,
                      cf$_category.get_Category_by_Prototype(21) as Id_Category_Exchange,
                      cf$_category.get_Category_by_Prototype(22) as Id_Category_Exchange_Fee
-      ),                          
+      ),
       cfi as (select cfd.Id_Project,
                      cf.Id_Contractor,
                      cfd.Id_Account,
@@ -210,8 +210,8 @@ begin
                      pcfi.Sum,
                      pcfi.Operation_Tags as Tags
                 from  cf$.v_Plan_CashFlow_Item pcfi
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      join cf$_plan.schedule(pcfi.Id_Plan, pcfi.DBegin, (vDEnd + interval '1 month')::date) s on (1=1)
                where vIs_Use_Plan
                union all
@@ -227,8 +227,8 @@ begin
                      pt.Operation_Tags as Tags
                 from ctx,
                      cf$.v_Plan_Transfer pt,
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      cf$_plan.schedule(pt.Id_Plan, pt.DBegin, (vDEnd + interval '1 month')::date) s
                where vIs_Use_Plan
                union all
@@ -244,8 +244,8 @@ begin
                      pt.Operation_Tags as Tags
                 from ctx,
                      cf$.v_Plan_Transfer pt,
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      cf$_plan.schedule(pt.Id_Plan, pt.DBegin, (vDEnd + interval '1 month')::date) s
                where vIs_Use_Plan
                union all
@@ -261,8 +261,8 @@ begin
                      pt.Operation_Tags as Tags
                 from ctx,
                      cf$.v_Plan_Transfer pt,
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      cf$_plan.schedule(pt.Id_Plan, pt.DBegin, (vDEnd + interval '1 month')::date) s
                where pt.Id_Account_Fee is not null
                  and vIs_Use_Plan
@@ -280,8 +280,8 @@ begin
                      pe.Operation_Tags as Tags
                 from ctx,
                      cf$.v_Plan_Exchange pe,
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      cf$_plan.schedule(pe.Id_Plan, pe.DBegin, (vDEnd + interval '1 month')::date) s
                where vIs_Use_Plan
                union all
@@ -297,8 +297,8 @@ begin
                      pe.Operation_Tags as Tags
                 from ctx,
                      cf$.v_Plan_Exchange pe,
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      cf$_plan.schedule(pe.Id_Plan, pe.DBegin, (vDEnd + interval '1 month')::date) s
                where vIs_Use_Plan
                union all
@@ -314,17 +314,17 @@ begin
                      pe.Operation_Tags as Tags
                 from ctx,
                      cf$.v_Plan_Exchange pe,
---                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу, 
---                      а он будет +1 месяц относительно даты 
+--                      делаю +1 месяц для подстаховки, если вдруг отчет будет по отчетному месяцу,
+--                      а он будет +1 месяц относительно даты
                      cf$_plan.schedule(pe.Id_Plan, pe.DBegin, (vDEnd + interval '1 month')::date) s
                where pe.Id_Account_Fee is not null
                  and vIs_Use_Plan
-             )                          
-    select c.Id_Category, 
-           c.Parent, 
-           (vCategory->c.Id_Category::text)::int,
-           to_char (case 
-                      when vIs_Use_Report_Period 
+             )
+    select coalesce(c.Id_Category, 0),
+           c.Parent,
+           coalesce(vCategory->c.Id_Category::text, '1')::int,
+           to_char (case
+                      when vIs_Use_Report_Period
                       then
                    	    cfi.Report_Period
                       else
@@ -333,67 +333,68 @@ begin
            sum (case when cfi.Sign = 1 then cfi.Sum else 0 end) as Sum_In,
            sum (case when cfi.Sign = -1 then cfi.Sum else 0 end) as Sum_Out
       from      cfi
-           join cf$.Category c using (Id_Project, Id_Category)
+           left join cf$.Category c using (Id_Project, Id_Category)
      where (   (vIs_Use_Report_Period = false and cfi.DCashFlow_Detail between vDBegin and vDEnd)
             or (vIs_Use_Report_Period = true and cfi.Report_Period between date_trunc('month', vDBegin) and date_trunc('month', vDEnd))
-           )      
+           )
        and cfi.Id_Money = vId_Money
-       and (   vContractors is null 
+       and (   vContractors is null
             or (   (vContractors_Using_Type = 1 and cfi.Id_Contractor in (select unnest (vContractors)))
                 or (vContractors_Using_Type = 2 and (cfi.Id_Contractor is null or cfi.Id_Contractor not in (select unnest (vContractors))))
                )
            )
-       and (   vAccounts is null 
+       and (   vAccounts is null
             or (   (vAccounts_Using_Type = 1 and cfi.Id_Account in (select unnest (vAccounts)))
                 or (vAccounts_Using_Type = 2 and cfi.Id_Account not in (select unnest (vAccounts)))
                )
-           )    
-       and (   vCategories is null 
+           )
+       and (   vCategories is null
+            or cfi.Id_Category is null
             or (   (vCategories_Using_Type = 1 and cfi.Id_Category in (select Id_Category from ct))
                 or (vCategories_Using_Type = 2 and cfi.Id_Category not in (select Id_Category from ct))
                )
            )
-       and (   vTags is null 
+       and (   vTags is null
             or (   (vTags_Using_Type = 1 and cfi.tags && vTags)
                 or (vTags_Using_Type = 2 and (cfi.tags is null or not cfi.tags && vTags))
                )
            )
-     group by c.Id_Category, 
-              c.Parent, 
-              case when vIs_Use_Report_Period then 
+     group by c.Id_Category,
+              c.Parent,
+              case when vIs_Use_Report_Period then
               	cfi.Report_Period
               else
                 date_trunc('month', cfi.DCashFlow_Detail)
               end;
-  
+
 
   create index cf$_report_dynamics_parent ON cf$_report_dynamics
     using btree (parent);
-  
-  -- если есть движение по категории и по ее подкатегории, 
+
+  -- если есть движение по категории и по ее подкатегории,
   -- то в категорию добавляем подкатегорию "Другое" и переносим движение по категории в эту подкатегорию.
-  with 
+  with
     d as (select d.Id_Category,
                  d.month,
                  d.Sum_In,
                  d.Sum_Out
             from cf$_report_dynamics d
-           where exists (select null 
+           where exists (select null
                            from cf$_report_dynamics di
                           where di.parent = d.Id_Category
 --                               and di.month = d.month
                          )),
-       ins as (insert 
+       ins as (insert
                  into cf$_report_dynamics (id_Category, Parent, level, month, Sum_In, Sum_Out)
               (select null, -- Подкатегория "Другое"
-                      Id_Category, 
+                      Id_Category,
                       (vCategory->Id_Category::text)::int + 1,
-                      month,  
+                      month,
                       Sum_In,
-                      Sum_Out 
+                      Sum_Out
                  from d)
           returning parent, month)
-  update cf$_report_dynamics d 
+  update cf$_report_dynamics d
      set Sum_In = null,
          Sum_Out = null
    from ins
@@ -410,27 +411,27 @@ begin
                 where level = i
                 group by d.Parent, d.month),
          s as (select c.Id_Category, c.Parent, g.Month, g.Sum_In,  g.Sum_Out
-                 from g 
+                 from g
                       join cf$.v_Category c
                         on (c.Id_Category = g.Parent)
               ),
-         upsert as (update cf$_report_dynamics d 
+         upsert as (update cf$_report_dynamics d
                        set Sum_In = s.Sum_In,
                            Sum_Out = s.Sum_Out
-                      from s 
+                      from s
                      where d.Id_Category = s.Id_Category
                        and d.month = s.Month
                  returning d.*
                    )
     insert into cf$_report_dynamics (Id_Category, Parent, level, Month, Sum_In, Sum_Out)
-         select s.Id_Category, 
+         select s.Id_Category,
                 s.Parent,
                 i - 1 as level,
                 s.Month,
                 s.Sum_In,
                 s.Sum_Out
-           from s 
-          where (Id_Category, Month) not in (select Id_Category, 
+           from s
+          where (Id_Category, Month) not in (select Id_Category,
                                                      Month
                                                 from upsert);
   end loop;

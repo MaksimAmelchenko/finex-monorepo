@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ComputedDatum, Sunburst } from '@nivo/sunburst';
 import { observer } from 'mobx-react-lite';
 
-import { Category } from '../../../../stores/models/category';
 import { DistributionReportTableNode } from '../../../../types/report';
 import { ReportsRepository } from '../../../../stores/reports-store';
 import { getT, toCurrency } from '../../../../lib/core/i18n';
@@ -11,7 +10,10 @@ import { useStore } from '../../../../core/hooks/use-store';
 
 interface RawDatum {
   id: string;
-  category?: Category;
+  category?: {
+    id: string;
+    name: string;
+  };
   value?: number;
   amount: number;
   children?: RawDatum[];

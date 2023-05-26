@@ -13,12 +13,12 @@ import {
 } from '@table-library/react-table-library/table';
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
-import { TableNode } from '@table-library/react-table-library/types/table';
 import { add, differenceInMonths, format, formatISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import { useTheme } from '@table-library/react-table-library/theme';
 
 import { ChevronRightIcon, SortDownIcon, SortIcon, SortUpIcon } from '@finex/ui-kit';
+import { DynamicsReportTableNode } from '../../../../types/report';
 import { ReportsRepository } from '../../../../stores/reports-store';
 import { formatDate, getT, toCurrency } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
@@ -129,7 +129,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
         sort={sort}
         layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
       >
-        {(tableNodes: TableNode[]) => (
+        {(tableNodes: DynamicsReportTableNode[]) => (
           <>
             <Header>
               <HeaderRow>

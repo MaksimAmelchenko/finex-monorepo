@@ -877,6 +877,7 @@ module.exports = {
   },
   ReportsRepository: {
     'Something went wrong, please try again later': 'Что-то пошло не так. Пожалуйста, попытайтесь ещё раз позже',
+    Uncategorized: 'Без категории',
   },
   ResetPassword: {
     'Please enter your e-mail address': 'Укажите e-mail',
