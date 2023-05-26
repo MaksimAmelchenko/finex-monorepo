@@ -59,11 +59,15 @@ class NordigenServiceImpl implements NordigenService {
     const { institutionId, origin } = data;
     const requisitionId = uuid.v4();
 
-    // Nordigen API requires maxHistoricalDays to be between 0 and 365
+    const institution = await this.getInstitution(ctx, institutionId);
+
     // take 6 months as a default value
     const date = new Date();
     const beginningOfMonth = new Date(date.getFullYear(), date.getMonth() - 6, 1);
-    const maxHistoricalDays = Math.round((date.getTime() - beginningOfMonth.getTime()) / (1000 * 3600 * 24)) + 1;
+    const maxHistoricalDays = Math.min(
+      Math.round((date.getTime() - beginningOfMonth.getTime()) / (1000 * 3600 * 24)) + 1,
+      Number(institution.transaction_total_days)
+    );
 
     const requisitionNordigen: IRequisitionNordigen = await this.client.initSession({
       redirectUrl: `${origin}/connections/nordigen/requisitions/complete`,
