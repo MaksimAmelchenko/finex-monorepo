@@ -130,7 +130,7 @@ const CustomTooltip = ({ id, value, data: { category } }: ComputedDatum<RawDatum
     >
       <span>{category?.name || t('Others')}</span>
       <br />
-      <strong>{toCurrency(value, { precision: 0 })}</strong>
+      <strong>{toCurrency(value, { precision: 0, unit: '' })}</strong>
     </div>
   );
 };

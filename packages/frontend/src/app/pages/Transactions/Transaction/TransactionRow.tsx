@@ -85,7 +85,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
       </td>
 
       {sign === 1 ? (
-        <td className="text-end hidden-sm hidden-md">
+        <td className="text-end hidden-sm hidden-md numeric">
           {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
         </td>
       ) : (
@@ -93,14 +93,14 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
       )}
 
       {sign === -1 ? (
-        <td className="text-end hidden-sm hidden-md">
+        <td className="text-end hidden-sm hidden-md numeric">
           {toCurrency(-amount, { unit: money.symbol, precision: money.precision })}
         </td>
       ) : (
         <td className="hidden-sm hidden-md" />
       )}
 
-      <td className="text-end hidden-lg">
+      <td className="text-end hidden-lg numeric">
         {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
       </td>
 

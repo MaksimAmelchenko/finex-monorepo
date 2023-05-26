@@ -45,7 +45,7 @@ export const DebtItemRow = observer<DebtItemRowProps>(({ debtItem, onClick }) =>
         <div>{category.name}</div>
       </td>
 
-      <td className="text-end hidden-sm hidden-md">
+      <td className="text-end hidden-sm hidden-md numeric">
         {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
       </td>
 

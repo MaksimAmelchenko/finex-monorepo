@@ -60,7 +60,7 @@ export const PlanTransactionRow = observer<PlanTransactionRowProps>(({ planTrans
         <div className={styles.categoryPath}>{category.fullPath()}</div>
       </td>
 
-      <td className="text-end  numeric">
+      <td className="text-end numeric">
         {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
       </td>
 

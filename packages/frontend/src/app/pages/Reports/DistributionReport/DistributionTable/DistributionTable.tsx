@@ -142,7 +142,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
                   <Row item={tableNode} key={tableNode.id}>
                     <CellTree item={tableNode}>{tableNode.category?.name || t('Others')}</CellTree>
                     <Cell className={styles.cell__textAlignRight}>
-                      {amount && toCurrency(amount, { precision: 0 })}
+                      {amount && toCurrency(amount, { precision: 0, unit: '' })}
                     </Cell>
                   </Row>
                 );
@@ -152,7 +152,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
               <FooterRow>
                 <FooterCell>{t('Total')}</FooterCell>
                 <FooterCell className={styles.cell__textAlignRight}>
-                  {toCurrency(getValue(distributionReport.footer.total, valueType), { precision: 0 })}
+                  {toCurrency(getValue(distributionReport.footer.total, valueType), { precision: 0, unit: '' })}
                 </FooterCell>
               </FooterRow>
             </Footer>
