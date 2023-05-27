@@ -9,10 +9,10 @@ import styles from './TransferCard.module.scss';
 
 interface TransferCardOperationTransfer {
   id: string;
-  accountFrom: {
+  fromAccount: {
     name: string;
   };
-  accountTo: {
+  toAccount: {
     name: string;
   };
   amount: number;
@@ -23,12 +23,12 @@ interface TransferCardOperationTransfer {
   };
 
   fee: number | null;
-  moneyFee: {
+  feeMoney: {
     name: string;
     symbol: string;
     precision?: number;
   } | null;
-  accountFee: {
+  feeAccount: {
     name: string;
   } | null;
 
@@ -41,7 +41,7 @@ export interface TransferCardProps {
 }
 
 export function TransferCard({ transfer, isHighlighted, onClick }: TransferCardProps) {
-  const { id, accountFrom, accountTo, amount, money, fee, moneyFee, accountFee, note } = transfer;
+  const { id, fromAccount, toAccount, amount, money, fee, feeMoney, feeAccount, note } = transfer;
   const handleClick = () => {
     onClick(id);
   };
@@ -59,21 +59,21 @@ export function TransferCard({ transfer, isHighlighted, onClick }: TransferCardP
         <div className={styles.mainContent}>
           <div className={styles.mainContent__header}>
             <div className={styles.mainContent__accountsWrapper}>
-              <div className={styles.mainContent__accountName}>{accountTo.name}</div>
-              <div className={styles.mainContent__accountName}>{accountFrom.name}</div>
+              <div className={styles.mainContent__accountName}>{toAccount.name}</div>
+              <div className={styles.mainContent__accountName}>{fromAccount.name}</div>
             </div>
             <div className={styles.mainContent__amount}>
               {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
             </div>
           </div>
 
-          {fee && accountFee && moneyFee && (
+          {fee && feeAccount && feeMoney && (
             <div className={styles.mainContent__header}>
               <div className={clsx(styles.mainContent__accountName, styles.mainContent__accountName_fee)}>
-                {accountFee.name}
+                {feeAccount.name}
               </div>
               <div className={clsx(styles.mainContent__amount, styles.mainContent__amount_fee)}>
-                {toCurrency(-fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}
+                {toCurrency(-fee, { unit: feeMoney.symbol, precision: feeMoney.precision })}
               </div>
             </div>
           )}

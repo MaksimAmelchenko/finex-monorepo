@@ -19,13 +19,13 @@ import { ContractorService } from '../../services/contractor';
 import { CreateCashFlowItemServiceData } from '../cash-flow-item/types';
 import { IRequestContext } from '../../types/app';
 import { InternalError, InvalidParametersError, NotFoundError } from '../../libs/errors';
-import { cashFlowService } from '../cash-flow/cash-flow.service';
+import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { connectionMapper } from './connection.mapper';
 import { connectionRepository } from './connection.repository';
 import { moneyService } from '../money/money.service';
 import { nordigenETL } from '../connection-nordigen/nordigen-etl.service';
 import { nordigenService } from '../connection-nordigen/nordigen.service';
-import { transferService } from '../transfer/transfer.service';
+import { transferRepository } from '../transfer/transfer.repository';
 
 class ConnectionServiceImpl implements ConnectionService {
   async getCountries(ctx: IRequestContext<unknown, true>): Promise<ICountry[]> {
@@ -198,14 +198,14 @@ class ConnectionServiceImpl implements ConnectionService {
           }
         );
 
-        const cashFlow = await cashFlowService.createCashFlow(ctx, projectId, userId, {
+        const cashFlowDAO = await cashFlowRepository.createCashFlowWithItems(ctx, projectId, userId, {
           contractorId,
           cashFlowTypeId: transactionCashFlow.cashFlowType,
           items,
           note: transactionCashFlow.note,
         });
 
-        cashFlowId = cashFlow.id;
+        cashFlowId = String(cashFlowDAO.id);
       }
 
       if (isTransactionTransfer(transactionCashFlow)) {
@@ -215,17 +215,17 @@ class ConnectionServiceImpl implements ConnectionService {
           throw new InvalidParametersError(`Money with currency ${currency} not found`);
         }
 
-        const transfer = await transferService.createTransfer(ctx, projectId, userId, {
+        const transfer = await transferRepository.createTransfer(ctx, projectId, userId, {
           amount,
           moneyId: money.id,
-          accountFromId: fromAccountId,
-          accountToId: toAccountId,
+          fromAccountId,
+          toAccountId,
           transferDate,
           reportPeriod: format(parse(transferDate, 'yyyy-MM-dd', new Date()), 'yyyy-MM-01'),
           note,
         });
 
-        cashFlowId = transfer.id;
+        cashFlowId = String(transfer.id);
       }
 
       if (!cashFlowId) {

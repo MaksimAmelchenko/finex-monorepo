@@ -589,13 +589,13 @@ export class OperationsRepository extends ManageableStore {
       id,
       amount,
       moneyId,
-      accountFromId,
-      accountToId,
+      fromAccountId,
+      toAccountId,
       transferDate,
       reportPeriod,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       note,
       tags: tagIds,
       userId,
@@ -608,15 +608,15 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const accountFrom = accountsRepository.get(accountFromId);
-    if (!accountFrom) {
-      console.warn('Account not found', { transfer });
+    const fromAccount = accountsRepository.get(fromAccountId);
+    if (!fromAccount) {
+      console.warn('FromAccount not found', { transfer });
       return null;
     }
 
-    const accountTo = accountsRepository.get(accountToId);
-    if (!accountTo) {
-      console.warn('Account not found', { transfer });
+    const toAccount = accountsRepository.get(toAccountId);
+    if (!toAccount) {
+      console.warn('ToAccount not found', { transfer });
       return null;
     }
 
@@ -626,8 +626,8 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const moneyFee = (moneyFeeId && moneysRepository.get(moneyFeeId)) || null;
-    const accountFee = (accountFeeId && accountsRepository.get(accountFeeId)) || null;
+    const feeMoney = (feeMoneyId && moneysRepository.get(feeMoneyId)) || null;
+    const feeAccount = (feeAccountId && accountsRepository.get(feeAccountId)) || null;
 
     const tags = tagIds.reduce<Tag[]>((acc, tagId) => {
       const tag = tagsRepository.get(tagId);
@@ -641,13 +641,13 @@ export class OperationsRepository extends ManageableStore {
       id,
       amount,
       money,
-      accountFrom,
-      accountTo,
+      fromAccount,
+      toAccount,
       transferDate,
       reportPeriod,
       fee,
-      moneyFee,
-      accountFee,
+      feeMoney,
+      feeAccount,
       note: note ?? '',
       tags,
       user,

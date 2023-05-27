@@ -18,8 +18,8 @@ interface IFilter {
   isFilter: boolean;
   range: [Date | null, Date | null];
   searchText: string;
-  accountsFrom: string[];
-  accountsTo: string[];
+  fromAccounts: string[];
+  toAccounts: string[];
   tags: string[];
 }
 
@@ -33,8 +33,8 @@ export class TransfersRepository extends ManageableStore {
     range: [null, null],
     isFilter: false,
     searchText: '',
-    accountsFrom: [],
-    accountsTo: [],
+    fromAccounts: [],
+    toAccounts: [],
     tags: [],
   };
 
@@ -76,8 +76,8 @@ export class TransfersRepository extends ManageableStore {
       isFilter,
       range: [startDate, endDate],
       searchText,
-      accountsFrom,
-      accountsTo,
+      fromAccounts,
+      toAccounts,
       tags,
     } = this.filter;
     let params = {};
@@ -85,8 +85,8 @@ export class TransfersRepository extends ManageableStore {
       params = {
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : null,
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : null,
-        accountsFrom: accountsFrom.join(','),
-        accountsTo: accountsTo.join(','),
+        fromAccounts: fromAccounts.join(','),
+        toAccounts: toAccounts.join(','),
         tags: tags.join(','),
       };
     }
@@ -194,13 +194,13 @@ export class TransfersRepository extends ManageableStore {
         id,
         amount,
         moneyId,
-        accountFromId,
-        accountToId,
+        fromAccountId,
+        toAccountId,
         transferDate,
         reportPeriod,
         fee,
-        moneyFeeId,
-        accountFeeId,
+        feeMoneyId,
+        feeAccountId,
         note,
         tags: tagIds,
         updatedAt,
@@ -218,32 +218,32 @@ export class TransfersRepository extends ManageableStore {
         return acc;
       }
 
-      const accountFrom = accountsRepository.get(accountFromId);
-      if (!accountFrom) {
-        console.warn('Contractor is not found', { transfer });
+      const fromAccount = accountsRepository.get(fromAccountId);
+      if (!fromAccount) {
+        console.warn('FromAccount is not found', { transfer });
         return acc;
       }
 
-      const accountTo = accountsRepository.get(accountToId);
-      if (!accountTo) {
-        console.warn('Contractor is not found', { transfer });
+      const toAccount = accountsRepository.get(toAccountId);
+      if (!toAccount) {
+        console.warn('ToAccount is not found', { transfer });
         return acc;
       }
 
-      let moneyFee: Money | null = null;
-      if (moneyFeeId) {
-        moneyFee = moneysRepository.get(moneyFeeId) || null;
-        if (!moneyFee) {
-          console.warn('MoneyFee is not found', { transfer });
+      let feeMoney: Money | null = null;
+      if (feeMoneyId) {
+        feeMoney = moneysRepository.get(feeMoneyId) || null;
+        if (!feeMoney) {
+          console.warn('FeeMoney is not found', { transfer });
           return acc;
         }
       }
 
-      let accountFee: Account | null = null;
-      if (accountFeeId) {
-        accountFee = accountsRepository.get(accountFeeId) || null;
-        if (!accountFee) {
-          console.warn('AccountFee is not found', { transfer });
+      let feeAccount: Account | null = null;
+      if (feeAccountId) {
+        feeAccount = accountsRepository.get(feeAccountId) || null;
+        if (!feeAccount) {
+          console.warn('FeeAccount is not found', { transfer });
           return acc;
         }
       }
@@ -261,13 +261,13 @@ export class TransfersRepository extends ManageableStore {
           id,
           amount,
           money,
-          accountFrom,
-          accountTo,
+          fromAccount,
+          toAccount,
           transferDate,
           reportPeriod,
           fee,
-          moneyFee,
-          accountFee,
+          feeMoney,
+          feeAccount,
           note,
           tags,
           user,

@@ -3,34 +3,32 @@ import { ICashFlowDAO } from '../cash-flow/types';
 import { ICashFlowItemDAO } from '../cash-flow-item/types';
 
 export interface ITransferDAO {
-  projectId: number;
-  userId: number;
   id: number;
+  userId: number;
   amount: number;
   moneyId: number;
-  accountFromId: number;
-  accountToId: number;
-  fee: number | null;
-  moneyFeeId: number | null;
-  accountFeeId: number | null;
+  fromAccountId: number;
+  toAccountId: number;
   transferDate: TDate;
   reportPeriod: TDate;
+  fee: number | null;
+  feeMoneyId: number | null;
+  feeAccountId: number | null;
   note: string | null;
   tags: number[] | null;
   updatedAt: TDateTime;
-  cashflowTypeId: number;
 }
 
 export type ITransferEntity = {
-  userId: string;
   id: string;
+  userId: string;
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   transferDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -41,17 +39,17 @@ export type ITransferEntity = {
 export type ITransfer = ITransferEntity;
 
 export type ITransferDTO = {
-  userId: string;
   id: string;
+  userId: string;
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tags: string[];
   updatedAt: TDateTime;
@@ -63,8 +61,8 @@ export interface FindTransfersRepositoryQuery {
   searchText?: string;
   startDate?: TDate;
   endDate?: TDate;
-  accountsFrom?: string[];
-  accountsTo?: string[];
+  fromAccounts?: string[];
+  toAccounts?: string[];
   tags?: string[];
 }
 
@@ -91,13 +89,13 @@ export interface FindTransfersServiceResponse {
 export type CreateTransferRepositoryData = {
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   fee?: number;
-  moneyFeeId?: string;
-  accountFeeId?: string;
+  feeMoneyId?: string;
+  feeAccountId?: string;
   note?: string;
   tags?: string[];
 };
@@ -107,12 +105,12 @@ export type CreateTransferServiceData = CreateTransferRepositoryData;
 export type UpdateTransferRepositoryChanges = Partial<{
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   isFee: false;
   fee: number;
-  moneyFeeId: string;
-  accountFeeId: string;
+  feeMoneyId: string;
+  feeAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -128,6 +126,24 @@ export interface TransferRepository {
     userId: string,
     query: FindTransfersServiceQuery
   ): Promise<FindTransfersRepositoryResponse>;
+
+  createTransfer(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    data: CreateTransferServiceData
+  ): Promise<ITransferDAO>;
+
+  getTransfer(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    transferId: string
+  ): Promise<ITransferDAO>;
+
+  getTransferCategoryId(ctx: IRequestContext, projectId: string): Promise<string>;
+
+  getTransferFeeCategoryId(ctx: IRequestContext, projectId: string): Promise<string>;
 }
 
 export interface TransferService {
@@ -160,10 +176,13 @@ export interface TransferService {
 
 export interface TransferMapper {
   toDTO(transfer: ITransfer): ITransferDTO;
-  toDomain(
+
+  toDAO(
     cashFlow: ICashFlowDAO,
     cashFlowItems: ICashFlowItemDAO[],
     transferCategoryId: string,
     transferFeeCategoryId: string
-  ): ITransfer;
+  ): ITransferDAO;
+
+  toDomain(transferDAO: ITransferDAO): ITransfer;
 }

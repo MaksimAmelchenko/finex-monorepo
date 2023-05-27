@@ -40,14 +40,14 @@ import styles from './TransferWindow.module.scss';
 interface TransferFormValues {
   amount: string;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   transferDate: Date;
   reportPeriod: Date;
   isFee: boolean;
   fee: string;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tagIds: string[];
   isOnlySave: boolean;
@@ -63,35 +63,35 @@ const t = getT('TransferWindow');
 function mapValuesToCreatePayload({
   amount,
   moneyId,
-  accountFromId,
-  accountToId,
+  fromAccountId,
+  toAccountId,
   transferDate,
   reportPeriod,
   isFee,
   fee,
-  moneyFeeId,
-  accountFeeId,
+  feeMoneyId,
+  feeAccountId,
   note,
   tagIds,
 }: TransferFormValues): CreateTransferData {
   const data: CreateTransferData = {
     amount: Number(amount),
     moneyId,
-    accountFromId,
-    accountToId,
+    fromAccountId,
+    toAccountId,
     transferDate: format(transferDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
     tags: tagIds,
   };
   if (isFee) {
-    if (!fee || !moneyFeeId || !accountFeeId) {
+    if (!fee || !feeMoneyId || !feeAccountId) {
       throw new Error('Transfer form is corrupted');
     }
 
     data.fee = Number(fee);
-    data.moneyFeeId = moneyFeeId;
-    data.accountFeeId = accountFeeId;
+    data.feeMoneyId = feeMoneyId;
+    data.feeAccountId = feeAccountId;
   }
   return data;
 }
@@ -99,22 +99,22 @@ function mapValuesToCreatePayload({
 function mapValuesToUpdatePayload({
   amount,
   moneyId,
-  accountFromId,
-  accountToId,
+  fromAccountId,
+  toAccountId,
   transferDate,
   reportPeriod,
   isFee,
   fee,
-  moneyFeeId,
-  accountFeeId,
+  feeMoneyId,
+  feeAccountId,
   note,
   tagIds,
 }: TransferFormValues): UpdateTransferChanges {
   const changes: UpdateTransferChanges = {
     amount: Number(amount),
     moneyId,
-    accountFromId,
-    accountToId,
+    fromAccountId,
+    toAccountId,
     transferDate: format(transferDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -122,12 +122,12 @@ function mapValuesToUpdatePayload({
   };
 
   if (isFee) {
-    if (!moneyFeeId || !accountFeeId) {
+    if (!feeMoneyId || !feeAccountId) {
       throw new Error('Transfer form is corrupted');
     }
     changes.fee = Number(fee);
-    changes.moneyFeeId = moneyFeeId;
-    changes.accountFeeId = accountFeeId;
+    changes.feeMoneyId = feeMoneyId;
+    changes.feeAccountId = feeAccountId;
   } else {
     changes.isFee = false;
   }
@@ -188,12 +188,12 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
             const {
               amount,
               moneyId,
-              accountFromId,
-              accountToId,
+              fromAccountId,
+              toAccountId,
               isFee,
               fee,
-              moneyFeeId,
-              accountFeeId,
+              feeMoneyId,
+              feeAccountId,
               transferDate,
               reportPeriod,
             } = values;
@@ -201,14 +201,14 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
               values: {
                 amount: '',
                 moneyId,
-                accountFromId,
-                accountToId,
+                fromAccountId,
+                toAccountId,
                 transferDate,
                 reportPeriod,
                 isFee,
                 fee: '',
-                moneyFeeId,
-                accountFeeId,
+                feeMoneyId,
+                feeAccountId,
                 note: '',
                 tagIds: [],
                 isOnlySave: false,
@@ -241,14 +241,14 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),
-        accountFeeId: Yup.mixed().test('accountFeeId', t('Please select account'), function (value) {
+        feeAccountId: Yup.mixed().test('feeAccountId', t('Please select account'), function (value) {
           return !(this.parent.isFee && !value);
         }),
-        accountToId: Yup.mixed().test(
-          'accountToId',
+        toAccountId: Yup.mixed().test(
+          'toAccountId',
           t('Please select an account other than the account you are transferring money from'),
           function (value) {
-            return !(this.parent.accountFromId === value);
+            return !(this.parent.fromAccountId === value);
           }
         ),
       }),
@@ -277,7 +277,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
     );
   }
 
-  const { amount, money, accountFrom, accountTo, transferDate, reportPeriod, fee, moneyFee, accountFee, note, tags } =
+  const { amount, money, fromAccount, toAccount, transferDate, reportPeriod, fee, feeMoney, feeAccount, note, tags } =
     transfer;
 
   const defaultMoney = moneysRepository.availableMoneys[0];
@@ -288,14 +288,14 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
       initialValues={{
         amount: amount ? String(amount) : '',
         moneyId: money?.id ?? defaultMoney.id,
-        accountFromId: accountFrom?.id ?? defaultAccount.id,
-        accountToId: accountTo?.id ?? defaultAccount.id,
+        fromAccountId: fromAccount?.id ?? defaultAccount.id,
+        toAccountId: toAccount?.id ?? defaultAccount.id,
         transferDate: transferDate ? parseISO(transferDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         isFee: Boolean(fee),
         fee: fee ? String(fee) : '',
-        moneyFeeId: moneyFee?.id ?? defaultMoney.id,
-        accountFeeId: accountFee?.id ?? null,
+        feeMoneyId: feeMoney?.id ?? defaultMoney.id,
+        feeAccountId: feeAccount?.id ?? null,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
         isOnlySave: false,
@@ -316,8 +316,8 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
               ref={amountFieldRefCallback}
               tabIndex={1}
             />
-            <FormSelect name="accountFromId" label={t('From account')} options={selectAccountsOptions} />
-            <FormSelect name="accountToId" label={t('To account')} options={selectAccountsOptions} />
+            <FormSelect name="fromAccountId" label={t('From account')} options={selectAccountsOptions} />
+            <FormSelect name="toAccountId" label={t('To account')} options={selectAccountsOptions} />
             <div className={styles.dateFields}>
               <FormDateField
                 name="transferDate"
@@ -351,8 +351,8 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
             <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
 
             <div className={clsx(styles.fee__fields, !values.isFee && styles.fee__fields_hidden)}>
-              <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />
-              <FormSelect name="accountFeeId" label={t('Fee account')} options={selectAccountsOptions} />
+              <AmountField amountFieldName="fee" moneyFieldName="feeMoneyId" label={t('Fee')} />
+              <FormSelect name="feeAccountId" label={t('Fee account')} options={selectAccountsOptions} />
             </div>
 
             <div className={styles.additional}>

@@ -1,8 +1,20 @@
 import { snakeCaseMappers } from 'objection';
 
 import { CashFlowDAO } from '../cash-flow/models/cash-flow-dao';
-import { FindTransfersRepositoryResponse, FindTransfersServiceQuery, TransferRepository } from './types';
+import {
+  CreateTransferServiceData,
+  FindTransfersRepositoryResponse,
+  FindTransfersServiceQuery,
+  ITransferDAO,
+  TransferRepository,
+} from './types';
+import { CashFlowType } from '../cash-flow/types';
+import { CategoryGateway } from '../../services/category/gateway';
 import { IRequestContext } from '../../types/app';
+import { InternalError, InvalidParametersError, NotFoundError } from '../../libs/errors';
+import { cashFlowItemRepository } from '../cash-flow-item/cash-flow-item.repository';
+import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
+import { transferMapper } from './transfer.mapper';
 
 const { parse } = snakeCaseMappers();
 
@@ -21,8 +33,8 @@ class TransferRepositoryImpl implements TransferRepository {
       searchText = null,
       startDate = null,
       endDate = null,
-      accountsFrom,
-      accountsTo,
+      fromAccounts,
+      toAccounts,
       tags = null,
     } = params;
 
@@ -34,11 +46,11 @@ class TransferRepositoryImpl implements TransferRepository {
                  (select (select c.id_category
                             from cf$.category c
                            where c.id_project = :projectId::int
-                             and c.id_category_prototype = 11) as category_transfer_id,
+                             and c.id_category_prototype = 11) as transfer_category_id,
                          (select c.id_category
                             from cf$.category c
                            where c.id_project = :projectId::int
-                             and c.id_category_prototype = 12) as category_transfer_free_id),
+                             and c.id_category_prototype = 12) as transfer_fee_category_id),
                permit as
                  (select project_id,
                          account_id,
@@ -47,15 +59,14 @@ class TransferRepositoryImpl implements TransferRepository {
                t_s (tags) as
                  (select array(select tag_id
                                  from cf$_tag.get_tags(:projectId::int, :searchText::text)
-                           ) as tags
-                 ),
+                           ) as tags),
                t as
                  (select cf.user_id,
                          cf.id,
-                         cfd_from.account_id account_from_id,
-                         cfd_to.account_id as account_to_id,
+                         cfd_from.account_id from_account_id,
+                         cfd_to.account_id as to_account_id,
                          cfd_from.cashflow_item_date as transfer_date,
-                         cfd_fee.account_id as account_fee_id,
+                         cfd_fee.account_id as fee_account_id,
                          cf.note,
                          cf.tags,
                          cf.updated_at
@@ -66,22 +77,21 @@ class TransferRepositoryImpl implements TransferRepository {
                            join cf$.v_cashflow_item cfd_from
                                 on (cfd_from.project_id = cf.project_id
                                   and cfd_from.cashflow_id = cf.id
-                                  and cfd_from.category_id = params.category_transfer_id
+                                  and cfd_from.category_id = params.transfer_category_id
                                   and cfd_from.sign = -1)
                            join cf$.v_cashflow_item cfd_to
                                 on (cfd_to.project_id = cf.project_id
                                   and cfd_to.cashflow_id = cf.id
-                                  and cfd_to.category_id = params.category_transfer_id
+                                  and cfd_to.category_id = params.transfer_category_id
                                   and cfd_to.sign = 1)
                            left join cf$.v_cashflow_item cfd_fee
                                      on (cfd_fee.project_id = cf.project_id
                                        and cfd_fee.cashflow_id = cf.id
-                                       and cfd_fee.category_id = params.category_transfer_free_id)
+                                       and cfd_fee.category_id = params.transfer_fee_category_id)
                    where cfd_from.account_id in (select permit.account_id from permit)
-                     and cfd_To.account_id in (select permit.account_id from permit)
+                     and cfd_to.account_id in (select permit.account_id from permit)
                      and (cfd_fee.account_id is null or
-                          cfd_fee.account_id in (select permit.account_id from permit))
-                 )
+                          cfd_fee.account_id in (select permit.account_id from permit)))
         select t.user_id,
                t.id,
                t.note,
@@ -91,8 +101,8 @@ class TransferRepositoryImpl implements TransferRepository {
           from t
          where (:startDate::date is null or t.transfer_date >= :startDate::date)
            and (:endDate::date is null or t.transfer_date <= :endDate::date)
-           and (:accountsFrom::int[] is null or t.account_from_id in (select unnest(:accountsFrom::int[])))
-           and (:accountsTo::int[] is null or t.account_to_id in (select unnest(:accountsTo::int[])))
+           and (:fromAccounts::int[] is null or t.from_account_id in (select unnest(:fromAccounts::int[])))
+           and (:toAccounts::int[] is null or t.to_account_id in (select unnest(:toAccounts::int[])))
            and (:tags::int[] is null or t.tags && :tags::int[])
            and (
              :searchText::text is null
@@ -109,8 +119,8 @@ class TransferRepositoryImpl implements TransferRepository {
         searchText,
         startDate,
         endDate,
-        accountsFrom: accountsFrom ? accountsFrom.map(Number) : null,
-        accountsTo: accountsTo ? accountsTo.map(Number) : null,
+        fromAccounts: fromAccounts ? fromAccounts.map(Number) : null,
+        toAccounts: toAccounts ? toAccounts.map(Number) : null,
         tags: tags ? tags.map(Number) : null,
         limit,
         offset,
@@ -143,6 +153,122 @@ class TransferRepositoryImpl implements TransferRepository {
       },
       transfers,
     };
+  }
+
+  async createTransfer(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    data: CreateTransferServiceData
+  ): Promise<ITransferDAO> {
+    const {
+      amount,
+      moneyId,
+      fromAccountId,
+      toAccountId,
+      fee,
+      feeMoneyId,
+      feeAccountId,
+      transferDate,
+      reportPeriod,
+      tags,
+      note,
+    } = data;
+
+    if (fromAccountId === toAccountId) {
+      throw new InvalidParametersError('The same accounts for transfer are used');
+    }
+
+    const [transferCategoryId, transferFeeCategoryId] = await Promise.all([
+      this.getTransferCategoryId(ctx, projectId),
+      this.getTransferFeeCategoryId(ctx, projectId),
+    ]);
+
+    const cashFlow = await cashFlowRepository.createCashFlow(ctx, projectId, userId, {
+      cashFlowTypeId: CashFlowType.Transfer,
+      tags,
+      note,
+    });
+
+    const transferId = String(cashFlow.id);
+
+    await Promise.all([
+      cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, transferId, {
+        sign: -1,
+        amount,
+        moneyId,
+        accountId: fromAccountId,
+        categoryId: transferCategoryId,
+        cashFlowItemDate: transferDate,
+        reportPeriod,
+      }),
+      cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, transferId, {
+        sign: 1,
+        amount,
+        moneyId,
+        accountId: toAccountId,
+        categoryId: transferCategoryId,
+        cashFlowItemDate: transferDate,
+        reportPeriod,
+      }),
+    ]);
+
+    if (fee && feeMoneyId && feeAccountId) {
+      await cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, transferId, {
+        sign: -1,
+        amount: fee,
+        moneyId: feeMoneyId,
+        accountId: feeAccountId,
+        categoryId: transferFeeCategoryId,
+        cashFlowItemDate: transferDate,
+        reportPeriod,
+      });
+    }
+
+    return this.getTransfer(ctx, projectId, userId, transferId);
+  }
+
+  async getTransfer(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    transferId: string
+  ): Promise<ITransferDAO> {
+    const [cashFlowDAO, cashFlowItemDAOs] = await Promise.all([
+      cashFlowRepository.getCashFlow(ctx, projectId, transferId),
+      cashFlowItemRepository.getCashFlowItems(ctx, projectId, [transferId]),
+    ]);
+
+    if (!cashFlowDAO) {
+      throw new NotFoundError();
+    }
+
+    if (cashFlowItemDAOs.length !== 2 && cashFlowItemDAOs.length !== 3) {
+      throw new InternalError('Corrupted transfer record');
+    }
+
+    const [transferCategoryId, transferFeeCategoryId] = await Promise.all([
+      this.getTransferCategoryId(ctx, projectId),
+      this.getTransferFeeCategoryId(ctx, projectId),
+    ]);
+
+    return transferMapper.toDAO(cashFlowDAO, cashFlowItemDAOs, transferCategoryId, transferFeeCategoryId);
+  }
+
+  async getTransferCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
+    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '11');
+    if (!category) {
+      throw new InternalError('Transfer category not found', { categoryPrototype: 11 });
+    }
+    return String(category.idCategory);
+  }
+
+  async getTransferFeeCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
+    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '12');
+    if (!category) {
+      throw new InternalError('Transfer category not found', { categoryPrototype: 12 });
+    }
+    return String(category.idCategory);
   }
 }
 

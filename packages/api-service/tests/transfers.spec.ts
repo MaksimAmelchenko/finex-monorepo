@@ -70,8 +70,8 @@ describe('Transfers', function (): void {
       const data: CreateTransferServiceData = {
         amount: 100,
         moneyId: moneys[0].id,
-        accountFromId: String(accounts[0].idAccount),
-        accountToId: String(accounts[1].idAccount),
+        fromAccountId: String(accounts[0].idAccount),
+        toAccountId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };
@@ -94,13 +94,13 @@ describe('Transfers', function (): void {
       const data: CreateTransferServiceData = {
         amount: 100,
         moneyId: moneys[0].id,
-        accountFromId: String(accounts[0].idAccount),
-        accountToId: String(accounts[1].idAccount),
+        fromAccountId: String(accounts[0].idAccount),
+        toAccountId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
         fee: 10,
-        moneyFeeId: moneys[0].id,
-        accountFeeId: String(accounts[0].idAccount),
+        feeMoneyId: moneys[0].id,
+        feeAccountId: String(accounts[0].idAccount),
       };
 
       const response: supertest.Response = await request
@@ -124,8 +124,8 @@ describe('Transfers', function (): void {
       const data: CreateTransferServiceData = {
         amount: 100,
         moneyId: moneys[0].id,
-        accountFromId: String(accounts[0].idAccount),
-        accountToId: String(accounts[1].idAccount),
+        fromAccountId: String(accounts[0].idAccount),
+        toAccountId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };
@@ -142,8 +142,8 @@ describe('Transfers', function (): void {
         amount: 50,
         moneyId: moneys[0].id,
         fee: 10,
-        moneyFeeId: moneys[0].id,
-        accountFeeId: String(accounts[0].idAccount),
+        feeMoneyId: moneys[0].id,
+        feeAccountId: String(accounts[0].idAccount),
       };
 
       response = await request
@@ -166,8 +166,8 @@ describe('Transfers', function (): void {
       const data: CreateTransferServiceData = {
         amount: 100,
         moneyId: moneys[0].id,
-        accountFromId: String(accounts[0].idAccount),
-        accountToId: String(accounts[1].idAccount),
+        fromAccountId: String(accounts[0].idAccount),
+        toAccountId: String(accounts[1].idAccount),
         transferDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };

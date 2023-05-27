@@ -9,13 +9,13 @@ export type ITransferDTO = {
   id: string;
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tags: string[];
   updatedAt: TDateTime;
@@ -26,13 +26,13 @@ export interface ITransfer {
   id: string;
   amount: number;
   money: Money;
-  accountFrom: Account;
-  accountTo: Account;
+  fromAccount: Account;
+  toAccount: Account;
   transferDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
+  feeMoney: Money | null;
+  feeAccount: Account | null;
   note: string;
   tags: Tag[];
   updatedAt: TDateTime;
@@ -44,8 +44,8 @@ export interface GetTransfersQuery {
   searchText?: string;
   startDate?: TDate;
   endDate?: TDate;
-  accountsFrom?: string;
-  accountsTo?: string;
+  fromAccounts?: string;
+  toAccounts?: string;
   tags?: string;
 }
 
@@ -57,13 +57,13 @@ export interface GetTransfersResponse {
 export interface CreateTransferData {
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   fee?: number;
-  moneyFeeId?: string;
-  accountFeeId?: string;
+  feeMoneyId?: string;
+  feeAccountId?: string;
   note?: string;
   tags?: string[];
 }
@@ -75,12 +75,12 @@ export interface CreateTransferResponse {
 export type UpdateTransferChanges = Partial<{
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   isFee: false;
   fee: number;
-  moneyFeeId: string;
-  accountFeeId: string;
+  feeMoneyId: string;
+  feeAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   note: string;

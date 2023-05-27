@@ -132,6 +132,13 @@ export interface CashFlowRepository {
     data: CreateCashFlowRepositoryData
   ): Promise<ICashFlowDAO>;
 
+  createCashFlowWithItems(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    data: CreateCashFlowServiceData
+  ): Promise<ICashFlowDAO>;
+
   getCashFlow(
     ctx: IRequestContext,
     projectId: string,

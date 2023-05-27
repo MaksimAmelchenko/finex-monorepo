@@ -87,12 +87,12 @@ export const Transfers = observer(() => {
     [transfersRepository]
   );
 
-  const setAccountsFrom = (accountsFrom: ISelectOption[]) => {
-    transfersRepository.setFilter({ accountsFrom: accountsFrom.map(({ value }) => value) });
+  const setFromAccounts = (fromAccounts: ISelectOption[]) => {
+    transfersRepository.setFilter({ fromAccounts: fromAccounts.map(({ value }) => value) });
   };
 
-  const setAccountsTo = (accountsTo: ISelectOption[]) => {
-    transfersRepository.setFilter({ accountsTo: accountsTo.map(({ value }) => value) });
+  const setToAccounts = (toAccounts: ISelectOption[]) => {
+    transfersRepository.setFilter({ toAccounts: toAccounts.map(({ value }) => value) });
   };
 
   const setTags = (tags: ISelectOption[]) => {
@@ -198,16 +198,16 @@ export const Transfers = observer(() => {
               <MultiSelect
                 label={t('From accounts')}
                 options={selectAccountOptions}
-                values={selectAccountOptions.filter(({ value }) => filter.accountsFrom.includes(value))}
-                onChange={setAccountsFrom}
+                values={selectAccountOptions.filter(({ value }) => filter.fromAccounts.includes(value))}
+                onChange={setFromAccounts}
                 className={styles.multiSelect}
               />
 
               <MultiSelect
                 label={t('To accounts')}
                 options={selectAccountOptions}
-                values={selectAccountOptions.filter(({ value }) => filter.accountsTo.includes(value))}
-                onChange={setAccountsTo}
+                values={selectAccountOptions.filter(({ value }) => filter.toAccounts.includes(value))}
+                onChange={setToAccounts}
                 className={styles.multiSelect}
               />
 

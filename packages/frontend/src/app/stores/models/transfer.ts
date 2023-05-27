@@ -12,13 +12,13 @@ export class Transfer implements ITransfer, ISelectable, IDeletable {
   user: User;
   amount: number;
   money: Money;
-  accountFrom: Account;
-  accountTo: Account;
+  fromAccount: Account;
+  toAccount: Account;
   transferDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
+  feeMoney: Money | null;
+  feeAccount: Account | null;
   note: string;
   tags: Tag[];
   updatedAt: TDateTime;
@@ -31,13 +31,13 @@ export class Transfer implements ITransfer, ISelectable, IDeletable {
     id,
     amount,
     money,
-    accountFrom,
-    accountTo,
+    fromAccount,
+    toAccount,
     transferDate,
     reportPeriod,
     fee,
-    moneyFee,
-    accountFee,
+    feeMoney,
+    feeAccount,
     note,
     tags,
     updatedAt,
@@ -46,13 +46,13 @@ export class Transfer implements ITransfer, ISelectable, IDeletable {
     this.id = id;
     this.amount = amount;
     this.money = money;
-    this.accountFrom = accountFrom;
-    this.accountTo = accountTo;
+    this.fromAccount = fromAccount;
+    this.toAccount = toAccount;
     this.transferDate = transferDate;
     this.reportPeriod = reportPeriod;
     this.fee = fee;
-    this.moneyFee = moneyFee;
-    this.accountFee = accountFee;
+    this.feeMoney = feeMoney;
+    this.feeAccount = feeAccount;
     this.note = note;
     this.tags = tags;
     this.updatedAt = updatedAt;
