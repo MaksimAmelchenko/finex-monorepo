@@ -6,7 +6,7 @@ import config from '../libs/config';
 import { ILogger, KoaContext, Middleware } from '../types/app';
 import { IncomingMessage } from 'http';
 
-const excludeFields: string[] = ['apiKey', 'token', 'password', 'authorization'];
+const excludeFields: string[] = ['apiKey', 'token', 'password', 'authorization', 'secret'];
 
 const HTTP_X_REQUEST_ID_HEADER = 'X-Request-Id';
 

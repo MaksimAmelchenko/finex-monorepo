@@ -22,6 +22,7 @@ import {
   NordigenService,
 } from './types';
 import { IRequestContext, TDate } from '../../types/app';
+import { captureException } from '../../libs/sentry';
 import { connectionService } from '../connection/connection.service';
 import { nordigenMapper } from './mordigen.mapper';
 import { nordigenRepository } from './nordigen.repository';
@@ -38,7 +39,11 @@ class NordigenServiceImpl implements NordigenService {
     this.secretKey = secretKey;
     // @ts-ignore
     this.client = new NordigenClient({ secretId, secretKey });
-    this.client.generateToken().catch(err => console.error({ err }, 'Nordigen token generation error'));
+    this.client.generateToken().catch(err => captureException(err));
+  }
+
+  async generateToken(ctx: IRequestContext<unknown, false>): Promise<string> {
+    return this.client.generateToken();
   }
 
   async getInstitutions(ctx: IRequestContext<unknown, true>, country: string): Promise<IInstitution[]> {
@@ -223,7 +228,7 @@ class NordigenServiceImpl implements NordigenService {
   }
 
   async getTransactions(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     providerAccountId: string,
     dateFrom: TDate
   ): Promise<{ transactions: INordigenTransactions }> {

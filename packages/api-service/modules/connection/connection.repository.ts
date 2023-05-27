@@ -31,7 +31,7 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
   }
 
   async getConnection(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     connectionId: string
   ): Promise<IConnectionDAO | undefined> {
@@ -87,7 +87,7 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
   }
 
   async getAccounts(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     connectionId: string
   ): Promise<IAccountDAO[]> {
@@ -107,8 +107,13 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
     return AccountDAO.query(ctx.trx).findById([Number(projectId), accountId]);
   }
 
+  async getActiveAccounts(ctx: IRequestContext<unknown, false>): Promise<IAccountDAO[]> {
+    ctx.log.trace('try to get active accounts');
+    return AccountDAO.query(ctx.trx).whereNotNull('accountId');
+  }
+
   async updateAccount(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     connectionAccountId: string,
     changes: UpdateAccountRepositoryChanges
@@ -124,7 +129,7 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
   }
 
   async createTransaction(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     userId: string,
     data: ICreateTransactionData
@@ -143,7 +148,7 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
   }
 
   async getTransaction(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     transactionId: string
   ): Promise<ITransactionDAO | undefined> {

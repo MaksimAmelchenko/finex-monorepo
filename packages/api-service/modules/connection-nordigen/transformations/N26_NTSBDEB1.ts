@@ -23,7 +23,7 @@ export const N26Transformation: TransformationFunction = (
     }>;
   }
 ): INormalizedTransaction[] => {
-  log.trace(TRANSFORMATION_NAME, { account, options });
+  log.trace(TRANSFORMATION_NAME, { account, cashAccountId: options.cashAccountId });
 
   // consider only booked transactions since pending transactions are not yet confirmed and can be changed
   return transactions.booked.map(transaction => {

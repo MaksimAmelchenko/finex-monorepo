@@ -19,6 +19,7 @@ import { ContractorService } from '../../services/contractor';
 import { CreateCashFlowItemServiceData } from '../cash-flow-item/types';
 import { IRequestContext } from '../../types/app';
 import { InternalError, InvalidParametersError, NotFoundError } from '../../libs/errors';
+import { captureException } from '../../libs/sentry';
 import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { connectionMapper } from './connection.mapper';
 import { connectionRepository } from './connection.repository';
@@ -42,7 +43,7 @@ class ConnectionServiceImpl implements ConnectionService {
   }
 
   async getConnection(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     userId: string,
     connectionId: string
@@ -100,7 +101,7 @@ class ConnectionServiceImpl implements ConnectionService {
   }
 
   async updateAccount(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     userId: string,
     accountId: string,
@@ -111,7 +112,7 @@ class ConnectionServiceImpl implements ConnectionService {
   }
 
   async syncAccount(
-    ctx: IRequestContext<unknown, true>,
+    ctx: IRequestContext<unknown, false>,
     projectId: string,
     userId: string,
     connectionId: string,
@@ -257,6 +258,22 @@ class ConnectionServiceImpl implements ConnectionService {
     });
 
     return transactions;
+  }
+
+  async syncAllAccounts(ctx: IRequestContext<unknown, false>): Promise<any> {
+    const accounts = await connectionRepository
+      .getActiveAccounts(ctx)
+      .then(accounts => accounts.map(account => connectionMapper.toAccount(account)));
+
+    await nordigenService.generateToken(ctx);
+
+    for (const account of accounts) {
+      const { projectId, userId, connectionId, id } = account;
+      await this.syncAccount(ctx, projectId, userId, connectionId, account.id).catch(err => {
+        ctx.log.error(err);
+        captureException(err);
+      });
+    }
   }
 }
 

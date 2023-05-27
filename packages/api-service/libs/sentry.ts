@@ -26,3 +26,7 @@ export function sentryErrorHandler(err: Error, ctx) {
 export function captureMessage(message: string, level: SeverityLevel = 'info') {
   Sentry.captureMessage(message, level);
 }
+
+export function captureException(error: any) {
+  Sentry.captureException(error);
+}
