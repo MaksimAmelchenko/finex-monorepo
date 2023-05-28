@@ -18,8 +18,8 @@ interface IFilter {
   isFilter: boolean;
   range: [Date | null, Date | null];
   searchText: string;
-  accountsSell: string[];
-  accountsBuy: string[];
+  sellAccounts: string[];
+  buyAccounts: string[];
   tags: string[];
 }
 
@@ -33,8 +33,8 @@ export class ExchangesRepository extends ManageableStore {
     range: [null, null],
     isFilter: false,
     searchText: '',
-    accountsSell: [],
-    accountsBuy: [],
+    sellAccounts: [],
+    buyAccounts: [],
     tags: [],
   };
 
@@ -76,8 +76,8 @@ export class ExchangesRepository extends ManageableStore {
       isFilter,
       range: [startDate, endDate],
       searchText,
-      accountsSell,
-      accountsBuy,
+      sellAccounts,
+      buyAccounts,
       tags,
     } = this.filter;
     let params = {};
@@ -85,8 +85,8 @@ export class ExchangesRepository extends ManageableStore {
       params = {
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : null,
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : null,
-        accountsSell: accountsSell.join(','),
-        accountsBuy: accountsBuy.join(','),
+        sellAccounts: sellAccounts.join(','),
+        buyAccounts: buyAccounts.join(','),
         tags: tags.join(','),
       };
     }
@@ -192,17 +192,17 @@ export class ExchangesRepository extends ManageableStore {
       const {
         userId,
         id,
-        amountSell,
-        moneySellId,
-        amountBuy,
-        moneyBuyId,
-        accountSellId,
-        accountBuyId,
+        sellAmount,
+        sellMoneyId,
+        buyAmount,
+        buyMoneyId,
+        sellAccountId,
+        buyAccountId,
         exchangeDate,
         reportPeriod,
         fee,
-        moneyFeeId,
-        accountFeeId,
+        feeMoneyId,
+        feeAccountId,
         note,
         tags: tagIds,
         updatedAt,
@@ -214,44 +214,44 @@ export class ExchangesRepository extends ManageableStore {
         return acc;
       }
 
-      const moneySell = moneysRepository.get(moneySellId);
-      if (!moneySell) {
-        console.warn('MoneySell is not found', { exchange });
+      const sellMoney = moneysRepository.get(sellMoneyId);
+      if (!sellMoney) {
+        console.warn('SellMoney is not found', { exchange });
         return acc;
       }
 
-      const moneyBuy = moneysRepository.get(moneyBuyId);
-      if (!moneyBuy) {
-        console.warn('MoneyBuy is not found', { exchange });
+      const buyMoney = moneysRepository.get(buyMoneyId);
+      if (!buyMoney) {
+        console.warn('BuyMoney is not found', { exchange });
         return acc;
       }
 
-      const accountSell = accountsRepository.get(accountSellId);
-      if (!accountSell) {
-        console.warn('Contractor is not found', { exchange });
+      const sellAccount = accountsRepository.get(sellAccountId);
+      if (!sellAccount) {
+        console.warn('SellAccount is not found', { exchange });
         return acc;
       }
 
-      const accountBuy = accountsRepository.get(accountBuyId);
-      if (!accountBuy) {
-        console.warn('Contractor is not found', { exchange });
+      const buyAccount = accountsRepository.get(buyAccountId);
+      if (!buyAccount) {
+        console.warn('BuyAccount is not found', { exchange });
         return acc;
       }
 
-      let moneyFee: Money | null = null;
-      if (moneyFeeId) {
-        moneyFee = moneysRepository.get(moneyFeeId) || null;
-        if (!moneyFee) {
-          console.warn('MoneyFee is not found', { exchange });
+      let feeMoney: Money | null = null;
+      if (feeMoneyId) {
+        feeMoney = moneysRepository.get(feeMoneyId) || null;
+        if (!feeMoney) {
+          console.warn('FeeMoney is not found', { exchange });
           return acc;
         }
       }
 
-      let accountFee: Account | null = null;
-      if (accountFeeId) {
-        accountFee = accountsRepository.get(accountFeeId) || null;
-        if (!accountFee) {
-          console.warn('AccountFee is not found', { exchange });
+      let feeAccount: Account | null = null;
+      if (feeAccountId) {
+        feeAccount = accountsRepository.get(feeAccountId) || null;
+        if (!feeAccount) {
+          console.warn('FeeAccount is not found', { exchange });
           return acc;
         }
       }
@@ -267,17 +267,17 @@ export class ExchangesRepository extends ManageableStore {
       acc.push(
         new Exchange({
           id,
-          amountSell,
-          moneySell,
-          amountBuy,
-          moneyBuy,
-          accountSell,
-          accountBuy,
+          sellAmount,
+          sellMoney,
+          buyAmount,
+          buyMoney,
+          sellAccount,
+          buyAccount,
           exchangeDate,
           reportPeriod,
           fee,
-          moneyFee,
-          accountFee,
+          feeMoney,
+          feeAccount,
           note,
           tags,
           user,

@@ -13,16 +13,16 @@ export const updateExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
       type: 'object',
       properties: {
         exchangeId: id,
-        amountSell: {
+        sellAmount: {
           type: 'number',
         },
-        moneySellId: moneyId,
-        amountBuy: {
+        sellMoneyId: moneyId,
+        buyAmount: {
           type: 'number',
         },
-        moneyBuyId: moneyId,
-        accountSellId: accountId,
-        accountBuyId: accountId,
+        buyMoneyId: moneyId,
+        sellAccountId: accountId,
+        buyAccountId: accountId,
         exchangeDate: date,
         reportPeriod: date,
         isFee: {
@@ -47,21 +47,21 @@ export const updateExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
       type: 'object',
       properties: {
         exchangeId: id,
-        amountSell: {
+        sellAmount: {
           type: 'number',
         },
-        moneySellId: moneyId,
-        amountBuy: {
+        sellMoneyId: moneyId,
+        buyAmount: {
           type: 'number',
         },
-        moneyBuyId: moneyId,
-        accountSellId: accountId,
-        accountBuyId: accountId,
+        buyMoneyId: moneyId,
+        sellAccountId: accountId,
+        buyAccountId: accountId,
         fee: {
           type: 'number',
         },
-        moneyFeeId: moneyId,
-        accountFeeId: accountId,
+        feeMoneyId: moneyId,
+        feeAccountId: accountId,
         note: {
           type: 'string',
         },

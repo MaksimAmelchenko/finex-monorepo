@@ -14,23 +14,23 @@ export const exchangeSchema: OpenAPIV3_1.SchemaObject = {
       properties: {
         userId: id,
         id,
-        amountSell: {
+        sellAmount: {
           type: 'number',
         },
-        moneySellId: moneyId,
-        amountBuy: {
+        sellMoneyId: moneyId,
+        buyAmount: {
           type: 'number',
         },
-        moneyBuyId: moneyId,
-        accountSellId: accountId,
-        accountBuyId: accountId,
+        buyMoneyId: moneyId,
+        sellAccountId: accountId,
+        buyAccountId: accountId,
         fee: {
           type: 'null',
         },
-        moneyFeeId: {
+        feeMoneyId: {
           type: 'null',
         },
-        accountFeeId: {
+        feeAccountId: {
           type: 'null',
         },
         exchangeDate: date,
@@ -49,15 +49,15 @@ export const exchangeSchema: OpenAPIV3_1.SchemaObject = {
       additionalProperties: false,
       required: [
         'id',
-        'amountSell',
-        'moneySellId',
-        'amountBuy',
-        'moneyBuyId',
-        'accountSellId',
-        'accountBuyId',
+        'sellAmount',
+        'sellMoneyId',
+        'buyAmount',
+        'buyMoneyId',
+        'sellAccountId',
+        'buyAccountId',
         'fee',
-        'moneyFeeId',
-        'accountFeeId',
+        'feeMoneyId',
+        'feeAccountId',
         'exchangeDate',
         'reportPeriod',
         'note',
@@ -71,21 +71,21 @@ export const exchangeSchema: OpenAPIV3_1.SchemaObject = {
       properties: {
         userId: id,
         id,
-        amountSell: {
+        sellAmount: {
           type: 'number',
         },
-        moneySellId: moneyId,
-        amountBuy: {
+        sellMoneyId: moneyId,
+        buyAmount: {
           type: 'number',
         },
-        moneyBuyId: moneyId,
-        accountSellId: accountId,
-        accountBuyId: accountId,
+        buyMoneyId: moneyId,
+        sellAccountId: accountId,
+        buyAccountId: accountId,
         fee: {
           type: 'number',
         },
-        moneyFeeId: moneyId,
-        accountFeeId: accountId,
+        feeMoneyId: moneyId,
+        feeAccountId: accountId,
         exchangeDate: date,
         reportPeriod: date,
         note: {
@@ -102,15 +102,15 @@ export const exchangeSchema: OpenAPIV3_1.SchemaObject = {
       additionalProperties: false,
       required: [
         'id',
-        'amountSell',
-        'moneySellId',
-        'amountBuy',
-        'moneyBuyId',
-        'accountSellId',
-        'accountBuyId',
+        'sellAmount',
+        'sellMoneyId',
+        'buyAmount',
+        'buyMoneyId',
+        'sellAccountId',
+        'buyAccountId',
         'fee',
-        'moneyFeeId',
-        'accountFeeId',
+        'feeMoneyId',
+        'feeAccountId',
         'exchangeDate',
         'reportPeriod',
         'note',

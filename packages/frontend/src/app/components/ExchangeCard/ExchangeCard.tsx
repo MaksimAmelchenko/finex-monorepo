@@ -9,33 +9,33 @@ import styles from './ExchangeCard.module.scss';
 
 interface ExchangeCardCardOperationExchange {
   id: string;
-  accountSell: {
+  sellAccount: {
     name: string;
   };
-  amountSell: number;
-  moneySell: {
+  sellAmount: number;
+  sellMoney: {
     name: string;
     symbol: string;
     precision?: number;
   };
 
-  accountBuy: {
+  buyAccount: {
     name: string;
   };
-  amountBuy: number;
-  moneyBuy: {
+  buyAmount: number;
+  buyMoney: {
     name: string;
     symbol: string;
     precision?: number;
   };
 
   fee: number | null;
-  moneyFee: {
+  feeMoney: {
     name: string;
     symbol: string;
     precision?: number;
   } | null;
-  accountFee: {
+  feeAccount: {
     name: string;
   } | null;
 
@@ -48,7 +48,7 @@ export interface ExchangeCardProps {
 }
 
 export function ExchangeCard({ exchange, isHighlighted, onClick }: ExchangeCardProps) {
-  const { id, accountSell, amountSell, moneySell, accountBuy, amountBuy, moneyBuy, fee, moneyFee, accountFee, note } =
+  const { id, sellAccount, sellAmount, sellMoney, buyAccount, buyAmount, buyMoney, fee, feeMoney, feeAccount, note } =
     exchange;
 
   const handleClick = () => {
@@ -67,26 +67,26 @@ export function ExchangeCard({ exchange, isHighlighted, onClick }: ExchangeCardP
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>
           <div className={styles.mainContent__header}>
-            <div className={styles.mainContent__accountName}>{accountBuy.name}</div>
+            <div className={styles.mainContent__accountName}>{buyAccount.name}</div>
             <div className={styles.mainContent__amount}>
-              +{toCurrency(amountBuy, { unit: moneyBuy.symbol, precision: moneyBuy.precision })}
+              +{toCurrency(buyAmount, { unit: buyMoney.symbol, precision: buyMoney.precision })}
             </div>
           </div>
 
           <div className={styles.mainContent__header}>
-            <div className={styles.mainContent__accountName}>{accountSell.name}</div>
+            <div className={styles.mainContent__accountName}>{sellAccount.name}</div>
             <div className={styles.mainContent__amount}>
-              {toCurrency(-amountSell, { unit: moneySell.symbol, precision: moneySell.precision })}
+              {toCurrency(-sellAmount, { unit: sellMoney.symbol, precision: sellMoney.precision })}
             </div>
           </div>
 
-          {fee && accountFee && moneyFee && (
+          {fee && feeAccount && feeMoney && (
             <div className={styles.mainContent__header}>
               <div className={clsx(styles.mainContent__accountName, styles.mainContent__accountName_fee)}>
-                {accountFee.name}
+                {feeAccount.name}
               </div>
               <div className={clsx(styles.mainContent__amount, styles.mainContent__amount_fee)}>
-                {toCurrency(-fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}
+                {toCurrency(-fee, { unit: feeMoney.symbol, precision: feeMoney.precision })}
               </div>
             </div>
           )}

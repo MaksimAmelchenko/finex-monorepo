@@ -38,18 +38,18 @@ import { useStore } from '../../core/hooks/use-store';
 import styles from './ExchangeWindow.module.scss';
 
 interface ExchangeFormValues {
-  amountSell: string;
-  moneySellId: string;
-  amountBuy: string;
-  moneyBuyId: string | null;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: string;
+  sellMoneyId: string;
+  buyAmount: string;
+  buyMoneyId: string | null;
+  sellAccountId: string;
+  buyAccountId: string;
   exchangeDate: Date;
   reportPeriod: Date;
   isFee: boolean;
   fee: string;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tagIds: string[];
   isOnlySave: boolean;
@@ -63,68 +63,68 @@ interface ExchangeWindowProps {
 const t = getT('ExchangeWindow');
 
 function mapValuesBuyCreatePayload({
-  amountSell,
-  moneySellId,
-  amountBuy,
-  moneyBuyId,
-  accountSellId,
-  accountBuyId,
+  sellAmount,
+  sellMoneyId,
+  buyAmount,
+  buyMoneyId,
+  sellAccountId,
+  buyAccountId,
   exchangeDate,
   reportPeriod,
   isFee,
   fee,
-  moneyFeeId,
-  accountFeeId,
+  feeMoneyId,
+  feeAccountId,
   note,
   tagIds,
 }: ExchangeFormValues): CreateExchangeData {
   const data: CreateExchangeData = {
-    amountSell: Number(amountSell),
-    moneySellId,
-    amountBuy: Number(amountBuy),
-    moneyBuyId: moneyBuyId!,
-    accountSellId,
-    accountBuyId,
+    sellAmount: Number(sellAmount),
+    sellMoneyId,
+    buyAmount: Number(buyAmount),
+    buyMoneyId: buyMoneyId!,
+    sellAccountId,
+    buyAccountId,
     exchangeDate: format(exchangeDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
     tags: tagIds,
   };
   if (isFee) {
-    if (!fee || !moneyFeeId || !accountFeeId) {
+    if (!fee || !feeMoneyId || !feeAccountId) {
       throw new Error('Exchange form is corrupted');
     }
 
     data.fee = Number(fee);
-    data.moneyFeeId = moneyFeeId;
-    data.accountFeeId = accountFeeId;
+    data.feeMoneyId = feeMoneyId;
+    data.feeAccountId = feeAccountId;
   }
   return data;
 }
 
 function mapValuesBuyUpdatePayload({
-  amountSell,
-  moneySellId,
-  amountBuy,
-  moneyBuyId,
-  accountSellId,
-  accountBuyId,
+  sellAmount,
+  sellMoneyId,
+  buyAmount,
+  buyMoneyId,
+  sellAccountId,
+  buyAccountId,
   exchangeDate,
   reportPeriod,
   isFee,
   fee,
-  moneyFeeId,
-  accountFeeId,
+  feeMoneyId,
+  feeAccountId,
   note,
   tagIds,
 }: ExchangeFormValues): UpdateExchangeChanges {
   const changes: UpdateExchangeChanges = {
-    amountSell: Number(amountSell),
-    moneySellId,
-    amountBuy: Number(amountBuy),
-    moneyBuyId: moneyBuyId!,
-    accountSellId,
-    accountBuyId,
+    sellAmount: Number(sellAmount),
+    sellMoneyId,
+    buyAmount: Number(buyAmount),
+    buyMoneyId: buyMoneyId!,
+    sellAccountId,
+    buyAccountId,
     exchangeDate: format(exchangeDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -132,12 +132,12 @@ function mapValuesBuyUpdatePayload({
   };
 
   if (isFee) {
-    if (!moneyFeeId || !accountFeeId) {
+    if (!feeMoneyId || !feeAccountId) {
       throw new Error('Exchange form is corrupted');
     }
     changes.fee = Number(fee);
-    changes.moneyFeeId = moneyFeeId;
-    changes.accountFeeId = accountFeeId;
+    changes.feeMoneyId = feeMoneyId;
+    changes.feeAccountId = feeAccountId;
   } else {
     changes.isFee = false;
   }
@@ -163,12 +163,12 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
     });
   }, []);
 
-  const amountSellFieldRef = useRef<HTMLInputElement | null>(null);
+  const sellAmountFieldRef = useRef<HTMLInputElement | null>(null);
 
-  const amountSellFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
+  const sellAmountFieldRefCallback = useCallback((node: HTMLInputElement | null) => {
     if (node) {
-      amountSellFieldRef.current = node;
-      amountSellFieldRef.current.focus();
+      sellAmountFieldRef.current = node;
+      sellAmountFieldRef.current.focus();
     }
   }, []);
 
@@ -196,40 +196,40 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
             onClose();
           } else {
             const {
-              amountSell,
-              moneySellId,
-              amountBuy,
-              moneyBuyId,
-              accountSellId,
-              accountBuyId,
+              sellAmount,
+              sellMoneyId,
+              buyAmount,
+              buyMoneyId,
+              sellAccountId,
+              buyAccountId,
               isFee,
               fee,
-              moneyFeeId,
-              accountFeeId,
+              feeMoneyId,
+              feeAccountId,
               exchangeDate,
               reportPeriod,
             } = values;
             resetForm({
               values: {
-                amountSell: '',
-                moneySellId,
-                amountBuy: '',
-                moneyBuyId,
-                accountSellId,
-                accountBuyId,
+                sellAmount: '',
+                sellMoneyId,
+                buyAmount: '',
+                buyMoneyId,
+                sellAccountId,
+                buyAccountId,
                 exchangeDate,
                 reportPeriod,
                 isFee,
                 fee: '',
-                moneyFeeId,
-                accountFeeId,
+                feeMoneyId,
+                feeAccountId,
                 note: '',
                 tagIds: [],
                 isOnlySave: false,
               },
             });
             setIsNew(true);
-            amountSellFieldRef.current?.focus();
+            sellAmountFieldRef.current?.focus();
           }
         })
         .catch(err => {
@@ -247,20 +247,20 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
   const validationSchema = useMemo(
     () =>
       Yup.object<Shape<ExchangeFormValues>>({
-        amountSell: Yup.mixed()
+        sellAmount: Yup.mixed()
           .required(t('Please fill amount'))
-          .test('amountSell', t('Please enter a number'), value => !isNaN(value)),
-        amountBuy: Yup.mixed()
+          .test('sellAmount', t('Please enter a number'), value => !isNaN(value)),
+        buyAmount: Yup.mixed()
           .required(t('Please fill amount'))
-          .test('amountBuy', t('Please enter a number'), value => !isNaN(value))
-          .test('amountBuy', t('Please select money'), function () {
-            return this.parent.moneyBuyId;
+          .test('buyAmount', t('Please enter a number'), value => !isNaN(value))
+          .test('buyAmount', t('Please select money'), function () {
+            return this.parent.buyMoneyId;
           })
           .test(
-            'amountBuy',
+            'buyAmount',
             t('Please select a money other than the money you are exchanging money from'),
             function () {
-              return !(this.parent.moneySellId === this.parent.moneyBuyId);
+              return !(this.parent.sellMoneyId === this.parent.buyMoneyId);
             }
           ),
         exchangeDate: Yup.date().required(t('Please select date')),
@@ -268,7 +268,7 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),
-        accountFeeId: Yup.mixed().test('accountFeeId', t('Please select account'), function (value) {
+        feeAccountId: Yup.mixed().test('feeAccountId', t('Please select account'), function (value) {
           return !(this.parent.isFee && !value);
         }),
       }),
@@ -279,10 +279,10 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
     return accountsRepository.accounts
       .filter(
         ({ id, isEnabled }) =>
-          isEnabled || [exchange.accountSell?.id, exchange.accountBuy?.id, exchange.accountFee?.id].includes(id)
+          isEnabled || [exchange.sellAccount?.id, exchange.buyAccount?.id, exchange.feeAccount?.id].includes(id)
       )
       .map(({ id: value, name: label }) => ({ value, label }));
-  }, [accountsRepository.accounts, exchange.accountBuy?.id, exchange.accountFee?.id, exchange.accountSell?.id]);
+  }, [accountsRepository.accounts, exchange.buyAccount?.id, exchange.feeAccount?.id, exchange.sellAccount?.id]);
 
   const selectTagsOptions = useMemo<ISelectOption[]>(() => {
     return tagsRepository.tags.map(({ id: value, name: label }) => ({ value, label }));
@@ -301,17 +301,17 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
   }
 
   const {
-    amountSell,
-    moneySell,
-    amountBuy,
-    moneyBuy,
-    accountSell,
-    accountBuy,
+    sellAmount,
+    sellMoney,
+    buyAmount,
+    buyMoney,
+    sellAccount,
+    buyAccount,
     exchangeDate,
     reportPeriod,
     fee,
-    moneyFee,
-    accountFee,
+    feeMoney,
+    feeAccount,
     note,
     tags,
   } = exchange;
@@ -325,18 +325,18 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
         console.log(hr, error);
       }}
       initialValues={{
-        amountSell: amountSell ? String(amountSell) : '',
-        moneySellId: moneySell?.id ?? defaultMoney.id,
-        amountBuy: amountBuy ? String(amountBuy) : '',
-        moneyBuyId: moneyBuy?.id ?? null,
-        accountSellId: accountSell?.id ?? defaultAccount.id,
-        accountBuyId: accountBuy?.id ?? defaultAccount.id,
+        sellAmount: sellAmount ? String(sellAmount) : '',
+        sellMoneyId: sellMoney?.id ?? defaultMoney.id,
+        buyAmount: buyAmount ? String(buyAmount) : '',
+        buyMoneyId: buyMoney?.id ?? null,
+        sellAccountId: sellAccount?.id ?? defaultAccount.id,
+        buyAccountId: buyAccount?.id ?? defaultAccount.id,
         exchangeDate: exchangeDate ? parseISO(exchangeDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         isFee: Boolean(fee),
         fee: fee ? String(fee) : '',
-        moneyFeeId: moneyFee?.id ?? defaultMoney.id,
-        accountFeeId: accountFee?.id ?? null,
+        feeMoneyId: feeMoney?.id ?? defaultMoney.id,
+        feeAccountId: feeAccount?.id ?? null,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
         isOnlySave: false,
@@ -352,16 +352,16 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
           <FormBody>
             <div className={styles.amountFields}>
               <AmountField
-                amountFieldName="amountSell"
-                moneyFieldName="moneySellId"
+                amountFieldName="sellAmount"
+                moneyFieldName="sellMoneyId"
                 label={t('Sell')}
-                ref={amountSellFieldRefCallback}
+                ref={sellAmountFieldRefCallback}
                 tabIndex={1}
               />
-              <AmountField amountFieldName="amountBuy" moneyFieldName="moneyBuyId" label={t('Buy')} />
+              <AmountField amountFieldName="buyAmount" moneyFieldName="buyMoneyId" label={t('Buy')} />
             </div>
-            <FormSelect name="accountSellId" label={t('Sell account')} options={selectAccountsOptions} />
-            <FormSelect name="accountBuyId" label={t('Buy account')} options={selectAccountsOptions} />
+            <FormSelect name="sellAccountId" label={t('Sell account')} options={selectAccountsOptions} />
+            <FormSelect name="buyAccountId" label={t('Buy account')} options={selectAccountsOptions} />
             <div className={styles.dateFields}>
               <FormDateField
                 name="exchangeDate"
@@ -395,8 +395,8 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
             <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
 
             <div className={clsx(styles.fee__fields, !values.isFee && styles.fee__fields_hidden)}>
-              <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />
-              <FormSelect name="accountFeeId" label={t('Fee account')} options={selectAccountsOptions} />
+              <AmountField amountFieldName="fee" moneyFieldName="feeMoneyId" label={t('Fee')} />
+              <FormSelect name="feeAccountId" label={t('Fee account')} options={selectAccountsOptions} />
             </div>
 
             <div className={styles.additional}>

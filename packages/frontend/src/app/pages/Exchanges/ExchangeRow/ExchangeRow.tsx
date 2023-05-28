@@ -15,15 +15,15 @@ interface ExchangeRowProps {
 
 export const ExchangeRow = observer<ExchangeRowProps>(({ exchange, onClick }) => {
   const {
-    amountSell,
-    moneySell,
-    amountBuy,
-    moneyBuy,
-    accountSell,
-    accountBuy,
+    sellAmount,
+    sellMoney,
+    buyAmount,
+    buyMoney,
+    sellAccount,
+    buyAccount,
     fee,
-    moneyFee,
-    accountFee,
+    feeMoney,
+    feeAccount,
     exchangeDate,
     isDeleting,
     isSelected,
@@ -53,30 +53,30 @@ export const ExchangeRow = observer<ExchangeRowProps>(({ exchange, onClick }) =>
       </td>
 
       <td>
-        <div>{accountSell.name}</div>
+        <div>{sellAccount.name}</div>
       </td>
       <td>
-        <div>{accountBuy.name}</div>
+        <div>{buyAccount.name}</div>
       </td>
 
       <td className="text-end numeric">
-        <div>{toCurrency(amountSell, { unit: moneySell.symbol, precision: moneySell.precision })}</div>
+        <div>{toCurrency(sellAmount, { unit: sellMoney.symbol, precision: sellMoney.precision })}</div>
       </td>
 
       <td className="text-end numeric">
-        <div>{toCurrency(amountBuy, { unit: moneyBuy.symbol, precision: moneyBuy.precision })}</div>
+        <div>{toCurrency(buyAmount, { unit: buyMoney.symbol, precision: buyMoney.precision })}</div>
       </td>
 
       <td className="text-end numeric">
         <div>
-          {amountBuy > amountSell
-            ? toCurrency(amountBuy / amountSell, { unit: moneyBuy.symbol, precision: moneyBuy.precision })
-            : toCurrency(amountSell / amountBuy, { unit: moneySell.symbol, precision: moneySell.precision })}
+          {buyAmount > sellAmount
+            ? toCurrency(buyAmount / sellAmount, { unit: buyMoney.symbol, precision: buyMoney.precision })
+            : toCurrency(sellAmount / buyAmount, { unit: sellMoney.symbol, precision: sellMoney.precision })}
         </div>
       </td>
 
       <td className="text-end numeric">
-        {fee && moneyFee && <div>{toCurrency(fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}</div>}
+        {fee && feeMoney && <div>{toCurrency(fee, { unit: feeMoney.symbol, precision: feeMoney.precision })}</div>}
       </td>
 
       <td className="hidden-sm min-width">{note}</td>

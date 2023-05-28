@@ -87,12 +87,12 @@ export const Exchanges = observer(() => {
     [exchangesRepository]
   );
 
-  const setAccountsSell = (accountsSell: ISelectOption[]) => {
-    exchangesRepository.setFilter({ accountsSell: accountsSell.map(({ value }) => value) });
+  const setSellAccounts = (sellAccounts: ISelectOption[]) => {
+    exchangesRepository.setFilter({ sellAccounts: sellAccounts.map(({ value }) => value) });
   };
 
-  const setAccountsBuy = (accountsBuy: ISelectOption[]) => {
-    exchangesRepository.setFilter({ accountsBuy: accountsBuy.map(({ value }) => value) });
+  const setBuyAccounts = (buyAccounts: ISelectOption[]) => {
+    exchangesRepository.setFilter({ buyAccounts: buyAccounts.map(({ value }) => value) });
   };
 
   const setTags = (tags: ISelectOption[]) => {
@@ -198,16 +198,16 @@ export const Exchanges = observer(() => {
               <MultiSelect
                 label={t('Sell accounts')}
                 options={selectAccountOptions}
-                values={selectAccountOptions.filter(({ value }) => filter.accountsSell.includes(value))}
-                onChange={setAccountsSell}
+                values={selectAccountOptions.filter(({ value }) => filter.sellAccounts.includes(value))}
+                onChange={setSellAccounts}
                 className={styles.multiSelect}
               />
 
               <MultiSelect
                 label={t('Buy accounts')}
                 options={selectAccountOptions}
-                values={selectAccountOptions.filter(({ value }) => filter.accountsBuy.includes(value))}
-                onChange={setAccountsBuy}
+                values={selectAccountOptions.filter(({ value }) => filter.buyAccounts.includes(value))}
+                onChange={setBuyAccounts}
                 className={styles.multiSelect}
               />
 
