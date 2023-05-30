@@ -53,6 +53,11 @@
     }
   }
 
+  &__lastSyncedAt {
+    @include typography.textSM;
+    color: var(--color-gray-500);
+  }
+
   &__expandButton {
     display: flex;
     align-items: center;

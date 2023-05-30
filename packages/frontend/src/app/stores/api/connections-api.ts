@@ -82,4 +82,11 @@ export class ConnectionsApi extends ApiRepository implements IConnectionsApi {
       url: `/v1/connections/${connectionId}/accounts/${connectionAccountId}/unlink`,
     });
   }
+
+  syncConnectionAccount(connectionId: string, connectionAccountId: string): Promise<void> {
+    return this.fetch<void>({
+      method: 'POST',
+      url: `/v1/connections/${connectionId}/accounts/${connectionAccountId}/sync`,
+    });
+  }
 }

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { ChevronRightIcon, Ling01Icon, LingBroken01Icon } from '@finex/ui-kit';
 import { IAccount } from '../../../types/connections';
-import { getT } from '../../../lib/core/i18n';
+import { formatDate, getT } from '../../../lib/core/i18n';
 
 import styles from './ConnectionAccountCard.module.scss';
 
@@ -15,7 +15,7 @@ export interface AccountCardProps {
 const t = getT('ConnectionAccountCard');
 
 export function ConnectionAccountCard({ account: connectionAccount, onClick }: AccountCardProps): JSX.Element {
-  const { providerAccountName, providerAccountProduct, account } = connectionAccount;
+  const { providerAccountName, providerAccountProduct, account, lastSyncedAt } = connectionAccount;
 
   const handleClick = () => {
     onClick(connectionAccount);
@@ -33,6 +33,11 @@ export function ConnectionAccountCard({ account: connectionAccount, onClick }: A
       <div className={styles.root__content}>
         <div className={styles.root__providerAccount}>{providerAccountFullName}</div>
         <div className={styles.root__linkedAccount}>{isLinked ? account!.name : t('No linked account')}</div>
+        {lastSyncedAt && (
+          <div className={styles.root__lastSyncedAt}>
+            {t('Last synced at')} {formatDate(lastSyncedAt, 'date.format.full')}
+          </div>
+        )}
       </div>
       <div className={styles.root__expandButton}>
         <ChevronRightIcon />

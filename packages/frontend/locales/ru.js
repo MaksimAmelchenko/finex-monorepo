@@ -282,16 +282,19 @@ module.exports = {
   },
   ConnectionAccountCard: {
     'No linked account': 'Нет привязанного счёта',
+    'Last synced at': 'Последняя синхронизация: ',
   },
   ConnectionAccountWindow: {
     'The account is already linked_ Please choose another account or unlink this one first_':
       'Счёт уже привязан. Пожалуйста, выберите другой счёт или сначала отвяжите этот.',
+    'Syncing is finished': 'Синхронизация завершена',
     'Please select account': 'Пожалуйста, выберите счёт',
     'Please select date': 'Пожалуйста, выберите дату',
     'Link accounts': 'Связать счета',
     'Bank account': 'Банковский счёт',
     'Linked account': 'Привязанный счёт',
     'Sync transactions from': 'Синхронизировать операции с',
+    'Sync Now': 'Синхронизировать сейчас',
     Save: 'Сохранить',
   },
   ConnectionNordigenCompleteMobile: {

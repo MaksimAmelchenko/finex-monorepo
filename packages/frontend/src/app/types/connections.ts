@@ -104,4 +104,6 @@ export interface IConnectionsApi {
   ): Promise<UpdateConnectionAccountResponse>;
 
   unlinkConnectionAccount(connectionId: string, accountId: string): Promise<UnlinkConnectionAccountResponse>;
+
+  syncConnectionAccount(connectionId: string, accountId: string): Promise<void>;
 }

@@ -279,16 +279,19 @@ module.exports = {
   },
   ConnectionAccountCard: {
     'No linked account': 'No linked account',
+    'Last synced at': 'Last synced at',
   },
   ConnectionAccountWindow: {
     'The account is already linked_ Please choose another account or unlink this one first_':
       'The account is already linked. Please choose another account or unlink this one first.',
+    'Syncing is finished': 'Syncing is finished',
     'Please select account': 'Please select account',
     'Please select date': 'Please select date',
     'Link accounts': 'Link accounts',
     'Bank account': 'Bank account',
     'Linked account': 'Linked account',
     'Sync transactions from': 'Sync transactions from',
+    'Sync Now': 'Sync Now',
     Save: 'Save',
   },
   ConnectionNordigenCompleteMobile: {

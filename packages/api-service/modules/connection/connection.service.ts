@@ -1,4 +1,4 @@
-import { format, parse } from 'date-fns';
+import { format, parse, parseISO, subDays, subMonths } from 'date-fns';
 
 import { AccountService } from '../../services/account';
 import {
@@ -17,7 +17,7 @@ import {
 import { ContractorGateway } from '../../services/contractor/gateway';
 import { ContractorService } from '../../services/contractor';
 import { CreateCashFlowItemServiceData } from '../cash-flow-item/types';
-import { IRequestContext } from '../../types/app';
+import { IRequestContext, TDate } from '../../types/app';
 import { InternalError, InvalidParametersError, NotFoundError } from '../../libs/errors';
 import { captureException } from '../../libs/sentry';
 import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
@@ -133,8 +133,13 @@ class ConnectionServiceImpl implements ConnectionService {
 
     let transactions: INormalizedTransaction[] = [];
     if (connection.provider === ConnectionProvider.Nordigen) {
+      // the first time sync for all available time period, then sync for the last month
+      const dateFrom: TDate = account.lastSyncedAt
+        ? format(subMonths(parseISO(account.lastSyncedAt), 1), 'yyyy-MM-dd')
+        : account.syncFrom ?? '';
+
       transactions = await nordigenService
-        .getTransactions(ctx, account.providerAccountId, account.syncFrom ?? '')
+        .getTransactions(ctx, account.providerAccountId, dateFrom)
         .then(({ transactions }) => {
           return nordigenETL.transform(ctx.log, connection, account, transactions, {
             cashAccountId: cashAccount ? String(cashAccount.idAccount) : undefined,
