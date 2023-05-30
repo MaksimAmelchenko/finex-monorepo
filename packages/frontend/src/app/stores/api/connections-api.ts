@@ -42,12 +42,17 @@ export class ConnectionsApi extends ApiRepository implements IConnectionsApi {
     });
   }
 
-  createNordigenRequisition(institutionId: string): Promise<CreateRequisitionResponse> {
+  createNordigenRequisition(
+    institutionId: string,
+    options: { isRetrieveMaxPeriodTransactions: boolean }
+  ): Promise<CreateRequisitionResponse> {
+    const { isRetrieveMaxPeriodTransactions } = options;
     return this.fetch<CreateRequisitionResponse>({
       method: 'POST',
       url: '/v1/connections/nordigen/requisitions',
       body: {
         institutionId,
+        isRetrieveMaxPeriodTransactions,
       },
     });
   }

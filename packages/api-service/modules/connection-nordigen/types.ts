@@ -63,7 +63,7 @@ export interface IRequisition extends IRequisitionEntity {}
    "institution_id":"REVOLUT_REVOGB21"
 }
 * */
-export interface IAgreementNordigen {
+export interface IAgreement {
   id: string;
   created: TDateTime;
   max_historical_days: number;
@@ -202,6 +202,7 @@ export interface CreateRequisitionRepositoryData {
 export interface CreateRequisitionServiceData {
   institutionId: string;
   origin: TUrl;
+  isRetrieveMaxPeriodTransactions: boolean;
 }
 
 export interface UpdateRequisitionRepositoryChanges {

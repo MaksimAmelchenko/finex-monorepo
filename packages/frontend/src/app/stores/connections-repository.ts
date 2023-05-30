@@ -88,8 +88,11 @@ export class ConnectionsRepository extends ManageableStore {
       );
   }
 
-  createNordigenRequisition(institutionId: string): Promise<CreateRequisitionResponse> {
-    return this.api.createNordigenRequisition(institutionId);
+  createNordigenRequisition(
+    institutionId: string,
+    options: { isRetrieveMaxPeriodTransactions: boolean }
+  ): Promise<CreateRequisitionResponse> {
+    return this.api.createNordigenRequisition(institutionId, options);
   }
 
   completeNordigenRequisition(requisitionId: string): Promise<CompleteRequisitionResponse> {

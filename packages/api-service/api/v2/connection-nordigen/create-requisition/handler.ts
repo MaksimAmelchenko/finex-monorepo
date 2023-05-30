@@ -4,15 +4,20 @@ import { nordigenService } from '../../../../modules/connection-nordigen/nordige
 
 interface IRequestParams {
   institutionId: string;
+  isRetrieveMaxPeriodTransactions?: boolean;
 }
 export async function handler(ctx: IRequestContext<IRequestParams, true>): Promise<IResponse> {
   const {
     projectId,
     userId,
-    params: { institutionId },
+    params: { institutionId, isRetrieveMaxPeriodTransactions = false },
     additionalParams: { origin },
   } = ctx;
-  const requisition = await nordigenService.createRequisition(ctx, projectId, userId, { institutionId, origin });
+  const requisition = await nordigenService.createRequisition(ctx, projectId, userId, {
+    institutionId,
+    origin,
+    isRetrieveMaxPeriodTransactions,
+  });
 
   return {
     body: {

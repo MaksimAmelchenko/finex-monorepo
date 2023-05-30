@@ -1,7 +1,7 @@
 import * as NordigenClient from 'nordigen-node';
 import * as uuid from 'uuid';
 import type NordigenClientType from 'nordigen-node';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 
 import config from '../../libs/config';
 import {
@@ -15,10 +15,11 @@ import { ConflictError, NotFoundError } from '../../libs/errors';
 import {
   CreateRequisitionServiceData,
   IAccountNordigen,
+  IAgreement,
   IInstitution,
+  INordigenTransactions,
   IRequisition,
   IRequisitionNordigen,
-  INordigenTransactions,
   NordigenService,
 } from './types';
 import { IRequestContext, TDate } from '../../types/app';
@@ -54,6 +55,10 @@ class NordigenServiceImpl implements NordigenService {
     return this.client.institution.getInstitutionById(institutionId);
   }
 
+  async getAgreement(ctx: IRequestContext<unknown, true>, agreementId: string): Promise<IAgreement> {
+    return this.client.agreement.getAgreementById(agreementId);
+  }
+
   async createRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
@@ -61,18 +66,15 @@ class NordigenServiceImpl implements NordigenService {
     data: CreateRequisitionServiceData
   ): Promise<IRequisition> {
     const { locale } = ctx.params;
-    const { institutionId, origin } = data;
+    const { institutionId, origin, isRetrieveMaxPeriodTransactions } = data;
     const requisitionId = uuid.v4();
 
     const institution = await this.getInstitution(ctx, institutionId);
 
-    // take 6 months as a default value
-    const date = new Date();
-    const beginningOfMonth = new Date(date.getFullYear(), date.getMonth() - 6, 1);
-    const maxHistoricalDays = Math.min(
-      Math.round((date.getTime() - beginningOfMonth.getTime()) / (1000 * 3600 * 24)) + 1,
-      Number(institution.transaction_total_days)
-    );
+    let maxHistoricalDays: number | undefined = undefined;
+    if (isRetrieveMaxPeriodTransactions) {
+      maxHistoricalDays = Number(institution.transaction_total_days);
+    }
 
     const requisitionNordigen: IRequisitionNordigen = await this.client.initSession({
       redirectUrl: `${origin}/connections/nordigen/requisitions/complete`,
@@ -139,7 +141,10 @@ class NordigenServiceImpl implements NordigenService {
       throw new NotFoundError('Requisition not found');
     }
 
-    const institution = await this.getInstitution(ctx, requisition.institutionId);
+    const [institution, agreement] = await Promise.all([
+      this.getInstitution(ctx, requisition.institutionId),
+      this.getAgreement(ctx, requisitionNordigen.agreement),
+    ]);
 
     const connection = await connectionService.createConnection(ctx, projectId, userId, {
       institutionId: institution.id,
@@ -154,8 +159,7 @@ class NordigenServiceImpl implements NordigenService {
       connectionId: connection.id,
     });
 
-    const date = new Date();
-    const beginningOfMonth = new Date(date.getFullYear(), date.getMonth() - 6, 1);
+    const syncFrom = subDays(new Date(), Number(agreement.max_historical_days));
 
     const nordigenAccounts = await this.getAccounts(ctx, projectId, userId, requisition.id);
     await Promise.all(
@@ -165,7 +169,7 @@ class NordigenServiceImpl implements NordigenService {
           providerAccountName: name,
           providerAccountProduct: product,
           accountId: null,
-          syncFrom: format(beginningOfMonth, 'yyyy-MM-dd'),
+          syncFrom: format(syncFrom, 'yyyy-MM-dd'),
         })
       )
     );

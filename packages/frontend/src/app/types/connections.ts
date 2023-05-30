@@ -33,6 +33,7 @@ export interface IAccountDTO {
   providerAccountProduct: string;
   accountId: string | null;
   syncFrom: TDate | null;
+  lastSyncedAt: TDate | null;
 }
 
 export interface IConnection extends Omit<IConnectionDTO, 'accounts'> {
@@ -46,6 +47,7 @@ export interface IAccount {
   providerAccountProduct: string;
   account: Account | null;
   syncFrom: TDate | null;
+  lastSyncedAt: TDate | null;
 }
 
 export interface GetCountriesResponse {
@@ -81,11 +83,20 @@ export interface CompleteRequisitionResponse {
 
 export interface IConnectionsApi {
   getConnections: () => Promise<GetConnectionsResponse>;
+
   deleteConnection: (connectionId: string) => Promise<void>;
+
   getCountries: () => Promise<GetCountriesResponse>;
+
   getInstitutions: (country: string) => Promise<GetInstitutionsResponse>;
-  createNordigenRequisition(institutionId: string): Promise<CreateRequisitionResponse>;
+
+  createNordigenRequisition(
+    institutionId: string,
+    options: { isRetrieveMaxPeriodTransactions: boolean }
+  ): Promise<CreateRequisitionResponse>;
+
   completeNordigenRequisition(requisitionId: string): Promise<CompleteRequisitionResponse>;
+
   updateConnectionAccount(
     connectionId: string,
     accountId: string,

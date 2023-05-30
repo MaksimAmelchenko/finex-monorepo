@@ -8,6 +8,9 @@ export const createRequisitionParamsSchema: OpenAPIV3_1.SchemaObject = {
     institutionId: {
       type: 'string',
     },
+    isRetrieveMaxPeriodTransactions: {
+      type: 'boolean',
+    },
     locale,
   },
   additionalProperties: false,

@@ -307,6 +307,8 @@ module.exports = {
       'Синхронизируйте транзакции с вашими банковскими счетами для автоматического учета ваших финансов.',
     'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
       'Ваши данные в безопасности. Мы не храним ваши логины и пароли, имеем только доступ на чтение данных и не можем совершать платежи от вашего имени. Вы можете отозвать разрешение на доступ к своим данным в любое время.',
+    'Retrieve my transactions for the maximum available period':
+      'Получить мои транзакции за максимальный доступный период',
     'Connect bank': 'Подключить банк',
   },
   ConnectionWindow: {

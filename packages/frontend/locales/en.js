@@ -304,6 +304,8 @@ module.exports = {
       'Synchronize transactions with your bank accounts for automatic accounting of your finances.',
     'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
       'Your data is safe. We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf. You can revoke permission to access your data at any time.',
+    'Retrieve my transactions for the maximum available period':
+      'Retrieve my transactions for the maximum available period',
     'Connect bank': 'Connect bank',
   },
   ConnectionWindow: {

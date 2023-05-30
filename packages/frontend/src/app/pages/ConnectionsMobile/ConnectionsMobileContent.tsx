@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { AddConnectionWindow } from './AddConnectionWindow/AddConnectionWindow';
 import { BackButton, Header } from '../../components/Header/Header';
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, Checkbox, PlusIcon } from '@finex/ui-kit';
 import { ConnectionsRepository } from '../../stores/connections-repository';
 import { Container } from '../../components/Container/Container';
 import { InstitutionCard } from './InstitutionCard/InstitutionCard';
@@ -27,6 +27,7 @@ export interface ConnectionsMobileContentProps {
 export const ConnectionsMobileContent = observer<ConnectionsMobileContentProps>(({ onClose }) => {
   const connectionsRepository = useStore(ConnectionsRepository);
   const appStore = useStore(AppStore);
+  const [isRetrieveMaxPeriodTransactions, setIsRetrieveMaxPeriodTransactions] = useState<boolean>(true);
 
   const [connectionId, setConnectionId] = useState<string | null>(
     appStore.settingSideSheetParams?.connectionId ?? null
@@ -69,6 +70,15 @@ export const ConnectionsMobileContent = observer<ConnectionsMobileContentProps>(
                     'Your data is safe. We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf. You can revoke permission to access your data at any time.'
                   )}
                 </p>
+                <br />
+
+                <Checkbox
+                  size="md"
+                  value={isRetrieveMaxPeriodTransactions}
+                  onChange={setIsRetrieveMaxPeriodTransactions}
+                >
+                  {t('Retrieve my transactions for the maximum available period')}
+                </Checkbox>
               </>
             }
           >
@@ -92,7 +102,10 @@ export const ConnectionsMobileContent = observer<ConnectionsMobileContentProps>(
       </SideSheetBody>
 
       <SideSheetMobile open={isOpenedAddConnectionWindow}>
-        <AddConnectionWindow onClose={() => setIsOpenedAddConnectionWindow(false)} />
+        <AddConnectionWindow
+          isRetrieveMaxPeriodTransactions={isRetrieveMaxPeriodTransactions}
+          onClose={() => setIsOpenedAddConnectionWindow(false)}
+        />
       </SideSheetMobile>
 
       <SideSheetMobile open={Boolean(connection)}>
