@@ -151,7 +151,6 @@ module.exports = {
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
-    'Please select category': 'Пожалуйста, выберите категорию',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
@@ -298,10 +297,10 @@ module.exports = {
     Save: 'Сохранить',
   },
   ConnectionNordigenCompleteMobile: {
-    'Connection failed': 'Connection failed',
+    'Connection failed': 'Подключение не удалось',
     'Something went wrong_ Please try again_ If the problem persists, please contact our support team':
-      'Something went wrong. Please try again. If the problem persists, please contact our support team',
-    'Try again': 'Try again',
+      'Что-то пошло не так. Пожалуйста, попробуйте ещё раз. Если проблема не исчезнет, обратитесь в нашу службу поддержки',
+    'Try again': 'Попробовать ещё раз',
   },
   Connections: {
     'Bank connections': 'Подключение к банкам',
@@ -1036,7 +1035,6 @@ module.exports = {
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
-    'Please select category': 'Пожалуйста, выберите категорию',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
@@ -1069,7 +1067,6 @@ module.exports = {
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select money': 'Пожалуйста, выберите валюту',
-    'Please select category': 'Пожалуйста, выберите категорию',
     'Please select account': 'Пожалуйста, выберите счёт',
     'Add transaction': 'Добавление операции',
     'Edit transaction': 'Редактирование операции',
@@ -1158,8 +1155,8 @@ module.exports = {
     'Note, Tags': 'Примечание, Теги',
     Note: 'Примечание',
     Tags: 'Теги',
-    'Save and Create New': 'Save and Create New',
-    Save: 'Save',
+    'Save and Create New': 'Сохранить и создать ещё',
+    Save: 'Сохранить',
   },
   Units: {
     'Are you sure you want to delete several units?': 'Вы уверены, что хотите удалить несколько единиц измерений?',
