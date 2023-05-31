@@ -21,11 +21,11 @@ export const findTransfersParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     startDate: date,
     endDate: date,
-    accountsFrom: {
+    fromAccounts: {
       type: 'string',
       example: '1,2,3',
     },
-    accountsTo: {
+    toAccounts: {
       type: 'string',
       example: '1,2,3',
     },

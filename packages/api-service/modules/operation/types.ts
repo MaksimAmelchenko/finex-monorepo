@@ -8,7 +8,7 @@ export interface IOperationTransactionDAO {
   amount: number;
   moneyId: number;
   accountId: number;
-  categoryId: number;
+  categoryId: number | null;
   operationDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -29,7 +29,7 @@ export interface IOperationTransactionDTO {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -83,13 +83,13 @@ export interface IOperationTransferDAO {
   id: number;
   amount: number;
   moneyId: number;
-  accountFromId: number;
-  accountToId: number;
+  fromAccountId: number;
+  toAccountId: number;
   operationDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFeeId: number | null;
-  accountFeeId: number | null;
+  feeMoneyId: number | null;
+  feeAccountId: number | null;
   note: string | null;
   tags: number[] | null;
   userId: number;
@@ -100,13 +100,13 @@ export interface IOperationTransferDTO {
   id: string;
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   transferDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tags: string[];
   userId: string;
@@ -115,20 +115,20 @@ export interface IOperationTransferDTO {
 export interface IOperationExchangeDAO {
   operationType: 'exchange';
   id: number;
-  amountSell: number;
-  moneySellId: number;
-  accountSellId: number;
+  sellAmount: number;
+  sellMoneyId: number;
+  sellAccountId: number;
 
-  amountBuy: number;
-  moneyBuyId: number;
-  accountBuyId: number;
+  buyAmount: number;
+  buyMoneyId: number;
+  buyAccountId: number;
 
   operationDate: TDate;
   reportPeriod: TDate;
 
   fee: number | null;
-  moneyFeeId: number | null;
-  accountFeeId: number | null;
+  feeMoneyId: number | null;
+  feeAccountId: number | null;
 
   note: string | null;
   tags: number[] | null;
@@ -138,20 +138,20 @@ export interface IOperationExchangeDAO {
 export interface IOperationExchangeDTO {
   operationType: 'exchange';
   id: string;
-  amountSell: number;
-  moneySellId: string;
-  accountSellId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  sellAccountId: string;
 
-  amountBuy: number;
-  moneyBuyId: string;
-  accountBuyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  buyAccountId: string;
 
   exchangeDate: TDate;
   reportPeriod: TDate;
 
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
 
   note: string;
   tags: string[];

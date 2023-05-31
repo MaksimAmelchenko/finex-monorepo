@@ -10,17 +10,17 @@ import { User } from './user';
 export class Exchange implements IExchange, ISelectable, IDeletable {
   readonly id: string;
   user: User;
-  amountSell: number;
-  moneySell: Money;
-  amountBuy: number;
-  moneyBuy: Money;
-  accountSell: Account;
-  accountBuy: Account;
+  sellAmount: number;
+  sellMoney: Money;
+  buyAmount: number;
+  buyMoney: Money;
+  sellAccount: Account;
+  buyAccount: Account;
   exchangeDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
+  feeMoney: Money | null;
+  feeAccount: Account | null;
   note: string;
   tags: Tag[];
   updatedAt: TDateTime;
@@ -31,34 +31,34 @@ export class Exchange implements IExchange, ISelectable, IDeletable {
   constructor({
     user,
     id,
-    amountSell,
-    moneySell,
-    amountBuy,
-    moneyBuy,
-    accountSell,
-    accountBuy,
+    sellAmount,
+    sellMoney,
+    buyAmount,
+    buyMoney,
+    sellAccount,
+    buyAccount,
     exchangeDate,
     reportPeriod,
     fee,
-    moneyFee,
-    accountFee,
+    feeMoney,
+    feeAccount,
     note,
     tags,
     updatedAt,
   }: IExchange) {
     this.user = user;
     this.id = id;
-    this.amountSell = amountSell;
-    this.moneySell = moneySell;
-    this.amountBuy = amountBuy;
-    this.moneyBuy = moneyBuy;
-    this.accountSell = accountSell;
-    this.accountBuy = accountBuy;
+    this.sellAmount = sellAmount;
+    this.sellMoney = sellMoney;
+    this.buyAmount = buyAmount;
+    this.buyMoney = buyMoney;
+    this.sellAccount = sellAccount;
+    this.buyAccount = buyAccount;
     this.exchangeDate = exchangeDate;
     this.reportPeriod = reportPeriod;
     this.fee = fee;
-    this.moneyFee = moneyFee;
-    this.accountFee = accountFee;
+    this.feeMoney = feeMoney;
+    this.feeAccount = feeAccount;
     this.note = note;
     this.tags = tags;
     this.updatedAt = updatedAt;

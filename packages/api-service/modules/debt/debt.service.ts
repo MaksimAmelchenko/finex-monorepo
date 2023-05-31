@@ -139,7 +139,7 @@ class DebtServiceImpl implements DebtService {
 
     const debtItems = await this.debtItemService.getDebtItems(ctx, projectId, userId, [debtId]);
 
-    for await (const debtItem of debtItems) {
+    for (const debtItem of debtItems) {
       if ((debtItem.permit & Permit.Update) === Permit.Update) {
         await this.cashFlowItemRepository.deleteCashFlowItem(ctx, projectId, debtItem.id);
       }

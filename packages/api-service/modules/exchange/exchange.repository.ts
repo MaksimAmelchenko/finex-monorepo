@@ -21,8 +21,8 @@ class ExchangeRepositoryImpl implements ExchangeRepository {
       searchText = null,
       startDate = null,
       endDate = null,
-      accountsSell,
-      accountsBuy,
+      sellAccounts,
+      buyAccounts,
       tags = null,
     } = params;
 
@@ -52,10 +52,10 @@ class ExchangeRepositoryImpl implements ExchangeRepository {
                t as
                  (select cf.user_id,
                          cf.id,
-                         cfd_sell.account_id account_sell_id,
-                         cfd_buy.account_id as account_buy_id,
+                         cfd_sell.account_id sell_account_id,
+                         cfd_buy.account_id as buy_account_id,
                          cfd_sell.cashflow_item_date as exchange_date,
-                         cfd_fee.account_id as account_fee_id,
+                         cfd_fee.account_id as fee_account_id,
                          cf.note,
                          cf.tags,
                          cf.updated_at
@@ -91,8 +91,8 @@ class ExchangeRepositoryImpl implements ExchangeRepository {
           from t
          where (:startDate::date is null or t.exchange_date >= :startDate::date)
            and (:endDate::date is null or t.exchange_date <= :endDate::date)
-           and (:accountsSell::int[] is null or t.account_sell_id in (select unnest(:accountsSell::int[])))
-           and (:accountsBuy::int[] is null or t.account_buy_id in (select unnest(:accountsBuy::int[])))
+           and (:sellAccounts::int[] is null or t.sell_account_id in (select unnest(:sellAccounts::int[])))
+           and (:buyAccounts::int[] is null or t.buy_account_id in (select unnest(:buyAccounts::int[])))
            and (:tags::int[] is null or t.tags && :tags::int[])
            and (
              :searchText::text is null
@@ -109,8 +109,8 @@ class ExchangeRepositoryImpl implements ExchangeRepository {
         searchText,
         startDate,
         endDate,
-        accountsSell: accountsSell ? accountsSell.map(Number) : null,
-        accountsBuy: accountsBuy ? accountsBuy.map(Number) : null,
+        sellAccounts: sellAccounts ? sellAccounts.map(Number) : null,
+        buyAccounts: buyAccounts ? buyAccounts.map(Number) : null,
         tags: tags ? tags.map(Number) : null,
         limit,
         offset,

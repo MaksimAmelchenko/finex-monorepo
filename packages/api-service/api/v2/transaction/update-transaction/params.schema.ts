@@ -20,7 +20,10 @@ export const updateTransactionParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     moneyId,
     accountId,
-    categoryId,
+    categoryId: {
+      ...categoryId,
+      type: ['string', 'null'],
+    },
     transactionDate: date,
     reportPeriod: date,
     quantity: {

@@ -263,11 +263,7 @@ export class TransactionsRepository extends ManageableStore {
         return acc;
       }
 
-      const category = categoriesRepository.get(categoryId);
-      if (!category) {
-        console.warn('Category not found', { transaction });
-        return acc;
-      }
+      const category = (categoryId && categoriesRepository.get(categoryId)) || null;
 
       const account = accountsRepository.get(accountId);
       if (!account) {
@@ -294,6 +290,10 @@ export class TransactionsRepository extends ManageableStore {
       }, []);
 
       if (isPlannedTransactionDTO(transaction)) {
+        if (!category) {
+          console.warn('Category not found', { transaction });
+          return acc;
+        }
         const { planId, repetitionNumber, markerColor, contractorId } = transaction;
         acc.push(
           new PlannedTransaction({

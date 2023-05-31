@@ -42,12 +42,17 @@ export class ConnectionsApi extends ApiRepository implements IConnectionsApi {
     });
   }
 
-  createNordigenRequisition(institutionId: string): Promise<CreateRequisitionResponse> {
+  createNordigenRequisition(
+    institutionId: string,
+    options: { isRetrieveMaxPeriodTransactions: boolean }
+  ): Promise<CreateRequisitionResponse> {
+    const { isRetrieveMaxPeriodTransactions } = options;
     return this.fetch<CreateRequisitionResponse>({
       method: 'POST',
       url: '/v1/connections/nordigen/requisitions',
       body: {
         institutionId,
+        isRetrieveMaxPeriodTransactions,
       },
     });
   }
@@ -75,6 +80,13 @@ export class ConnectionsApi extends ApiRepository implements IConnectionsApi {
     return this.fetch<UpdateConnectionAccountResponse>({
       method: 'PUT',
       url: `/v1/connections/${connectionId}/accounts/${connectionAccountId}/unlink`,
+    });
+  }
+
+  syncConnectionAccount(connectionId: string, connectionAccountId: string): Promise<void> {
+    return this.fetch<void>({
+      method: 'POST',
+      url: `/v1/connections/${connectionId}/accounts/${connectionAccountId}/sync`,
     });
   }
 }

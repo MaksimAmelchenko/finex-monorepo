@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import { format, parseISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
@@ -10,7 +10,7 @@ import { ConnectionsRepository } from '../../../stores/connections-repository';
 import { DateField } from '../../../components/DateField/DateField';
 import { Form, FormBody } from '../../../components/Form';
 import { IAccount, UpdateConnectionAccountChanges } from '../../../types/connections';
-import { Input, LingBroken01Icon } from '@finex/ui-kit';
+import { Button, Input, LingBroken01Icon } from '@finex/ui-kit';
 import { SaveButton } from '../../../components/FormSaveButton/FormSaveButton';
 import { Shape } from '../../../types';
 import { UpdateTransactionChanges } from '../../../types/transaction';
@@ -45,6 +45,8 @@ const t = getT('ConnectionAccountWindow');
 export const ConnectionAccountWindow = observer<ConnectionAccountWindowProps>(
   ({ connectionId, account: connectionAccount, onClose }) => {
     const connectionsRepository = useStore(ConnectionsRepository);
+
+    const [isSyncing, setIsSyncing] = useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -97,6 +99,25 @@ export const ConnectionAccountWindow = observer<ConnectionAccountWindowProps>(
           enqueueSnackbar(message, { variant: 'error' });
         });
     };
+    const handleSyncNowClick = () => {
+      setIsSyncing(true);
+      return connectionsRepository
+        .syncConnectionAccount(connectionId, connectionAccount.id)
+        .then(() => {
+          enqueueSnackbar(t('Syncing is finished'), { variant: 'success' });
+        })
+        .catch(err => {
+          let message = '';
+          switch (err.code) {
+            default:
+              message = err.message;
+          }
+          enqueueSnackbar(message, { variant: 'error' });
+        })
+        .finally(() => {
+          setIsSyncing(false);
+        });
+    };
 
     const validationSchema = useMemo(
       () =>
@@ -140,7 +161,10 @@ export const ConnectionAccountWindow = observer<ConnectionAccountWindowProps>(
         </FormBody>
 
         <footer className={styles.footer}>
-          <SaveButton type="submit" variant="primary" isIgnoreValidation>
+          <Button variant="secondaryGray" onClick={handleSyncNowClick} loading={isSyncing}>
+            {t('Sync Now')}
+          </Button>
+          <SaveButton type="submit" variant="primary" isIgnoreValidation disabled={isSyncing}>
             {t('Save')}
           </SaveButton>
         </footer>

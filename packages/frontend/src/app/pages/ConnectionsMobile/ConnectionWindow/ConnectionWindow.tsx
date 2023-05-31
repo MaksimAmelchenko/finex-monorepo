@@ -11,14 +11,14 @@ import { SideSheetMobile } from '../../../components/SideSheetMobile/SideSheetMo
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
-interface ConnectionsWindowProps {
+interface ConnectionWindowProps {
   connection: IConnection;
   onClose: () => void;
 }
 
 const t = getT('ConnectionWindow');
 
-export const ConnectionWindow = observer(({ connection, onClose }: ConnectionsWindowProps) => {
+export const ConnectionWindow = observer<ConnectionWindowProps>(({ connection, onClose }) => {
   const connectionsRepository = useStore(ConnectionsRepository);
 
   const [account, setAccount] = React.useState<IAccount | null>(null);

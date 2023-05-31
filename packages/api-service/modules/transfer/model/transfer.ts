@@ -6,11 +6,11 @@ export class Transfer implements ITransfer {
   readonly id: string;
   amount: number;
   moneyId: string;
-  accountFromId: string;
-  accountToId: string;
+  fromAccountId: string;
+  toAccountId: string;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   transferDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -22,13 +22,13 @@ export class Transfer implements ITransfer {
     id,
     amount,
     moneyId,
-    accountFromId,
-    accountToId,
+    fromAccountId,
+    toAccountId,
     transferDate,
     reportPeriod,
     fee,
-    moneyFeeId,
-    accountFeeId,
+    feeMoneyId,
+    feeAccountId,
     note,
     tags,
     updatedAt,
@@ -37,13 +37,13 @@ export class Transfer implements ITransfer {
     this.id = id;
     this.amount = amount;
     this.moneyId = moneyId;
-    this.accountFromId = accountFromId;
-    this.accountToId = accountToId;
+    this.fromAccountId = fromAccountId;
+    this.toAccountId = toAccountId;
     this.transferDate = transferDate;
     this.reportPeriod = reportPeriod;
     this.fee = fee;
-    this.moneyFeeId = moneyFeeId;
-    this.accountFeeId = accountFeeId;
+    this.feeMoneyId = feeMoneyId;
+    this.feeAccountId = feeAccountId;
     this.note = note;
     this.tags = tags;
     this.updatedAt = updatedAt;

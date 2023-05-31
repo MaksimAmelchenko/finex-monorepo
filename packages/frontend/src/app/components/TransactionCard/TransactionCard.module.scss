@@ -66,6 +66,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     @include typography.textMD;
+
+    &_uncategorized {
+      color: var(--color-gray-300);
+    }
   }
 
   &__amount {

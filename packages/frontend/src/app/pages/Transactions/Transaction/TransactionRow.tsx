@@ -38,7 +38,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
   return (
     <tr
       onClick={handleClick}
-      className={clsx(styles.row, isDeleting && styles.row_is_deleting, isHighlighted && styles.row_isHighlighted)}
+      className={clsx(styles.root, isDeleting && styles.root_is_deleting, isHighlighted && styles.root_isHighlighted)}
     >
       <td className={clsx(styles.firstColumn, 'min-width')} onClick={handleOnSelect}>
         <div
@@ -80,12 +80,14 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
       </td>
 
       <td>
-        <div>{category.name}</div>
-        <div className={styles.categoryPath}>{category.fullPath()}</div>
+        <div className={clsx(styles.root__category, !category && styles.root__category_uncategorized)}>
+          {category?.name || t('Uncategorized')}
+        </div>
+        {category && <div className={styles.root__categoryPath}>{category.fullPath()}</div>}
       </td>
 
       {sign === 1 ? (
-        <td className="text-end hidden-sm hidden-md">
+        <td className="text-end hidden-sm hidden-md numeric">
           {toCurrency(amount, { unit: money.symbol, precision: money.precision })}
         </td>
       ) : (
@@ -93,14 +95,14 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
       )}
 
       {sign === -1 ? (
-        <td className="text-end hidden-sm hidden-md">
+        <td className="text-end hidden-sm hidden-md numeric">
           {toCurrency(-amount, { unit: money.symbol, precision: money.precision })}
         </td>
       ) : (
         <td className="hidden-sm hidden-md" />
       )}
 
-      <td className="text-end hidden-lg">
+      <td className="text-end hidden-lg numeric">
         {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
       </td>
 

@@ -2,21 +2,79 @@ import { ICashFlowDAO } from '../cash-flow/types';
 import { ICashFlowItemDAO } from '../cash-flow-item/types';
 import { InternalError } from '../../libs/errors';
 import { Transfer } from './model/transfer';
-import { TransferMapper, ITransfer, ITransferDTO } from './types';
+import { TransferMapper, ITransfer, ITransferDTO, ITransferDAO } from './types';
 
 class TransferMapperImpl implements TransferMapper {
+  toDAO(
+    { userId, id, note, tags, updatedAt }: ICashFlowDAO,
+    cashFlowItems: ICashFlowItemDAO[],
+    transferCategoryId: string,
+    transferFeeCategoryId: string
+  ): ITransferDAO {
+    let amount: number | undefined;
+    let moneyId: number | undefined;
+    let fromAccountId: number | undefined;
+    let toAccountId: number | undefined;
+    let fee: number | null = null;
+    let feeMoneyId: number | null = null;
+    let feeAccountId: number | null = null;
+    let transferDate: string | undefined;
+    let reportPeriod: string | undefined;
+
+    for (const cashFlowItem of cashFlowItems) {
+      if (String(cashFlowItem.categoryId) === transferCategoryId && cashFlowItem.sign === -1) {
+        amount = cashFlowItem.amount;
+        moneyId = cashFlowItem.moneyId;
+        fromAccountId = cashFlowItem.accountId;
+        transferDate = cashFlowItem.cashflowItemDate;
+        reportPeriod = cashFlowItem.reportPeriod;
+      }
+
+      if (String(cashFlowItem.categoryId) === transferCategoryId && cashFlowItem.sign === 1) {
+        toAccountId = cashFlowItem.accountId;
+      }
+
+      if (String(cashFlowItem.categoryId) === transferFeeCategoryId) {
+        fee = cashFlowItem.amount;
+        feeMoneyId = cashFlowItem.moneyId;
+        feeAccountId = cashFlowItem.accountId;
+      }
+    }
+
+    if (!amount || !moneyId || !fromAccountId || !toAccountId || !transferDate || !reportPeriod) {
+      throw new InternalError('Transfer record is corrupted');
+    }
+
+    return {
+      userId,
+      id,
+      amount,
+      moneyId,
+      fromAccountId,
+      toAccountId,
+      fee,
+      feeMoneyId,
+      feeAccountId,
+      transferDate,
+      reportPeriod,
+      note,
+      tags,
+      updatedAt,
+    };
+  }
+
   toDTO({
     userId,
     id,
     amount,
     moneyId,
-    accountFromId,
-    accountToId,
+    fromAccountId,
+    toAccountId,
     transferDate,
     reportPeriod,
     fee,
-    moneyFeeId,
-    accountFeeId,
+    feeMoneyId,
+    feeAccountId,
     note,
     tags,
     updatedAt,
@@ -25,13 +83,13 @@ class TransferMapperImpl implements TransferMapper {
       id,
       amount,
       moneyId,
-      accountFromId,
-      accountToId,
+      fromAccountId,
+      toAccountId,
       transferDate,
       reportPeriod,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       note,
       tags,
       updatedAt,
@@ -39,56 +97,34 @@ class TransferMapperImpl implements TransferMapper {
     };
   }
 
-  toDomain(
-    { userId, id, note, tags, updatedAt }: ICashFlowDAO,
-    cashFlowItems: ICashFlowItemDAO[],
-    transferCategoryId: string,
-    transferFeeCategoryId: string
-  ): ITransfer {
-    let amount: number | undefined;
-    let moneyId: string | undefined;
-    let accountFromId: string | undefined;
-    let accountToId: string | undefined;
-    let fee: number | null = null;
-    let moneyFeeId: string | null = null;
-    let accountFeeId: string | null = null;
-    let transferDate: string | undefined;
-    let reportPeriod: string | undefined;
-
-    for (const cashFlowItem of cashFlowItems) {
-      if (String(cashFlowItem.categoryId) === transferCategoryId && cashFlowItem.sign === -1) {
-        amount = cashFlowItem.amount;
-        moneyId = String(cashFlowItem.moneyId);
-        accountFromId = String(cashFlowItem.accountId);
-        transferDate = cashFlowItem.cashflowItemDate;
-        reportPeriod = cashFlowItem.reportPeriod;
-      }
-
-      if (String(cashFlowItem.categoryId) === transferCategoryId && cashFlowItem.sign === 1) {
-        accountToId = String(cashFlowItem.accountId);
-      }
-
-      if (String(cashFlowItem.categoryId) === transferFeeCategoryId) {
-        fee = cashFlowItem.amount;
-        moneyFeeId = String(cashFlowItem.moneyId);
-        accountFeeId = String(cashFlowItem.accountId);
-      }
-    }
-
-    if (!amount || !moneyId || !accountFromId || !accountToId || !transferDate || !reportPeriod) {
-      throw new InternalError('Transfer record is corrupted');
-    }
+  toDomain(transferDAO: ITransferDAO): ITransfer {
+    const {
+      userId,
+      id,
+      amount,
+      moneyId,
+      fromAccountId,
+      toAccountId,
+      fee,
+      feeMoneyId,
+      feeAccountId,
+      transferDate,
+      reportPeriod,
+      note,
+      tags,
+      updatedAt,
+    } = transferDAO;
 
     return new Transfer({
       userId: String(userId),
       id: String(id),
       amount,
-      moneyId,
-      accountFromId,
-      accountToId,
+      moneyId: String(moneyId),
+      fromAccountId: String(fromAccountId),
+      toAccountId: String(toAccountId),
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId: feeMoneyId ? String(feeMoneyId) : null,
+      feeAccountId: feeAccountId ? String(feeAccountId) : null,
       transferDate,
       reportPeriod,
       note: note || '',

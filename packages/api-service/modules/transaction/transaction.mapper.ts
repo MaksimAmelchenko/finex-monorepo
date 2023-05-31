@@ -67,7 +67,7 @@ class TransactionMapperImpl implements TransactionMapper {
       sign,
       amount,
       moneyId: String(moneyId),
-      categoryId: String(categoryId),
+      categoryId: categoryId ? String(categoryId) : null,
       accountId: String(accountId),
       contractorId: contractorId ? String(contractorId) : null,
       transactionDate,

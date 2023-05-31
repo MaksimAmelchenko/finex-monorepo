@@ -29,6 +29,8 @@ export interface CategoryPrototypeService {
   getCategoryPrototype(ctx: IRequestContext, categoryPrototypeId: string): Promise<ICategoryPrototype>;
 
   getCategoryPrototypes(ctx: IRequestContext): Promise<ICategoryPrototype[]>;
+
+  getSortedCategoryPrototypes(ctx: IRequestContext): Promise<ICategoryPrototype[]>;
 }
 
 export interface CategoryPrototypeMapper {

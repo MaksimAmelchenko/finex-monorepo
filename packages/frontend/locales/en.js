@@ -136,11 +136,13 @@ module.exports = {
     Overdue: 'Overdue',
     Planned: 'Planned',
     'Not confirmed': 'Not confirmed',
+    Uncategorized: 'Uncategorized',
   },
   CashFlowCard: {
     'Cash Inflows': 'Cash Inflows',
     'Cash Outflows': 'Cash Outflows',
     'Empty Cash Flow': 'Empty Cash Flow',
+    Uncategorized: 'Uncategorized',
   },
   CashFlowItem: {
     Income: 'Income',
@@ -148,7 +150,6 @@ module.exports = {
     'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
-    'Please select category': 'Please select category',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
@@ -172,6 +173,9 @@ module.exports = {
     Cancel: 'Cancel',
     Save: 'Save',
     'Save and Create New': 'Save and Create New',
+  },
+  CashFlowItemRow: {
+    Uncategorized: 'Uncategorized',
   },
   CashFlows: {
     'Are you sure you want to delete several cash flows?': 'Are you sure you want to delete several cash flows?',
@@ -274,16 +278,19 @@ module.exports = {
   },
   ConnectionAccountCard: {
     'No linked account': 'No linked account',
+    'Last synced at': 'Last synced at',
   },
   ConnectionAccountWindow: {
     'The account is already linked_ Please choose another account or unlink this one first_':
       'The account is already linked. Please choose another account or unlink this one first.',
+    'Syncing is finished': 'Syncing is finished',
     'Please select account': 'Please select account',
     'Please select date': 'Please select date',
     'Link accounts': 'Link accounts',
     'Bank account': 'Bank account',
     'Linked account': 'Linked account',
     'Sync transactions from': 'Sync transactions from',
+    'Sync Now': 'Sync Now',
     Save: 'Save',
   },
   ConnectionNordigenCompleteMobile: {
@@ -299,6 +306,8 @@ module.exports = {
       'Synchronize transactions with your bank accounts for automatic accounting of your finances.',
     'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
       'Your data is safe. We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf. You can revoke permission to access your data at any time.',
+    'Retrieve my transactions for the maximum available period':
+      'Retrieve my transactions for the maximum available period',
     'Connect bank': 'Connect bank',
   },
   ConnectionWindow: {
@@ -870,6 +879,7 @@ module.exports = {
   },
   ReportsRepository: {
     'Something went wrong, please try again later': 'Something went wrong, please try again later',
+    Uncategorized: 'Uncategorized',
   },
   ResetPassword: {
     'Please enter your e-mail address': 'Please enter your e-mail address',
@@ -994,6 +1004,9 @@ module.exports = {
   Tools: {
     Tools: 'Tools',
   },
+  TransactionCard: {
+    Uncategorized: 'Uncategorized',
+  },
   Transactions: {
     'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',
     'Incomes and Expenses - Transactions': 'Incomes and Expenses - Transactions',
@@ -1021,7 +1034,6 @@ module.exports = {
     'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
-    'Please select category': 'Please select category',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
@@ -1054,7 +1066,6 @@ module.exports = {
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
     'Please select money': 'Please select money',
-    'Please select category': 'Please select category',
     'Please select account': 'Please select account',
     'Add transaction': 'Add transaction',
     'Edit transaction': 'Edit transaction',

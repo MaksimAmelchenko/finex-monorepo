@@ -13,12 +13,12 @@ import {
 } from '@table-library/react-table-library/table';
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
-import { TableNode } from '@table-library/react-table-library/types/table';
 import { add, differenceInMonths, format, formatISO } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import { useTheme } from '@table-library/react-table-library/theme';
 
 import { ChevronRightIcon, SortDownIcon, SortIcon, SortUpIcon } from '@finex/ui-kit';
+import { DynamicsReportTableNode } from '../../../../types/report';
 import { ReportsRepository } from '../../../../stores/reports-store';
 import { formatDate, getT, toCurrency } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
@@ -129,7 +129,7 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
         sort={sort}
         layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
       >
-        {(tableNodes: TableNode[]) => (
+        {(tableNodes: DynamicsReportTableNode[]) => (
           <>
             <Header>
               <HeaderRow>
@@ -152,11 +152,13 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
                       const value = getValue(tableNode[format(month, 'yyyyMM')], valueType);
                       return (
                         <Cell className={styles.cell__textAlignRight} key={month.getTime()}>
-                          {value && toCurrency(value, { precision: 0 })}
+                          {value && toCurrency(value, { precision: 0, unit: '' })}
                         </Cell>
                       );
                     })}
-                    <Cell className={styles.cell__textAlignRight}>{total && toCurrency(total, { precision: 0 })}</Cell>
+                    <Cell className={styles.cell__textAlignRight}>
+                      {total && toCurrency(total, { precision: 0, unit: '' })}
+                    </Cell>
                   </Row>
                 );
               })}
@@ -168,12 +170,12 @@ export const DynamicsTable = observer<DynamicsTableProps>(({ valueType }) => {
                   const value = getValue(dynamicsReport.footer[format(month, 'yyyyMM')], valueType);
                   return (
                     <FooterCell className={styles.cell__textAlignRight} key={month.getTime()}>
-                      {value && toCurrency(value, { precision: 0 })}
+                      {value && toCurrency(value, { precision: 0, unit: '' })}
                     </FooterCell>
                   );
                 })}
                 <FooterCell className={styles.cell__textAlignRight}>
-                  {toCurrency(getValue(dynamicsReport.footer.total, valueType), { precision: 0 })}
+                  {toCurrency(getValue(dynamicsReport.footer.total, valueType), { precision: 0, unit: '' })}
                 </FooterCell>
               </FooterRow>
             </Footer>

@@ -47,29 +47,29 @@ class ExchangeServiceImpl implements ExchangeService {
   ): Promise<IExchange> {
     await billingService.validateSubscription(ctx);
     const {
-      amountSell,
-      moneySellId,
-      amountBuy,
-      moneyBuyId,
-      accountSellId,
-      accountBuyId,
+      sellAmount,
+      sellMoneyId,
+      buyAmount,
+      buyMoneyId,
+      sellAccountId,
+      buyAccountId,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       exchangeDate,
       reportPeriod,
       tags,
       note,
     } = data;
 
-    if (moneySellId === moneyBuyId) {
+    if (sellMoneyId === buyMoneyId) {
       throw new InvalidParametersError('The same money for exchange are used');
     }
 
     if (
-      (ctx.permissions.accounts[accountSellId] & Permit.Update) !== Permit.Update ||
-      (ctx.permissions.accounts[accountBuyId] & Permit.Update) !== Permit.Update ||
-      (accountFeeId && (ctx.permissions.accounts[accountFeeId] & Permit.Update) !== Permit.Update)
+      (ctx.permissions.accounts[sellAccountId] & Permit.Update) !== Permit.Update ||
+      (ctx.permissions.accounts[buyAccountId] & Permit.Update) !== Permit.Update ||
+      (feeAccountId && (ctx.permissions.accounts[feeAccountId] & Permit.Update) !== Permit.Update)
     ) {
       throw new AccessDeniedError();
     }
@@ -90,30 +90,30 @@ class ExchangeServiceImpl implements ExchangeService {
     await Promise.all([
       this.cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, exchangeId, {
         sign: -1,
-        amount: amountSell,
-        moneyId: moneySellId,
-        accountId: accountSellId,
+        amount: sellAmount,
+        moneyId: sellMoneyId,
+        accountId: sellAccountId,
         categoryId: exchangeCategoryId,
         cashFlowItemDate: exchangeDate,
         reportPeriod,
       }),
       this.cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, exchangeId, {
         sign: 1,
-        amount: amountBuy,
-        moneyId: moneyBuyId,
-        accountId: accountBuyId,
+        amount: buyAmount,
+        moneyId: buyMoneyId,
+        accountId: buyAccountId,
         categoryId: exchangeCategoryId,
         cashFlowItemDate: exchangeDate,
         reportPeriod,
       }),
     ]);
 
-    if (fee && moneyFeeId && accountFeeId) {
+    if (fee && feeMoneyId && feeAccountId) {
       await this.cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, exchangeId, {
         sign: -1,
         amount: fee,
-        moneyId: moneyFeeId,
-        accountId: accountFeeId,
+        moneyId: feeMoneyId,
+        accountId: feeAccountId,
         categoryId: exchangeFeeCategoryId,
         cashFlowItemDate: exchangeDate,
         reportPeriod,
@@ -152,9 +152,9 @@ class ExchangeServiceImpl implements ExchangeService {
 
     const { accounts } = ctx.permissions;
     if (
-      (accounts[exchange.accountSellId] & Permit.Read) !== Permit.Read ||
-      (accounts[exchange.accountBuyId] & Permit.Read) !== Permit.Read ||
-      (exchange.accountFeeId && (accounts[exchange.accountFeeId] & Permit.Read) !== Permit.Read)
+      (accounts[exchange.sellAccountId] & Permit.Read) !== Permit.Read ||
+      (accounts[exchange.buyAccountId] & Permit.Read) !== Permit.Read ||
+      (exchange.feeAccountId && (accounts[exchange.feeAccountId] & Permit.Read) !== Permit.Read)
     ) {
       throw new NotFoundError();
     }
@@ -213,41 +213,41 @@ class ExchangeServiceImpl implements ExchangeService {
   ): Promise<IExchange> {
     await billingService.validateSubscription(ctx);
     const {
-      amountSell,
-      moneySellId,
-      amountBuy,
-      moneyBuyId,
-      accountSellId,
-      accountBuyId,
+      sellAmount,
+      sellMoneyId,
+      buyAmount,
+      buyMoneyId,
+      sellAccountId,
+      buyAccountId,
       exchangeDate,
       reportPeriod,
       isFee,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       note,
       tags,
     } = changes;
 
     const { accounts } = ctx.permissions;
     if (
-      (accountSellId && (accounts[accountSellId] & Permit.Update) !== Permit.Update) ||
-      (accountBuyId && (accounts[accountBuyId] & Permit.Update) !== Permit.Update) ||
-      (accountFeeId && (accounts[accountFeeId] & Permit.Update) !== Permit.Update)
+      (sellAccountId && (accounts[sellAccountId] & Permit.Update) !== Permit.Update) ||
+      (buyAccountId && (accounts[buyAccountId] & Permit.Update) !== Permit.Update) ||
+      (feeAccountId && (accounts[feeAccountId] & Permit.Update) !== Permit.Update)
     ) {
       throw new AccessDeniedError();
     }
 
     const exchange = await this.getExchange(ctx, projectId, userId, exchangeId);
 
-    if ((moneySellId ?? exchange.moneySellId) === (moneyBuyId ?? exchange.moneyBuyId)) {
+    if ((sellMoneyId ?? exchange.sellMoneyId) === (buyMoneyId ?? exchange.buyMoneyId)) {
       throw new InvalidParametersError('The same accounts for exchange are used');
     }
 
     if (
-      (accounts[exchange.accountSellId] & Permit.Update) !== Permit.Update ||
-      (accounts[exchange.accountBuyId] & Permit.Update) !== Permit.Update ||
-      (exchange.accountFeeId && (accounts[exchange.accountFeeId] & Permit.Update) !== Permit.Update)
+      (accounts[exchange.sellAccountId] & Permit.Update) !== Permit.Update ||
+      (accounts[exchange.buyAccountId] & Permit.Update) !== Permit.Update ||
+      (exchange.feeAccountId && (accounts[exchange.feeAccountId] & Permit.Update) !== Permit.Update)
     ) {
       throw new AccessDeniedError();
     }
@@ -269,16 +269,16 @@ class ExchangeServiceImpl implements ExchangeService {
     let isFeeUpdated = false;
     let exchangeSellItem: ICashFlowItemDAO | undefined;
 
-    for await (const exchangeItem of exchangeItems) {
+    for (const exchangeItem of exchangeItems) {
       if (String(exchangeItem.categoryId) === exchangeCategoryId && exchangeItem.sign === -1) {
         exchangeSellItem = await this.cashFlowItemRepository.updateCashFlowItem(
           ctx,
           projectId,
           String(exchangeItem.id),
           {
-            amount: amountSell,
-            moneyId: moneySellId,
-            accountId: accountSellId,
+            amount: sellAmount,
+            moneyId: sellMoneyId,
+            accountId: sellAccountId,
             cashFlowItemDate: exchangeDate,
             reportPeriod,
           }
@@ -286,9 +286,9 @@ class ExchangeServiceImpl implements ExchangeService {
       }
       if (String(exchangeItem.categoryId) === exchangeCategoryId && exchangeItem.sign === 1) {
         await this.cashFlowItemRepository.updateCashFlowItem(ctx, projectId, String(exchangeItem.id), {
-          amount: amountBuy,
-          moneyId: moneyBuyId,
-          accountId: accountBuyId,
+          amount: buyAmount,
+          moneyId: buyMoneyId,
+          accountId: buyAccountId,
           cashFlowItemDate: exchangeDate,
           reportPeriod,
         });
@@ -300,8 +300,8 @@ class ExchangeServiceImpl implements ExchangeService {
           isFeeUpdated = true;
           await this.cashFlowItemRepository.updateCashFlowItem(ctx, projectId, String(exchangeItem.id), {
             amount: fee,
-            moneyId: moneyFeeId,
-            accountId: accountFeeId,
+            moneyId: feeMoneyId,
+            accountId: feeAccountId,
             cashFlowItemDate: exchangeDate,
             reportPeriod,
           });
@@ -314,15 +314,15 @@ class ExchangeServiceImpl implements ExchangeService {
     }
 
     if (!isFeeUpdated && isFee !== false) {
-      if (fee || moneyFeeId || accountFeeId) {
-        if (!fee || !moneyFeeId || !accountFeeId) {
-          throw new InvalidParametersError('Fields fee, moneyFeeId and accountFeeId are required');
+      if (fee || feeMoneyId || feeAccountId) {
+        if (!fee || !feeMoneyId || !feeAccountId) {
+          throw new InvalidParametersError('Fields fee, feeMoneyId and feeAccountId are required');
         }
         await this.cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, exchangeId, {
           sign: -1,
           amount: fee,
-          moneyId: moneyFeeId,
-          accountId: accountFeeId,
+          moneyId: feeMoneyId,
+          accountId: feeAccountId,
           categoryId: exchangeFeeCategoryId,
           cashFlowItemDate: exchangeSellItem.cashflowItemDate,
           reportPeriod: exchangeSellItem.reportPeriod,
@@ -344,9 +344,9 @@ class ExchangeServiceImpl implements ExchangeService {
     const { accounts } = ctx.permissions;
 
     if (
-      (accounts[exchange.accountSellId] & Permit.Update) !== Permit.Update ||
-      (accounts[exchange.accountBuyId] & Permit.Update) !== Permit.Update ||
-      (exchange.accountFeeId && (accounts[exchange.accountFeeId] & Permit.Update) !== Permit.Update)
+      (accounts[exchange.sellAccountId] & Permit.Update) !== Permit.Update ||
+      (accounts[exchange.buyAccountId] & Permit.Update) !== Permit.Update ||
+      (exchange.feeAccountId && (accounts[exchange.feeAccountId] & Permit.Update) !== Permit.Update)
     ) {
       throw new AccessDeniedError();
     }
@@ -360,19 +360,19 @@ class ExchangeServiceImpl implements ExchangeService {
   }
 
   private static async getExchangeCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
-    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '21');
-    if (!category) {
+    const categories = await CategoryGateway.getCategoriesByPrototype(ctx, projectId, '21');
+    if (categories.length !== 1) {
       throw new InternalError('Exchange category not found', { categoryPrototype: 21 });
     }
-    return String(category.idCategory);
+    return String(categories[0].idCategory);
   }
 
   private static async getExchangeFeeCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
-    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '22');
-    if (!category) {
+    const categories = await CategoryGateway.getCategoriesByPrototype(ctx, projectId, '22');
+    if (categories.length !== 1) {
       throw new InternalError('Exchange category not found', { categoryPrototype: 22 });
     }
-    return String(category.idCategory);
+    return String(categories[0].idCategory);
   }
 }
 

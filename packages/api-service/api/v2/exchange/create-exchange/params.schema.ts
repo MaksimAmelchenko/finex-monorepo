@@ -11,16 +11,16 @@ export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
     {
       type: 'object',
       properties: {
-        amountSell: {
+        sellAmount: {
           type: 'number',
         },
-        moneySellId: moneyId,
-        amountBuy: {
+        sellMoneyId: moneyId,
+        buyAmount: {
           type: 'number',
         },
-        moneyBuyId: moneyId,
-        accountSellId: accountId,
-        accountBuyId: accountId,
+        buyMoneyId: moneyId,
+        sellAccountId: accountId,
+        buyAccountId: accountId,
         exchangeDate: date,
         reportPeriod: date,
         note: {
@@ -37,12 +37,12 @@ export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
       additionalProperties: false,
       required: [
         //
-        'amountSell',
-        'moneySellId',
-        'amountBuy',
-        'moneyBuyId',
-        'accountSellId',
-        'accountBuyId',
+        'sellAmount',
+        'sellMoneyId',
+        'buyAmount',
+        'buyMoneyId',
+        'sellAccountId',
+        'buyAccountId',
         'exchangeDate',
         'reportPeriod',
       ],
@@ -50,23 +50,23 @@ export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
     {
       type: 'object',
       properties: {
-        amountSell: {
+        sellAmount: {
           type: 'number',
         },
-        moneySellId: moneyId,
-        amountBuy: {
+        sellMoneyId: moneyId,
+        buyAmount: {
           type: 'number',
         },
-        moneyBuyId: moneyId,
-        accountSellId: accountId,
-        accountBuyId: accountId,
+        buyMoneyId: moneyId,
+        sellAccountId: accountId,
+        buyAccountId: accountId,
         exchangeDate: date,
         reportPeriod: date,
         fee: {
           type: 'number',
         },
-        moneyFeeId: moneyId,
-        accountFeeId: accountId,
+        feeMoneyId: moneyId,
+        feeAccountId: accountId,
         note: {
           type: 'string',
         },
@@ -80,17 +80,17 @@ export const createExchangeParamsSchema: OpenAPIV3_1.SchemaObject = {
       },
       additionalProperties: false,
       required: [
-        'amountSell',
-        'moneySellId',
-        'amountBuy',
-        'moneyBuyId',
-        'accountSellId',
-        'accountBuyId',
+        'sellAmount',
+        'sellMoneyId',
+        'buyAmount',
+        'buyMoneyId',
+        'sellAccountId',
+        'buyAccountId',
         'exchangeDate',
         'reportPeriod',
         'fee',
-        'moneyFeeId',
-        'accountFeeId',
+        'feeMoneyId',
+        'feeAccountId',
       ],
     },
   ],

@@ -101,7 +101,7 @@ export class CashFlow implements ICashFlow, ISelectable, IDeletable {
   }
 
   get categories(): Category[] {
-    return [...new Set(this.items.map(({ category }) => category.path[0]))];
+    return [...new Set(this.items.filter(({ category }) => category).map(({ category }) => category!.path[0]))];
   }
 
   get cashFlowItems(): CashFlowItem[] {

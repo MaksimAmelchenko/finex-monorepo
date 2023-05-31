@@ -14,7 +14,7 @@ export interface ITransactionDTO {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   contractorId: string | null;
   transactionDate: TDate;
   reportPeriod: TDate;
@@ -33,7 +33,7 @@ export interface ITransaction {
   sign: Sign;
   amount: number;
   money: Money;
-  category: Category;
+  category: Category | null;
   account: Account;
   contractor: Contractor | null;
   transactionDate: TDate;
@@ -53,7 +53,8 @@ export interface IPlannedTransactionDTO extends Omit<ITransactionDTO, 'id' | 'ca
   repetitionNumber: number;
 }
 
-export interface IPlannedTransaction extends Omit<ITransaction, 'id' | 'cashFlowId' | 'isNotConfirmed'> {
+export interface IPlannedTransaction extends Omit<ITransaction, 'id' | 'cashFlowId' | 'isNotConfirmed' | 'category'> {
+  category: Category;
   planId: string;
   markerColor: string;
   repetitionNumber: number;
@@ -82,7 +83,7 @@ export interface CreateTransactionData {
   sign: Sign;
   amount: number;
   moneyId: string;
-  categoryId: string;
+  categoryId: string | null;
   accountId: string;
   contractorId: string | null;
   transactionDate: TDate;
@@ -104,7 +105,7 @@ export type UpdateTransactionChanges = Partial<{
   sign: Sign;
   amount: number;
   moneyId: string;
-  categoryId: string;
+  categoryId: string | null;
   accountId: string;
   transactionDate: TDate;
   reportPeriod: TDate;

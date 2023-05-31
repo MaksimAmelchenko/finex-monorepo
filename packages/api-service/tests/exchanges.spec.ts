@@ -68,12 +68,12 @@ describe('Exchanges', function (): void {
     it('should create exchange without fee', async () => {
       const { accounts, moneys } = userData;
       const data: CreateExchangeServiceData = {
-        amountSell: 100,
-        moneySellId: moneys[0].id,
-        amountBuy: 10,
-        moneyBuyId: moneys[1].id,
-        accountSellId: String(accounts[0].idAccount),
-        accountBuyId: String(accounts[1].idAccount),
+        sellAmount: 100,
+        sellMoneyId: moneys[0].id,
+        buyAmount: 10,
+        buyMoneyId: moneys[1].id,
+        sellAccountId: String(accounts[0].idAccount),
+        buyAccountId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };
@@ -94,17 +94,17 @@ describe('Exchanges', function (): void {
     it('should create exchange with fee', async () => {
       const { accounts, moneys } = userData;
       const data: CreateExchangeServiceData = {
-        amountSell: 100,
-        moneySellId: moneys[0].id,
-        amountBuy: 10,
-        moneyBuyId: moneys[1].id,
-        accountSellId: String(accounts[0].idAccount),
-        accountBuyId: String(accounts[1].idAccount),
+        sellAmount: 100,
+        sellMoneyId: moneys[0].id,
+        buyAmount: 10,
+        buyMoneyId: moneys[1].id,
+        sellAccountId: String(accounts[0].idAccount),
+        buyAccountId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
         fee: 10,
-        moneyFeeId: moneys[0].id,
-        accountFeeId: String(accounts[0].idAccount),
+        feeMoneyId: moneys[0].id,
+        feeAccountId: String(accounts[0].idAccount),
       };
 
       const response: supertest.Response = await request
@@ -126,12 +126,12 @@ describe('Exchanges', function (): void {
       const { accounts, moneys } = userData;
 
       const data: CreateExchangeServiceData = {
-        amountSell: 100,
-        moneySellId: moneys[0].id,
-        amountBuy: 10,
-        moneyBuyId: moneys[1].id,
-        accountSellId: String(accounts[0].idAccount),
-        accountBuyId: String(accounts[1].idAccount),
+        sellAmount: 100,
+        sellMoneyId: moneys[0].id,
+        buyAmount: 10,
+        buyMoneyId: moneys[1].id,
+        sellAccountId: String(accounts[0].idAccount),
+        buyAccountId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };
@@ -145,11 +145,11 @@ describe('Exchanges', function (): void {
       const { id: exchangeId } = response.body.exchange;
 
       const changes: UpdateExchangeServiceChanges = {
-        amountSell: 50,
-        accountSellId: String(accounts[1].idAccount),
+        sellAmount: 50,
+        sellAccountId: String(accounts[1].idAccount),
         fee: 10,
-        moneyFeeId: moneys[0].id,
-        accountFeeId: String(accounts[0].idAccount),
+        feeMoneyId: moneys[0].id,
+        feeAccountId: String(accounts[0].idAccount),
       };
 
       response = await request
@@ -170,12 +170,12 @@ describe('Exchanges', function (): void {
     it('should delete exchange', async () => {
       const { accounts, moneys } = userData;
       const data: CreateExchangeServiceData = {
-        amountSell: 100,
-        moneySellId: moneys[0].id,
-        amountBuy: 10,
-        moneyBuyId: moneys[1].id,
-        accountSellId: String(accounts[0].idAccount),
-        accountBuyId: String(accounts[1].idAccount),
+        sellAmount: 100,
+        sellMoneyId: moneys[0].id,
+        buyAmount: 10,
+        buyMoneyId: moneys[1].id,
+        sellAccountId: String(accounts[0].idAccount),
+        buyAccountId: String(accounts[1].idAccount),
         exchangeDate: format(new Date(), 'yyyy-MM-dd'),
         reportPeriod: format(new Date(), 'yyyy-MM-01'),
       };

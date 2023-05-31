@@ -6,15 +6,15 @@ export interface IExchangeDAO {
   projectId: number;
   userId: number;
   id: number;
-  amountSell: number;
+  sellAmount: number;
   moneyIdSell: number;
-  amountBuy: number;
+  buyAmount: number;
   moneyIdBuy: number;
-  accountSellId: number;
-  accountBuyId: number;
+  sellAccountId: number;
+  buyAccountId: number;
   fee: number | null;
-  moneyFeeId: number | null;
-  accountFeeId: number | null;
+  feeMoneyId: number | null;
+  feeAccountId: number | null;
   exchangeDate: TDate;
   reportPeriod: TDate;
   note: string | null;
@@ -26,15 +26,15 @@ export interface IExchangeDAO {
 export type IExchangeEntity = {
   userId: string;
   id: string;
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   exchangeDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -47,17 +47,17 @@ export type IExchange = IExchangeEntity;
 export type IExchangeDTO = {
   userId: string;
   id: string;
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   exchangeDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tags: string[];
   updatedAt: TDateTime;
@@ -69,8 +69,8 @@ export interface FindExchangesRepositoryQuery {
   searchText?: string;
   startDate?: TDate;
   endDate?: TDate;
-  accountsSell?: string[];
-  accountsBuy?: string[];
+  sellAccounts?: string[];
+  buyAccounts?: string[];
   tags?: string[];
 }
 
@@ -95,17 +95,17 @@ export interface FindExchangesServiceResponse {
 }
 
 export type CreateExchangeRepositoryData = {
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   exchangeDate: TDate;
   reportPeriod: TDate;
   fee?: number;
-  moneyFeeId?: string;
-  accountFeeId?: string;
+  feeMoneyId?: string;
+  feeAccountId?: string;
   note?: string;
   tags?: string[];
 };
@@ -113,16 +113,16 @@ export type CreateExchangeRepositoryData = {
 export type CreateExchangeServiceData = CreateExchangeRepositoryData;
 
 export type UpdateExchangeRepositoryChanges = Partial<{
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   isFee: false;
   fee: number;
-  moneyFeeId: string;
-  accountFeeId: string;
+  feeMoneyId: string;
+  feeAccountId: string;
   exchangeDate: TDate;
   reportPeriod: TDate;
   note: string;

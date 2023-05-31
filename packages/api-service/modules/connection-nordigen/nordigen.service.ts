@@ -1,6 +1,7 @@
 import * as NordigenClient from 'nordigen-node';
 import * as uuid from 'uuid';
 import type NordigenClientType from 'nordigen-node';
+import { format, subDays } from 'date-fns';
 
 import config from '../../libs/config';
 import {
@@ -14,12 +15,15 @@ import { ConflictError, NotFoundError } from '../../libs/errors';
 import {
   CreateRequisitionServiceData,
   IAccountNordigen,
+  IAgreement,
   IInstitution,
+  INordigenTransactions,
   IRequisition,
   IRequisitionNordigen,
   NordigenService,
 } from './types';
-import { IRequestContext } from '../../types/app';
+import { IRequestContext, TDate } from '../../types/app';
+import { captureException } from '../../libs/sentry';
 import { connectionService } from '../connection/connection.service';
 import { nordigenMapper } from './mordigen.mapper';
 import { nordigenRepository } from './nordigen.repository';
@@ -36,7 +40,11 @@ class NordigenServiceImpl implements NordigenService {
     this.secretKey = secretKey;
     // @ts-ignore
     this.client = new NordigenClient({ secretId, secretKey });
-    this.client.generateToken().catch(err => console.error({ err }, 'Nordigen token generation error'));
+    this.client.generateToken().catch(err => captureException(err));
+  }
+
+  async generateToken(ctx: IRequestContext<unknown, false>): Promise<string> {
+    return this.client.generateToken();
   }
 
   async getInstitutions(ctx: IRequestContext<unknown, true>, country: string): Promise<IInstitution[]> {
@@ -47,19 +55,33 @@ class NordigenServiceImpl implements NordigenService {
     return this.client.institution.getInstitutionById(institutionId);
   }
 
+  async getAgreement(ctx: IRequestContext<unknown, true>, agreementId: string): Promise<IAgreement> {
+    return this.client.agreement.getAgreementById(agreementId);
+  }
+
   async createRequisition(
     ctx: IRequestContext<unknown, true>,
     projectId: string,
     userId: string,
     data: CreateRequisitionServiceData
   ): Promise<IRequisition> {
-    const { institutionId, origin } = data;
+    const { locale } = ctx.params;
+    const { institutionId, origin, isRetrieveMaxPeriodTransactions } = data;
     const requisitionId = uuid.v4();
+
+    const institution = await this.getInstitution(ctx, institutionId);
+
+    let maxHistoricalDays: number | undefined = undefined;
+    if (isRetrieveMaxPeriodTransactions) {
+      maxHistoricalDays = Number(institution.transaction_total_days);
+    }
 
     const requisitionNordigen: IRequisitionNordigen = await this.client.initSession({
       redirectUrl: `${origin}/connections/nordigen/requisitions/complete`,
       institutionId,
       referenceId: requisitionId,
+      maxHistoricalDays,
+      userLanguage: locale,
     } as any);
 
     const requisitionDAO = await nordigenRepository.createRequisition(ctx, projectId, userId, {
@@ -79,7 +101,7 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     requisitionId: string
   ): Promise<IRequisition> {
-    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, userId, requisitionId);
+    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, requisitionId);
     if (!requisitionDAO) {
       throw new NotFoundError('Requisition not found');
     }
@@ -92,7 +114,7 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     connectionId: string
   ): Promise<IRequisition> {
-    const requisitionDAO = await nordigenRepository.getRequisitionByConnectionId(ctx, projectId, userId, connectionId);
+    const requisitionDAO = await nordigenRepository.getRequisitionByConnectionId(ctx, projectId, connectionId);
     if (!requisitionDAO) {
       throw new NotFoundError('Requisition not found');
     }
@@ -119,7 +141,10 @@ class NordigenServiceImpl implements NordigenService {
       throw new NotFoundError('Requisition not found');
     }
 
-    const institution = await this.getInstitution(ctx, requisition.institutionId);
+    const [institution, agreement] = await Promise.all([
+      this.getInstitution(ctx, requisition.institutionId),
+      this.getAgreement(ctx, requisitionNordigen.agreement),
+    ]);
 
     const connection = await connectionService.createConnection(ctx, projectId, userId, {
       institutionId: institution.id,
@@ -128,11 +153,13 @@ class NordigenServiceImpl implements NordigenService {
       provider: ConnectionProvider.Nordigen,
     });
 
-    await nordigenRepository.updateRequisition(ctx, projectId, userId, requisitionId, {
+    await nordigenRepository.updateRequisition(ctx, projectId, requisitionId, {
       status: requisitionNordigen.status,
       response: requisitionNordigen,
       connectionId: connection.id,
     });
+
+    const syncFrom = subDays(new Date(), Number(agreement.max_historical_days));
 
     const nordigenAccounts = await this.getAccounts(ctx, projectId, userId, requisition.id);
     await Promise.all(
@@ -142,8 +169,7 @@ class NordigenServiceImpl implements NordigenService {
           providerAccountName: name,
           providerAccountProduct: product,
           accountId: null,
-          // TODO: set the earliest available date
-          syncFrom: null,
+          syncFrom: format(syncFrom, 'yyyy-MM-dd'),
         })
       )
     );
@@ -159,7 +185,7 @@ class NordigenServiceImpl implements NordigenService {
   ): Promise<void> {
     const requisition = await this.getRequisition(ctx, projectId, userId, requisitionId);
 
-    await nordigenRepository.deleteRequisition(ctx, projectId, userId, requisitionId);
+    await nordigenRepository.deleteRequisition(ctx, projectId, requisitionId);
     await this.client.requisition.deleteRequisition(requisition.requisitionId);
   }
 
@@ -169,7 +195,7 @@ class NordigenServiceImpl implements NordigenService {
     userId: string,
     requisitionId: string
   ): Promise<IProviderAccount[]> {
-    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, userId, requisitionId);
+    const requisitionDAO = await nordigenRepository.getRequisition(ctx, projectId, requisitionId);
     if (!requisitionDAO) {
       throw new NotFoundError('Requisition not found');
     }
@@ -203,6 +229,14 @@ class NordigenServiceImpl implements NordigenService {
     );
 
     return accounts.filter(account => account.status !== ProviderAccountStatus.Deleted);
+  }
+
+  async getTransactions(
+    ctx: IRequestContext<unknown, false>,
+    providerAccountId: string,
+    dateFrom: TDate
+  ): Promise<{ transactions: INordigenTransactions }> {
+    return this.client.account(providerAccountId).getTransactions({ dateFrom, dateTo: '', country: '' });
   }
 }
 

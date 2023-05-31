@@ -7,17 +7,17 @@ import { User } from '../stores/models/user';
 export type IExchangeDTO = {
   userId: string;
   id: string;
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   exchangeDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tags: string[];
   updatedAt: TDateTime;
@@ -26,17 +26,17 @@ export type IExchangeDTO = {
 export interface IExchange {
   user: User;
   id: string;
-  amountSell: number;
-  moneySell: Money;
-  amountBuy: number;
-  moneyBuy: Money;
-  accountSell: Account;
-  accountBuy: Account;
+  sellAmount: number;
+  sellMoney: Money;
+  buyAmount: number;
+  buyMoney: Money;
+  sellAccount: Account;
+  buyAccount: Account;
   exchangeDate: TDate;
   reportPeriod: TDate;
   fee: number | null;
-  moneyFee: Money | null;
-  accountFee: Account | null;
+  feeMoney: Money | null;
+  feeAccount: Account | null;
   note: string;
   tags: Tag[];
   updatedAt: TDateTime;
@@ -48,8 +48,8 @@ export interface GetExchangesQuery {
   searchText?: string;
   startDate?: TDate;
   endDate?: TDate;
-  accountsSell?: string;
-  accountsBuy?: string;
+  sellAccounts?: string;
+  buyAccounts?: string;
   tags?: string;
 }
 
@@ -59,17 +59,17 @@ export interface GetExchangesResponse {
 }
 
 export interface CreateExchangeData {
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   exchangeDate: TDate;
   reportPeriod: TDate;
   fee?: number;
-  moneyFeeId?: string;
-  accountFeeId?: string;
+  feeMoneyId?: string;
+  feeAccountId?: string;
   note?: string;
   tags?: string[];
 }
@@ -79,16 +79,16 @@ export interface CreateExchangeResponse {
 }
 
 export type UpdateExchangeChanges = Partial<{
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   isFee: false;
   fee: number;
-  moneyFeeId: string;
-  accountFeeId: string;
+  feeMoneyId: string;
+  feeAccountId: string;
   exchangeDate: TDate;
   reportPeriod: TDate;
   note: string;

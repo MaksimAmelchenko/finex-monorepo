@@ -50,7 +50,7 @@ export interface ICashFlowItemDTO {
   amount: number;
   moneyId: string;
   accountId: string;
-  categoryId: string;
+  categoryId: string | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -130,6 +130,13 @@ export interface CashFlowRepository {
     projectId: string,
     userId: string,
     data: CreateCashFlowRepositoryData
+  ): Promise<ICashFlowDAO>;
+
+  createCashFlowWithItems(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    data: CreateCashFlowServiceData
   ): Promise<ICashFlowDAO>;
 
   getCashFlow(

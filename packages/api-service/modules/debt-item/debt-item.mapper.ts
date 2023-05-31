@@ -59,7 +59,7 @@ class DebtItemMapperImpl implements DebtItemMapper {
       sign,
       amount,
       moneyId,
-      categoryId,
+      categoryId: categoryId!,
       accountId,
       debtItemDate: cashFlowItemDate,
       reportPeriod,

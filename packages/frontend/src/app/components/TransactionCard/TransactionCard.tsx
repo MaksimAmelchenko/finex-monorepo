@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { toCurrency } from '../../lib/core/i18n';
+import { getT, toCurrency } from '../../lib/core/i18n';
 
 import { miscellaneousSvg } from '@finex/ui-kit';
 
@@ -11,7 +11,7 @@ interface TransactionCardOperationTransaction {
   id: string;
   category: {
     fullPath: (isIncludeOwnName: boolean) => string;
-  };
+  } | null;
   account: {
     name: string;
   };
@@ -31,6 +31,8 @@ export interface TransactionCardProps {
   onClick: (transactionId: string) => void;
 }
 
+const t = getT('TransactionCard');
+
 export function TransactionCard({ transaction, isHighlighted, onClick }: TransactionCardProps) {
   const { id, category, account, sign, amount, money, note } = transaction;
   const handleClick = () => {
@@ -49,7 +51,13 @@ export function TransactionCard({ transaction, isHighlighted, onClick }: Transac
       <div className={styles.root__contentWrapper}>
         <div className={styles.mainContent}>
           <div className={styles.mainContent__header}>
-            <div className={styles.mainContent__categoryName}>{category.fullPath(true)}</div>
+            {category ? (
+              <div className={styles.mainContent__categoryName}>{category.fullPath(true)}</div>
+            ) : (
+              <div className={clsx(styles.mainContent__categoryName, styles.mainContent__categoryName_uncategorized)}>
+                {t('Uncategorized')}
+              </div>
+            )}
             <div className={clsx(styles.mainContent__amount, sign === 1 && styles.mainContent__amount_income)}>
               {sign === 1 ? '+' : ''}
               {toCurrency(amount, { unit: money.symbol, precision: money.precision })}

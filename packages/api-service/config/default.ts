@@ -64,4 +64,11 @@ export default {
       appId: 'CURRENCY_RATE__OPEN_EXCHANGE_RATES__APP_ID',
     },
   },
+  connections: {
+    secret: 'CONNECTIONS__SECRET',
+  },
+  nordigen: {
+    secretId: 'NORDIGEN__SECRET_ID',
+    secretKey: 'NORDIGEN__SECRET_KEY',
+  },
 };

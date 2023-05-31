@@ -451,11 +451,7 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const category = categoriesRepository.get(categoryId);
-    if (!category) {
-      console.warn('Category not found', { transaction });
-      return null;
-    }
+    const category = (categoryId && categoriesRepository.get(categoryId)) || null;
 
     const account = accountsRepository.get(accountId);
     if (!account) {
@@ -593,13 +589,13 @@ export class OperationsRepository extends ManageableStore {
       id,
       amount,
       moneyId,
-      accountFromId,
-      accountToId,
+      fromAccountId,
+      toAccountId,
       transferDate,
       reportPeriod,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       note,
       tags: tagIds,
       userId,
@@ -612,15 +608,15 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const accountFrom = accountsRepository.get(accountFromId);
-    if (!accountFrom) {
-      console.warn('Account not found', { transfer });
+    const fromAccount = accountsRepository.get(fromAccountId);
+    if (!fromAccount) {
+      console.warn('FromAccount not found', { transfer });
       return null;
     }
 
-    const accountTo = accountsRepository.get(accountToId);
-    if (!accountTo) {
-      console.warn('Account not found', { transfer });
+    const toAccount = accountsRepository.get(toAccountId);
+    if (!toAccount) {
+      console.warn('ToAccount not found', { transfer });
       return null;
     }
 
@@ -630,8 +626,8 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const moneyFee = (moneyFeeId && moneysRepository.get(moneyFeeId)) || null;
-    const accountFee = (accountFeeId && accountsRepository.get(accountFeeId)) || null;
+    const feeMoney = (feeMoneyId && moneysRepository.get(feeMoneyId)) || null;
+    const feeAccount = (feeAccountId && accountsRepository.get(feeAccountId)) || null;
 
     const tags = tagIds.reduce<Tag[]>((acc, tagId) => {
       const tag = tagsRepository.get(tagId);
@@ -645,13 +641,13 @@ export class OperationsRepository extends ManageableStore {
       id,
       amount,
       money,
-      accountFrom,
-      accountTo,
+      fromAccount,
+      toAccount,
       transferDate,
       reportPeriod,
       fee,
-      moneyFee,
-      accountFee,
+      feeMoney,
+      feeAccount,
       note: note ?? '',
       tags,
       user,
@@ -667,17 +663,17 @@ export class OperationsRepository extends ManageableStore {
 
     const {
       id,
-      amountSell,
-      moneySellId,
-      accountSellId,
-      amountBuy,
-      moneyBuyId,
-      accountBuyId,
+      sellAmount,
+      sellMoneyId,
+      sellAccountId,
+      buyAmount,
+      buyMoneyId,
+      buyAccountId,
       exchangeDate,
       reportPeriod,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       note,
       tags: tagIds,
       userId,
@@ -690,32 +686,32 @@ export class OperationsRepository extends ManageableStore {
       return null;
     }
 
-    const moneySell = moneysRepository.get(moneySellId);
-    if (!moneySell) {
-      console.warn('Money not found', { exchange });
+    const sellMoney = moneysRepository.get(sellMoneyId);
+    if (!sellMoney) {
+      console.warn('SellMoney not found', { exchange });
       return null;
     }
 
-    const accountSell = accountsRepository.get(accountSellId);
-    if (!accountSell) {
+    const sellAccount = accountsRepository.get(sellAccountId);
+    if (!sellAccount) {
       console.warn('Account not found', { exchange });
       return null;
     }
 
-    const moneyBuy = moneysRepository.get(moneyBuyId);
-    if (!moneyBuy) {
-      console.warn('Money not found', { exchange });
+    const buyMoney = moneysRepository.get(buyMoneyId);
+    if (!buyMoney) {
+      console.warn('BuyMoney not found', { exchange });
       return null;
     }
 
-    const accountBuy = accountsRepository.get(accountBuyId);
-    if (!accountBuy) {
-      console.warn('Account not found', { exchange });
+    const buyAccount = accountsRepository.get(buyAccountId);
+    if (!buyAccount) {
+      console.warn('BuyAccount not found', { exchange });
       return null;
     }
 
-    const moneyFee = (moneyFeeId && moneysRepository.get(moneyFeeId)) || null;
-    const accountFee = (accountFeeId && accountsRepository.get(accountFeeId)) || null;
+    const feeMoney = (feeMoneyId && moneysRepository.get(feeMoneyId)) || null;
+    const feeAccount = (feeAccountId && accountsRepository.get(feeAccountId)) || null;
 
     const tags = tagIds.reduce<Tag[]>((acc, tagId) => {
       const tag = tagsRepository.get(tagId);
@@ -727,17 +723,17 @@ export class OperationsRepository extends ManageableStore {
 
     return new OperationExchange({
       id,
-      amountSell,
-      moneySell,
-      accountSell,
-      amountBuy,
-      moneyBuy,
-      accountBuy,
+      sellAmount,
+      sellMoney,
+      sellAccount,
+      buyAmount,
+      buyMoney,
+      buyAccount,
       exchangeDate,
       reportPeriod,
       fee,
-      moneyFee,
-      accountFee,
+      feeMoney,
+      feeAccount,
       note: note ?? '',
       tags,
       user,

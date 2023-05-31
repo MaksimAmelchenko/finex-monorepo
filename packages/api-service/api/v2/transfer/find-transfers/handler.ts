@@ -6,9 +6,9 @@ import { transferService } from '../../../../modules/transfer/transfer.service';
 
 export async function handler(
   ctx: IRequestContext<
-    Omit<FindTransfersServiceQuery, 'accountsFrom' | 'accountsTo' | 'tags'> & {
-      accountsFrom: string;
-      accountsTo: string;
+    Omit<FindTransfersServiceQuery, 'fromAccounts' | 'toAccounts' | 'tags'> & {
+      fromAccounts: string;
+      toAccounts: string;
       tags: string;
     },
     true
@@ -24,11 +24,11 @@ export async function handler(
   }>
 > {
   const { projectId, userId } = ctx;
-  const { accountsFrom, accountsTo, tags, ...params } = ctx.params;
+  const { fromAccounts, toAccounts, tags, ...params } = ctx.params;
   const { transfers, metadata } = await transferService.findTransfers(ctx, projectId, userId, {
     ...params,
-    accountsFrom: accountsFrom ? accountsFrom.split(',') : undefined,
-    accountsTo: accountsTo ? accountsTo.split(',') : undefined,
+    fromAccounts: fromAccounts ? fromAccounts.split(',') : undefined,
+    toAccounts: toAccounts ? toAccounts.split(',') : undefined,
     tags: tags ? tags.split(',') : undefined,
   });
 

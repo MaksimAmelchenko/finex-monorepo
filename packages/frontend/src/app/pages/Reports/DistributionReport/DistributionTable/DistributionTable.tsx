@@ -12,11 +12,11 @@ import {
 } from '@table-library/react-table-library/table';
 import { CellTree, TreeExpandClickTypes, useTree } from '@table-library/react-table-library/tree';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
-import { TableNode } from '@table-library/react-table-library/types/table';
 import { observer } from 'mobx-react-lite';
 import { useTheme } from '@table-library/react-table-library/theme';
 
 import { ChevronRightIcon, SortDownIcon, SortIcon, SortUpIcon } from '@finex/ui-kit';
+import { DistributionReportTableNode } from '../../../../types/report';
 import { ReportsRepository } from '../../../../stores/reports-store';
 import { getT, toCurrency } from '../../../../lib/core/i18n';
 import { getValue } from '../../get-value';
@@ -73,7 +73,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
     },
   ]);
 
-  const tree = useTree(
+  const tree = useTree<DistributionReportTableNode>(
     distributionReport || { nodes: [] },
     {},
     {
@@ -123,7 +123,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
         sort={sort}
         layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
       >
-        {(tableNodes: TableNode[]) => (
+        {(tableNodes: DistributionReportTableNode[]) => (
           <>
             <Header>
               <HeaderRow>
@@ -142,7 +142,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
                   <Row item={tableNode} key={tableNode.id}>
                     <CellTree item={tableNode}>{tableNode.category?.name || t('Others')}</CellTree>
                     <Cell className={styles.cell__textAlignRight}>
-                      {amount && toCurrency(amount, { precision: 0 })}
+                      {amount && toCurrency(amount, { precision: 0, unit: '' })}
                     </Cell>
                   </Row>
                 );
@@ -152,7 +152,7 @@ export const DistributionTable = observer<DistributionTableProps>(({ valueType }
               <FooterRow>
                 <FooterCell>{t('Total')}</FooterCell>
                 <FooterCell className={styles.cell__textAlignRight}>
-                  {toCurrency(getValue(distributionReport.footer.total, valueType), { precision: 0 })}
+                  {toCurrency(getValue(distributionReport.footer.total, valueType), { precision: 0, unit: '' })}
                 </FooterCell>
               </FooterRow>
             </Footer>

@@ -2,6 +2,7 @@ import { raw } from 'objection';
 
 import { CreateUserRepositoryData, IUserDAO, UpdateUserRepositoryChanges, UserRepository } from './types';
 import { IRequestContext } from '../../types/app';
+import { PlanDAO } from '../plan/models/plan-dao';
 import { UserDAO } from './models/user-dao';
 
 class UserRepositoryImpl implements UserRepository {
@@ -88,6 +89,15 @@ class UserRepositoryImpl implements UserRepository {
     const trx = ctx.trx || (await UserDAO.knex().transaction());
 
     await trx.raw(`select context.set('isNotCheckPermit', '1')`);
+
+    // via cascade deletion the accounts are deleted at first, so it leads to error
+    // ERROR: delete on table "account" violates foreign key constraint "plan_cashflow_item_2_account" on table "plan_cashflow_item"
+    // Detail: Key (id_project, id_account)=(210278, 1082395) is still referenced from table "plan_cashflow_item".
+
+    await PlanDAO.query(trx)
+      .delete()
+      .where({ userId: Number(userId) });
+
     await trx('core$.user')
       .del()
       .where({

@@ -145,7 +145,7 @@ class CashFlowServiceImpl implements CashFlowService {
 
     const cashFlowItems = await this.cashFlowItemService.getCashFlowItems(ctx, projectId, userId, [cashFlowId]);
 
-    for await (const cashFlowItem of cashFlowItems) {
+    for (const cashFlowItem of cashFlowItems) {
       if ((cashFlowItem.permit & Permit.Update) === Permit.Update) {
         await this.cashFlowItemRepository.deleteCashFlowItem(ctx, projectId, cashFlowItem.id);
       }

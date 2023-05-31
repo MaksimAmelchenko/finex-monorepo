@@ -16,7 +16,7 @@ export class CashFlowItem implements ICashFlowItem, ISelectable, IDeletable {
   amount: number;
   money: Money;
   account: Account;
-  category: Category;
+  category: Category | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;

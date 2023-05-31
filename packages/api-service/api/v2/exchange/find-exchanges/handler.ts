@@ -6,9 +6,9 @@ import { exchangeService } from '../../../../modules/exchange/exchange.service';
 
 export async function handler(
   ctx: IRequestContext<
-    Omit<FindExchangesServiceQuery, 'accountsSell' | 'accountsBuy' | 'tags'> & {
-      accountsSell: string;
-      accountsBuy: string;
+    Omit<FindExchangesServiceQuery, 'sellAccounts' | 'buyAccounts' | 'tags'> & {
+      sellAccounts: string;
+      buyAccounts: string;
       tags: string;
     },
     true
@@ -26,13 +26,13 @@ export async function handler(
   const {
     projectId,
     userId,
-    params: { accountsSell, accountsBuy, tags, ...params },
+    params: { sellAccounts, buyAccounts, tags, ...params },
   } = ctx;
 
   const { exchanges, metadata } = await exchangeService.findExchanges(ctx, projectId, userId, {
     ...params,
-    accountsSell: accountsSell ? accountsSell.split(',') : undefined,
-    accountsBuy: accountsBuy ? accountsBuy.split(',') : undefined,
+    sellAccounts: sellAccounts ? sellAccounts.split(',') : undefined,
+    buyAccounts: buyAccounts ? buyAccounts.split(',') : undefined,
     tags: tags ? tags.split(',') : undefined,
   });
 

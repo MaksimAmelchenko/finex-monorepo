@@ -12,6 +12,7 @@ export async function up(knex: Knex): Promise<void> {
                                            when id_category_prototype = 10 then 'Перевод'
                                            when id_category_prototype = 20 then 'Обмен валюты'
                                            when id_category_prototype = 30 then 'Еда и продукты'
+                                           when id_category_prototype = 50 then 'Транспорт'
                                            when id_category_prototype = 51
                                              then 'Бензин и техническое обслуживание автомобиля'
                                            when id_category_prototype = 56 then 'Страхование и налоги на транспорт'

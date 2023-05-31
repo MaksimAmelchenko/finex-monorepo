@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { BaseCheckbox, Tag } from '@finex/ui-kit';
 import { CashFlowItem } from '../../../stores/models/cash-flow-item';
-import { formatDate, toCurrency } from '../../../lib/core/i18n';
+import { formatDate, getT, toCurrency } from '../../../lib/core/i18n';
 
 import styles from './CashFlowItemRow.module.scss';
 
@@ -12,6 +12,8 @@ interface CashFlowItemRowProps {
   cashFlowItem: CashFlowItem;
   onClick: (debtItem: CashFlowItem) => void;
 }
+
+const t = getT('CashFlowItemRow');
 
 export const CashFlowItemRow = observer<CashFlowItemRowProps>(({ cashFlowItem, onClick }) => {
   const {
@@ -54,10 +56,16 @@ export const CashFlowItemRow = observer<CashFlowItemRowProps>(({ cashFlowItem, o
         <div>{account.name}</div>
       </td>
 
-      <td>
-        <div>{category.name}</div>
-        <div className={styles.categoryPath}>{category.fullPath()}</div>
-      </td>
+      {category ? (
+        <td>
+          <div>{category.name}</div>
+          <div className={styles.categoryPath}>{category.fullPath()}</div>
+        </td>
+      ) : (
+        <td>
+          <div>{t('Uncategorized')}</div>
+        </td>
+      )}
 
       <td>
         {quantity}

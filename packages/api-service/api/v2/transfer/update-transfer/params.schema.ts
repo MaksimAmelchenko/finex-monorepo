@@ -17,8 +17,8 @@ export const updateTransferParamsSchema: OpenAPIV3_1.SchemaObject = {
           type: 'number',
         },
         moneyId,
-        accountFromId: accountId,
-        accountToId: accountId,
+        fromAccountId: accountId,
+        toAccountId: accountId,
         transferDate: date,
         reportPeriod: date,
         isFee: {
@@ -47,13 +47,13 @@ export const updateTransferParamsSchema: OpenAPIV3_1.SchemaObject = {
           type: 'number',
         },
         moneyId,
-        accountFromId: accountId,
-        accountToId: accountId,
+        fromAccountId: accountId,
+        toAccountId: accountId,
         fee: {
           type: 'number',
         },
-        moneyFeeId: moneyId,
-        accountFeeId: accountId,
+        feeMoneyId: moneyId,
+        feeAccountId: accountId,
         note: {
           type: 'string',
         },

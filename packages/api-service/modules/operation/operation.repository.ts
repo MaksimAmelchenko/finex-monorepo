@@ -72,23 +72,23 @@ class OperationRepositoryImpl implements OperationRepository {
                             (select (select c.id_category
                                        from cf$.category c
                                       where c.id_project = :projectId::int
-                                        and c.id_category_prototype = 11) as category_transfer_id,
+                                        and c.id_category_prototype = 11) as transfer_category_id,
                                     (select c.id_category
                                        from cf$.category c
                                       where c.id_project = :projectId::int
-                                        and c.id_category_prototype = 12) as category_transfer_free_id)
+                                        and c.id_category_prototype = 12) as transfer_free_category_id)
                    select cfi_from.cashflow_item_date as raw_operation_date,
                           cf.id,
                           cf.user_id,
                           cfi_from.amount amount,
                           cfi_from.money_id money_id,
-                          cfi_from.account_id account_from_id,
-                          cfi_to.account_id as account_to_id,
+                          cfi_from.account_id from_account_id,
+                          cfi_to.account_id as to_account_id,
                           cfi_from.cashflow_item_date as transfer_date,
                           cfi_from.report_period as report_period,
                           cfi_fee.amount as fee,
-                          cfi_fee.money_id as money_fee_id,
-                          cfi_fee.account_id as account_fee_id,
+                          cfi_fee.money_id as fee_money_id,
+                          cfi_fee.account_id as fee_account_id,
                           cf.note,
                           cf.tags
                      from transfer_params
@@ -98,17 +98,17 @@ class OperationRepositoryImpl implements OperationRepository {
                             join cf$.v_cashflow_item cfi_from
                                  on (cfi_from.project_id = cf.project_id
                                    and cfi_from.cashflow_id = cf.id
-                                   and cfi_from.category_id = transfer_params.category_transfer_id
+                                   and cfi_from.category_id = transfer_params.transfer_category_id
                                    and cfi_from.sign = -1)
                             join cf$.v_cashflow_item cfi_to
                                  on (cfi_to.project_id = cf.project_id
                                    and cfi_to.cashflow_id = cf.id
-                                   and cfi_to.category_id = transfer_params.category_transfer_id
+                                   and cfi_to.category_id = transfer_params.transfer_category_id
                                    and cfi_to.sign = 1)
                             left join cf$.v_cashflow_item cfi_fee
                                       on (cfi_fee.project_id = cf.project_id
                                         and cfi_fee.cashflow_id = cf.id
-                                        and cfi_fee.category_id = transfer_params.category_transfer_free_id)
+                                        and cfi_fee.category_id = transfer_params.transfer_free_category_id)
                     where cfi_from.account_id in (select permit.account_id from permit)
                       and cfi_to.account_id in (select permit.account_id from permit)
                       and (cfi_fee.account_id is null or
@@ -125,17 +125,17 @@ class OperationRepositoryImpl implements OperationRepository {
                                      and c.id_category_prototype = 22) as category_exchange_free_id)
                 select cfi_sell.cashflow_item_date as raw_operation_date,
                        cf.id,
-                       cfi_sell.amount as amount_sell,
-                       cfi_sell.money_id as money_sell_id,
-                       cfi_sell.account_id as account_sell_id,
-                       cfi_buy.amount as amount_buy,
-                       cfi_buy.money_id as money_buy_id,
-                       cfi_buy.account_id as account_buy_id,
+                       cfi_sell.amount as sell_amount,
+                       cfi_sell.money_id as sell_money_id,
+                       cfi_sell.account_id as sell_account_id,
+                       cfi_buy.amount as buy_amount,
+                       cfi_buy.money_id as buy_money_id,
+                       cfi_buy.account_id as buy_account_id,
                        cfi_sell.cashflow_item_date as exchange_date,
                        cfi_sell.report_period as report_period,
                        cfi_fee.amount as fee,
-                       cfi_fee.money_id as money_fee_id,
-                       cfi_fee.account_id as account_fee_id,
+                       cfi_fee.money_id as fee_money_id,
+                       cfi_fee.account_id as fee_account_id,
                        cf.note,
                        cf.tags,
                        cf.user_id
@@ -188,20 +188,20 @@ class OperationRepositoryImpl implements OperationRepository {
                         cfi.contractor_id,
                         cfi.user_id,
                         cfi.permit,
-                        null::numeric amount_sell,
-                        null::int money_sell_id,
-                        null::int account_sell_id,
+                        null::numeric sell_amount,
+                        null::int sell_money_id,
+                        null::int sell_account_id,
 
-                        null::numeric amount_buy,
-                        null::int money_buy_id,
-                        null::int account_buy_id,
+                        null::numeric buy_amount,
+                        null::int buy_money_id,
+                        null::int buy_account_id,
 
                         null::numeric fee,
-                        null::int money_fee_id,
-                        null::int account_fee_id,
+                        null::int fee_money_id,
+                        null::int fee_account_id,
 
-                        null::int account_from_id,
-                        null::int account_to_id
+                        null::int from_account_id,
+                        null::int to_account_id
                    from cfi
                   where (:startDate::date is null or cfi.cashflow_item_date >= :startDate::date)
                     and (:endDate::date is null or cfi.cashflow_item_date <= :endDate::date)
@@ -238,25 +238,25 @@ class OperationRepositoryImpl implements OperationRepository {
                         t.user_id,
                         null permit,
 
-                        null amount_sell,
-                        null money_sell_id,
-                        null account_sell_id,
+                        null sell_amount,
+                        null sell_money_id,
+                        null sell_account_id,
 
-                        null amount_buy,
-                        null money_buy_id,
-                        null account_buy_id,
+                        null buy_amount,
+                        null buy_money_id,
+                        null buy_account_id,
 
                         t.fee,
-                        t.money_fee_id,
-                        t.account_fee_id,
+                        t.fee_money_id,
+                        t.fee_account_id,
 
-                        t.account_from_id,
-                        t.account_to_id
+                        t.from_account_id,
+                        t.to_account_id
                    from transfer t
                   where (:startDate::date is null or t.transfer_date >= :startDate::date)
                     and (:endDate::date is null or t.transfer_date <= :endDate::date)
-                    and (:accounts::int[] is null or t.account_from_id in (select unnest(:accounts::int[])))
-                    and (:accounts::int[] is null or t.account_to_id in (select unnest(:accounts::int[])))
+                    and (:accounts::int[] is null or t.from_account_id in (select unnest(:accounts::int[])))
+                    and (:accounts::int[] is null or t.to_account_id in (select unnest(:accounts::int[])))
                     and (:tags::int[] is null or t.tags && :tags::int[])
                     and (
                       :searchText::text is null
@@ -284,25 +284,25 @@ class OperationRepositoryImpl implements OperationRepository {
                         e.user_id,
                         null permit,
 
-                        e.amount_sell,
-                        e.money_sell_id,
-                        e.account_sell_id,
+                        e.sell_amount,
+                        e.sell_money_id,
+                        e.sell_account_id,
 
-                        e.amount_buy,
-                        e.money_buy_id,
-                        e.account_buy_id,
+                        e.buy_amount,
+                        e.buy_money_id,
+                        e.buy_account_id,
 
                         e.fee,
-                        e.money_fee_id,
-                        e.account_fee_id,
+                        e.fee_money_id,
+                        e.fee_account_id,
 
-                        null account_from_id,
-                        null account_to_id
+                        null from_account_id,
+                        null to_account_id
                    from exchange e
                   where (:startDate::date is null or e.exchange_date >= :startDate::date)
                     and (:endDate::date is null or e.exchange_date <= :endDate::date)
-                    and (:accounts::int[] is null or e.account_sell_id in (select unnest(:accounts::int[])))
-                    and (:accounts::int[] is null or e.account_buy_id in (select unnest(:accounts::int[])))
+                    and (:accounts::int[] is null or e.sell_account_id in (select unnest(:accounts::int[])))
+                    and (:accounts::int[] is null or e.buy_account_id in (select unnest(:accounts::int[])))
                     and (:tags::int[] is null or e.tags && :tags::int[])
                     and (
                       :searchText::text is null

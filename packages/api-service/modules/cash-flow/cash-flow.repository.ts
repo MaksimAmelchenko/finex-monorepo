@@ -5,12 +5,14 @@ import {
   CashFlowRepository,
   CashFlowType,
   CreateCashFlowRepositoryData,
+  CreateCashFlowServiceData,
   FindCashFlowsRepositoryResponse,
   FindCashFlowsServiceQuery,
   ICashFlowDAO,
   UpdateCashFlowRepositoryChanges,
 } from './types';
 import { IRequestContext } from '../../types/app';
+import { cashFlowItemRepository } from '../cash-flow-item/cash-flow-item.repository';
 import { knex } from '../../knex';
 
 const { parse } = snakeCaseMappers();
@@ -40,6 +42,26 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
     ctx.log.info({ cashFlowId }, 'created cash flow');
 
     return (await this.getCashFlow(ctx, projectId, cashFlowId)) as ICashFlowDAO;
+  }
+
+  async createCashFlowWithItems(
+    ctx: IRequestContext<unknown, false>,
+    projectId: string,
+    userId: string,
+    data: CreateCashFlowServiceData
+  ): Promise<ICashFlowDAO> {
+    const { items = [], ...params } = data;
+
+    const cashFlowDAO = await this.createCashFlow(ctx, projectId, userId, {
+      ...params,
+      cashFlowTypeId: CashFlowType.IncomeExpense,
+    });
+
+    await Promise.all(
+      items.map(item => cashFlowItemRepository.createCashFlowItem(ctx, projectId, userId, String(cashFlowDAO.id), item))
+    );
+
+    return cashFlowDAO;
   }
 
   async getCashFlow(

@@ -30,14 +30,14 @@ import styles from '../OperationWindowMobile/OperationWindowMobile.module.scss';
 interface TransferFormValues {
   amount: string;
   moneyId: string | null;
-  accountFromId: string | null;
-  accountToId: string | null;
+  fromAccountId: string | null;
+  toAccountId: string | null;
   transferDate: Date;
   reportPeriod: Date;
   isFee: boolean;
   fee: string;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   note: string;
   tagIds: string[];
   isOnlySave: boolean;
@@ -54,35 +54,35 @@ function mapValuesToCreatePayload(values: TransferFormValues): CreateTransferDat
   const {
     amount,
     moneyId,
-    accountFromId,
-    accountToId,
+    fromAccountId,
+    toAccountId,
     transferDate,
     reportPeriod,
     isFee,
     fee,
-    moneyFeeId,
-    accountFeeId,
+    feeMoneyId,
+    feeAccountId,
     note,
     tagIds,
   } = values;
   const data: CreateTransferData = {
     amount: Number(amount),
     moneyId: moneyId!,
-    accountFromId: accountFromId!,
-    accountToId: accountToId!,
+    fromAccountId: fromAccountId!,
+    toAccountId: toAccountId!,
     transferDate: format(transferDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
     tags: tagIds,
   };
   if (isFee) {
-    if (!fee || !moneyFeeId || !accountFeeId) {
+    if (!fee || !feeMoneyId || !feeAccountId) {
       throw new Error('Transfer form is corrupted');
     }
 
     data.fee = Number(fee);
-    data.moneyFeeId = moneyFeeId;
-    data.accountFeeId = accountFeeId;
+    data.feeMoneyId = feeMoneyId;
+    data.feeAccountId = feeAccountId;
   }
   return data;
 }
@@ -91,22 +91,22 @@ function mapValuesToUpdatePayload(values: TransferFormValues): UpdateTransferCha
   const {
     amount,
     moneyId,
-    accountFromId,
-    accountToId,
+    fromAccountId,
+    toAccountId,
     transferDate,
     reportPeriod,
     isFee,
     fee,
-    moneyFeeId,
-    accountFeeId,
+    feeMoneyId,
+    feeAccountId,
     note,
     tagIds,
   } = values;
   const changes: UpdateTransferChanges = {
     amount: Number(amount),
     moneyId: moneyId!,
-    accountFromId: accountFromId!,
-    accountToId: accountToId!,
+    fromAccountId: fromAccountId!,
+    toAccountId: toAccountId!,
     transferDate: format(transferDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
     note,
@@ -114,12 +114,12 @@ function mapValuesToUpdatePayload(values: TransferFormValues): UpdateTransferCha
   };
 
   if (isFee) {
-    if (!moneyFeeId || !accountFeeId) {
+    if (!feeMoneyId || !feeAccountId) {
       throw new Error('Transfer form is corrupted');
     }
     changes.fee = Number(fee);
-    changes.moneyFeeId = moneyFeeId;
-    changes.accountFeeId = accountFeeId;
+    changes.feeMoneyId = feeMoneyId;
+    changes.feeAccountId = feeAccountId;
   } else {
     changes.isFee = false;
   }
@@ -132,13 +132,13 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
     //
     amount,
     money,
-    accountFrom,
-    accountTo,
+    fromAccount,
+    toAccount,
     transferDate,
     reportPeriod,
     fee,
-    moneyFee,
-    accountFee,
+    feeMoney,
+    feeAccount,
     note,
     tags,
   } = transfer;
@@ -196,12 +196,12 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
             const {
               amount,
               moneyId,
-              accountFromId,
-              accountToId,
+              fromAccountId,
+              toAccountId,
               isFee,
               fee,
-              moneyFeeId,
-              accountFeeId,
+              feeMoneyId,
+              feeAccountId,
               transferDate,
               reportPeriod,
             } = values;
@@ -209,14 +209,14 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
               values: {
                 amount: '',
                 moneyId,
-                accountFromId,
-                accountToId,
+                fromAccountId,
+                toAccountId,
                 transferDate,
                 reportPeriod,
                 isFee,
                 fee: '',
-                moneyFeeId,
-                accountFeeId,
+                feeMoneyId,
+                feeAccountId,
                 note: '',
                 tagIds: [],
                 isOnlySave: false,
@@ -267,17 +267,17 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
         fee: Yup.mixed().test('fee', t('Please fill fee'), function (value) {
           return !(this.parent.isFee && isNaN(value));
         }),
-        accountFeeId: Yup.mixed().test('accountFeeId', t('Please select account'), function (value) {
+        feeAccountId: Yup.mixed().test('feeAccountId', t('Please select account'), function (value) {
           return !(this.parent.isFee && !value);
         }),
-        accountFromId: Yup.mixed().test('accountFromId', t('Please select account'), value => Boolean(value)),
-        accountToId: Yup.mixed()
-          .test('accountToId', t('Please select account'), value => Boolean(value))
+        fromAccountId: Yup.mixed().test('fromAccountId', t('Please select account'), value => Boolean(value)),
+        toAccountId: Yup.mixed()
+          .test('toAccountId', t('Please select account'), value => Boolean(value))
           .test(
-            'accountToId',
+            'toAccountId',
             t('Please select an account other than the account you are transferring money from'),
             function (value) {
-              return !(this.parent.accountFromId === value);
+              return !(this.parent.fromAccountId === value);
             }
           ),
       }),
@@ -297,14 +297,14 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
       initialValues={{
         amount: amount ? String(amount) : '',
         moneyId: money?.id ?? defaultMoney?.id ?? null,
-        accountFromId: accountFrom?.id ?? defaultAccount?.id ?? null,
-        accountToId: accountTo?.id ?? null,
+        fromAccountId: fromAccount?.id ?? defaultAccount?.id ?? null,
+        toAccountId: toAccount?.id ?? null,
         transferDate: transferDate ? parseISO(transferDate) : new Date(),
         reportPeriod: reportPeriod ? parseISO(reportPeriod) : new Date(),
         isFee: Boolean(fee),
         fee: fee ? String(fee) : '',
-        moneyFeeId: moneyFee?.id ?? defaultMoney?.id ?? null,
-        accountFeeId: accountFee?.id ?? null,
+        feeMoneyId: feeMoney?.id ?? defaultMoney?.id ?? null,
+        feeAccountId: feeAccount?.id ?? null,
         note: note ?? '',
         tagIds: tags ? tags.map(tag => tag.id) : [],
         isOnlySave: false,
@@ -327,9 +327,9 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
               ref={amountFieldRefCallback}
             />
 
-            <AccountField name="accountFromId" label={t('From account')} />
+            <AccountField name="fromAccountId" label={t('From account')} />
 
-            <AccountField name="accountToId" label={t('To account')} />
+            <AccountField name="toAccountId" label={t('To account')} />
 
             <div className={styles.dateFields}>
               <DateField name="transferDate" label={t('Date')} dateFormat="date.format.fullDateWithDayOfWeek" />
@@ -346,8 +346,8 @@ export function TransferWindowMobile({ transfer, onClose }: TransferWindowMobile
             <div className={clsx(styles.fee)}>
               <FormCheckbox name="isFee">{t('Fee')}</FormCheckbox>
               <Accordion isExpanded={values.isFee} className={styles.fee__fields}>
-                <AmountField amountFieldName="fee" moneyFieldName="moneyFeeId" label={t('Fee')} />
-                <AccountField name="accountFeeId" label={t('Fee account')} />
+                <AmountField amountFieldName="fee" moneyFieldName="feeMoneyId" label={t('Fee')} />
+                <AccountField name="feeAccountId" label={t('Fee account')} />
               </Accordion>
             </div>
 

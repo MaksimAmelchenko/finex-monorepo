@@ -93,7 +93,7 @@ export interface ICashFlowItem {
   amount: number;
   money: Money;
   account: Account;
-  category: Category;
+  category: Category | null;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
   quantity: number | null;
@@ -108,7 +108,7 @@ export interface CreateCashFlowItemData {
   sign: Sign;
   amount: number;
   moneyId: string;
-  categoryId: string;
+  categoryId: string | null;
   accountId: string;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;
@@ -127,7 +127,7 @@ export type UpdateCashFlowItemChanges = Partial<{
   sign: Sign;
   amount: number;
   moneyId: string;
-  categoryId: string;
+  categoryId: string | null;
   accountId: string;
   cashFlowItemDate: TDate;
   reportPeriod: TDate;

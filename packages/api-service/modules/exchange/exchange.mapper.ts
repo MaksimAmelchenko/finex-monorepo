@@ -8,34 +8,34 @@ class ExchangeMapperImpl implements ExchangeMapper {
   toDTO({
     userId,
     id,
-    amountSell,
-    moneySellId,
-    amountBuy,
-    moneyBuyId,
-    accountSellId,
-    accountBuyId,
+    sellAmount,
+    sellMoneyId,
+    buyAmount,
+    buyMoneyId,
+    sellAccountId,
+    buyAccountId,
     exchangeDate,
     reportPeriod,
     fee,
-    moneyFeeId,
-    accountFeeId,
+    feeMoneyId,
+    feeAccountId,
     note,
     tags,
     updatedAt,
   }: IExchange): IExchangeDTO {
     return {
       id,
-      amountSell,
-      moneySellId,
-      amountBuy,
-      moneyBuyId,
-      accountSellId,
-      accountBuyId,
+      sellAmount,
+      sellMoneyId,
+      buyAmount,
+      buyMoneyId,
+      sellAccountId,
+      buyAccountId,
       exchangeDate,
       reportPeriod,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       note,
       tags,
       updatedAt,
@@ -49,47 +49,47 @@ class ExchangeMapperImpl implements ExchangeMapper {
     exchangeCategoryId: string,
     exchangeFeeCategoryId: string
   ): IExchange {
-    let amountSell: number | undefined;
-    let moneySellId: string | undefined;
-    let amountBuy: number | undefined;
-    let moneyBuyId: string | undefined;
-    let accountSellId: string | undefined;
-    let accountBuyId: string | undefined;
+    let sellAmount: number | undefined;
+    let sellMoneyId: string | undefined;
+    let buyAmount: number | undefined;
+    let buyMoneyId: string | undefined;
+    let sellAccountId: string | undefined;
+    let buyAccountId: string | undefined;
     let fee: number | null = null;
-    let moneyFeeId: string | null = null;
-    let accountFeeId: string | null = null;
+    let feeMoneyId: string | null = null;
+    let feeAccountId: string | null = null;
     let exchangeDate: string | undefined;
     let reportPeriod: string | undefined;
 
     for (const cashFlowItem of cashFlowItems) {
       if (String(cashFlowItem.categoryId) === exchangeCategoryId && cashFlowItem.sign === -1) {
-        amountSell = cashFlowItem.amount;
-        moneySellId = String(cashFlowItem.moneyId);
-        accountSellId = String(cashFlowItem.accountId);
+        sellAmount = cashFlowItem.amount;
+        sellMoneyId = String(cashFlowItem.moneyId);
+        sellAccountId = String(cashFlowItem.accountId);
         exchangeDate = cashFlowItem.cashflowItemDate;
         reportPeriod = cashFlowItem.reportPeriod;
       }
 
       if (String(cashFlowItem.categoryId) === exchangeCategoryId && cashFlowItem.sign === 1) {
-        amountBuy = cashFlowItem.amount;
-        moneyBuyId = String(cashFlowItem.moneyId);
-        accountBuyId = String(cashFlowItem.accountId);
+        buyAmount = cashFlowItem.amount;
+        buyMoneyId = String(cashFlowItem.moneyId);
+        buyAccountId = String(cashFlowItem.accountId);
       }
 
       if (String(cashFlowItem.categoryId) === exchangeFeeCategoryId) {
         fee = cashFlowItem.amount;
-        moneyFeeId = String(cashFlowItem.moneyId);
-        accountFeeId = String(cashFlowItem.accountId);
+        feeMoneyId = String(cashFlowItem.moneyId);
+        feeAccountId = String(cashFlowItem.accountId);
       }
     }
 
     if (
-      !amountSell ||
-      !moneySellId ||
-      !amountBuy ||
-      !moneyBuyId ||
-      !accountSellId ||
-      !accountBuyId ||
+      !sellAmount ||
+      !sellMoneyId ||
+      !buyAmount ||
+      !buyMoneyId ||
+      !sellAccountId ||
+      !buyAccountId ||
       !exchangeDate ||
       !reportPeriod
     ) {
@@ -99,15 +99,15 @@ class ExchangeMapperImpl implements ExchangeMapper {
     return new Exchange({
       userId: String(userId),
       id: String(id),
-      amountSell,
-      moneySellId,
-      amountBuy,
-      moneyBuyId,
-      accountSellId,
-      accountBuyId,
+      sellAmount,
+      sellMoneyId,
+      buyAmount,
+      buyMoneyId,
+      sellAccountId,
+      buyAccountId,
       fee,
-      moneyFeeId,
-      accountFeeId,
+      feeMoneyId,
+      feeAccountId,
       exchangeDate,
       reportPeriod,
       note: note || '',

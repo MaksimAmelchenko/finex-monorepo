@@ -12,7 +12,7 @@ export class Transaction implements ITransaction {
   reportPeriod: TDate;
   accountId: string;
   contractorId: string | null;
-  categoryId: string;
+  categoryId: string | null;
   quantity: number | null;
   unitId: string | null;
   isNotConfirmed: boolean;

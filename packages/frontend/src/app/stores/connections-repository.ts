@@ -13,9 +13,12 @@ import {
 } from '../types/connections';
 import { Account } from './models/account';
 import { AccountsRepository } from './accounts-repository';
+import { CashFlowsRepository } from './cash-flows-repository';
+import { ContractorsRepository } from './contractors-repository';
 import { LoadState } from '../core/load-state';
 import { MainStore } from '../core/main-store';
 import { ManageableStore } from '../core/manageable-store';
+import { OperationsRepository } from './operations-repository';
 
 export class ConnectionsRepository extends ManageableStore {
   static storeName = 'ConnectionsRepository';
@@ -88,8 +91,11 @@ export class ConnectionsRepository extends ManageableStore {
       );
   }
 
-  createNordigenRequisition(institutionId: string): Promise<CreateRequisitionResponse> {
-    return this.api.createNordigenRequisition(institutionId);
+  createNordigenRequisition(
+    institutionId: string,
+    options: { isRetrieveMaxPeriodTransactions: boolean }
+  ): Promise<CreateRequisitionResponse> {
+    return this.api.createNordigenRequisition(institutionId, options);
   }
 
   completeNordigenRequisition(requisitionId: string): Promise<CompleteRequisitionResponse> {
@@ -110,6 +116,26 @@ export class ConnectionsRepository extends ManageableStore {
     return this.api.unlinkConnectionAccount(connectionId, accountId).then(({ account }) => {
       this.consumeConnectionAccount(connectionId, account);
     });
+  }
+
+  async syncConnectionAccount(connectionId: string, accountId: string): Promise<void> {
+    await this.api.syncConnectionAccount(connectionId, accountId);
+    const contractorsRepository = this.getStore(ContractorsRepository);
+    const operationsRepository = this.getStore(OperationsRepository);
+    const cashFlowsRepository = this.getStore(CashFlowsRepository);
+
+    await Promise.all([
+      //
+      this.getConnections(),
+      contractorsRepository.getContractors(),
+    ]);
+
+    // mobile version only due to desktop has no functionality to sync transactions manually
+    await Promise.all([
+      //
+      operationsRepository.refresh(),
+      cashFlowsRepository.refresh(),
+    ]);
   }
 
   private decodeConnectionAccount(connectionAccount: IAccountDTO): IAccount {

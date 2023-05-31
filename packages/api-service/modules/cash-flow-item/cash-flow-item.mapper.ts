@@ -31,7 +31,7 @@ class CashFlowItemMapperImpl implements CashFlowItemMapper {
       sign,
       amount,
       moneyId: String(moneyId),
-      categoryId: String(categoryId),
+      categoryId: categoryId ? String(categoryId) : null,
       accountId: String(accountId),
       cashFlowItemDate: cashflowItemDate,
       reportPeriod,

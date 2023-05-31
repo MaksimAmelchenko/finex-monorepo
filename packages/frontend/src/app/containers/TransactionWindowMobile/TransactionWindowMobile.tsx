@@ -74,7 +74,7 @@ function mapValuesToCreatePayload(values: TransactionFormValues): CreateTransact
     sign: Number(sign) as Sign,
     amount: Number(amount),
     moneyId: moneyId!,
-    categoryId: categoryId!,
+    categoryId,
     accountId: accountId!,
     // TODO take contractorId from PlannedTransaction
     contractorId: null,
@@ -108,7 +108,7 @@ function mapValuesToUpdatePayload(values: TransactionFormValues): UpdateTransact
     sign: Number(sign) as Sign,
     amount: Number(amount),
     moneyId: moneyId!,
-    categoryId: categoryId!,
+    categoryId,
     accountId: accountId!,
     transactionDate: format(transactionDate, 'yyyy-MM-dd'),
     reportPeriod: format(reportPeriod, 'yyyy-MM-01'),
@@ -260,7 +260,6 @@ export function TransactionWindowMobile({
           .required(t('Please fill amount'))
           .test('amount', t('Please enter a number'), value => !isNaN(value)),
         moneyId: Yup.mixed().test('moneyId', t('Please select money'), value => Boolean(value)),
-        categoryId: Yup.mixed().test('categoryId', t('Please select category'), value => Boolean(value)),
         accountId: Yup.mixed().test('accountId', t('Please select account'), value => Boolean(value)),
         quantity: Yup.mixed().test('quantity', t('Please enter a number'), value => !value || (value && !isNaN(value))),
       }),

@@ -1,4 +1,4 @@
-.row {
+.root {
   cursor: pointer;
 
   &_is_deleting {
@@ -12,6 +12,16 @@
   td.firstColumn {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  &__category {
+    &_uncategorized {
+      color: var(--color-warning-600);
+    }
+  }
+
+  &__categoryPath {
+    color: var(--color-gray-500);
   }
 }
 
@@ -67,8 +77,4 @@
 .tags {
   display: inline-flex;
   gap: 0.8rem;
-}
-
-.categoryPath {
-  color: var(--color-gray-500);
 }

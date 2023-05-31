@@ -14,7 +14,7 @@ interface TransferRowProps {
 }
 
 export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) => {
-  const { amount, money, accountFrom, accountTo, fee, moneyFee, transferDate, isDeleting, isSelected, note, tags } =
+  const { amount, money, fromAccount, toAccount, fee, feeMoney, transferDate, isDeleting, isSelected, note, tags } =
     transfer;
 
   const handleOnSelect = (event: React.SyntheticEvent) => {
@@ -39,10 +39,10 @@ export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) =>
       </td>
 
       <td>
-        <div>{accountFrom.name}</div>
+        <div>{fromAccount.name}</div>
       </td>
       <td>
-        <div>{accountTo.name}</div>
+        <div>{toAccount.name}</div>
       </td>
 
       <td className="text-end numeric">
@@ -50,7 +50,7 @@ export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) =>
       </td>
 
       <td className="text-end numeric">
-        {fee && moneyFee && <div>{toCurrency(fee, { unit: moneyFee.symbol, precision: moneyFee.precision })}</div>}
+        {fee && feeMoney && <div>{toCurrency(fee, { unit: feeMoney.symbol, precision: feeMoney.precision })}</div>}
       </td>
 
       <td className="hidden-sm min-width">{note}</td>

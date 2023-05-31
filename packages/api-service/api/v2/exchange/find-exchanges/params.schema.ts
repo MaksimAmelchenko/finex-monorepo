@@ -21,11 +21,11 @@ export const findExchangesParamsSchema: OpenAPIV3_1.SchemaObject = {
     },
     startDate: date,
     endDate: date,
-    accountsSell: {
+    sellAccounts: {
       type: 'string',
       example: '1,2,3',
     },
-    accountsBuy: {
+    buyAccounts: {
       type: 'string',
       example: '1,2,3',
     },

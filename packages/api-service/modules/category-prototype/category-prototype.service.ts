@@ -20,6 +20,35 @@ class CategoryPrototypeServiceImpl implements CategoryPrototypeService {
 
     return categoryPrototypeDAOs.map(categoryPrototypeMapper.toDomain);
   }
+
+  // make sure that the category prototypes are sorted by hierarchy
+  async getSortedCategoryPrototypes(ctx: IRequestContext<unknown, true>): Promise<ICategoryPrototype[]> {
+    const categoryPrototypes = await this.getCategoryPrototypes(ctx);
+
+    const dict: Record<number, ICategoryPrototype[]> = {};
+
+    categoryPrototypes.forEach(categoryPrototype => {
+      const parent = categoryPrototype.parent || 'root';
+      if (!dict[parent]) {
+        dict[parent] = [];
+      }
+      dict[parent].push(categoryPrototype);
+    });
+
+    const result: ICategoryPrototype[] = [];
+    const addNodes = (parent: string) => {
+      if (dict[parent]) {
+        dict[parent].forEach(categoryPrototype => {
+          result.push(categoryPrototype);
+          addNodes(categoryPrototype.id);
+        });
+      }
+    };
+
+    addNodes('root');
+
+    return result;
+  }
 }
 
 export const categoryPrototypeService = new CategoryPrototypeServiceImpl();

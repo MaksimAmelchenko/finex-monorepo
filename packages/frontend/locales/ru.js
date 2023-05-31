@@ -137,11 +137,13 @@ module.exports = {
     Overdue: 'Просрочено',
     Planned: 'Запланировано',
     'Not confirmed': 'Не подтверждено',
+    Uncategorized: 'Без категории',
   },
   CashFlowCard: {
     'Cash Inflows': 'Приток',
     'Cash Outflows': 'Отток',
     'Empty Cash Flow': 'Пустой денежный поток',
+    Uncategorized: 'Без категории',
   },
   CashFlowItem: {
     Income: 'Приход',
@@ -149,7 +151,6 @@ module.exports = {
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
-    'Please select category': 'Пожалуйста, выберите категорию',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
@@ -173,6 +174,9 @@ module.exports = {
     Cancel: 'Отмена',
     Save: 'Сохранить',
     'Save and Create New': 'Сохранить и создать ещё',
+  },
+  CashFlowItemRow: {
+    Uncategorized: 'Без категории',
   },
   CashFlows: {
     'Are you sure you want to delete several cash flows?': 'Вы уверены, что хотите удалить несколько денежных потоков?',
@@ -277,23 +281,26 @@ module.exports = {
   },
   ConnectionAccountCard: {
     'No linked account': 'Нет привязанного счёта',
+    'Last synced at': 'Последняя синхронизация: ',
   },
   ConnectionAccountWindow: {
     'The account is already linked_ Please choose another account or unlink this one first_':
       'Счёт уже привязан. Пожалуйста, выберите другой счёт или сначала отвяжите этот.',
+    'Syncing is finished': 'Синхронизация завершена',
     'Please select account': 'Пожалуйста, выберите счёт',
     'Please select date': 'Пожалуйста, выберите дату',
     'Link accounts': 'Связать счета',
     'Bank account': 'Банковский счёт',
     'Linked account': 'Привязанный счёт',
     'Sync transactions from': 'Синхронизировать операции с',
+    'Sync Now': 'Синхронизировать сейчас',
     Save: 'Сохранить',
   },
   ConnectionNordigenCompleteMobile: {
-    'Connection failed': 'Connection failed',
+    'Connection failed': 'Подключение не удалось',
     'Something went wrong_ Please try again_ If the problem persists, please contact our support team':
-      'Something went wrong. Please try again. If the problem persists, please contact our support team',
-    'Try again': 'Try again',
+      'Что-то пошло не так. Пожалуйста, попробуйте ещё раз. Если проблема не исчезнет, обратитесь в нашу службу поддержки',
+    'Try again': 'Попробовать ещё раз',
   },
   Connections: {
     'Bank connections': 'Подключение к банкам',
@@ -302,6 +309,8 @@ module.exports = {
       'Синхронизируйте транзакции с вашими банковскими счетами для автоматического учета ваших финансов.',
     'Your data is safe_ We do not store your logins and passwords, we only have access to read data and cannot make payments on your behalf_ You can revoke permission to access your data at any time_':
       'Ваши данные в безопасности. Мы не храним ваши логины и пароли, имеем только доступ на чтение данных и не можем совершать платежи от вашего имени. Вы можете отозвать разрешение на доступ к своим данным в любое время.',
+    'Retrieve my transactions for the maximum available period':
+      'Получить мои транзакции за максимальный доступный период',
     'Connect bank': 'Подключить банк',
   },
   ConnectionWindow: {
@@ -872,6 +881,7 @@ module.exports = {
   },
   ReportsRepository: {
     'Something went wrong, please try again later': 'Что-то пошло не так. Пожалуйста, попытайтесь ещё раз позже',
+    Uncategorized: 'Без категории',
   },
   ResetPassword: {
     'Please enter your e-mail address': 'Укажите e-mail',
@@ -995,6 +1005,9 @@ module.exports = {
   Tools: {
     Tools: 'Инструменты',
   },
+  TransactionCard: {
+    Uncategorized: 'Без категории',
+  },
   Transactions: {
     'Are you sure you want to delete several transactions?': 'Вы уверены, что хотите удалить несколько операций?',
     'Incomes and Expenses - Transactions': 'Приходы и расходы - Операции',
@@ -1022,7 +1035,6 @@ module.exports = {
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
-    'Please select category': 'Пожалуйста, выберите категорию',
     'At first,': 'At first,',
     create: 'create',
     'at least one account_': 'at least one account.',
@@ -1055,7 +1067,6 @@ module.exports = {
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select money': 'Пожалуйста, выберите валюту',
-    'Please select category': 'Пожалуйста, выберите категорию',
     'Please select account': 'Пожалуйста, выберите счёт',
     'Add transaction': 'Добавление операции',
     'Edit transaction': 'Редактирование операции',
@@ -1144,8 +1155,8 @@ module.exports = {
     'Note, Tags': 'Примечание, Теги',
     Note: 'Примечание',
     Tags: 'Теги',
-    'Save and Create New': 'Save and Create New',
-    Save: 'Save',
+    'Save and Create New': 'Сохранить и создать ещё',
+    Save: 'Сохранить',
   },
   Units: {
     'Are you sure you want to delete several units?': 'Вы уверены, что хотите удалить несколько единиц измерений?',

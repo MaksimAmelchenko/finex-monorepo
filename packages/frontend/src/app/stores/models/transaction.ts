@@ -17,7 +17,7 @@ export class Transaction implements ITransaction, ISelectable, IDeletable {
   amount: number;
   money: Money;
   account: Account;
-  category: Category;
+  category: Category | null;
   contractor: Contractor | null;
   transactionDate: TDate;
   reportPeriod: TDate;

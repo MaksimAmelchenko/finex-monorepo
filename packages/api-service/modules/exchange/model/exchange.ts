@@ -4,15 +4,15 @@ import { TDate, TDateTime } from '../../../types/app';
 export class Exchange implements IExchange {
   readonly userId: string;
   readonly id: string;
-  amountSell: number;
-  moneySellId: string;
-  amountBuy: number;
-  moneyBuyId: string;
-  accountSellId: string;
-  accountBuyId: string;
+  sellAmount: number;
+  sellMoneyId: string;
+  buyAmount: number;
+  buyMoneyId: string;
+  sellAccountId: string;
+  buyAccountId: string;
   fee: number | null;
-  moneyFeeId: string | null;
-  accountFeeId: string | null;
+  feeMoneyId: string | null;
+  feeAccountId: string | null;
   exchangeDate: TDate;
   reportPeriod: TDate;
   note: string;
@@ -22,34 +22,34 @@ export class Exchange implements IExchange {
   constructor({
     userId,
     id,
-    amountSell,
-    moneySellId,
-    amountBuy,
-    moneyBuyId,
-    accountSellId,
-    accountBuyId,
+    sellAmount,
+    sellMoneyId,
+    buyAmount,
+    buyMoneyId,
+    sellAccountId,
+    buyAccountId,
     exchangeDate,
     reportPeriod,
     fee,
-    moneyFeeId,
-    accountFeeId,
+    feeMoneyId,
+    feeAccountId,
     note,
     tags,
     updatedAt,
   }: IExchangeEntity) {
     this.userId = userId;
     this.id = id;
-    this.amountSell = amountSell;
-    this.moneySellId = moneySellId;
-    this.amountBuy = amountBuy;
-    this.moneyBuyId = moneyBuyId;
-    this.accountSellId = accountSellId;
-    this.accountBuyId = accountBuyId;
+    this.sellAmount = sellAmount;
+    this.sellMoneyId = sellMoneyId;
+    this.buyAmount = buyAmount;
+    this.buyMoneyId = buyMoneyId;
+    this.sellAccountId = sellAccountId;
+    this.buyAccountId = buyAccountId;
     this.exchangeDate = exchangeDate;
     this.reportPeriod = reportPeriod;
     this.fee = fee;
-    this.moneyFeeId = moneyFeeId;
-    this.accountFeeId = accountFeeId;
+    this.feeMoneyId = feeMoneyId;
+    this.feeAccountId = feeAccountId;
     this.note = note;
     this.tags = tags;
     this.updatedAt = updatedAt;
