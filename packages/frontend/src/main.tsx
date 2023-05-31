@@ -61,7 +61,7 @@ async function initI18n(): Promise<void> {
             date: {
               format: {
                 default: 'dd.MM.yyyy',
-                full: 'dd.MM.yyyy hh24:mi',
+                full: 'dd.MM.yyyy HH:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
                 // 4 March 2023, Sa
@@ -108,7 +108,7 @@ async function initI18n(): Promise<void> {
             date: {
               format: {
                 default: 'dd.MM.yyyy',
-                full: 'dd.MM.yyyy hh:mm',
+                full: 'dd.MM.yyyy HH:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
                 // 4 марта 2023, сб
@@ -155,7 +155,7 @@ async function initI18n(): Promise<void> {
             date: {
               format: {
                 default: 'dd.MM.yyyy',
-                full: 'dd.MM.yyyy hh:mi',
+                full: 'dd.MM.yyyy HH:mm',
                 short: 'dd.MM.yy',
                 month: 'MMM yyyy',
                 // 4 März 2023, Sa
