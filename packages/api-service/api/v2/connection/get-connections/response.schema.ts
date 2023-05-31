@@ -1,7 +1,8 @@
 import { OpenAPIV3_1 } from 'openapi-types';
 
-import { id } from '../../../../common/schemas/fields/id';
 import { ConnectionProvider } from '../../../../modules/connection/types';
+import { accountSchema } from '../account.schema';
+import { id } from '../../../../common/schemas/fields/id';
 
 export const getConnectionsResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
@@ -24,43 +25,7 @@ export const getConnectionsResponseSchema: OpenAPIV3_1.SchemaObject = {
           },
           accounts: {
             type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                id,
-                providerAccountId: {
-                  type: 'string',
-                },
-                providerAccountName: {
-                  type: 'string',
-                },
-                providerAccountProduct: {
-                  type: 'string',
-                },
-                accountId: {
-                  type: ['string', 'null'],
-                },
-                syncFrom: {
-                  type: ['string', 'null'],
-                  format: 'date',
-                },
-                lastSyncedAt: {
-                  type: ['string', 'null'],
-                  format: 'date-time',
-                },
-              },
-              additionalProperties: false,
-              required: [
-                //
-                'id',
-                'providerAccountId',
-                'providerAccountName',
-                'providerAccountProduct',
-                'accountId',
-                'syncFrom',
-                'lastSyncedAt',
-              ],
-            },
+            items: accountSchema,
           },
         },
         additionalProperties: false,
