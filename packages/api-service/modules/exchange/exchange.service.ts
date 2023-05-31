@@ -360,19 +360,19 @@ class ExchangeServiceImpl implements ExchangeService {
   }
 
   private static async getExchangeCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
-    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '21');
-    if (!category) {
+    const categories = await CategoryGateway.getCategoriesByPrototype(ctx, projectId, '21');
+    if (categories.length !== 1) {
       throw new InternalError('Exchange category not found', { categoryPrototype: 21 });
     }
-    return String(category.idCategory);
+    return String(categories[0].idCategory);
   }
 
   private static async getExchangeFeeCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
-    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '22');
-    if (!category) {
+    const categories = await CategoryGateway.getCategoriesByPrototype(ctx, projectId, '22');
+    if (categories.length !== 1) {
       throw new InternalError('Exchange category not found', { categoryPrototype: 22 });
     }
-    return String(category.idCategory);
+    return String(categories[0].idCategory);
   }
 }
 

@@ -1,4 +1,4 @@
-import { format, parse, parseISO, subDays, subMonths } from 'date-fns';
+import { format, parse, parseISO, subMonths } from 'date-fns';
 
 import { AccountService } from '../../services/account';
 import {
@@ -14,6 +14,7 @@ import {
   isTransactionTransfer,
   UpdateAccountServiceChanges,
 } from './types';
+import { CategoryGateway } from '../../services/category/gateway';
 import { ContractorGateway } from '../../services/contractor/gateway';
 import { ContractorService } from '../../services/contractor';
 import { CreateCashFlowItemServiceData } from '../cash-flow-item/types';
@@ -23,6 +24,7 @@ import { captureException } from '../../libs/sentry';
 import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { connectionMapper } from './connection.mapper';
 import { connectionRepository } from './connection.repository';
+import { knex } from '../../knex';
 import { moneyService } from '../money/money.service';
 import { nordigenETL } from '../connection-nordigen/nordigen-etl.service';
 import { nordigenService } from '../connection-nordigen/nordigen.service';
@@ -160,22 +162,53 @@ class ConnectionServiceImpl implements ConnectionService {
       const { cashFlow: transactionCashFlow } = transaction;
 
       let cashFlowId: string | null = null;
-
       if (isTransactionCashFlow(transactionCashFlow)) {
         let contractorId: string | null = null;
+        let contractorName: string | null = null;
+        let incomeCategoryId: string | null = null;
+        let expenseCategoryId: string | null = null;
+
         if (transactionCashFlow.contractorName) {
-          const contractor = await ContractorGateway.getContractorByName(
-            ctx,
-            projectId,
-            transactionCashFlow.contractorName
-          );
+          const cleanContractorName = await this.cleanContractorName(ctx, transactionCashFlow.contractorName);
+
+          const recognizedContractor = await this.recognizedContractor(ctx, cleanContractorName);
+          if (recognizedContractor) {
+            const { incomeCategoryPrototypeId, expenseCategoryPrototypeId } = recognizedContractor;
+            contractorName = recognizedContractor.name;
+
+            if (incomeCategoryPrototypeId) {
+              const categories = await CategoryGateway.getCategoriesByPrototype(
+                ctx,
+                projectId,
+                incomeCategoryPrototypeId
+              );
+              if (categories.length === 1) {
+                incomeCategoryId = String(categories[0].idCategory);
+              }
+            }
+
+            if (expenseCategoryPrototypeId) {
+              const categories = await CategoryGateway.getCategoriesByPrototype(
+                ctx,
+                projectId,
+                expenseCategoryPrototypeId
+              );
+              if (categories.length === 1) {
+                expenseCategoryId = String(categories[0].idCategory);
+              }
+            }
+          } else {
+            contractorName = cleanContractorName;
+          }
+
+          const contractor = await ContractorGateway.getContractorByName(ctx, projectId, contractorName);
 
           if (contractor) {
             contractorId = String(contractor.idContractor);
           } else {
             // TODO Maybe we should not create a contractor here. Add some kind of flag to create or not?
             await ContractorService.createContractor(ctx, projectId, userId, {
-              name: transactionCashFlow.contractorName,
+              name: contractorName,
             }).then(({ idContractor }) => (contractorId = String(idContractor)));
           }
         }
@@ -187,8 +220,7 @@ class ConnectionServiceImpl implements ConnectionService {
               throw new InvalidParametersError(`Money with currency ${currency} not found`);
             }
 
-            let categoryId: string | null = null;
-            // TODO Add category detection depending on the contractor
+            const categoryId: string | null = sign === 1 ? incomeCategoryId : expenseCategoryId;
 
             return {
               sign,
@@ -279,6 +311,73 @@ class ConnectionServiceImpl implements ConnectionService {
         captureException(err);
       });
     }
+  }
+
+  private async cleanContractorName(ctx: IRequestContext<unknown, false>, name: string): Promise<string> {
+    let query = knex.raw(
+      `
+          with
+            --
+            c as (select regexp_replace(:name, pattern, '\\1', 'gi') as clean_name
+                    from cf$_connection.contractor_cleaning cc)
+        select clean_name
+          from c
+         where clean_name != :name
+         limit 1
+      `,
+      { name }
+    );
+
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    const { rows } = await query;
+
+    if (!rows.length) {
+      return name;
+    }
+
+    return rows[0].clean_name;
+  }
+
+  private async recognizedContractor(
+    ctx: IRequestContext<unknown, false>,
+    contractorName: string
+  ): Promise<
+    | {
+        name: string;
+        incomeCategoryPrototypeId: string | null;
+        expenseCategoryPrototypeId: string | null;
+      }
+    | undefined
+  > {
+    let query = knex.raw(
+      `
+        select cr.name,
+               cr.income_category_prototype_id as "incomeCategoryPrototypeId",
+               cr.expense_category_prototype_id as "expenseCategoryPrototypeId"
+          from cf$_connection.contractor_recognition cr
+         where :contractorName::text ~* cr.pattern
+         limit 1
+      `,
+      { contractorName }
+    );
+
+    if (ctx.trx) {
+      query = query.transacting(ctx.trx);
+    }
+    const { rows } = await query;
+
+    if (!rows.length) {
+      return;
+    }
+    const { name, incomeCategoryPrototypeId, expenseCategoryPrototypeId } = rows[0];
+
+    return {
+      name: name || contractorName,
+      incomeCategoryPrototypeId,
+      expenseCategoryPrototypeId,
+    };
   }
 }
 

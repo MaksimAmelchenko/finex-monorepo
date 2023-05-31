@@ -28,7 +28,7 @@ export async function handler(ctx: IRequestContext<unknown, true>): Promise<IRes
     subscription,
   ] = await Promise.all([
     accountTypeService.getAccountTypes(ctx),
-    categoryPrototypeService.getCategoryPrototypes(ctx),
+    categoryPrototypeService.getSortedCategoryPrototypes(ctx),
     ProjectService.getDependencies(ctx, projectId, userId),
     ProjectService.getProjects(ctx, userId),
     userService.getUsers(ctx, user.householdId),

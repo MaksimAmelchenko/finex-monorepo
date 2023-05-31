@@ -256,19 +256,19 @@ class TransferRepositoryImpl implements TransferRepository {
   }
 
   async getTransferCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
-    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '11');
-    if (!category) {
+    const categories = await CategoryGateway.getCategoriesByPrototype(ctx, projectId, '11');
+    if (categories.length !== 1) {
       throw new InternalError('Transfer category not found', { categoryPrototype: 11 });
     }
-    return String(category.idCategory);
+    return String(categories[0].idCategory);
   }
 
   async getTransferFeeCategoryId(ctx: IRequestContext, projectId: string): Promise<string> {
-    const category = await CategoryGateway.getCategoryByPrototype(ctx, projectId, '12');
-    if (!category) {
+    const categories = await CategoryGateway.getCategoriesByPrototype(ctx, projectId, '12');
+    if (categories.length !== 1) {
       throw new InternalError('Transfer category not found', { categoryPrototype: 12 });
     }
-    return String(category.idCategory);
+    return String(categories[0].idCategory);
   }
 }
 
