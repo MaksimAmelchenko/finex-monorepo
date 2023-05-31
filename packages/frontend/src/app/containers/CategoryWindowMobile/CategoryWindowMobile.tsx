@@ -129,10 +129,15 @@ export function CategoryWindowMobile({ category, onClose }: CategoryWindowMobile
       .catch((err: any) => {
         let message = '';
         switch (err.code) {
-          case 'cashflow_detail_2_category': {
+          case 'cashflow_detail_2_category':
             message = t('There are transactions with this category');
             break;
-          }
+          case 'category_2_category_parent':
+            message = t("You can't delete a category with subcategories");
+            break;
+          case 'plan_cashflow_item_2_category':
+            message = t("You can't delete a category with plan. Please change the plan at first.");
+            break;
           default:
             message = err.message;
         }
