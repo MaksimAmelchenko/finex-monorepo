@@ -2,11 +2,11 @@ build:
 	docker build . -t finex.io/app/monorepo/api-service
 
 release: build
-	docker tag finex.io/app/monorepo/api-service:latest registry.gitlab.com/finex.io/app/monorepo/api-service:1.10.0
+	docker tag finex.io/app/monorepo/api-service:latest registry.gitlab.com/finex.io/app/monorepo/api-service:1.10.1
 	docker tag finex.io/app/monorepo/api-service:latest registry.gitlab.com/finex.io/app/monorepo/api-service:latest
 
 publish: release
-	docker push registry.gitlab.com/finex.io/app/monorepo/api-service:1.10.0
+	docker push registry.gitlab.com/finex.io/app/monorepo/api-service:1.10.1
 	docker push registry.gitlab.com/finex.io/app/monorepo/api-service:latest
 
 # for first run use docker-compose
