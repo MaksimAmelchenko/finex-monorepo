@@ -64,6 +64,9 @@ export const Categories = observer(() => {
           case 'cashflow_detail_2_category':
             message = t("You can't delete a category with transaction. Move them to another category.");
             break;
+          case 'plan_cashflow_item_2_category':
+            message = t("You can't delete a category with plan. Please change the plan at first.");
+            break;
           default:
             message = err.message;
         }

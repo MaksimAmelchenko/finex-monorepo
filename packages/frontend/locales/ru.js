@@ -236,6 +236,8 @@ module.exports = {
     "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
     "You can't delete a category with transaction_ Move them to another category_":
       'Вы не можете удалить категорию с операциями. Переместите их в другую категорию.',
+    "You can't delete a category with plan_ Please change the plan at first_":
+      'Вы не можете удалить категорию с планом. Сначала измените план.',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
@@ -266,6 +268,9 @@ module.exports = {
   CategoryWindowMobile: {
     'There is a cycle in the hierarchy': 'Есть зацикливание в иерархии',
     'There are transactions with this category': 'Есть операции с этой категорией',
+    "You can't delete a category with subcategories": 'Вы не можете удалить категорию с подкатегориями',
+    "You can't delete a category with plan_ Please change the plan at first_":
+      'Вы не можете удалить категорию с планом. Сначала измените план.',
     'Please fill name': 'Пожалуйста, введите наименование',
     'Add new category': 'Добавление категории',
     'Edit category': 'Редактирование категории',
