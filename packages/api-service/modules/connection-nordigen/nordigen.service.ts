@@ -162,6 +162,7 @@ class NordigenServiceImpl implements NordigenService {
     const syncFrom = subDays(new Date(), Number(agreement.max_historical_days));
 
     const nordigenAccounts = await this.getAccounts(ctx, projectId, userId, requisition.id);
+
     await Promise.all(
       nordigenAccounts.map(({ id, name, product }) =>
         connectionService.createAccount(ctx, projectId, userId, connection.id, {
@@ -205,28 +206,31 @@ class NordigenServiceImpl implements NordigenService {
     );
 
     if (!requisitionNordigen) {
-      throw new NotFoundError('Requisition not found');
+      throw new NotFoundError('NordigenRequisition not found');
     }
 
-    const accounts: IProviderAccount[] = await Promise.all(
-      requisitionNordigen.accounts.map(accountId =>
-        this.client
-          .account(accountId)
-          .getDetails()
-          .then((response: { account: IAccountNordigen }) => {
-            const { cashAccountType, displayName, name, iban, currency, status, product } = response.account;
-            const providerAccount: IProviderAccount = {
-              id: accountId,
-              cashAccountType: cashAccountType as CashAccountType,
-              name: displayName || name || iban || '',
-              currency,
-              status,
-              product,
-            };
-            return providerAccount;
-          })
-      )
-    );
+    const accounts: IProviderAccount[] = [];
+    ctx.log.trace({ accounts: requisitionNordigen.accounts }, 'Receive accounts details');
+    // process account one by one to avoid 429 error
+    for (const accountId of requisitionNordigen.accounts) {
+      ctx.log.trace({ accountId }, 'try to get account details');
+      const account = await this.client
+        .account(accountId)
+        .getDetails()
+        .then((response: { account: IAccountNordigen }) => {
+          const { cashAccountType, displayName, name, iban, currency, status, product } = response.account;
+          const providerAccount: IProviderAccount = {
+            id: accountId,
+            cashAccountType: cashAccountType as CashAccountType,
+            name: displayName || name || iban || '',
+            currency,
+            status,
+            product,
+          };
+          return providerAccount;
+        });
+      accounts.push(account);
+    }
 
     return accounts.filter(account => account.status !== ProviderAccountStatus.Deleted);
   }
