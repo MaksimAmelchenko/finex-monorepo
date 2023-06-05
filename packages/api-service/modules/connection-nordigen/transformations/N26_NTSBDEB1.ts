@@ -51,11 +51,19 @@ export const N26Transformation: TransformationFunction = (
     const transactionId = internalTransactionId || transaction.transactionId!;
     const transactionDate = bookingDate || valueDate || format(new Date(), 'yyyy-MM-dd');
     const note = remittanceInformationUnstructured !== '-' ? remittanceInformationUnstructured : undefined;
-    const contractorName = creditorName || debtorName;
-    const iban = transaction.creditorAccount?.iban || transaction.debtorAccount?.iban;
     const amount = Number(transactionAmount.amount);
     const currency = transactionAmount.currency;
     const accountId = connectionAccount.accountId!;
+    let contractorName: string | undefined = '';
+    let iban: string | undefined = '';
+
+    if (Math.sign(amount) === 1) {
+      contractorName = debtorName;
+      iban = transaction.debtorAccount?.iban;
+    } else {
+      contractorName = creditorName;
+      iban = transaction.creditorAccount?.iban;
+    }
 
     let cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer | null = null;
 
