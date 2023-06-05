@@ -62,11 +62,20 @@ export const defaultTransformation: TransformationFunction = (
     ]
       .filter(Boolean)
       .join(' | ');
-    const contractorName = creditorName || debtorName || ultimateCreditor;
-    const iban = transaction.creditorAccount?.iban || transaction.debtorAccount?.iban;
     const amount = Number(transactionAmount.amount);
     const currency = transactionAmount.currency;
     const accountId = connectionAccount.accountId!;
+    let contractorName: string | undefined = '';
+    let iban: string | undefined = '';
+
+    if (Math.sign(amount) === 1) {
+      contractorName = debtorName;
+      iban = transaction.debtorAccount?.iban;
+    } else {
+      contractorName = creditorName || ultimateCreditor;
+      iban = transaction.creditorAccount?.iban;
+    }
+
     let cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer | null = null;
 
     const isCashWithdrawal = additionalInformation === 'BARGELDAUSZAHLUNG' || bankTransactionCode === 'PMNT-CCRD-CWDL';
