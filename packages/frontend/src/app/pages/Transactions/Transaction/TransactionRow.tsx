@@ -106,7 +106,7 @@ export const TransactionRow = observer<TransactionRowProps>(({ transaction, isHi
         {toCurrency(sign * amount, { unit: money.symbol, precision: money.precision })}
       </td>
 
-      <td className="hidden-sm min-width">{note}</td>
+      <td className="hidden-sm">{note}</td>
       <td className="hidden-sm min-width">
         <div className={styles.tags}>
           {tags.map(tag => (
