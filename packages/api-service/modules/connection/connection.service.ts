@@ -128,8 +128,6 @@ class ConnectionServiceImpl implements ConnectionService {
     }
 
     const accounts = await AccountService.getAccounts(ctx, projectId, userId);
-    // take first cash account
-    const cashAccount = accounts.filter(account => account.isEnabled && account.idAccountType === 1)[0];
 
     const moneys = await moneyService.getMoneys(ctx, projectId);
 
@@ -144,7 +142,14 @@ class ConnectionServiceImpl implements ConnectionService {
         .getTransactions(ctx, account.providerAccountId, dateFrom)
         .then(({ transactions }) => {
           return nordigenETL.transform(ctx.log, connection, account, transactions, {
-            cashAccountId: cashAccount ? String(cashAccount.idAccount) : undefined,
+            accounts: accounts
+              .filter(({ isEnabled }) => isEnabled)
+              .map(account => ({
+                id: String(account.idAccount),
+                name: account.name,
+                accountType: account.idAccountType,
+                iban: account.note ?? '',
+              })),
           });
         });
     }

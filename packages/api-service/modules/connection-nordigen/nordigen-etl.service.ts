@@ -16,14 +16,19 @@ class NordigenETLImpl implements NordigenETL {
     account: IAccount,
     transactions: INordigenTransactions,
     options: {
-      cashAccountId?: string;
+      accounts: Array<{
+        id: string;
+        name: string;
+        accountType: number;
+        iban: string;
+      }>;
     }
   ): INormalizedTransaction[] {
     const handler = institutionHandlerMap[connection.institutionId] || defaultTransformation;
 
     return handler(log, account, transactions, {
-      cashAccountId: options.cashAccountId,
-      accounts: connection.accounts
+      accounts: options.accounts,
+      connectionAccounts: connection.accounts
         .filter(({ accountId }) => accountId)
         .map(({ accountId, providerAccountName }) => ({
           accountId: accountId!,
