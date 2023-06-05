@@ -4,9 +4,10 @@ import { ContractorService } from '../../contractor';
 import { IRequestContext } from '../../../types/app';
 import { TagService } from '../../tag';
 import { UnitService } from '../../unit';
+import { moneyMapper } from '../../../modules/money/money.mapper';
 import { moneyService } from '../../../modules/money/money.service';
 import { outcomeRepository } from '../../../modules/outcome/outcome.repository';
-import { moneyMapper } from '../../../modules/money/money.mapper';
+import { tagMapper } from '../../tag/tag.mapper';
 
 export async function getDependencies(ctx: IRequestContext, projectId: string, userId: string): Promise<any> {
   const [accounts, categories, contractors, moneys, tags, units, accountDailyBalancesParams] = await Promise.all([
@@ -24,7 +25,7 @@ export async function getDependencies(ctx: IRequestContext, projectId: string, u
     contractors: contractors.map(contractor => contractor.toPublicModel()),
     categories: categories.map(category => category.toPublicModel()),
     units: units.map(unit => unit.toPublicModel()),
-    tags: tags.map(tag => tag.toPublicModel()),
+    tags: tags.map(tag => tagMapper.toDTO(tag)),
     moneys: moneys.map(money => moneyMapper.toDTO(money)),
     params: {
       outcome: {

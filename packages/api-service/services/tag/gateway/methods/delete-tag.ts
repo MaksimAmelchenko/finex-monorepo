@@ -1,4 +1,4 @@
-import { Tag } from '../../model/tag';
+import { TagDAO } from '../../model/tag-dao';
 import { IRequestContext } from '../../../../types/app';
 
 export async function deleteTag(ctx: IRequestContext, projectId: string, tagId: string): Promise<void> {
@@ -6,7 +6,7 @@ export async function deleteTag(ctx: IRequestContext, projectId: string, tagId: 
   const idProject = Number(projectId);
   const idTag = Number(tagId);
 
-  const knex = Tag.knex();
+  const knex = TagDAO.knex();
   let query = knex.raw(
     `
         update cf$.cashFlow_detail cfd
@@ -35,7 +35,7 @@ export async function deleteTag(ctx: IRequestContext, projectId: string, tagId: 
   }
   await query;
 
-  await Tag.query(ctx.trx).deleteById([idProject, idTag]);
+  await TagDAO.query(ctx.trx).deleteById([idProject, idTag]);
 
   ctx.log.info({ tagId }, 'deleted tag');
 }

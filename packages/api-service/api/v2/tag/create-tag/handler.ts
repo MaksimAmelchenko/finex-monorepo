@@ -1,11 +1,10 @@
 import { TagService } from '../../../../services/tag';
-import { CreateTagServiceData, IPublicTag } from '../../../../services/tag/types';
+import { CreateTagServiceData, ITagDTO } from '../../../../services/tag/types';
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
+import { tagMapper } from '../../../../services/tag/tag.mapper';
 
-export async function handler(
-  ctx: IRequestContext<CreateTagServiceData, true>
-): Promise<IResponse<{ tag: IPublicTag }>> {
+export async function handler(ctx: IRequestContext<CreateTagServiceData, true>): Promise<IResponse<{ tag: ITagDTO }>> {
   const {
     params: { name },
     projectId,
@@ -15,7 +14,7 @@ export async function handler(
 
   return {
     body: {
-      tag: tag.toPublicModel(),
+      tag: tagMapper.toDTO(tag),
     },
   };
 }
