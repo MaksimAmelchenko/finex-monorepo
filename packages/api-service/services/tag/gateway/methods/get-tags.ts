@@ -1,9 +1,10 @@
 import { IRequestContext } from '../../../../types/app';
-import { Tag } from '../../model/tag';
+import { TagDAO } from '../../model/tag-dao';
+import { ITagDAO } from '../../types';
 
-export async function getTags(ctx: IRequestContext, projectId: string): Promise<Tag[]> {
+export async function getTags(ctx: IRequestContext, projectId: string): Promise<ITagDAO[]> {
   ctx.log.trace('try to get tags');
-  return Tag.query(ctx.trx).where({
+  return TagDAO.query(ctx.trx).where({
     idProject: Number(projectId),
   });
 }

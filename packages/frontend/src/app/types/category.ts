@@ -26,10 +26,14 @@ export interface ICategoryDTO {
   userId: string;
 }
 
-export interface ICategory extends Omit<ICategoryDTO, 'parent' | 'categoryPrototypeId' | 'userId'> {
+export interface ICategoryEntity extends Omit<ICategoryDTO, 'parent' | 'categoryPrototypeId' | 'userId'> {
   parent: Category | null;
   categoryPrototype: CategoryPrototype | null;
   user: User;
+}
+
+export interface ICategory extends ICategoryEntity {
+  isAvailable: boolean;
 }
 
 export interface GetCategoriesResponse {

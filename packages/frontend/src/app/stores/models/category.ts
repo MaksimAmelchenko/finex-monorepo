@@ -1,7 +1,7 @@
 import { computed, makeObservable, observable } from 'mobx';
 
 import { CategoryPrototype } from './category-prototype';
-import { ICategory } from '../../types/category';
+import { ICategory, ICategoryEntity } from '../../types/category';
 import { IDeletable } from '../../types';
 import { IUser } from '../../types/user';
 
@@ -18,7 +18,7 @@ export class Category implements ICategory, IDeletable {
 
   isDeleting: boolean;
 
-  constructor({ id, name, parent, categoryPrototype, isEnabled, isSystem, note, user }: ICategory) {
+  constructor({ id, name, parent, categoryPrototype, isEnabled, isSystem, note, user }: ICategoryEntity) {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -40,6 +40,19 @@ export class Category implements ICategory, IDeletable {
       idsPath: computed,
       namePath: computed,
     });
+  }
+
+  get isAvailable(): boolean {
+    // category is available if it is enabled and its ALL parents are enabled
+    if (!this.isEnabled) {
+      return false;
+    }
+
+    if (this.parent) {
+      return this.parent.isAvailable;
+    }
+
+    return true;
   }
 
   get path(): Category[] {

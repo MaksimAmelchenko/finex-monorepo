@@ -1,12 +1,12 @@
 import { JSONSchema, Model, Validator } from 'objection';
 
-import { ITag, IPublicTag } from '../types';
+import { ITagDAO } from '../types';
 import { ajvValidator } from '../../../libs/ajv';
-import { tagSchema } from './tag.schema';
+import { tagDAOSchema } from './tag-dao.schema';
 
-export class Tag extends Model implements ITag {
+export class TagDAO extends Model implements ITagDAO {
   static tableName = 'cf$.tag';
-  static jsonSchema = tagSchema as JSONSchema;
+  static jsonSchema = tagDAOSchema as JSONSchema;
   static idColumn = ['idProject', 'idTag'];
 
   readonly idProject: number;
@@ -16,13 +16,5 @@ export class Tag extends Model implements ITag {
 
   static createValidator(): Validator {
     return ajvValidator;
-  }
-
-  toPublicModel(): IPublicTag {
-    return {
-      id: String(this.idTag),
-      userId: String(this.idUser),
-      name: this.name,
-    };
   }
 }

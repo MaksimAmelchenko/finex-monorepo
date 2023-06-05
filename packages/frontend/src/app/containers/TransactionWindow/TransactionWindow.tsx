@@ -271,7 +271,7 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
   const selectCategoriesOptions = useMemo<ISelectOption[]>(
     () =>
       categoriesRepository.categories
-        .filter(({ isEnabled, isSystem }) => isEnabled && !isSystem)
+        .filter(({ isAvailable, isSystem }) => isAvailable && !isSystem)
         .map(category => {
           const label = category.fullPath(true);
           return { value: category.id, label };

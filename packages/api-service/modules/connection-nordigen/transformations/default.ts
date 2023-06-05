@@ -13,18 +13,27 @@ import { INordigenTransactions, TransformationFunction } from '../types';
 const TRANSFORMATION_NAME = 'defaultTransformation';
 export const defaultTransformation: TransformationFunction = (
   log: ILogger,
-  account: IAccount,
+  connectionAccount: IAccount,
   transactions: INordigenTransactions,
   options: {
-    cashAccountId?: string;
     accounts: Array<{
+      id: string;
+      name: string;
+      accountType: number;
+      iban: string;
+    }>;
+    connectionAccounts: Array<{
       providerAccountName: string;
       accountId: string;
     }>;
   }
 ): INormalizedTransaction[] => {
-  log.trace(TRANSFORMATION_NAME, { account, cashAccountId: options.cashAccountId });
+  log.trace(TRANSFORMATION_NAME, { connectionAccount });
   // consider only booked transactions since pending transactions are not yet confirmed and can be changed
+  // take first cash account
+  const { accounts, connectionAccounts } = options;
+  const cashAccount = accounts.filter(account => account.accountType === 1)[0];
+
   return transactions.booked.map(transaction => {
     const {
       internalTransactionId,
@@ -54,23 +63,23 @@ export const defaultTransformation: TransformationFunction = (
       .filter(Boolean)
       .join(' | ');
     const contractorName = creditorName || debtorName || ultimateCreditor;
+    const iban = transaction.creditorAccount?.iban || transaction.debtorAccount?.iban;
     const amount = Number(transactionAmount.amount);
     const currency = transactionAmount.currency;
-    const accountId = account.accountId!;
+    const accountId = connectionAccount.accountId!;
     let cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer | null = null;
 
     const isCashWithdrawal = additionalInformation === 'BARGELDAUSZAHLUNG' || bankTransactionCode === 'PMNT-CCRD-CWDL';
 
     if (isCashWithdrawal) {
-      const { cashAccountId } = options;
-      if (cashAccountId) {
+      if (cashAccount?.id) {
         cashFlow = {
           cashFlowType: CashFlowType.Transfer,
           note,
           amount: Math.abs(amount),
           currency,
           fromAccountId: accountId,
-          toAccountId: cashAccountId,
+          toAccountId: cashAccount?.id,
           transferDate: transactionDate,
         };
       }
@@ -78,15 +87,35 @@ export const defaultTransformation: TransformationFunction = (
 
     const isCashDeposit = additionalInformation === 'BARGELDEINZAHLUNG SB' || bankTransactionCode === 'PMNT-CCRD-CDPT';
     if (isCashDeposit) {
-      const { cashAccountId } = options;
-      if (cashAccountId) {
+      if (cashAccount?.id) {
         cashFlow = {
           cashFlowType: CashFlowType.Transfer,
           note,
           amount: Math.abs(amount),
           currency,
-          fromAccountId: cashAccountId,
+          fromAccountId: cashAccount?.id,
           toAccountId: accountId,
+          transferDate: transactionDate,
+        };
+      }
+    }
+
+    if (!cashFlow) {
+      // is it transfer from my another account?
+      const account = accounts.find(account => account.iban === iban);
+      if (account) {
+        let fromAccountId = account.id;
+        let toAccountId = accountId;
+        if (Math.sign(amount) === -1) {
+          [fromAccountId, toAccountId] = [toAccountId, fromAccountId];
+        }
+        cashFlow = {
+          cashFlowType: CashFlowType.Transfer,
+          note,
+          amount: Math.abs(amount),
+          currency,
+          fromAccountId,
+          toAccountId,
           transferDate: transactionDate,
         };
       }

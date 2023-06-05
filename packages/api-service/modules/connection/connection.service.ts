@@ -20,6 +20,7 @@ import { ContractorService } from '../../services/contractor';
 import { CreateCashFlowItemServiceData } from '../cash-flow-item/types';
 import { IRequestContext, TDate } from '../../types/app';
 import { InternalError, InvalidParametersError, NotFoundError } from '../../libs/errors';
+import { TagService } from '../../services/tag';
 import { captureException } from '../../libs/sentry';
 import { cashFlowRepository } from '../cash-flow/cash-flow.repository';
 import { connectionMapper } from './connection.mapper';
@@ -128,8 +129,6 @@ class ConnectionServiceImpl implements ConnectionService {
     }
 
     const accounts = await AccountService.getAccounts(ctx, projectId, userId);
-    // take first cash account
-    const cashAccount = accounts.filter(account => account.isEnabled && account.idAccountType === 1)[0];
 
     const moneys = await moneyService.getMoneys(ctx, projectId);
 
@@ -144,7 +143,14 @@ class ConnectionServiceImpl implements ConnectionService {
         .getTransactions(ctx, account.providerAccountId, dateFrom)
         .then(({ transactions }) => {
           return nordigenETL.transform(ctx.log, connection, account, transactions, {
-            cashAccountId: cashAccount ? String(cashAccount.idAccount) : undefined,
+            accounts: accounts
+              .filter(({ isEnabled }) => isEnabled)
+              .map(account => ({
+                id: String(account.idAccount),
+                name: account.name,
+                accountType: account.idAccountType,
+                iban: account.note ?? '',
+              })),
           });
         });
     }
@@ -160,6 +166,15 @@ class ConnectionServiceImpl implements ConnectionService {
       }
 
       const { cashFlow: transactionCashFlow } = transaction;
+
+      // TODO add to connection settings
+      const tagName = `sync-${connectionId.substring(0, 3)}`;
+      let tag = await TagService.getTagByName(ctx, projectId, tagName);
+      if (!tag) {
+        tag = await TagService.createTag(ctx, projectId, userId, {
+          name: tagName,
+        });
+      }
 
       let cashFlowId: string | null = null;
       if (isTransactionCashFlow(transactionCashFlow)) {
@@ -232,6 +247,7 @@ class ConnectionServiceImpl implements ConnectionService {
               reportPeriod: format(parse(cashFlowItemDate, 'yyyy-MM-dd', new Date()), 'yyyy-MM-01'),
               isNotConfirmed: false,
               note,
+              tags: [tag!.id],
             };
           }
         );
@@ -241,6 +257,7 @@ class ConnectionServiceImpl implements ConnectionService {
           cashFlowTypeId: transactionCashFlow.cashFlowType,
           items,
           note: transactionCashFlow.note,
+          tags: [tag!.id],
         });
 
         cashFlowId = String(cashFlowDAO.id);
@@ -261,6 +278,7 @@ class ConnectionServiceImpl implements ConnectionService {
           transferDate,
           reportPeriod: format(parse(transferDate, 'yyyy-MM-dd', new Date()), 'yyyy-MM-01'),
           note,
+          tags: [tag!.id],
         });
 
         cashFlowId = String(transfer.id);
@@ -306,10 +324,19 @@ class ConnectionServiceImpl implements ConnectionService {
 
     for (const account of accounts) {
       const { projectId, userId, connectionId, id } = account;
-      await this.syncAccount(ctx, projectId, userId, connectionId, account.id).catch(err => {
-        ctx.log.error(err);
-        captureException(err);
-      });
+
+      const trx = await knex.transaction();
+      const isolateCtx = { ...ctx, trx };
+
+      await isolateCtx.trx.raw(`select context.set('isNotCheckPermit', '1')`);
+
+      await this.syncAccount(isolateCtx, projectId, userId, connectionId, account.id)
+        .then(() => isolateCtx.trx.commit())
+        .catch(err => {
+          isolateCtx.trx.rollback();
+          ctx.log.error(err);
+          captureException(err);
+        });
     }
   }
 

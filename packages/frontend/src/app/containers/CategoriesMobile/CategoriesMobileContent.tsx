@@ -59,7 +59,7 @@ export const CategoriesMobileContent = observer<CategoriesMobileContentProps>(({
       <SideSheetBody>
         {categoriesTree
           .filter(
-            ({ category: { isEnabled, isSystem } }) => (!isSelectMode || (isSelectMode && isEnabled)) && !isSystem
+            ({ category: { isAvailable, isSystem } }) => (!isSelectMode || (isSelectMode && isAvailable)) && !isSystem
           )
           .map(node => {
             return <CategoryCard node={node} onClick={handleClick} key={node.category.id} />;

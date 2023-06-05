@@ -53,7 +53,7 @@ export const TransferRow = observer<TransferRowProps>(({ transfer, onClick }) =>
         {fee && feeMoney && <div>{toCurrency(fee, { unit: feeMoney.symbol, precision: feeMoney.precision })}</div>}
       </td>
 
-      <td className="hidden-sm min-width">{note}</td>
+      <td className="hidden-sm">{note}</td>
       <td className="hidden-sm min-width">
         <div className={styles.tags}>
           {tags.map(tag => (

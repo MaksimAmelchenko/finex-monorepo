@@ -13,20 +13,30 @@ import { INordigenTransactions, TransformationFunction } from '../types';
 const TRANSFORMATION_NAME = 'N26Transformation';
 export const N26Transformation: TransformationFunction = (
   log: ILogger,
-  account: IAccount,
+  connectionAccount: IAccount,
   transactions: INordigenTransactions,
   options: {
-    cashAccountId?: string;
     accounts: Array<{
+      id: string;
+      name: string;
+      accountType: number;
+      iban: string;
+    }>;
+    connectionAccounts: Array<{
       providerAccountName: string;
       accountId: string;
     }>;
   }
 ): INormalizedTransaction[] => {
-  log.trace(TRANSFORMATION_NAME, { account, cashAccountId: options.cashAccountId });
+  log.trace(TRANSFORMATION_NAME, { connectionAccount });
 
+  // take first cash account
+  const { accounts, connectionAccounts } = options;
+  const cashAccount = accounts.filter(account => account.accountType === 1)[0];
+
+  const result: INormalizedTransaction[] = [];
   // consider only booked transactions since pending transactions are not yet confirmed and can be changed
-  return transactions.booked.map(transaction => {
+  for (const transaction of transactions.booked) {
     const {
       internalTransactionId,
       creditorName,
@@ -42,27 +52,66 @@ export const N26Transformation: TransformationFunction = (
     const transactionDate = bookingDate || valueDate || format(new Date(), 'yyyy-MM-dd');
     const note = remittanceInformationUnstructured !== '-' ? remittanceInformationUnstructured : undefined;
     const contractorName = creditorName || debtorName;
+    const iban = transaction.creditorAccount?.iban || transaction.debtorAccount?.iban;
     const amount = Number(transactionAmount.amount);
     const currency = transactionAmount.currency;
-    const accountId = account.accountId!;
+    const accountId = connectionAccount.accountId!;
+
     let cashFlow: INormalizedTransactionCashFlow | INormalizedTransactionTransfer | null = null;
 
     switch (bankTransactionCode) {
       case 'PMNT-CCRD-CWDL':
         // Cash Withdrawal
-        const { cashAccountId } = options;
-        if (cashAccountId) {
+        if (cashAccount?.id) {
           cashFlow = {
             cashFlowType: CashFlowType.Transfer,
             note,
             amount: Math.abs(amount),
             currency,
             fromAccountId: accountId,
-            toAccountId: cashAccountId,
+            toAccountId: cashAccount.id,
             transferDate: transactionDate,
           };
         }
         break;
+    }
+
+    // check income/expense with another space
+    // in this case need to skip and this transaction will be added during Main Account sync as transfer
+    // Condition:
+    // - contractorName is account name
+    // - "note": "From Main Account" or "note": "To Main Account"
+    if (!cashFlow && contractorName && note) {
+      if (
+        connectionAccounts.find(
+          ({ providerAccountName, accountId }) => providerAccountName === contractorName && accountId
+        ) &&
+        (note.includes(`From ${contractorName}`) || note.includes(`To ${contractorName}`))
+      ) {
+        // skip this transaction
+        continue;
+      }
+    }
+
+    if (!cashFlow) {
+      // is it transfer from my another account?
+      const account = accounts.find(account => account.iban === iban);
+      if (account) {
+        let fromAccountId = account.id;
+        let toAccountId = accountId;
+        if (Math.sign(amount) === -1) {
+          [fromAccountId, toAccountId] = [toAccountId, fromAccountId];
+        }
+        cashFlow = {
+          cashFlowType: CashFlowType.Transfer,
+          note,
+          amount: Math.abs(amount),
+          currency,
+          fromAccountId,
+          toAccountId,
+          transferDate: transactionDate,
+        };
+      }
     }
 
     if (!cashFlow) {
@@ -70,11 +119,12 @@ export const N26Transformation: TransformationFunction = (
       const match = new RegExp(/^From (.+) to (.+)$/).exec(contractorName || '');
       const fromAccountName = match && match[1];
       const toAccountName = match && match[2];
-      const { accounts } = options;
-      const fromAccountId = accounts.find(
+      const fromAccountId = connectionAccounts.find(
         ({ providerAccountName }) => providerAccountName === fromAccountName
       )?.accountId;
-      const toAccountId = accounts.find(({ providerAccountName }) => providerAccountName === toAccountName)?.accountId;
+      const toAccountId = connectionAccounts.find(
+        ({ providerAccountName }) => providerAccountName === toAccountName
+      )?.accountId;
 
       if (fromAccountId && toAccountId) {
         cashFlow = {
@@ -108,7 +158,7 @@ export const N26Transformation: TransformationFunction = (
       };
     }
 
-    return {
+    result.push({
       transactionId,
       transactionDate,
       amount,
@@ -116,6 +166,8 @@ export const N26Transformation: TransformationFunction = (
       cashFlow,
       transformationName: TRANSFORMATION_NAME,
       source: transaction,
-    };
-  });
+    });
+  }
+
+  return result;
 };

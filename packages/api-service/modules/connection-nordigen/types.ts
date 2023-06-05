@@ -216,8 +216,13 @@ export type TransformationFunction = (
   account: IAccount,
   transactions: INordigenTransactions,
   options: {
-    cashAccountId?: string;
     accounts: Array<{
+      id: string;
+      name: string;
+      accountType: number;
+      iban: string;
+    }>;
+    connectionAccounts: Array<{
       providerAccountName: string;
       accountId: string;
     }>;
@@ -314,7 +319,12 @@ export interface NordigenETL {
     account: IAccount,
     transactions: INordigenTransactions,
     options: {
-      cashAccountId?: string;
+      accounts: Array<{
+        id: string;
+        name: string;
+        accountType: number;
+        iban: string;
+      }>;
     }
   ): INormalizedTransaction[];
 }
