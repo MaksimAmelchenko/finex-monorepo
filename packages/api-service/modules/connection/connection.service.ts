@@ -324,10 +324,19 @@ class ConnectionServiceImpl implements ConnectionService {
 
     for (const account of accounts) {
       const { projectId, userId, connectionId, id } = account;
-      await this.syncAccount(ctx, projectId, userId, connectionId, account.id).catch(err => {
-        ctx.log.error(err);
-        captureException(err);
-      });
+
+      const trx = await knex.transaction();
+      const isolateCtx = { ...ctx, trx };
+
+      await isolateCtx.trx.raw(`select context.set('isNotCheckPermit', '1')`);
+
+      await this.syncAccount(isolateCtx, projectId, userId, connectionId, account.id)
+        .then(() => isolateCtx.trx.commit())
+        .catch(err => {
+          isolateCtx.trx.rollback();
+          ctx.log.error(err);
+          captureException(err);
+        });
     }
   }
 
