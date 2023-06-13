@@ -6,7 +6,6 @@ This library was generated with [Nx](https://nx.dev).
 
 Run `nx test ui-kit` to execute the unit tests via [Jest](https://jestjs.io).
 
-
 ```bash
-nx g @nrwl/react:component Button --project=ui-kit --export
+nx g @nx/react:component Button --project=ui-kit --export
 ```

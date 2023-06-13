@@ -1,15 +1,15 @@
 {
-  "extends": "@nrwl/workspace/presets/core.json",
+  "extends": "@nx/workspace/presets/core.json",
   "npmScope": "finex",
   "affected": {
     "defaultBase": "main"
   },
   "cli": {
-    "defaultCollection": "@nrwl/react"
+    "defaultCollection": "@nx/react"
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e", "build-storybook"],
         "accessToken": "YWI4MzU1NTktMTA1ZC00NjQxLTliY2MtMzk5Y2JhMTc5MDhmfHJlYWQtd3JpdGU="
@@ -17,7 +17,7 @@
     }
   },
   "generators": {
-    "@nrwl/react": {
+    "@nx/react": {
       "application": {
         "style": "scss",
         "linter": "eslint",

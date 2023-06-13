@@ -136,7 +136,7 @@ export const AccountDailyBalances = observer(() => {
       <div className={styles.root__content}>
         {sourceByMoney.map(({ money, accounts, dataset: { dimensions, source } }) => {
           // check is there series with negative values
-          const isNegative = source.some(row => row.some((value, index) => index > 0 && value < 0));
+          const isNegative = source.some(row => row.some((value, index) => index > 0 && (value as number) < 0));
 
           return (
             <article className={styles.chart} key={`${money.id}${isNegative}`}>
@@ -193,14 +193,18 @@ export const AccountDailyBalances = observer(() => {
                         dimensions,
                         // leave only positive values
                         source: source.map(row =>
-                          row.map((_, index) => (index === 0 ? row[index] : row[index] > 0 ? row[index] : 0))
+                          row.map((_, index) =>
+                            index === 0 ? row[index] : (row[index] as number) > 0 ? row[index] : 0
+                          )
                         ),
                       },
                       {
                         dimensions,
                         // leave only negative values
                         source: source.map(row =>
-                          row.map((_, index) => (index === 0 ? row[index] : row[index] < 0 ? row[index] : 0))
+                          row.map((_, index) =>
+                            index === 0 ? row[index] : (row[index] as number) < 0 ? row[index] : 0
+                          )
                         ),
                       },
                     ],
