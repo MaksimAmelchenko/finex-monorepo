@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Route, Routes } from 'react-router-dom';
 import { Slide } from '@mui/material';
@@ -21,6 +21,14 @@ import { SignUpConfirmationLazy } from './pages/SignUpConfirmation/SignUpConfirm
 
 export const App = observer(() => {
   const { isSmall } = useDeviceSize();
+  const [showCookieConsent, setShowCookieConsent] = useState(false);
+  const [showOptionsCookieConsent, setShowOptionsCookieConsent] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem('consentMode')) {
+      setShowCookieConsent(true);
+    }
+  }, []);
 
   return (
     <Suspense fallback={<Loader />}>
@@ -47,7 +55,14 @@ export const App = observer(() => {
           </Routes>
         </SnackbarProvider>
       </ThemeProvider>
-      <CookieConsent />
+
+      {showCookieConsent && (
+        <CookieConsent
+          consentTypes={['functionality_storage', 'analytics_storage']}
+          showOptions={showOptionsCookieConsent}
+          onClose={() => setShowCookieConsent(false)}
+        />
+      )}
     </Suspense>
   );
 });

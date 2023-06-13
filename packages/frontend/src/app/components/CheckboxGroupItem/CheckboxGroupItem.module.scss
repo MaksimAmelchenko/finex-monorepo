@@ -1,0 +1,45 @@
+@use 'packages/theme/src/lib/styles/typography';
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.4rem;
+  border-radius: 1.2rem;
+  padding: 1.6rem;
+
+  background: var(--color-white);
+
+  border: 1px solid var(--color-gray-200);
+  cursor: pointer;
+
+  &_selected {
+    border: 2px solid var(--color-primary-600);
+    padding: 1.5rem;
+  }
+
+  &__content {
+    display: flex;
+    gap: 1.6rem;
+    flex: 1 0 0;
+  }
+
+  &__textAndSupportingText {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__text {
+    @include typography.textSMMedium;
+    color: var(--color-gray-700);
+  }
+
+  &__supportingText {
+    @include typography.textSM;
+    color: var(--color-gray-600);
+  }
+
+  &__checkbox {
+    flex-grow: 0;
+  }
+}

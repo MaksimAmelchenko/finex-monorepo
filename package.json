@@ -72,7 +72,6 @@
     "@nivo/line": "^0.82.0",
     "@nivo/sunburst": "^0.82.0",
     "@paypal/react-paypal-js": "^7.8.2",
-    "@sentry/react": "^7.50.0",
     "@table-library/react-table-library": "^4.1.2",
     "clsx": "^1.2.1",
     "core-js": "^3.30.1",
