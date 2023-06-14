@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "i18n": {
+      "factory": "./src/generators/i18n/generator",
+      "schema": "./src/generators/i18n/schema.json",
+      "description": "i18n generator"
+    }
+  }
+}

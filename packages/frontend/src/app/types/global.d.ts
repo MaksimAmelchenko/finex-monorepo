@@ -1,11 +1,8 @@
 declare interface Window {
   gtag: any;
+  dataLayer: any[];
   YooMoneyCheckoutWidget: any;
   paypal: any;
-
-  GDPRCookiesGoogleAnalyticsAdded: boolean;
-  GDPRCookiesGoogleAnalyticsInitialized: boolean;
-  dataLayer: any[];
 }
 
 //

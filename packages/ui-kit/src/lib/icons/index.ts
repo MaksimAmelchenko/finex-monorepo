@@ -52,6 +52,7 @@ export { ReactComponent as SafeIcon, default as safeSvg } from './safe.svg';
 export { ReactComponent as ScrewdriverWrenchIcon, default as screwdriverWrenchSvg } from './screwdriver-wrench.svg';
 export { ReactComponent as SearchMdIcon, default as searchMdSvg } from './search-md.svg';
 export { ReactComponent as Settings02Icon, default as settings02Svg } from './settings-02.svg';
+export { ReactComponent as ShieldTickIcon, default as shieldTickSvg } from './shield-tick.svg';
 export { ReactComponent as ShuffleIcon, default as shuffleSvg } from './shuffle.svg';
 export { ReactComponent as SortDownIcon, default as sortDownSvg } from './sort-down.svg';
 export { ReactComponent as SortIcon, default as sortSvg } from './sort.svg';

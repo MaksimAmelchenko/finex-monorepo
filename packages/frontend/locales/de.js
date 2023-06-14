@@ -346,12 +346,28 @@ module.exports = {
     "You can't delete contractor with transaction": "You can't delete contractor with transaction",
   },
   CookieConsent: {
+    Marketing: 'Marketing',
+    "This allows us to measure the effectiveness of our advertising efforts_ By enabling this, you'll help us understand which ads are engaging and useful to our audience_":
+      'Damit können wir die Wirksamkeit unserer Werbemaßnahmen messen. Wenn Sie dies aktivieren, helfen Sie uns zu verstehen, welche Anzeigen für unser Publikum ansprechend und nützlich sind.',
+    Analytics: 'Website-Analyse',
+    'We use this to understand how our visitors interact with our website_ It helps us understand which pages are popular, how much time you spend on the site, and more_ This information is used to improve your user experience_':
+      'Wir verwenden dies, um zu verstehen, wie unsere Besucher mit unserer Website interagieren. Es hilft uns zu verstehen, welche Seiten beliebt sind, wie viel Zeit Sie auf der Website verbringen und mehr. Diese Informationen werden verwendet, um Ihr Benutzererlebnis zu verbessern.',
+    'Personalized User Experience': 'Personalisierte Benutzererfahrung',
+    'This helps us to personalize your experience on our website_ It enables features like remembering your preferences and settings, so you have a smoother, tailored experience each time you visit_':
+      'Damit können wir Ihre Erfahrung auf unserer Website personalisieren. Es ermöglicht Funktionen wie das Speichern Ihrer Präferenzen und Einstellungen, so dass Sie bei jedem Besuch ein reibungsloses, individuell abgestimmtes Erlebnis haben.',
+    Functionality: 'Website-Funktionalität',
+    'These cookies are essential for the basic functions of our website, such as navigation, accessing secure areas, and more_ Without these cookies, our website may not function correctly_':
+      'Diese Cookies sind für die grundlegenden Funktionen unserer Website unerlässlich, wie Navigation, Zugang zu sicheren Bereichen und mehr. Ohne diese Cookies funktioniert unsere Website möglicherweise nicht korrekt.',
+    'Security Features': 'Sicherheitsfunktionen',
+    'These cookies are important for the security of our website and our users_ They help us to detect malicious activity and violations of our terms of use_':
+      'Diese Cookies sind wichtig für die Sicherheit unserer Website und unserer Nutzer. Sie helfen uns, bösartige Aktivitäten und Verstöße gegen unsere Nutzungsbedingungen zu erkennen.',
     'We use cookies to improve your experience and for marketing_':
       'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern und für Marketingzwecke.',
     'Learn more in our ': 'Erfahren Sie mehr in unserer ',
     'Cookie Policy': 'Cookie-Richtlinie',
-    Decline: 'Ablehnen',
-    Allow: 'Erlauben',
+    'Accept selected': 'Auswahl erlauben',
+    'Customize your choice': 'Auswahl anpassen',
+    'Accept all': 'Allen zustimmen',
   },
   Dashboard: {
     Outcome: 'Ergebnis',

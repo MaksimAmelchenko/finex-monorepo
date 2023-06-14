@@ -10,7 +10,7 @@ This project was generated using [Nx](https://nx.dev).
 
 ## Generate a library
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+Run `nx g @nx/react:lib my-lib` to generate a library.
 
 Libraries are shareable across libraries and applications. They can be imported from `@fnx/mylib`.
 
@@ -21,16 +21,16 @@ change any of the source files.
 
 ## Code scaffolding
 
-Run `nx g @nrwl/react:component my-component --project=frontend` to generate a new component.
+Run `nx g @nx/react:component my-component --project=frontend` to generate a new component.
 
-Run `nx g @nrwl/react:component button --project=ui-kit --export` to generate a new UI component.
+Run `nx g @nx/react:component button --project=ui-kit --export` to generate a new UI component.
 
 ## Translations
 
-Run `nx workspace-generator i18n frontend` to generate a translations for application `frontend`.
+Run `nx generate @finex/tools:i18n frontend` to generate a translations for application `frontend`.
 
 ```bash
-nx run ui-kit:storybook
+npx nx storybook ui-kit
 ```
 
 ## Build

@@ -1,6 +1,7 @@
-import { formatFiles, generateFiles, getProjects, joinPathFragments, Tree } from '@nrwl/devkit';
-import * as fs from 'fs';
-import * as path from 'path';
+import { formatFiles, generateFiles, getProjects, joinPathFragments, Tree } from '@nx/devkit';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { I18nGeneratorSchema } from './schema';
 
 import { scanDir } from './internal/scan-dir';
 
@@ -9,9 +10,8 @@ const outDir = 'locales';
 const locales = ['en', 'ru', 'de'];
 const defaultLocale = locales[0];
 
-export default async function (tree: Tree, schema: any) {
-  // read project from workspace.json
-  const project = getProjects(tree).get(schema.name);
+export async function i18nGenerator(tree: Tree, options: I18nGeneratorSchema) {
+  const project = getProjects(tree).get(options.name);
 
   console.log(`\x1b[32mGenerate translations:\x1b[0m scan ${project.root} for ts/tsx files.`);
 
@@ -83,3 +83,5 @@ export default async function (tree: Tree, schema: any) {
 
   await formatFiles(tree);
 }
+
+export default i18nGenerator;

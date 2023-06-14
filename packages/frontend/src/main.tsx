@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import * as Sentry from '@sentry/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './app/app';
@@ -21,16 +20,6 @@ const currentLocale: Locale =
   locale && locales.includes(locale) ? locale : (window.localStorage.getItem('locale') as Locale) ?? locales[0];
 
 window.localStorage.setItem('locale', currentLocale);
-
-const SENTRY_DSN = process.env.NX_SENTRY_DSN;
-
-if (SENTRY_DSN) {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    integrations: [new Sentry.BrowserTracing()],
-    tracesSampleRate: 1.0,
-  });
-}
 
 async function initI18n(): Promise<void> {
   switch (currentLocale) {

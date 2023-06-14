@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@finex/theme": ["packages/theme/src/index.ts"],
+      "@finex/tools": ["packages/tools/src/index.ts"],
       "@finex/ui-kit": ["packages/ui-kit/src/index.ts"]
     }
   },

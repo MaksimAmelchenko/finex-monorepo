@@ -24,7 +24,8 @@
   &__contentWrapper {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex: 1 0 0;
+    width: 0;
     gap: 0.8rem;
   }
 
@@ -100,6 +101,7 @@
   padding: 1.6rem;
 
   background: var(--color-gray-100);
+  overflow: auto;
 
   &__text {
     @include typography.textSM;
