@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import * as zlib from 'zlib';
 import * as numeral from 'numeral';
 import * as i18n from 'i18n';
@@ -58,10 +58,10 @@ export async function exportToCsv(ctx: IRequestContext<unknown, true>): Promise<
   });
 
   const sqlText = `
-    select cfd.dcashflow_detail as date,
+    select to_char(cfd.dcashflow_detail, 'YYYY-MM-DD') as date,
            a.name as account_name,
            cf.id_cashflow_type,
-           cf$_category.full_name(cfd.id_category, '$$$', cfd.id_project) as category_full_name,
+           coalesce(cf$_category.full_name(cfd.id_category, '$$$', cfd.id_project), '') as category_full_name,
            cfd.quantity,
            u.name as unit_name,
            cfd.sum * cfd.sign as sum,
@@ -80,12 +80,12 @@ export async function exportToCsv(ctx: IRequestContext<unknown, true>): Promise<
                   on (cf.id_project = cfd.id_project and cf.id_cashflow = cfd.id_cashflow)
              join cf$.account a
                   on (a.id_project = cfd.id_project and a.id_account = cfd.id_account)
-             join cf$.category c
+             left join cf$.category c
                   on (c.id_project = cfd.id_project and c.id_category = cfd.id_category)
              join cf$.money m
                   on (m.id_project = cfd.id_project and m.id_money = cfd.id_money)
              left join cf$.currency
-                       on (currency.id_currency = m.id_currency)
+                       on (currency.code = m.currency_code)
              left join cf$.contractor
                        on (contractor.id_project = cf.id_project and contractor.id_contractor = cf.id_contractor)
              left join cf$.unit u
@@ -98,7 +98,7 @@ export async function exportToCsv(ctx: IRequestContext<unknown, true>): Promise<
   const records = table.map(item => {
     const [categoryName1, categoryName2, categoryName3] = item.category_full_name.split('$$$');
     return {
-      date: format(item.date, 'P', {
+      date: format(parse(item.date, 'yyyy-MM-dd', new Date()), 'P', {
         locale: {
           [Locale.Ru]: ru,
           [Locale.De]: de,
