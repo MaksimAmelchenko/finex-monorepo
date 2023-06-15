@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-bottom: 5.7rem;
+  padding-bottom: calc(5.7rem + env(safe-area-inset-bottom));
 }
 
 .main {
@@ -15,7 +15,7 @@
   &__text {
     //flex-grow: 1;
     align-self: center;
-    
+
     padding: 2.4rem 1.6rem;
     @include typography.displayMD;
     color: var(--color-gray-900);
