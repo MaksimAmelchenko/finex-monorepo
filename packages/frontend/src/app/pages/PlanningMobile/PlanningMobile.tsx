@@ -15,7 +15,7 @@ export const PlanningMobile = observer(() => {
     <div className={styles.layout}>
       <AppBar title={t('Planning')} />
       <main className={styles.main}>
-        <span className={styles.main__text}>{t('Coming soon')}</span>
+        <span className={styles.main__text}>{t('Coming soon. Please use desktop version for planning.')}</span>
         <div className={styles.main__illustration}>
           <img src={programmerIllustrationSvg} alt="Programmer" />
         </div>

@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack';
 
 import { Button, Coins02Icon, PlusIcon, RefreshCW01Icon, Tag01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { IMoney } from '../../types/money';
 import { Money } from '../../stores/models/money';
 import { MoneyRow } from './MoneyRow/MoneyRow';
@@ -69,6 +70,8 @@ export const Moneys = observer(() => {
   };
 
   const isDeleteButtonDisabled = Boolean(!selectedMoneys.length);
+  const isNoData = Boolean(!moneys.length);
+
   return (
     <>
       <article className={styles.article}>
@@ -94,22 +97,36 @@ export const Moneys = observer(() => {
           </div>
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th />
-                <th>{t('Name')}</th>
-                <th>{t('Symbol')}</th>
-                <th>{t('Active')}</th>
-                <th>{t('Currency')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {moneys.map(money => (
-                <MoneyRow money={money} onClick={handleClickOnMoney} key={money.id} />
-              ))}
-            </tbody>
-          </table>
+          {isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<Coins02Icon className={styles.emptyState__illustration} />}
+                text={t('You do not have moneys yet')}
+                supportingText={t('Start creating by clicking on\u00A0"Create\u00A0money"')}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleAddClick}>
+                  {t('Create money')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th />
+                  <th>{t('Name')}</th>
+                  <th>{t('Symbol')}</th>
+                  <th>{t('Active')}</th>
+                  <th>{t('Currency')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {moneys.map(money => (
+                  <MoneyRow money={money} onClick={handleClickOnMoney} key={money.id} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </article>
 

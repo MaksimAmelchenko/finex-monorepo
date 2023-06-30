@@ -16,9 +16,12 @@ import {
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITransaction } from '../../types/transaction';
+import { LoadState } from '../../core/load-state';
+import { Loader } from '../../components/Loader/Loader';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
@@ -62,6 +65,18 @@ export const Transactions = observer(() => {
       isNotConfirmed: false,
     });
     setIsOpenedTransactionWindow(true);
+  };
+
+  const handleClearSearchAndFiltersClick = () => {
+    transactionsRepository.setFilter({
+      range: [null, null],
+      isFilter: false,
+      searchText: '',
+      accounts: [],
+      categories: [],
+      contractors: [],
+      tags: [],
+    });
   };
 
   const handleClickOnTransaction = (transaction: Transaction | PlannedTransaction) => {
@@ -173,6 +188,11 @@ export const Transactions = observer(() => {
   };
 
   const isDeleteButtonDisabled = Boolean(!selectedTransactions.length);
+  const isNoData = loadState === LoadState.done() && !transactions.length && !(filter.isFilter || filter.searchText);
+  const isNotFound = Boolean(
+    loadState === LoadState.done() && !transactions.length && (filter.isFilter || filter.searchText)
+  );
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header" />
@@ -208,6 +228,7 @@ export const Transactions = observer(() => {
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}
                 initialValues={{ searchText: filter.searchText }}
+                enableReinitialize
                 name="transactions-search"
               >
                 <FormInput
@@ -270,6 +291,40 @@ export const Transactions = observer(() => {
         </div>
 
         <div className={styles.tableWrapper}>
+          {loadState === LoadState.pending() ? (
+            <Loader />
+          ) : isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SwitchHorizontal01Icon className={styles.emptyState__illustration} />}
+                text={t('Start by creating a Transaction')}
+                supportingText={t(
+                  'Here are your expenses and income. To add a transaction, click on the button below.'
+                )}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddTransaction}>
+                  {t('Create Transaction')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : isNotFound ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SearchMdIcon className={styles.emptyState__illustration} />}
+                text={t('No Transaction found')}
+                supportingText={t(
+                  'You search and/or filter criteria did not match any Transactions.<br />Please try again with different criteria'
+                )}
+              >
+                <Button variant="secondaryGray" size="lg" onClick={handleClearSearchAndFiltersClick}>
+                  {t('Clear search')}
+                </Button>
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddTransaction}>
+                  {t('Create Transaction')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
           <table className={clsx('table table-hover table-sm', styles.table)}>
             <thead>
               <tr>
@@ -314,7 +369,9 @@ export const Transactions = observer(() => {
                 <td className="text-end numeric">
                   {balancesBySelectedTransactions.map(({ money, income }) => {
                     return income ? (
-                      <div key={money.id}>{toCurrency(income, { unit: money.symbol, precision: money.precision })}</div>
+                        <div key={money.id}>
+                          {toCurrency(income, { unit: money.symbol, precision: money.precision })}
+                        </div>
                     ) : null;
                   })}
                 </td>
@@ -334,6 +391,7 @@ export const Transactions = observer(() => {
               </tr>
             </tfoot>
           </table>
+          )}
         </div>
       </main>
 

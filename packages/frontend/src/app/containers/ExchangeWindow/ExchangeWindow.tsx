@@ -23,8 +23,9 @@ import {
   FormTextArea,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
-import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { NoAccount } from '../NoAccount/NoAccount';
+import { NoMoney } from '../NoMoney/NoMoney';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
@@ -292,11 +293,27 @@ export function ExchangeWindow({ exchange, onClose }: ExchangeWindowProps): JSX.
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
-  if (!accountsRepository.accounts.length) {
+  if (!accountsRepository.accounts.find(({ isEnabled }) => isEnabled)) {
     return (
-      <div>
-        {t('At first,')} <Link href="/accounts">{t('create')}</Link> {t('at least one account.')}
-      </div>
+      <NoAccount
+        onClose={onClose}
+        supportingText={t(
+          'At least one account is required to track exchanges. You can add an account by clicking the button below.'
+        )}
+        className={styles.emptyState}
+      />
+    );
+  }
+
+  if (moneysRepository.moneys.filter(({ isEnabled }) => isEnabled).length < 2) {
+    return (
+      <NoMoney
+        onClose={onClose}
+        supportingText={t(
+          'At least two moneys are required to track exchanges. You can add a money by clicking the button below.'
+        )}
+        className={styles.emptyState}
+      />
     );
   }
 

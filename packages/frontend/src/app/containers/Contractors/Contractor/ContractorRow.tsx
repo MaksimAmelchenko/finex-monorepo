@@ -2,13 +2,18 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { BaseCheckbox } from '@finex/ui-kit';
+import { BaseCheckbox, Button } from '@finex/ui-kit';
 import { Contractor } from '../../../stores/models/contractor';
+import { getT } from '../../../lib/core/i18n';
+
+import styles from './ContractorRow.module.scss';
 
 interface ContractorProps {
   contractor: Contractor;
   onClick: (contractor: Contractor) => void;
 }
+
+const t = getT('Contractors');
 
 export const ContractorRow = observer<ContractorProps>(({ contractor, onClick }: ContractorProps) => {
   const { name, note, isSelected, isDeleting } = contractor;
@@ -32,6 +37,16 @@ export const ContractorRow = observer<ContractorProps>(({ contractor, onClick }:
         </span>
       </td>
       <td>{note}</td>
+      <td>
+        <div className={styles.root__actionsButtons}>
+          <Button variant="linkGray" size="md" href={`/cash-flows?contractors=${contractor.id}`}>
+            {t('Cash Flows')}
+          </Button>
+          <Button variant="linkGray" size="md" href={`/transactions?contractors=${contractor.id}`}>
+            {t('Transactions')}
+          </Button>
+        </div>
+      </td>
     </tr>
   );
 });

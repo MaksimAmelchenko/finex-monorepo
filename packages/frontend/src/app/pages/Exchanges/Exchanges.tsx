@@ -15,6 +15,7 @@ import {
   SearchMdIcon,
 } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Exchange } from '../../stores/models/exchange';
 import { ExchangeRow } from './ExchangeRow/ExchangeRow';
 import { ExchangeWindow } from '../../containers/ExchangeWindow/ExchangeWindow';
@@ -22,6 +23,8 @@ import { ExchangesRepository } from '../../stores/exchanges-repository';
 import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { IExchange } from '../../types/exchange';
+import { LoadState } from '../../core/load-state';
+import { Loader } from '../../components/Loader/Loader';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
@@ -54,6 +57,17 @@ export const Exchanges = observer(() => {
   const handleOpenAddExchange = () => {
     setExchange({});
     setIsOpenedExchangeWindow(true);
+  };
+
+  const handleClearSearchAndFiltersClick = () => {
+    exchangesRepository.setFilter({
+      range: [null, null],
+      isFilter: false,
+      searchText: '',
+      sellAccounts: [],
+      buyAccounts: [],
+      tags: [],
+    });
   };
 
   const handleClickOnExchange = (exchange: Exchange) => {
@@ -145,6 +159,11 @@ export const Exchanges = observer(() => {
   };
 
   const isDeleteButtonDisabled = Boolean(!selectedExchanges.length);
+  const isNoData = loadState === LoadState.done() && !exchanges.length && !(filter.isFilter || filter.searchText);
+  const isNotFound = Boolean(
+    loadState === LoadState.done() && !exchanges.length && (filter.isFilter || filter.searchText)
+  );
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Exchanges')} />
@@ -180,6 +199,7 @@ export const Exchanges = observer(() => {
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}
                 initialValues={{ searchText: filter.searchText }}
+                enableReinitialize
                 name="exchanges-search"
               >
                 <FormInput
@@ -234,27 +254,62 @@ export const Exchanges = observer(() => {
           )}
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
-                <th>{t('Sell account')}</th>
-                <th>{t('Buy account')}</th>
-                <th>{t('Sell')}</th>
-                <th>{t('Buy')}</th>
-                <th>{t('Rate')}</th>
-                <th>{t('Fee')}</th>
-                <th className="hidden-sm">{t('Note')}</th>
-                <th className="hidden-sm">{t('Tags')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {exchanges.map(exchange => (
-                <ExchangeRow exchange={exchange} onClick={handleClickOnExchange} key={exchange.id} />
-              ))}
-            </tbody>
-            <tfoot></tfoot>
-          </table>
+          {loadState === LoadState.pending() ? (
+            <Loader />
+          ) : isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<RefreshCW03Icon className={styles.emptyState__illustration} />}
+                text={t('Start by creating an Exchange')}
+                supportingText={t(
+                  'Exchange is a transaction where you sell one asset and buy another. For example, you can exchange USD to EUR or BTC to ETH. To add an Exchange, click the button below'
+                )}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddExchange}>
+                  {t('Create Exchange')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : isNotFound ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SearchMdIcon className={styles.emptyState__illustration} />}
+                text={t('No Exchange found')}
+                supportingText={t(
+                  'You search and/or filter criteria did not match any Exchanges. Please try again with different criteria'
+                )}
+              >
+                <Button variant="secondaryGray" size="lg" onClick={handleClearSearchAndFiltersClick}>
+                  {t('Clear search')}
+                </Button>
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddExchange}>
+                  {t('Create Exchange')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                  <th>{t('Sell account')}</th>
+                  <th>{t('Buy account')}</th>
+                  <th>{t('Sell')}</th>
+                  <th>{t('Buy')}</th>
+                  <th>{t('Rate')}</th>
+                  <th>{t('Fee')}</th>
+                  <th className="hidden-sm">{t('Note')}</th>
+                  <th className="hidden-sm">{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {exchanges.map(exchange => (
+                  <ExchangeRow exchange={exchange} onClick={handleClickOnExchange} key={exchange.id} />
+                ))}
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          )}
         </div>
       </main>
 

@@ -29,6 +29,10 @@ module.exports = {
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
+    Accounts: 'Счета',
+    'Here are your cards, bank accounts and deposits_ Start creating by clicking on "Create account"':
+      'Здесь находятся ваши каты, банковские счета и депозиты. Чтобы создать счет, нажмите на "Создать счёт"',
+    'Create account': 'Создать счёт',
     Name: 'Название',
     Active: 'Активный',
     Owner: 'Владелец',
@@ -151,9 +155,10 @@ module.exports = {
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track transaction_ You can add an account by clicking the button below_':
+      'По крайней мере, один счёт необходим для отслеживания операции. Вы можете добавить счёт, нажав кнопку ниже.',
+    'At least one money is required to track transaction_ You can add an money by clicking the button below_':
+      'По крайней мере, одна валюта необходима для отслеживания операции. Вы можете добавить валюту, нажав кнопку ниже.',
     'Add new transaction': 'Добавление операции',
     'Edit transaction': 'Редактирование операции',
     Amount: 'Сумма',
@@ -187,6 +192,14 @@ module.exports = {
     'Enter search request': 'Поиск',
     Counterparties: 'Контрагенты',
     Tags: 'Теги',
+    'Start by creating a Cash Flow': 'Начните с создания денежного потока',
+    'Cash Flow groups transactions_ To create a Cash Flow, click on the "Create Cash Flow" button below':
+      'Денежный поток группирует операции. Чтобы создать денежный поток, нажмите кнопку «Создать денежный поток» ниже',
+    'Create Cash Flow': 'Создать денежный поток',
+    'No Cash Flows found': 'Денежные потоки не найдены',
+    'You search and/or filter criteria did not match any Cash Flows_ Please try again with different criteria':
+      'Ваш поисковый запрос и/или фильтр не соответствуют ни одному денежному потоку. Пожалуйста, попробуйте ещё раз с другими критериями',
+    'Clear search': 'Очистить поиск',
     Date: 'Дата',
     Accounts: 'Счета',
     Counterparty: 'Контрагент',
@@ -202,13 +215,13 @@ module.exports = {
   },
   CashFlowWindow: {
     'Are you sure you want to delete several transactions?': 'Вы уверены, что хотите удалить несколько операций?',
-    CashFlow: 'Денежный поток',
+    'Cash Flow': 'Денежный поток',
     Contractor: 'Контрагент',
     Tags: 'Теги',
     Note: 'Примечание',
     Close: 'Закрыть',
     Save: 'Сохранить',
-    New: 'Добавить',
+    'New Transaction': 'Новая операция',
     Delete: 'Удалить',
     Date: 'Дата',
     Account: 'Счёт',
@@ -245,6 +258,7 @@ module.exports = {
     Name: 'Наименование',
     Active: 'Активная',
     Note: 'Примечание',
+    Transactions: 'Операции',
   },
   CategoriesMobile: {
     Categories: 'Категории',
@@ -323,11 +337,16 @@ module.exports = {
     'Connection setup': 'Настройка подключения',
   },
   Contractors: {
+    'Cash Flows': 'Денежные потоки',
+    Transactions: 'Операции',
     'Are you sure you want to delete several contractors?': 'Вы уверены, что хотите удалить несколько контрагентов?',
     "You can't delete contractor with transaction": 'Вы не можете удалить контрагента с операциями',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
+    'You do not have contractors yet': 'У вас ещё нет контрагентов',
+    'Start creating by clicking on "Create contractor"': 'Добавьте контрагента, нажав на "Создать контрагента"',
+    'Create contractor': 'Создать контрагента',
     Name: 'Наименование',
     Note: 'Примечание',
   },
@@ -368,8 +387,9 @@ module.exports = {
       'Мы используем файлы cookie, чтобы улучшить ваш опыт и для маркетинга.',
     'Learn more in our ': 'Узнайте больше в нашей ',
     'Cookie Policy': 'Политике в отношении файлов cookie',
-    'Accept selected': 'Принять выбранные',
-    'Customize your choice': 'Настроить выбор',
+    'Save and continue': 'Сохранить и продолжить',
+    'Learn more and customize': 'Узнать больше и настроить',
+    'Reject all': 'Отклонить все',
     'Accept all': 'Принять все',
   },
   Dashboard: {
@@ -397,9 +417,10 @@ module.exports = {
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select category': 'Пожалуйста, выберите категорию',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track debt transaction_ You can add an account by clicking the button below_':
+      'По крайней мере, один счёт необходим для отслеживания долговой транзакции. Вы можете добавить счёт, нажав на кнопку ниже.',
+    'At least one money is required to track debt transaction_ You can add an money by clicking the button below_':
+      'По крайней мере, одна валюта необходима для отслеживания долговой транзакции. Вы можете добавить валюту, нажав на кнопку ниже.',
     'Add new debt record': 'Добавление долга',
     'Edit debt record': 'Редактирование долга',
     Amount: 'Сумма',
@@ -450,6 +471,13 @@ module.exports = {
     Counterparties: 'Контрагенты',
     Tags: 'Теги',
     More: 'Ещё',
+    'Start by creating a Debt': 'Начните с создания Долга',
+    'You can create a Debt by clicking on the button below': 'Вы можете создать Долг, нажав на кнопку ниже',
+    'Create Debt': 'Создать Долг',
+    'No Debts found': 'Долги не найдены',
+    'You search and/or filter criteria did not match any Debts_ Please try again with different criteria':
+      'Ваш поисковый запрос и/или фильтр не соответствует ни одному Долгу. Пожалуйста, попробуйте ещё раз с другими критериями',
+    'Clear search': 'Очистить поиск',
     Date: 'Дата',
     Counterparty: 'Контрагент',
     Debt: 'Долг',
@@ -471,6 +499,10 @@ module.exports = {
   DebtWindow: {
     'Please select contractor': 'Пожалуйста, выберите контрагента',
     'Are you sure you want to delete several debts?': 'Вы уверены, что хотите удалить несколько долгов?',
+    'You need to add at least one contractor to track debts_ You can add a contractor by clicking the button below_':
+      'Вам необходимо добавить хотя бы одного контрагента для отслеживания долгов. Вы можете добавить контрагента, нажав на кнопку ниже.',
+    'At least one account is required to track debts_ You can add an account by clicking the button below_':
+      'Для отслеживания долгов необходим хотя бы один счёт. Вы можете добавить счёт, нажав на кнопку ниже.',
     Debt: 'Долг',
     Contractor: 'Контрагент',
     Tags: 'Теги',
@@ -562,6 +594,14 @@ module.exports = {
     'Sell accounts': 'Счета продажи',
     'Buy accounts': 'Счета покупки',
     Tags: 'Теги',
+    'Start by creating an Exchange': 'Начните с создания обмена валюты',
+    'Exchange is a transaction where you sell one asset and buy another_ For example, you can exchange USD to EUR or BTC to ETH_ To add an Exchange, click the button below':
+      'Обмен - это операция, при которой вы продаете один актив и покупаете другой. Например, вы можете обменять USD на EUR или BTC на ETH. Чтобы добавить обмен, нажмите кнопку ниже',
+    'Create Exchange': 'Добавить обмен',
+    'No Exchange found': 'Обмены не найдены',
+    'You search and/or filter criteria did not match any Exchanges_ Please try again with different criteria':
+      'По вашему запросу ничего не найдено. Попробуйте изменить параметры поиска',
+    'Clear search': 'Очистить поиск',
     Date: 'Дата',
     'Sell account': 'Счёт продажи',
     'Buy account': 'Счёт покупки',
@@ -576,13 +616,14 @@ module.exports = {
     'Please enter a number': 'Пожалуйста, введите число',
     'Please select money': 'Пожалуйста, выберите валюту покупки',
     'Please select a money other than the money you are exchanging money from':
-      'Please select a money other than the money you are exchanging money from',
+      'Пожалуйста, выберите валюту, отличную от валюты продажи',
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill fee': 'Пожалуйста, укажите комиссию',
     'Please select account': 'Пожалуйста, выберите счёт',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track exchanges_ You can add an account by clicking the button below_':
+      'По крайней мере, один счёт необходим для отслеживания обменов. Вы можете добавить счёт, нажав кнопку ниже.',
+    'At least two moneys are required to track exchanges_ You can add a money by clicking the button below_':
+      'По крайней мере, две валюты необходимы для отслеживания обменов. Вы можете добавить валюту, нажав кнопку ниже.',
     'Add new exchange record': 'Добавление обмена валюты',
     'Edit exchange record': 'Редактирование обмена валюты',
     Sell: 'Продажа',
@@ -654,7 +695,7 @@ module.exports = {
     Support: 'Поддержка',
   },
   MainLayout: {
-    'Cash Flow': 'Денежные потоки',
+    'Cash Flows': 'Денежные потоки',
     'Income & Expenses': 'Приходы и расходы',
     Debts: 'Долги',
     Transfers: 'Переводы',
@@ -676,6 +717,9 @@ module.exports = {
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
+    'You do not have moneys yet': 'У вас ещё нет валют',
+    'Start creating by clicking on "Create money"': 'Для создания валюты нажмите на "Создать валюту"',
+    'Create money': 'Создать валюту',
     Name: 'Наименование',
     Symbol: 'Символ',
     Active: 'Активная',
@@ -724,6 +768,21 @@ module.exports = {
     Cancel: 'Отмена',
     Move: 'Перенести',
   },
+  NoAccount: {
+    Accounts: 'Счета',
+    Close: 'Закрыть',
+    'Go to Accounts': 'Перейти к счетам',
+  },
+  NoContractor: {
+    Contractors: 'Контрагенты',
+    Close: 'Закрыть',
+    'Go to Contractors': 'Перейти к контрагентам',
+  },
+  NoMoney: {
+    Moneys: 'Валюты',
+    Close: 'Закрыть',
+    'Go to Moneys': 'Перейти к валютам',
+  },
   Operations: {
     Transactions: 'Операции',
     'Here are your expenses, income, transfers between accounts and currency exchange_ To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"':
@@ -741,7 +800,8 @@ module.exports = {
   },
   PlanningMobile: {
     Planning: 'Планирование',
-    'Coming soon': 'Скоро...',
+    'Coming soon_ Please use desktop version for planning_':
+      'Скоро... Пожалуйста, используйте десктопную версию для планирования.',
   },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
@@ -750,6 +810,10 @@ module.exports = {
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
+    'Start by creating a Plan Transaction': 'Start by creating a Plan Transaction',
+    'Plan Transactions are used to plan your incomes and expenses_ You can create a Plan Transaction by clicking the button below_':
+      'Plan Transactions are used to plan your incomes and expenses. You can create a Plan Transaction by clicking the button below.',
+    'Create a Plan Transaction': 'Create a Plan Transaction',
     Date: 'Дата',
     Account: 'Счёт',
     Counterparty: 'Контрагент',
@@ -1002,10 +1066,14 @@ module.exports = {
     'Start to use': 'Начать пользоваться',
   },
   Tags: {
+    Transactions: 'Операции',
     'Are you sure you want to delete several tags?': 'Вы уверены, что хотите удалить несколько тегов?',
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
+    'You do not have tags yet': 'У вас ещё нет тегов',
+    'Start creating by clicking on "Create tag"': 'Для создания тега нажмите на  "Создать тег"',
+    'Create tag': 'Создать тег',
     Name: 'Наименование',
   },
   TagsMobile: {
@@ -1040,6 +1108,14 @@ module.exports = {
     Categories: 'Категории',
     Counterparties: 'Контрагенты',
     Tags: 'Теги',
+    'Start by creating a Transaction': 'Начните с создания операции',
+    'Here are your expenses and income_ To add a transaction, click on the button below_':
+      'Здесь отображаются ваши расходы и доходы. Чтобы добавить операцию, нажмите на кнопку ниже.',
+    'Create Transaction': 'Создать операцию',
+    'No Transaction found': 'Операции не найдены',
+    'You search and/or filter criteria did not match any Transactions_<br />Please try again with different criteria':
+      'Поиск не дал результатов. Попробуйте изменить критерии поиска.',
+    'Clear search': 'Clear search',
     Date: 'Дата',
     Account: 'Счёт',
     Counterparty: 'Контрагент',
@@ -1056,9 +1132,10 @@ module.exports = {
     'Please select date': 'Пожалуйста, выберите дату',
     'Please fill amount': 'Пожалуйста, укажите сумму',
     'Please enter a number': 'Пожалуйста, введите число',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track income and expenses_ You can add an account by clicking the button below_':
+      'По крайней мере один счёт необходим для отслеживания доходов и расходов. Вы можете добавить счёт, нажав на кнопку ниже.',
+    'At least one money is required to track income and expenses_ You can add an money by clicking the button below_':
+      'По крайней мере одна валюта необходима для отслеживания доходов и расходов. Вы можете добавить валюту, нажав на кнопку ниже.',
     'Add new transaction': 'Добавление операции',
     'Edit transaction': 'Редактирование операции',
     Amount: 'Сумма',
@@ -1116,6 +1193,14 @@ module.exports = {
     'From accounts': 'Со счетов',
     'To accounts': 'На счета',
     Tags: 'Теги',
+    'Start by creating a Transfer': 'Начните с создания перевода',
+    'Transfer is moving money from one account to another_ To create a Transfer, click on the "New Transfer" button below_':
+      'Перевод - это перемещение денег с одного счёта на другой. Чтобы создать перевод, нажмите на кнопку "Добавить" ниже.',
+    'Create Transfer': 'Создать перевод',
+    'No Transfers found': 'Переводы не найдены',
+    'You search and/or filter criteria did not match any Transfers_ Please try again with different criteria':
+      'Ваш поисковый запрос и/или фильтр не соответствуют ни одному переводу. Пожалуйста, попробуйте ещё раз с другими критериями',
+    'Clear search': 'Очистить поиск',
     Date: 'Дата',
     'From account': 'Со счёта',
     'To account': 'На счёт',
@@ -1131,9 +1216,10 @@ module.exports = {
     'Please select account': 'Пожалуйста, выберите счёт',
     'Please select an account other than the account you are transferring money from':
       'Пожалуйста, выберите счёт, отличный от счёта, с которого переводите деньги',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least two accounts are required to track transfers_ You can add an account by clicking the button below_':
+      'Для отслеживания переводов требуется как минимум два счёта. Вы можете добавить счёт, нажав на кнопку ниже.',
+    'At least one money is required to track income and expenses_ You can add an money by clicking the button below_':
+      'Для отслеживания доходов и расходов требуется как минимум одна валюта. Вы можете добавить валюту, нажав на кнопку ниже.',
     'Add new transfer record': 'Добавление перевода',
     'Edit transfer record': 'Редактирование перевода',
     Amount: 'Сумма',
@@ -1185,6 +1271,10 @@ module.exports = {
     New: 'Добавить',
     Delete: 'Удалить',
     Refresh: 'Обновить',
+    'You do not have units yet': 'У вас ещё нет единиц измерения',
+    'Start creating by clicking on "Create unit"':
+      'Для добавления единицы измерения нажмите на "Создать единицу измерения "',
+    'Create unit': 'Создать единицу измерения',
     Name: 'Наименование',
   },
   UnitsMobile: {

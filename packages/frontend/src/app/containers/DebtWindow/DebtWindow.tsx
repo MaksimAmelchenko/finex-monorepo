@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
+import { AccountsRepository } from '../../stores/accounts-repository';
 import { Button, ISelectOption, PlusIcon } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CreateDebtData, IDebt, IDebtItem, UpdateDebtChanges } from '../../types/debt';
@@ -17,6 +18,8 @@ import { DebtsRepository } from '../../stores/debts-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Form, FormButton, FormSelect, FormTextArea } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
+import { NoAccount } from '../NoAccount/NoAccount';
+import { NoContractor } from '../NoContractor/NoContractor';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
 import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
@@ -63,6 +66,7 @@ function mapValuesToUpdatePayload({ contractorId, note, tagIds, items }: DebtFor
 export const DebtWindow = observer<DebtWindowProps>(props => {
   const { onClose } = props;
 
+  const accountsRepository = useStore(AccountsRepository);
   const contractorsRepository = useStore(ContractorsRepository);
   const debtsRepository = useStore(DebtsRepository);
   const tagsRepository = useStore(TagsRepository);
@@ -168,6 +172,34 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
     });
   };
 
+  if (!contractorsRepository.contractors.length) {
+    return (
+      <div className={styles.emptyState}>
+        <NoContractor
+          onClose={onClose}
+          supportingText={t(
+            'You need to add at least one contractor to track debts. You can add a contractor by clicking the button below.'
+          )}
+          className={styles.emptyState__content}
+        />
+      </div>
+    );
+  }
+
+  if (!accountsRepository.accounts.find(({ isEnabled }) => isEnabled)) {
+    return (
+      <div className={styles.emptyState}>
+        <NoAccount
+          onClose={onClose}
+          supportingText={t(
+            'At least one account is required to track debts. You can add an account by clicking the button below.'
+          )}
+          className={styles.emptyState__content}
+        />
+      </div>
+    );
+  }
+
   const isDeleteButtonDisabled = Boolean(!selectedDebtItems.length);
 
   return (
@@ -208,51 +240,51 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           </Form>
         </section>
 
-        <section className={styles.debtItems}>
-          <div className={clsx(styles.panel)}>
-            <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
-              <div className={styles.toolbar__buttons}>
+          <section className={styles.debtItems}>
+            <div className={clsx(styles.panel)}>
+              <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
+                <div className={styles.toolbar__buttons}>
                   <Button
                     variant="secondaryGray"
                     startIcon={<PlusIcon />}
                     disabled={!debt.id}
                     onClick={handleOpenAddDebtItem}
                   >
-                  {t('New')}
-                </Button>
+                    {t('New')}
+                  </Button>
                   <Button
                     variant="secondaryGray"
                     startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
                     disabled={isDeleteButtonDisabled}
                     onClick={handleDeleteClick}
                   >
-                  {t('Delete')}
-                </Button>
+                    {t('Delete')}
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className={styles.tableWrapper}>
-            <table className={clsx('table table-hover table-sm', styles.table)}>
-              <thead>
-                <tr>
-                  <th style={{ paddingLeft: '1.6rem' }}>{t('Date')}</th>
-                  <th>{t('Account')}</th>
-                  <th>{t('Category')}</th>
-                  <th>{t('Amount')}</th>
-                  <th className="hidden-sm">{t('Note')}</th>
-                  <th className="hidden-sm">{t('Tags')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {debtItems.map(debtItem => (
-                  <DebtItemRow debtItem={debtItem} onClick={handleClickOnDebt} key={debtItem.id} />
-                ))}
-              </tbody>
-              <tfoot></tfoot>
-            </table>
-          </div>
-        </section>
+            <div className={styles.tableWrapper}>
+              <table className={clsx('table table-hover table-sm', styles.table)}>
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: '1.6rem' }}>{t('Date')}</th>
+                    <th>{t('Account')}</th>
+                    <th>{t('Category')}</th>
+                    <th>{t('Amount')}</th>
+                    <th className="hidden-sm">{t('Note')}</th>
+                    <th className="hidden-sm">{t('Tags')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {debtItems.map(debtItem => (
+                    <DebtItemRow debtItem={debtItem} onClick={handleClickOnDebt} key={debtItem.id} />
+                  ))}
+                </tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </section>
       </main>
 
       <Drawer open={isOpenedDebtItemWindow}>

@@ -29,6 +29,10 @@ module.exports = {
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
+    Accounts: 'Accounts',
+    'Here are your cards, bank accounts and deposits_ Start creating by clicking on "Create account"':
+      'Here are your cards, bank accounts and deposits. Start creating by clicking on "Create account"',
+    'Create account': 'Create account',
     Name: 'Name',
     Active: 'Active',
     Owner: 'Owner',
@@ -150,9 +154,10 @@ module.exports = {
     'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track transaction_ You can add an account by clicking the button below_':
+      'At least one account is required to track transaction. You can add an account by clicking the button below.',
+    'At least one money is required to track transaction_ You can add an money by clicking the button below_':
+      'At least one money is required to track transaction. You can add an money by clicking the button below.',
     'Add new transaction': 'Add new transaction',
     'Edit transaction': 'Edit transaction',
     Amount: 'Amount',
@@ -186,6 +191,14 @@ module.exports = {
     'Enter search request': 'Enter search request',
     Counterparties: 'Counterparties',
     Tags: 'Tags',
+    'Start by creating a Cash Flow': 'Start by creating a Cash Flow',
+    'Cash Flow groups transactions_ To create a Cash Flow, click on the "Create Cash Flow" button below':
+      'Cash Flow groups transactions. To create a Cash Flow, click on the "Create Cash Flow" button below',
+    'Create Cash Flow': 'Create Cash Flow',
+    'No Cash Flows found': 'No Cash Flows found',
+    'You search and/or filter criteria did not match any Cash Flows_ Please try again with different criteria':
+      'You search and/or filter criteria did not match any Cash Flows. Please try again with different criteria',
+    'Clear search': 'Clear search',
     Date: 'Date',
     Accounts: 'Accounts',
     Counterparty: 'Counterparty',
@@ -201,13 +214,13 @@ module.exports = {
   },
   CashFlowWindow: {
     'Are you sure you want to delete several transactions?': 'Are you sure you want to delete several transactions?',
-    CashFlow: 'CashFlow',
+    'Cash Flow': 'Cash Flow',
     Contractor: 'Contractor',
     Tags: 'Tags',
     Note: 'Note',
     Close: 'Close',
     Save: 'Save',
-    New: 'New',
+    'New Transaction': 'New Transaction',
     Delete: 'Delete',
     Date: 'Date',
     Account: 'Account',
@@ -244,6 +257,7 @@ module.exports = {
     Name: 'Name',
     Active: 'Active',
     Note: 'Note',
+    Transactions: 'Transactions',
   },
   CategoriesMobile: {
     Categories: 'Categories',
@@ -320,11 +334,16 @@ module.exports = {
     'Connection setup': 'Connection setup',
   },
   Contractors: {
+    'Cash Flows': 'Cash Flows',
+    Transactions: 'Transactions',
     'Are you sure you want to delete several contractors?': 'Are you sure you want to delete several contractors?',
     "You can't delete contractor with transaction": "You can't delete contractor with transaction",
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
+    'You do not have contractors yet': 'You do not have contractors yet',
+    'Start creating by clicking on "Create contractor"': 'Start creating by clicking on "Create contractor"',
+    'Create contractor': 'Create contractor',
     Name: 'Name',
     Note: 'Note',
   },
@@ -365,8 +384,9 @@ module.exports = {
       'We use cookies to improve your experience and for marketing.',
     'Learn more in our ': 'Learn more in our ',
     'Cookie Policy': 'Cookie Policy',
-    'Accept selected': 'Accept selected',
-    'Customize your choice': 'Customize your choice',
+    'Save and continue': 'Save and continue',
+    'Learn more and customize': 'Learn more and customize',
+    'Reject all': 'Reject all',
     'Accept all': 'Accept all',
   },
   Dashboard: {
@@ -394,9 +414,10 @@ module.exports = {
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
     'Please select category': 'Please select category',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track debt transaction_ You can add an account by clicking the button below_':
+      'At least one account is required to track debt transaction. You can add an account by clicking the button below.',
+    'At least one money is required to track debt transaction_ You can add an money by clicking the button below_':
+      'At least one money is required to track debt transaction. You can add an money by clicking the button below.',
     'Add new debt record': 'Add new debt record',
     'Edit debt record': 'Edit debt record',
     Amount: 'Amount',
@@ -447,6 +468,13 @@ module.exports = {
     Counterparties: 'Counterparties',
     Tags: 'Tags',
     More: 'More',
+    'Start by creating a Debt': 'Start by creating a Debt',
+    'You can create a Debt by clicking on the button below': 'You can create a Debt by clicking on the button below',
+    'Create Debt': 'Create Debt',
+    'No Debts found': 'No Debts found',
+    'You search and/or filter criteria did not match any Debts_ Please try again with different criteria':
+      'You search and/or filter criteria did not match any Debts. Please try again with different criteria',
+    'Clear search': 'Clear search',
     Date: 'Date',
     Counterparty: 'Counterparty',
     Debt: 'Debt',
@@ -468,6 +496,10 @@ module.exports = {
   DebtWindow: {
     'Please select contractor': 'Please select contractor',
     'Are you sure you want to delete several debts?': 'Are you sure you want to delete several debts?',
+    'You need to add at least one contractor to track debts_ You can add a contractor by clicking the button below_':
+      'You need to add at least one contractor to track debts. You can add a contractor by clicking the button below.',
+    'At least one account is required to track debts_ You can add an account by clicking the button below_':
+      'At least one account is required to track debts. You can add an account by clicking the button below.',
     Debt: 'Debt',
     Contractor: 'Contractor',
     Tags: 'Tags',
@@ -559,6 +591,14 @@ module.exports = {
     'Sell accounts': 'Sell accounts',
     'Buy accounts': 'Buy accounts',
     Tags: 'Tags',
+    'Start by creating an Exchange': 'Start by creating an Exchange',
+    'Exchange is a transaction where you sell one asset and buy another_ For example, you can exchange USD to EUR or BTC to ETH_ To add an Exchange, click the button below':
+      'Exchange is a transaction where you sell one asset and buy another. For example, you can exchange USD to EUR or BTC to ETH. To add an Exchange, click the button below',
+    'Create Exchange': 'Create Exchange',
+    'No Exchange found': 'No Exchange found',
+    'You search and/or filter criteria did not match any Exchanges_ Please try again with different criteria':
+      'You search and/or filter criteria did not match any Exchanges. Please try again with different criteria',
+    'Clear search': 'Clear search',
     Date: 'Date',
     'Sell account': 'Sell account',
     'Buy account': 'Buy account',
@@ -577,9 +617,10 @@ module.exports = {
     'Please select date': 'Please select date',
     'Please fill fee': 'Please fill fee',
     'Please select account': 'Please select account',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track exchanges_ You can add an account by clicking the button below_':
+      'At least one account is required to track exchanges. You can add an account by clicking the button below.',
+    'At least two moneys are required to track exchanges_ You can add a money by clicking the button below_':
+      'At least two moneys are required to track exchanges. You can add a money by clicking the button below.',
     'Add new exchange record': 'Add new exchange record',
     'Edit exchange record': 'Edit exchange record',
     Sell: 'Sell',
@@ -651,7 +692,7 @@ module.exports = {
     Support: 'Support',
   },
   MainLayout: {
-    'Cash Flow': 'Cash Flow',
+    'Cash Flows': 'Cash Flows',
     'Income & Expenses': 'Income & Expenses',
     Debts: 'Debts',
     Transfers: 'Transfers',
@@ -673,6 +714,9 @@ module.exports = {
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
+    'You do not have moneys yet': 'You do not have moneys yet',
+    'Start creating by clicking on "Create money"': 'Start creating by clicking on "Create money"',
+    'Create money': 'Create money',
     Name: 'Name',
     Symbol: 'Symbol',
     Active: 'Active',
@@ -721,6 +765,21 @@ module.exports = {
     Cancel: 'Cancel',
     Move: 'Move',
   },
+  NoAccount: {
+    Accounts: 'Accounts',
+    Close: 'Close',
+    'Go to Accounts': 'Go to Accounts',
+  },
+  NoContractor: {
+    Contractors: 'Contractors',
+    Close: 'Close',
+    'Go to Contractors': 'Go to Contractors',
+  },
+  NoMoney: {
+    Moneys: 'Moneys',
+    Close: 'Close',
+    'Go to Moneys': 'Go to Moneys',
+  },
   Operations: {
     Transactions: 'Transactions',
     'Here are your expenses, income, transfers between accounts and currency exchange_ To add a transaction, tap on the "plus" button below and select "Expense", "Income", "Transfer" or "Exchange"':
@@ -738,7 +797,7 @@ module.exports = {
   },
   PlanningMobile: {
     Planning: 'Planning',
-    'Coming soon': 'Coming soon',
+    'Coming soon_ Please use desktop version for planning_': 'Coming soon. Please use desktop version for planning.',
   },
   PlanTransaction: {
     'Are you sure you want to delete several plan transactions?':
@@ -747,6 +806,10 @@ module.exports = {
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
+    'Start by creating a Plan Transaction': 'Start by creating a Plan Transaction',
+    'Plan Transactions are used to plan your incomes and expenses_ You can create a Plan Transaction by clicking the button below_':
+      'Plan Transactions are used to plan your incomes and expenses. You can create a Plan Transaction by clicking the button below.',
+    'Create a Plan Transaction': 'Create a Plan Transaction',
     Date: 'Date',
     Account: 'Account',
     Counterparty: 'Counterparty',
@@ -1001,10 +1064,14 @@ module.exports = {
     'Start to use': 'Start to use',
   },
   Tags: {
+    Transactions: 'Transactions',
     'Are you sure you want to delete several tags?': 'Are you sure you want to delete several tags?',
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
+    'You do not have tags yet': 'You do not have tags yet',
+    'Start creating by clicking on "Create tag"': 'Start creating by clicking on "Create tag"',
+    'Create tag': 'Create tag',
     Name: 'Name',
   },
   TagsMobile: {
@@ -1039,6 +1106,14 @@ module.exports = {
     Categories: 'Categories',
     Counterparties: 'Counterparties',
     Tags: 'Tags',
+    'Start by creating a Transaction': 'Start by creating a Transaction',
+    'Here are your expenses and income_ To add a transaction, click on the button below_':
+      'Here are your expenses and income. To add a transaction, click on the button below.',
+    'Create Transaction': 'Create Transaction',
+    'No Transaction found': 'No Transaction found',
+    'You search and/or filter criteria did not match any Transactions_<br />Please try again with different criteria':
+      'You search and/or filter criteria did not match any Transactions.<br />Please try again with different criteria',
+    'Clear search': 'Clear search',
     Date: 'Date',
     Account: 'Account',
     Counterparty: 'Counterparty',
@@ -1055,9 +1130,10 @@ module.exports = {
     'Please select date': 'Please select date',
     'Please fill amount': 'Please fill amount',
     'Please enter a number': 'Please enter a number',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least one account is required to track income and expenses_ You can add an account by clicking the button below_':
+      'At least one account is required to track income and expenses. You can add an account by clicking the button below.',
+    'At least one money is required to track income and expenses_ You can add an money by clicking the button below_':
+      'At least one money is required to track income and expenses. You can add an money by clicking the button below.',
     'Add new transaction': 'Add new transaction',
     'Edit transaction': 'Edit transaction',
     Amount: 'Amount',
@@ -1115,6 +1191,14 @@ module.exports = {
     'From accounts': 'From accounts',
     'To accounts': 'To accounts',
     Tags: 'Tags',
+    'Start by creating a Transfer': 'Start by creating a Transfer',
+    'Transfer is moving money from one account to another_ To create a Transfer, click on the "New Transfer" button below_':
+      'Transfer is moving money from one account to another. To create a Transfer, click on the "New Transfer" button below.',
+    'Create Transfer': 'Create Transfer',
+    'No Transfers found': 'No Transfers found',
+    'You search and/or filter criteria did not match any Transfers_ Please try again with different criteria':
+      'You search and/or filter criteria did not match any Transfers. Please try again with different criteria',
+    'Clear search': 'Clear search',
     Date: 'Date',
     'From account': 'From account',
     'To account': 'To account',
@@ -1130,9 +1214,10 @@ module.exports = {
     'Please select account': 'Please select account',
     'Please select an account other than the account you are transferring money from':
       'Please select an account other than the account you are transferring money from',
-    'At first,': 'At first,',
-    create: 'create',
-    'at least one account_': 'at least one account.',
+    'At least two accounts are required to track transfers_ You can add an account by clicking the button below_':
+      'At least two accounts are required to track transfers. You can add an account by clicking the button below.',
+    'At least one money is required to track income and expenses_ You can add an money by clicking the button below_':
+      'At least one money is required to track income and expenses. You can add an money by clicking the button below.',
     'Add new transfer record': 'Add new transfer record',
     'Edit transfer record': 'Edit transfer record',
     Amount: 'Amount',
@@ -1184,6 +1269,9 @@ module.exports = {
     New: 'New',
     Delete: 'Delete',
     Refresh: 'Refresh',
+    'You do not have units yet': 'You do not have units yet',
+    'Start creating by clicking on "Create unit"': 'Start creating by clicking on "Create unit"',
+    'Create unit': 'Create unit',
     Name: 'Name',
   },
   UnitsMobile: {

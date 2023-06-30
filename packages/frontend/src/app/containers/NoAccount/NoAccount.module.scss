@@ -1,0 +1,12 @@
+.root {
+  padding: 3.2rem;
+
+  &__illustration {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    & path {
+      stroke-width: 1px;
+    }
+  }
+}

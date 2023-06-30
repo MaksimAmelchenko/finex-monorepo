@@ -17,7 +17,7 @@
 }
 
 .debt {
-  border-bottom:  1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-gray-200);
 
   &__form {
     padding: 2.4rem 0;
@@ -74,5 +74,15 @@
 .table {
   td {
     height: 1px;
+  }
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  padding: 9.6rem 3.2rem;
+
+  &__content {
+    width: 44rem;
   }
 }

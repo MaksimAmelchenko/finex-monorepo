@@ -18,9 +18,12 @@ import { Debt } from '../../stores/models/debt';
 import { DebtRow } from './DebtRow/DebtRow';
 import { DebtWindow } from '../../containers/DebtWindow/DebtWindow';
 import { DebtsRepository } from '../../stores/debts-repository';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { IDebt } from '../../types/debt';
+import { LoadState } from '../../core/load-state';
+import { Loader } from '../../components/Loader/Loader';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
@@ -53,6 +56,17 @@ export const Debts = observer(() => {
   const handleOpenAddDebt = () => {
     setDebt({});
     setIsOpenedDebtWindow(true);
+  };
+
+  const handleClearSearchAndFiltersClick = () => {
+    debtsRepository.setFilter({
+      isFilter: false,
+      contractors: [],
+      tags: [],
+      searchText: '',
+      range: [null, null],
+      more: ['isOnlyNotPaid'],
+    });
   };
 
   const handleClickOnDebt = (debt: Debt) => {
@@ -157,6 +171,9 @@ export const Debts = observer(() => {
   }
 
   const isDeleteButtonDisabled = Boolean(!selectedDebts.length);
+  const isNoData = loadState === LoadState.done() && !debts.length && !(filter.isFilter || filter.searchText);
+  const isNotFound = Boolean(loadState === LoadState.done() && !debts.length && (filter.isFilter || filter.searchText));
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Debts')} />
@@ -192,6 +209,7 @@ export const Debts = observer(() => {
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}
                 initialValues={{ searchText: filter.searchText }}
+                enableReinitialize
                 name="debts-search"
               >
                 <FormInput
@@ -247,29 +265,62 @@ export const Debts = observer(() => {
           )}
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
-                <th>{t('Counterparty')}</th>
-                <th>{t('Debt')}</th>
-                <th>{t('Repayment')}</th>
-                <th>{t('Debt balance')}</th>
-                <th>{t('Interest')}</th>
-                <th>{t('Fine')}</th>
-                <th>{t('Fee')}</th>
-                <th>{t('Cost (overpayment)')}</th>
-                <th className="hidden-sm">{t('Note')}</th>
-                <th className="hidden-sm">{t('Tags')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {debts.map(debt => (
-                <DebtRow debt={debt} onClick={handleClickOnDebt} key={debt.id} />
-              ))}
-            </tbody>
-            <tfoot></tfoot>
-          </table>
+          {loadState === LoadState.pending() ? (
+            <Loader />
+          ) : isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<CoinsHandIcon className={styles.emptyState__illustration} />}
+                text={t('Start by creating a Debt')}
+                supportingText={t('You can create a Debt by clicking on the button below')}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddDebt}>
+                  {t('Create Debt')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : isNotFound ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SearchMdIcon className={styles.emptyState__illustration} />}
+                text={t('No Debts found')}
+                supportingText={t(
+                  'You search and/or filter criteria did not match any Debts. Please try again with different criteria'
+                )}
+              >
+                <Button variant="secondaryGray" size="lg" onClick={handleClearSearchAndFiltersClick}>
+                  {t('Clear search')}
+                </Button>
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddDebt}>
+                  {t('Create Debt')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                  <th>{t('Counterparty')}</th>
+                  <th className="text-end">{t('Debt')}</th>
+                  <th className="text-end">{t('Repayment')}</th>
+                  <th className="text-end">{t('Debt balance')}</th>
+                  <th className="text-end">{t('Interest')}</th>
+                  <th className="text-end">{t('Fine')}</th>
+                  <th className="text-end">{t('Fee')}</th>
+                  <th className="text-end">{t('Cost (overpayment)')}</th>
+                  <th className="hidden-sm">{t('Note')}</th>
+                  <th className="hidden-sm">{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {debts.map(debt => (
+                  <DebtRow debt={debt} onClick={handleClickOnDebt} key={debt.id} />
+                ))}
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          )}
         </div>
       </main>
     </div>

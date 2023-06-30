@@ -16,9 +16,12 @@ import {
   ReverseRightIcon,
 } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITransfer } from '../../types/transfer';
+import { LoadState } from '../../core/load-state';
+import { Loader } from '../../components/Loader/Loader';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
@@ -55,6 +58,17 @@ export const Transfers = observer(() => {
   const handleOpenAddTransfer = () => {
     setTransfer({});
     setIsOpenedTransferWindow(true);
+  };
+
+  const handleClearSearchAndFiltersClick = () => {
+    transfersRepository.setFilter({
+      range: [null, null],
+      isFilter: false,
+      searchText: '',
+      fromAccounts: [],
+      toAccounts: [],
+      tags: [],
+    });
   };
 
   const handleClickOnTransfer = (transfer: Transfer) => {
@@ -146,6 +160,11 @@ export const Transfers = observer(() => {
   };
 
   const isDeleteButtonDisabled = Boolean(!selectedTransfers.length);
+  const isNoData = loadState === LoadState.done() && !transfers.length && !(filter.isFilter || filter.searchText);
+  const isNotFound = Boolean(
+    loadState === LoadState.done() && !transfers.length && (filter.isFilter || filter.searchText)
+  );
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Transfers')} />
@@ -181,6 +200,7 @@ export const Transfers = observer(() => {
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}
                 initialValues={{ searchText: filter.searchText }}
+                enableReinitialize
                 name="transfers-search"
               >
                 <FormInput
@@ -235,25 +255,60 @@ export const Transfers = observer(() => {
           )}
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
-                <th>{t('From account')}</th>
-                <th>{t('To account')}</th>
-                <th>{t('Amount')}</th>
-                <th>{t('Fee')}</th>
-                <th className="hidden-sm">{t('Note')}</th>
-                <th className="hidden-sm">{t('Tags')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transfers.map(transfer => (
-                <TransferRow transfer={transfer} onClick={handleClickOnTransfer} key={transfer.id} />
-              ))}
-            </tbody>
-            <tfoot></tfoot>
-          </table>
+          {loadState === LoadState.pending() ? (
+            <Loader />
+          ) : isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<ReverseRightIcon className={styles.emptyState__illustration} />}
+                text={t('Start by creating a Transfer')}
+                supportingText={t(
+                  'Transfer is moving money from one account to another. To create a Transfer, click on the "New Transfer" button below.'
+                )}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddTransfer}>
+                  {t('Create Transfer')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : isNotFound ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SearchMdIcon className={styles.emptyState__illustration} />}
+                text={t('No Transfers found')}
+                supportingText={t(
+                  'You search and/or filter criteria did not match any Transfers. Please try again with different criteria'
+                )}
+              >
+                <Button variant="secondaryGray" size="lg" onClick={handleClearSearchAndFiltersClick}>
+                  {t('Clear search')}
+                </Button>
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddTransfer}>
+                  {t('Create Transfer')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                  <th>{t('From account')}</th>
+                  <th>{t('To account')}</th>
+                  <th>{t('Amount')}</th>
+                  <th>{t('Fee')}</th>
+                  <th className="hidden-sm">{t('Note')}</th>
+                  <th className="hidden-sm">{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transfers.map(transfer => (
+                  <TransferRow transfer={transfer} onClick={handleClickOnTransfer} key={transfer.id} />
+                ))}
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          )}
         </div>
       </main>
 

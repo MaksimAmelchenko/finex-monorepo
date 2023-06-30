@@ -5,11 +5,13 @@ import { useSnackbar } from 'notistack';
 
 import { Button, PlusIcon, RefreshCW01Icon, Tag01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { ITag } from '../../types/tag';
 import { Tag as TagModel } from '../../stores/models/tag';
 import { TagRow } from './TagRow/TagRow';
 import { TagWindow } from '../TagWindow/TagWindow';
 import { TagsRepository } from '../../stores/tags-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -64,6 +66,8 @@ export const Tags = observer(() => {
   };
 
   const isDeleteButtonDisabled = Boolean(!selectedTags.length);
+  const isNoData = Boolean(!tags.length);
+
   return (
     <>
       <article className={styles.article}>
@@ -89,19 +93,33 @@ export const Tags = observer(() => {
           </div>
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm')}>
-            <thead>
-              <tr>
-                <th />
-                <th>{t('Name')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tags.map(tag => (
-                <TagRow tag={tag} onClick={handleClickOnTag} key={tag.id} />
-              ))}
-            </tbody>
-          </table>
+          {isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<Tag01Icon className={styles.emptyState__illustration} />}
+                text={t('You do not have tags yet')}
+                supportingText={t('Start creating by clicking on\u00A0"Create\u00A0tag"')}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleAddClick}>
+                  {t('Create tag')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm')}>
+              <thead>
+                <tr>
+                  <th />
+                  <th>{t('Name')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tags.map(tag => (
+                  <TagRow tag={tag} onClick={handleClickOnTag} key={tag.id} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </article>
 

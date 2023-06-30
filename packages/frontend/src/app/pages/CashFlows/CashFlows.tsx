@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
+import { useLocation } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import {
@@ -18,9 +19,12 @@ import { CashFlowRow } from './CashFlowRow/CashFlowRow';
 import { CashFlowWindow } from '../../containers/CashFlowWindow/CashFlowWindow';
 import { CashFlowsRepository } from '../../stores/cash-flows-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ICashFlow } from '../../types/cash-flow';
+import { LoadState } from '../../core/load-state';
+import { Loader } from '../../components/Loader/Loader';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
@@ -44,15 +48,27 @@ export const CashFlows = observer(() => {
   const projectsRepository = useStore(ProjectsRepository);
   const tagsRepository = useStore(TagsRepository);
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const [isOpenedCashFlowWindow, setIsOpenedCashFlowWindow] = useState<boolean>(false);
 
   const [cashFlow, setCashFlow] = useState<Partial<ICashFlow> | null>(null);
 
+  const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleOpenAddCashFlow = () => {
     setCashFlow({});
     setIsOpenedCashFlowWindow(true);
+  };
+
+  const handleClearSearchAndFiltersClick = () => {
+    cashFlowsRepository.setFilter({
+      range: [null, null],
+      isFilter: false,
+      searchText: '',
+      accounts: [],
+      contractors: [],
+      tags: [],
+    });
   };
 
   const handleClickOnCashFlow = (cashFlow: CashFlow) => {
@@ -78,16 +94,23 @@ export const CashFlows = observer(() => {
   }, [tagsRepository.tags]);
 
   useEffect(() => {
-    cashFlowsRepository.fetch().catch(err => {
-      let message = '';
-      switch (err.code) {
-        default:
-          message = err.message;
-      }
+    const searchParams = new URLSearchParams(location.search);
+    const contractors = searchParams.get('contractors')?.split(',') || [];
 
-      enqueueSnackbar(message, { variant: 'error' });
-    });
-  }, [cashFlowsRepository, enqueueSnackbar, projectsRepository.currentProject]);
+    if (contractors.length) {
+      cashFlowsRepository.setFilter({ isFilter: true, contractors });
+    } else {
+      cashFlowsRepository.fetch().catch(err => {
+        let message = '';
+        switch (err.code) {
+          default:
+            message = err.message;
+        }
+
+        enqueueSnackbar(message, { variant: 'error' });
+      });
+    }
+  }, [location.search, cashFlowsRepository, enqueueSnackbar, projectsRepository.currentProject]);
 
   const setRange = useCallback(
     (values: [Date | null, Date | null]) => {
@@ -144,6 +167,11 @@ export const CashFlows = observer(() => {
   }
 
   const isDeleteButtonDisabled = Boolean(!selectedCashFlows.length);
+  const isNoData = loadState === LoadState.done() && !cashFlows.length && !(filter.isFilter || filter.searchText);
+  const isNotFound = Boolean(
+    loadState === LoadState.done() && !cashFlows.length && (filter.isFilter || filter.searchText)
+  );
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('CashFlows')} data-cy="cash-flows-header" />
@@ -184,6 +212,7 @@ export const CashFlows = observer(() => {
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}
                 initialValues={{ searchText: filter.searchText }}
+                enableReinitialize
                 name="cash-flows-search"
               >
                 <FormInput
@@ -229,31 +258,67 @@ export const CashFlows = observer(() => {
             </div>
           )}
         </div>
+
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
-                <th>
-                  {t('Accounts')}
-                  <br />
-                  {t('Counterparty')}
-                </th>
-                <th>{t('Categories')}</th>
-                <th>{t('Income')}</th>
-                <th>{t('Expense')}</th>
-                <th>{t('Balance')}</th>
-                <th className="hidden-sm">{t('Note')}</th>
-                <th className="hidden-sm">{t('Tags')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cashFlows.map(cashFlow => (
-                <CashFlowRow cashFlow={cashFlow} onClick={handleClickOnCashFlow} key={cashFlow.id} />
-              ))}
-            </tbody>
-            <tfoot></tfoot>
-          </table>
+          {loadState === LoadState.pending() ? (
+            <Loader />
+          ) : isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<DataFlow03Icon className={styles.emptyState__illustration} />}
+                text={t('Start by creating a Cash Flow')}
+                supportingText={t(
+                  'Cash Flow groups transactions. To create a Cash Flow, click on the "Create Cash Flow" button below'
+                )}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddCashFlow}>
+                  {t('Create Cash Flow')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : isNotFound ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SearchMdIcon className={styles.emptyState__illustration} />}
+                text={t('No Cash Flows found')}
+                supportingText={t(
+                  'You search and/or filter criteria did not match any Cash Flows. Please try again with different criteria'
+                )}
+              >
+                <Button variant="secondaryGray" size="lg" onClick={handleClearSearchAndFiltersClick}>
+                  {t('Clear search')}
+                </Button>
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddCashFlow}>
+                  {t('Create Cash Flow')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0.8rem' }}>{t('Date')}</th>
+                  <th>
+                    {t('Accounts')}
+                    <br />
+                    {t('Counterparty')}
+                  </th>
+                  <th>{t('Categories')}</th>
+                  <th>{t('Income')}</th>
+                  <th>{t('Expense')}</th>
+                  <th>{t('Balance')}</th>
+                  <th className="hidden-sm">{t('Note')}</th>
+                  <th className="hidden-sm">{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cashFlows.map(cashFlow => (
+                  <CashFlowRow cashFlow={cashFlow} onClick={handleClickOnCashFlow} key={cashFlow.id} />
+                ))}
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          )}
         </div>
       </main>
     </div>

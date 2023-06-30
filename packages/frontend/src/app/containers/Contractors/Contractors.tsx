@@ -3,13 +3,15 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Building02Icon, Button, PlusIcon, RefreshCW01Icon } from '@finex/ui-kit';
 import { Contractor as ContractorModel } from '../../stores/models/contractor';
-import { ContractorRow } from './Contractor/Contractor';
+import { ContractorRow } from './Contractor/ContractorRow';
 import { ContractorWindow } from '../ContractorWindow/ContractorWindow';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { IContractor } from '../../types/contractor';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -67,6 +69,9 @@ export const Contractors = observer(() => {
     setIsOpenedContractorWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedContractors.length);
+  const isNoData = Boolean(!contractors.length);
+
   return (
     <>
       <article className={styles.article}>
@@ -79,32 +84,48 @@ export const Contractors = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="md"
-                disabled={!selectedContractors.length}
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
           </div>
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th />
-                <th>{t('Name')}</th>
-                <th>{t('Note')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contractors.map(contractor => (
-                <ContractorRow contractor={contractor} onClick={handleClickOnContractor} key={contractor.id} />
-              ))}
-            </tbody>
-          </table>
+          {isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<Building02Icon className={styles.emptyState__illustration} />}
+                text={t('You do not have contractors yet')}
+                supportingText={t('Start creating by clicking on\u00A0"Create\u00A0contractor"')}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleAddClick}>
+                  {t('Create contractor')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th />
+                  <th>{t('Name')}</th>
+                  <th>{t('Note')}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {contractors.map(contractor => (
+                  <ContractorRow contractor={contractor} onClick={handleClickOnContractor} key={contractor.id} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </article>
 

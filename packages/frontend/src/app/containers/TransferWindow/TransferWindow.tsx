@@ -21,8 +21,9 @@ import {
   FormTextArea,
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
-import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { NoAccount } from '../NoAccount/NoAccount';
+import { NoMoney } from '../NoMoney/NoMoney';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
@@ -136,6 +137,9 @@ function mapValuesToUpdatePayload({
 }
 
 export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.Element {
+  const { amount, money, fromAccount, toAccount, transferDate, reportPeriod, fee, feeMoney, feeAccount, note, tags } =
+    transfer;
+
   const accountsRepository = useStore(AccountsRepository);
   const moneysRepository = useStore(MoneysRepository);
   const tagsRepository = useStore(TagsRepository);
@@ -144,7 +148,7 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
   const { enqueueSnackbar } = useSnackbar();
   const { onCanCloseChange } = useCloseOnEscape({ onClose });
 
-  const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(false);
+  const [isShowAdditionalFields, setIsShowAdditionalFields] = useState<boolean>(Boolean(note || tags?.length));
   const [isNew, setIsNew] = useState<boolean>(!(transfer instanceof Transfer));
 
   useEffect(() => {
@@ -269,16 +273,29 @@ export function TransferWindow({ transfer, onClose }: TransferWindowProps): JSX.
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
-  if (!accountsRepository.accounts.length) {
+  if (accountsRepository.accounts.filter(({ isEnabled }) => isEnabled).length < 2) {
     return (
-      <div>
-        {t('At first,')} <Link href="/accounts">{t('create')}</Link> {t('at least one account.')}
-      </div>
+      <NoAccount
+        onClose={onClose}
+        supportingText={t(
+          'At least two accounts are required to track transfers. You can add an account by clicking the button below.'
+        )}
+        className={styles.emptyState}
+      />
     );
   }
 
-  const { amount, money, fromAccount, toAccount, transferDate, reportPeriod, fee, feeMoney, feeAccount, note, tags } =
-    transfer;
+  if (!moneysRepository.moneys.find(({ isEnabled }) => isEnabled)) {
+    return (
+      <NoMoney
+        onClose={onClose}
+        supportingText={t(
+          'At least one money is required to track income and expenses. You can add an money by clicking the button below.'
+        )}
+        className={styles.emptyState}
+      />
+    );
+  }
 
   const defaultMoney = moneysRepository.availableMoneys[0];
   const defaultAccount = accountsRepository.availableAccounts[0];
