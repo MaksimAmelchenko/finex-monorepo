@@ -53,7 +53,7 @@ import { ReactComponent as Logo } from '../../icons/logo.svg';
 
 import styles from './MainLayout.module.scss';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create('width', {
