@@ -2,8 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
-import { BaseCheckbox } from '@finex/ui-kit';
+import { BaseCheckbox, Button } from '@finex/ui-kit';
 import { Tag } from '../../../stores/models/tag';
+import { getT } from '../../../lib/core/i18n';
+
+import styles from './TagRow.module.scss';
+
+const t = getT('Tags');
 
 interface TagProps {
   tag: Tag;
@@ -30,6 +35,13 @@ export const TagRow = observer<TagProps>(({ tag, onClick }: TagProps) => {
         <span className="name" onClick={handleClick}>
           {name}
         </span>
+      </td>
+      <td>
+        <div className={styles.root__actionsButtons}>
+          <Button variant="linkGray" size="md" href={`/transactions?tags=${tag.id}`}>
+            {t('Transactions')}
+          </Button>
+        </div>
       </td>
     </tr>
   );

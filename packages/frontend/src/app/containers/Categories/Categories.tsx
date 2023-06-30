@@ -147,6 +147,7 @@ export const Categories = observer(() => {
                 <th>{t('Name')}</th>
                 <th>{t('Active')}</th>
                 <th>{t('Note')}</th>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -175,6 +176,13 @@ export const Categories = observer(() => {
                     </TreeTableGroupingCell>
                     <td className="tickCell">{isEnabled && <Image src={checkSvg} alt="active" />}</td>
                     <td>{note}</td>
+                    <td>
+                      <div className={styles.row__actionsButtons}>
+                        <Button variant="linkGray" size="md" href={`/transactions?categories=${category.id}`}>
+                          {t('Transactions')}
+                        </Button>
+                      </div>
+                    </td>
                   </TreeTableRow>
                 );
               })}

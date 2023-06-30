@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
+import { useLocation } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import {
@@ -58,6 +60,9 @@ export const Transactions = observer(() => {
   const [isOpenedTransactionWindow, setIsOpenedTransactionWindow] = useState<boolean>(false);
 
   const [transaction, setTransaction] = useState<Partial<ITransaction> | Transaction | PlannedTransaction>({});
+
+  const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleOpenAddTransaction = () => {
     setTransaction({
@@ -118,7 +123,24 @@ export const Transactions = observer(() => {
   }, [tagsRepository.tags]);
 
   useEffect(() => {
-    transactionsRepository.fetch().catch(console.error);
+    const searchParams = new URLSearchParams(location.search);
+    const contractors = searchParams.get('contractors')?.split(',') || [];
+    const categories = searchParams.get('categories')?.split(',') || [];
+    const tags = searchParams.get('tags')?.split(',') || [];
+
+    if (contractors.length || categories.length || tags.length) {
+      transactionsRepository.setFilter({ isFilter: true, contractors, categories, tags });
+    } else {
+      transactionsRepository.fetch().catch(err => {
+        let message = '';
+        switch (err.code) {
+          default:
+            message = err.message;
+        }
+
+        enqueueSnackbar(message, { variant: 'error' });
+      });
+    }
   }, [transactionsRepository, projectsRepository.currentProject]);
 
   const setRange = useCallback(
@@ -325,72 +347,72 @@ export const Transactions = observer(() => {
               </EmptyState>
             </div>
           ) : (
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0.8rem' }} onClick={handleOnDateColumnHeaderClick}>
-                  {t('Date')}
-                </th>
-                <th>
-                  {t('Account')}
-                  <br />
-                  {t('Counterparty')}
-                </th>
-                <th>{t('Category')}</th>
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0.8rem' }} onClick={handleOnDateColumnHeaderClick}>
+                    {t('Date')}
+                  </th>
+                  <th>
+                    {t('Account')}
+                    <br />
+                    {t('Counterparty')}
+                  </th>
+                  <th>{t('Category')}</th>
 
-                <th className="hidden-sm hidden-md">{t('Income')}</th>
-                <th className="hidden-sm hidden-md">{t('Expense')}</th>
-                <th className="hidden-lg">{t('Amount')}</th>
-                <th>{t('Note')}</th>
-                <th>{t('Tags')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map(transaction => {
-                const key =
-                  transaction instanceof Transaction
-                    ? transaction.id
-                    : `${transaction.planId}-${transaction.repetitionNumber}`;
-                const isHighlighted =
-                  transaction instanceof Transaction && transactionsRepository.lastTransactionId === transaction.id;
-                return (
-                  <TransactionRow
-                    transaction={transaction}
-                    isHighlighted={isHighlighted}
-                    onClick={handleClickOnTransaction}
-                    key={key}
-                  />
-                );
-              })}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={3}>{t('Total for selected transactions:')}</td>
-                <td className="text-end numeric">
-                  {balancesBySelectedTransactions.map(({ money, income }) => {
-                    return income ? (
+                  <th className="hidden-sm hidden-md">{t('Income')}</th>
+                  <th className="hidden-sm hidden-md">{t('Expense')}</th>
+                  <th className="hidden-lg">{t('Amount')}</th>
+                  <th>{t('Note')}</th>
+                  <th>{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions.map(transaction => {
+                  const key =
+                    transaction instanceof Transaction
+                      ? transaction.id
+                      : `${transaction.planId}-${transaction.repetitionNumber}`;
+                  const isHighlighted =
+                    transaction instanceof Transaction && transactionsRepository.lastTransactionId === transaction.id;
+                  return (
+                    <TransactionRow
+                      transaction={transaction}
+                      isHighlighted={isHighlighted}
+                      onClick={handleClickOnTransaction}
+                      key={key}
+                    />
+                  );
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={3}>{t('Total for selected transactions:')}</td>
+                  <td className="text-end numeric">
+                    {balancesBySelectedTransactions.map(({ money, income }) => {
+                      return income ? (
                         <div key={money.id}>
                           {toCurrency(income, { unit: money.symbol, precision: money.precision })}
                         </div>
-                    ) : null;
-                  })}
-                </td>
+                      ) : null;
+                    })}
+                  </td>
 
-                <td className="text-end numeric">
-                  {balancesBySelectedTransactions.map(({ money, expense }) => {
-                    return expense ? (
-                      <div key={money.id}>
-                        {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
-                      </div>
-                    ) : null;
-                  })}
-                </td>
+                  <td className="text-end numeric">
+                    {balancesBySelectedTransactions.map(({ money, expense }) => {
+                      return expense ? (
+                        <div key={money.id}>
+                          {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
+                    })}
+                  </td>
 
-                <td />
-                <td />
-              </tr>
-            </tfoot>
-          </table>
+                  <td />
+                  <td />
+                </tr>
+              </tfoot>
+            </table>
           )}
         </div>
       </main>
