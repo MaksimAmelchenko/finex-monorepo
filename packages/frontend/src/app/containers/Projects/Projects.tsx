@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, Copy01Icon, GitMergeIcon, PlusIcon, RefreshCW01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { IProject } from '../../types/project';
 import { Project } from '../../stores/models/project';
@@ -12,6 +12,7 @@ import { ProjectMergeWindow } from '../ProjectMergeWindow/ProjectMergeWindow';
 import { ProjectRow } from './ProjectRow/ProjectRow';
 import { ProjectWindow } from '../ProjectWindow/ProjectWindow';
 import { ProjectsRepository } from '../../stores/projects-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -104,6 +105,8 @@ export const Projects = observer(() => {
   }, [projectsRepository.projects, selectedProject]);
 
   const isSelectCurrentProject = projectsRepository.currentProject === selectedProject;
+  const isDeleteButtonDisabled = Boolean(!selectedProject || isSelectCurrentProject);
+
   return (
     <>
       <article className={styles.article}>
@@ -116,20 +119,21 @@ export const Projects = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="md"
-                disabled={!selectedProject || isSelectCurrentProject}
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
 
-              <Button variant="secondaryGray" size="md" onClick={handleCopyClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<Copy01Icon />} onClick={handleCopyClick}>
                 {t('Copy')}
               </Button>
 
-              <Button variant="secondaryGray" size="md" onClick={handleMergeClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<GitMergeIcon />} onClick={handleMergeClick}>
                 {t('Merge')}
               </Button>
             </div>

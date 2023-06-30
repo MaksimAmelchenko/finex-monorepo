@@ -7,11 +7,13 @@ import {
   BaseCheckbox,
   Button,
   Image,
+  PlusIcon,
+  RefreshCW01Icon,
+  RightLongIcon,
   TreeTableGroupingCell,
   TreeTableRow,
   checkSvg,
   useTreeTable,
-  PlusIcon,
 } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { Category } from '../../stores/models/category';
@@ -19,6 +21,7 @@ import { CategoryWindow } from '../CategoryWindow/CategoryWindow';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ICategory } from '../../types/category';
 import { MoveTransactionsWindow } from '../MoveTransactionsWindow/MoveTransactionsWindow';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -100,6 +103,7 @@ export const Categories = observer(() => {
   };
 
   const categories = categoriesRepository.categories.filter(({ isSystem }) => !isSystem);
+  const isDeleteButtonDisabled = Boolean(!selectedCategory);
 
   return (
     <>
@@ -110,15 +114,22 @@ export const Categories = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedCategory} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
               <Button
                 variant="secondaryGray"
                 size="md"
+                startIcon={<RightLongIcon />}
                 disabled={!selectedCategory}
                 onClick={handleMoveTransactionsClick}
               >

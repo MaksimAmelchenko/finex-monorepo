@@ -27,7 +27,6 @@
   // for button shadow
   padding-top: 0.4rem;
 
-
   &__toolbar {
     grid-area: toolbar;
   }
@@ -66,7 +65,7 @@
     gap: 0.8rem;
     flex: 1 0 0;
     width: 0;
-    max-width: 24rem;
+    max-width: 32rem;
   }
 
   &__search {

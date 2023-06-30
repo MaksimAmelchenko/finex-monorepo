@@ -1,0 +1,5 @@
+.root {
+  &_notDisabled {
+    color: var(--color-error-500);
+  }
+}

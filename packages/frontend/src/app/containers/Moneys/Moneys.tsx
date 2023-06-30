@@ -3,13 +3,14 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, Coins02Icon, PlusIcon, RefreshCW01Icon, Tag01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { IMoney } from '../../types/money';
 import { Money } from '../../stores/models/money';
 import { MoneyRow } from './MoneyRow/MoneyRow';
 import { MoneyWindow } from '../MoneyWindow/MoneyWindow';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -67,6 +68,7 @@ export const Moneys = observer(() => {
     setIsOpenedMoneyWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedMoneys.length);
   return (
     <>
       <article className={styles.article}>
@@ -76,10 +78,16 @@ export const Moneys = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedMoneys.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

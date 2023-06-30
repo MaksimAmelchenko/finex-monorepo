@@ -4,7 +4,16 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
+import {
+  Button,
+  FilterFunnel01Icon,
+  IconButton,
+  ISelectOption,
+  PlusIcon,
+  RefreshCW01Icon,
+  RefreshCW03Icon,
+  SearchMdIcon,
+} from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { Exchange } from '../../stores/models/exchange';
 import { ExchangeRow } from './ExchangeRow/ExchangeRow';
@@ -18,6 +27,7 @@ import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -134,6 +144,7 @@ export const Exchanges = observer(() => {
     exchangesRepository.setFilter({ isFilter: !filter.isFilter });
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedExchanges.length);
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Exchanges')} />
@@ -147,12 +158,13 @@ export const Exchanges = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="md"
-                disabled={!selectedExchanges.length}
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -163,7 +175,7 @@ export const Exchanges = observer(() => {
                 size="small"
                 className={clsx(filter.isFilter && styles.filterButton_active)}
               >
-                <FilterIcon />
+                <FilterFunnel01Icon />
               </IconButton>
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}

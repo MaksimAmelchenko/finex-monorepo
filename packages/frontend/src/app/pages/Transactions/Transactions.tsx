@@ -3,7 +3,16 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
+import {
+  Button,
+  FilterFunnel01Icon,
+  ISelectOption,
+  IconButton,
+  PlusIcon,
+  RefreshCW01Icon,
+  SearchMdIcon,
+  SwitchHorizontal01Icon,
+} from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
@@ -21,6 +30,7 @@ import { Transaction } from '../../stores/models/transaction';
 import { TransactionRow } from './Transaction/TransactionRow';
 import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
 import { TransactionsRepository } from '../../stores/transactions-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { balanceByMoney } from '../../lib/balance-by-money';
 import { getT, toCurrency } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -162,6 +172,7 @@ export const Transactions = observer(() => {
     transactions.forEach(transaction => transaction.toggleSelection());
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedTransactions.length);
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header" />
@@ -175,12 +186,13 @@ export const Transactions = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="md"
-                disabled={!selectedTransactions.length}
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -191,7 +203,7 @@ export const Transactions = observer(() => {
                 size="small"
                 className={clsx(filter.isFilter && styles.filterButton_active)}
               >
-                <FilterIcon />
+                <FilterFunnel01Icon />
               </IconButton>
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}

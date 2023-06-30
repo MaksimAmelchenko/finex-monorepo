@@ -3,7 +3,16 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
+import {
+  Button,
+  CoinsHandIcon,
+  FilterFunnel01Icon,
+  ISelectOption,
+  IconButton,
+  PlusIcon,
+  RefreshCW01Icon,
+  SearchMdIcon,
+} from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Debt } from '../../stores/models/debt';
 import { DebtRow } from './DebtRow/DebtRow';
@@ -17,6 +26,7 @@ import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -146,6 +156,7 @@ export const Debts = observer(() => {
     return <DebtWindow isOpened={isOpenedDebtWindow} debt={debt} onClose={handleCloseDebtWindow} />;
   }
 
+  const isDeleteButtonDisabled = Boolean(!selectedDebts.length);
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Debts')} />
@@ -156,10 +167,16 @@ export const Debts = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleOpenAddDebt}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedDebts.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -170,7 +187,7 @@ export const Debts = observer(() => {
                 size="small"
                 className={clsx(filter.isFilter && styles.filterButton_active)}
               >
-                <FilterIcon />
+                <FilterFunnel01Icon />
               </IconButton>
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}

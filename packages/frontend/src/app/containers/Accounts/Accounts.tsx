@@ -7,9 +7,10 @@ import { Account } from '../../stores/models/account';
 import { AccountRow } from './Account/AccountRow';
 import { AccountWindow } from '../AccountWindow/AccountWindow';
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, PlusIcon, RefreshCW01Icon, Wallet01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { IAccount } from '../../types/account';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -68,6 +69,7 @@ export const Accounts = observer(() => {
     setIsOpenedAccountWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedAccounts.length);
   return (
     <>
       <article className={styles.article}>
@@ -77,10 +79,16 @@ export const Accounts = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedAccounts.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

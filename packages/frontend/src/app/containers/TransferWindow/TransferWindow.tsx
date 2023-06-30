@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
 import { AmountField } from '../AmountField/AmountField';
-import { CircleQuestionIcon, IconButton, ISelectOption, Target } from '@finex/ui-kit';
+import { CircleQuestionIcon, IconButton, ISelectOption, PlusIcon, Target, Wallet01Icon } from '@finex/ui-kit';
 import { CreateTransferData, ITransfer, UpdateTransferChanges } from '../../types/transfer';
 import {
   Form,

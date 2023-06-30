@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
-import { Button, ISelectOption } from '@finex/ui-kit';
+import { Button, ISelectOption, PlusIcon } from '@finex/ui-kit';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { CreateDebtData, IDebt, IDebtItem, UpdateDebtChanges } from '../../types/debt';
 import { Debt } from '../../stores/models/debt';
@@ -19,6 +19,7 @@ import { Form, FormButton, FormSelect, FormTextArea } from '../../components/For
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { Shape } from '../../types';
 import { TagsRepository } from '../../stores/tags-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { analytics } from '../../lib/analytics';
 import { getPatch } from '../../lib/core/get-patch';
 import { getT } from '../../lib/core/i18n';
@@ -167,6 +168,8 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
     });
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedDebtItems.length);
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Debt')} />
@@ -209,10 +212,20 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           <div className={clsx(styles.panel)}>
             <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
               <div className={styles.toolbar__buttons}>
-                <Button variant="secondaryGray" disabled={!debt.id} onClick={handleOpenAddDebtItem}>
+                  <Button
+                    variant="secondaryGray"
+                    startIcon={<PlusIcon />}
+                    disabled={!debt.id}
+                    onClick={handleOpenAddDebtItem}
+                  >
                   {t('New')}
                 </Button>
-                <Button variant="secondaryGray" disabled={!selectedDebtItems.length} onClick={handleDeleteClick}>
+                  <Button
+                    variant="secondaryGray"
+                    startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                    disabled={isDeleteButtonDisabled}
+                    onClick={handleDeleteClick}
+                  >
                   {t('Delete')}
                 </Button>
               </div>

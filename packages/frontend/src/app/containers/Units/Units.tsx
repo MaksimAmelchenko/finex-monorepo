@@ -3,9 +3,10 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, PlusIcon, RefreshCW01Icon, SpacingWidth01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { IUnit } from '../../types/unit';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { Unit as UnitModel } from '../../stores/models/unit';
 import { UnitRow } from './UnitRow/UnitRow';
 import { UnitWindow } from '../UnitWindow/UnitWindow';
@@ -67,6 +68,7 @@ export const Units = observer(() => {
     setIsOpenedUnitWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedUnits.length);
   return (
     <>
       <article className={styles.article}>
@@ -76,10 +78,16 @@ export const Units = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedUnits.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

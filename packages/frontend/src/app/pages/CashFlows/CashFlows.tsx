@@ -3,7 +3,16 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
+import {
+  Button,
+  DataFlow03Icon,
+  FilterFunnel01Icon,
+  ISelectOption,
+  IconButton,
+  PlusIcon,
+  RefreshCW01Icon,
+  SearchMdIcon,
+} from '@finex/ui-kit';
 import { CashFlow } from '../../stores/models/cash-flow';
 import { CashFlowRow } from './CashFlowRow/CashFlowRow';
 import { CashFlowWindow } from '../../containers/CashFlowWindow/CashFlowWindow';
@@ -17,6 +26,7 @@ import { Pagination } from '../../components/Pagination/Pagination';
 import { ProjectsRepository } from '../../stores/projects-repository';
 import { RangeSelect } from '../../components/RangeSelect/RangeSelect';
 import { TagsRepository } from '../../stores/tags-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -133,6 +143,7 @@ export const CashFlows = observer(() => {
     return <CashFlowWindow isOpened={isOpenedCashFlowWindow} cashFlow={cashFlow} onClose={handleCloseCashFlowWindow} />;
   }
 
+  const isDeleteButtonDisabled = Boolean(!selectedCashFlows.length);
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('CashFlows')} data-cy="cash-flows-header" />
@@ -151,12 +162,13 @@ export const CashFlows = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="md"
-                disabled={!selectedCashFlows.length}
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -167,7 +179,7 @@ export const CashFlows = observer(() => {
                 size="small"
                 className={clsx(filter.isFilter && styles.filterButton_active)}
               >
-                <FilterIcon />
+                <FilterFunnel01Icon />
               </IconButton>
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}

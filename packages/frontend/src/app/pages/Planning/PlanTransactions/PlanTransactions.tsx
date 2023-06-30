@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, CoinsStacked01Icon, PlusIcon, RefreshCW01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../../components/Drawer/Drawer';
 import { IPlanTransaction } from '../../../types/plan-transaction';
 import { PlanTransaction } from '../../../stores/models/plan-transaction';
@@ -11,6 +11,7 @@ import { PlanTransactionRow } from './PlanTransactionRow/PlanTransactionRow';
 import { PlanTransactionWindow } from '../../../containers/PlanTransactionWindow/PlanTransactionWindow';
 import { PlanTransactionsRepository } from '../../../stores/plan-transactions-repository';
 import { ProjectsRepository } from '../../../stores/projects-repository';
+import { TrashIcon } from '../../../components/TrashIcon/TrashIcon';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
@@ -75,6 +76,7 @@ export const PlanTransactions = observer(() => {
     });
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedPlans.length);
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Planning - Incomes & Expenses')} />
@@ -85,10 +87,16 @@ export const PlanTransactions = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleOpenAddPlanTransaction}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedPlans.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>

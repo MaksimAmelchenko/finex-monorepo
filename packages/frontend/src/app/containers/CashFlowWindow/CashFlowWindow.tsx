@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
 
-import { Button, ISelectOption } from '@finex/ui-kit';
+import { Button, ISelectOption, PlusIcon } from '@finex/ui-kit';
 import { CashFlow } from '../../stores/models/cash-flow';
 import { CashFlowItem } from '../../stores/models/cash-flow-item';
 import { CashFlowItemRow } from './CashFlowItemRow/CashFlowItemRow';
@@ -18,6 +18,7 @@ import { Form, FormButton, FormSelect, FormTextArea } from '../../components/For
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { TagsRepository } from '../../stores/tags-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { analytics } from '../../lib/analytics';
 import { balanceByMoney } from '../../lib/balance-by-money';
 import { getPatch } from '../../lib/core/get-patch';
@@ -176,6 +177,8 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
     });
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedCashFlowItems.length);
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('CashFlow')} />
@@ -227,14 +230,16 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                 <Button
                   variant="secondaryGray"
                   disabled={!cashFlow.id}
+                    startIcon={<PlusIcon />}
                   onClick={handleOpenAddCashFlowItem}
                   data-cy="cfw-create-cash-flow-item-button"
                 >
-                  {t('New')}
+                    {t('New Transaction')}
                 </Button>
                 <Button
                   variant="secondaryGray"
-                  disabled={!selectedCashFlowItems.length}
+                    startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                    disabled={isDeleteButtonDisabled}
                   onClick={handleDeleteClick}
                   data-cy="cfw-delete-cash-flow-item-button"
                 >

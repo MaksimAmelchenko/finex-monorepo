@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, PlusIcon, RefreshCW01Icon, Tag01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
 import { ITag } from '../../types/tag';
 import { Tag as TagModel } from '../../stores/models/tag';
@@ -63,6 +63,7 @@ export const Tags = observer(() => {
     setIsOpenedTagWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedTags.length);
   return (
     <>
       <article className={styles.article}>
@@ -72,10 +73,16 @@ export const Tags = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedTags.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
