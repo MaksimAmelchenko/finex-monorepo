@@ -6,7 +6,7 @@ export default {
   log: {
     level: 'trace',
   },
-  locales: [Locale.Ru, Locale.En, Locale.De],
+  locales: [Locale.En, Locale.De, Locale.Ru],
   db: {
     client: 'pg',
     connection: {
