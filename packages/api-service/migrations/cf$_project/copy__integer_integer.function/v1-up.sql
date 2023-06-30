@@ -13,7 +13,7 @@ begin
   -- Tags
   for r in (select t.*
               from cf$.Tag t
-             where t.Id_Project = iId_Project_From) 
+             where t.Id_Project = iId_Project_From)
   loop
     -- Id_Tag нельзя использовать старый, т.к. он глобальный
     insert into cf$.Tag (Id_Project, /*Id_Tag,*/ Id_User, Name)
@@ -52,10 +52,10 @@ begin
        select iId_Project_To, c.Id_Contractor, c.Id_User, c.Name, c.Note
          from cf$.Contractor c
         where c.Id_Project = iId_Project_From;
-  
+
   -- Moneys
-  insert into cf$.Money (Id_Project, Id_Money, Id_User, Id_Currency, Name, Symbol, Is_Enabled, Sorting)
-       select iId_Project_To, m.Id_Money, m.Id_User, m.Id_Currency, m.Name, m.Symbol, m.Is_Enabled, m.Sorting
+  insert into cf$.Money (Id_Project, Id_Money, Id_User, Name, Symbol, Is_Enabled, Sorting, precision, currency_code)
+       select iId_Project_To, m.Id_Money, m.Id_User, m.Name, m.Symbol, m.Is_Enabled, m.Sorting, m.precision, m.currency_code
          from cf$.Money m
         where m.Id_Project = iId_Project_From;
 
@@ -63,12 +63,12 @@ begin
        select iId_Project_To, mr.Id_Money_Rate, mr.Id_User, mr.Id_Money, mr.DRate, mr.Id_Currency, mr.Rate
          from cf$.Money_Rate mr
         where mr.Id_Project = iId_Project_From;
-  
+
   insert into cf$.CashFlow (Id_Project, Id_CashFlow, Id_User, Id_CashFlow_Type, Id_Contractor, Note, Tags, DSet)
        select iId_Project_To, cf.Id_CashFlow, cf.Id_User, cf.Id_CashFlow_Type, cf.Id_Contractor, cf.Note, array (select (vTags_Map->unnest(cf.Tags)::text)::int), cf.DSet
          from cf$.CashFlow cf
         where cf.Id_Project = iId_Project_From;
-        
+
   insert into cf$.Plan (Id_Project, Id_Plan, Id_User, DBegin, Report_Period,
                         Operation_Note, Operation_Tags, Repeat_Type, Repeat_Days,
                         End_Type, Repeat_Count, DEnd, Color_Mark, Note)
@@ -84,7 +84,7 @@ begin
               pcfi.Id_Category, pcfi.Id_Money, pcfi.Id_Unit, pcfi.Sign, pcfi.Quantity, pcfi.Sum
          from cf$.Plan_Cashflow_Item pcfi
         where pcfi.Id_Project = iId_Project_From;
- 
+
   insert into cf$.Plan_Transfer (Id_Project, Id_Plan, Id_Account_From, Id_Account_To, Sum,
                                  Id_Money, Id_Account_Fee, Fee, Id_Money_Fee)
        select iId_Project_To, pt.Id_Plan, pt.Id_Account_From, pt.Id_Account_To, pt.Sum,
@@ -106,17 +106,17 @@ begin
 
   perform context.set('isNotCalculateBalance', '1');
 
-  insert into cf$.CashFlow_Detail (Id_Project, Id_CashFlow, Id_CashFlow_Detail, 
-                                   Id_User, Id_Account, Id_Category, 
-                                   Id_Money, Id_Unit, Sign, 
-                                   DCashflow_Detail, Report_Period, Quantity, 
-                                   Sum, Is_Not_Confirmed, Note, 
+  insert into cf$.CashFlow_Detail (Id_Project, Id_CashFlow, Id_CashFlow_Detail,
+                                   Id_User, Id_Account, Id_Category,
+                                   Id_Money, Id_Unit, Sign,
+                                   DCashflow_Detail, Report_Period, Quantity,
+                                   Sum, Is_Not_Confirmed, Note,
                                    Tags)
-       select iId_Project_To, cfd.Id_CashFlow, cfd.Id_CashFlow_Detail, 
-              cfd.Id_User, cfd.Id_Account, cfd.Id_Category, 
-              cfd.Id_Money, cfd.Id_Unit, cfd.Sign, 
+       select iId_Project_To, cfd.Id_CashFlow, cfd.Id_CashFlow_Detail,
+              cfd.Id_User, cfd.Id_Account, cfd.Id_Category,
+              cfd.Id_Money, cfd.Id_Unit, cfd.Sign,
               cfd.DCashflow_Detail, cfd.Report_Period, cfd.Quantity,
-              cfd.Sum, cfd.Is_Not_Confirmed, cfd.Note, 
+              cfd.Sum, cfd.Is_Not_Confirmed, cfd.Note,
               array (select (vTags_Map->unnest(cfd.Tags)::text)::int)
          from cf$.CashFlow_Detail cfd
         where cfd.Id_Project = iId_Project_From;
