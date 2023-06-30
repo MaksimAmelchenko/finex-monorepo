@@ -5,16 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../../stores/accounts-repository';
-import {
-  Button,
-  ChartColumnIcon,
-  InlineSelect,
-  IOption,
-  ISelectOption,
-  loadingSvg,
-  Select,
-  TableIcon,
-} from '@finex/ui-kit';
+import { BarChart07Icon, Button, IOption, ISelectOption, InlineSelect, Select, TableIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../../stores/categories-repository';
 import { ContractorsRepository } from '../../../stores/contractors-repository';
 import { DynamicsGraph } from './DynamicsGraph/DynamicsGraph';
@@ -30,6 +21,8 @@ import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
 
 import styles from './DynamicsReport.module.scss';
+
+import { default as loadingSvg } from '../../../icons/loading.svg';
 
 const t = getT('DynamicsReport');
 
@@ -230,7 +223,7 @@ export const DynamicsReport = observer(() => {
                   <TableIcon />
                 </ToggleButton>
                 <ToggleButton value="graph">
-                  <ChartColumnIcon />
+                  <BarChart07Icon />
                 </ToggleButton>
               </ToggleButtonGroup>
 

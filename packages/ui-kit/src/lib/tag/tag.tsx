@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { XmarkIcon } from '../icons';
+import { XCloseIcon } from '../icons';
 
 import styles from './tag.module.scss';
 
@@ -38,7 +38,7 @@ export function Tag({
       </div>
       {onClose && (
         <button type="button" className={styles.root__closeButton} onClick={onClose}>
-          <XmarkIcon />
+          <XCloseIcon />
         </button>
       )}
     </div>

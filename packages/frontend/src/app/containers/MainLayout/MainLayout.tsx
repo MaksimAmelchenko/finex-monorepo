@@ -17,17 +17,17 @@ import { BillingLazy } from '../../pages/Billing/BillingLazy';
 import { CashFlows } from '../../pages/CashFlows/CashFlows';
 import {
   ChevronRightIcon,
-  Logo,
-  calendarDaysSvg,
-  chartColumnSvg,
-  chartLineSvg,
-  chartPieSvg,
-  gearSvg,
-  giftSvg,
-  rightLeftSvg,
-  rightLongSvg,
-  screwdriverWrenchSvg,
-  shuffleSvg,
+  barChart07Svg,
+  coinsHandSvg,
+  coinsStacked01Svg,
+  dataFlow03Svg,
+  lineChartUp01Svg,
+  pieChart02Svg,
+  refreshCW03Svg,
+  reverseRightSvg,
+  settings02Svg,
+  switchHorizontal01Svg,
+  tool02Svg,
 } from '@finex/ui-kit';
 import { AccountMenu } from './AccountMenu/AccountMenu';
 import { DashboardLazy } from '../../pages/Dashboard/DashboardLazy';
@@ -48,6 +48,8 @@ import { ToolsLazy } from '../../pages/Tools/ToolsLazy';
 import { Transactions } from '../../pages/Transactions/Transactions';
 import { Transfers } from '../../pages/Transfers/Transfers';
 import { useStore } from '../../core/hooks/use-store';
+
+import { ReactComponent as Logo } from '../../icons/logo.svg';
 
 import styles from './MainLayout.module.scss';
 
@@ -130,56 +132,56 @@ export const MainLayout = observer(() => {
       {
         id: 'cash-flows',
         link: '/cash-flows',
-        label: t('Cash Flow'),
-        icon: <img src={shuffleSvg} alt="" />,
+        label: t('Cash Flows'),
+        icon: <img src={dataFlow03Svg} alt="" />,
       },
       {
         id: 'transactions',
         link: '/transactions',
         label: t('Income & Expenses'),
-        icon: <img src={rightLeftSvg} alt="" />,
+        icon: <img src={switchHorizontal01Svg} alt="" />,
       },
       {
         id: 'debts',
         link: '/debts',
         label: t('Debts'),
-        icon: <img src={giftSvg} alt="" />,
+        icon: <img src={coinsHandSvg} alt="" />,
       },
       {
         id: 'transfers',
         link: '/transfers',
         label: t('Transfers'),
-        icon: <img src={rightLongSvg} alt="" />,
+        icon: <img src={reverseRightSvg} alt="" />,
       },
       {
         id: 'exchanges',
         link: '/exchanges',
         label: t('Exchanges'),
-        icon: <img src={rightLeftSvg} alt="" />,
+        icon: <img src={refreshCW03Svg} alt="" />,
       },
       {
         id: 'planning',
         link: '/planning',
         label: t('Planning'),
-        icon: <img src={calendarDaysSvg} alt="" />,
+        icon: <img src={coinsStacked01Svg} alt="" />,
       },
       {
         id: 'reports',
         link: '/reports',
         label: t('Reports'),
-        icon: <img src={chartLineSvg} alt="" />,
+        icon: <img src={lineChartUp01Svg} alt="" />,
         items: [
           {
             id: 'dynamicsReport',
             link: '/reports/dynamics',
             label: t('Dynamics'),
-            icon: <img src={chartColumnSvg} alt="" />,
+            icon: <img src={barChart07Svg} alt="" />,
           },
           {
             id: 'distributionReport',
             link: '/reports/distribution',
             label: t('Distribution'),
-            icon: <img src={chartPieSvg} alt="" />,
+            icon: <img src={pieChart02Svg} alt="" />,
           },
         ],
       },
@@ -187,13 +189,13 @@ export const MainLayout = observer(() => {
         id: 'settings',
         link: '/settings',
         label: t('Settings'),
-        icon: <img src={gearSvg} alt="" />,
+        icon: <img src={settings02Svg} alt="" />,
       },
       {
         id: 'tools',
         link: '/tools',
         label: t('Tools'),
-        icon: <img src={screwdriverWrenchSvg} alt="" />,
+        icon: <img src={tool02Svg} alt="" />,
       },
     ];
   }, []);

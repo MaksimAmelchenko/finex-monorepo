@@ -25,7 +25,7 @@
   width: 3.2rem;
   height: 2.4rem;
   filter: grayscale(100%);
-  background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo.svg');
+  background: center / contain no-repeat url('packages/frontend/src/app/icons/logo.svg');
 
   :global(.active) & {
     filter: grayscale(0);

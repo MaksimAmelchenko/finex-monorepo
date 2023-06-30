@@ -5,16 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../../stores/accounts-repository';
-import {
-  Button,
-  ChartPieIcon,
-  InlineSelect,
-  IOption,
-  ISelectOption,
-  loadingSvg,
-  Select,
-  TableIcon,
-} from '@finex/ui-kit';
+import { Button, IOption, ISelectOption, InlineSelect, PieChart02Icon, Select, TableIcon } from '@finex/ui-kit';
 import { CategoriesRepository } from '../../../stores/categories-repository';
 import { ContractorsRepository } from '../../../stores/contractors-repository';
 import { DistributionGraph } from './DistributionGraph/DistributionGraph';
@@ -28,6 +19,8 @@ import { ReportsRepository, UsingType } from '../../../stores/reports-store';
 import { TagsRepository } from '../../../stores/tags-repository';
 import { getT } from '../../../lib/core/i18n';
 import { useStore } from '../../../core/hooks/use-store';
+
+import { default as loadingSvg } from '../../../icons/loading.svg';
 
 import styles from './DistributionReport.module.scss';
 
@@ -222,7 +215,7 @@ export const DistributionReport = observer(() => {
                   <TableIcon />
                 </ToggleButton>
                 <ToggleButton value="graph">
-                  <ChartPieIcon />
+                  <PieChart02Icon />
                 </ToggleButton>
               </ToggleButtonGroup>
 

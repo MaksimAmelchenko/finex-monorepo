@@ -1,6 +1,6 @@
 import React, { createElement, forwardRef } from 'react';
 
-import { CalendarDaysIcon } from '../icons';
+import { CalendarIcon } from '../icons';
 import { DatePicker } from '../date-picker/date-picker';
 import { Input, InputProps } from '../input/input';
 
@@ -27,5 +27,5 @@ export function DateField({ value, onChange, dateFormat, showMonthYearPicker, cl
 }
 
 const CustomInput = forwardRef<HTMLElement, any>((props, ref) => {
-  return <Input {...props} startIcon={<CalendarDaysIcon />} />;
+  return <Input {...props} startIcon={<CalendarIcon />} />;
 });
