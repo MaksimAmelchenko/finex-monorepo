@@ -17,7 +17,9 @@
 }
 
 .debt {
+  &_withDebtItems {
     border-bottom: 1px solid var(--color-gray-200);
+  }
 
   &__form {
     padding: 2.4rem 0;

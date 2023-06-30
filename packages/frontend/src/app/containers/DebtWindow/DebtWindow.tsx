@@ -206,7 +206,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
     <div className={styles.layout}>
       <HeaderLayout title={t('Debt')} />
       <main className={clsx(styles.layout__content, styles.content)}>
-        <section className={styles.debt}>
+        <section className={clsx(styles.debt, debt.id && styles.debt_withDebtItems)}>
           <Form<DebtFormValues>
             onSubmit={onSubmit}
             initialValues={{
@@ -240,6 +240,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
           </Form>
         </section>
 
+        {debt.id && (
           <section className={styles.debtItems}>
             <div className={clsx(styles.panel)}>
               <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
@@ -285,6 +286,7 @@ export const DebtWindow = observer<DebtWindowProps>(props => {
               </table>
             </div>
           </section>
+        )}
       </main>
 
       <Drawer open={isOpenedDebtItemWindow}>

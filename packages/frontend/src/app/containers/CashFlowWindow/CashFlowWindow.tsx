@@ -181,9 +181,9 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
 
   return (
     <div className={styles.layout}>
-      <HeaderLayout title={t('CashFlow')} />
+      <HeaderLayout title={t('Cash Flow')} />
       <main className={clsx(styles.layout__content, styles.content)}>
-        <section className={styles.cashFlow}>
+        <section className={clsx(styles.cashFlow, cashFlow.id && styles.cashFlow_withCashFlowItems)}>
           <Form<CashFlowFormValues>
             onSubmit={onSubmit}
             initialValues={{
@@ -223,106 +223,112 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
           </Form>
         </section>
 
-        <section className={styles.cashFlowItems}>
-          <div className={clsx(styles.panel)}>
-            <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
-              <div className={styles.toolbar__buttons}>
-                <Button
-                  variant="secondaryGray"
-                  disabled={!cashFlow.id}
+        {cashFlow.id && (
+          <section className={styles.cashFlowItems}>
+            <div className={clsx(styles.panel)}>
+              <div className={clsx(styles.panel__toolbar, styles.toolbar)}>
+                <div className={styles.toolbar__buttons}>
+                  <Button
+                    variant="secondaryGray"
+                    disabled={!cashFlow.id}
                     startIcon={<PlusIcon />}
-                  onClick={handleOpenAddCashFlowItem}
-                  data-cy="cfw-create-cash-flow-item-button"
-                >
+                    onClick={handleOpenAddCashFlowItem}
+                    data-cy="cfw-create-cash-flow-item-button"
+                  >
                     {t('New Transaction')}
-                </Button>
-                <Button
-                  variant="secondaryGray"
+                  </Button>
+                  <Button
+                    variant="secondaryGray"
                     startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
                     disabled={isDeleteButtonDisabled}
-                  onClick={handleDeleteClick}
-                  data-cy="cfw-delete-cash-flow-item-button"
-                >
-                  {t('Delete')}
-                </Button>
+                    onClick={handleDeleteClick}
+                    data-cy="cfw-delete-cash-flow-item-button"
+                  >
+                    {t('Delete')}
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className={styles.tableWrapper}>
-            <table className={clsx('table table-hover table-sm', styles.table)}>
-              <thead>
-                <tr>
-                  <th style={{ paddingLeft: '1.6rem' }}>{t('Date')}</th>
-                  <th>{t('Account')}</th>
-                  <th>{t('Category')}</th>
-                  <th />
-                  <th>{t('Income')}</th>
-                  <th>{t('Expense')}</th>
-                  <th className="hidden-sm">{t('Note')}</th>
-                  <th className="hidden-sm">{t('Tags')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cashFlowItems.map(cashFlowItem => (
-                  <CashFlowItemRow cashFlowItem={cashFlowItem} onClick={handleClickOnCashFlow} key={cashFlowItem.id} />
-                ))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={4}>{t('Total for selected transactions:')}</td>
-                  <td className="text-end numeric">
-                    {balancesBySelectedCashFlowItems.map(({ money, income }) => {
-                      return income ? (
-                        <div key={money.id}>
-                          {toCurrency(income, { unit: money.symbol, precision: money.precision })}
-                        </div>
-                      ) : null;
-                    })}
-                  </td>
+            <div className={styles.tableWrapper}>
+              <table className={clsx('table table-hover table-sm', styles.table)}>
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: '1.6rem' }}>{t('Date')}</th>
+                    <th>{t('Account')}</th>
+                    <th>{t('Category')}</th>
+                    <th />
+                    <th>{t('Income')}</th>
+                    <th>{t('Expense')}</th>
+                    <th className="hidden-sm">{t('Note')}</th>
+                    <th className="hidden-sm">{t('Tags')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cashFlowItems.map(cashFlowItem => (
+                    <CashFlowItemRow
+                      cashFlowItem={cashFlowItem}
+                      onClick={handleClickOnCashFlow}
+                      key={cashFlowItem.id}
+                    />
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={4}>{t('Total for selected transactions:')}</td>
+                    <td className="text-end numeric">
+                      {balancesBySelectedCashFlowItems.map(({ money, income }) => {
+                        return income ? (
+                          <div key={money.id}>
+                            {toCurrency(income, { unit: money.symbol, precision: money.precision })}
+                          </div>
+                        ) : null;
+                      })}
+                    </td>
 
-                  <td className="text-end numeric">
-                    {balancesBySelectedCashFlowItems.map(({ money, expense }) => {
-                      return expense ? (
-                        <div key={money.id}>
-                          {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
-                        </div>
-                      ) : null;
-                    })}
-                  </td>
+                    <td className="text-end numeric">
+                      {balancesBySelectedCashFlowItems.map(({ money, expense }) => {
+                        return expense ? (
+                          <div key={money.id}>
+                            {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                          </div>
+                        ) : null;
+                      })}
+                    </td>
 
-                  <td />
-                  <td />
-                </tr>
-                <tr>
-                  <td colSpan={4}>{t('Total:')}</td>
-                  <td className="text-end numeric">
-                    {balances.map(({ money, income }) => {
-                      return income ? (
-                        <div key={money.id}>
-                          {toCurrency(income, { unit: money.symbol, precision: money.precision })}
-                        </div>
-                      ) : null;
-                    })}
-                  </td>
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <td colSpan={4}>{t('Total:')}</td>
+                    <td className="text-end numeric">
+                      {balances.map(({ money, income }) => {
+                        return income ? (
+                          <div key={money.id}>
+                            {toCurrency(income, { unit: money.symbol, precision: money.precision })}
+                          </div>
+                        ) : null;
+                      })}
+                    </td>
 
-                  <td className="text-end numeric">
-                    {balances.map(({ money, expense }) => {
-                      return expense ? (
-                        <div key={money.id}>
-                          {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
-                        </div>
-                      ) : null;
-                    })}
-                  </td>
+                    <td className="text-end numeric">
+                      {balances.map(({ money, expense }) => {
+                        return expense ? (
+                          <div key={money.id}>
+                            {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                          </div>
+                        ) : null;
+                      })}
+                    </td>
 
-                  <td />
-                  <td />
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </section>
+                    <td />
+                    <td />
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </section>
+        )}
       </main>
 
       <Drawer open={isOpenedCashFlowItemWindow}>
