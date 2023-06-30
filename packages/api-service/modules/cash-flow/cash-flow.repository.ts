@@ -219,7 +219,7 @@ class CashFlowRepositoryImpl implements CashFlowRepository {
 
     await CashFlowDAO.query(ctx.trx)
       .patch({
-        contractorId: contractorId ? Number(contractorId) : undefined,
+        contractorId: contractorId === null ? null : contractorId !== undefined ? Number(contractorId) : undefined,
         note,
         tags: tags ? tags.map(Number) : undefined,
       })

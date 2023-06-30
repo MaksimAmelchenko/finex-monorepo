@@ -9,7 +9,10 @@ export const updateCashFlowParamsSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     cashFlowId: id,
-    contractorId,
+    contractorId: {
+      ...contractorId,
+      type: ['string', 'null'],
+    },
     note: {
       type: 'string',
     },

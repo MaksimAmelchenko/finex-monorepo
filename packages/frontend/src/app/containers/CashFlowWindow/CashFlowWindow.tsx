@@ -43,7 +43,7 @@ const t = getT('CashFlowWindow');
 
 function mapValuesToCreatePayload({ contractorId, note, tagIds, items }: CashFlowFormValues): CreateCashFlowData {
   return {
-    contractorId: contractorId,
+    contractorId,
     note,
     tags: tagIds,
     items,
@@ -52,7 +52,7 @@ function mapValuesToCreatePayload({ contractorId, note, tagIds, items }: CashFlo
 
 function mapValuesToUpdatePayload({ contractorId, note, tagIds, items }: CashFlowFormValues): UpdateCashFlowChanges {
   return {
-    contractorId: contractorId ?? undefined,
+    contractorId,
     note,
     tags: tagIds,
     items,
@@ -199,6 +199,7 @@ export const CashFlowWindow = observer<CashFlowWindowProps>(props => {
                   name="contractorId"
                   label={t('Contractor')}
                   options={selectContractorOptions}
+                  isClearable
                   data-cy="cfw-contractor"
                 />
                 <FormSelect isMulti name="tagIds" label={t('Tags')} options={selectTagsOptions} data-cy="cfw-tags" />

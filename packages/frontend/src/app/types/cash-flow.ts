@@ -56,7 +56,7 @@ export interface CreateCashFlowResponse {
 }
 
 export type UpdateCashFlowChanges = Partial<{
-  contractorId: string;
+  contractorId: string | null;
   note: string;
   tags: string[];
   items: UpdateCashFlowItemChanges[];

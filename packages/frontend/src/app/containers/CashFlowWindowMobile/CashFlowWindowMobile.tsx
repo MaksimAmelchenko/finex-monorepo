@@ -47,7 +47,7 @@ function mapValuesToCreatePayload({ contractorId, note, tagIds }: CashFlowFormVa
 
 function mapValuesToUpdatePayload({ contractorId, note, tagIds }: CashFlowFormValues): UpdateCashFlowChanges {
   return {
-    contractorId: contractorId ?? undefined,
+    contractorId,
     note,
     tags: tagIds,
   };
@@ -206,7 +206,7 @@ export const CashFlowWindowMobile = observer<CashFlowWindowMobileProps>(props =>
             {({ dirty }) => (
               <>
                 <FormBody>
-                  <ContractorField name="contractorId" label={t('Contractor')} />
+                  <ContractorField name="contractorId" label={t('Contractor')} isClearable />
                   <div className={styles.additional}>
                     <div className={styles.additional__header} onClick={handleShowAdditionalFieldsClick}>
                       <div className={styles.additional__title}>
