@@ -3,9 +3,11 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, PlusIcon, RefreshCW01Icon, SpacingWidth01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { IUnit } from '../../types/unit';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { Unit as UnitModel } from '../../stores/models/unit';
 import { UnitRow } from './UnitRow/UnitRow';
 import { UnitWindow } from '../UnitWindow/UnitWindow';
@@ -67,6 +69,9 @@ export const Units = observer(() => {
     setIsOpenedUnitWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedUnits.length);
+  const isNoData = Boolean(!units.length);
+
   return (
     <>
       <article className={styles.article}>
@@ -76,29 +81,49 @@ export const Units = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedUnits.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
           </div>
         </div>
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th />
-                <th>{t('Name')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {units.map(unit => (
-                <UnitRow unit={unit} onClick={handleClickOnUnit} key={unit.id} />
-              ))}
-            </tbody>
-          </table>
+          {isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SpacingWidth01Icon className={styles.emptyState__illustration} />}
+                text={t('You do not have units yet')}
+                supportingText={t('Start creating by clicking on\u00A0"Create\u00A0unit"')}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleAddClick}>
+                  {t('Create unit')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th />
+                  <th>{t('Name')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {units.map(unit => (
+                  <UnitRow unit={unit} onClick={handleClickOnUnit} key={unit.id} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </article>
 

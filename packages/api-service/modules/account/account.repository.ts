@@ -136,9 +136,7 @@ class AccountRepositoryImpl implements AccountRepository {
                acr as (
                  -- all dates
                  select ab.account_id,
-                        generate_series(greatest(min(ab.balance_date), :startDate::date)::timestamp,
-                                        :endDate::timestamp,
-                                        '1 days')::date as balance_date,
+                        generate_series(:startDate::timestamp, :endDate::timestamp, '1 days')::date as balance_date,
                         ab.money_id
                    from ab
                   group by ab.account_id,

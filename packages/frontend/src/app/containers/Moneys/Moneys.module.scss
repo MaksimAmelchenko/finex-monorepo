@@ -28,6 +28,25 @@
 
 .tableWrapper {
   overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
   height: 100%;
   padding: 0 1.6rem 1.6rem 2.4rem;
+
+  &__emptyState {
+    width: 44rem;
+  }
+}
+
+.emptyState {
+  &__illustration {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    & path {
+      stroke-width: 1px;
+    }
+  }
 }

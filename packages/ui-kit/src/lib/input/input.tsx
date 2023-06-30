@@ -1,7 +1,7 @@
 import React, { forwardRef, useId } from 'react';
 import clsx from 'clsx';
 
-import { ChevronRightIcon } from '../icons';
+import { ChevronRightIcon, XCloseIcon } from '../icons';
 
 import styles from './input.module.scss';
 
@@ -92,6 +92,19 @@ export function Dropdown({ text, onClick, className }: DropdownProps): JSX.Eleme
     <div className={clsx(styles.dropdown, className)} onClick={onClick}>
       {text && <span dangerouslySetInnerHTML={{ __html: text }} className={styles.dropdown__text} />}
       <ChevronRightIcon className={styles.dropdown__arrow} />
+    </div>
+  );
+}
+
+export interface ClearProps {
+  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+  className?: string;
+}
+
+export function Clear({ onClick, className }: ClearProps): JSX.Element {
+  return (
+    <div className={clsx(styles.clear, className)} onClick={onClick}>
+      <XCloseIcon className={styles.clear__cross} />
     </div>
   );
 }

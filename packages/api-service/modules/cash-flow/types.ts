@@ -73,7 +73,7 @@ export type CreateCashFlowServiceData = CreateCashFlowRepositoryData & {
 };
 
 export type UpdateCashFlowRepositoryChanges = Partial<{
-  contractorId: string;
+  contractorId: string | null;
   note: string;
   tags: string[];
 }>;

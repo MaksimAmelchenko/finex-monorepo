@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { XmarkIcon } from '../icons';
+import { XCloseIcon } from '../icons';
 
 import styles from './badge.module.scss';
 
@@ -20,7 +20,7 @@ export function Badge({ size = 'md', children, className, onClose }: BadgeProps)
       </div>
       {onClose && (
         <button type="button" className={styles.root__closeButton} role="button" onClick={onClose}>
-          <XmarkIcon className={styles.root__closeIcon} />
+          <XCloseIcon className={styles.root__closeIcon} />
         </button>
       )}
     </div>

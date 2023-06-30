@@ -16,7 +16,7 @@
   background-color: var(--color-white);
 
   @include media.only(sm) {
-    padding: 0.3rem 0.8rem 0.4rem;
+    padding: 0.3rem 0.8rem calc(0.4rem + env(safe-area-inset-bottom));
   }
 }
 
@@ -25,7 +25,7 @@
   width: 3.2rem;
   height: 2.4rem;
   filter: grayscale(100%);
-  background: center / contain no-repeat url('packages/ui-kit/src/lib/icons/logo.svg');
+  background: center / contain no-repeat url('packages/frontend/src/app/icons/logo.svg');
 
   :global(.active) & {
     filter: grayscale(0);

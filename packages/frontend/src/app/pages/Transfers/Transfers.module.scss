@@ -27,7 +27,6 @@
   // for button shadow
   padding-top: 0.4rem;
 
-
   &__toolbar {
     grid-area: toolbar;
   }
@@ -66,7 +65,7 @@
     gap: 0.8rem;
     flex: 1 0 0;
     width: 0;
-    max-width: 24rem;
+    max-width: 32rem;
   }
 
   &__search {
@@ -81,8 +80,16 @@
 
 .tableWrapper {
   overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
   height: 100%;
   padding: 0 1.6rem 1.6rem 2.4rem;
+
+  &__emptyState {
+    width: 44rem;
+  }
 }
 
 .table {
@@ -93,4 +100,15 @@
 
 .multiSelect {
   min-width: 32rem;
+}
+
+.emptyState {
+  &__illustration {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    & path {
+      stroke-width: 1px;
+    }
+  }
 }

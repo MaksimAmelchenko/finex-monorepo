@@ -46,7 +46,7 @@ export function ExportData(): JSX.Element {
             <p>{t('Export data in CSV file. The data will be sent to your e-mail.')}</p>
           </FormLayout>
           <footer className={styles.form__footer}>
-            <FormButton type="submit" isIgnoreValidation>
+            <FormButton type="submit" size="lg" isIgnoreValidation>
               {t('Export')}
             </FormButton>
           </footer>

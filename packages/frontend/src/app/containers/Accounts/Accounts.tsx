@@ -7,9 +7,11 @@ import { Account } from '../../stores/models/account';
 import { AccountRow } from './Account/AccountRow';
 import { AccountWindow } from '../AccountWindow/AccountWindow';
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, PlusIcon } from '@finex/ui-kit';
+import { Button, PlusIcon, RefreshCW01Icon, Wallet01Icon } from '@finex/ui-kit';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { IAccount } from '../../types/account';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
 
@@ -68,6 +70,9 @@ export const Accounts = observer(() => {
     setIsOpenedAccountWindow(false);
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedAccounts.length);
+  const isNoData = Boolean(!accounts.length);
+
   return (
     <>
       <article className={styles.article}>
@@ -77,10 +82,16 @@ export const Accounts = observer(() => {
               <Button size="md" startIcon={<PlusIcon />} onClick={handleAddClick}>
                 {t('New')}
               </Button>
-              <Button variant="secondaryGray" size="md" disabled={!selectedAccounts.length} onClick={handleDeleteClick}>
+              <Button
+                variant="secondaryGray"
+                size="md"
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
+                onClick={handleDeleteClick}
+              >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -88,28 +99,44 @@ export const Accounts = observer(() => {
         </div>
 
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm')}>
-            <thead>
-              <tr>
-                <th rowSpan={2} />
-                <th rowSpan={2}>{t('Name')}</th>
-                <th rowSpan={2}>{t('Active')}</th>
-                <th rowSpan={2}>{t('Owner')}</th>
-                <th colSpan={2}>{t('Permit')}</th>
-                <th rowSpan={2}>{t('Type')}</th>
-                <th rowSpan={2}>{t('Note')}</th>
-              </tr>
-              <tr>
-                <th>{t('Read')}</th>
-                <th>{t('Edit')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {accounts.map(account => (
-                <AccountRow account={account} onClick={handleClickOnAccount} key={account.id} />
-              ))}
-            </tbody>
-          </table>
+          {isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<Wallet01Icon className={styles.emptyState__illustration} />}
+                text={t('Accounts')}
+                supportingText={t(
+                  'Here are your cards, bank accounts and deposits. Start creating by clicking on\u00A0"Create\u00A0account"'
+                )}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleAddClick}>
+                  {t('Create account')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm')}>
+              <thead>
+                <tr>
+                  <th rowSpan={2} />
+                  <th rowSpan={2}>{t('Name')}</th>
+                  <th rowSpan={2}>{t('Active')}</th>
+                  <th rowSpan={2}>{t('Owner')}</th>
+                  <th colSpan={2}>{t('Permit')}</th>
+                  <th rowSpan={2}>{t('Type')}</th>
+                  <th rowSpan={2}>{t('Note')}</th>
+                </tr>
+                <tr>
+                  <th>{t('Read')}</th>
+                  <th>{t('Edit')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {accounts.map(account => (
+                  <AccountRow account={account} onClick={handleClickOnAccount} key={account.id} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </article>
 

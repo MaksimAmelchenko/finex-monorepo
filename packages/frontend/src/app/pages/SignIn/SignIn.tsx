@@ -10,6 +10,7 @@ import { Form, FormButton, FormInput, FormLayout } from '../../components/Form';
 import { Layout } from '../../containers/Layout/Layout';
 import { Link } from '../../components/Link/Link';
 import { Loader } from '../../components/Loader/Loader';
+import { Locale } from '../../types';
 import { analytics } from '../../lib/analytics';
 import { getT } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -19,8 +20,33 @@ interface ISignInFormValues {
   password: string;
 }
 
-const DEMO_USERNAME = process.env.NX_DEMO_USERNAME;
-const DEMO_PASSWORD = process.env.NX_DEMO_PASSWORD;
+const { NX_DEMO_EN = '/', NX_DEMO_DE = '/', NX_DEMO_RU = '/' } = process.env;
+
+const demoUserMap: Record<string, { username: string; password: string }> = {};
+
+if (NX_DEMO_EN) {
+  const [username, password] = NX_DEMO_EN.split('/');
+  demoUserMap[Locale.En] = {
+    username,
+    password,
+  };
+}
+
+if (NX_DEMO_DE) {
+  const [username, password] = NX_DEMO_DE.split('/');
+  demoUserMap[Locale.De] = {
+    username,
+    password,
+  };
+}
+
+if (NX_DEMO_RU) {
+  const [username, password] = NX_DEMO_RU.split('/');
+  demoUserMap[Locale.Ru] = {
+    username,
+    password,
+  };
+}
 
 const t = getT('SignIn');
 
@@ -31,7 +57,9 @@ export function SignIn(): JSX.Element {
   const username = useStore(CommonStorageStore).get('username') ?? '';
   const { enqueueSnackbar } = useSnackbar();
 
-  const from = (location.state as any)?.from?.pathname || '/';
+  const { pathname: from = '/', search = '' } = location.state?.from || {};
+  // get locale search parameter from location 'https://app.finex.io/demo?locale=en'
+  const locale = (search && (new URLSearchParams(search).get('locale') as Locale)) || Locale.En;
 
   const onSubmit = useCallback(
     (values: ISignInFormValues, formHelpers: FormikHelpers<ISignInFormValues>) => {
@@ -76,13 +104,17 @@ export function SignIn(): JSX.Element {
     []
   );
 
-  if (from === '/demo' && DEMO_USERNAME && DEMO_PASSWORD) {
-    authStore.signIn({ username: DEMO_USERNAME, password: DEMO_PASSWORD }).then(() => {
-      analytics.event('login', { method: 'onsite-demo' });
-      navigate('/');
-    });
+  if (from === '/demo') {
+    const user = demoUserMap[locale];
+    if (user) {
+      const { username, password } = user;
+      authStore.signIn({ username, password }).then(() => {
+        analytics.event('login', { method: 'onsite-demo' });
+        navigate('/');
+      });
 
-    return <Loader />;
+      return <Loader />;
+    }
   }
 
   const isThereUsername = Boolean(username);

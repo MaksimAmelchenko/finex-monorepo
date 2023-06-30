@@ -1,15 +1,29 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
+import { useLocation } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import { AccountsRepository } from '../../stores/accounts-repository';
-import { Button, FilterIcon, IconButton, ISelectOption, PlusIcon, SearchMdIcon } from '@finex/ui-kit';
+import {
+  Button,
+  FilterFunnel01Icon,
+  ISelectOption,
+  IconButton,
+  PlusIcon,
+  RefreshCW01Icon,
+  SearchMdIcon,
+  SwitchHorizontal01Icon,
+} from '@finex/ui-kit';
 import { CategoriesRepository } from '../../stores/categories-repository';
 import { ContractorsRepository } from '../../stores/contractors-repository';
 import { Drawer } from '../../components/Drawer/Drawer';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Form, FormInput } from '../../components/Form';
 import { HeaderLayout } from '../../components/HeaderLayout/HeaderLayout';
 import { ITransaction } from '../../types/transaction';
+import { LoadState } from '../../core/load-state';
+import { Loader } from '../../components/Loader/Loader';
 import { MoneysRepository } from '../../stores/moneys-repository';
 import { MultiSelect } from '../../components/MultiSelect/MultiSelect';
 import { Pagination } from '../../components/Pagination/Pagination';
@@ -21,6 +35,7 @@ import { Transaction } from '../../stores/models/transaction';
 import { TransactionRow } from './Transaction/TransactionRow';
 import { TransactionWindow } from '../../containers/TransactionWindow/TransactionWindow';
 import { TransactionsRepository } from '../../stores/transactions-repository';
+import { TrashIcon } from '../../components/TrashIcon/TrashIcon';
 import { balanceByMoney } from '../../lib/balance-by-money';
 import { getT, toCurrency } from '../../lib/core/i18n';
 import { useStore } from '../../core/hooks/use-store';
@@ -46,12 +61,27 @@ export const Transactions = observer(() => {
 
   const [transaction, setTransaction] = useState<Partial<ITransaction> | Transaction | PlannedTransaction>({});
 
+  const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleOpenAddTransaction = () => {
     setTransaction({
       sign: -1,
       isNotConfirmed: false,
     });
     setIsOpenedTransactionWindow(true);
+  };
+
+  const handleClearSearchAndFiltersClick = () => {
+    transactionsRepository.setFilter({
+      range: [null, null],
+      isFilter: false,
+      searchText: '',
+      accounts: [],
+      categories: [],
+      contractors: [],
+      tags: [],
+    });
   };
 
   const handleClickOnTransaction = (transaction: Transaction | PlannedTransaction) => {
@@ -93,7 +123,24 @@ export const Transactions = observer(() => {
   }, [tagsRepository.tags]);
 
   useEffect(() => {
-    transactionsRepository.fetch().catch(console.error);
+    const searchParams = new URLSearchParams(location.search);
+    const contractors = searchParams.get('contractors')?.split(',') || [];
+    const categories = searchParams.get('categories')?.split(',') || [];
+    const tags = searchParams.get('tags')?.split(',') || [];
+
+    if (contractors.length || categories.length || tags.length) {
+      transactionsRepository.setFilter({ isFilter: true, contractors, categories, tags });
+    } else {
+      transactionsRepository.fetch().catch(err => {
+        let message = '';
+        switch (err.code) {
+          default:
+            message = err.message;
+        }
+
+        enqueueSnackbar(message, { variant: 'error' });
+      });
+    }
   }, [transactionsRepository, projectsRepository.currentProject]);
 
   const setRange = useCallback(
@@ -162,6 +209,12 @@ export const Transactions = observer(() => {
     transactions.forEach(transaction => transaction.toggleSelection());
   };
 
+  const isDeleteButtonDisabled = Boolean(!selectedTransactions.length);
+  const isNoData = loadState === LoadState.done() && !transactions.length && !(filter.isFilter || filter.searchText);
+  const isNotFound = Boolean(
+    loadState === LoadState.done() && !transactions.length && (filter.isFilter || filter.searchText)
+  );
+
   return (
     <div className={styles.layout}>
       <HeaderLayout title={t('Incomes and Expenses - Transactions')} data-cy="transactions-header" />
@@ -175,12 +228,13 @@ export const Transactions = observer(() => {
               <Button
                 variant="secondaryGray"
                 size="md"
-                disabled={!selectedTransactions.length}
+                startIcon={<TrashIcon disabled={isDeleteButtonDisabled} />}
+                disabled={isDeleteButtonDisabled}
                 onClick={handleDeleteClick}
               >
                 {t('Delete')}
               </Button>
-              <Button variant="secondaryGray" size="md" onClick={handleRefreshClick}>
+              <Button variant="secondaryGray" size="md" startIcon={<RefreshCW01Icon />} onClick={handleRefreshClick}>
                 {t('Refresh')}
               </Button>
             </div>
@@ -191,11 +245,12 @@ export const Transactions = observer(() => {
                 size="small"
                 className={clsx(filter.isFilter && styles.filterButton_active)}
               >
-                <FilterIcon />
+                <FilterFunnel01Icon />
               </IconButton>
               <Form<ISearchFormValues>
                 onSubmit={handleSearchSubmit}
                 initialValues={{ searchText: filter.searchText }}
+                enableReinitialize
                 name="transactions-search"
               >
                 <FormInput
@@ -258,70 +313,107 @@ export const Transactions = observer(() => {
         </div>
 
         <div className={styles.tableWrapper}>
-          <table className={clsx('table table-hover table-sm', styles.table)}>
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0.8rem' }} onClick={handleOnDateColumnHeaderClick}>
-                  {t('Date')}
-                </th>
-                <th>
-                  {t('Account')}
-                  <br />
-                  {t('Counterparty')}
-                </th>
-                <th>{t('Category')}</th>
+          {loadState === LoadState.pending() ? (
+            <Loader />
+          ) : isNoData ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SwitchHorizontal01Icon className={styles.emptyState__illustration} />}
+                text={t('Start by creating a Transaction')}
+                supportingText={t(
+                  'Here are your expenses and income. To add a transaction, click on the button below.'
+                )}
+              >
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddTransaction}>
+                  {t('Create Transaction')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : isNotFound ? (
+            <div className={styles.tableWrapper__emptyState}>
+              <EmptyState
+                illustration={<SearchMdIcon className={styles.emptyState__illustration} />}
+                text={t('No Transaction found')}
+                supportingText={t(
+                  'You search and/or filter criteria did not match any Transactions.<br />Please try again with different criteria'
+                )}
+              >
+                <Button variant="secondaryGray" size="lg" onClick={handleClearSearchAndFiltersClick}>
+                  {t('Clear search')}
+                </Button>
+                <Button size="lg" startIcon={<PlusIcon />} onClick={handleOpenAddTransaction}>
+                  {t('Create Transaction')}
+                </Button>
+              </EmptyState>
+            </div>
+          ) : (
+            <table className={clsx('table table-hover table-sm', styles.table)}>
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0.8rem' }} onClick={handleOnDateColumnHeaderClick}>
+                    {t('Date')}
+                  </th>
+                  <th>
+                    {t('Account')}
+                    <br />
+                    {t('Counterparty')}
+                  </th>
+                  <th>{t('Category')}</th>
 
-                <th className="hidden-sm hidden-md">{t('Income')}</th>
-                <th className="hidden-sm hidden-md">{t('Expense')}</th>
-                <th className="hidden-lg">{t('Amount')}</th>
-                <th>{t('Note')}</th>
-                <th>{t('Tags')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map(transaction => {
-                const key =
-                  transaction instanceof Transaction
-                    ? transaction.id
-                    : `${transaction.planId}-${transaction.repetitionNumber}`;
-                const isHighlighted =
-                  transaction instanceof Transaction && transactionsRepository.lastTransactionId === transaction.id;
-                return (
-                  <TransactionRow
-                    transaction={transaction}
-                    isHighlighted={isHighlighted}
-                    onClick={handleClickOnTransaction}
-                    key={key}
-                  />
-                );
-              })}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={3}>{t('Total for selected transactions:')}</td>
-                <td className="text-end numeric">
-                  {balancesBySelectedTransactions.map(({ money, income }) => {
-                    return income ? (
-                      <div key={money.id}>{toCurrency(income, { unit: money.symbol, precision: money.precision })}</div>
-                    ) : null;
-                  })}
-                </td>
+                  <th className="hidden-sm hidden-md">{t('Income')}</th>
+                  <th className="hidden-sm hidden-md">{t('Expense')}</th>
+                  <th className="hidden-lg">{t('Amount')}</th>
+                  <th>{t('Note')}</th>
+                  <th>{t('Tags')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions.map(transaction => {
+                  const key =
+                    transaction instanceof Transaction
+                      ? transaction.id
+                      : `${transaction.planId}-${transaction.repetitionNumber}`;
+                  const isHighlighted =
+                    transaction instanceof Transaction && transactionsRepository.lastTransactionId === transaction.id;
+                  return (
+                    <TransactionRow
+                      transaction={transaction}
+                      isHighlighted={isHighlighted}
+                      onClick={handleClickOnTransaction}
+                      key={key}
+                    />
+                  );
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={3}>{t('Total for selected transactions:')}</td>
+                  <td className="text-end numeric">
+                    {balancesBySelectedTransactions.map(({ money, income }) => {
+                      return income ? (
+                        <div key={money.id}>
+                          {toCurrency(income, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
+                    })}
+                  </td>
 
-                <td className="text-end numeric">
-                  {balancesBySelectedTransactions.map(({ money, expense }) => {
-                    return expense ? (
-                      <div key={money.id}>
-                        {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
-                      </div>
-                    ) : null;
-                  })}
-                </td>
+                  <td className="text-end numeric">
+                    {balancesBySelectedTransactions.map(({ money, expense }) => {
+                      return expense ? (
+                        <div key={money.id}>
+                          {toCurrency(-expense, { unit: money.symbol, precision: money.precision })}
+                        </div>
+                      ) : null;
+                    })}
+                  </td>
 
-                <td />
-                <td />
-              </tr>
-            </tfoot>
-          </table>
+                  <td />
+                  <td />
+                </tr>
+              </tfoot>
+            </table>
+          )}
         </div>
       </main>
 

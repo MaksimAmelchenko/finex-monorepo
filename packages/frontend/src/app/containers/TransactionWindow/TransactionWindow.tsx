@@ -29,8 +29,9 @@ import {
 } from '../../components/Form';
 import { HtmlTooltip } from '../../components/HtmlTooltip/HtmlTooltip';
 import { ITabOption } from '../../components/Tabs/Tabs';
-import { Link } from '../../components/Link/Link';
 import { MoneysRepository } from '../../stores/moneys-repository';
+import { NoAccount } from '../NoAccount/NoAccount';
+import { NoMoney } from '../NoMoney/NoMoney';
 import { PlannedTransaction } from '../../stores/models/planned-transaction';
 import { QuantityField } from '../QuantityField/QuantityField';
 import { SaveButton } from '../../components/FormSaveButton/FormSaveButton';
@@ -287,15 +288,27 @@ export function TransactionWindow({ transaction, onClose }: TransactionWindowPro
     setIsShowAdditionalFields(isShow => !isShow);
   };
 
-  if (!accountsRepository.accounts.length) {
+  if (!accountsRepository.accounts.find(({ isEnabled }) => isEnabled)) {
     return (
-      <>
-        <FormHeader title={''} onClose={onClose} />
+      <NoAccount
+        onClose={onClose}
+        supportingText={t(
+          'At least one account is required to track income and expenses. You can add an account by clicking the button below.'
+        )}
+        className={styles.emptyState}
+      />
+    );
+  }
 
-        <FormBody>
-          {t('At first,')} <Link href="/accounts">{t('create')}</Link> {t('at least one account.')}
-        </FormBody>
-      </>
+  if (!moneysRepository.moneys.find(({ isEnabled }) => isEnabled)) {
+    return (
+      <NoMoney
+        onClose={onClose}
+        supportingText={t(
+          'At least one money is required to track income and expenses. You can add an money by clicking the button below.'
+        )}
+        className={styles.emptyState}
+      />
     );
   }
 

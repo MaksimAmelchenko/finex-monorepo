@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { XmarkIcon, IconButton } from '@finex/ui-kit';
+import { XCloseIcon, IconButton } from '@finex/ui-kit';
 
 import styles from './FormHeader.module.scss';
 
@@ -14,7 +14,7 @@ export function FormHeader({ title, onClose }: DrawerHeaderProps): JSX.Element {
     <header className={styles.header}>
       <div className={styles.header__title}>{title}</div>
       <IconButton onClick={onClose} className={styles.header__closeButton}>
-        <XmarkIcon />
+        <XCloseIcon />
       </IconButton>
     </header>
   );

@@ -68,7 +68,7 @@ export function CookieConsent(props: CookieConsentProps): JSX.Element | null {
 
   if (localStorage.getItem('consentMode') !== null) {
     try {
-      const consentMode = JSON.parse(localStorage.getItem('consentMode')!);
+      const consentMode: Record<ConsentType, 'denied' | 'granted'> = JSON.parse(localStorage.getItem('consentMode')!);
       (
         [
           'ad_storage',
@@ -78,7 +78,7 @@ export function CookieConsent(props: CookieConsentProps): JSX.Element | null {
           'security_storage',
         ] as ConsentType[]
       ).forEach(consentType => {
-        if (['granted', 'denied'].includes(consentMode.ad_storage)) {
+        if (['granted', 'denied'].includes(consentMode[consentType])) {
           initialConsentMode[consentType] = consentMode[consentType];
         }
       });
@@ -92,16 +92,30 @@ export function CookieConsent(props: CookieConsentProps): JSX.Element | null {
   const handleAcceptAllClick = () => {
     const consent = {
       ...consentMode,
-      ...consentTypes.reduce((acc, contentType) => {
+      ...consentTypes.reduce<any>((acc, contentType) => {
         acc[contentType] = 'granted';
         return acc;
-      }, {} as Record<ConsentType, 'denied' | 'granted'>),
+      }, {}),
     };
 
     window.gtag('consent', 'update', consent);
     window.gtag('event', 'consent-update');
     localStorage.setItem('consentMode', JSON.stringify(consent));
+    onClose();
+  };
 
+  const handleRejectAllClick = () => {
+    const consent = {
+      ...consentMode,
+      ...consentTypes.reduce<any>((acc, contentType) => {
+        acc[contentType] = 'denied';
+        return acc;
+      }, {}),
+    };
+
+    window.gtag('consent', 'update', consent);
+    window.gtag('event', 'consent-update');
+    localStorage.setItem('consentMode', JSON.stringify(consent));
     onClose();
   };
 
@@ -154,13 +168,16 @@ export function CookieConsent(props: CookieConsentProps): JSX.Element | null {
               className={styles.root__button}
               onClick={handleAcceptSelectionClick}
             >
-              {t('Accept selected')}
+              {t('Save and continue')}
             </Button>
           ) : (
             <Button size="lg" variant="secondaryGray" className={styles.root__button} onClick={handleMoreOptionsClick}>
-              {t('Customize your choice')}
+              {t('Learn more and customize')}
             </Button>
           )}
+          <Button size="lg" variant="secondaryColor" className={styles.root__button} onClick={handleRejectAllClick}>
+            {t('Reject all')}
+          </Button>
           <Button size="lg" variant="secondaryColor" className={styles.root__button} onClick={handleAcceptAllClick}>
             {t('Accept all')}
           </Button>

@@ -91,8 +91,6 @@ export const DistributionGraph = observer<DistributionGraphProps>(({ valueType }
     setData(fullData);
   };
 
-  console.log({ data });
-
   if (!data) {
     return null;
   }
