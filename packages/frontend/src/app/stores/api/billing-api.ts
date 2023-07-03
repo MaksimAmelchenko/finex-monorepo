@@ -46,7 +46,14 @@ export class BillingApi extends ApiRepository implements IBillingApi {
   cancelSubscription(): Promise<void> {
     return this.fetch<void>({
       method: 'POST',
-      url: '/v1/billing/subscriptions/cancel',
+      url: '/v1/billing/subscription/cancel',
+    });
+  }
+
+  renewSubscription(): Promise<void> {
+    return this.fetch<void>({
+      method: 'POST',
+      url: '/v1/billing/subscription/renew',
     });
   }
 }

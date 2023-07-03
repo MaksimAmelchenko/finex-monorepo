@@ -118,7 +118,12 @@ export const BillingContent = observer(() => {
     });
   };
 
-  const handlePayNow = async () => {};
+  const handlePayNow = async () => {
+    return billingRepository.renewSubscription().then(() => {
+      enqueueSnackbar(t('Subscription renewed'), { variant: 'success' });
+      profileRepository.getProfile();
+    });
+  };
 
   if (!plans.length) {
     return <Loader />;
@@ -180,7 +185,7 @@ export const BillingContent = observer(() => {
           {availablePlans.map(plan => {
             const { id, name, description, price, currency, availablePaymentGateways } = plan;
             const isCurrentPlan = id === currentPlan?.id;
-            const isExpired = isCurrentPlan && parseISO(profile.accessUntil) < new Date() && false;
+            const isExpired = isCurrentPlan && parseISO(profile.accessUntil) < new Date();
 
             return (
               <PriceCard
@@ -201,30 +206,36 @@ export const BillingContent = observer(() => {
                   </>
                 ) : (
                   <>
+                    {isExpired && (
+                      <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
+                        <FormButton type="submit" size="xl" variant="primary" fullSize className={styles.root__button}>
+                          {t('Pay Now')}
+                        </FormButton>
+                      </Form>
+                    )}
+
                     <Form
                       onSubmit={handleUnsubscribe}
                       initialValues={{}}
                       className={styles.root__form}
                       name="unsubscription"
                     >
-                      <FormButton type="submit" size="xl" destructive fullSize className={styles.root__button}>
-                        {t('Unsubscribe')}
-                      </FormButton>
-                    </Form>
-
-                    {isExpired && (
-                      <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
+                      {isExpired ? (
                         <FormButton
                           type="submit"
-                          size="xl"
                           variant="secondaryGray"
+                          size="xl"
                           fullSize
                           className={styles.root__button}
                         >
-                          {t('Pay Now')}
+                          {t('Unsubscribe')}
                         </FormButton>
-                      </Form>
-                    )}
+                      ) : (
+                        <FormButton type="submit" size="xl" destructive fullSize className={styles.root__button}>
+                          {t('Unsubscribe')}
+                        </FormButton>
+                      )}
+                    </Form>
                   </>
                 )}
               </PriceCard>

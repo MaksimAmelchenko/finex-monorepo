@@ -23,10 +23,7 @@ export class BillingRepository extends ManageableStore {
     return plans;
   }
 
-  async createSubscription<T = CreateSubscriptionResponse>(
-    gateway: PaymentGateway,
-    planId: string
-  ): Promise<T> {
+  async createSubscription<T = CreateSubscriptionResponse>(gateway: PaymentGateway, planId: string): Promise<T> {
     return this.api.createSubscription(gateway, planId) as T;
   }
 
@@ -67,6 +64,10 @@ export class BillingRepository extends ManageableStore {
 
   async cancelSubscription(): Promise<void> {
     return this.api.cancelSubscription();
+  }
+
+  async renewSubscription(): Promise<void> {
+    return this.api.renewSubscription();
   }
 
   clear(): void {}

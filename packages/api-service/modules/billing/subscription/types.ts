@@ -88,6 +88,8 @@ export interface SubscriptionRepository {
 
   getActiveSubscription(ctx: IRequestContext<unknown, true>, userId: string): Promise<ISubscriptionDAO | null>;
 
+  getExpiringSubscriptions(ctx: IRequestContext): Promise<ISubscriptionDAO[]>;
+
   updateSubscription(
     ctx: IRequestContext,
     userId: string,
@@ -116,6 +118,10 @@ export interface SubscriptionService {
   ): Promise<ISubscription>;
 
   cancelSubscription(ctx: IRequestContext<unknown, true>, userId: string): Promise<void>;
+
+  renewSubscription(ctx: IRequestContext<unknown, true>, userId: string): Promise<void>;
+
+  renewSubscriptions(ctx: IRequestContext): Promise<void>;
 }
 
 export interface SubscriptionMapper {

@@ -14,6 +14,7 @@ interface ICreatePaymentData {
   amount: number;
   currency: string;
   description: string;
+  paymentMethodId?: string;
 }
 
 class YookassaServiceImpl {
@@ -27,13 +28,9 @@ class YookassaServiceImpl {
     this.checkout = new YooCheckout({ shopId, secretKey });
   }
 
-  async createPayment(
-    ctx: IRequestContext<unknown, true>,
-    userId: string,
-    data: ICreatePaymentData
-  ): Promise<YookassaPayment> {
+  async createPayment(ctx: IRequestContext, userId: string, data: ICreatePaymentData): Promise<YookassaPayment> {
     const { locale } = ctx.params;
-    const { currency, description } = data;
+    const { currency, description, paymentMethodId } = data;
 
     const amount: IAmount = {
       value: data.amount.toFixed(2),
@@ -46,11 +43,20 @@ class YookassaServiceImpl {
       amount,
       description,
       // https://yookassa.ru/developers/payment-acceptance/scenario-extensions/recurring-payments
-      save_payment_method: true,
-      confirmation: {
-        type: 'embedded',
-        locale: locale === Locale.Ru ? 'ru_RU' : 'en_US',
-      },
+      ...(paymentMethodId
+        ? {
+            // repeated payment
+            payment_method_id: paymentMethodId,
+          }
+        : {
+            // first payment
+            save_payment_method: true,
+            confirmation: {
+              type: 'embedded',
+              locale: locale === Locale.Ru ? 'ru_RU' : 'en_US',
+            },
+          }),
+
       capture: true,
       metadata: {
         userId,

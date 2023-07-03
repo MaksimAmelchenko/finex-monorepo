@@ -67,6 +67,9 @@ export default {
   connections: {
     secret: 'CONNECTIONS__SECRET',
   },
+  subscriptions: {
+    secret: 'SUBSCRIPTIONS__SECRET',
+  },
   nordigen: {
     secretId: 'NORDIGEN__SECRET_ID',
     secretKey: 'NORDIGEN__SECRET_KEY',
