@@ -29,7 +29,7 @@ class UserServiceImpl implements UserService {
     return this.getUser(ctx, String(userDAO.idUser));
   }
 
-  async getUser(ctx: IRequestContext<unknown, true>, userId: string): Promise<IUser> {
+  async getUser(ctx: IRequestContext<unknown, false>, userId: string): Promise<IUser> {
     const userDAO = await this.userRepository.getUser(ctx, userId);
     if (!userDAO) {
       throw new NotFoundError('User not found');

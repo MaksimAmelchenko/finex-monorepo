@@ -52,4 +52,5 @@ export interface IBillingApi {
   updateSubscription(subscriptionId: string, changes: UpdateSubscriptionChanges): Promise<void>;
   checkSubscriptionStatus(subscriptionId: string): Promise<CheckSubscriptionStatusResponse>;
   cancelSubscription(): Promise<void>;
+  renewSubscription(): Promise<void>;
 }

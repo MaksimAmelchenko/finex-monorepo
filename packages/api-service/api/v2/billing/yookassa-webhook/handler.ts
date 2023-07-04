@@ -25,17 +25,18 @@ export async function handler(
 
   ctx.log.trace({ type, event, object }, 'yookassa webhook');
   const userId = object.metadata.userId;
-  // const userId = object.metadata.userId;
 
   if (event === 'payment.succeeded' || event === 'payment.canceled') {
     const payment = await paymentService.getPaymentByGatewayPaymentId(ctx, object.id);
 
-    const status = event === 'payment.succeeded' ? 'succeeded' : 'canceled';
+    if (!['succeeded', 'canceled'].includes(payment.status)) {
+      const status = event === 'payment.succeeded' ? 'succeeded' : 'canceled';
 
-    await paymentService.updatePayment(ctx, userId, payment.id, {
-      status,
-      gatewayResponse: object,
-    });
+      await paymentService.updatePayment(ctx, userId, payment.id, {
+        status,
+        gatewayResponse: object,
+      });
+    }
   }
 
   return {

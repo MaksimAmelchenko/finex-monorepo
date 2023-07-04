@@ -44,8 +44,12 @@ export class PaymentDAO extends Model implements IPaymentDAO {
   async $afterInsert(queryContext) {
     await super.$afterInsert(queryContext);
 
-    if (this.status === 'succeeded') {
-      const { userId, planId, startAt, endAt } = this;
+    // for some reason 'this' does not contain inserted data (only id)
+    // so we need to fetch it again
+    const payment = (await PaymentDAO.query(queryContext.transaction).findById(this.id))!;
+
+    if (payment.status === 'succeeded') {
+      const { userId, planId, startAt, endAt } = payment;
       const id = uuid.v4();
 
       await AccessPeriodDAO.query(queryContext.transaction).insert({

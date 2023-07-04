@@ -1,6 +1,6 @@
 {
   "name": "api.finex.io",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "author": "Maksim Amelchenko <m.amelchenko@gmail.com>",
   "main": "server.js",
   "scripts": {

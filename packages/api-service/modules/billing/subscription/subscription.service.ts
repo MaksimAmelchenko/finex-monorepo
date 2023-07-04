@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { max, parseISO } from 'date-fns';
+import { differenceInDays, max, parseISO } from 'date-fns';
 
 import {
   ICreateSubscriptionResponse,
@@ -8,18 +8,20 @@ import {
   SubscriptionStatus,
   UpdateSubscriptionServiceChanges,
 } from './types';
-import { IRequestContext } from '../../../types/app';
+import { IRequestContext, Locale } from '../../../types/app';
 import { InternalError, InvalidParametersError, NotFoundError } from '../../../libs/errors';
 import { PaymentGateway } from '../payment/types';
-import { paypalService } from '../paypal/paypal.service';
+import { captureException } from '../../../libs/sentry';
+import { knex } from '../../../knex';
 import { paymentRepository } from '../payment/payment.repository';
 import { paymentService } from '../payment/payment.service';
-import { yookassaService } from '../yookassa/yookassa.service';
+import { paypalService } from '../paypal/paypal.service';
 import { planService } from '../plan/plan.service';
 import { subscriptionMapper } from './subscription.mapper';
 import { subscriptionRepository } from './subscription.repository';
 import { t } from '../../../libs/t';
 import { userService } from '../../user/user.service';
+import { yookassaService } from '../yookassa/yookassa.service';
 
 class SubscriptionServiceImpl implements SubscriptionService {
   async createSubscription(
@@ -44,7 +46,7 @@ class SubscriptionServiceImpl implements SubscriptionService {
         const yookassaPayment = await yookassaService.createPayment(ctx, userId, {
           amount,
           currency,
-          description: t<string>(productName, locale),
+          description: t(productName, locale),
         });
 
         if (!yookassaPayment.confirmation.confirmation_token) {
@@ -109,6 +111,11 @@ class SubscriptionServiceImpl implements SubscriptionService {
     return subscriptionMapper.toDomain(subscription);
   }
 
+  async getExpiringSubscriptions(ctx: IRequestContext): Promise<ISubscription[]> {
+    const subscriptions = await subscriptionRepository.getExpiringSubscriptions(ctx);
+    return subscriptions.map(subscriptionMapper.toDomain);
+  }
+
   async updateSubscription(
     ctx: IRequestContext<unknown, true>,
     userId: string,
@@ -169,6 +176,101 @@ class SubscriptionServiceImpl implements SubscriptionService {
           gatewayPaymentId: transaction.id,
           gatewayResponses: [transaction],
         });
+      }
+    }
+  }
+
+  async renewSubscription(ctx: IRequestContext, userId: string): Promise<void> {
+    const subscription = await subscriptionRepository.getActiveSubscription(ctx, userId);
+    if (!subscription) {
+      throw new NotFoundError('Active subscription not found');
+    }
+
+    const user = await userService.getUser(ctx, userId);
+
+    // check if subscription is expired
+    // if the access does not expire in a day or has not already expired
+    if (differenceInDays(parseISO(user.accessUntil), new Date()) > 0) {
+      throw new InvalidParametersError('Subscription is not expired');
+    }
+
+    // check subscription is not canceled
+    if (subscription.status !== SubscriptionStatus.Active) {
+      throw new InvalidParametersError('Subscription is not active');
+    }
+
+    const { locale } = ctx.params;
+    const {
+      price: amount,
+      currency,
+      productName,
+      duration,
+      isRenewable,
+    } = await planService.getPlan(ctx, subscription.planId);
+
+    if (!isRenewable) {
+      throw new InvalidParametersError('Plan is not renewable');
+    }
+
+    const startAt: Date = max([parseISO(user.accessUntil), new Date()]);
+    const endAt: Date = moment.utc(startAt).add(moment.duration(duration)).toDate();
+
+    if (!amount || !currency) {
+      throw new InvalidParametersError('Plan has no price');
+    }
+
+    switch (subscription.gateway) {
+      case 'yookassa': {
+        const yookassaPayment = await yookassaService.createPayment(ctx, userId, {
+          amount,
+          currency,
+          description: t(productName, locale),
+          paymentMethodId: subscription.gatewayMetadata.paymentMethodId,
+        });
+
+        await paymentService.createPayment(ctx, userId, {
+          status: yookassaPayment.status,
+          initiator: 'subscription',
+          subscriptionId: subscription.id,
+          planId: subscription.planId,
+          amount,
+          currency,
+          startAt: startAt.toISOString(),
+          endAt: endAt.toISOString(),
+          gateway: subscription.gateway,
+          gatewayPaymentId: yookassaPayment.id,
+          gatewayResponses: [yookassaPayment],
+        });
+
+        break;
+      }
+      default: {
+        throw new InvalidParametersError(`Gateway ${subscription.gateway} is not implemented`);
+      }
+    }
+  }
+
+  async renewSubscriptions(ctx: IRequestContext): Promise<void> {
+    const subscriptions = await this.getExpiringSubscriptions(ctx);
+    for (const subscription of subscriptions) {
+      ctx.log.trace({ subscription });
+      const trx = await knex.transaction();
+      const isolateCtx = {
+        ...ctx,
+        trx,
+        params: {
+          ...ctx.params,
+          locale: Locale.Ru,
+        },
+      };
+
+      try {
+        await this.renewSubscription(isolateCtx, subscription.userId);
+        isolateCtx.trx.commit();
+      } catch (err) {
+        isolateCtx.trx.rollback();
+        ctx.log.error(err);
+        captureException(err);
       }
     }
   }
