@@ -79,7 +79,12 @@ export function SignUp(): JSX.Element {
           />
           <p>
             {t('By clicking Get started, you agree to FINEX')}{' '}
-            <Link href={`https://finex.io/${locale}legal/agreement/`}>{t('User Agreement')}</Link>,{' '}
+            {locale === 'ru' && (
+              <Link href={`https://finex.io/${locale}legal/agreement/`}>
+                {t('User Agreement')}
+                {', '}
+              </Link>
+            )}
             <Link href={`https://finex.io/${locale}legal/terms/`}>{t('Terms of Use')}</Link> {t('and ')}{' '}
             <Link href={`https://finex.io/${locale}legal/privacy/`}>{t('Privacy Policy')}</Link>
           </p>
