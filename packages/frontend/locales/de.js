@@ -105,13 +105,14 @@ module.exports = {
       'Kann ich eine Rückerstattung erhalten, wenn ich mein Abonnement vor Ende der bezahlten Laufzeit kündige?',
     'Unfortunately, we do not offer refunds for any unused portion of your subscription term_ Once you cancel, you will have access to your subscription plan until the end of your current paid term_':
       'Leider bieten wir keine Rückerstattung für nicht genutzte Teile Ihrer Abonnementlaufzeit an. Nach der Kündigung haben Sie bis zum Ende Ihrer aktuellen bezahlten Laufzeit Zugang zu Ihrem Abonnementplan.',
-    'Subscription successful': 'Subscription successful',
-    'Subscription canceled': 'Subscription canceled',
+    'Subscription successful': 'Abonnement erfolgreich',
+    'Subscription canceled': 'Abonnement storniert',
+    'Subscription renewed': 'Abonnement erneuert',
     'Access until': 'Zugang bis',
     'Your plan': 'Ihr Plan',
     'No active subscription': 'Kein aktives Abonnement',
-    Unsubscribe: 'Abbestellen',
     'Pay Now': 'Zahlen Sie jetzt',
+    Unsubscribe: 'Abbestellen',
     'Monthly or annual subscription will be automatically renewed after the end of the paid period_ You can cancel the automatic renewal at any time_ When you cancel, the subscription will remain active until the end of the paid period_ After that, the data will be available for reading only_':
       'Das Monats- oder Jahresabonnement verlängert sich automatisch nach Ablauf des bezahlten Zeitraums. Sie können die automatische Verlängerung jederzeit kündigen. Wenn Sie kündigen, bleibt das Abonnement bis zum Ende des bezahlten Zeitraums aktiv. Danach stehen die Daten nur noch zum Lesen zur Verfügung.',
     'By subscribing, you agree to the': 'Mit der Anmeldung stimmen Sie dem zu',

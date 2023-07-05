@@ -155,6 +155,8 @@ class SubscriptionServiceImpl implements SubscriptionService {
     const gatewaySubscriptionId = subscription.gatewaySubscriptionId!;
 
     const transactions = await paypalService.getSubscriptionTransactions(ctx.log, gatewaySubscriptionId);
+    ctx.log.trace({ transactions });
+
     for (const transaction of transactions) {
       const paymentDAO = await paymentRepository.getPaymentByGatewayPaymentId(ctx, transaction.id);
       if (!paymentDAO) {

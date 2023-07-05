@@ -108,11 +108,12 @@ module.exports = {
       'К сожалению, мы не возвращаем деньги за неиспользованную часть вашего срока подписки. После отмены у вас будет доступ к плану подписки до конца вашего текущего оплаченного срока.',
     'Subscription successful': 'Подписка оформлена успешно',
     'Subscription canceled': 'Подписка отменена',
+    'Subscription renewed': 'Подписка продлена',
     'Access until': 'Доступ до',
     'Your plan': 'Ваш план',
     'No active subscription': 'Нет активной подписки',
-    Unsubscribe: 'Отписаться',
     'Pay Now': 'Заплатить сейчас',
+    Unsubscribe: 'Отписаться',
     'Monthly or annual subscription will be automatically renewed after the end of the paid period_ You can cancel the automatic renewal at any time_ When you cancel, the subscription will remain active until the end of the paid period_ After that, the data will be available for reading only_':
       'Подписка автоматически продлится после завершения оплаченного периода. Отменить автоматическое продление можно в любой момент. При отмене подписка будет действовать до конца оплаченного периода. После этого данные будет доступны только для чтения.',
     'By subscribing, you agree to the': 'Оформляя подписку, вы соглашаетесь с',

@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { sub } from 'date-fns';
+import { add, sub } from 'date-fns';
 
 import {
   Authorization,
@@ -46,7 +46,7 @@ class PaypalServiceImpl {
   async getSubscriptionTransactions(log: ILogger, subscriptionId: string): Promise<Transaction[]> {
     log.trace({ subscriptionId }, 'try to get list transactions for subscription');
     const start_time = sub(new Date(), { months: 1 }).toISOString();
-    const end_time = new Date().toISOString();
+    const end_time = add(new Date(), { hours: 1 }).toISOString();
 
     const { transactions = [] } = await this.fetch<TransactionsList>(
       log,
@@ -131,7 +131,7 @@ class PaypalServiceImpl {
           total_cycles: 0,
           pricing_scheme: {
             fixed_price: {
-              value: '27.80',
+              value: '35.5',
               currency_code: 'EUR',
             },
           },
@@ -140,6 +140,10 @@ class PaypalServiceImpl {
       payment_preferences: {
         auto_bill_outstanding: true,
         payment_failure_threshold: 5,
+      },
+      taxes: {
+        percentage: '19',
+        inclusive: true,
       },
     });
 
@@ -157,7 +161,7 @@ class PaypalServiceImpl {
           total_cycles: 0,
           pricing_scheme: {
             fixed_price: {
-              value: '2.90',
+              value: '3.70',
               currency_code: 'EUR',
             },
           },
@@ -166,6 +170,10 @@ class PaypalServiceImpl {
       payment_preferences: {
         auto_bill_outstanding: true,
         payment_failure_threshold: 5,
+      },
+      taxes: {
+        percentage: '19',
+        inclusive: true,
       },
     });
 
