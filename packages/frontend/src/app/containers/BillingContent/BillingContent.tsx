@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { observer } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 import { useSnackbar } from 'notistack';
@@ -8,6 +9,7 @@ import { BillingRepository } from '../../stores/billing-repository';
 import { Container } from '../../components/Container/Container';
 import { FAQSection, IFAQItem } from '../../components/FAQSection/FAQSection';
 import { Form, FormButton } from '../../components/Form';
+import { Link } from '../../components/Link/Link';
 import { Loader } from '../../components/Loader/Loader';
 import { Locale } from '../../types';
 import { PayPalButton } from './PayPalButton/PayPalButton';
@@ -21,7 +23,8 @@ import { useStore } from '../../core/hooks/use-store';
 import { default as financialManagementSvg } from '../../containers/BillingContent/assets/financial-management.svg';
 
 import styles from './BillingContent.module.scss';
-import { Link } from '../../components/Link/Link';
+
+const PAYPAL_CLIENT_ID = process.env.NX_PAYPAL_CLIENT_ID!;
 
 const localeCurrencyMap: Record<Locale, string> = {
   [Locale.En]: 'EUR',
@@ -182,65 +185,79 @@ export const BillingContent = observer(() => {
 
       <section className={styles.priceSection}>
         <Container className={styles.priceSection__priceCards}>
-          {availablePlans.map(plan => {
-            const { id, name, description, price, currency, availablePaymentGateways } = plan;
-            const isCurrentPlan = id === currentPlan?.id;
-            const isExpired = isCurrentPlan && parseISO(profile.accessUntil) < new Date();
+          <PayPalScriptProvider
+            options={{
+              clientId: PAYPAL_CLIENT_ID,
+              components: 'buttons',
+              intent: 'subscription',
+              vault: true,
+            }}
+            deferLoading
+          >
+            {availablePlans.map(plan => {
+              const { id, name, description, price, currency, availablePaymentGateways } = plan;
+              const isCurrentPlan = id === currentPlan?.id;
+              const isExpired = isCurrentPlan && parseISO(profile.accessUntil) < new Date();
 
-            return (
-              <PriceCard
-                title={name}
-                description={description}
-                price={toCurrency(price!, {
-                  unit: currencyUnitMap[currency!],
-                  precision: 2,
-                  strip_insignificant_zeros: false,
-                })}
-                className={styles.priceSection__priceCard}
-                key={id}
-              >
-                {!isCurrentPlan ? (
-                  <>
-                    {availablePaymentGateways.includes('yookassa') && <YooKassaButton plan={plan} onAfter={onAfter} />}
-                    {availablePaymentGateways.includes('paypal') && <PayPalButton plan={plan} onAfter={onAfter} />}
-                  </>
-                ) : (
-                  <>
-                    {isExpired && (
-                      <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
-                        <FormButton type="submit" size="xl" variant="primary" fullSize className={styles.root__button}>
-                          {t('Pay Now')}
-                        </FormButton>
-                      </Form>
-                    )}
+              const isYooKassaAvailable = availablePaymentGateways.includes('yookassa');
+              const isPayPalAvailable = availablePaymentGateways.includes('paypal');
 
-                    <Form
-                      onSubmit={handleUnsubscribe}
-                      initialValues={{}}
-                      className={styles.root__form}
-                      name="unsubscription"
-                    >
-                      {isExpired ? (
+              return (
+                <PriceCard
+                  title={name}
+                  description={description}
+                  price={toCurrency(price!, {
+                    unit: currencyUnitMap[currency!],
+                    precision: 2,
+                    strip_insignificant_zeros: false,
+                  })}
+                  className={styles.priceSection__priceCard}
+                  key={id}
+                >
+                  {!isCurrentPlan ? (
+                    <>
+                      {isYooKassaAvailable && <YooKassaButton plan={plan} onAfter={onAfter} />}
+                      {isPayPalAvailable && <PayPalButton plan={plan} onAfter={onAfter} />}
+                    </>
+                  ) : (
+                    <>
+                      {isExpired && isYooKassaAvailable && (
+                        <Form onSubmit={handlePayNow} initialValues={{}} className={styles.root__form} name="payNow">
+                          <FormButton
+                            type="submit"
+                            size="xl"
+                            variant="primary"
+                            fullSize
+                            className={styles.root__button}
+                          >
+                            {t('Pay Now')}
+                          </FormButton>
+                        </Form>
+                      )}
+
+                      <Form
+                        onSubmit={handleUnsubscribe}
+                        initialValues={{}}
+                        className={styles.root__form}
+                        name="unsubscription"
+                      >
                         <FormButton
                           type="submit"
-                          variant="secondaryGray"
+                          variant={isExpired ? 'secondaryGray' : 'primary'}
                           size="xl"
+                          destructive={!isExpired}
                           fullSize
                           className={styles.root__button}
                         >
                           {t('Unsubscribe')}
                         </FormButton>
-                      ) : (
-                        <FormButton type="submit" size="xl" destructive fullSize className={styles.root__button}>
-                          {t('Unsubscribe')}
-                        </FormButton>
-                      )}
-                    </Form>
-                  </>
-                )}
-              </PriceCard>
-            );
-          })}
+                      </Form>
+                    </>
+                  )}
+                </PriceCard>
+              );
+            })}
+          </PayPalScriptProvider>
         </Container>
       </section>
 

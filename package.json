@@ -1,6 +1,6 @@
 {
   "name": "finex-monorepo",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "author": "Maksim Amelchenko <m.amelchenko@gmail.com>",
   "description": "",
   "scripts": {
@@ -78,7 +78,7 @@
     "@nivo/core": "^0.82.0",
     "@nivo/line": "^0.82.0",
     "@nivo/sunburst": "^0.82.0",
-    "@paypal/react-paypal-js": "^7.8.2",
+    "@paypal/react-paypal-js": "^8.1.0",
     "@swc/helpers": "~0.5.0",
     "@table-library/react-table-library": "^4.1.2",
     "clsx": "^1.2.1",

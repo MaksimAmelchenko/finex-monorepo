@@ -160,6 +160,10 @@ export interface CreatePlanData {
   name: string;
   billing_cycles: BillingCycle[];
   payment_preferences: PaymentPreferences;
+  taxes: {
+    percentage: string;
+    inclusive: boolean;
+  };
 }
 
 export interface TransactionsList {

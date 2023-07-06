@@ -1,10 +1,11 @@
 import { IRequestContext } from '../../../../types/app';
 import { IResponse } from '../../../../libs/rest-api/types';
 import { SubscriptionStatus } from '../../../../modules/billing/subscription/types';
-import { paypalService } from '../../../../modules/billing/paypal/paypal.service';
 import { paymentService } from '../../../../modules/billing/payment/payment.service';
-import { yookassaService } from '../../../../modules/billing/yookassa/yookassa.service';
+import { paypalService } from '../../../../modules/billing/paypal/paypal.service';
+import { sleep } from '../../../../libs/utility';
 import { subscriptionService } from '../../../../modules/billing/subscription/subscription.service';
+import { yookassaService } from '../../../../modules/billing/yookassa/yookassa.service';
 
 export async function handler(
   ctx: IRequestContext<{ subscriptionId: string }, true>
@@ -47,7 +48,8 @@ export async function handler(
           subscription = await subscriptionService.updateSubscription(ctx, userId, subscriptionId, {
             status: SubscriptionStatus.Active,
           });
-
+          // wait for subscription creates a payment
+          await sleep(3 * 1000);
           await subscriptionService.syncPayPalPayments(ctx, userId, subscriptionId);
         }
 

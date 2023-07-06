@@ -4,7 +4,7 @@ import { cancelSubscription } from './cancel-subscription';
 import { checkSubscriptionStatus } from './check-subscription-status';
 import { createSubscription } from './create-subscription';
 import { getPlansRouteOptions } from './get-plans';
-import { initBilling } from './init-billing';
+// import { initPayPalBilling } from './init-paypal-billing';
 import { payPalWebhook } from './paypal-webhook';
 import { renewSubscription } from './renew-subscription';
 import { renewSubscriptions } from './renew-subscriptions';
@@ -17,7 +17,7 @@ export const billingApi = getRestApi([
   checkSubscriptionStatus,
   createSubscription,
   getPlansRouteOptions,
-  // initBilling,
+  // initPayPalBilling,
   payPalWebhook,
   renewSubscription,
   renewSubscriptions,

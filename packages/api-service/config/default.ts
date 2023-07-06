@@ -49,7 +49,7 @@ export default {
     from: 'FINEX <no-reply@finex.io>',
   },
   paypal: {
-    baseUrl: 'PAYPAL__BASE_URL',
+    baseUrl: 'https://api-m.paypal.com',
     clientId: 'PAYPAL__CLIENT_ID',
     secret: 'PAYPAL__SECRET',
     webhookId: 'PAYPAL__WEBHOOK_ID',
